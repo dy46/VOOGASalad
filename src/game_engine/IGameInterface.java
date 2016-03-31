@@ -9,7 +9,7 @@ import java.util.List;
  *
  */
 
-public interface IGameRunner {
+public interface IGameInterface {
     
     //tells engine to play a specified level
     void playLevel(int levelNumber);
@@ -25,4 +25,8 @@ public interface IGameRunner {
     
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, List<Double> changes);
+    
+    //sets up the engine with a list of 
+    void setUpEngine(List<String> fileNames);
+    
 }
