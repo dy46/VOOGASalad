@@ -1,7 +1,8 @@
 package game_player;
 
 /**
- * This interface specifies the different methods needed to run and animate the game elements
+ * This interface specifies the different methods needed to run and animate the game elements.
+ * Throws exception when towers/units are placed in wrong locations.
  * @author ownzandy
  *
  */
