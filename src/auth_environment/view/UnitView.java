@@ -1,5 +1,5 @@
 package auth_environment.view;
 
-public interface UnitView {
+public interface UnitView extends IElementView {
 
 }
