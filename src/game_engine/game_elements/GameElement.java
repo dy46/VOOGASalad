@@ -1,15 +1,19 @@
 package game_engine.game_elements;
 
+import java.util.List;
+
 import game_engine.properties.UnitProperties;
 
 /**
- * This interface is the internal API for the game element module. It represents any game element, which include
+ * This interface is the internal API of the game element module. It represents any game element, which include
  * both properties (represented by UnitProperties) and an ID.
+ * This interface will be used to run the current instance of a game.
  * @author adamtache
  *
  */
 
 public interface GameElement {
+<<<<<<< HEAD
 	/*
 	* Updates the GameElement (changes position, applies affectors, etc.)
 	*/
@@ -32,6 +36,7 @@ public interface GameElement {
 	* and the appropriate backend classes will be updated.
 	*/
 	public abstract void setID(String ID);
+	
 	/*
 	* Initializes the properties of the GameElement 
 	* according to the values proposed in the inputs 
@@ -41,4 +46,9 @@ public interface GameElement {
 	*/
 	public abstract void setProperties(UnitProperties properties);
 	
+	// provides currently list of element's Affectors
+	public List<Affector> getAffectors();
+	
+	// allows settings of list of affectors for element
+	public void setAffectors(List<Affector> affectors);
 }
