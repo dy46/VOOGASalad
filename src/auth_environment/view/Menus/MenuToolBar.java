@@ -1,4 +1,6 @@
-package auth_environment.view;
+package auth_environment.view.Menus;
+
+import javafx.scene.control.Menu;
 
 public class MenuToolBar {
 
