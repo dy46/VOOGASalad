@@ -1,4 +1,7 @@
 package game_engine.game_elements;
+
+import java.util.Collection;
+
 /*
 * Internal API that will be used to reflect the inclusion of terrain effects in games. 
 * Most implementations of the Terrain API will apply some sort of affector to game elements within
@@ -19,5 +22,5 @@ public interface Terrain {
 	/*
 	* Applies the currently set affector to each unit that is considered inside the terrain.
 	*/
-	public void applyEffect()
+	public void applyEffect();
 }

@@ -1,4 +1,7 @@
 package game_engine.game_elements;
+
+import game_engine.properties.Position;
+
 /*
 * Internal API that will be used in order to represent paths 
 * for enemy movements.
