@@ -30,7 +30,7 @@ The game player is responsible for displaying the events of the game engine as w
 
 The Authoring Environment is used by the Developer to write Game Data. This module creates new instances of Game Elements, interactions, and other parts of the Game Engine. This is done by prompting the Developer for parameters via ComboBoxes, TextFields, and other input methods inside a View window. Each ElementView window contains a reference to the appropriate Factory class that then takes these parameters to instantiate a new GameEngine GameElement class. Each individual class has the ability to be serialized to XML (by the Game Data group’s methods). Additionally, the class is passed over to the ‘PeriodicTable’ class in the Auth Environment which is responsible for holding all created Game Elements. These Game Elements can be clicked on to reveal their Properties or even placed on the MapDisplay if they are placeable. The MapDisplay is the main view of our Authoring Environment and displays the starting state of each wave or level. Certain GameElements such as Terrain and Enemy spawn points can be placed on this MapDisplay. The final state of the MapDisplay (including the locations of all the Game Elements placed on it) will be serialized to XML. Our AuthoringEnvironment has the ability to be saved and loaded to file. To save, we will go through our Auth Environment backend classes and write all contained classes to file. These would include each GameElement inside our PeriodicTable, the MapDisplay and its starting distribution of GameElements, as well as a Settings class that contains non-placeable initial GameElements such as background music and playback speed. 
 
-
+![Overview](http://i.imgur.com/CKsHvps.png)
 
 ###User Interface 
 
@@ -39,7 +39,7 @@ This section describes how the user will interact with your program (keep it sim
 Authoring Environment:
 There is a main tool bar with three menu items: file, create, settings and help. In file, there are options such as open, save, and load files. In create, there are options to create an enemy, tower, path, and terrain. In settings, there would be options to set rules for the game. In the main window, there will be a display in the middle to show the current default stage. The user has the option to right click on the preview display and create enemy, tower, path and terrain (which means the x and y coordinates will be based on where the user the click). When an option window is clicked, an external window will pop up and includes the elements that the developer is allowed to modify.
 
-![First](http://imgur.com/N3YsFAM)
+![First](http://i.imgur.com/N3YsFAM.png)
 
 ####Enemy/Tower:
 - A preview area
@@ -55,7 +55,7 @@ There is a main tool bar with three menu items: file, create, settings and help.
 - Properties
 	- This button will lead to another window that can set specific attributes associating with this property (i.e: burn, slow, etc).a
 
-![EnemyTower](http://imgur.com/OJmEgQq)
+![EnemyTower](http://i.imgur.com/OJmEgQq.png)
 
 ####Path/Terrain:
 - A preview area
@@ -65,7 +65,7 @@ There is a main tool bar with three menu items: file, create, settings and help.
 - Properties
 	- This button will lead to another window that can set specific attributes associating with this property (i.e: more damage, more speed, more reward).
 
-![PathTerrain](http://imgur.com/j1fHBS3)
+![PathTerrain](http://i.imgur.com/j1fHBS3.png)
 
 ####Game Player:
 
@@ -75,7 +75,7 @@ Errors will be thrown in a variety of cases. If the player tries to place a towe
 
 Sketch of the described player UI
 
-![PlayerUI](http://imgur.com/DS5vzTS)
+![PlayerUI](http://i.imgur.com/DS5vzTS.png)
 
 ###Design Details 
 
