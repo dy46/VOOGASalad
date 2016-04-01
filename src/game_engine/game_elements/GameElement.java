@@ -13,7 +13,6 @@ import game_engine.properties.UnitProperties;
  */
 
 public interface GameElement {
-<<<<<<< HEAD
 	/*
 	* Updates the GameElement (changes position, applies affectors, etc.)
 	*/
