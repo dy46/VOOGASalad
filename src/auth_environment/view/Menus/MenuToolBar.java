@@ -8,7 +8,12 @@ public class MenuToolBar extends MenuBar {
 		// TODO Auto-generated constructor stub
 	}
 	
+	private void init() {
+		this.getMenus().add(new FileMenu());
+	}
+	
 	public void addMenuItem(String name) {
+		
 	}
 
 }
