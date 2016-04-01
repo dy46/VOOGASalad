@@ -15,8 +15,11 @@ import game_engine.game_elements.GameElement;
 
 public interface PeriodicTable {
 
-    public void addElement(GameElement element); // adds a newly created element to the Periodic Table
+	// Adds a new element, should overwrite existing elements of the same name if they exist. 
+    public void addElement(GameElement element); 
 
     public void display();
+    
+    
 
 }
