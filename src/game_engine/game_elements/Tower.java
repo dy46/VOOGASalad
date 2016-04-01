@@ -7,7 +7,7 @@ import game_engine.properties.UnitProperties;
 * of XML files for use in games. API specifies some basic functionality of towers and which methods need to 
 * be implemented for subclasses created in the authoring environment.
 */
-public interface Tower {
+public interface Tower{
 	/*
 	* method for activating the tower attack (subclasses implement different types of attack types).
 	*/
