@@ -24,6 +24,6 @@ public class View {
         myStage.setScene(new Scene(myTabs, Color.LIGHTGRAY));
     }
 
-    public void display();
+    public void display() {} ;
 
 }

@@ -1,4 +1,4 @@
-package view;
+package auth_environment.view;
 
 public class MenuToolBar {
 
@@ -6,6 +6,7 @@ public class MenuToolBar {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void addMenuItem(String name);
+	public void addMenuItem(String name) {
+	}
 
 }

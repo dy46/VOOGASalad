@@ -18,7 +18,7 @@ public class SaveLoadDisplay {
 
     // loads existing Game Data into the Auth Environment for further editing
     public void load() {
-        File file = this.getFileFromFileChooser()
+        File file = this.getFileFromFileChooser();
     }
 
     // saves current state to Game Data
