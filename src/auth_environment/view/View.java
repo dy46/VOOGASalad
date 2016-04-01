@@ -9,6 +9,9 @@ package auth_environment.view;
 
 public interface View {
 
+    // private Stage myStage
+    // private Workspace myWorkspace
+
     public void display();
 
 }

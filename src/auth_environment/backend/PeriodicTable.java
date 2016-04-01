@@ -1,5 +1,7 @@
 package auth_environment.backend;
 
+import game_engine.game_elements.GameElement;
+
 /**
  * Created by BrianLin on 3/31/16.
  * Team member responsible: Brian
@@ -13,6 +15,6 @@ package auth_environment.backend;
 
 public interface PeriodicTable {
 
-    public void addElement(); // adds a newly created element to the Periodic Table
+    public void addElement(GameElement element); // adds a newly created element to the Periodic Table
 
 }

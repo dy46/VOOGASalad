@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
  */
 
 public interface Workspace {
+
     public void addPane(Pane pane, int x, int y);
 
     public Node getRoot();
