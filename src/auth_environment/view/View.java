@@ -14,6 +14,10 @@ import javafx.stage.Stage;
  */
 
 public class View {
+	
+	// TODO: ask team where to extract these
+	private static String wompTitle = "womp"; 
+	private static String mainTabTitle = "main"; 
 
     private Stage myStage;
     private TabPane myTabs = new TabPane();
@@ -22,8 +26,15 @@ public class View {
     public View (Stage stage) {
         myStage = stage;
         myStage.setScene(new Scene(myTabs, Color.LIGHTGRAY));
+		myStage.setTitle(this.wompTitle);
+		mainWorkspace = new Workspace(myStage, myTabs);
+		Tab mainTab = new Tab(this.mainTabTitle, mainWorkspace.getRoot());
+		mainTab.setClosable(false);
+		myTabs.getTabs().add(mainTab);
     }
 
-    public void display() {} ;
+    public void display() {
+    	this.myStage.show();
+    }
 
 }
