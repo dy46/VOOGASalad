@@ -1,4 +1,7 @@
 package game_engine.game_elements;
+
+import game_engine.properties.UnitProperties;
+
 /*
 * External API interface that will be available to the authoring environment for extension and creation
 * of XML files for use in games. API specifies some basic functionality of towers and which methods need to 

@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 
-public interface IGameInterface {
+public interface IPlayerEngineInterface {
     
     //tells the engine to save the game and returns the list of fileNames that can be retrieved
     List<String> saveGame();

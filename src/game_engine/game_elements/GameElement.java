@@ -7,9 +7,15 @@ package game_engine.game_elements;
  */
 
 public interface GameElement {
-
-	// Returns a String representation of the element to display in PeriodicTable on front-end
-	// Allows game developer to choose from various game elements
+	
+	/*
+	 * Returns a String representation of the element to display in PeriodicTable on front-end
+	 * Allows game developer to choose from various game elements
+	 */	 
 	public String toString();
 	
+	/*
+	 * Returns a String representation to be written to Game Data 
+	 */
+	public String toFile(); 
 }
