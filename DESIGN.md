@@ -39,6 +39,7 @@ This section describes how the user will interact with your program (keep it sim
 Authoring Environment:
 There is a main tool bar with three menu items: file, create, settings and help. In file, there are options such as open, save, and load files. In create, there are options to create an enemy, tower, path, and terrain. In settings, there would be options to set rules for the game. In the main window, there will be a display in the middle to show the current default stage. The user has the option to right click on the preview display and create enemy, tower, path and terrain (which means the x and y coordinates will be based on where the user the click). When an option window is clicked, an external window will pop up and includes the elements that the developer is allowed to modify.
 
+![First](http://imgur.com/N3YsFAM)
 
 ####Enemy/Tower:
 - A preview area
@@ -54,8 +55,7 @@ There is a main tool bar with three menu items: file, create, settings and help.
 - Properties
 	- This button will lead to another window that can set specific attributes associating with this property (i.e: burn, slow, etc).a
 
-
-
+![EnemyTower](http://imgur.com/OJmEgQq)
 
 ####Path/Terrain:
 - A preview area
@@ -65,9 +65,7 @@ There is a main tool bar with three menu items: file, create, settings and help.
 - Properties
 	- This button will lead to another window that can set specific attributes associating with this property (i.e: more damage, more speed, more reward).
 
-
-
-
+![PathTerrain](http://imgur.com/j1fHBS3)
 
 ####Game Player:
 
@@ -77,7 +75,7 @@ Errors will be thrown in a variety of cases. If the player tries to place a towe
 
 Sketch of the described player UI
 
-
+![PlayerUI](http://imgur.com/DS5vzTS)
 
 ###Design Details 
 
