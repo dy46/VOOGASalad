@@ -3,5 +3,5 @@
 	<classpathentry excluding="auth_environment/" kind="src" path="src"/>
 	<classpathentry kind="src" path="src/auth_environment"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="game_engine/bin"/>
 </classpath>
