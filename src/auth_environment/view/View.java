@@ -27,7 +27,7 @@ public class View {
         myStage = stage;
         myStage.setScene(new Scene(myTabs, Color.LIGHTGRAY));
 		myStage.setTitle(this.wompTitle);
-		mainWorkspace = new Workspace(myStage, myTabs);
+		mainWorkspace = new Workspace(myTabs);
 		Tab mainTab = new Tab(this.mainTabTitle, mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
