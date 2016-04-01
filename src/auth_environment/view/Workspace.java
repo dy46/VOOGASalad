@@ -18,6 +18,10 @@ import javafx.stage.Stage;
 
 public class Workspace {
 	
+	// TODO: ask team where to extract these constants
+	private static double defaultBorderPaneWidth = 600;
+	private static double defaultBorderPaneHeight = 600; 
+	
 	private Stage myStage;
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
@@ -34,6 +38,7 @@ public class Workspace {
 	}
 	
 	private void init() {
+//		this.myBorderPane.setPrefSize(this.defaultBorderPaneWidth, this.defaultBorderPaneHeight);
 		this.myBorderPane.setTop(this.topMenuBar);
 		this.myBorderPane.setLeft(this.leftVBox);
 		this.myBorderPane.setRight(this.rightVBox);
