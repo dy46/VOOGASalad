@@ -9,13 +9,6 @@ import javafx.scene.control.TabPane;
 
 public class MenuToolBar extends MenuBar {
 	
-	// Note: add Menus here!
-	private List<Menu> myMenus = Arrays.asList(
-			new FileMenu(), 
-			new SettingsMenu(),
-			new HelpMenu(), 
-			new TabMenu(this.myTabPane));
-	
 	private TabPane myTabPane; 
 
 	public MenuToolBar(TabPane tabPane) {
@@ -23,7 +16,16 @@ public class MenuToolBar extends MenuBar {
 		this.init();
 	}
 	
+	private List<Menu> defaultMenus() {
+		List<Menu> myMenus = Arrays.asList(
+				new FileMenu(), 
+				new SettingsMenu(),
+				new HelpMenu(), 
+				new TabMenu(this.myTabPane));
+		return myMenus; 
+	}
+	
 	private void init() {
-		this.getMenus().addAll(this.myMenus);
+		this.getMenus().addAll(this.defaultMenus());
 	}
 }

@@ -22,26 +22,21 @@ public class Workspace {
 	private static double defaultBorderPaneWidth = 600;
 	private static double defaultBorderPaneHeight = 600; 
 	
-	private Stage myStage;
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	
-	private VBox leftVBox = new VBox(); // TODO: replace with custom class 
-	private VBox rightVBox = new VBox(); // TODO: replace with custom class 
-	private MenuToolBar topMenuBar;  
+	private Stage myStage; // TODO: Do we need this instance variable? 
 	
 	public Workspace(Stage stage, TabPane tabPane) {
-		this.myStage = stage;
 		this.myTabPane = tabPane; 
-		this.topMenuBar = new MenuToolBar(this.myTabPane);
 		this.init();
 	}
 	
 	private void init() {
 //		this.myBorderPane.setPrefSize(this.defaultBorderPaneWidth, this.defaultBorderPaneHeight);
-		this.myBorderPane.setTop(this.topMenuBar);
-		this.myBorderPane.setLeft(this.leftVBox);
-		this.myBorderPane.setRight(this.rightVBox);
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
+		this.myBorderPane.setLeft(new VBox());
+		this.myBorderPane.setRight(new VBox());
+		this.myBorderPane.setCenter(new MapDisplay());
 	}
 
 

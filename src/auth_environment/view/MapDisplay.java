@@ -1,6 +1,7 @@
 package auth_environment.view;
 
 import game_engine.game_elements.GameElement;
+import javafx.scene.layout.Pane;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -10,8 +11,18 @@ import game_engine.game_elements.GameElement;
  * The Developer should be able to place Game Elements (as long as they are placeable).
  */
 
-public interface MapDisplay {
+public class MapDisplay extends Pane {
+	 
+	// TODO: extract these values
+	private static double mapWidth = 400;
+	private static double mapHeight = 400; 
+	
+	public MapDisplay() {
+		this.setPrefSize(this.mapWidth, this.mapHeight);
+	}
 
-    public void displayElement(GameElement element);
+    public void displayElement(GameElement element) {
+    	
+    }
 
 }

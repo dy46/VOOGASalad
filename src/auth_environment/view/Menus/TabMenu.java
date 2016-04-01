@@ -30,7 +30,7 @@ public class TabMenu extends Menu {
 		this.getItems().add(newTabItem);
 	}
 	
-	// TODO: pop up an alert asking the Developer to name the new Wave (or auto-generate a Wave name) 
+	// TODO: pop up an alert asking the Developer to name gthe new Wave (or auto-generate a Wave name) 
 	private void createNewTab(){
 		Workspace newWorkspace = new Workspace(new Stage(), myTabs);
 		myTabs.getTabs().add(new Tab(this.newWaveLabel, newWorkspace.getRoot()));
