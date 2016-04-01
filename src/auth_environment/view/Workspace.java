@@ -24,11 +24,12 @@ public class Workspace {
 	
 	private VBox leftVBox = new VBox(); // TODO: replace with custom class 
 	private VBox rightVBox = new VBox(); // TODO: replace with custom class 
-	private MenuToolBar topMenuBar = new MenuToolBar(); 
+	private MenuToolBar topMenuBar;  
 	
 	public Workspace(Stage stage, TabPane tabPane) {
 		this.myStage = stage;
 		this.myTabPane = tabPane; 
+		this.topMenuBar = new MenuToolBar(this.myTabPane);
 		this.init();
 	}
 	
