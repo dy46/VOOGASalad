@@ -18,4 +18,12 @@ public class Position {
 		return myY;
 	}
 	
+	public void setX(double x){
+		this.myX = x;
+	}
+	
+	public void setY(double y){
+		this.myY = y;
+	}
+	
 }

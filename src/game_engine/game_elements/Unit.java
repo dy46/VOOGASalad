@@ -5,7 +5,7 @@ import java.util.List;
 
 import game_engine.properties.UnitProperties;
 
-public class Unit {
+public class Unit implements GameElement{
 
 	private String myID;
 	private UnitProperties myProperties;
@@ -27,6 +27,14 @@ public class Unit {
 	
 	public void update(){
 		myAffectors.forEach(a -> a.apply(myProperties));
+	}
+
+	public void setID(String ID) {
+		this.myID = ID;
+	}
+
+	public void setProperties(UnitProperties properties) {
+		this.myProperties = properties;
 	}
 	
 }
