@@ -13,5 +13,5 @@ import game_engine.game_elements.GameElement;
 public interface MapDisplay {
 
     public void displayElement(GameElement element);
-    
+
 }
