@@ -12,7 +12,7 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public class Unit implements GameElement{
+public abstract class Unit implements GameElement{
 
 	private String myID;
 	private UnitProperties myProperties;
