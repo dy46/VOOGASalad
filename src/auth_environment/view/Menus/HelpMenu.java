@@ -2,6 +2,7 @@ package auth_environment.view.Menus;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -28,7 +29,13 @@ public class HelpMenu extends Menu {
 	
 	public HelpMenu() {
 		this.setText(this.helpText);
-		this.setOnAction(e -> openHelpWindow());
+		this.init();
+	}
+	
+	private void init() {
+		MenuItem openHelpItem = new MenuItem(this.helpText);
+		openHelpItem.setOnAction(e -> openHelpWindow());
+		this.getItems().add(openHelpItem);
 	}
 	
 	private void openHelpWindow() {
