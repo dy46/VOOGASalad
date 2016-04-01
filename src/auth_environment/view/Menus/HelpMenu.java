@@ -21,6 +21,7 @@ public class HelpMenu extends Menu {
 	// TODO: ask team where to extract these
 	private static String helpURL = "https://gist.github.com/Briguy52/7adf8cfe508e73267bb46ce2aebe7b4a"; 
 	private static String helpText = "Help";
+	private static String openHelpText = "womp Documentation";
 	private static int helpWidth = 800;
 	private static int helpHeight = 600; 
 	
@@ -33,7 +34,7 @@ public class HelpMenu extends Menu {
 	}
 	
 	private void init() {
-		MenuItem openHelpItem = new MenuItem(this.helpText);
+		MenuItem openHelpItem = new MenuItem(this.openHelpText);
 		openHelpItem.setOnAction(e -> openHelpWindow());
 		this.getItems().add(openHelpItem);
 	}

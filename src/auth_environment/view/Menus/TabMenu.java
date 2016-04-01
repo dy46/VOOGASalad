@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class TabMenu extends Menu {
 
 	// TODO: ask team where to extract these
-	private static String tabMenuLabel = "Tabs"; 
+	private static String tabMenuLabel = "Progression"; 
 	private static String newWaveLabel = "New Wave"; 
 	
 	private TabPane myTabs;

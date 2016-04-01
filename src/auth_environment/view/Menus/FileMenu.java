@@ -1,7 +1,11 @@
 package auth_environment.view.Menus;
 
+import java.io.File;
+
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 4/1/16.
@@ -26,8 +30,26 @@ public class FileMenu extends Menu {
 	private void init() {
 		this.setText(this.fileMenuLabel);
 		MenuItem saveItem = new MenuItem(this.saveItemLabel);
+		saveItem.setOnAction(e -> this.save());
 		MenuItem loadItem = new MenuItem(this.loadItemlabel); 
+		loadItem.setOnAction(e -> this.load());
 		this.getItems().addAll(saveItem, loadItem); 
 	}
+	
+	private void save() {
+	
+	}
+	
+	private void load() {
+		File file = this.getFileFromFileChooser();
+	}
+	
+    private File getFileFromFileChooser() {
+    	Stage stage = new Stage(); 
+        FileChooser f = new FileChooser();
+        f.setTitle("Choose file"); // TODO: extract to resources file
+        File selectedFile = f.showOpenDialog(stage);
+        return selectedFile;
+    }
 	
 }
