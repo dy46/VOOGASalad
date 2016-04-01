@@ -12,6 +12,8 @@ import java.io.File;
  * This class is responsible for loading and saving Game Data.
  */
 
+// TODO: deprecate this class and move functionality to Save and Load menu items in FileMenu.java
+
 public class SaveLoadDisplay {
 
     private Stage myStage;
