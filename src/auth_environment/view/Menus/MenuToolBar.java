@@ -5,10 +5,11 @@ import javafx.scene.control.MenuBar;
 public class MenuToolBar extends MenuBar {
 
 	public MenuToolBar() {
-		// TODO Auto-generated constructor stub
+		this.init();
 	}
 	
 	private void init() {
+		System.out.println("hey");
 		this.getMenus().add(new FileMenu());
 	}
 	

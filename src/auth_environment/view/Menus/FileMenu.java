@@ -15,6 +15,7 @@ public class FileMenu extends Menu {
 	// TODO: ask team where to extract these constants
 	private static String saveItemLabel = "Save"; 
 	private static String loadItemlabel = "Load"; 
+	private static String fileMenuLabel = "File";
 	
 	public FileMenu() {
 		this.init();
@@ -23,6 +24,7 @@ public class FileMenu extends Menu {
 	// TODO: setup these items in a Node factory of some sort? 
 	
 	private void init() {
+		this.setText(this.fileMenuLabel);
 		MenuItem saveItem = new MenuItem(this.saveItemLabel);
 		MenuItem loadItem = new MenuItem(this.loadItemlabel); 
 		this.getItems().addAll(saveItem, loadItem); 

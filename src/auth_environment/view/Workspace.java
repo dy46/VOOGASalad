@@ -29,6 +29,7 @@ public class Workspace {
 	public Workspace(Stage stage, TabPane tabPane) {
 		this.myStage = stage;
 		this.myTabPane = tabPane; 
+		this.init();
 	}
 	
 	private void init() {
