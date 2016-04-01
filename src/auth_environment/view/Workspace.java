@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import auth_environment.view.Menus.MenuToolBar;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.TabPane;
@@ -18,20 +19,26 @@ import javafx.stage.Stage;
 public class Workspace {
 	
 	private Stage myStage;
-	private Parent myRoot; 
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	
 	private VBox leftVBox = new VBox(); // TODO: replace with custom class 
 	private VBox rightVBox = new VBox(); // TODO: replace with custom class 
+	private MenuToolBar topMenuBar = new MenuToolBar(); 
 	
 	public Workspace(Stage stage, TabPane tabPane) {
 		this.myStage = stage;
 		this.myTabPane = tabPane; 
 	}
+	
+	private void init() {
+		this.myBorderPane.setTop(this.topMenuBar);
+		this.myBorderPane.setLeft(this.leftVBox);
+		this.myBorderPane.setRight(this.rightVBox);
+	}
 
 
     public Node getRoot() {
-    	return this.myRoot;
+    	return this.myBorderPane; 
     }
 }
