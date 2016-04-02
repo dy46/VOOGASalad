@@ -8,14 +8,16 @@ public class UnitProperties {
 	private Velocity myVelocity;
 	private Bounds myBounds;
 	private Position myPosition;
+	private Price myPrice;
 	
-	public UnitProperties(Health health, Damage damage, Team team, Velocity velocity, Bounds bounds, Position position){
+	public UnitProperties(Health health, Damage damage, Team team, Velocity velocity, Bounds bounds, Position position, Price price){
 		this.myHealth = health;
 		this.myDamage = damage;
 		this.myTeam = team;
 		this.myVelocity = velocity;
 		this.myBounds = bounds;
 		this.myPosition = position;
+		this.myPrice = price;
 	}
 	
 	public void update(UnitProperties properties){
@@ -49,5 +51,9 @@ public class UnitProperties {
 	
 	public Position getPosition(){
 		return myPosition;
+	}
+	
+	public Price getPrice(){
+		return myPrice;
 	}
 }

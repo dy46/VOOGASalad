@@ -7,10 +7,10 @@ import game_engine.properties.UnitProperties;
 * of XML files for use in games. API specifies some basic functionality of towers and which methods need to 
 * be implemented for subclasses created in the authoring environment.
 */
-public class Tower extends Unit{
+public class Tower extends SellableUnit{
 	
-	public Tower(String ID, double sellValue) {
-		super(ID, sellValue);
+	public Tower(String ID) {
+		super(ID);
 	}
 
 	/*

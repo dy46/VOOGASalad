@@ -65,10 +65,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return null;
 	}
 
-	public void addTower(String ID, int towerTypeIndex, double sellValue){
+	public void addTower(String ID, int towerTypeIndex){
 		towerTypeBoundsCheck(towerTypeIndex);
 		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-		Tower newTower = new Tower(ID, sellValue);
+		Tower newTower = new Tower(ID);
 		newTower.upgrade(towerProperties);
 		myTowers.add(newTower);
 	}

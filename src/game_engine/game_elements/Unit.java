@@ -26,16 +26,9 @@ public abstract class Unit implements GameElement{
 		initialize();
 	}
 	
-	public Unit(String ID, double sellValue){
-		this.myID = ID;
-		this.sellValue = sellValue;
-		initialize();
-	}
-	
-	public Unit(String ID, UnitProperties properties, double sellValue){
+	public Unit(String ID, UnitProperties properties){
 		this.myID = ID;
 		this.myProperties = properties;
-		this.sellValue = sellValue;
 		initialize();
 	}
 	

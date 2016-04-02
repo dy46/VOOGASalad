@@ -15,4 +15,5 @@ public class Damage {
 	public void setDamage(double damage){
 		myDamage = damage; 
 	}
+	
 }
