@@ -2,6 +2,8 @@ package game_engine;
 
 import java.util.List;
 
+import game_engine.properties.UnitProperties;
+
 /**
  * This interface is the external API for the game player module. It facilitates 
  * user actions to the game engine. Throws exception when wrong files are passed
@@ -26,13 +28,13 @@ public interface IPlayerEngineInterface {
     void updateElements();
     
     //asks engine about the game status
-    List<Double> getGameStatus();
+    String getGameStatus();
     
     //tells engine to add tower to its active tower list given a tower index
-    void addTower(int towerIndex);
+    void addTower(String ID, int towerTypeIndex);
     
     //tells engine to modify tower given an activeTower index and list of changes
-    void modifyTower(int activeTowerIndex, List<Double> changes);
+    void modifyTower(int activeTowerIndex, UnitProperties newProperties);
     
     //sets up the engine with a list of files
     void setUpEngine(List<String> fileNames);
