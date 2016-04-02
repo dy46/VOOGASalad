@@ -92,6 +92,17 @@ If the user clicks to create a new Terrain, then the create an element window wi
 
 9. Updating Old Element
 Click onto the list of elements and press the one you want to edit, the create same create screen will pop up via the EventHandler and then you can change whatever you want and click the create button which will call the makeElement() method and add it to the PeriodicTable, when it gets to the PeriodicTable if the name is the same then it will be updated otherwise a new Element will be created.  
+10. Creating terrain, path, or tower on the display
+*When the user right clicks the main display, there will be a side menu with options to create terrain, path, or tower. if the user clicks to create a new element, then the create an element window will pop which is triggered by an EventHandler. Then the user would insert the values and press the Create Element button, which would trigger the makeElement() method that adds an element to the PeriodicTable. In this case, the x and y coordinates will already be filled up base on the location that the user clicked. 
+
+11. Editing terrain, path, or tower on the display
+*When the user right clicks the already created element on the main display, a side menu on the right will display the current stats. The user can enter the new data and the create button will call the makeElement() method will be updated. The display will also update the said element. 
+
+12. Save the current settings and export the file
+When the user press the save button, the current settings will be export it into an XML file and pass it onto game data.
+
+13. Update the settings such that the user is able to see real time previews
+When the user changes the values of the element, if the value is stored in the backend, the value will be changed and the front end will be updated based on the changed values. If the value is solely associated with frontend, then the preview display will update automatically.
 
 ###Game-Data
 -------------
