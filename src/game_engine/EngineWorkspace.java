@@ -154,4 +154,24 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myBalance += money;
 	}
 	
+	public List<Level> getLevels(){
+		return myLevels;
+	}
+	
+	public List<Tower> getTowers(){
+		return myTowers;
+	}
+	
+	public List<Wave> getWaves(){
+		return myWaves;
+	}
+	
+	public List<Path> getPaths(){
+		return myPaths;
+	}
+	
+	public List<Enemy> getEnemys(){
+		return myEnemys;
+	}
+	
 }
