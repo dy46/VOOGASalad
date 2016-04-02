@@ -45,7 +45,8 @@ public class Wave extends Unit{
 	 */
 	public void spawnEnemy(){
 		Position spawnPosition = myLevel.getSpawnPosition();
-		Enemy enemy = new Enemy("TEMP"); // TODO: ID factory using reflection
+		Enemy enemy = null;
+		enemy = new Enemy(getWorkspace().getIDFactory().createID(enemy));
 		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
 		getWorkspace().addEnemy(enemy);
 	}

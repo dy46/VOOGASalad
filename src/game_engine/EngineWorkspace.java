@@ -28,16 +28,22 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private Timer myTimer;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
-	private String TIMER_ID = "0"; // TEMP: to incorporate IDFactory
+	private IDFactory myIDFactory;
 
 	public void setUpEngine(List<String> fileNames) {
-		myTimer = new Timer(TIMER_ID);
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myWaves = new ArrayList<>();
 		myPaths = new ArrayList<>();
 		myEnemies = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
+		myIDFactory = new IDFactory();
+		initialize();
+	}
+	
+	private void initialize(){
+		myTimer = null;
+		myTimer = new Timer(myIDFactory.createID(myTimer));
 	}
 
 	public List<String> saveGame() {
@@ -114,4 +120,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return myCurrentLevel;
 	}
 
+	public IDFactory getIDFactory(){
+		return myIDFactory;
+	}
+	
 }
