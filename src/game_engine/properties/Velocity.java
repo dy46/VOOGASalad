@@ -22,8 +22,8 @@ public class Velocity {
 		this.mySpeed = speed;
 	}
 	
-	public void setDirection(Direction direction){
-		this.myDirection = direction;
+	public void setDirection(double direction){
+		myDirection.setDirection(direction);
 	}
 	
 }

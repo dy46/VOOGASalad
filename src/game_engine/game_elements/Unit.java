@@ -23,6 +23,7 @@ public abstract class Unit implements GameElement{
 	
 	public Unit(String ID){
 		this.myID = ID;
+		myProperties = new UnitProperties();
 		initialize();
 	}
 	

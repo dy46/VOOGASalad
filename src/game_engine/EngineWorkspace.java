@@ -75,6 +75,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		}
 		return numWavesLeft;
 	}
+	
+	public void addEnemy(Enemy enemy){
+		myEnemies.add(enemy);
+	}
 
 	public void addTower(String ID, int towerTypeIndex){
 		towerTypeBoundsCheck(towerTypeIndex);

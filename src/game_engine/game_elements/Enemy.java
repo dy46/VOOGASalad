@@ -4,8 +4,8 @@ import game_engine.properties.Damage;
 
 public class Enemy extends LiveableUnit{
 	
-	public Enemy(String ID, double health){
-		super(ID, health);
+	public Enemy(String ID){
+		super(ID);
 	}
 	
 	/*

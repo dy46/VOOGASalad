@@ -3,6 +3,8 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.properties.Position;
+
 /*
 * Internal API that is used in order to represent levels within a game. More specifically, 
 * this API will be responsible for dealing with transitions in between waves of enemies, as well as 
@@ -12,9 +14,11 @@ public class Level extends Unit{
 	
 	private Wave myCurrentWave;
 	private List<Wave> myWaves;
+	private Position mySpawnPosition;
 	
-	public Level(String ID){
+	public Level(String ID, Position spawn){
 		super(ID);
+		mySpawnPosition = spawn;
 		initialize();
 	}
 	
@@ -61,6 +65,10 @@ public class Level extends Unit{
 	*/
 	public void addWave(Wave newWave){
 		myWaves.add(newWave);
+	}
+	
+	public Position getSpawnPosition(){
+		return mySpawnPosition;
 	}
 
 	public String toFile() {
