@@ -13,6 +13,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		System.out.println();
 		myView = new View(primaryStage);
 		myView.display();
 	}
