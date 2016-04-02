@@ -24,7 +24,7 @@ public class Tower extends SellableUnit{
 	* sells the tower, and removes it from the list of active towers
 	*/
 	public void sell(){
-		
+		super.sell(this);
 	}
 	
 	/*
@@ -34,8 +34,8 @@ public class Tower extends SellableUnit{
 		setProperties(newProperties);
 	}
 
-	public String toFile() {
-		return "Tower " + getID() + ", Cost: " + getSellPrice();
+	public String toString() {
+		return getID() + ", Cost: " + getSellPrice();
 	}
 
 }

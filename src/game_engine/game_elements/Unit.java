@@ -2,8 +2,6 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import game_engine.EngineWorkspace;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -13,21 +11,19 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public abstract class Unit implements GameElement{
+public abstract class Unit extends GameElement{
 
-	private String myID;
 	private UnitProperties myProperties;
 	private List<Affector> myAffectors;
-	private EngineWorkspace myWorkspace;
 	
 	public Unit(String ID){
-		this.myID = ID;
+		super(ID);
 		myProperties = new UnitProperties();
 		initialize();
 	}
 	
 	public Unit(String ID, UnitProperties properties){
-		this.myID = ID;
+		super(ID);
 		this.myProperties = properties;
 		initialize();
 	}
@@ -36,25 +32,13 @@ public abstract class Unit implements GameElement{
 		myAffectors = new ArrayList<>();
 	}
 	
-	public void setWorkspace(EngineWorkspace workspace){
-		myWorkspace = workspace;
-	}
-	
 	public UnitProperties getProperties(){
 		return myProperties;
-	}
-	
-	public String getID(){
-		return myID;
 	}
 	
 	public void update(){
 		myAffectors.forEach(a -> a.apply(myProperties));
 		myAffectors.clear();
-	}
-
-	public void setID(String ID) {
-		this.myID = ID;
 	}
 
 	public void setProperties(UnitProperties properties) {
@@ -71,10 +55,6 @@ public abstract class Unit implements GameElement{
 
 	public void setAffectors(List<Affector> affectors) {
 		this.myAffectors = affectors;
-	}
-	
-	public EngineWorkspace getWorkspace(){
-		return myWorkspace;
 	}
 	
 }

@@ -65,10 +65,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void updateElements() {
-		myLevels.forEach(l -> l.update());
 		myTowers.forEach(t -> t.update());
-		myWaves.forEach(w -> w.update());
-		myPaths.forEach(p -> p.update());
 		myEnemys.forEach(e -> e.update());
 	}
 

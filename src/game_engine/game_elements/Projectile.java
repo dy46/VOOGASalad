@@ -26,8 +26,8 @@ public class Projectile extends MapPiece{
 		
 	}
 
-	public String toFile() {
-		return "Projectile " + getID();
+	public String toString() {
+		return getID();
 	}
 	
 }

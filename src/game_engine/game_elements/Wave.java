@@ -51,7 +51,7 @@ public class Wave extends MapPiece{
 		getWorkspace().addEnemy(enemy);
 	}
 
-	public String toFile() {
+	public String toString() {
 		return "Wave " + getID() + ", Number of enemies: " + getEnemiesLeft();
 	}
 	

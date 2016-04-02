@@ -70,10 +70,6 @@ public class Level extends MapPiece{
 	public Position getSpawnPosition(){
 		return mySpawnPosition;
 	}
-
-	public String toFile() {
-		return "Level " + getID() + ", Number of Waves: " + myWaves.size();
-	}
 	
 	private Wave getNextWave(){
 		for(int x=0; x<myWaves.size(); x++){
@@ -90,6 +86,14 @@ public class Level extends MapPiece{
 		if(index < 0 || index > myWaves.size()){
 			throw new IndexOutOfBoundsException();
 		}
+	}
+	
+	public String toString() {
+		return getID() + ", Number of Waves: " + myWaves.size();
+	}
+	
+	public String toFile(){
+		return getID();
 	}
 
 }

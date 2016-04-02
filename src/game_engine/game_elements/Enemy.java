@@ -32,5 +32,10 @@ public class Enemy extends LiveableUnit{
 	public void update(){
 		super.update(this);
 	}
+
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
