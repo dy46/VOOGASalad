@@ -20,6 +20,7 @@ public class MenuToolBar extends MenuBar {
 		List<Menu> myMenus = Arrays.asList(
 				new FileMenu(), 
 				new SettingsMenu(),
+				new ElementMenu(),
 				new HelpMenu(), 
 				new TabMenu(this.myTabPane));
 		return myMenus; 
