@@ -28,8 +28,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private Timer myTimer;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
+	private String TIMER_ID = "0";
 
 	public void setUpEngine(List<String> fileNames) {
+		myTimer = new Timer(TIMER_ID);
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myWaves = new ArrayList<>();
