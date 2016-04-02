@@ -1,7 +1,7 @@
 package game_engine;
 import java.lang.reflect.Field;
 
-import game_engine.game_elements.Unit;
+import game_engine.game_elements.GameElement;
 
 public class IDFactory {
 
@@ -23,8 +23,8 @@ public class IDFactory {
 		lastTimerID = new Integer(DEFAULT_VALUE);
 	}
 	
-	public String createID(Unit unit){
-		String className = unit.getClass().getName();
+	public String createID(GameElement element){
+		String className = element.getClass().getName();
 		String instanceVarName = "last" + className + "ID";
 		Field f = null;
 		try {

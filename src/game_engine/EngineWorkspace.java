@@ -73,6 +73,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return "Wave left: " + wavesLeft() + " Current wave: " + myCurrentLevel.toString();
 	}
 	
+	public void addBalance(double money){
+		myBalance += money;
+	}
+	
 	public int wavesLeft(){
 		int numWavesLeft = 0;
 		for(Wave wave : myWaves){
@@ -134,6 +138,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		}
 	}
 	
+	// Getters
+	
 	public Timer getTimer(){
 		return myTimer;
 	}
@@ -148,10 +154,6 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	
 	public double getBalance(){
 		return myBalance;
-	}
-	
-	public void addBalance(double money){
-		myBalance += money;
 	}
 	
 	public List<Level> getLevels(){

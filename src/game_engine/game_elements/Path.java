@@ -15,8 +15,9 @@ public class Path extends MapPiece{
 	private List<Position> myPositions;
 	private HashMap<Position, Position> nextPositions;
 	
-	public Path(String ID){
-		super(ID);
+	public Path(String name){
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}
 	

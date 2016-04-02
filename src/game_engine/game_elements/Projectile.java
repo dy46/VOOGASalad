@@ -1,12 +1,14 @@
 package game_engine.game_elements;
+
 /*
 * Internal API used to represent projectiles fired by towers and/or enemies. 
 * 
 */
-public class Projectile extends MapPiece{
+public class Projectile extends Unit{
 	
-	public Projectile(String ID) {
-		super(ID);
+	public Projectile(String name) {
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 	}
 
 	/*

@@ -16,8 +16,9 @@ public class Level extends MapPiece{
 	private List<Wave> myWaves;
 	private Position mySpawnPosition;
 	
-	public Level(String ID, Position spawn){
-		super(ID);
+	public Level(String name, Position spawn){
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 		mySpawnPosition = spawn;
 		initialize();
 	}

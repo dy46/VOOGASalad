@@ -9,8 +9,9 @@ public class Timer extends Unit{
 	
 	private int elapsedTicks;
 	
-	public Timer(String ID){
-		super(ID);
+	public Timer(String name){
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}
 	

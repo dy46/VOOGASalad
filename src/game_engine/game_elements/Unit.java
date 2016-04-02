@@ -16,8 +16,8 @@ public abstract class Unit extends GameElement{
 	private UnitProperties myProperties;
 	private List<Affector> myAffectors;
 	
-	public Unit(String ID){
-		super(ID);
+	public Unit(String name){
+		super(name);
 		myProperties = new UnitProperties();
 		initialize();
 	}

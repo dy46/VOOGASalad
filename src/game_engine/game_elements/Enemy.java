@@ -4,8 +4,9 @@ import game_engine.properties.Damage;
 
 public class Enemy extends LiveableUnit{
 	
-	public Enemy(String ID){
-		super(ID);
+	public Enemy(String name){
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 	}
 	
 	/*

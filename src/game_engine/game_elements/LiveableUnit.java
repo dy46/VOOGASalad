@@ -2,8 +2,8 @@ package game_engine.game_elements;
 
 public abstract class LiveableUnit extends Unit{
 
-	public LiveableUnit(String ID) {
-		super(ID);
+	public LiveableUnit(String name) {
+		super(name);
 	}
 	
 	public boolean isAlive(){

@@ -8,9 +8,10 @@ import game_engine.properties.UnitProperties;
 * be implemented for subclasses created in the authoring environment.
 */
 public class Tower extends SellableUnit{
-	
-	public Tower(String ID) {
-		super(ID);
+
+	public Tower(String name) {
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 	}
 
 	/*
