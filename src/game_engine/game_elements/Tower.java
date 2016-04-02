@@ -35,8 +35,4 @@ public class Tower extends SellableUnit{
 		setProperties(newProperties);
 	}
 
-	public String toString() {
-		return getID() + ", Cost: " + getSellPrice();
-	}
-
 }

@@ -37,8 +37,4 @@ public class Terrain extends MapPiece{
 		
 	}
 	
-	public String toString(){
-		return getID() + ", Number of Affected Units: " + getAffectedUnits().size();
-	}
-	
 }

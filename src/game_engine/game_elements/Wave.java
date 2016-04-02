@@ -51,9 +51,5 @@ public class Wave extends MapPiece{
 		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
 		getWorkspace().addEnemy(enemy);
 	}
-
-	public String toString() {
-		return "Wave " + getID() + ", Number of enemies: " + getEnemiesLeft();
-	}
 	
 }

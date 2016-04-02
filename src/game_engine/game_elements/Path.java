@@ -36,10 +36,6 @@ public class Path extends MapPiece{
 	public Position getNextPosition(Position currentPosition){
 		return nextPositions.get(currentPosition);
 	}
-
-	public String toString(){
-		return "Path " + getID()+" Length: " + myPositions.size()+" positions";
-	}
 	
 	public String toFile(){
 		return getID();

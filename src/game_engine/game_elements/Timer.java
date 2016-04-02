@@ -35,9 +35,5 @@ public class Timer extends Unit{
 	public int getTicks(){
 		return elapsedTicks;
 	}
-
-	public String toString() {
-		return getID() + ", Elapsed time: " + elapsedTicks;
-	}
 	
 }

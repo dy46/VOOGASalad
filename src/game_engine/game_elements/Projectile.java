@@ -28,8 +28,4 @@ public class Projectile extends Unit{
 		
 	}
 
-	public String toString() {
-		return getID();
-	}
-	
 }
