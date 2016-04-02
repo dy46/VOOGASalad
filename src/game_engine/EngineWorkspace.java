@@ -50,8 +50,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void playWave(int waveNumber) {
-		// TODO Auto-generated method stub
-
+		// TODO: pause current wave
+		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
 	public void updateElements() {
@@ -62,9 +62,18 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myEnemies.forEach(e -> e.update());
 	}
 
-	public List<Double> getGameStatus() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getGameStatus() {
+		return "Wave left: " + wavesLeft() + " Current wave: " + myCurrentLevel.toString();
+	}
+	
+	public int wavesLeft(){
+		int numWavesLeft = 0;
+		for(Wave wave : myWaves){
+			if(!wave.isFinished()){
+				numWavesLeft++;
+			}
+		}
+		return numWavesLeft;
 	}
 
 	public void addTower(String ID, int towerTypeIndex){
@@ -91,6 +100,14 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		if(index < 0 || index > myTowerTypes.size()){
 			throw new IndexOutOfBoundsException();
 		}
+	}
+	
+	public Timer getTimer(){
+		return myTimer;
+	}
+	
+	public Level getCurrentLevel(){
+		return myCurrentLevel;
 	}
 
 }

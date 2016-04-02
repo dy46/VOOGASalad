@@ -10,8 +10,8 @@ import java.util.List;
 */
 public class Level extends Unit{
 	
-	Wave currentWave;
-	List<Wave> myWaves;
+	private Wave myCurrentWave;
+	private List<Wave> myWaves;
 	
 	public Level(String ID){
 		super(ID);
@@ -25,16 +25,23 @@ public class Level extends Unit{
 	/*
 	* This API will allow the player to start a new wave. Returns true if next started, false if not.
 	*/
-	public boolean playNextWave(){
-		if(!currentWave.isFinished()){
-			return false;
-		}
+	public void playNextWave(){
+		checkCurrentFinished();
 		Wave nextWave = getNextWave();
 		if(nextWave != null){
-			currentWave = nextWave;
-			return true;
+			myCurrentWave = nextWave;
 		}
-		return false;
+	}
+	
+	public void setCurrentWave(int wave){
+		checkCurrentFinished();
+		myCurrentWave = myWaves.get(wave);
+	}
+	
+	private void checkCurrentFinished(){
+		if(!myCurrentWave.isFinished()){
+			// TODO: Throw exception "Current wave not finished"
+		}
 	}
 	
 	/*
@@ -62,7 +69,7 @@ public class Level extends Unit{
 	
 	private Wave getNextWave(){
 		for(int x=0; x<myWaves.size(); x++){
-			if(myWaves.get(x).equals(currentWave)){
+			if(myWaves.get(x).equals(myCurrentWave)){
 				int nextWaveIndex = x+1;
 				waveBoundsCheck(nextWaveIndex);
 				return myWaves.get(nextWaveIndex);
