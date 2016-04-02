@@ -12,7 +12,7 @@ public class Wave extends Unit{
 		initialize();
 	}
 
-	public void initialize(){
+	private void initialize(){
 		myEnemies = new ArrayList<>();
 	}
 

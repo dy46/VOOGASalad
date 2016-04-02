@@ -18,7 +18,7 @@ public class Level extends Unit{
 		initialize();
 	}
 	
-	public void initialize(){
+	private void initialize(){
 		myWaves = new ArrayList<>();
 	}
 	
