@@ -10,7 +10,7 @@ import game_engine.properties.Position;
 * Internal API that will be used in order to represent paths 
 * for enemy movements.
 */
-public class Path extends Unit{
+public class Path extends MapPiece{
 	
 	private List<Position> myPositions;
 	private HashMap<Position, Position> nextPositions;

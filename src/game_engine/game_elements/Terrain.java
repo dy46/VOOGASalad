@@ -7,20 +7,37 @@ import java.util.Collection;
 * Most implementations of the Terrain API will apply some sort of affector to game elements within
 * a certain area on the map.
 */
-public interface Terrain {
+public class Terrain extends MapPiece{
+	
+	public Terrain(String ID) {
+		super(ID);
+	}
+	
 	/*
 	* Grabs all of the units within the area specified by the Terrain 
 	*
 	* @return	
 	*/
-	public Collection<Unit> getAffectedUnits(Collection<Unit> allUnits);
+	public Collection<Unit> getAffectedUnits(){
+		return null; // TEMP
+	}
+	
 	/*
 	* Sets the affector for the terrain, which will be applied to each unit within the the terrain
 	*/
-	public void setAffector(Affector effect);
+	public void setAffector(Affector effect){
+		
+	}
 
 	/*
 	* Applies the currently set affector to each unit that is considered inside the terrain.
 	*/
-	public void applyEffect();
+	public void applyEffect(){
+		
+	}
+	
+	public String toFile() {
+		return "Terrain " + getID() + ", Number of Affected Units: " + getAffectedUnits().size();
+	}
+	
 }

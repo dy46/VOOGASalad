@@ -5,7 +5,7 @@ import java.util.List;
 
 import game_engine.properties.Position;
 
-public class Wave extends Unit{
+public class Wave extends MapPiece{
 
 	private List<Enemy> myEnemies;
 	private Level myLevel;
