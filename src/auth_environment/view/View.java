@@ -18,14 +18,18 @@ public class View {
 	// TODO: ask team where to extract these
 	private static String wompTitle = "womp"; 
 	private static String mainTabTitle = "main"; 
+	private static String stylesheet
 
     private Stage myStage;
+    private Scene myScene; 
     private TabPane myTabs = new TabPane();
     private Workspace mainWorkspace;
 
     public View (Stage stage) {
         myStage = stage;
-        myStage.setScene(new Scene(myTabs, Color.LIGHTGRAY));
+        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
+        myScene.getStylesheets().add(); // TODO: allow Developer to toggle stylesheets
+        myStage.setScene(myScene);
 		myStage.setTitle(this.wompTitle);
 		mainWorkspace = new Workspace(myTabs);
 		Tab mainTab = new Tab(this.mainTabTitle, mainWorkspace.getRoot());

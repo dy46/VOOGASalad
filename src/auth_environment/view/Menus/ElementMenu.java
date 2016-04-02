@@ -42,6 +42,5 @@ public class ElementMenu extends Menu {
 		stage.setTitle(this.periodicTableLabel);
         stage.setScene(new Scene(new PeriodicTableView(), this.periodicTableWidth, this.periodicTableHeight));
         stage.show();
-
 	}
 }

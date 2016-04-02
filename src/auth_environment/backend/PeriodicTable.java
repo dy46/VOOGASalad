@@ -13,13 +13,15 @@ import game_engine.game_elements.GameElement;
  * to be placed on the MapDisplay.
  */
 
-public interface PeriodicTable {
+public class PeriodicTable {
 
 	// Adds a new element, should overwrite existing elements of the same name if they exist. 
-    public void addElement(GameElement element); 
+    public void addElement(GameElement element) {
+    	
+    }
 
-    public void display();
+    public void display() {
+    	
+    }
     
-    
-
 }
