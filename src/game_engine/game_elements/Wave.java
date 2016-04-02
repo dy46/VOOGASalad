@@ -3,9 +3,12 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.properties.Position;
+
 public class Wave extends Unit{
 
 	private List<Enemy> myEnemies;
+	private Level myLevel;
 
 	public Wave(String ID){
 		super(ID);
@@ -14,6 +17,10 @@ public class Wave extends Unit{
 
 	private void initialize(){
 		myEnemies = new ArrayList<>();
+	}
+	
+	public void setLevel(Level level){
+		myLevel = level;
 	}
 
 	/*
@@ -37,7 +44,10 @@ public class Wave extends Unit{
 	 * Spawns an enemy at the spawn location of the level
 	 */
 	public void spawnEnemy(){
-		
+		Position spawnPosition = myLevel.getSpawnPosition();
+		Enemy enemy = new Enemy("TEMP"); // TODO: ID factory using reflection
+		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
+		getWorkspace().addEnemy(enemy);
 	}
 
 	public String toFile() {

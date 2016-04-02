@@ -28,7 +28,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private Timer myTimer;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
-	private String TIMER_ID = "0";
+	private String TIMER_ID = "0"; // TEMP: to incorporate IDFactory
 
 	public void setUpEngine(List<String> fileNames) {
 		myTimer = new Timer(TIMER_ID);
