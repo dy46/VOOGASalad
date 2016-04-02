@@ -1,5 +1,9 @@
 package auth_environment.backend;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import game_engine.game_elements.GameElement;
 
 /**
@@ -14,11 +18,17 @@ import game_engine.game_elements.GameElement;
  */
 
 public class PeriodicTable {
+	
+	private Map<GameElement, List<GameElement>> myElementList = new HashMap <GameElement, List<GameElement>>();
+	
+	public PeriodicTable() {
+		
+	}
 
 	// Adds a new element, should overwrite existing elements of the same name if they exist. 
-    public void addElement(GameElement element) {
-    	
-    }
+//    public void addElement(GameElement element) {
+//    	if myElementList.containsKey(element.getClass())
+//    }
 
     public void display() {
     	
