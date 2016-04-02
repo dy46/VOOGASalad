@@ -35,7 +35,7 @@ public class Tower extends SellableUnit{
 	}
 
 	public String toFile() {
-		return "Tower " + getID() + ", Cost: " + getSellValue();
+		return "Tower " + getID() + ", Cost: " + getSellPrice();
 	}
 
 }

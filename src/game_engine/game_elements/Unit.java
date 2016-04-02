@@ -19,7 +19,6 @@ public abstract class Unit implements GameElement{
 	private UnitProperties myProperties;
 	private List<Affector> myAffectors;
 	private EngineWorkspace myWorkspace;
-	private double sellValue;
 	
 	public Unit(String ID){
 		this.myID = ID;
@@ -56,10 +55,6 @@ public abstract class Unit implements GameElement{
 
 	public void setID(String ID) {
 		this.myID = ID;
-	}
-	
-	public double getSellValue(){
-		return sellValue;
 	}
 
 	public void setProperties(UnitProperties properties) {
