@@ -29,6 +29,10 @@ public class Wave extends Unit{
 		return numEnemies;
 	}
 	
+	public boolean isFinished(){
+		return getEnemiesLeft() == 0;
+	}
+	
 	/*
 	 * Spawns an enemy at the spawn location of the level
 	 */

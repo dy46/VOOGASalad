@@ -23,17 +23,30 @@ public class Level extends Unit{
 	}
 	
 	/*
-	* This API will allow the player to update all enemies and start new waves
+	* This API will allow the player to start a new wave. Returns true if next started, false if not.
 	*/
-	public void playNextWave(){
-		
+	public boolean playNextWave(){
+		if(!currentWave.isFinished()){
+			return false;
+		}
+		Wave nextWave = getNextWave();
+		if(nextWave != null){
+			currentWave = nextWave;
+			return true;
+		}
+		return false;
 	}
 	
 	/*
 	* Returns boolean value on whether or not the player has completed the current wave
 	*/
-	public boolean isWaveFinished(){
-		return currentWave.getEnemiesLeft() == 0;
+	public boolean isFinished(){
+		for(Wave wave : myWaves){
+			if(!wave.isFinished()){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/*
@@ -45,6 +58,23 @@ public class Level extends Unit{
 
 	public String toFile() {
 		return "Level " + getID() + ", Number of Waves: " + myWaves.size();
+	}
+	
+	private Wave getNextWave(){
+		for(int x=0; x<myWaves.size(); x++){
+			if(myWaves.get(x).equals(currentWave)){
+				int nextWaveIndex = x+1;
+				waveBoundsCheck(nextWaveIndex);
+				return myWaves.get(nextWaveIndex);
+			}
+		}
+		return null;
+	}
+	
+	private void waveBoundsCheck(int index){
+		if(index < 0 || index > myWaves.size()){
+			throw new IndexOutOfBoundsException();
+		}
 	}
 
 }
