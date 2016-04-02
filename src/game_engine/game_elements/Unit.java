@@ -21,6 +21,11 @@ public abstract class Unit implements GameElement{
 	private EngineWorkspace myWorkspace;
 	private double sellValue;
 	
+	public Unit(String ID){
+		this.myID = ID;
+		initialize();
+	}
+	
 	public Unit(String ID, double sellValue){
 		this.myID = ID;
 		this.sellValue = sellValue;

@@ -20,13 +20,14 @@ import game_engine.properties.UnitProperties;
 
 public class EngineWorkspace implements IPlayerEngineInterface{
 
-	List <Level> myLevels;
-	List<Tower> myTowers;
-	List<Wave> myWaves;
-	List<Path> myPaths;
-	List<Enemy> myEnemies;
-	Timer myTime;
-	List<UnitProperties> myTowerTypes;
+	private List<Level> myLevels;
+	private List<Tower> myTowers;
+	private List<Wave> myWaves;
+	private List<Path> myPaths;
+	private List<Enemy> myEnemies;
+	private Timer myTimer;
+	private List<UnitProperties> myTowerTypes;
+	private Level myCurrentLevel;
 
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
@@ -43,7 +44,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void playLevel(int levelNumber) {
-
+		myCurrentLevel = myLevels.get(levelNumber);
 	}
 
 	public void playWave(int waveNumber) {
@@ -52,7 +53,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void updateElements() {
-
+		myLevels.forEach(l -> l.update());
+		myTowers.forEach(t -> t.update());
+		myWaves.forEach(w -> w.update());
+		myPaths.forEach(p -> p.update());
+		myEnemies.forEach(e -> e.update());
 	}
 
 	public List<Double> getGameStatus() {
