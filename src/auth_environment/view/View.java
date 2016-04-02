@@ -18,7 +18,7 @@ public class View {
 	// TODO: ask team where to extract these
 	private static String wompTitle = "womp"; 
 	private static String mainTabTitle = "main"; 
-	private static String stylesheet
+	private static String stylesheet = "auth_environment/view/DarkTheme.css";
 
     private Stage myStage;
     private Scene myScene; 
@@ -28,7 +28,7 @@ public class View {
     public View (Stage stage) {
         myStage = stage;
         myScene = new Scene(myTabs, Color.LIGHTGRAY); 
-        myScene.getStylesheets().add(); // TODO: allow Developer to toggle stylesheets
+        myScene.getStylesheets().add(this.stylesheet); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(this.wompTitle);
 		mainWorkspace = new Workspace(myTabs);
