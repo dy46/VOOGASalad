@@ -9,5 +9,12 @@ public abstract class LiveableUnit extends Unit{
 	public boolean isAlive(){
 		return getProperties().getHealth().getValue() > 0;
 	}
+	
+	public void update(Unit unit){
+		super.update();
+		if(!isAlive()){
+			getWorkspace().remove(unit);
+		}
+	}
 
 }
