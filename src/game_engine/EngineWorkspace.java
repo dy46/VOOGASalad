@@ -1,5 +1,6 @@
 package game_engine;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Timer;
 import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 import game_engine.properties.UnitProperties;
 
@@ -24,18 +26,19 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Tower> myTowers;
 	private List<Wave> myWaves;
 	private List<Path> myPaths;
-	private List<Enemy> myEnemies;
+	private List<Enemy> myEnemys;
 	private Timer myTimer;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
+	private double myBalance;
 
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myWaves = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		myEnemies = new ArrayList<>();
+		myEnemys = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		initialize();
@@ -44,6 +47,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private void initialize(){
 		myTimer = null;
 		myTimer = new Timer(myIDFactory.createID(myTimer));
+		myBalance = 0;
 	}
 
 	public List<String> saveGame() {
@@ -65,7 +69,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myTowers.forEach(t -> t.update());
 		myWaves.forEach(w -> w.update());
 		myPaths.forEach(p -> p.update());
-		myEnemies.forEach(e -> e.update());
+		myEnemys.forEach(e -> e.update());
 	}
 
 	public String getGameStatus() {
@@ -83,7 +87,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 	
 	public void addEnemy(Enemy enemy){
-		myEnemies.add(enemy);
+		myEnemys.add(enemy);
 	}
 
 	public void addTower(String ID, int towerTypeIndex){
@@ -92,6 +96,27 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		Tower newTower = new Tower(ID);
 		newTower.upgrade(towerProperties);
 		myTowers.add(newTower);
+	}
+	
+	public void remove(Unit unit){
+		String className = unit.getClass().getName();
+		String instanceVarName = "my" + className + "s";
+		Field f = null;
+		try {
+			f = getClass().getDeclaredField(instanceVarName);
+		} catch (NoSuchFieldException | SecurityException e1) {
+			// TODO: womp exception
+			e1.printStackTrace();
+		}
+		f.setAccessible(true);
+		List<Unit> listInstanceVar = null;
+		try {
+			listInstanceVar = (List<Unit>) f.get(this);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			// TODO: womp exception
+			e.printStackTrace();
+		}
+		listInstanceVar.remove(unit);
 	}
 
 	public void modifyTower(int activeTowerIndex, UnitProperties newProperties) {
@@ -122,6 +147,14 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public IDFactory getIDFactory(){
 		return myIDFactory;
+	}
+	
+	public double getBalance(){
+		return myBalance;
+	}
+	
+	public void addBalance(double money){
+		myBalance += money;
 	}
 	
 }

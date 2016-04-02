@@ -11,4 +11,9 @@ public abstract class SellableUnit extends Unit{
 		return getProperties().getPrice().getValue();
 	}
 	
+	public void sell(Unit unit){
+		getWorkspace().addBalance(getSellPrice());
+		getWorkspace().remove(unit);
+	}
+	
 }
