@@ -1,7 +1,6 @@
 package game_engine;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import game_engine.game_elements.Enemy;
@@ -61,15 +60,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return null;
 	}
 
-	public void addTower(int towerTypeIndex) {
+	public void addTower(String ID, int towerTypeIndex, double sellValue){
 		towerTypeBoundsCheck(towerTypeIndex);
 		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-		Tower newTower = new Tower();
-		newTower.setProperties(towerProperties);
+		Tower newTower = new Tower(ID, sellValue);
+		newTower.upgrade(towerProperties);
 		myTowers.add(newTower);
 	}
 
-	public void modifyTower(int activeTowerIndex, UnitProperties newProperties) {s
+	public void modifyTower(int activeTowerIndex, UnitProperties newProperties) {
 		towerBoundsCheck(activeTowerIndex);
 		myTowers.get(activeTowerIndex).setProperties(newProperties);
 		myTowerTypes.set(activeTowerIndex, newProperties);
