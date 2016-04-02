@@ -10,8 +10,9 @@ public class Wave extends MapPiece{
 	private List<Enemy> myEnemies;
 	private Level myLevel;
 
-	public Wave(String ID){
-		super(ID);
+	public Wave(String name){
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}
 
@@ -49,10 +50,6 @@ public class Wave extends MapPiece{
 		enemy = new Enemy(getWorkspace().getIDFactory().createID(enemy));
 		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
 		getWorkspace().addEnemy(enemy);
-	}
-
-	public String toString() {
-		return "Wave " + getID() + ", Number of enemies: " + getEnemiesLeft();
 	}
 	
 }

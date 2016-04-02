@@ -9,8 +9,9 @@ import java.util.Collection;
 */
 public class Terrain extends MapPiece{
 	
-	public Terrain(String ID) {
-		super(ID);
+	public Terrain(String name) {
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 	}
 	
 	/*
@@ -34,10 +35,6 @@ public class Terrain extends MapPiece{
 	*/
 	public void applyEffect(){
 		
-	}
-	
-	public String toString(){
-		return getID() + ", Number of Affected Units: " + getAffectedUnits().size();
 	}
 	
 }

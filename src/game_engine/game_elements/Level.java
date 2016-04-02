@@ -16,8 +16,9 @@ public class Level extends MapPiece{
 	private List<Wave> myWaves;
 	private Position mySpawnPosition;
 	
-	public Level(String ID, Position spawn){
-		super(ID);
+	public Level(String name, Position spawn){
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
 		mySpawnPosition = spawn;
 		initialize();
 	}
@@ -30,7 +31,7 @@ public class Level extends MapPiece{
 	* This API will allow the player to start a new wave. Returns true if next started, false if not.
 	*/
 	public void playNextWave(){
-		checkCurrentFinished();
+		checkCurrentWaveFinished();
 		Wave nextWave = getNextWave();
 		if(nextWave != null){
 			myCurrentWave = nextWave;
@@ -38,11 +39,11 @@ public class Level extends MapPiece{
 	}
 	
 	public void setCurrentWave(int wave){
-		checkCurrentFinished();
+		checkCurrentWaveFinished();
 		myCurrentWave = myWaves.get(wave);
 	}
 	
-	private void checkCurrentFinished(){
+	private void checkCurrentWaveFinished(){
 		if(!myCurrentWave.isFinished()){
 			// TODO: Throw exception "Current wave not finished"
 		}
@@ -52,12 +53,17 @@ public class Level extends MapPiece{
 	* Returns boolean value on whether or not the player has completed the current wave
 	*/
 	public boolean isFinished(){
+		return myCurrentWave.isFinished();
+	}
+	
+	public int wavesLeft(){
+		int numWavesLeft = 0;
 		for(Wave wave : myWaves){
 			if(!wave.isFinished()){
-				return false;
+				numWavesLeft++;
 			}
 		}
-		return true;
+		return numWavesLeft;
 	}
 	
 	/*

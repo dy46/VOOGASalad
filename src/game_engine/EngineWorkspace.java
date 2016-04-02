@@ -3,14 +3,12 @@ package game_engine;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Timer;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.game_elements.Wave;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -24,7 +22,6 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	private List<Level> myLevels;
 	private List<Tower> myTowers;
-	private List<Wave> myWaves;
 	private List<Path> myPaths;
 	private List<Enemy> myEnemys;
 	private Timer myTimer;
@@ -36,7 +33,6 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
-		myWaves = new ArrayList<>();
 		myPaths = new ArrayList<>();
 		myEnemys = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
@@ -70,17 +66,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public String getGameStatus() {
-		return "Wave left: " + wavesLeft() + " Current wave: " + myCurrentLevel.toString();
+		return "Waves left: " + wavesLeft() + " Current wave: " + myCurrentLevel.toString();
+	}
+	
+	public void addBalance(double money){
+		myBalance += money;
 	}
 	
 	public int wavesLeft(){
-		int numWavesLeft = 0;
-		for(Wave wave : myWaves){
-			if(!wave.isFinished()){
-				numWavesLeft++;
-			}
-		}
-		return numWavesLeft;
+		return myCurrentLevel.wavesLeft();
 	}
 	
 	public void addEnemy(Enemy enemy){
@@ -134,6 +128,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		}
 	}
 	
+	// Getters
+	
 	public Timer getTimer(){
 		return myTimer;
 	}
@@ -150,20 +146,12 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return myBalance;
 	}
 	
-	public void addBalance(double money){
-		myBalance += money;
-	}
-	
 	public List<Level> getLevels(){
 		return myLevels;
 	}
 	
 	public List<Tower> getTowers(){
 		return myTowers;
-	}
-	
-	public List<Wave> getWaves(){
-		return myWaves;
 	}
 	
 	public List<Path> getPaths(){
