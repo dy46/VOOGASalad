@@ -32,21 +32,21 @@ public abstract class Unit extends GameElement{
 		myAffectors = new ArrayList<>();
 	}
 	
-	public UnitProperties getProperties(){
-		return myProperties;
-	}
-	
 	public void update(){
 		myAffectors.forEach(a -> a.apply(myProperties));
 		myAffectors.clear();
 	}
+	
+	public void addAffector(Affector affector) {
+		myAffectors.add(affector);
+	}
+	
+	public UnitProperties getProperties(){
+		return myProperties;
+	}
 
 	public void setProperties(UnitProperties properties) {
 		this.myProperties = properties;
-	}
-
-	public void addAffector(Affector affector) {
-		myAffectors.add(affector);
 	}
 
 	public List<Affector> getAffectors() {
