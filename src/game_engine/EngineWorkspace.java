@@ -58,7 +58,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myProjectiles = new ArrayList<>();
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory();
-		myEnemyFactory = new EnemyFactory(myAffectorFactory);
+		myEnemyFactory = new EnemyFactory(myAffectorFactory, myFunctionFactory);
 		myCollider = new CollisionDetector(this);
 		myEnemys = makeDummyEnemys();
 		myBalance = 0;

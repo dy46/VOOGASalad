@@ -10,6 +10,10 @@ public class Enemy extends LiveableUnit {
         addAffector(moveAffector);
 //        setID(getWorkspace().getIDFactory().createID(this));
     }
+    
+    public Enemy (String name){
+    	super(name);
+    }
 
     /*
      * the Enemy fires a projectile at a target, which subsequently applies
