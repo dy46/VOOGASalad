@@ -12,11 +12,11 @@ public class CollisionDetector {
 	public CollisionDetector(EngineWorkspace engine){
 		myEngine = engine;
 	}
-	public void resolveEnemyCollisions(List<Unit> collideList){
+	public void resolveEnemyCollisions(List<? extends Unit> collideList){
 		myEngine.getEnemys().forEach(t -> updateEnemies(t, collideList));
 	}
 	// returns which Unit from the list collided with the target unit
-	private void updateEnemies(Unit unit, List<Unit> collideChecks){
+	private void updateEnemies(Unit unit, List<? extends Unit> collideChecks){
 		for(int i = 0;i < collideChecks.size();i++){
 			if(collides(unit, collideChecks.get(i))){
 				myEngine.remove(unit);

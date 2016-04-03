@@ -31,6 +31,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Enemy> myEnemys;
 	private List<Projectile> myActiveProjectiles;
 	private Timer myTimer;
+	private CollisionDetector myCollider;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
@@ -43,6 +44,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myEnemys = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
+		myCollider = new CollisionDetector(this);
 		myActiveProjectiles = new ArrayList<>();
 		initialize();
 	}
@@ -82,6 +84,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public void updateElements() {
 		myTowers.forEach(t -> t.update());
 		myEnemys.forEach(e -> e.update());
+		myCollider.resolveEnemyCollisions(myActiveProjectiles);
 	}
 
 	public String getGameStatus() {
