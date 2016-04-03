@@ -36,13 +36,14 @@ public class Term {
 		myVariables.add(variable);
 	}
 	
-	public long evaluate(int index){
-		long evaluation = 1;
+	public double evaluate(int index){
+		double evaluation = 1;
 		for(Variable var : myVariables){
 			evaluation *= var.evaluate(index);
 		}
 		for(Constant c : myConstants){
-			evaluation *= c.evaluate();
+			double evaluate = c.evaluate();
+			evaluation *= evaluate;
 		}
 		return evaluation;
 	}

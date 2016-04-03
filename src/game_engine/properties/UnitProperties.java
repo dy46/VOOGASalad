@@ -3,6 +3,8 @@ package game_engine.properties;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.EngineWorkspace;
+
 public class UnitProperties {
 
 	private Health myHealth;
@@ -23,6 +25,7 @@ public class UnitProperties {
 	private static double DEFAULT_Y_POS = 0;
 	private static double DEFAULT_PRICE = 0;
 	
+	private EngineWorkspace myWorkspace;
 	
 	public UnitProperties(Health health, Damage damage, Team team, Velocity velocity, Bounds bounds, Position position, Price price){
 		this.myHealth = health;
@@ -34,7 +37,8 @@ public class UnitProperties {
 		this.myPrice = price;
 	}
 	
-	public UnitProperties(){
+	public UnitProperties(EngineWorkspace workspace){
+		this.myWorkspace = workspace;
 		myHealth = new Health(DEFAULT_HEALTH);
 		myDamage = new Damage(DEFAULT_DAMAGE);
 		myTeam = new Team(DEFAULT_TEAM);

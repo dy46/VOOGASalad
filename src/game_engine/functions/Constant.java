@@ -47,4 +47,8 @@ public class Constant {
 		return myName;
 	}
 	
+	public String toString(){
+		return ""+myValue;
+	}
+	
 }

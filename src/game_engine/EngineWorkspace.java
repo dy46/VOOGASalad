@@ -41,8 +41,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private double myBalance;
 	
 	private FunctionFactory myFunctionFactory;
+	private PropertyFactory myPropertyFactory;
 	
 	public void setUpEngine(List<String> fileNames) {
+		myFunctionFactory = new FunctionFactory();
+		myPropertyFactory = new PropertyFactory(this);
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myPaths = new ArrayList<>();
@@ -59,7 +62,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	    Enemy e1 = new Enemy("Fire");
 	    Health health = new Health(50);
 	    Position position = new Position(200, 200);
-	    Velocity velocity = new Velocity(0.5, 0);
+	    Velocity velocity = myPropertyFactory.createVelocity(myFunctionFactory.createConstantFunction(0.5), myFunctionFactory.createConstantFunction(0));
 	    List<Position> l1 = new ArrayList<>();
 	    l1.add(new Position(0,0));
 	    l1.add(new Position(62,0));
@@ -73,7 +76,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	    Enemy e2 = new Enemy("Fire");
 	    Health health2 = new Health(50);
 	    Position position2 = new Position(500, 200);
-	    Velocity velocity2 = new Velocity(-0.5, 0);
+	    Velocity velocity2 = myPropertyFactory.createVelocity(myFunctionFactory.createConstantFunction(-0.5), myFunctionFactory.createConstantFunction(0));
 	    UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
 	    e2.setProperties(properties2);
 	    enemies.add(e2);
@@ -82,7 +85,6 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	
 	private void initialize(){
 		myBalance = 0;
-		myFunctionFactory = new FunctionFactory();
 	}
 
 	public List<String> saveGame() {

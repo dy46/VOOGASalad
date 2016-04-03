@@ -26,7 +26,6 @@ public class Function {
 	public Function(String name, List<Term> terms){
 		this.myName = name;
 		this.myTerms = terms;
-		myWorkspace.getFunctionLibrary().addFunction(this);
 	}
 	
 	public Function(String equation, EngineWorkspace workspace){
@@ -52,6 +51,21 @@ public class Function {
 	
 	public List<Term> getTerms(){
 		return myTerms;
+	}
+	
+	public String toString(){
+		String str = "";
+		for(Term term : myTerms){
+			List<Variable> variables = term.getVariables();
+			for(Variable var : variables){
+				str += var+"*";
+			}
+			List<Constant> constants = term.getConstants();
+			for(Constant c : constants){
+				str += c+"*";
+			}
+		}
+		return str;
 	}
 	
 }

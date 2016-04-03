@@ -17,11 +17,11 @@ public class FunctionLibrary {
 	private HashMap<String, Constant> mySpecialConstants;
 	private FunctionFactory myFactory;
 	
-	public FunctionLibrary(){
+	public FunctionLibrary(FunctionFactory myFactory){
 		myFunctions = new HashMap<>();
 		myFunctionTypes = new HashMap<>();
 		myStrengths = new HashMap<>();
-		myFactory = new FunctionFactory();
+		this.myFactory = myFactory;
 	}
 
 	public List<Term> getTerms(String type, String strength) {

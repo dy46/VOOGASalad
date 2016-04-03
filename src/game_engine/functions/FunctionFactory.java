@@ -8,7 +8,7 @@ public class FunctionFactory {
 	private FunctionLibrary myFunctionLibrary;
 
 	public FunctionFactory(){
-		myFunctionLibrary = new FunctionLibrary();
+		myFunctionLibrary = new FunctionLibrary(this);
 		setupDefaultStrengths();
 		setupDefaultTypes();
 	}
@@ -42,7 +42,9 @@ public class FunctionFactory {
 			}
 			term.setConstants(constants);
 		}
-		return new Function(getName(type, str), terms);
+		Function newFunction = new Function(getName(type, str), terms);
+		myFunctionLibrary.addFunction(newFunction);
+		return newFunction;
 	}
 
 	public Function createConstantFunction(double constant){

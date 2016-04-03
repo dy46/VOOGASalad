@@ -2,6 +2,9 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import game_engine.functions.Function;
 import game_engine.properties.Damage;
 import game_engine.properties.Velocity;
 
@@ -36,17 +39,24 @@ public class Enemy extends LiveableUnit {
 
     public void update () {
         super.update(this);
-        addMoveAffector(1);
+        addMoveAffector(5);
     }
         
         
     public void addMoveAffector(int TTL) {
         Velocity v = getProperties().getVelocity();
-        double xOffset = v.getSpeed()*Math.cos(v.getDirection());
-        double yOffset = v.getSpeed()*Math.sin(v.getDirection());
+//        double xOffset = v.getSpeed()*Math.cos(v.getDirection());
+//        double yOffset = v.getSpeed()*Math.sin(v.getDirection());
+//        addAffector(getAffectorFactory().constructAffector("Position",
+//                                                           "Move", 
+//                                                           new ArrayList<Double>(Arrays.asList(xOffset, yOffset)),
+//                                                           TTL));
+        List<Function> functions = new ArrayList<>();
+        functions.add(v.getSpeedFunction());
+        functions.add(v.getDirectionFunction());
         addAffector(getAffectorFactory().constructAffector("Position",
-                                                           "Move", 
-                                                           new ArrayList<Double>(Arrays.asList(xOffset, yOffset)),
-                                                           TTL));
+        													"Move",
+        													functions,
+        													TTL));
     }
 }
