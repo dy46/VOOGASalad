@@ -1,7 +1,7 @@
 package game_player;
 
+import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
-import game_engine.PlayerEngineInterface;
 import javafx.animation.AnimationTimer;
 
 public class GameView implements IGameView{
@@ -11,7 +11,7 @@ public class GameView implements IGameView{
     IPlayerEngineInterface playerEngineInterface;
     
     public GameView() {
-        playerEngineInterface = new PlayerEngineInterface();
+        playerEngineInterface = new EngineWorkspace();
     }
     
     @Override
@@ -57,6 +57,12 @@ public class GameView implements IGameView{
     @Override
     public void placeUnit () {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void pauseGame () {
+        // TODO Auto-generated method stub
+        
     }
 
 }

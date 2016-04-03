@@ -9,7 +9,11 @@ import game_engine.game_elements.Path;
 import game_engine.game_elements.Timer;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Direction;
+import game_engine.properties.Health;
+import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.properties.Velocity;
 
 /**
  * This class represents the "workspace" for a single instance of a game.
@@ -29,15 +33,27 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
-
+	
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
-		myTowers = new ArrayList<>();
+		myTowers = makeDummyTowers();
 		myPaths = new ArrayList<>();
 		myEnemys = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		initialize();
+	}
+	
+	private List<Tower> makeDummyTowers() {
+	    List<Tower> towers = new ArrayList<>();
+	    Tower t1 = new Tower("Fire");
+	    Health health = new Health(50);
+	    Position position = new Position(50, 50);
+	    Velocity velocity = new Velocity(10, new Direction(10, 10));
+	    UnitProperties properties = new UnitProperties(health, null, null, velocity, null, position, null);
+	    t1.setProperties(properties);
+	    towers.add(t1);
+	    return towers;
 	}
 	
 	private void initialize(){

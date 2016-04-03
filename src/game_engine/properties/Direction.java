@@ -2,18 +2,25 @@ package game_engine.properties;
 
 public class Direction {
 
-	private double myDirection;
+	private double xDirection;
+	private double yDirection;
 	
-	public Direction(double direction){
-		this.myDirection = direction;
+	public Direction(double xDirection, double yDirection){
+		this.xDirection = xDirection;
+		this.yDirection = yDirection;
 	}
 	
-	public double getDirection(){
-		return myDirection;
+	public double getXDirection(){
+		return xDirection;
 	}
 	
-	public void setDirection(double direction){
-		this.myDirection = direction;
+	public double getYDirection() {
+	        return yDirection;
+	}
+	
+	public void setDirection(double xDirection, double yDirection){
+		this.xDirection = xDirection;
+		this.yDirection = yDirection;
 	}
 	
 }
