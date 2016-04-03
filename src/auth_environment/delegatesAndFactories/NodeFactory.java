@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 
 public class NodeFactory {
 	
+	// TODO: do these properties need to be extracted? 
 	private Font fontLabels = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 14);
 	private Font fontLarge = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 20);
 
