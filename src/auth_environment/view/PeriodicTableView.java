@@ -1,6 +1,6 @@
 package auth_environment.view;
 
-import auth_environment.backend.NodeFactory;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.layout.VBox;
 
 /**

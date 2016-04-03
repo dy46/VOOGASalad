@@ -36,6 +36,7 @@ public class FileMenu extends Menu {
 		this.getItems().addAll(saveItem, loadItem); 
 	}
 	
+	// TODO: should pass ONE object to XStream. (We need to decide how to store that) 
 	private void save() {
 	
 	}

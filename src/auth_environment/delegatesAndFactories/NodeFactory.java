@@ -1,4 +1,4 @@
-package auth_environment.backend;
+package auth_environment.delegatesAndFactories;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
