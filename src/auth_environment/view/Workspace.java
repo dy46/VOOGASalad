@@ -1,5 +1,7 @@
 package auth_environment.view;
 
+import java.util.ResourceBundle;
+
 import auth_environment.view.Menus.MenuToolBar;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -18,11 +20,9 @@ import javafx.stage.Stage;
 
 public class Workspace {
 	
-	// TODO: ask team where to extract these constants
-	private static double defaultBorderPaneWidth = 600;
-	private static double defaultBorderPaneHeight = 600; 
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
-	private Stage mainStage; 
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	
@@ -32,7 +32,8 @@ public class Workspace {
 	}
 	
 	private void init() {
-		this.myBorderPane.setPrefSize(this.defaultBorderPaneWidth, this.defaultBorderPaneHeight);
+		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
+									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
 		this.myBorderPane.setLeft(new VBox());
 		this.myBorderPane.setRight(new VBox());
