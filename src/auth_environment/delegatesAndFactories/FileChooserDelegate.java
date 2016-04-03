@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class FileChooserDelegate {
 	
-	private static final String NAMES_PACKAGE = "auth_environment/resources/names";
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	public FileChooserDelegate() {
