@@ -10,7 +10,13 @@ package game_player;
 public interface IGameView {
     
     //event handler that begins the animation and movement of elements
-    void playGame();
+    void playGame(int gameIndex);
+    
+    void toggleGame();
+    
+    void changeColorScheme (int colorIndex);
+      
+    void changeGameSpeed (int gameSpeed); 
     
     //event handler that stops the game
     void pauseGame();
@@ -22,5 +28,6 @@ public interface IGameView {
     void placePath();
     
     //gets units (enemies, towers) from engine and places/animates
-    void placeUnit();    
+    void placeUnit();  
+    
 }

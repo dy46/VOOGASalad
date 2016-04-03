@@ -8,11 +8,11 @@ public class Health {
 		this.myHealth = health;
 	}
 	
-	public double getHealth(){
+	public double getValue(){
 		return myHealth;
 	}
 	
-	public void setHealth(double health){
+	public void setValue(double health){
 		myHealth = health;
 	}
 	
