@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.affectors.AffectorFactory;
+import game_engine.factories.EnemyFactory;
+import game_engine.functions.Function;
 import game_engine.functions.FunctionFactory;
 import game_engine.functions.FunctionLibrary;
 import game_engine.game_elements.Enemy;
@@ -41,28 +44,34 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private double myBalance;
 	
 	private FunctionFactory myFunctionFactory;
-	private PropertyFactory myPropertyFactory;
+	private AffectorFactory myAffectorFactory;
+	private EnemyFactory myEnemyFactory;
+	
+	private int infiniteTime = Integer.MAX_VALUE;
 	
 	public void setUpEngine(List<String> fileNames) {
-		myFunctionFactory = new FunctionFactory();
-		myPropertyFactory = new PropertyFactory(this);
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		myEnemys = makeDummyEnemys();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
-		myCollider = new CollisionDetector(this);
 		myProjectiles = new ArrayList<>();
-		initialize();
+		myFunctionFactory = new FunctionFactory();
+		myAffectorFactory = new AffectorFactory();
+		myEnemyFactory = new EnemyFactory(myAffectorFactory);
+		myCollider = new CollisionDetector(this);
+		myEnemys = makeDummyEnemys();
+		myBalance = 0;
 	}
 	
 	private List<Enemy> makeDummyEnemys() {
 	    List<Enemy> enemies = new ArrayList<>();
-	    Enemy e1 = new Enemy("Fire");
+	    Function speedFunction = myFunctionFactory.createConstantFunction(0.5);
+		Function directionFunction = myFunctionFactory.createConstantFunction(0);
+		Enemy e1 = myEnemyFactory.createEnemy("Fire", speedFunction, directionFunction, infiniteTime);
 	    Health health = new Health(50);
 	    Position position = new Position(200, 200);
-	    Velocity velocity = myPropertyFactory.createVelocity(myFunctionFactory.createConstantFunction(0.5), myFunctionFactory.createConstantFunction(0));
+	    Velocity velocity = new Velocity(0.5, 0);
 	    List<Position> l1 = new ArrayList<>();
 	    l1.add(new Position(0,0));
 	    l1.add(new Position(62,0));
@@ -73,18 +82,16 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	    e1.setProperties(properties);
 	    enemies.add(e1);
 	    
-	    Enemy e2 = new Enemy("Fire");
+	    Function speedFunction2 = myFunctionFactory.createConstantFunction(-0.5);
+		Function directionFunction2 = myFunctionFactory.createConstantFunction(0);
+		Enemy e2 = myEnemyFactory.createEnemy("Fire", speedFunction2, directionFunction2, infiniteTime);
 	    Health health2 = new Health(50);
 	    Position position2 = new Position(500, 200);
-	    Velocity velocity2 = myPropertyFactory.createVelocity(myFunctionFactory.createConstantFunction(-0.5), myFunctionFactory.createConstantFunction(0));
+	    Velocity velocity2 = new Velocity(-0.5, 0);
 	    UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
 	    e2.setProperties(properties2);
 	    enemies.add(e2);
 	    return enemies;
-	}
-	
-	private void initialize(){
-		myBalance = 0;
 	}
 
 	public List<String> saveGame() {
@@ -211,6 +218,14 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	
 	public FunctionLibrary getFunctionLibrary(){
 		return myFunctionFactory.getFunctionLibrary();
+	}
+
+	public EnemyFactory getEnemyFactory() {
+		return myEnemyFactory;
+	}
+	
+	public int getInfiniteTime(){
+		return infiniteTime;
 	}
 
 }
