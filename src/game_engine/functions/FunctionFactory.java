@@ -65,6 +65,19 @@ public class FunctionFactory {
 		double randomConstant = 100*Math.random();
 		return createConstantFunction(randomConstant);
 	}
+	
+	public Function createSingleTermFunction(Constant constant, Variable variable){
+		List<Term> terms = new ArrayList<>();
+		terms.add(new Term(constant, variable));
+		return new Function(terms);
+	}
+	
+	public Function createLinearFunction(Constant constant, Term term){
+		List<Term> terms = new ArrayList<>();
+		terms.add(new Term(constant));
+		terms.add(term);
+		return new Function(terms);
+	}
 
 	public String getName(String type, String str){
 		return type + " " + str;

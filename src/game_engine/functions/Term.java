@@ -29,6 +29,13 @@ public class Term {
 		myConstants.add(constant);
 	}
 	
+	public Term(Constant constant, Variable variable){
+		this.myVariables = new ArrayList<>();
+		this.myConstants = new ArrayList<>();
+		myConstants.add(constant);
+		myVariables.add(variable);
+	}
+	
 	public long evaluate(int index){
 		long evaluation = 1;
 		for(Variable var : myVariables){
