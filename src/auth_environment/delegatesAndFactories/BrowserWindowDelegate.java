@@ -2,10 +2,9 @@ package auth_environment.delegatesAndFactories;
 
 import java.util.ResourceBundle;
 
-import javax.swing.event.ChangeListener;
-import javax.swing.text.Document;
-
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -22,7 +21,10 @@ import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import javafx.concurrent.Worker.State;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 
 public class BrowserWindowDelegate {
@@ -44,7 +46,6 @@ public class BrowserWindowDelegate {
 	private Stage mainStage;
 
 	private WebView browser = new WebView();
-	private WebEngine webEngine = browser.getEngine();
 
 	public BrowserWindowDelegate() {
 		this.init();
@@ -73,35 +74,41 @@ public class BrowserWindowDelegate {
 				   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
 				   );
 	    
-//	    browser.getEngine().documentProperty().addListener(new ChangeListener() {
-//	      @Override public void changed(ObservableValue<? extends Document> observableValue, Document document, Document document1) {
-//	        if (initStage.isShowing()) {
-//	          loadProgress.progressProperty().unbind();
-//	          loadProgress.setProgress(1);
-//	          progressText.setText("All hobbits are full.");
-//	          mainStage.setIconified(false);
-//	          initStage.toFront();
-//	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
-//	          fadeSplash.setFromValue(1.0);
-//	          fadeSplash.setToValue(0.0);
-//	          fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
-//	            @Override public void handle(ActionEvent actionEvent) {
-//	              initStage.hide();
-//	            }
-//	          });
-//	          fadeSplash.play();
-//	        }
-//	      }
-//	    });
-	  }
+	    browser.getEngine().getLoadWorker().stateProperty().addListener(
+                new ChangeListener<State>() {
+                    public void changed(ObservableValue ov, State oldState, State newState) {
+                        System.out.println("newState = " + newState);
+                        if (newState == State.SUCCEEDED) {
+                            System.out.println(browser.getEngine().getLocation());
+                            if (initStage.isShowing()) {
+                  	          loadProgress.progressProperty().unbind();
+                  	          loadProgress.setProgress(1);
+                  	          progressText.setText("All hobbits are full.");
+                  	          mainStage.setIconified(false);
+                  	          initStage.toFront();
+                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), loadingPane);
+                  	          fadeSplash.setFromValue(1.0);
+                  	          fadeSplash.setToValue(0.0);
+                  	          fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
+                  	            @Override public void handle(ActionEvent actionEvent) {
+                  	              initStage.hide();
+                  	            }
+                  	          });
+                  	          fadeSplash.play();
+                  	        }
 
+                        }
+                        
+                    }
+                });
+	  }
 
 	public void openWindow(String title, String url, double width, double height) {
 		mainStage = new Stage();
 		Pane root = new Pane();
 		mainStage.setTitle(title);
 		mainStage.setIconified(true);
-		webEngine.load(url);
+		browser.getEngine().load(url);
 		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 		root.getChildren().add(browser);
 		Scene scene = new Scene(root, width, height);
