@@ -32,6 +32,18 @@ public class FunctionLibrary {
 		myFunctions.put(function.getName(), function);
 	}
 	
+	public void addStrength(String strength, Constant constant){
+		myStrengths.put(strength, constant);
+	}
+	
+	public void addFunctionType(String type, List<Term> terms){
+		myFunctionTypes.put(type, terms);
+	}
+	
+	public void addSpecialConstant(Constant constant){
+		mySpecialConstants.put(constant.getName(), constant);
+	}
+	
 	public Function getFunction(String name){
 		return myFunctions.get(name);
 	}
@@ -42,10 +54,6 @@ public class FunctionLibrary {
 	
 	public Constant getStrength(String str){
 		return myStrengths.get(str);
-	}
-	
-	public void addSpecialConstant(Constant constant){
-		mySpecialConstants.put(constant.getName(), constant);
 	}
 	
 }

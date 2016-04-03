@@ -26,6 +26,7 @@ public class Function {
 	public Function(String name, List<Term> terms){
 		this.myName = name;
 		this.myTerms = terms;
+		myWorkspace.getFunctionLibrary().addFunction(this);
 	}
 	
 	public Function(String equation, EngineWorkspace workspace){
