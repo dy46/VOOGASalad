@@ -25,7 +25,7 @@ public class HelpMenu extends Menu {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
-	private BrowserWindowDelegate myBrowser = new BrowserWindowDelegate(); 
+//	private BrowserWindowDelegate myBrowser = new BrowserWindowDelegate(); 
 	
 	public HelpMenu() {
 		this.setText(myNamesBundle.getString("helpMenuLabel"));
@@ -34,11 +34,11 @@ public class HelpMenu extends Menu {
 	
 	private void init() {
 		MenuItem openHelpItem = new MenuItem(myNamesBundle.getString("openHelpItem"));
-		openHelpItem.setOnAction(e -> myBrowser.openWindow(myNamesBundle.getString("helpMenuLabel"),
-														   myURLSBundle.getString("helpURL"),
-														   Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
-														   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
-														   ));
+//		openHelpItem.setOnAction(e -> myBrowser.openWindow(myNamesBundle.getString("helpMenuLabel"),
+//														   myURLSBundle.getString("helpURL"),
+//														   Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
+//														   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
+//														   ));
 		this.getItems().add(openHelpItem);
 	}
 }
