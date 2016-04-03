@@ -35,27 +35,22 @@ public class BrowserWindowDelegate {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
 	private Pane loadingPane;
 	private ProgressBar loadProgress;
 	private Label progressText;
 	
-	private Stage mainStage; 
 	private Stage browserStage; 
 	
 	private WebView browser = new WebView();
 
-	public BrowserWindowDelegate(Stage stage) {
-		this.mainStage = stage; 
+	public BrowserWindowDelegate() {
 	}
 	
 	// Source: https://gist.github.com/jewelsea/1588531
-	public void init() {
+	public void init(double width) {
 		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("dj.gif")));
 		loadProgress = new ProgressBar();
-		loadProgress.setPrefWidth(800 - 20);
+		loadProgress.setPrefWidth(width - 20);
 		progressText = new Label(myNamesBundle.getString("loadingText"));
 		loadingPane = new VBox();
 		loadingPane.getChildren().addAll(loadingImage, loadProgress, progressText);
@@ -95,12 +90,11 @@ public class BrowserWindowDelegate {
 	}
 
 	public void openWindow(String title, String url, double width, double height) {
+		this.init(width);
 		Stage initStage = new Stage(); 
-		this.init();
 		browserStage = new Stage();
-		this.showSplash(initStage);
+		this.showSplash(initStage, width, height);
 		this.addLoadingListener(initStage);
-//		this.mainStage.toBack();
 		Pane root = new Pane();
 		browserStage.setTitle(title);
 		browserStage.setIconified(true);
@@ -114,13 +108,10 @@ public class BrowserWindowDelegate {
 		browserStage.show();
 	}
 
-	private void showSplash(Stage initStage) {
-		Scene splashScene = new Scene(loadingPane);
+	private void showSplash(Stage initStage, double width, double height) {
+		Scene splashScene = new Scene(loadingPane, width, height);
 		initStage.initStyle(StageStyle.UNDECORATED);
-		final Rectangle2D bounds = Screen.getPrimary().getBounds();
 		initStage.setScene(splashScene);
-		initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - 800 / 2);
-		initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - 600 / 2);
 		initStage.toFront();
 		initStage.show();
 	}
