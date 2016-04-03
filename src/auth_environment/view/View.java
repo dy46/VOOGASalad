@@ -1,5 +1,7 @@
 package auth_environment.view;
 
+import java.util.ResourceBundle;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,11 +17,12 @@ import javafx.stage.Stage;
 
 public class View {
 	
-	// TODO: ask team where to extract these
-	private static String wompTitle = "womp"; 
-	private static String mainTabTitle = "main"; 
-	private static String stylesheet = "auth_environment/view/DarkTheme.css";
-
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
+	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
+	
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
@@ -28,11 +31,11 @@ public class View {
     public View (Stage stage) {
         myStage = stage;
         myScene = new Scene(myTabs, Color.LIGHTGRAY); 
-        myScene.getStylesheets().add(this.stylesheet); // TODO: allow Developer to toggle stylesheets
+        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
-		myStage.setTitle(this.wompTitle);
+		myStage.setTitle(myNamesBundle.getString("wompTitle"));
 		mainWorkspace = new Workspace(myTabs);
-		Tab mainTab = new Tab(this.mainTabTitle, mainWorkspace.getRoot());
+		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
     }

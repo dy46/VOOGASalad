@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 
 public class MenuToolBar extends MenuBar {
 	
-	private Stage mainStage; 
 	private TabPane myTabPane; 
 
 	public MenuToolBar(TabPane tabPane) {
