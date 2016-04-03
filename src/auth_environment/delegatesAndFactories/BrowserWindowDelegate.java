@@ -49,12 +49,11 @@ public class BrowserWindowDelegate {
 
 	public BrowserWindowDelegate(Stage stage) {
 		this.mainStage = stage; 
-		this.init();
 	}
 	
 	// Source: https://gist.github.com/jewelsea/1588531
 	public void init() {
-		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("kurokoheadbang.gif")));
+		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("dj.gif")));
 		loadProgress = new ProgressBar();
 		loadProgress.setPrefWidth(800 - 20);
 		progressText = new Label(myNamesBundle.getString("loadingText"));
@@ -65,15 +64,8 @@ public class BrowserWindowDelegate {
 		loadingPane.setEffect(new DropShadow());
 	}
 
-	public void start(final Stage initStage) {
-	    showSplash(initStage);
-	    openWindow(myNamesBundle.getString("helpMenuLabel"),
-				   myURLSBundle.getString("helpURL"),
-				   Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
-				   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
-				   );
-	    
-	    browser.getEngine().getLoadWorker().stateProperty().addListener(
+	private void addLoadingListener(Stage initStage) {
+		browser.getEngine().getLoadWorker().stateProperty().addListener(
                 new ChangeListener<State>() {
                     public void changed(ObservableValue ov, State oldState, State newState) {
                         if (newState == State.SUCCEEDED) {
@@ -83,7 +75,8 @@ public class BrowserWindowDelegate {
                   	          progressText.setText(myNamesBundle.getString("finishedLoadingText"));
                   	          browserStage.setIconified(false);
                   	          initStage.toFront();
-                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble("browserTransitionTime")),
+                  	          // Double.parseDouble("browserTransitionTime")
+                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2),
                   	        		  										loadingPane);
                   	          fadeSplash.setFromValue(1.0);
                   	          fadeSplash.setToValue(0.0);
@@ -99,12 +92,15 @@ public class BrowserWindowDelegate {
                         
                     }
                 });
-	  }
+	}
 
 	public void openWindow(String title, String url, double width, double height) {
+		Stage initStage = new Stage(); 
 		this.init();
-		this.mainStage.toBack();
 		browserStage = new Stage();
+		this.showSplash(initStage);
+		this.addLoadingListener(initStage);
+//		this.mainStage.toBack();
 		Pane root = new Pane();
 		browserStage.setTitle(title);
 		browserStage.setIconified(true);
