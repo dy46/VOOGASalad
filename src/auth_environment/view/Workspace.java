@@ -26,14 +26,14 @@ public class Workspace {
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	
-	public Workspace(Stage stage, TabPane tabPane) {
+	public Workspace(TabPane tabPane) {
 		this.myTabPane = tabPane; 
 		this.init();
 	}
 	
 	private void init() {
 		this.myBorderPane.setPrefSize(this.defaultBorderPaneWidth, this.defaultBorderPaneHeight);
-		this.myBorderPane.setTop(new MenuToolBar(this. mainStage, this.myTabPane));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
 		this.myBorderPane.setLeft(new VBox());
 		this.myBorderPane.setRight(new VBox());
 		this.myBorderPane.setCenter(new MapDisplay());

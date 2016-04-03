@@ -13,8 +13,7 @@ public class MenuToolBar extends MenuBar {
 	private Stage mainStage; 
 	private TabPane myTabPane; 
 
-	public MenuToolBar(Stage stage, TabPane tabPane) {
-		this.mainStage = stage;
+	public MenuToolBar(TabPane tabPane) {
 		this.myTabPane = tabPane; 
 		this.init();
 	}
@@ -24,7 +23,7 @@ public class MenuToolBar extends MenuBar {
 				new FileMenu(), 
 				new SettingsMenu(),
 				new ElementMenu(),
-				new HelpMenu(this.mainStage), 
+				new HelpMenu(), 
 				new TabMenu(this.myTabPane));
 		return myMenus; 
 	}

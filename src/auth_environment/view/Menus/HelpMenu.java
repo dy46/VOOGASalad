@@ -27,11 +27,9 @@ public class HelpMenu extends Menu {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
 	private BrowserWindowDelegate myBrowser;
-	private Stage mainStage; 
 	
-	public HelpMenu(Stage stage) {
-		this.mainStage = stage; 
-		this.myBrowser  = new BrowserWindowDelegate(this.mainStage); 
+	public HelpMenu() {
+		this.myBrowser  = new BrowserWindowDelegate(); 
 		this.setText(myNamesBundle.getString("helpMenuLabel"));
 		this.init();
 	}

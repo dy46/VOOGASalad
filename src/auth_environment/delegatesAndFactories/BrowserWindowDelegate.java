@@ -3,11 +3,9 @@ package auth_environment.delegatesAndFactories;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -16,9 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -55,6 +51,7 @@ public class BrowserWindowDelegate {
 		loadingPane = new VBox();
 		loadingPane.getChildren().addAll(loadingImage, loadProgress, progressText);
 		progressText.setAlignment(Pos.CENTER);
+		// TODO: extract this styling to CSS file 
 		loadingPane.setStyle("-fx-padding: 5; -fx-background-color: grey; -fx-border-width:5; -fx-border-color: linear-gradient(to bottom, grey, derive(grey, 50%));");
 		loadingPane.setEffect(new DropShadow());
 	}
@@ -70,8 +67,7 @@ public class BrowserWindowDelegate {
                   	          progressText.setText(myNamesBundle.getString("finishedLoadingText"));
                   	          browserStage.setIconified(false);
                   	          initStage.toFront();
-                  	          // Double.parseDouble("browserTransitionTime")
-                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2),
+                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))),
                   	        		  										loadingPane);
                   	          fadeSplash.setFromValue(1.0);
                   	          fadeSplash.setToValue(0.0);
