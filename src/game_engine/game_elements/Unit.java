@@ -21,8 +21,8 @@ public abstract class Unit extends GameElement{
 
 	public Unit(String name){
 		super(name);
+		myProperties = new UnitProperties();
 		initialize();
-		myProperties = new UnitProperties(getWorkspace());
 	}
 
 	public Unit(String ID, UnitProperties properties){
@@ -39,7 +39,7 @@ public abstract class Unit extends GameElement{
 	public void update(){
 		myAffectors.forEach(a -> a.apply(myProperties));
 		myAffectors.forEach(a -> a.decrementTTL());
-		myAffectors.removeIf(a -> a.getTTL() != 0);
+		myAffectors.removeIf(a -> a.getTTL() == 0);
 	}
 
 	public void addAffector(Affector affector) {

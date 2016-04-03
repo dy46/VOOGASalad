@@ -15,19 +15,16 @@ public class PositionMoveAffector extends Affector {
 		super(functions, timeToLive);
 	}
 
-//	@Override
-//	public void apply (UnitProperties properties) {
-//		properties.getPosition().addToXY(getBaseNumbers().get(0), 
-//				getBaseNumbers().get(1));
-//	}
-	
 	@Override
 	public void apply (UnitProperties properties) {
-		Function evaluation = getFunctions().get(0);
+//		if(getFunctions() == null){
+//			properties.getPosition().addToXY(getBaseNumbers().get(0), 
+//											getBaseNumbers().get(1));
+//		}
 		double speed = getFunctions().get(0).evaluate(getElapsedTime());
 		double xDirection = Math.cos(getFunctions().get(0).evaluate(getElapsedTime()));
 		double yDirection = Math.sin(getFunctions().get(0).evaluate(getElapsedTime()));
 		properties.getPosition().addToXY(speed * xDirection, speed * yDirection);
 	}
-	
+
 }
