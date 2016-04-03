@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.functions.FunctionFactory;
 import game_engine.functions.FunctionLibrary;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
@@ -39,7 +40,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private IDFactory myIDFactory;
 	private double myBalance;
 	
-	private FunctionLibrary myFunctionLibrary;
+	private FunctionFactory myFunctionFactory;
 	
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
@@ -81,7 +82,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	
 	private void initialize(){
 		myBalance = 0;
-		myFunctionLibrary = new FunctionLibrary();
+		myFunctionFactory = new FunctionFactory();
 	}
 
 	public List<String> saveGame() {
@@ -202,8 +203,12 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return myProjectiles;
 	}
 
+	public FunctionFactory getFunctionFactory(){
+		return myFunctionFactory;
+	}
+	
 	public FunctionLibrary getFunctionLibrary(){
-		return myFunctionLibrary;
+		return myFunctionFactory.getFunctionLibrary();
 	}
 
 }
