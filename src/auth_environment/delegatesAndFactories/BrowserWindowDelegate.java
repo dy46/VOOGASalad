@@ -61,7 +61,7 @@ public class BrowserWindowDelegate {
 		loadingPane = new VBox();
 		loadingPane.getChildren().addAll(loadingImage, loadProgress, progressText);
 		progressText.setAlignment(Pos.CENTER);
-		loadingPane.setStyle("-fx-padding: 5; -fx-background-color: cornsilk; -fx-border-width:5; -fx-border-color: linear-gradient(to bottom, chocolate, derive(chocolate, 50%));");
+		loadingPane.setStyle("-fx-padding: 5; -fx-background-color: grey; -fx-border-width:5; -fx-border-color: linear-gradient(to bottom, grey, derive(grey, 50%));");
 		loadingPane.setEffect(new DropShadow());
 	}
 

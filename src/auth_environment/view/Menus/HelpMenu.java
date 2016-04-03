@@ -9,9 +9,9 @@ import javafx.scene.control.MenuItem;
 /**
  * Created by BrianLin on 4/1/16.
  * 
- * Team member responsible: 
+ * Team member responsible: Brian
  * 
- * This menu 
+ * This menu diplays Help.
  */
 
 public class HelpMenu extends Menu {
@@ -25,7 +25,7 @@ public class HelpMenu extends Menu {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
-//	private BrowserWindowDelegate myBrowser = new BrowserWindowDelegate(); 
+	private BrowserWindowDelegate myBrowser = new BrowserWindowDelegate(); 
 	
 	public HelpMenu() {
 		this.setText(myNamesBundle.getString("helpMenuLabel"));
