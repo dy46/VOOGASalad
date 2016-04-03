@@ -1,7 +1,8 @@
 package game_engine;
 
 import java.util.List;
-
+import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Tower;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -38,5 +39,9 @@ public interface IPlayerEngineInterface {
     
     //sets up the engine with a list of files
     void setUpEngine(List<String> fileNames);
+    
+    List<Tower> getTowers();
+    
+    List<Enemy> getEnemies();
     
 }

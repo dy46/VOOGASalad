@@ -38,7 +38,7 @@ public class UnitProperties {
 		myHealth = new Health(DEFAULT_HEALTH);
 		myDamage = new Damage(DEFAULT_DAMAGE);
 		myTeam = new Team(DEFAULT_TEAM);
-		myVelocity = new Velocity(DEFAULT_SPEED, new Direction(DEFAULT_DIRECTION));
+		myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
 		myBounds = new Bounds(DEFAULT_BOUNDS);
 		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
