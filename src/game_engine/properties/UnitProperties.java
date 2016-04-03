@@ -17,8 +17,7 @@ public class UnitProperties {
 	private static double DEFAULT_DAMAGE = 0;
 	private static String DEFAULT_TEAM = "0";
 	private static double DEFAULT_SPEED = 1;
-	private static double DEFAULT_X_DIRECTION = 0;
-	private static double DEFAULT_Y_DIRECTION = 0;
+	private static double DEFAULT_DIRECTION = 0;
 	private static List<Position> DEFAULT_BOUNDS = new ArrayList<Position>();
 	private static double DEFAULT_X_POS = 0;
 	private static double DEFAULT_Y_POS = 0;
@@ -39,7 +38,7 @@ public class UnitProperties {
 		myHealth = new Health(DEFAULT_HEALTH);
 		myDamage = new Damage(DEFAULT_DAMAGE);
 		myTeam = new Team(DEFAULT_TEAM);
-		myVelocity = new Velocity(DEFAULT_SPEED, new Direction(DEFAULT_X_DIRECTION, DEFAULT_Y_DIRECTION));
+		myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
 		myBounds = new Bounds(DEFAULT_BOUNDS);
 		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
@@ -94,9 +93,9 @@ public class UnitProperties {
 		myTeam.setTeam(team);
 	}
 	
-	public void setVelocity(double speed, double xdirection, double ydirection){
+	public void setVelocity(double speed, double direction){
 		myVelocity.setSpeed(speed);
-		myVelocity.setDirection(xdirection, ydirection);
+		myVelocity.setDirection(direction);
 	}
 	
 	public void setBounds(List<Position> positions){

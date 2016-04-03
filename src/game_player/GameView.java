@@ -1,17 +1,42 @@
 package game_player;
 
+import java.util.List;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
+import game_engine.game_elements.Enemy;
 import javafx.animation.AnimationTimer;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 public class GameView implements IGameView{
     
-    AnimationTimer AT;
-    boolean isPlaying;
-    IPlayerEngineInterface playerEngineInterface;
+    private AnimationTimer AT;
+    private boolean isPlaying;
+    private Canvas canvas;
+    private GraphicsContext GC;
+    private Stage myStage;
+    private IPlayerEngineInterface playerEngineInterface;
     
-    public GameView() {
+    public GameView(Stage primaryStage) {
         playerEngineInterface = new EngineWorkspace();
+        playerEngineInterface.setUpEngine(null);
+        Group root = new Group();
+        Scene theScene = new Scene(root);
+        primaryStage.setScene(theScene);
+        myStage = primaryStage;
+        canvas = new Canvas(500, 500);
+        GC = canvas.getGraphicsContext2D();
+        root.getChildren().add(canvas);
+        isPlaying = true;
+    }
+    
+    public void display() {
+        this.myStage.show();
+        playGame(0);
     }
     
     @Override
@@ -56,13 +81,17 @@ public class GameView implements IGameView{
 
     @Override
     public void placeUnit () {
-        // TODO Auto-generated method stub
+        List<Enemy> currEnemies = playerEngineInterface.getEnemies();
+        for(int i = 0; i < currEnemies.size(); i++) {
+            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
+                         currEnemies.get(i).getProperties().getPosition().getX(),
+                         currEnemies.get(i).getProperties().getPosition().getY());
+        }
     }
 
     @Override
     public void pauseGame () {
         // TODO Auto-generated method stub
-        
     }
 
 }
