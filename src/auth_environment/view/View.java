@@ -31,7 +31,7 @@ public class View {
         myScene.getStylesheets().add(this.stylesheet); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(this.wompTitle);
-		mainWorkspace = new Workspace(myTabs);
+		mainWorkspace = new Workspace(myStage, myTabs);
 		Tab mainTab = new Tab(this.mainTabTitle, mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);

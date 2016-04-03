@@ -6,12 +6,15 @@ import java.util.List;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
+import javafx.stage.Stage;
 
 public class MenuToolBar extends MenuBar {
 	
+	private Stage mainStage; 
 	private TabPane myTabPane; 
 
-	public MenuToolBar(TabPane tabPane) {
+	public MenuToolBar(Stage stage, TabPane tabPane) {
+		this.mainStage = stage;
 		this.myTabPane = tabPane; 
 		this.init();
 	}
@@ -21,7 +24,7 @@ public class MenuToolBar extends MenuBar {
 				new FileMenu(), 
 				new SettingsMenu(),
 				new ElementMenu(),
-				new HelpMenu(), 
+				new HelpMenu(this.mainStage), 
 				new TabMenu(this.myTabPane));
 		return myMenus; 
 	}

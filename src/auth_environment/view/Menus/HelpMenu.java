@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 4/1/16.
@@ -25,20 +26,23 @@ public class HelpMenu extends Menu {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
-	private BrowserWindowDelegate myBrowser = new BrowserWindowDelegate(); 
+	private BrowserWindowDelegate myBrowser;
+	private Stage mainStage; 
 	
-	public HelpMenu() {
+	public HelpMenu(Stage stage) {
+		this.mainStage = stage; 
+		this.myBrowser  = new BrowserWindowDelegate(this.mainStage); 
 		this.setText(myNamesBundle.getString("helpMenuLabel"));
 		this.init();
 	}
 	
 	private void init() {
 		MenuItem openHelpItem = new MenuItem(myNamesBundle.getString("openHelpItem"));
-//		openHelpItem.setOnAction(e -> myBrowser.openWindow(myNamesBundle.getString("helpMenuLabel"),
-//														   myURLSBundle.getString("helpURL"),
-//														   Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
-//														   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
-//														   ));
+		openHelpItem.setOnAction(e -> myBrowser.openWindow(myNamesBundle.getString("helpMenuLabel"),
+														   myURLSBundle.getString("helpURL"),
+														   Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
+														   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
+														   ));
 		this.getItems().add(openHelpItem);
 	}
 }

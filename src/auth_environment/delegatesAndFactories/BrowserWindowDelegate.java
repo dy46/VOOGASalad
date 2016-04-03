@@ -42,15 +42,14 @@ public class BrowserWindowDelegate {
 	private ProgressBar loadProgress;
 	private Label progressText;
 	
-	private Stage loadingStage;
-	private Stage mainStage;
-
+	private Stage mainStage; 
+	private Stage browserStage; 
+	
 	private WebView browser = new WebView();
 
-	public BrowserWindowDelegate() {
+	public BrowserWindowDelegate(Stage stage) {
+		this.mainStage = stage; 
 		this.init();
-		this.start(new Stage());
-
 	}
 	
 	// Source: https://gist.github.com/jewelsea/1588531
@@ -77,16 +76,15 @@ public class BrowserWindowDelegate {
 	    browser.getEngine().getLoadWorker().stateProperty().addListener(
                 new ChangeListener<State>() {
                     public void changed(ObservableValue ov, State oldState, State newState) {
-                        System.out.println("newState = " + newState);
                         if (newState == State.SUCCEEDED) {
-                            System.out.println(browser.getEngine().getLocation());
                             if (initStage.isShowing()) {
                   	          loadProgress.progressProperty().unbind();
                   	          loadProgress.setProgress(1);
-                  	          progressText.setText("All hobbits are full.");
-                  	          mainStage.setIconified(false);
+                  	          progressText.setText(myNamesBundle.getString("finishedLoadingText"));
+                  	          browserStage.setIconified(false);
                   	          initStage.toFront();
-                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), loadingPane);
+                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble("browserTransitionTime")),
+                  	        		  										loadingPane);
                   	          fadeSplash.setFromValue(1.0);
                   	          fadeSplash.setToValue(0.0);
                   	          fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
@@ -104,18 +102,20 @@ public class BrowserWindowDelegate {
 	  }
 
 	public void openWindow(String title, String url, double width, double height) {
-		mainStage = new Stage();
+		this.init();
+		this.mainStage.toBack();
+		browserStage = new Stage();
 		Pane root = new Pane();
-		mainStage.setTitle(title);
-		mainStage.setIconified(true);
+		browserStage.setTitle(title);
+		browserStage.setIconified(true);
 		browser.getEngine().load(url);
 		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 		root.getChildren().add(browser);
 		Scene scene = new Scene(root, width, height);
 		browser.prefWidthProperty().bind(scene.widthProperty());
 		browser.prefHeightProperty().bind(scene.heightProperty());
-		mainStage.setScene(scene);
-		mainStage.show();
+		browserStage.setScene(scene);
+		browserStage.show();
 	}
 
 	private void showSplash(Stage initStage) {
@@ -125,6 +125,7 @@ public class BrowserWindowDelegate {
 		initStage.setScene(splashScene);
 		initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - 800 / 2);
 		initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - 600 / 2);
+		initStage.toFront();
 		initStage.show();
 	}
 }
