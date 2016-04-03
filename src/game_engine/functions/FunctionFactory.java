@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionFactory {
-	
+
 	private FunctionLibrary myFunctionLibrary;
-	
+
 	public FunctionFactory(){
 		myFunctionLibrary = new FunctionLibrary();
 		setupDefaultStrengths();
 		setupDefaultTypes();
 	}
-	
+
 	public void createFunction(String equation){
-		
+
 	}
-	
+
 	public Function createFunction(String type, String str){
 		String name = getName(type, str);
 		if(myFunctionLibrary.getFunction(name) != null){
@@ -44,7 +44,7 @@ public class FunctionFactory {
 		}
 		return new Function(getName(type, str), terms);
 	}
-	
+
 	public Function createConstantFunction(double constant){
 		List<Term> terms = new ArrayList<>();
 		Constant c = new Constant(constant, 1);
@@ -52,24 +52,35 @@ public class FunctionFactory {
 		terms.add(constantTerm);
 		return new Function(terms);
 	}
-	
+
+	public Function createExpIncrFunction(String type){
+		return myFunctionLibrary.getFunction(getName("Exponential Increase", type));
+	}
+
+	public Function createExpDecrFunction(String type){
+		return myFunctionLibrary.getFunction(getName("Exponential Decrease", type));
+	}
+
 	public String getName(String type, String str){
 		return type + " " + str;
 	}
-	
+
 	public void setupSpecialConstants(){
 		Constant gravity = new Constant("Gravity", -9.8);
 		Constant pi = new Constant("Pi", Math.PI);
 		myFunctionLibrary.addSpecialConstant(gravity);
 		myFunctionLibrary.addSpecialConstant(pi);
 	}
-	
+
 	public void setupDefaultTypes() {
 		setupExpIncrFunction("Strong");
 		setupExpIncrFunction("Moderate");
 		setupExpIncrFunction("Weak");
+		setupExpDecrFunction("Strong");
+		setupExpDecrFunction("Moderate");
+		setupExpDecrFunction("Weak");
 	}
-	
+
 	public void setupDefaultStrengths(){
 		Constant strong = new Constant(5,1);
 		Constant moderate = new Constant(3, 1);
@@ -78,11 +89,11 @@ public class FunctionFactory {
 		myFunctionLibrary.addStrength("Moderate", moderate);
 		myFunctionLibrary.addStrength("Weak", weak);
 	}
-	
-	private void setupExpIncrFunction(String strength){
+
+	private void setupExpFunction(String strength, int sign){
 		List<Term> expIncrTerms = new ArrayList<>();
 		List<Constant> expIncrConsts = new ArrayList<>();
-		Constant const_proportionality = new Constant(1, 1);
+		Constant const_proportionality = new Constant(1 * sign, 1);
 		expIncrConsts.add(const_proportionality);
 		List<Variable> expIncrVars1 = new ArrayList<>();
 		expIncrVars1.add(new Variable("t", 1));
@@ -92,12 +103,27 @@ public class FunctionFactory {
 		Term expIncrTerm2 = new Term(expIncrVars2, expIncrConsts);
 		expIncrTerms.add(expIncrTerm1);
 		expIncrTerms.add(expIncrTerm2);
-		String type = "Exponential Increase";
+		String type = "";
+		if(sign == 1)
+			type = "Exponential Increase";
+		else if(sign == -1)
+			type = "Exponential Decrease";
+		else{
+			// TODO: throw Womp Exception "Only exponentially increasing and decreasing functions supported"
+		}
 		myFunctionLibrary.addFunctionType(type, expIncrTerms);
 		Function expIncr = new Function(getName(type, strength), expIncrTerms);
 		myFunctionLibrary.addFunction(expIncr);
 	}
-	
+
+	private void setupExpIncrFunction(String strength){
+		setupExpFunction(strength, 1);
+	}
+
+	private void setupExpDecrFunction(String strength){
+		setupExpFunction(strength, -1);
+	}
+
 	private List<Constant> copyConstantList(List<Constant> constants){
 		List<Constant> constantsCopy = new ArrayList<Constant>();
 		for(Constant c : constants){
@@ -106,9 +132,9 @@ public class FunctionFactory {
 		}
 		return constantsCopy;
 	}
-	
+
 	public FunctionLibrary getFunctionLibrary(){
 		return myFunctionLibrary;
 	}
-	
+
 }
