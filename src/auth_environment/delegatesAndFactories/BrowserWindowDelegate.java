@@ -108,7 +108,6 @@ public class BrowserWindowDelegate {
 		Scene splashScene = new Scene(loadingPane, width, height);
 		initStage.initStyle(StageStyle.UNDECORATED);
 		initStage.setScene(splashScene);
-		initStage.toFront();
 		initStage.show();
 	}
 }
