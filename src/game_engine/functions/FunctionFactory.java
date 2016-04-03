@@ -60,6 +60,11 @@ public class FunctionFactory {
 	public Function createExpDecrFunction(String type){
 		return myFunctionLibrary.getFunction(getName("Exponential Decrease", type));
 	}
+	
+	public Function createRandomConstantFunction(){
+		double randomConstant = 100*Math.random();
+		return createConstantFunction(randomConstant);
+	}
 
 	public String getName(String type, String str){
 		return type + " " + str;
