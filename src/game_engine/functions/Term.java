@@ -22,15 +22,31 @@ public class Term {
 		this.myConstants = constants;
 	}
 	
-	public long evaluate(int time){
+	public long evaluate(int index){
 		long evaluation = 1;
 		for(Variable var : myVariables){
-			evaluation *= var.evaluate(time);
+			evaluation *= var.evaluate(index);
 		}
 		for(Constant c : myConstants){
 			evaluation *= c.evaluate();
 		}
 		return evaluation;
+	}
+	
+	public List<Variable> getVariables(){
+		return myVariables;
+	}
+	
+	public List<Constant> getConstants(){
+		return myConstants;
+	}
+	
+	public void setVariables(List<Variable> variables){
+		myVariables = variables;
+	}
+	
+	public void setConstants(List<Constant> constants){
+		myConstants = constants;
 	}
 	
 }

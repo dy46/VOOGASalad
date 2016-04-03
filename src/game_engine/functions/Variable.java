@@ -10,15 +10,15 @@ package game_engine.functions;
 public class Variable {
 	
 	private String myVariable;
-	private long myPower;
+	private double myPower;
 	
-	public Variable(String variable, long power){
+	public Variable(String variable, double power){
 		this.myVariable = variable;
 		this.myPower = power;
 	}
 
-	public long evaluate(int index) {
-		return (long) Math.pow(index, myPower);
+	public double evaluate(int index) {
+		return Math.pow(index, myPower);
 	}
 	
 	public String getVariable(){
