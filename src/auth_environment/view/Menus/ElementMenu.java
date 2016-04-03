@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  */
 public class ElementMenu extends Menu {
 	
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/resources/dimensions";
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
 	private static final String NAMES_PACKAGE = "auth_environment/resources/names";

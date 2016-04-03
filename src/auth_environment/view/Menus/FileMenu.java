@@ -16,7 +16,7 @@ import javafx.scene.control.MenuItem;
  */
 public class FileMenu extends Menu {
 	
-	private static final String NAMES_PACKAGE = "auth_environment/resources/names";
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
 	private FileChooserDelegate myFileChooser = new FileChooserDelegate(); 
