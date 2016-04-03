@@ -1,5 +1,7 @@
 package auth_environment.view.Menus;
 
+import java.util.ResourceBundle;
+
 import javafx.scene.control.Menu;
 
 /**
@@ -7,11 +9,11 @@ import javafx.scene.control.Menu;
  */
 public class SettingsMenu extends Menu {
 	
-	// TODO: ask team where to extract these
-	private static String settingsMenuLabel = "Game Settings";
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	public SettingsMenu() {
-		this.setText(this.settingsMenuLabel);
+		this.setText(myNamesBundle.getString("settingsMenuLabel"));
 		this.init();
 	}
 	
