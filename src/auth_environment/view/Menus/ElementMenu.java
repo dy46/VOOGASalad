@@ -1,6 +1,6 @@
 package auth_environment.view.Menus;
 
-import java.io.File;
+import java.util.ResourceBundle;
 
 import auth_environment.view.PeriodicTableView;
 import javafx.scene.Scene;
@@ -13,22 +13,21 @@ import javafx.stage.Stage;
  */
 public class ElementMenu extends Menu {
 	
-	// TODO: extract these constants
-	private static String elementMenuLabel = "Elements";
-	private static String createElementLabel = "Create New Element"; 
-	private static String periodicTableLabel = "Periodic Table";
-	private static int periodicTableWidth = 450;
-	private static int periodicTableHeight = 450;
+	private static final String DIMENSIONS_PACKAGE = "resources/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+	
+	private static final String NAMES_PACKAGE = "resources/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	public ElementMenu() {
 		this.init();
 	}
 	
 	private void init() {
-		this.setText(this.elementMenuLabel);
-		MenuItem createItem = new MenuItem(this.createElementLabel);
+		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
+		MenuItem createItem = new MenuItem(this.myNamesBundle.getString("elementMenuLabel"));
 		createItem.setOnAction(e -> this.createTower());
-		MenuItem periodicTableItem = new MenuItem(this.periodicTableLabel);
+		MenuItem periodicTableItem = new MenuItem(this.myNamesBundle.getString("elementMenuLabel"));
 		periodicTableItem.setOnAction(e -> viewPeriodicTable()); 
 		this.getItems().addAll(createItem, periodicTableItem); 
 	}
@@ -37,10 +36,15 @@ public class ElementMenu extends Menu {
 		
 	}
 	
+	// TODO: we should pass in an instance of PeriodicTable to anything that reads or modifies it
+	
 	private void viewPeriodicTable() {
 		Stage stage = new Stage(); 
-		stage.setTitle(this.periodicTableLabel);
-        stage.setScene(new Scene(new PeriodicTableView(), this.periodicTableWidth, this.periodicTableHeight));
+		stage.setTitle(this.myNamesBundle.getString("periodicTableLabel"));
+        stage.setScene(new Scene(new PeriodicTableView(), 
+        			   Double.parseDouble(this.myDimensionsBundle.getString("periodicTableWidth")),
+        			   Double.parseDouble(this.myDimensionsBundle.getString("periodicTableHeight"))
+        			   ));
         stage.show();
 	}
 }
