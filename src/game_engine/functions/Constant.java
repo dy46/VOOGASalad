@@ -8,16 +8,43 @@ package game_engine.functions;
  */
 public class Constant {
 
-	private long myValue;
-	private long myPower;
+	private double myValue;
+	private double myPower;
+	private String myName;
 	
-	public Constant(long value, long power){
+	public Constant(double value, double power){
 		this.myValue = value;
 		this.myPower = power;
 	}
 	
-	public long evaluate(){
-		return (long) Math.pow(myValue, myPower);
+	public Constant(String name, double value){
+		this.myName = name;
+		this.myValue = value;
+		this.myPower = 1;
+	}
+	
+	public double evaluate(){
+		return Math.pow(myValue, myPower);
+	}
+	
+	public boolean isSpecial(){
+		return myName != null;
+	}
+	
+	public void setValue(double value){
+		this.myValue = value;
+	}
+	
+	public double getValue(){
+		return myValue;
+	}
+	
+	public double getPower(){
+		return myPower;
+	}
+	
+	public String getName(){
+		return myName;
 	}
 	
 }
