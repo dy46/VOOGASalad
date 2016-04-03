@@ -2,6 +2,7 @@ package auth_environment.view.Menus;
 
 import java.io.File;
 
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
@@ -20,6 +21,9 @@ public class FileMenu extends Menu {
 	private static String saveItemLabel = "Save"; 
 	private static String loadItemlabel = "Load"; 
 	private static String fileMenuLabel = "File";
+
+	private FileChooserDelegate myFileChooser = new FileChooserDelegate(); 
+
 	
 	public FileMenu() {
 		this.init();
@@ -42,15 +46,7 @@ public class FileMenu extends Menu {
 	}
 	
 	private void load() {
-		File file = this.getFileFromFileChooser();
+		File file = myFileChooser.chooseFile();
 	}
-	
-    private File getFileFromFileChooser() {
-    	Stage stage = new Stage(); 
-        FileChooser f = new FileChooser();
-        f.setTitle("Choose file"); // TODO: extract to resources file
-        File selectedFile = f.showOpenDialog(stage);
-        return selectedFile;
-    }
 	
 }
