@@ -7,18 +7,32 @@ import game_engine.properties.UnitProperties;
 * of XML files for use in games. API specifies some basic functionality of towers and which methods need to 
 * be implemented for subclasses created in the authoring environment.
 */
-public interface Tower {
+public class Tower extends SellableUnit{
+
+	public Tower(String name) {
+		super(name);
+		setID(getWorkspace().getIDFactory().createID(this));
+	}
+
 	/*
 	* method for activating the tower attack (subclasses implement different types of attack types).
 	*/
-	public void fire();
+	public void fire(){
+		
+	}
+	
 	/*
 	* sells the tower, and removes it from the list of active towers
 	*/
-	public void sell();
+	public void sell(){
+		super.sell(this);
+	}
+	
 	/*
 	* changes the UnitProperties of the tower to reflect an upgrade (higher damage, better armor, etc).
 	*/
-	public void upgrade(UnitProperties newProps);
+	public void upgrade(UnitProperties newProperties){
+		setProperties(newProperties);
+	}
 
 }
