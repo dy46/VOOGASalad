@@ -16,13 +16,13 @@ public class CollisionDetector {
 		myEngine.getEnemys().forEach(t -> updateEnemies(t, collideList));
 	}
 	// returns which Unit from the list collided with the target unit
-	private Unit updateEnemies(Unit unit, List<Unit> collideChecks){
+	private void updateEnemies(Unit unit, List<Unit> collideChecks){
 		for(int i = 0;i < collideChecks.size();i++){
 			if(collides(unit, collideChecks.get(i))){
-				return collideChecks.get(i);
+				myEngine.remove(unit);
+				myEngine.remove(collideChecks.get(i));
 			}
 		}
-		return null;
 	}
 	private boolean collides(Unit a, Unit b){
 		List<Position> aPos = a.getProperties().getBounds().getPositions();
