@@ -26,4 +26,17 @@ public class Position {
 		this.myY = y;
 	}
 	
+	public void addToX(double x) {
+	    this.myX += x;
+	}
+	
+	public void addToY(double y) {
+	    this.myY += y;
+	}
+	
+	public void addToXY(double x, double y) {
+	    addToX(x);
+	    addToY(y);
+	}
+	
 }

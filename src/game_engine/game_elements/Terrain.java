@@ -1,6 +1,7 @@
 package game_engine.game_elements;
 
 import java.util.Collection;
+import game_engine.affectors.Affector;
 
 /*
 * Internal API that will be used to reflect the inclusion of terrain effects in games. 
