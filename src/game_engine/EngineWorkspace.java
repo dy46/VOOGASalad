@@ -6,6 +6,7 @@ import java.util.List;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Timer;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
@@ -28,6 +29,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Tower> myTowers;
 	private List<Path> myPaths;
 	private List<Enemy> myEnemys;
+	private List<Projectile> myActiveProjectiles;
 	private Timer myTimer;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
@@ -41,6 +43,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myEnemys = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
+		myActiveProjectiles = new ArrayList<>();
 		initialize();
 	}
 	
@@ -177,5 +180,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public List<Enemy> getEnemys(){
 		return myEnemys;
 	}
-	
+	public List<Projectile> getProjectiles(){
+		return myActiveProjectiles;
+	}
 }
