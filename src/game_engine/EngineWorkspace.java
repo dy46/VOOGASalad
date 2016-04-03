@@ -29,8 +29,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Tower> myTowers;
 	private List<Path> myPaths;
 
-	private List<Enemy> myEnemies;
-	private List<Projectile> myActiveProjectiles;
+	private List<Enemy> myEnemys;
+	private List<Projectile> myProjectiles;
 
 	private Timer myTimer;
 	private CollisionDetector myCollider;
@@ -43,15 +43,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		myEnemies = makeDummyEnemies();
+		myEnemys = makeDummyEnemys();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myCollider = new CollisionDetector(this);
-		myActiveProjectiles = new ArrayList<>();
+		myProjectiles = new ArrayList<>();
 		initialize();
 	}
 	
-	private List<Enemy> makeDummyEnemies() {
+	private List<Enemy> makeDummyEnemys() {
 	    List<Enemy> enemies = new ArrayList<>();
 	    Enemy e1 = new Enemy("Fire");
 	    Health health = new Health(50);
@@ -99,8 +99,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public void updateElements() {
 //		myTowers.forEach(t -> t.update());
-		myEnemies.forEach(e -> e.update());
-		myCollider.resolveEnemyCollisions(myEnemies);
+		myEnemys.forEach(e -> e.update());
+		myCollider.resolveEnemyCollisions(myEnemys);
 
 	}
 
@@ -117,7 +117,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 	
 	public void addEnemy(Enemy enemy){
-		myEnemies.add(enemy);
+		myEnemys.add(enemy);
 	}
 
 	public void addTower(String ID, int towerTypeIndex){
@@ -129,7 +129,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 	
 	public void remove(Unit unit){
-		String className = unit.getClass().getName();
+		String className = unit.getClass().getSimpleName();
 		String instanceVarName = "my" + className + "s";
 		Field f = null;
 		try {
@@ -198,11 +198,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 	
 	public List<Enemy> getEnemies(){
-		return myEnemies;
+		return myEnemys;
 	}
 
 	public List<Projectile> getProjectiles(){
-		return myActiveProjectiles;
+		return myProjectiles;
 	}
 
 

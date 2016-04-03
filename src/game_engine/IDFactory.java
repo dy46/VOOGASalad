@@ -24,7 +24,7 @@ public class IDFactory {
 	}
 	
 	public String createID(GameElement element){
-		String className = element.getClass().getName();
+		String className = element.getClass().getSimpleName();
 		String instanceVarName = "last" + className + "ID";
 		Field f = null;
 		try {
