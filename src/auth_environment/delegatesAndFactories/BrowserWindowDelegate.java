@@ -46,13 +46,13 @@ public class BrowserWindowDelegate {
 	public void init(double width) {
 		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("dj.gif")));
 		loadProgress = new ProgressBar();
-		loadProgress.setPrefWidth(width - 20);
+		loadProgress.setPrefWidth(width - Double.parseDouble(myDimensionsBundle.getString("loadingBarSpacer")));
 		progressText = new Label(myNamesBundle.getString("loadingText"));
 		loadingPane = new VBox();
 		loadingPane.getChildren().addAll(loadingImage, loadProgress, progressText);
 		progressText.setAlignment(Pos.CENTER);
 		// TODO: extract this styling to CSS file 
-		loadingPane.setStyle("-fx-padding: 5; -fx-background-color: grey; -fx-border-width:5; -fx-border-color: linear-gradient(to bottom, grey, derive(grey, 50%));");
+		loadingPane.setStyle(myDimensionsBundle.getString("loadingPaneStyle"));
 		loadingPane.setEffect(new DropShadow());
 	}
 
@@ -85,6 +85,7 @@ public class BrowserWindowDelegate {
                 });
 	}
 
+	// TODO: make this shorter
 	public void openWindow(String title, String url, double width, double height) {
 		this.init(width);
 		Stage initStage = new Stage(); 
@@ -106,9 +107,8 @@ public class BrowserWindowDelegate {
 
 	private void showSplash(Stage initStage, double width, double height) {
 		Scene splashScene = new Scene(loadingPane, width, height);
-		initStage.initStyle(StageStyle.UNDECORATED);
+		initStage.initStyle(StageStyle.DECORATED);
 		initStage.setScene(splashScene);
-		initStage.toFront();
 		initStage.show();
 	}
 }
