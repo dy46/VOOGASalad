@@ -45,6 +45,14 @@ public class FunctionFactory {
 		return new Function(getName(type, str), terms);
 	}
 	
+	public Function createConstantFunction(double constant){
+		List<Term> terms = new ArrayList<>();
+		Constant c = new Constant(constant, 1);
+		Term constantTerm = new Term(c);
+		terms.add(constantTerm);
+		return new Function(terms);
+	}
+	
 	public String getName(String type, String str){
 		return type + " " + str;
 	}

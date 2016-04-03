@@ -34,6 +34,10 @@ public class Function {
 		this.myWorkspace = workspace;
 	}
 	
+	public Function(List<Term> terms){
+		this.myTerms = terms;
+	}
+	
 	public double evaluate(int index){
 		double evaluation = 0;
 		for(Term term : myTerms){

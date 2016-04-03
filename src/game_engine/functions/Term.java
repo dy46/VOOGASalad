@@ -1,5 +1,6 @@
 package game_engine.functions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,12 @@ public class Term {
 	public Term(List<Variable> variables, List<Constant> constants){
 		this.myVariables = variables;
 		this.myConstants = constants;
+	}
+	
+	public Term(Constant constant){
+		this.myVariables = new ArrayList<>();
+		myConstants = new ArrayList<>();
+		myConstants.add(constant);
 	}
 	
 	public long evaluate(int index){
@@ -47,6 +54,14 @@ public class Term {
 	
 	public void setConstants(List<Constant> constants){
 		myConstants = constants;
+	}
+	
+	public void addVariable(Variable var){
+		myVariables.add(var);
+	}
+	
+	public void addConstant(Constant c){
+		myConstants.add(c);
 	}
 	
 }
