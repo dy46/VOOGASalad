@@ -84,19 +84,23 @@ public class BrowserWindowDelegate {
                     }
                 });
 	}
+	
+	private void setupSplashAndListener(double width, double height) {
+		this.init(width);
+		Stage initStage = new Stage(); 
+		this.showSplash(initStage, width, height);
+		this.addLoadingListener(initStage);
+		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
+	}
 
 	// TODO: make this shorter
 	public void openWindow(String title, String url, double width, double height) {
-		this.init(width);
-		Stage initStage = new Stage(); 
 		browserStage = new Stage();
-		this.showSplash(initStage, width, height);
-		this.addLoadingListener(initStage);
+		this.setupSplashAndListener(width, height);
 		Pane root = new Pane();
 		browserStage.setTitle(title);
 		browserStage.setIconified(true);
 		browser.getEngine().load(url);
-		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 		root.getChildren().add(browser);
 		Scene scene = new Scene(root, width, height);
 		browser.prefWidthProperty().bind(scene.widthProperty());
