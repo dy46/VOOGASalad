@@ -1,6 +1,7 @@
 package game_engine.game_elements;
 
 import java.util.Collection;
+import game_engine.affectors.Affector;
 
 import game_engine.properties.UnitProperties;
 

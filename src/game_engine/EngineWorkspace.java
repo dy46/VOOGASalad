@@ -6,10 +6,15 @@ import java.util.List;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Timer;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
+import game_engine.properties.Health;
+import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.properties.Velocity;
 
 /**
  * This class represents the "workspace" for a single instance of a game.
@@ -23,26 +28,58 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Level> myLevels;
 	private List<Tower> myTowers;
 	private List<Path> myPaths;
+
 	private List<Enemy> myEnemys;
+	private List<Projectile> myProjectiles;
+
 	private Timer myTimer;
+	private CollisionDetector myCollider;
 	private List<UnitProperties> myTowerTypes;
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
-
+	
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myTowers = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		myEnemys = new ArrayList<>();
+		myEnemys = makeDummyEnemys();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
+		myCollider = new CollisionDetector(this);
+		myProjectiles = new ArrayList<>();
 		initialize();
+	}
+	
+	private List<Enemy> makeDummyEnemys() {
+	    List<Enemy> enemies = new ArrayList<>();
+	    Enemy e1 = new Enemy("Fire");
+	    Health health = new Health(50);
+	    Position position = new Position(200, 200);
+	    Velocity velocity = new Velocity(0.5, 0);
+	    List<Position> l1 = new ArrayList<>();
+	    l1.add(new Position(0,0));
+	    l1.add(new Position(62,0));
+	    l1.add(new Position(62,62));
+	    l1.add(new Position(0,62));
+	    Bounds b = new Bounds(l1);
+	    UnitProperties properties = new UnitProperties(health, null, null, velocity, b, position, null);
+	    e1.setProperties(properties);
+	    enemies.add(e1);
+	    
+	    Enemy e2 = new Enemy("Fire");
+	    Health health2 = new Health(50);
+	    Position position2 = new Position(500, 200);
+	    Velocity velocity2 = new Velocity(-0.5, 0);
+	    UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
+	    e2.setProperties(properties2);
+	    enemies.add(e2);
+	    return enemies;
 	}
 	
 	private void initialize(){
 		myTimer = null;
-		myTimer = new Timer(myIDFactory.createID(myTimer));
+//		myTimer = new Timer(myIDFactory.createID(myTimer));
 		myBalance = 0;
 	}
 
@@ -61,8 +98,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void updateElements() {
-		myTowers.forEach(t -> t.update());
+//		myTowers.forEach(t -> t.update());
 		myEnemys.forEach(e -> e.update());
+		myCollider.resolveEnemyCollisions(myEnemys);
+
 	}
 
 	public String getGameStatus() {
@@ -90,7 +129,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 	
 	public void remove(Unit unit){
-		String className = unit.getClass().getName();
+		String className = unit.getClass().getSimpleName();
 		String instanceVarName = "my" + className + "s";
 		Field f = null;
 		try {
@@ -158,8 +197,13 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		return myPaths;
 	}
 	
-	public List<Enemy> getEnemys(){
+	public List<Enemy> getEnemies(){
 		return myEnemys;
 	}
-	
+
+	public List<Projectile> getProjectiles(){
+		return myProjectiles;
+	}
+
+
 }

@@ -1,53 +1,46 @@
 package auth_environment.view.Menus;
 
-import javafx.scene.Scene;
+import java.util.ResourceBundle;
+
+import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.Pane;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 4/1/16.
  * 
- * Team member responsible: 
+ * Team member responsible: Brian
  * 
- * This menu 
+ * This menu diplays Help.
  */
 
 public class HelpMenu extends Menu {
 	
-	// TODO: ask team where to extract these
-	private static String helpURL = "https://gist.github.com/Briguy52/7adf8cfe508e73267bb46ce2aebe7b4a"; 
-	private static String helpText = "Help";
-	private static String openHelpText = "womp Documentation";
-	private static int helpWidth = 800;
-	private static int helpHeight = 600; 
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
-	private WebView browser = new WebView();
-    private WebEngine webEngine = browser.getEngine();
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
+	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
+	
+	private BrowserWindowDelegate myBrowser;
 	
 	public HelpMenu() {
-		this.setText(this.helpText);
+		this.myBrowser  = new BrowserWindowDelegate(); 
+		this.setText(myNamesBundle.getString("helpMenuLabel"));
 		this.init();
 	}
 	
 	private void init() {
-		MenuItem openHelpItem = new MenuItem(this.openHelpText);
-		openHelpItem.setOnAction(e -> openHelpWindow());
+		MenuItem openHelpItem = new MenuItem(myNamesBundle.getString("openHelpItem"));
+		openHelpItem.setOnAction(e -> myBrowser.openWindow(myNamesBundle.getString("helpMenuLabel"),
+														   myURLSBundle.getString("helpURL"),
+														   Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
+														   Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
+														   ));
 		this.getItems().add(openHelpItem);
-	}
-	
-	private void openHelpWindow() {
-		Stage stage = new Stage();
-		Pane root = new Pane();
-        stage.setTitle(this.helpText);
-		webEngine.load(this.helpURL);
-		root.getChildren().add(browser);
-		int width = this.helpWidth; // NOTE: eventually use parseInt(<width from properties file>) 
-		int height = this.helpHeight;
-        stage.setScene(new Scene(root, width, height));
-        stage.show();
 	}
 }
