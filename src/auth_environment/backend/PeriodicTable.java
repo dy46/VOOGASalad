@@ -1,14 +1,6 @@
 package auth_environment.backend;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import game_engine.game_elements.Enemy;
-import game_engine.game_elements.GameElement;
 import game_engine.game_elements.Tower;
 
 /**
@@ -31,22 +23,19 @@ import game_engine.game_elements.Tower;
 public class PeriodicTable {
 	
 	// TODO: include other Game Elements. Let's test with just these two for now. 
-	List<Enemy> myEnemies = new ArrayList<Enemy>();
-	List<Tower> myTowers = new ArrayList<Tower>();
-	
+	private Family towers = new Family(); 
+	private Family enemies = new Family(); 
 	
 	public PeriodicTable() {
 		
 	}
 
-	// Adds a new element, should overwrite existing elements of the same name if they exist. 
-    public void addElement(GameElement element) {
-    	if (!myElementMap.containsKey(element.getClass())) {
-    	}
-    } 
-
-    public void display() {
-    	
-    }
-    
+	// Ask: should we use Reflection to add to the correct Family? 
+	public void addTower(Tower tower) {
+		this.towers.addElement(tower);
+	}
+	
+	public void addEnemy(Enemy enemy) {
+		this.enemies.addElement(enemy);
+	}
 }
