@@ -1,6 +1,10 @@
 package auth_environment.backend;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.GameElement;
 import game_engine.game_elements.Tower;
 
 /**
@@ -13,6 +17,8 @@ import game_engine.game_elements.Tower;
  * Developer should be able to click on a Game Element. This copies the Game Element
  * to be placed on the MapDisplay.
  * 
+ * This class gets passed to 1) Element Menu (for display) 2) Every single Customizer Window (to add/edit Elements)
+ * 
  * Features:
  * 1) Developer should be able to click on a GameElement to edit its Properties
  * 2) Developer should be able to drag the GameElement onto the Map if it is place-able
@@ -20,22 +26,37 @@ import game_engine.game_elements.Tower;
  * should be asked whether they want to overwrite the old one. 
  */
 
-public class PeriodicTable {
+public class PeriodicTable implements ILibrary {
 	
 	// TODO: include other Game Elements. Let's test with just these two for now. 
-	private Family towers = new Family(); 
-	private Family enemies = new Family(); 
+	private Map<String, Family> myMap = new HashMap<String, Family>(); 
 	
 	public PeriodicTable() {
 		
 	}
 
 	// Ask: should we use Reflection to add to the correct Family? 
-	public void addTower(Tower tower) {
-		this.towers.addElement(tower);
+	@Override
+	public void addElement(GameElement element) {
+		String elementType = element.getClass().getSimpleName();
+		if (myMap.containsKey(elementType)) {
+			myMap.get(elementType).addElement(element);
+		}
+		else {
+			Family tempFamily = new Family(); 
+			tempFamily.addElement(element);
+			myMap.put(elementType, tempFamily);
+		}
 	}
-	
-	public void addEnemy(Enemy enemy) {
-		this.enemies.addElement(enemy);
+
+	@Override
+	public GameElement pickElement(String elementType, String elementName) {
+		return myMap.get(elementType).pick(elementName);
+	}
+
+	@Override
+	public void display() {
+		// TODO Auto-generated method stub
+		
 	}
 }
