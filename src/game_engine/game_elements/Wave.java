@@ -47,9 +47,7 @@ public class Wave extends MapPiece{
 	 */
 	public void spawnEnemy(){
 		Position spawnPosition = myLevel.getSpawnPosition();
-		Function speedFunction = getWorkspace().getFunctionFactory().createConstantFunction(0.5);
-		Function directionFunction = getWorkspace().getFunctionFactory().createConstantFunction(0);
-		Enemy enemy = getWorkspace().getEnemyFactory().createEnemy("Spawned", speedFunction, directionFunction, getWorkspace().getInfiniteTime());
+		Enemy enemy = getWorkspace().getEnemyFactory().createEnemy("Spawned");
 		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
 		getWorkspace().addEnemy(enemy);
 	}

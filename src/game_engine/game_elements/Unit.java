@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorFactory;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -17,7 +16,6 @@ public abstract class Unit extends GameElement{
 
 	private UnitProperties myProperties;
 	private List<Affector> myAffectors;
-	private AffectorFactory affectorFactory;
 
 	public Unit(String name){
 		super(name);
@@ -33,7 +31,6 @@ public abstract class Unit extends GameElement{
 
 	private void initialize(){
 		myAffectors = new ArrayList<>();
-		this.affectorFactory = new AffectorFactory();
 	}
 
 	public void update(){
@@ -61,8 +58,5 @@ public abstract class Unit extends GameElement{
 	public void setAffectors(List<Affector> affectors) {
 		this.myAffectors = affectors;
 	}
-
-	public AffectorFactory getAffectorFactory () {
-		return affectorFactory;
-	}
+	
 }
