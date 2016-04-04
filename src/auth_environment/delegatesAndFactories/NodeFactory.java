@@ -1,6 +1,10 @@
 package auth_environment.delegatesAndFactories;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -17,7 +21,7 @@ import javafx.scene.text.Text;
 public class NodeFactory {
 	
 	// TODO: do these properties need to be extracted? 
-	private Font fontLabels = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 14);
+	private Font fontLabels = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 12);
 	private Font fontLarge = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 20);
 
 	public NodeFactory() {
@@ -30,6 +34,14 @@ public class NodeFactory {
 		Text title = new Text(titleText);
 		title.setFont(font);
 		vbox.getChildren().add(title);
+	}
+	
+	public void addImage(Pane pane, String imageName) {
+		pane.getChildren().add(makeImageView(imageName));
+	}
+	
+	public ImageView makeImageView(String imageName) {
+		return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imageName)));
 	}
 	
 	public Font defaultFont() {
