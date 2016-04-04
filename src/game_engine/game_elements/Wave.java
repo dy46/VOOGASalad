@@ -3,6 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.functions.Function;
 import game_engine.properties.Position;
 
 public class Wave extends MapPiece{
@@ -46,8 +47,7 @@ public class Wave extends MapPiece{
 	 */
 	public void spawnEnemy(){
 		Position spawnPosition = myLevel.getSpawnPosition();
-		Enemy enemy = null;
-		enemy = new Enemy(getWorkspace().getIDFactory().createID(enemy));
+		Enemy enemy = getWorkspace().getEnemyFactory().createConstantEnemy("Spawned");
 		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
 		getWorkspace().addEnemy(enemy);
 	}
