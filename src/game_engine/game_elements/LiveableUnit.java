@@ -16,5 +16,7 @@ public abstract class LiveableUnit extends Unit{
 			getWorkspace().remove(unit);
 		}
 	}
+	
+	public void 
 
 }
