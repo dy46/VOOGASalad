@@ -2,7 +2,6 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import game_engine.properties.UnitProperties;
 
 /**
@@ -12,41 +11,42 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public abstract class Unit implements GameElement{
+public abstract class Unit extends GameElement{
 
-	private String myID;
 	private UnitProperties myProperties;
 	private List<Affector> myAffectors;
 	
+	public Unit(String name){
+		super(name);
+		myProperties = new UnitProperties();
+		initialize();
+	}
+	
 	public Unit(String ID, UnitProperties properties){
+		super(ID);
 		this.myProperties = properties;
-		this.myID = ID;
+		initialize();
+	}
+	
+	private void initialize(){
 		myAffectors = new ArrayList<>();
-	}
-	
-	public UnitProperties getProperties(){
-		return myProperties;
-	}
-	
-	public String getID(){
-		return myID;
 	}
 	
 	public void update(){
 		myAffectors.forEach(a -> a.apply(myProperties));
 		myAffectors.clear();
 	}
-
-	public void setID(String ID) {
-		this.myID = ID;
+	
+	public void addAffector(Affector affector) {
+		myAffectors.add(affector);
+	}
+	
+	public UnitProperties getProperties(){
+		return myProperties;
 	}
 
 	public void setProperties(UnitProperties properties) {
 		this.myProperties = properties;
-	}
-
-	public void addAffector(Affector affector) {
-		myAffectors.add(affector);
 	}
 
 	public List<Affector> getAffectors() {

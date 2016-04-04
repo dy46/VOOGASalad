@@ -17,4 +17,6 @@ public interface PeriodicTable {
 
     public void addElement(GameElement element); // adds a newly created element to the Periodic Table
 
+    public void display();
+
 }
