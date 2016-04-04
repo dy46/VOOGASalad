@@ -54,9 +54,8 @@ public class PeriodicTable implements ILibrary {
 		return myMap.get(elementType).pick(elementName);
 	}
 
+	// TODO: keep in mind that we'll have to include Images 
 	@Override
 	public void display() {
-		// TODO Auto-generated method stub
-		
 	}
 }
