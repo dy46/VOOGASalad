@@ -21,6 +21,11 @@ public class ElementCell extends VBox {
 	
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
+	// Use empty constructor to test with default values. 
+	public ElementCell() {
+		this.init();
+	}
+	
 	public ElementCell(String name, String imageName) {
 		this.myName = name;
 		this.myImageName = imageName;
