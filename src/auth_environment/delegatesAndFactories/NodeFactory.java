@@ -24,7 +24,7 @@ public class NodeFactory {
 		
 	}
 	
-	public void setupVBox(VBox vbox, String titleText, Font font, int spacing, int padding) {
+	public void setupVBox(VBox vbox, String titleText, Font font, double spacing, double padding) {
 		vbox.setSpacing(spacing);
 		vbox.setPadding(new Insets(padding));
 		Text title = new Text(titleText);
