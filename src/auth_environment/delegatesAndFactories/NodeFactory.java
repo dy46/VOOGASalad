@@ -36,7 +36,7 @@ public class NodeFactory {
 		vbox.getChildren().add(title);
 	}
 	
-	public void addImage(Pane pane, String imageName) {
+	public void addImageView(Pane pane, String imageName) {
 		pane.getChildren().add(makeImageView(imageName));
 	}
 	

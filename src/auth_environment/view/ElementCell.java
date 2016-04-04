@@ -34,6 +34,7 @@ public class ElementCell extends VBox {
 									 Double.parseDouble(myDimensionsBundle.getString("elementCellSpacing")), 
 									 Double.parseDouble(myDimensionsBundle.getString("elementCellPadding"))
 									 );
+		this.myNodeFactory.addImageView(this, this.myImageName);
 	}
 	
 }
