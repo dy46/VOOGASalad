@@ -1,12 +1,15 @@
 package auth_environment.backend;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import game_engine.game_elements.Enemy;
 import game_engine.game_elements.GameElement;
+import game_engine.game_elements.Tower;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -27,7 +30,10 @@ import game_engine.game_elements.GameElement;
 
 public class PeriodicTable {
 	
-	private Map<Class<?>, Set<GameElement>> myElementMap = new HashMap<Class<?>, Set<GameElement>>();
+	// TODO: include other Game Elements. Let's test with just these two for now. 
+	List<Enemy> myEnemies = new ArrayList<Enemy>();
+	List<Tower> myTowers = new ArrayList<Tower>();
+	
 	
 	public PeriodicTable() {
 		
