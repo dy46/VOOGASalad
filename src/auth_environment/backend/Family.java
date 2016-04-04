@@ -19,7 +19,6 @@ import game_engine.game_elements.GameElement;
 
 public class Family implements IAisle {
 	
-	private Set<String> names = new TreeSet<String>();
 	private Map<String, GameElement> elementMap = new HashMap<String, GameElement>();
 	
 	public Family() {
@@ -43,7 +42,7 @@ public class Family implements IAisle {
 	}
 	
 	private boolean checkNameTaken(String name) {
-		return names.contains(name);
+		return elementMap.containsKey(name);
 	}
 
 	@Override
