@@ -1,6 +1,9 @@
 package auth_environment.backend;
 
+import java.util.Collection;
+
 import game_engine.game_elements.GameElement;
+import javafx.scene.image.Image;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -20,5 +23,11 @@ public interface IAisle {
 	
 	// Picks an Element with the given Name.  
 	public GameElement pick(String name);
+	
+	// Get Names to display on Frontend 
+	public Collection<String> getDisplayNames();
+	
+	// Gets display image for an Element. 
+	public Image displayElement(String name); 
 	
 }
