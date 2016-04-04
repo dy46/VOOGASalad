@@ -49,6 +49,18 @@ public class AffectorFactory {
 		Function directionFunction = myFunctionFactory.createConstantFunction(0);
 		String effect = "PositionMove";
 		constructAffector(property, effect, Arrays.asList(speedFunction, directionFunction), infiniteTime);
+		
+		String property2 = "ExpIncr";
+		Function speedFunction2 = myFunctionFactory.createExpIncrFunction("Strong");
+		Function directionFunction2 = myFunctionFactory.createConstantFunction(0);
+		String effect2 = "PositionMove";
+		constructAffector(property2, effect2, Arrays.asList(speedFunction2, directionFunction2), infiniteTime);
+		
+		String property3 = "ExpDecr";
+		Function speedFunction3 = myFunctionFactory.createExpDecrFunction("Weak");
+		Function directionFunction3 = myFunctionFactory.createConstantFunction(0);
+		String effect3 = "PositionMove";
+		constructAffector(property3, effect3, Arrays.asList(speedFunction3, directionFunction3), infiniteTime);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

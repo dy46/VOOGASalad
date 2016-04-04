@@ -11,8 +11,16 @@ public class EnemyFactory {
 		this.myAffectorLibrary = affectorLibrary;
 	}
 
-	public Enemy createEnemy(String name){
+	public Enemy createConstantEnemy(String name){
 		return new Enemy(name, myAffectorLibrary.getAffector("Constant", "PositionMove"));
+	}
+	
+	public Enemy createExpIncrEnemy(String name){
+		return new Enemy(name, myAffectorLibrary.getAffector("ExpIncr", "PositionMove"));
+	}
+	
+	public Enemy createExpDecrEnemy(String name){
+		return new Enemy(name, myAffectorLibrary.getAffector("ExpDecr", "PositionMove"));
 	}
 
 }

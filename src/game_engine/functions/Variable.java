@@ -18,7 +18,6 @@ public class Variable {
 	}
 
 	public double evaluate(int index) {
-		System.out.println("Variable value: " + index+" Constant Power: " + myPower);
 		return Math.pow(index, myPower);
 	}
 	

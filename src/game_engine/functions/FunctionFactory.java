@@ -9,6 +9,7 @@ public class FunctionFactory {
 
 	public FunctionFactory(){
 		myFunctionLibrary = new FunctionLibrary(this);
+		setupSpecialConstants();
 		setupDefaultStrengths();
 		setupDefaultTypes();
 	}
@@ -56,24 +57,28 @@ public class FunctionFactory {
 	}
 
 	public Function createExpIncrFunction(String type){
-		return myFunctionLibrary.getFunction(getName("Exponential Increase", type));
+		Function expIncr = myFunctionLibrary.getFunction(getName("ExpIncr", type));
+		System.out.println(expIncr);
+		return expIncr;
 	}
 
 	public Function createExpDecrFunction(String type){
-		return myFunctionLibrary.getFunction(getName("Exponential Decrease", type));
+		Function expDecr = myFunctionLibrary.getFunction(getName("ExpDecr", type));
+		System.out.println(expDecr);
+		return expDecr;
 	}
-	
+
 	public Function createRandomConstantFunction(){
 		double randomConstant = 100*Math.random();
 		return createConstantFunction(randomConstant);
 	}
-	
+
 	public Function createSingleTermFunction(Constant constant, Variable variable){
 		List<Term> terms = new ArrayList<>();
 		terms.add(new Term(constant, variable));
 		return new Function(terms);
 	}
-	
+
 	public Function createLinearFunction(Constant constant, Term term){
 		List<Term> terms = new ArrayList<>();
 		terms.add(new Term(constant));
@@ -85,7 +90,7 @@ public class FunctionFactory {
 		return type + " " + str;
 	}
 
-	public void setupSpecialConstants(){
+	private void setupSpecialConstants(){
 		Constant gravity = new Constant("Gravity", -9.8);
 		Constant pi = new Constant("Pi", Math.PI);
 		myFunctionLibrary.addSpecialConstant(gravity);
@@ -102,38 +107,46 @@ public class FunctionFactory {
 	}
 
 	public void setupDefaultStrengths(){
-		Constant strong = new Constant(5,1);
-		Constant moderate = new Constant(3, 1);
-		Constant weak = new Constant(1.5, 1);
+		Constant strong = new Constant(1.2,1);
+		Constant moderate = new Constant(1.1, 1);
+		Constant weak = new Constant(1.05, 1);
 		myFunctionLibrary.addStrength("Strong", strong);
 		myFunctionLibrary.addStrength("Moderate", moderate);
 		myFunctionLibrary.addStrength("Weak", weak);
 	}
 
 	private void setupExpFunction(String strength, int sign){
-		List<Term> expIncrTerms = new ArrayList<>();
-		List<Constant> expIncrConsts = new ArrayList<>();
-		Constant const_proportionality = new Constant(1 * sign, 1);
-		expIncrConsts.add(const_proportionality);
-		List<Variable> expIncrVars1 = new ArrayList<>();
-		expIncrVars1.add(new Variable("t", 1));
-		List<Variable> expIncrVars2 = new ArrayList<>();
-		expIncrVars2.add(new Variable("s", 1));
-		Term expIncrTerm1 = new Term(expIncrVars1, expIncrConsts);
-		Term expIncrTerm2 = new Term(expIncrVars2, expIncrConsts);
-		expIncrTerms.add(expIncrTerm1);
-		expIncrTerms.add(expIncrTerm2);
+		List<Constant> expConsts = new ArrayList<>();
+		Constant const_proportionality = new Constant(myFunctionLibrary.getStrength(strength).evaluate() * sign, 1);
+		expConsts.add(const_proportionality);
+		List<Variable> expVars1 = new ArrayList<>();
+		expVars1.add(new Variable("t", 1));
+		List<Variable> expVars2 = new ArrayList<>();
+		expVars2.add(new Variable("s", 1));
+		Term expTerm1 = new Term(expVars1, expConsts);
+		Term expTerm2 = new Term(expVars2, copyConstantList(expConsts));
+		List<Term> expTerms = new ArrayList<>();
+		expTerms.add(expTerm1);
+		List<Term> expTerms2 = new ArrayList<>();
+		expTerms2.add(expTerm2);
 		String type = "";
 		if(sign == 1)
-			type = "Exponential Increase";
+			type = "ExpIncr";
 		else if(sign == -1)
-			type = "Exponential Decrease";
+			type = "ExpDecr";
 		else{
 			// TODO: throw Womp Exception "Only exponentially increasing and decreasing functions supported"
 		}
-		myFunctionLibrary.addFunctionType(type, expIncrTerms);
-		Function expIncr = new Function(getName(type, strength), expIncrTerms);
-		myFunctionLibrary.addFunction(expIncr);
+		myFunctionLibrary.addFunctionType(type, expTerms);
+		if(sign==1){
+			Function expIncr = new Function(getName(type, strength), expTerms);
+			myFunctionLibrary.addFunction(expIncr);
+		}
+		if(sign==-1){
+			Function expDecr = new Function(getName(type, strength), expTerms2);
+			myFunctionLibrary.addFunction(expDecr);
+		}
+		
 	}
 
 	private void setupExpIncrFunction(String strength){

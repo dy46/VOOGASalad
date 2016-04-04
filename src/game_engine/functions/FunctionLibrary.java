@@ -21,6 +21,7 @@ public class FunctionLibrary {
 		myFunctions = new HashMap<>();
 		myFunctionTypes = new HashMap<>();
 		myStrengths = new HashMap<>();
+		mySpecialConstants = new HashMap<>();
 		this.myFactory = myFactory;
 	}
 

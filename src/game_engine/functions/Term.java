@@ -42,8 +42,7 @@ public class Term {
 			evaluation *= var.evaluate(index);
 		}
 		for(Constant c : myConstants){
-			double evaluate = c.evaluate();
-			evaluation *= evaluate;
+			evaluation *= c.evaluate();
 		}
 		return evaluation;
 	}
@@ -70,6 +69,17 @@ public class Term {
 	
 	public void addConstant(Constant c){
 		myConstants.add(c);
+	}
+	
+	public String toString(){
+		String str = "";
+		for(Variable vars : myVariables){
+			str += vars.toString()+"*";
+		}
+		for(Constant cost : myConstants){
+			str += cost.toString()+"*";
+		}
+		return str;
 	}
 	
 }
