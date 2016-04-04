@@ -5,14 +5,13 @@ import java.util.ResourceBundle;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 4/1/16.
  * 
  * Team member responsible: Brian
  * 
- * This menu diplays Help.
+ * This menu displays Help.
  */
 
 public class HelpMenu extends Menu {
