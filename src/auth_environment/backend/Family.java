@@ -2,9 +2,6 @@ package auth_environment.backend;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import game_engine.game_elements.GameElement;
 
 /**
