@@ -1,16 +1,18 @@
 package game_engine.game_elements;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import game_engine.affectors.Affector;
 import game_engine.properties.Damage;
-import game_engine.properties.Velocity;
-
 
 public class Enemy extends LiveableUnit {
 
-    public Enemy (String name) {
+    public Enemy (String name, Affector moveAffector) {
         super(name);
+        addAffector(moveAffector);
 //        setID(getWorkspace().getIDFactory().createID(this));
+    }
+    
+    public Enemy (String name){
+    	super(name);
     }
 
     /*
@@ -36,17 +38,6 @@ public class Enemy extends LiveableUnit {
 
     public void update () {
         super.update(this);
-        addMoveAffector(1);
     }
-        
-        
-    public void addMoveAffector(int TTL) {
-        Velocity v = getProperties().getVelocity();
-        double xOffset = v.getSpeed()*Math.cos(v.getDirection());
-        double yOffset = v.getSpeed()*Math.sin(v.getDirection());
-        addAffector(getAffectorFactory().constructAffector("Position",
-                                                           "Move", 
-                                                           new ArrayList<Double>(Arrays.asList(xOffset, yOffset)),
-                                                           TTL));
-    }
+    
 }
