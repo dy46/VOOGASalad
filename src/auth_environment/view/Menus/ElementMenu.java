@@ -2,7 +2,6 @@ package auth_environment.view.Menus;
 
 import java.util.ResourceBundle;
 
-import auth_environment.view.PeriodicTableView;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
