@@ -3,6 +3,7 @@ package auth_environment.view;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
+import game_engine.game_elements.GameElement;
 import javafx.scene.layout.VBox;
 
 public class ElementCell extends VBox {
@@ -26,9 +27,9 @@ public class ElementCell extends VBox {
 		this.init();
 	}
 	
-	public ElementCell(String name, String imageName) {
-		this.myName = name;
-		this.myImageName = imageName;
+	public ElementCell(GameElement element) {
+		this.myName = element.toString();
+//		this.myImageName = element.view();
 		this.init();
 	}
 	

@@ -3,9 +3,7 @@ package auth_environment.backend;
 import java.util.HashMap;
 import java.util.Map;
 
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.GameElement;
-import game_engine.game_elements.Tower;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -43,7 +41,7 @@ public class PeriodicTable implements ILibrary {
 			myMap.get(elementType).addElement(element);
 		}
 		else {
-			Family tempFamily = new Family(); 
+			Family tempFamily = new Family(elementType); 
 			tempFamily.addElement(element);
 			myMap.put(elementType, tempFamily);
 		}

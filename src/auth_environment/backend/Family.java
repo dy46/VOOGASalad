@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import auth_environment.view.ElementCell;
 import game_engine.game_elements.GameElement;
-import javafx.scene.image.Image;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -25,9 +25,10 @@ public class Family implements IAisle {
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private Map<String, GameElement> elementMap = new HashMap<String, GameElement>();
+	private String name; 
 	
-	public Family() {
-		
+	public Family(String name) {
+		this.name = name;
 	}
 
 	// Check for "" (null) names in the Customization window. 
@@ -56,16 +57,14 @@ public class Family implements IAisle {
 		return elementMap.get(name);
 	}
 
-	// TODO: test
 	@Override
-	public Collection<String> getDisplayNames() {
-		return elementMap.values().stream().map(s -> s.toString()).collect(Collectors.toList());
+	public Collection<ElementCell> display() {
+		return elementMap.values().stream().map(s -> new ElementCell(s)).collect(Collectors.toList());
 	}
-
-	// TODO: ask GameEngine team about including Image
+	
 	@Override
-	public Image displayElement(String name) {
-		return null;
+	public String toString() {
+		return this.name;
 	}
 
 }
