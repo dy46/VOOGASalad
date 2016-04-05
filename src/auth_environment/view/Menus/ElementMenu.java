@@ -25,9 +25,9 @@ public class ElementMenu extends Menu {
 	
 	private void init() {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
-		MenuItem createItem = new MenuItem(this.myNamesBundle.getString("createElementLabel"));
-		createItem.setOnAction(e -> this.createTower());
-		this.getItems().addAll(createItem); 
+		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
+		towerItem.setOnAction(e -> this.createTower());
+		this.getItems().addAll(towerItem); 
 	}
 	
 	private void createTower() {
