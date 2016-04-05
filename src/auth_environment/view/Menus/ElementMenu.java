@@ -27,24 +27,11 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem createItem = new MenuItem(this.myNamesBundle.getString("createElementLabel"));
 		createItem.setOnAction(e -> this.createTower());
-		MenuItem periodicTableItem = new MenuItem(this.myNamesBundle.getString("periodicTableLabel"));
-		periodicTableItem.setOnAction(e -> viewPeriodicTable()); 
-		this.getItems().addAll(createItem, periodicTableItem); 
+		this.getItems().addAll(createItem); 
 	}
 	
 	private void createTower() {
 		
 	}
 	
-	// TODO: we should pass in an instance of PeriodicTable to anything that reads or modifies it
-	
-	private void viewPeriodicTable() {
-		Stage stage = new Stage(); 
-		stage.setTitle(this.myNamesBundle.getString("periodicTableLabel"));
-        stage.setScene(new Scene(new PeriodicTableView(), 
-        			   Double.parseDouble(this.myDimensionsBundle.getString("periodicTableWidth")),
-        			   Double.parseDouble(this.myDimensionsBundle.getString("periodicTableHeight"))
-        			   ));
-        stage.show();
-	}
 }
