@@ -44,6 +44,16 @@ public class NodeFactory {
 		return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imageName)));
 	}
 	
+	public void addLabelToPane(Pane pane, String label, Font font) {
+		pane.getChildren().add(this.makeLabel(label, font));
+	}
+	
+	public Text makeLabel(String label, Font font) {
+		Text myLabel = new Text(label);
+		myLabel.setFont(font);
+		return myLabel;
+	}
+	
 	public Font defaultFont() {
 		return this.fontLabels;
 	}
