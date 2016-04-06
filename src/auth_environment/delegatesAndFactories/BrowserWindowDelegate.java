@@ -62,28 +62,34 @@ public class BrowserWindowDelegate {
                     public void changed(ObservableValue ov, State oldState, State newState) {
                         if (newState == State.SUCCEEDED) {
                             if (initStage.isShowing()) {
-                  	          loadProgress.progressProperty().unbind();
-                  	          loadProgress.setProgress(1);
-                  	          progressText.setText(myNamesBundle.getString("finishedLoadingText"));
-                  	          browserStage.setIconified(false);
-                  	          initStage.toFront();
-                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))),
-                  	        		  										loadingPane);
-                  	          fadeSplash.setFromValue(1.0);
-                  	          fadeSplash.setToValue(0.0);
-                  	          fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
-                  	            @Override public void handle(ActionEvent actionEvent) {
-                  	              initStage.hide();
-                  	            }
-                  	          });
-                  	          fadeSplash.play();
+                  	          setupTransition(initStage);
                   	        }
 
                         }
                         
                     }
-                });
+
+			});
 	}
+	
+	private void setupTransition(Stage initStage) {
+		loadProgress.progressProperty().unbind();
+		  loadProgress.setProgress(1);
+		  progressText.setText(myNamesBundle.getString("finishedLoadingText"));
+		  browserStage.setIconified(false);
+		  initStage.toFront();
+		  FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))),
+				  										loadingPane);
+		  fadeSplash.setFromValue(1.0);
+		  fadeSplash.setToValue(0.0);
+		  fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent actionEvent) {
+		      initStage.hide();
+		    }
+		  });
+		  fadeSplash.play();
+	}
+
 	
 	private void setupSplashAndListener(double width, double height) {
 		this.init(width);
