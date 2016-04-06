@@ -6,19 +6,20 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class PlayerMainTab {
+public class PlayerMainTab implements IPlayerTab{
 	private static final int PANEL_PADDING = 10;
-	private static final String GUI_RESOURCE = "GUI";
 	private Tab myTab;
 	private BorderPane myRoot;
 	private ResourceBundle myResources;
 	
 	private IGUIObject gameSpeed;
 	
-	public PlayerMainTab() {
-		
+	public PlayerMainTab(ResourceBundle r) {
+		myResources = r;
 	}
-	protected Tab getTab() {
+	
+	@Override
+	public Tab getTab() {
 		initializeTab();
 		myTab = new Tab();
 		myRoot = new BorderPane();
@@ -31,7 +32,6 @@ public class PlayerMainTab {
 	}
 	
 	private void initializeTab() {
-		myResources = ResourceBundle.getBundle(GUI_RESOURCE);
 	}
 
 	//TODO: Possibly use reflection/other techniques to initialize elements.

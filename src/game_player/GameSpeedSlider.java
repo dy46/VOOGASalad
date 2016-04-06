@@ -25,8 +25,7 @@ public class GameSpeedSlider implements IGUIObject{
 	public Node createNode() {
 		VBox sliderBox = new VBox(VBOX_SPACING);
 		
-//		Label sliderLabel = new Label(myResources.getString("AnimationSlider"));
-		Label sliderLabel = new Label("Change Animation Speed");
+		Label sliderLabel = new Label(myResources.getString("AnimationSlider"));
 		Slider animationSpeed = new Slider();
 		animationSpeed.setMin(SLIDER_MIN);
 		animationSpeed.setMax(SLIDER_MAX);
