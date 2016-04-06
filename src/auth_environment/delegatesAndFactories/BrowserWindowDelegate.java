@@ -44,7 +44,7 @@ public class BrowserWindowDelegate {
 	
 	// Source: https://gist.github.com/jewelsea/1588531
 	public void init(double width) {
-		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("dj.gif")));
+		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("kurokoheadbang.gif")));
 		loadProgress = new ProgressBar();
 		loadProgress.setPrefWidth(width - Double.parseDouble(myDimensionsBundle.getString("loadingBarSpacer")));
 		progressText = new Label(myNamesBundle.getString("loadingText"));
@@ -84,19 +84,23 @@ public class BrowserWindowDelegate {
                     }
                 });
 	}
+	
+	private void setupSplashAndListener(double width, double height) {
+		this.init(width);
+		Stage initStage = new Stage(); 
+		this.showSplash(initStage, width, height);
+		this.addLoadingListener(initStage);
+		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
+	}
 
 	// TODO: make this shorter
 	public void openWindow(String title, String url, double width, double height) {
-		this.init(width);
-		Stage initStage = new Stage(); 
 		browserStage = new Stage();
-		this.showSplash(initStage, width, height);
-		this.addLoadingListener(initStage);
+		this.setupSplashAndListener(width, height);
 		Pane root = new Pane();
 		browserStage.setTitle(title);
 		browserStage.setIconified(true);
 		browser.getEngine().load(url);
-		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 		root.getChildren().add(browser);
 		Scene scene = new Scene(root, width, height);
 		browser.prefWidthProperty().bind(scene.widthProperty());
