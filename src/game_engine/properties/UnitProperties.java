@@ -35,6 +35,18 @@ public class UnitProperties {
 		this.myPrice = price;
 	}
 	
+	public UnitProperties copyUnitProperties() {
+            UnitProperties newProperties = new UnitProperties();
+//            newProperties.myHealth = this.getHealth().copyHealth();
+//            newProperties.myDamage = this.getDamage().copyDamage();
+//            newProperties.myTeam = this.getTeam().copyTeam();
+            newProperties.myVelocity = this.getVelocity().copyVelocity();
+            newProperties.myBounds = this.getBounds().copyBounds();
+            newProperties.myPosition = this.myPosition.copyPosition();
+//            newProperties.myPrice = this.myPrice.copyPrice();
+            return newProperties;
+	}
+	
 	public UnitProperties(){
 		myHealth = new Health(DEFAULT_HEALTH);
 		myDamage = new Damage(DEFAULT_DAMAGE);
