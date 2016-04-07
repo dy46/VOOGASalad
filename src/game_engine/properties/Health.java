@@ -16,4 +16,12 @@ public class Health {
 		myHealth = health;
 	}
 	
+	public void decrementValue(double health) {
+	    this.myHealth -= health;
+	}
+	
+	public Health copyHealth() {
+	    return new Health(this.getValue());
+	}
+	
 }

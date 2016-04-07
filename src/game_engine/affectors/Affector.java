@@ -5,7 +5,7 @@ import java.util.List;
 import game_engine.functions.Function;
 import game_engine.properties.UnitProperties;
 
-public abstract class Affector {
+public class Affector {
 
 	private List<Double> baseNumbers;
 	// this specifies how many ticks the affector applies its effect (it's "time to live")
@@ -24,20 +24,29 @@ public abstract class Affector {
 	 *
 	 *
 	 */
-
-//	public Affector(List<Double> baseNumbers, int TTL) {
-//		this.baseNumbers = baseNumbers;
-//		this.TTL = TTL;
-//		this.elapsedTime = 0;
-//	}
 	
-	public Affector(List<Function> functions, int TTL){
+	public Affector(List<Function> functions){
 		this.myFunctions = functions;
-		this.TTL = TTL;
 		this.elapsedTime = 0;
 	}
+	
+	public Affector copyAffector() {
+	//may need to copy functions too
+	Affector copy = null;
+        try {
+            copy = (Affector) Class.forName(this.getClass().getName())
+                            .getConstructor(List.class).newInstance(this.getFunctions());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+	copy.setTTL(this.getTTL());
+	return copy;
+	}
 
-	public abstract void apply(UnitProperties properties);
+	public void apply(UnitProperties properties) {
+	      updateElapsedTime();
+	};
 	
 	public int getElapsedTime(){
 		return elapsedTime;
@@ -50,13 +59,17 @@ public abstract class Affector {
 	public List<Double> getBaseNumbers () {
 		return baseNumbers;
 	}
-
-	public void decrementTTL() {
-		this.TTL--;
+	
+	public void setBaseNumbers (List<Double> baseNumbers) {
+	    this.baseNumbers = baseNumbers;
 	}
 
 	public int getTTL () {
 		return TTL;
+	}
+	
+	public void setTTL(int TTL) {
+	    this.TTL = TTL;
 	}
 	
 	public List<Function> getFunctions(){

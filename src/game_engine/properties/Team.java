@@ -19,6 +19,8 @@ public class Team {
 	public boolean checkTeam(String teamName){
 		return myTeam.equals(teamName);
 	}
-	
-	
+
+	public Team copyTeam() {
+	    return new Team(this.getTeam());
+	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import game_engine.affectors.AffectorFactory;
 import game_engine.affectors.AffectorLibrary;
 import game_engine.factories.EnemyFactory;
+import game_engine.factories.TowerFactory;
 import game_engine.functions.Function;
 import game_engine.functions.FunctionFactory;
 import game_engine.functions.FunctionLibrary;
@@ -47,19 +48,22 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
+	private TowerFactory myTowerFactory;
 	
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
-		myTowers = new ArrayList<>();
 		myPaths = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
+		//projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
+	        myEnemys = makeDummyEnemys();
+		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
+	        myTowers = makeDummyTowers();
 		myCollider = new CollisionDetector(this);
-		myEnemys = makeDummyEnemys();
 		myBalance = 0;
 	}
 	
@@ -68,7 +72,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		Enemy e1 = myEnemyFactory.createConstantEnemy("Fire");
 	    Health health = new Health(50);
 	    Position position = new Position(0, 200);
-	    Velocity velocity = new Velocity(0.5, 0);
+	    Velocity velocity = new Velocity(0.5, 90);
 	    List<Position> l1 = new ArrayList<>();
 	    l1.add(new Position(0,0));
 	    l1.add(new Position(62,0));
@@ -77,16 +81,28 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	    Bounds b = new Bounds(l1);
 	    UnitProperties properties = new UnitProperties(health, null, null, velocity, b, position, null);
 	    e1.setProperties(properties);
+            e1.setTTL(Integer.MAX_VALUE);
 	    enemies.add(e1);
-	    
-		Enemy e2 = myEnemyFactory.createConstantEnemy("Fire");
-	    Health health2 = new Health(50);
-	    Position position2 = new Position(450, 200);
-	    Velocity velocity2 = new Velocity(-0.5, 0);
-	    UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
-	    e2.setProperties(properties2);
-	    enemies.add(e2);
 	    return enemies;
+	}
+	
+	private List<Tower> makeDummyTowers() {
+	    List<Tower> towers = new ArrayList<>();
+	    List<Position> l1 = new ArrayList<>();
+            l1.add(new Position(0,0));
+            l1.add(new Position(62,0));
+            l1.add(new Position(62,62));
+            l1.add(new Position(0,62));
+            Bounds b = new Bounds(l1);
+            Health health2 = new Health(50);
+            Position position2 = new Position(200, 300);
+            Velocity velocity2 = new Velocity(0, 0);
+            Tower t = myTowerFactory.createFourWayTower("Dude", myProjectiles, position2);
+            UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
+            t.setProperties(properties2);
+            t.setTTL(Integer.MAX_VALUE);
+            towers.add(t);
+            return towers;
 	}
 
 	public List<String> saveGame() {
@@ -103,11 +119,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
-	public void updateElements() {
-//		myTowers.forEach(t -> t.update());
+	public void updateElements() { 
+	        myTowers.removeIf(t -> t.getTTL() == t.getElapsedTime());
+		myTowers.forEach(t -> t.update());
+		myTowers.forEach(t -> t.fire());
+		myEnemys.removeIf(e -> e.getTTL() == e.getElapsedTime());
 		myEnemys.forEach(e -> e.update());
-		myCollider.resolveEnemyCollisions(myEnemys);
-
+		myProjectiles.removeIf(p -> p.getTTL() == p.getElapsedTime());
+		myProjectiles.forEach(p -> p.update());
+		myCollider.resolveEnemyCollisions(myProjectiles);
 	}
 
 	public String getGameStatus() {
@@ -127,11 +147,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void addTower(String ID, int towerTypeIndex){
-		towerTypeBoundsCheck(towerTypeIndex);
-		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-		Tower newTower = new Tower(ID);
-		newTower.upgrade(towerProperties);
-		myTowers.add(newTower);
+//		towerTypeBoundsCheck(towerTypeIndex);
+//		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
+//		Tower newTower = new Tower(ID);
+//		newTower.upgrade(towerProperties);
+//		myTowers.add(newTower);
 	}
 	
 	public void remove(Unit unit){

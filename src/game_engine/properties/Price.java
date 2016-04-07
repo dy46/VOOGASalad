@@ -15,5 +15,9 @@ public class Price {
 	public void setPrice(double price){
 		this.myPrice = price;
 	}
+	
+	public Price copyPrice() {
+	    return new Price(this.getValue());
+	}
 
 }
