@@ -4,6 +4,13 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
+import game_engine.properties.Bounds;
+import game_engine.properties.Damage;
+import game_engine.properties.Health;
+import game_engine.properties.Position;
+import game_engine.properties.Price;
+import game_engine.properties.Team;
+import game_engine.properties.Velocity;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -35,6 +42,14 @@ public class ElementMenu extends Menu {
 	public ElementMenu() {
 		this.init();
 	}
+	
+//	private Health myHealth;
+//	private Damage myDamage;
+//	private Team myTeam;
+//	private Velocity myVelocity;
+//	private Bounds myBounds;
+//	private Position myPosition;
+//	private Price myPrice;
 	
 	private void init() {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
