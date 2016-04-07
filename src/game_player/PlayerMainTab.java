@@ -12,6 +12,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private BorderPane myRoot;
 	private ResourceBundle myResources;
 	
+	private IGUIObject gameCanvas;
 	private IGUIObject gameSpeed;
 	
 	public PlayerMainTab(ResourceBundle r) {
@@ -25,6 +26,7 @@ public class PlayerMainTab implements IPlayerTab{
 		myRoot = new BorderPane();
 		
 		initializeElements();
+		addGameCanvas();
 		createConfigurationPanel();
 		
 		myTab.setContent(myRoot);
@@ -36,7 +38,14 @@ public class PlayerMainTab implements IPlayerTab{
 
 	//TODO: Possibly use reflection/other techniques to initialize elements.
 	private void initializeElements() {
+		gameCanvas = new GameCanvas(myResources);
 		gameSpeed = new GameSpeedSlider(myResources);
+	}
+	
+	private void addGameCanvas() {
+		VBox gameSection = new VBox(PANEL_PADDING);
+		gameSection.getChildren().add(gameCanvas.createNode());
+		myRoot.setCenter(gameSection);
 	}
 	
 	private void createConfigurationPanel() {

@@ -9,10 +9,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class GameSpeedSlider implements IGUIObject{
-	private static final float TICK_UNITS = 0.2f;
+	private static final float TICK_UNITS = 0.5f;
 	private static final int SLIDER_DEFAULT = 1;
 	private static final int SLIDER_MIN = 0;
-	private static final double SLIDER_MAX = 1.6;
+	private static final double SLIDER_MAX = 2;
 	private static final int PADDING = 10;
 	private static final int VBOX_SPACING = 5;
 	private ResourceBundle myResources;

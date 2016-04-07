@@ -8,9 +8,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 
-public class PlayerGUI {
-	private static final double TABS_OFFSET = 5.0;
-	private static final double NEWTAB_OFFSET = 40.0;
+public class PlayerGUI{
+	private static final double TABS_OFFSET = 32.5;
+	private static final double NEWTAB_OFFSET = 2.5;
 	private static final String GUI_RESOURCE = "GUI";
 	private int windowWidth;
 	private int windowHeight;
