@@ -39,7 +39,7 @@ public class View {
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
 		mainWorkspace = new Workspace(myTabs);
-		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"));
+		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
 		
