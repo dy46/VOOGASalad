@@ -44,7 +44,7 @@ public class BrowserWindowDelegate {
 	
 	// Source: https://gist.github.com/jewelsea/1588531
 	public void init(double width) {
-		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("kurokoheadbang.gif")));
+		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(myNamesBundle.getString("browserLoadingImage"))));
 		loadProgress = new ProgressBar();
 		loadProgress.setPrefWidth(width - Double.parseDouble(myDimensionsBundle.getString("loadingBarSpacer")));
 		progressText = new Label(myNamesBundle.getString("loadingText"));
