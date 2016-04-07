@@ -1,6 +1,8 @@
 package auth_environment.view;
 
 
+import javafx.stage.Stage;
+
 /**
  * Created by BrianLin on 4/6/16.
  * 
@@ -10,8 +12,10 @@ package auth_environment.view;
  */
 
 public class Welcome {
+	private Stage myStage;
 	
-	public Welcome() {
+	public Welcome(Stage stage) {
+		this.myStage = stage;
 	}
 	
 	
