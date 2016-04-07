@@ -4,6 +4,8 @@ import java.util.List;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Projectile;
+import game_engine.game_elements.Tower;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -81,11 +83,24 @@ public class GameView implements IGameView{
 
     @Override
     public void placeUnit () {
+        GC.clearRect(0, 0, 500, 500);
         List<Enemy> currEnemies = playerEngineInterface.getEnemies();
         for(int i = 0; i < currEnemies.size(); i++) {
             GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
                          currEnemies.get(i).getProperties().getPosition().getX(),
                          currEnemies.get(i).getProperties().getPosition().getY());
+        }
+        List<Tower> currTowers = playerEngineInterface.getTowers();
+        for(int i = 0; i < currTowers.size(); i++) {
+            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
+                         currTowers.get(i).getProperties().getPosition().getX(),
+                         currTowers.get(i).getProperties().getPosition().getY());
+        }
+        List<Projectile> currProjectiles = playerEngineInterface.getProjectiles();
+        for(int i = 0; i < currProjectiles.size(); i++) {
+            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
+                         currProjectiles.get(i).getProperties().getPosition().getX(),
+                         currProjectiles.get(i).getProperties().getPosition().getY());
         }
     }
 

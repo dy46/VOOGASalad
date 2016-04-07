@@ -16,4 +16,8 @@ public class Damage {
 		myDamage = damage; 
 	}
 	
+	public Damage copyDamage() {
+	    return new Damage(this.getDamage());
+	}
+	
 }
