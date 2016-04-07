@@ -30,6 +30,7 @@ public class Enemy extends LiveableUnit {
 
     public void update () {
         super.update(this);
+        System.out.println(this.getProperties().getHealth().getValue());
     }
     
 }

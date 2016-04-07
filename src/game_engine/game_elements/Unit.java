@@ -82,5 +82,8 @@ public abstract class Unit extends GameElement {
     public void incrementElapsedTime(int i) {
         this.elapsedTime += 1;
     }
+    public void setElapsedTime(int newTime){
+    	elapsedTime = newTime;
+    }
 
 }
