@@ -28,10 +28,10 @@ public class Workspace {
 	
 	public Workspace(TabPane tabPane) {
 		this.myTabPane = tabPane; 
-		this.init();
+		this.setupBorderPane();
 	}
 	
-	private void init() {
+	private void setupBorderPane() {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));

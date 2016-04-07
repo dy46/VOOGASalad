@@ -44,7 +44,7 @@ public class BrowserWindowDelegate {
 	
 	// Source: https://gist.github.com/jewelsea/1588531
 	public void init(double width) {
-		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("dj.gif")));
+		ImageView loadingImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(myNamesBundle.getString("browserLoadingImage"))));
 		loadProgress = new ProgressBar();
 		loadProgress.setPrefWidth(width - Double.parseDouble(myDimensionsBundle.getString("loadingBarSpacer")));
 		progressText = new Label(myNamesBundle.getString("loadingText"));
@@ -62,41 +62,51 @@ public class BrowserWindowDelegate {
                     public void changed(ObservableValue ov, State oldState, State newState) {
                         if (newState == State.SUCCEEDED) {
                             if (initStage.isShowing()) {
-                  	          loadProgress.progressProperty().unbind();
-                  	          loadProgress.setProgress(1);
-                  	          progressText.setText(myNamesBundle.getString("finishedLoadingText"));
-                  	          browserStage.setIconified(false);
-                  	          initStage.toFront();
-                  	          FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))),
-                  	        		  										loadingPane);
-                  	          fadeSplash.setFromValue(1.0);
-                  	          fadeSplash.setToValue(0.0);
-                  	          fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
-                  	            @Override public void handle(ActionEvent actionEvent) {
-                  	              initStage.hide();
-                  	            }
-                  	          });
-                  	          fadeSplash.play();
+                  	          setupTransition(initStage);
                   	        }
 
                         }
                         
                     }
-                });
+
+			});
+	}
+	
+	private void setupTransition(Stage initStage) {
+		loadProgress.progressProperty().unbind();
+		  loadProgress.setProgress(1);
+		  progressText.setText(myNamesBundle.getString("finishedLoadingText"));
+		  browserStage.setIconified(false);
+		  initStage.toFront();
+		  FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))),
+				  										loadingPane);
+		  fadeSplash.setFromValue(1.0);
+		  fadeSplash.setToValue(0.0);
+		  fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent actionEvent) {
+		      initStage.hide();
+		    }
+		  });
+		  fadeSplash.play();
+	}
+
+	
+	private void setupSplashAndListener(double width, double height) {
+		this.init(width);
+		Stage initStage = new Stage(); 
+		this.showSplash(initStage, width, height);
+		this.addLoadingListener(initStage);
+		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 	}
 
 	// TODO: make this shorter
 	public void openWindow(String title, String url, double width, double height) {
-		this.init(width);
-		Stage initStage = new Stage(); 
 		browserStage = new Stage();
-		this.showSplash(initStage, width, height);
-		this.addLoadingListener(initStage);
+		this.setupSplashAndListener(width, height);
 		Pane root = new Pane();
 		browserStage.setTitle(title);
 		browserStage.setIconified(true);
 		browser.getEngine().load(url);
-		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 		root.getChildren().add(browser);
 		Scene scene = new Scene(root, width, height);
 		browser.prefWidthProperty().bind(scene.widthProperty());
