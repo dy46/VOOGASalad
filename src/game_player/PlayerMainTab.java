@@ -14,6 +14,7 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private IGUIObject gameCanvas;
 	private IGUIObject gameSpeed;
+	private IGUIObject playerSwitchGames;
 	
 	public PlayerMainTab(ResourceBundle r) {
 		myResources = r;
@@ -40,6 +41,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private void initializeElements() {
 		gameCanvas = new GameCanvas(myResources);
 		gameSpeed = new GameSpeedSlider(myResources);
+		playerSwitchGames = new PlayerSwitchGames(myResources);
 	}
 	
 	private void addGameCanvas() {
@@ -51,6 +53,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private void createConfigurationPanel() {
 		VBox configurationPanel = new VBox(PANEL_PADDING);
 		configurationPanel.getChildren().add(gameSpeed.createNode());
+		configurationPanel.getChildren().add(playerSwitchGames.createNode());
 		myRoot.setRight(configurationPanel);
 	}
 }
