@@ -16,8 +16,9 @@ public class Team {
 		this.myTeam = team;
 	}
 	
-	public boolean isTeam(String teamName){
+	public boolean checkTeam(String teamName){
 		return myTeam.equals(teamName);
 	}
+	
 	
 }

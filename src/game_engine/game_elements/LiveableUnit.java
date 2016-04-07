@@ -17,6 +17,4 @@ public abstract class LiveableUnit extends Unit{
 		}
 	}
 	
-	public void 
-
 }

@@ -36,7 +36,7 @@ public class Enemy extends LiveableUnit {
         return "Enemy " + getID();
     }
 
-    public void update () {
+    public void update() {
         super.update(this);
     }
     

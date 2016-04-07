@@ -46,6 +46,7 @@ public class Level extends MapPiece{
 	private void checkCurrentWaveFinished(){
 		if(!myCurrentWave.isFinished()){
 			// TODO: Throw exception "Current wave not finished"
+			
 		}
 	}
 	
