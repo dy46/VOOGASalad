@@ -1,4 +1,4 @@
-package view;
+package auth_environment.view;
 
 /**
  * Created by Xander Tseng on 3/31/16.
