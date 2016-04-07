@@ -2,6 +2,7 @@ package game_engine;
 
 import java.util.List;
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.properties.UnitProperties;
 
@@ -43,5 +44,7 @@ public interface IPlayerEngineInterface {
     List<Tower> getTowers();
     
     List<Enemy> getEnemies();
+    
+    List<Projectile> getProjectiles();
     
 }

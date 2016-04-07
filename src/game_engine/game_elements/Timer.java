@@ -1,5 +1,8 @@
 package game_engine.game_elements;
 
+import java.util.List;
+import game_engine.affectors.Affector;
+
 /*
 * External API interface that will be available to the authoring environment for extension and creation
 * of XML files for use in games. API specifies some basic functionality of timers and which methods need to 
@@ -9,8 +12,8 @@ public class Timer extends Unit{
 	
 	private int elapsedTicks;
 	
-	public Timer(String name){
-		super(name);
+	public Timer(String name, List<Affector> affectors){
+		super(name, affectors);
 		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}

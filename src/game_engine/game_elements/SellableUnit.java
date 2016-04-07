@@ -1,9 +1,11 @@
 package game_engine.game_elements;
+import java.util.List;
+import game_engine.affectors.Affector;
 
 public abstract class SellableUnit extends Unit{
 	
-	public SellableUnit(String name) {
-		super(name);
+	public SellableUnit(String name, List<Affector> affectors) {
+		super(name, affectors);
 	}
 
 	public double getSellPrice(){
