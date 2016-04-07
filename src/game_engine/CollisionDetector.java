@@ -12,18 +12,20 @@ public class CollisionDetector {
 	public CollisionDetector(EngineWorkspace engine){
 		myEngine = engine;
 	}
-	public void resolveEnemyCollisions(List<? extends Unit> collideList){
+	public void resolveEnemyCollisions(List<Projectile> collideList){
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, collideList));
 	}
 	// returns which Unit from the list collided with the target unit
-	private void updateEnemies(Unit unit, List<? extends Unit> collideChecks){
+	private void updateEnemies(Unit unit, List<Projectile> collideChecks){
+		ArrayList<Unit> removeList = new ArrayList<Unit>();
 		for(int i = 0;i < collideChecks.size();i++){
 			if(!(unit == collideChecks.get(i)) && collides(unit, collideChecks.get(i))){
-				myEngine.remove(unit);
-				myEngine.remove(collideChecks.get(i));
+//				myEngine.remove(unit);
+//				myEngine.remove(collideChecks.get(i));
+				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
+				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
 				
 			}
-			
 		}
 	}
 	private List<Position> getUseableBounds(Unit u){
