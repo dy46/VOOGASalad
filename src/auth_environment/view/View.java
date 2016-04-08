@@ -26,7 +26,6 @@ public class View {
 	
 	
 	
-	
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
