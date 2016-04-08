@@ -29,6 +29,7 @@ public class Function {
 	public Function(String name, List<Term> terms){
 		this.myName = name;
 		this.myTerms = terms;
+		domain = new double[2];
 	}
 	public void setDomain(int start, int end){
 		domain[0] = start;
@@ -49,10 +50,12 @@ public class Function {
 	public Function(String equation, EngineWorkspace workspace){
 		myTerms = new ArrayList<>();
 		this.myWorkspace = workspace;
+		domain = new double[2];
 	}
 	
 	public Function(List<Term> terms){
 		this.myTerms = terms;
+		domain = new double[2];
 	}
 	
 	public double evaluate(int index){

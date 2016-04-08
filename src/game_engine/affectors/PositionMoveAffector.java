@@ -23,7 +23,7 @@ public abstract class PositionMoveAffector extends Affector {
 		double speed = properties.getVelocity().getSpeed();
 		double x = properties.getPosition().getX();
 		int iter = (int)(speed*1000);
-		while(iter > 0){
+		while(iter > 0 && currFunc < 1){
 			double dx = getFunctions().get(currFunc).getDX();
 			if(getFunctions().get(currFunc).atDomainEnd(x)){
 				currFunc++;

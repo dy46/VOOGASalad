@@ -43,4 +43,12 @@ public class Position {
 	    return new Position(this.getX(), this.getY());
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		return (o instanceof Position && 
+				(((Position)o).myX - this.myX) < 0.0000001 && 
+				(((Position)o).myY - this.myY) < 0.0000001) ||
+				(this == o);
+	}
+	
 }
