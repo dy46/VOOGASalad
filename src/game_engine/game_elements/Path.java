@@ -60,7 +60,20 @@ public class Path extends MapPiece{
 	* @return	The next Position in the list of Positions that represent the path being taken.
 	*/
 	public Position getNextPosition(Position currentPosition){
-		return nextPositions.get(currentPosition);
+		if(nextPositions.containsKey(currentPosition)){
+			return nextPositions.get(currentPosition);
+		}
+		else{
+			double minDist = Double.MAX_VALUE;
+			Position closest = null;
+			for(Position pos : nextPositions.keySet()){
+				if(pos.distanceTo(currentPosition) < minDist){
+					closest = pos;
+					minDist = pos.distanceTo(currentPosition);
+				}
+			}
+			return nextPositions.get(closest);
+		}
 	}
 	
 	public String toFile(){

@@ -42,7 +42,11 @@ public class Position {
 	public Position copyPosition() {
 	    return new Position(this.getX(), this.getY());
 	}
-	
+	public double distanceTo(Position other){
+		double dx = this.myX - other.myX;
+		double dy = this.myY - other.myY;
+		return Math.sqrt(dx*dx + dy*dy);
+	}
 	@Override
 	public boolean equals(Object o){
 		return (o instanceof Position && 

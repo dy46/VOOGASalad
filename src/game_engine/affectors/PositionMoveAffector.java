@@ -40,6 +40,7 @@ public abstract class PositionMoveAffector extends Affector {
 //		double y = getFunctions().get(currFunc).evaluate((int)x); // accepts int?
 //		properties.getPosition().addToXY(x-oldX, y-oldY);
 		
+		
 	}
 
 }
