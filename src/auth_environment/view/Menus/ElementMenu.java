@@ -41,8 +41,8 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
-		towerItem.setOnAction(e -> this.createNewTower());
-		terrainItem.setOnAction(e -> this.createNewTerrain());
+		towerItem.setOnAction(e -> createNewTower());
+		terrainItem.setOnAction(e -> createNewTerrain());
 		this.getItems().addAll(towerItem, terrainItem); 
 	}
 	
