@@ -25,16 +25,15 @@ public class ElementMenu extends Menu {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private static final String LABELS_PACKAGE = "auth_environment/properties/labels";
-	private ResourceBundle myLabelsBundle = ResourceBundle.getBundle(LABELS_PACKAGE);
+	private static final String ELEMENT_LABELS_PACKAGE = "auth_environment/properties/labels";
+	private static final String TERRAIN_LABELS_PACKAGE = "auth_environment/properties/terrain_labels";
+	
 	//private List<TextField> myTextFieldList = new ArrayList<TextField>();
 	private Map<String, TextField> StrToTextMap = new HashMap<String, TextField>();
-	private GridPane myGridPane = new GridPane();
+	private GridPane myGridPane;
 	
 	public ElementMenu() {
 		this.init();
-		addLabels();
-		addButtons();
 	}
 	
 	private void init() {
@@ -46,15 +45,24 @@ public class ElementMenu extends Menu {
 		this.getItems().addAll(towerItem, terrainItem); 
 	}
 	
-	private void createNewTerrain(){
-		System.out.println("New Terrain");
+	public void createNewTower(){
+		ResourceBundle myElementLabelsBundle = ResourceBundle.getBundle(ELEMENT_LABELS_PACKAGE);
+		createNewElement(myElementLabelsBundle);
 	}
 	
-	private void addLabels(){
+	public void createNewTerrain(){
+		ResourceBundle myTerrainLabelsBundle = ResourceBundle.getBundle(TERRAIN_LABELS_PACKAGE);
+		createNewElement(myTerrainLabelsBundle);
+	}
+	
+	
+	private void addLabels(ResourceBundle myLabelsBundle){
 	    myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
 	 	myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
 		Enumeration<String> myKeys = myLabelsBundle.getKeys();	//prolly should split this up into Strings and ints
 		int index = 0;
+		StrToTextMap.clear();
+		
 		while(myKeys.hasMoreElements()){
 		 	myGridPane.getRowConstraints().add(new RowConstraints(30));
 			String name = myKeys.nextElement();
@@ -83,7 +91,11 @@ public class ElementMenu extends Menu {
 	}
 	
 	
-    public void createNewTower(){		//va will refactor this later 
+   private void createNewElement(ResourceBundle myLabelsBundle){		//va will refactor this later 
+    	myGridPane = new GridPane();
+	   
+    	addLabels(myLabelsBundle);
+		addButtons();
 
  	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
  	   Scene scene1 = new Scene(myGridPane, 200, 100);
@@ -92,7 +104,7 @@ public class ElementMenu extends Menu {
  	   newStage.setScene(scene1);
  	   newStage.setMinWidth(350.0);
  	   newStage.setMinHeight(350.0);
- 	   newStage.setTitle("Create New Tower");
+ 	   newStage.setTitle("Elemental Creator");
  	   newStage.show();
  }
     
