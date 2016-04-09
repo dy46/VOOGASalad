@@ -1,5 +1,8 @@
 package game_engine.factories;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Terrain;
 import game_engine.libraries.AffectorLibrary;
@@ -17,9 +20,10 @@ public class TerrainFactory {
 	}
 	
 	private void setupDefaultTerrains(){
-		Terrain ice = new Terrain("Ice");
+		List<Affector> affectors = new ArrayList<>();
 		Affector speedUp = myAffectorLibrary.getAffector("ExpIncr", "PositionMove");
-		ice.addAffector(speedUp);
+		affectors.add(speedUp);
+		Terrain ice = new Terrain("Ice", affectors);
 		myTerrainLibrary.addTerrain(ice);
 	}
 

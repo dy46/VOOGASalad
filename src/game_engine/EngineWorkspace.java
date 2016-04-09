@@ -41,7 +41,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	private List<Enemy> myEnemys;
 	private List<Projectile> myProjectiles;
-	
+
 	private List<Terrain> myTerrains;
 
 	private CollisionDetector myCollider;
@@ -49,13 +49,13 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
-	
+
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
 	private TerrainFactory myTerrainFactory;
-	
+
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
@@ -66,59 +66,59 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
-	        myEnemys = makeDummyEnemys();
+		myEnemys = makeDummyEnemys();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-	        myTowers = makeDummyTowers();
-	    myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
-	    myTerrains = makeDummyTerrains();
+		myTowers = makeDummyTowers();
+		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
+		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 	}
-	
+
 	private List<Terrain> makeDummyTerrains() {
 		List<Terrain> terrains = new ArrayList<>();
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
-		
+
 		terrains.add(ice);
 		return terrains;
 	}
-	
+
 	private List<Enemy> makeDummyEnemys() {
-	    List<Enemy> enemies = new ArrayList<>();
+		List<Enemy> enemies = new ArrayList<>();
 		Enemy e1 = myEnemyFactory.createConstantEnemy("Fire");
-	    Health health = new Health(50);
-	    Position position = new Position(0, 200);
-	    Velocity velocity = new Velocity(0.5, 90);
-	    List<Position> l1 = new ArrayList<>();
-	    l1.add(new Position(0,0));
-	    l1.add(new Position(62,0));
-	    l1.add(new Position(62,62));
-	    l1.add(new Position(0,62));
-	    Bounds b = new Bounds(l1);
-	    UnitProperties properties = new UnitProperties(health, null, null, velocity, b, position, null);
-	    e1.setProperties(properties);
-            e1.setTTL(Integer.MAX_VALUE);
-	    enemies.add(e1);
-	    return enemies;
+		Health health = new Health(50);
+		Position position = new Position(0, 200);
+		Velocity velocity = new Velocity(0.5, 90);
+		List<Position> l1 = new ArrayList<>();
+		l1.add(new Position(0,0));
+		l1.add(new Position(62,0));
+		l1.add(new Position(62,62));
+		l1.add(new Position(0,62));
+		Bounds b = new Bounds(l1);
+		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, position, null);
+		e1.setProperties(properties);
+		e1.setTTL(Integer.MAX_VALUE);
+		enemies.add(e1);
+		return enemies;
 	}
-	
+
 	private List<Tower> makeDummyTowers() {
-	    List<Tower> towers = new ArrayList<>();
-	    List<Position> l1 = new ArrayList<>();
-            l1.add(new Position(0,0));
-            l1.add(new Position(62,0));
-            l1.add(new Position(62,62));
-            l1.add(new Position(0,62));
-            Bounds b = new Bounds(l1);
-            Health health2 = new Health(50);
-            Position position2 = new Position(200, 300);
-            Velocity velocity2 = new Velocity(0, 0);
-            Tower t = myTowerFactory.createFourWayTower("Dude", myProjectiles, position2);
-            UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
-            t.setProperties(properties2);
-            t.setTTL(Integer.MAX_VALUE);
-            towers.add(t);
-            return towers;
+		List<Tower> towers = new ArrayList<>();
+		List<Position> l1 = new ArrayList<>();
+		l1.add(new Position(0,0));
+		l1.add(new Position(62,0));
+		l1.add(new Position(62,62));
+		l1.add(new Position(0,62));
+		Bounds b = new Bounds(l1);
+		Health health2 = new Health(50);
+		Position position2 = new Position(200, 300);
+		Velocity velocity2 = new Velocity(0, 0);
+		Tower t = myTowerFactory.createFourWayTower("Dude", myProjectiles, position2);
+		UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null);
+		t.setProperties(properties2);
+		t.setTTL(Integer.MAX_VALUE);
+		towers.add(t);
+		return towers;
 	}
 
 	public List<String> saveGame() {
@@ -136,40 +136,40 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void updateElements() { 
-	        myTowers.removeIf(t -> t.getTTL() == t.getElapsedTime());
+		myTowers.removeIf(t -> t.getTTL() == t.getElapsedTime());
 		myTowers.forEach(t -> t.update());
 		myTowers.forEach(t -> t.fire());
 		myEnemys.removeIf(e -> e.getTTL() == e.getElapsedTime());
 		myEnemys.forEach(e -> e.update());
 		myProjectiles.removeIf(p -> p.getTTL() == p.getElapsedTime());
 		myProjectiles.forEach(p -> p.update());
-		myCollider.resolveEnemyCollisions(myProjectiles);
+		myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
 	}
 
 	public String getGameStatus() {
 		return "Waves left: " + wavesLeft() + " Current wave: " + myCurrentLevel.toString();
 	}
-	
+
 	public void addBalance(double money){
 		myBalance += money;
 	}
-	
+
 	public int wavesLeft(){
 		return myCurrentLevel.wavesLeft();
 	}
-	
+
 	public void addEnemy(Enemy enemy){
 		myEnemys.add(enemy);
 	}
 
 	public void addTower(String ID, int towerTypeIndex){
-//		towerTypeBoundsCheck(towerTypeIndex);
-//		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-//		Tower newTower = new Tower(ID);
-//		newTower.upgrade(towerProperties);
-//		myTowers.add(newTower);
+		//		towerTypeBoundsCheck(towerTypeIndex);
+		//		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
+		//		Tower newTower = new Tower(ID);
+		//		newTower.upgrade(towerProperties);
+		//		myTowers.add(newTower);
 	}
-	
+
 	public void remove(Unit unit){
 		String className = unit.getClass().getSimpleName();
 		String instanceVarName = "my" + className + "s";
@@ -202,15 +202,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 			throw new IndexOutOfBoundsException();
 		}
 	}
-	
+
 	private void towerTypeBoundsCheck(int index){
 		if(index < 0 || index > myTowerTypes.size()){
 			throw new IndexOutOfBoundsException();
 		}
 	}
-	
+
 	// Getters
-	
+
 	public Level getCurrentLevel(){
 		return myCurrentLevel;
 	}
@@ -218,23 +218,23 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public IDFactory getIDFactory(){
 		return myIDFactory;
 	}
-	
+
 	public double getBalance(){
 		return myBalance;
 	}
-	
+
 	public List<Level> getLevels(){
 		return myLevels;
 	}
-	
+
 	public List<Tower> getTowers(){
 		return myTowers;
 	}
-	
+
 	public List<Path> getPaths(){
 		return myPaths;
 	}
-	
+
 	public List<Enemy> getEnemies(){
 		return myEnemys;
 	}
@@ -246,7 +246,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public FunctionFactory getFunctionFactory(){
 		return myFunctionFactory;
 	}
-	
+
 	public FunctionLibrary getFunctionLibrary(){
 		return myFunctionFactory.getFunctionLibrary();
 	}
@@ -254,7 +254,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public EnemyFactory getEnemyFactory() {
 		return myEnemyFactory;
 	}
-	
+
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorFactory.getAffectorLibrary();
 	}

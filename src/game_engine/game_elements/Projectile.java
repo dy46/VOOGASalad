@@ -10,7 +10,7 @@ import game_engine.properties.UnitProperties;
  * Internal API used to represent projectiles fired by towers and/or enemies.
  * 
  */
-public class Projectile extends Unit {
+public class Projectile extends CollidableUnit {
 
     private int fireRate;
     List<Affector> affectorsToApply;

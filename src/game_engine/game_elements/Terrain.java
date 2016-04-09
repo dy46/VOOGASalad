@@ -11,13 +11,13 @@ import game_engine.properties.Bounds;
 * Most implementations of the Terrain API will apply some sort of affector to game elements within
 * a certain area on the map.
 */
-public class Terrain extends MapPiece{
+public class Terrain extends CollidableUnit{
 	
 	private List<Affector> myAffectors;
 	private Bounds myBounds;
 	
-	public Terrain(String name) {
-		super(name);
+	public Terrain(String name, List<Affector> affectors) {
+		super(name, affectors);
 		setID(getWorkspace().getIDFactory().createID(this));
 	}
 	
