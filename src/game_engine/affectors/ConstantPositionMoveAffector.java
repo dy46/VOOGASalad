@@ -6,12 +6,8 @@ import game_engine.functions.Function;
 
 public class ConstantPositionMoveAffector extends PositionMoveAffector {
 
-//	public PositionMoveAffector (List<Double> baseNumbers, int timeToLive) {
-//		super(baseNumbers, timeToLive);
-//	}
-
-	public ConstantPositionMoveAffector(List<Function> functions, int TTL){
-		super(functions, TTL);
+	public ConstantPositionMoveAffector(List<Function> functions){
+		super(functions);
 	}
 
 }

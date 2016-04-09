@@ -39,4 +39,8 @@ public class Position {
 	    addToY(y);
 	}
 	
+	public Position copyPosition() {
+	    return new Position(this.getX(), this.getY());
+	}
+	
 }

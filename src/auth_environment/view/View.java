@@ -3,6 +3,7 @@ package auth_environment.view;
 import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
+
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
@@ -23,6 +24,9 @@ public class View {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
+	
+	
+	
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
@@ -38,7 +42,11 @@ public class View {
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
+		
+		
+		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
     }
+
 
     public void display() {
     	this.myStage.show();

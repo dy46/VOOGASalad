@@ -19,23 +19,11 @@ public class AffectorFactory {
 		setDefaultAffectors(myFunctionFactory);
 	}
 
-	//    public Affector constructAffector(String property, String effect, List<Double> baseNumbers, int TTL) {
-	//        Affector affector = null;
-	//        try {
-	//            affector = (Affector) Class.forName(PACKAGE + property + effect + BASE)
-	//                    .getConstructor(List.class, int.class).newInstance(baseNumbers, TTL);
-	//        }
-	//        catch (Exception e) {
-	//            e.printStackTrace();
-	//        }
-	//        return affector;
-	//    }
-
 	private void constructAffector(String property, String effect, List<Function> functions, int TTL){
 		Affector affector = null;
 		try {
 			affector = (Affector) Class.forName(PACKAGE + property + effect + BASE)
-					.getConstructor(List.class, int.class).newInstance(functions, TTL);
+					.getConstructor(List.class).newInstance(functions);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -61,6 +49,11 @@ public class AffectorFactory {
 		Function directionFunction3 = myFunctionFactory.createConstantFunction(0);
 		String effect3 = "PositionMove";
 		constructAffector(property3, effect3, Arrays.asList(speedFunction3, directionFunction3), infiniteTime);
+		
+		String property4 = "Constant";
+		Function healthFunction = myFunctionFactory.createConstantFunction(0);
+		String effect4 ="HealthDamage";
+		constructAffector(property4, effect4, Arrays.asList(healthFunction), 1);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

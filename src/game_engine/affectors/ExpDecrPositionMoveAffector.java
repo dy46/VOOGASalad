@@ -6,8 +6,8 @@ import game_engine.functions.Function;
 
 public class ExpDecrPositionMoveAffector extends PositionMoveAffector{
 
-	public ExpDecrPositionMoveAffector(List<Function> functions, int TTL){
-		super(functions, TTL);
+	public ExpDecrPositionMoveAffector(List<Function> functions){
+		super(functions);
 	}
 	
 }
