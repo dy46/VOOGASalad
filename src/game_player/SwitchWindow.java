@@ -10,6 +10,10 @@ import javafx.scene.layout.GridPane;
 
 public class SwitchWindow {
 	
+	private static final int NAME_ROW = 0;
+	private static final int IMAGE_ROW = 1;
+	private static final int DESCRIPTION_ROW = 2;
+	
 	private ResourceBundle myResources;
 	private GridPane windowRoot;
 	private String[] gameNames;
@@ -29,13 +33,13 @@ public class SwitchWindow {
 	}
 	
 	public void addGameElements() {
-		gameNames = myResources.getString("GameNameList").split(";");
 		this.addImages();
+		gameNames = myResources.getString("GameNameList").split(";");
 		gameDescriptions = myResources.getString("GameDescriptionList").split(";");
 		for (int i = 0; i < gameNames.length; i++) {
-			windowRoot.add(new Label(gameNames[i].trim()), i, 0);
-			windowRoot.add(gameImages[i], i, 1);
-			windowRoot.add(new Label(gameDescriptions[i].trim()), i, 2);
+			windowRoot.add(new Label(gameNames[i].trim()), i, NAME_ROW);
+			windowRoot.add(gameImages[i], i, IMAGE_ROW);
+			windowRoot.add(new Label(gameDescriptions[i].trim()), i, DESCRIPTION_ROW);
 		}
 	}
 	

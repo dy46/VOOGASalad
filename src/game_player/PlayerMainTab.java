@@ -19,11 +19,8 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
+	private VBox gameMenu;
 	private HBox gamePanel;
-	
-	private IGUIObject gameCanvas;
-	private IGUIObject gameSpeed;
-	private IGUIObject playerSwitchGames;
 	
 	public PlayerMainTab(ResourceBundle r) {
 		myResources = r;
@@ -77,13 +74,19 @@ public class PlayerMainTab implements IPlayerTab{
 	private void createUISections() {
 		gameSection = new VBox(PANEL_PADDING);
 		configurationPanel = new VBox(PANEL_PADDING);
+		gameMenu = new VBox(PANEL_PADDING);
 		gamePanel = new HBox(PANEL_PADDING);
 	}
 	
 	private void placeUISections() {
 		myRoot.setCenter(gameSection);
 		myRoot.setRight(configurationPanel);
+		myRoot.setTop(gameMenu);
 		myRoot.setBottom(gamePanel);
+	}
+	
+	private void addToTop(IGUIObject element) {
+		gameMenu.getChildren().add(element.createNode());
 	}
 	
 	private void addToGameCanvas(IGUIObject element) {
