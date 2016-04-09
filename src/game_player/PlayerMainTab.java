@@ -96,4 +96,8 @@ public class PlayerMainTab implements IPlayerTab{
 	private void addToConfigurationPanel(IGUIObject element) {
 		configurationPanel.getChildren().add(element.createNode());
 	}
+	
+	private void addToGamePanel(IGUIObject element) {
+		gamePanel.getChildren().add(element.createNode());
+	}
 }
