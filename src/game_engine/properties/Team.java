@@ -16,4 +16,8 @@ public class Team {
 		this.myTeam = team;
 	}
 	
+	public Team copyTeam() {
+	    return new Team(this.getTeam());
+	}
+	
 }

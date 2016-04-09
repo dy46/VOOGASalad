@@ -1,5 +1,7 @@
 package game_engine.factories;
 
+import java.util.Collections;
+import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorLibrary;
 import game_engine.game_elements.Enemy;
 
@@ -12,15 +14,22 @@ public class EnemyFactory {
 	}
 
 	public Enemy createConstantEnemy(String name){
-		return new Enemy(name, myAffectorLibrary.getAffector("Constant", "PositionMove"));
+	    return createSpecifiedEnemy(name, "Constant", "PositionMove");
 	}
 	
 	public Enemy createExpIncrEnemy(String name){
-		return new Enemy(name, myAffectorLibrary.getAffector("ExpIncr", "PositionMove"));
+	    return createSpecifiedEnemy(name, "ExpInc", "PositionMove");
 	}
 	
 	public Enemy createExpDecrEnemy(String name){
-		return new Enemy(name, myAffectorLibrary.getAffector("ExpDecr", "PositionMove"));
+	        return createSpecifiedEnemy(name, "ExpDecr", "PositionMove");
 	}
+	
+	public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
+	    Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
+            moveAffector.setTTL(Integer.MAX_VALUE);
+            return new Enemy(name, Collections.singletonList(moveAffector));
+	}
+	
 
 }
