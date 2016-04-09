@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import auth_environment.backend.MapDisplayModel;
 import game_engine.game_elements.GameElement;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 /**
  * Created by BrianLin on 3/31/16.

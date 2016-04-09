@@ -6,6 +6,8 @@ package auth_environment.backend;
  *
  * This class holds the selected Game Element index and the coordinates of the selected tile. 
  * These values will be passed to the Backend using the getter methods.  
+ * 
+ * Pass this class to anything that will modify the selected Element or Coordinates. 
  */
 
 public class SelectorModel implements ISelector {
