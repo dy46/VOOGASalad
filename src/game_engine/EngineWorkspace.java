@@ -3,13 +3,16 @@ package game_engine;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.functions.Function;
+import game_engine.game_elements.CollidableUnit;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
@@ -143,7 +146,14 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myEnemys.forEach(e -> e.update());
 		myProjectiles.removeIf(p -> p.getTTL() == p.getElapsedTime());
 		myProjectiles.forEach(p -> p.update());
-		myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
+		myCollider.resolveEnemyCollisions(getCollideList());
+	}
+	
+	private List<CollidableUnit> getCollideList(){
+		List<CollidableUnit> collideList = new ArrayList<>();
+		collideList.addAll(myTerrains);
+		collideList.addAll(myProjectiles);
+		return collideList;
 	}
 
 	public String getGameStatus() {
@@ -257,6 +267,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorFactory.getAffectorLibrary();
+	}
+
+	public List<Terrain> getTerrains() {
+		return myTerrains;
 	}
 
 }

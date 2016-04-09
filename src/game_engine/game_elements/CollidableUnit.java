@@ -6,14 +6,19 @@ import game_engine.affectors.Affector;
 
 public class CollidableUnit extends Unit{
 
+	private List<Affector> affectorsToApply;
+
 	public CollidableUnit(String name, List<Affector> affectors) {
 		super(name, affectors);
 		// TODO Auto-generated constructor stub
 	}
 
 	public List<Affector> getAffectorsToApply() {
-		// TODO Auto-generated method stub
-		return null;
+		return affectorsToApply;
 	}
+	
+	public void setAffectorsToApply (List<Affector> affectorsToApply) {
+        this.affectorsToApply = affectorsToApply;
+    }
 
 }

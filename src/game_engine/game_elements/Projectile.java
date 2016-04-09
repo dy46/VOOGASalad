@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.properties.UnitProperties;
 
 
 /*
@@ -13,7 +12,6 @@ import game_engine.properties.UnitProperties;
 public class Projectile extends CollidableUnit {
 
     private int fireRate;
-    List<Affector> affectorsToApply;
 
     public Projectile (String name, List<Affector> affectors) {
         super(name, affectors);
@@ -46,14 +44,6 @@ public class Projectile extends CollidableUnit {
      */
     public void applyEffects (GameElement elem) {
 
-    }
-
-    public void setAffectorsToApply (List<Affector> affectorsToApply) {
-        this.affectorsToApply = affectorsToApply;
-    }
-
-    public List<Affector> getAffectorsToApply () {
-        return affectorsToApply;
     }
 
     public int getFireRate () {

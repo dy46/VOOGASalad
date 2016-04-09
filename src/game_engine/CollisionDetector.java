@@ -16,9 +16,11 @@ public class CollisionDetector {
 		myEngine = engine;
 	}
 
-	public void resolveEnemyCollisions(List<CollidableUnit> collideList, List<CollidableUnit> terrainList){
+	public void resolveEnemyCollisions(List<CollidableUnit> collideList){
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, collideList));
-		myEngine.getEnemies().forEach(t -> updateEnemies(t, terrainList));
+	}
+	
+	public void resolveTowerCollisions(List<CollidableUnit> collideList){
 		//myEngine.getTowers().forEach(t -> updateTowers(t, terrainList));
 	}
 
