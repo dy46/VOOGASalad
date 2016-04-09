@@ -106,7 +106,7 @@ public abstract class Unit extends GameElement {
     }
     
     public boolean isVisible() {
-        return this.getTTL() != this.getElapsedTime();
+        return this.getTTL() >= this.getElapsedTime();
     }
     
     public void incrementElapsedTime(int i) {

@@ -14,19 +14,14 @@ import game_engine.properties.UnitProperties;
  * 
  */
 public class PathFollowPositionMoveAffector extends PositionMoveAffector {
-	private Path myPath;
 	public PathFollowPositionMoveAffector(List<Function> functions) {
 		super(functions);
 	}
-	
-	public PathFollowPositionMoveAffector(Path path){
-		super(new ArrayList<Function>());
-		myPath = path;
-	}
-	
+
 	@Override
 	public void apply (UnitProperties properties) {
 		double speed = properties.getVelocity().getSpeed();
+		Path myPath = properties.getPath();
 		for(int i = 0;i < speed;i++){
 			Position curr = properties.getPosition();
 			Position next = myPath.getNextPosition(curr);

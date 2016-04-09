@@ -55,7 +55,11 @@ public class AffectorFactory {
 		
 		String property5 = "State";
 		String effect5 = "Change";
-		constructAffector(property5, effect5, null);		
+		constructAffector(property5, effect5, null);	
+		
+		String property6 = "PathFollow";
+		String effect6 = "PositionMove";
+		constructAffector(property6, effect6, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

@@ -76,7 +76,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 	
 	private List<Enemy> makeDummyEnemys() {
-	    Enemy e1 = myEnemyFactory.createConstantEnemy("Enemy");
+	    Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 	    return new ArrayList<>(Arrays.asList(new Enemy[]{e1}));
 	}
 	
@@ -108,7 +108,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myProjectiles.forEach(p -> p.update());
 		myCollider.resolveEnemyCollisions(myProjectiles);
 		if(myTimer % 240 == 0 ) {
-		    Enemy e = myEnemyFactory.createConstantEnemy("Enemy");
+		    Enemy e = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		    myEnemys.add(e);
 		    myUnits.add(e);
 		}

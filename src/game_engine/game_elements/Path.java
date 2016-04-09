@@ -20,6 +20,7 @@ public class Path extends MapPiece{
 		super(name);
 //		setID(getWorkspace().getIDFactory().createID(this));
 		cycle = false;
+		initialize();
 	}
 	public void initialize(){
 		myPositions = new ArrayList<>();
@@ -92,6 +93,13 @@ public class Path extends MapPiece{
 	
 	public String toFile(){
 		return getID();
+	}
+	public Path copyPath(){
+		Path newPath = new Path("");
+		this.myPositions.forEach(t -> {
+				newPath.addPosition(t.copyPosition());
+		});
+		return newPath;
 	}
 	public static void main(String[] args){
 		Path p = new Path("Something here");
