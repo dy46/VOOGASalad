@@ -1,6 +1,7 @@
 package auth_environment.backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,15 @@ public class MapDisplayModel {
 		
 		// Brian's code
 		myMap = new HashMap<Coordinate, GameElement>(); 
+	}
+	
+	// TODO: check for x, y in bounds 
+	public boolean addElement(GameElement element, int x, int y) {
+		if 
+	}
+	
+	private boolean inBounds(int x, int y) {
+		return (x <= this.xMax & x >= 0 & y <= this.yMax & y >= 0);
 	}
 	
 	public int getXmax(){
