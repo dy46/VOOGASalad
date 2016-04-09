@@ -3,8 +3,6 @@ package game_engine.properties;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.EngineWorkspace;
-
 public class UnitProperties {
 
 	private Health myHealth;
@@ -14,7 +12,9 @@ public class UnitProperties {
 	private Bounds myBounds;
 	private Position myPosition;
 	private Price myPrice;
+	private State myState;
 	
+	private static String DEFAULT_STATE = "STATIONARY";
 	private static double DEFAULT_HEALTH = 0;
 	private static double DEFAULT_DAMAGE = 0;
 	private static String DEFAULT_TEAM = "0";
@@ -25,7 +25,10 @@ public class UnitProperties {
 	private static double DEFAULT_Y_POS = 0;
 	private static double DEFAULT_PRICE = 0;
 	
-	public UnitProperties(Health health, Damage damage, Team team, Velocity velocity, Bounds bounds, Position position, Price price){
+	public UnitProperties(Health health, Damage damage, 
+	                      Team team, Velocity velocity, 
+	                      Bounds bounds, Position position, 
+	                      Price price, State state){
 		this.myHealth = health;
 		this.myDamage = damage;
 		this.myTeam = team;
@@ -33,6 +36,7 @@ public class UnitProperties {
 		this.myBounds = bounds;
 		this.myPosition = position;
 		this.myPrice = price;
+		this.myState = state;
 	}
 	
 	public UnitProperties copyUnitProperties() {
@@ -40,6 +44,7 @@ public class UnitProperties {
 //            newProperties.myHealth = this.getHealth().copyHealth();
 //            newProperties.myDamage = this.getDamage().copyDamage();
 //            newProperties.myTeam = this.getTeam().copyTeam();
+            newProperties.myState = this.getState().copyState();
             newProperties.myVelocity = this.getVelocity().copyVelocity();
             newProperties.myBounds = this.getBounds().copyBounds();
             newProperties.myPosition = this.myPosition.copyPosition();
@@ -48,6 +53,7 @@ public class UnitProperties {
 	}
 	
 	public UnitProperties(){
+	        myState = new State(DEFAULT_STATE);
 		myHealth = new Health(DEFAULT_HEALTH);
 		myDamage = new Damage(DEFAULT_DAMAGE);
 		myTeam = new Team(DEFAULT_TEAM);
@@ -55,15 +61,6 @@ public class UnitProperties {
 		myBounds = new Bounds(DEFAULT_BOUNDS);
 		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
-	}
-	
-	public void update(UnitProperties properties){
-		this.myHealth = properties.getHealth();
-		this.myDamage = properties.getDamage();
-		this.myTeam = properties.getTeam();
-		this.myVelocity = properties.getVelocity();
-		this.myBounds = properties.getBounds();
-		this.myPosition = properties.getPosition();
 	}
 	
 	public Health getHealth(){
@@ -118,6 +115,14 @@ public class UnitProperties {
 	public void setPosition(double x, double y){
 		myPosition.setX(x);
 		myPosition.setY(y);
+	}
+	
+	public void setState(State state) {
+	    this.myState = state;
+	}
+	
+	public State getState() {
+	    return myState;
 	}
 	
 }

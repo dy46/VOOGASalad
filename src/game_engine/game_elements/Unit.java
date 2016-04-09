@@ -20,13 +20,18 @@ public abstract class Unit extends GameElement {
     private UnitProperties myProperties;
     private List<Affector> myAffectors;
     private int TTL;
+    private boolean setToDeath;
+    private boolean hasCollided;
+    private int deathDelay;
     private int elapsedTime;
+    private int numFrames;
 
-    public Unit (String name, List<Affector> affectors) {
+    public Unit (String name, List<Affector> affectors, int numFrames) {
         super(name);
         initialize();
         myProperties = new UnitProperties();
         elapsedTime = 0;
+        this.numFrames = numFrames;
         addAffectors(affectors);
     }
 
@@ -34,11 +39,12 @@ public abstract class Unit extends GameElement {
         super(ID);
         initialize();
         this.myProperties = properties;
-        initialize();
+        this.setToDeath = false;
     }
 
     private void initialize () {
         myAffectors = new ArrayList<>();
+        this.setHasCollided(false);
     }
 
     public void update () {
@@ -79,11 +85,48 @@ public abstract class Unit extends GameElement {
         this.TTL = TTL;
     }
     
+    public void setDeathDelay(int deathDelay) {
+        this.deathDelay = deathDelay;
+    }
+    
+    public int getDeathDelay() {
+        return deathDelay;
+    }
+    
+    public void incrementTTL(int increment) {
+        this.TTL += increment;
+    }
+    
+    public void setElapsedTimeToDeath() {
+        if(!setToDeath) {
+            this.setElapsedTime(this.getTTL() - deathDelay);
+            this.getProperties().getState().changeState(5);
+            setToDeath = true;
+        }
+    }
+    
+    public boolean isVisible() {
+        return this.getTTL() != this.getElapsedTime();
+    }
+    
     public void incrementElapsedTime(int i) {
         this.elapsedTime += 1;
     }
+    
     public void setElapsedTime(int newTime){
     	elapsedTime = newTime;
+    }
+
+    public boolean hasCollided () {
+        return hasCollided;
+    }
+
+    public void setHasCollided (boolean hasCollided) {
+        this.hasCollided = hasCollided;
+    }
+    
+    public int getNumFrames() {
+        return numFrames;
     }
 
 }

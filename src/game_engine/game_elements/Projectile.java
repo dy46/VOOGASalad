@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.properties.UnitProperties;
 
 
 /*
@@ -15,8 +14,8 @@ public class Projectile extends Unit {
     private int fireRate;
     List<Affector> affectorsToApply;
 
-    public Projectile (String name, List<Affector> affectors) {
-        super(name, affectors);
+    public Projectile (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
         // setID(getWorkspace().getIDFactory().createID(this));
     }
 
@@ -25,15 +24,18 @@ public class Projectile extends Unit {
      */
     public void update () {
        super.update();
+//       System.out.println(getProperties().getState().getValue());
     }
 
     public Projectile copyProjectile () {
         List<Affector> copyAffectors = this.getAffectors().stream().map(a -> a.copyAffector()).collect(Collectors.toList());
-        Projectile copy = new Projectile(this.toString(), copyAffectors);
+        Projectile copy = new Projectile(this.toString(), copyAffectors, this.getNumFrames());
         copy.setTTL(this.getTTL());
         copy.setFireRate(this.getFireRate());
-        copy.setAffectorsToApply(this.getAffectorsToApply());
+        List<Affector> copyApplyAffectors = this.getAffectorsToApply().stream().map(a -> a.copyAffector()).collect(Collectors.toList());
+        copy.setAffectorsToApply(copyApplyAffectors);
         copy.setProperties(this.getProperties().copyUnitProperties());
+        copy.setDeathDelay(this.getDeathDelay());
         return copy;
     }
 
