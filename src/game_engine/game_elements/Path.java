@@ -18,12 +18,11 @@ public class Path extends MapPiece{
 	
 	public Path(String name){
 		super(name);
-		setID(getWorkspace().getIDFactory().createID(this));
-		initialize(new ArrayList<>());
+//		setID(getWorkspace().getIDFactory().createID(this));
 		cycle = false;
 	}
 	
-	private void initialize(ArrayList<Position> list){
+	public void initialize(List<Position> list){
 		myPositions = list;
 		nextPositions = new HashMap<Position, Position>();
 		setNextPositions();
@@ -38,16 +37,20 @@ public class Path extends MapPiece{
 		double y = myPositions.get(0).getY();
 		for(int i = 0;i < size;i++){
 			Position p1 = myPositions.get(i);
-			Position p2 = myPositions.get(i+1);
+			Position p2 = myPositions.get((i+1)%myPositions.size());
 			double vx = p2.getX() - p1.getX();
 			double vy = p2.getY() - p1.getY();
 			double mag = Math.sqrt(vx*vx + vy*vy);
 			vx /= mag;
 			vy /= mag;
-			while((p2.getX() - x)/vx > 0 && (p2.getY() - y)/vy > 0){
+			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0)){
 				nextPositions.put(new Position(x, y), new Position(x + vx, y + vy));
+				x += vx;
+				y += vy;
 			}
 			nextPositions.put(new Position(x - vx, y - vy), p2);
+			x = p2.getX();
+			y = p2.getY();
 		}
 	}
 	
@@ -78,6 +81,22 @@ public class Path extends MapPiece{
 	
 	public String toFile(){
 		return getID();
+	}
+	public static void main(String[] args){
+		Path p = new Path("Something here");
+		List<Position> list = new ArrayList<Position>();
+		list.add(new Position(0,0));
+		list.add(new Position(200, 0));
+		list.add(new Position(200, 200));
+		p.initialize(list);
+		p.setCycle(true);
+		Position start = new Position(0,0);
+		int i = 0;
+		while(i++ <= 800){
+			System.out.printf("X: %f Y: %f\n", start.getX(), start.getY());
+			start = p.getNextPosition(start);
+		}
+		
 	}
 	
 }
