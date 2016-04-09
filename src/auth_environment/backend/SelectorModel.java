@@ -13,6 +13,8 @@ public class SelectorModel implements ISelector {
 	private int elementIndex;
 	private int x;
 	private int y; 
+	
+	public SelectorModel() {}; 
 
 	@Override
 	public void chooseElement(int index) {
