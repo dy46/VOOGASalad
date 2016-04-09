@@ -1,6 +1,5 @@
 package auth_environment.backend;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,21 +20,27 @@ public class MapDisplayModel {
 	
 	public void generateMap(){
 		// Xander's code
-		myList = new ArrayList<Coordinate>();
-		for(int i=0; i<xMax; i++){
-			for(int j=0; j<yMax; j++){
-				Coordinate point = new Coordinate(i,j);
-				myList.add(point);
-			}
-		}
+//		myList = new ArrayList<Coordinate>();
+//		for(int i=0; i<xMax; i++){
+//			for(int j=0; j<yMax; j++){
+//				Coordinate point = new Coordinate(i,j);
+//				myList.add(point);
+//			}
+//		}
 		
 		// Brian's code
 		myMap = new HashMap<Coordinate, GameElement>(); 
+
 	}
 	
 	// TODO: check for x, y in bounds 
+	// TODO: consider making this a void method
 	public boolean addElement(GameElement element, int x, int y) {
-		if 
+		if (inBounds(x,y)) {
+			Coordinate point = new Coordinate(x,y); 
+				myMap.put(point, element);
+		}
+		return inBounds(x,y); 
 	}
 	
 	private boolean inBounds(int x, int y) {
@@ -50,8 +55,8 @@ public class MapDisplayModel {
 		return yMax;
 	}
 	
-	public List getMap(){
-		return myList;
-	}
+//	public List getMap(){
+//		return myList;
+//	}
 
 }

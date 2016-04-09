@@ -3,10 +3,19 @@ package auth_environment.view;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Team member responsible: Xander
+ * Modifications from: Brian
+ *
+ * This represents the smallest unit of the Map Display. This tile consists of several layers: empty (blank), Terrain
+ * and GameElement (stacked with GameElements on top). 
+ * 
+ * The key action is that on mouse click. 
+ */
+
 public class RecTile extends Rectangle {
 
 	public RecTile() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public RecTile(double arg0, double arg1) {

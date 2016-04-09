@@ -3,6 +3,8 @@ package auth_environment.backend;
 import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
 
+// TODO: this class may be redundant with the Backend's position class 
+
 public class Coordinate{
 	
 	private int x;
