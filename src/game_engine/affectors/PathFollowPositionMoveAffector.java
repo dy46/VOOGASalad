@@ -32,6 +32,7 @@ public class PathFollowPositionMoveAffector extends PositionMoveAffector {
 			Position next = myPath.getNextPosition(curr);
 			properties.getPosition().setX(next.getX());
 			properties.getPosition().setY(next.getY());
+			
 		}
 	}
 	

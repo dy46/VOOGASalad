@@ -21,7 +21,11 @@ public class Path extends MapPiece{
 //		setID(getWorkspace().getIDFactory().createID(this));
 		cycle = false;
 	}
-	
+	public void initialize(){
+		myPositions = new ArrayList<>();
+		nextPositions = new HashMap<Position, Position>();
+		setNextPositions();
+	}
 	public void initialize(List<Position> list){
 		myPositions = list;
 		nextPositions = new HashMap<Position, Position>();
@@ -31,8 +35,15 @@ public class Path extends MapPiece{
 		cycle = state;
 		setNextPositions();
 	}
+	public void addPosition(Position append){
+		myPositions.add(append);
+		setNextPositions();
+	}
 	private void setNextPositions(){
 		int size = cycle ? myPositions.size() : myPositions.size() - 1;
+		if(myPositions.size() < 1){
+			return;
+		}
 		double x = myPositions.get(0).getX();
 		double y = myPositions.get(0).getY();
 		for(int i = 0;i < size;i++){
@@ -92,9 +103,21 @@ public class Path extends MapPiece{
 		p.setCycle(true);
 		Position start = new Position(0,0);
 		int i = 0;
+//		while(i++ <= 800){
+//			System.out.printf("X: %f Y: %f\n", start.getX(), start.getY());
+//			start = p.getNextPosition(start);
+//		}
+		Path p2 = new Path("Something here");
+		p2.initialize();
+		p2.addPosition(new Position(0,0));
+		p2.addPosition(new Position(200, 0));
+		p2.addPosition(new Position(200, 200));
+		p2.setCycle(true);
+		start = new Position(0, 0);
+		i = 0;
 		while(i++ <= 800){
 			System.out.printf("X: %f Y: %f\n", start.getX(), start.getY());
-			start = p.getNextPosition(start);
+			start = p2.getNextPosition(start);
 		}
 		
 	}
