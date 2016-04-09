@@ -9,7 +9,6 @@ public class Enemy extends LiveableUnit {
         super(name, affectors, numFrames);
 //        setID(getWorkspace().getIDFactory().createID(this));
     }
-    
 
     /*
      * the Enemy fires a projectile at a target, which subsequently applies
@@ -31,5 +30,4 @@ public class Enemy extends LiveableUnit {
     public void update () {
         super.update(this);
     }
-    
 }

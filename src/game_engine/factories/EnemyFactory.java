@@ -15,26 +15,26 @@ import game_engine.properties.Velocity;
 
 public class EnemyFactory {
 
-	private AffectorLibrary myAffectorLibrary;
+        private AffectorLibrary myAffectorLibrary;
 
-	public EnemyFactory(AffectorLibrary affectorLibrary){
-		this.myAffectorLibrary = affectorLibrary;
-	}
+        public EnemyFactory(AffectorLibrary affectorLibrary){
+                this.myAffectorLibrary = affectorLibrary;
+        }
 
-	public Enemy createConstantEnemy(String name){
-	    return createSpecifiedEnemy(name, "Constant", "PositionMove");
-	}
-	
-	public Enemy createExpIncrEnemy(String name){
-	    return createSpecifiedEnemy(name, "ExpInc", "PositionMove");
-	}
-	
-	public Enemy createExpDecrEnemy(String name){
-	        return createSpecifiedEnemy(name, "ExpDecr", "PositionMove");
-	}
-	
-	public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
-	    Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
+        public Enemy createConstantEnemy(String name){
+            return createSpecifiedEnemy(name, "Constant", "PositionMove");
+        }
+        
+        public Enemy createExpIncrEnemy(String name){
+            return createSpecifiedEnemy(name, "ExpInc", "PositionMove");
+        }
+        
+        public Enemy createExpDecrEnemy(String name){
+                return createSpecifiedEnemy(name, "ExpDecr", "PositionMove");
+        }
+        
+        public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
+            Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
             moveAffector.setTTL(Integer.MAX_VALUE);
             Enemy e1 = new Enemy(name, Collections.singletonList(moveAffector), 3);
             Health health = new Health(30);
@@ -52,7 +52,7 @@ public class EnemyFactory {
             e1.setTTL(1000000);
             e1.setDeathDelay(3);
             return e1;
-	}
-	
+        }
+        
 
 }
