@@ -1,4 +1,4 @@
-package game_player;
+package game_player.view;
 
 import java.util.ResourceBundle;
 

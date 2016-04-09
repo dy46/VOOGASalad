@@ -1,4 +1,4 @@
-package game_player;
+package game_player.view;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
