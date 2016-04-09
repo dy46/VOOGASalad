@@ -3,6 +3,7 @@ package game_player;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -36,6 +37,7 @@ public class GameSpeedSlider implements IGUIObject{
 		
 		animationSpeed.valueProperty().addListener(event -> setSpeed(animationSpeed.getValue()));
 		
+		sliderBox.setAlignment(Pos.TOP_CENTER);
 		sliderBox.getChildren().addAll(sliderLabel, animationSpeed);
 		sliderBox.setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
 		return sliderBox;

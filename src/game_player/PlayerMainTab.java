@@ -3,12 +3,21 @@ package game_player;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class PlayerMainTab implements IPlayerTab{
+	private static final int TOP_PADDING = 10;
+	private static final int RIGHT_PADDING = 5;
+	private static final int BOTTOM_PADDING = 10;
+	private static final int LEFT_PADDING = 5;
 	private static final String GUI_ELEMENTS = "GUIElements";
 	private static final String PACKAGE_NAME = "game_player.";
 	private static final int PANEL_PADDING = 10;
@@ -76,6 +85,7 @@ public class PlayerMainTab implements IPlayerTab{
 		configurationPanel = new VBox(PANEL_PADDING);
 		gameMenu = new VBox(PANEL_PADDING);
 		gamePanel = new HBox(PANEL_PADDING);
+		this.configurePanels();
 	}
 	
 	private void placeUISections() {
@@ -83,6 +93,15 @@ public class PlayerMainTab implements IPlayerTab{
 		myRoot.setRight(configurationPanel);
 		myRoot.setTop(gameMenu);
 		myRoot.setBottom(gamePanel);
+	}
+	
+	private void configurePanels() {
+		Label configurationLabel = new Label(myResources.getString("Configuration"));
+		configurationLabel.setFont(new Font("Arial", 20));
+		configurationPanel.setAlignment(Pos.TOP_CENTER);
+		configurationPanel.getChildren().add(configurationLabel);
+		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+		
 	}
 	
 	private void addToTop(IGUIObject element) {
