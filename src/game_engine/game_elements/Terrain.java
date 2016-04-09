@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import game_engine.affectors.Affector;
+import game_engine.properties.Bounds;
 
 /*
 * Internal API that will be used to reflect the inclusion of terrain effects in games. 
@@ -13,10 +14,15 @@ import game_engine.affectors.Affector;
 public class Terrain extends MapPiece{
 	
 	private List<Affector> myAffectors;
+	private Bounds myBounds;
 	
 	public Terrain(String name) {
 		super(name);
 		setID(getWorkspace().getIDFactory().createID(this));
+	}
+	
+	public void setBounds(Bounds bounds){
+		this.myBounds = bounds;
 	}
 	
 	/*
