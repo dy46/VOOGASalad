@@ -34,5 +34,6 @@ public class PathFollowPositionMoveAffector extends PositionMoveAffector {
 			properties.getPosition().setY(next.getY());
 		}
 	}
+	
 
 }
