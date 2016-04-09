@@ -4,19 +4,22 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.affectors.AffectorFactory;
-import game_engine.affectors.AffectorLibrary;
+import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.functions.Function;
-import game_engine.functions.FunctionFactory;
-import game_engine.functions.FunctionLibrary;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
+import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.libraries.AffectorLibrary;
+import game_engine.libraries.FunctionLibrary;
+import game_engine.libraries.TerrainLibrary;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
 import game_engine.properties.Position;
@@ -38,6 +41,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	private List<Enemy> myEnemys;
 	private List<Projectile> myProjectiles;
+	
+	private List<Terrain> myTerrains;
 
 	private CollisionDetector myCollider;
 	private List<UnitProperties> myTowerTypes;
@@ -49,6 +54,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
+	private TerrainFactory myTerrainFactory;
 	
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
@@ -63,8 +69,18 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	        myEnemys = makeDummyEnemys();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 	        myTowers = makeDummyTowers();
+	    myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
+	    myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
+	}
+	
+	private List<Terrain> makeDummyTerrains() {
+		List<Terrain> terrains = new ArrayList<>();
+		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
+		
+		terrains.add(ice);
+		return terrains;
 	}
 	
 	private List<Enemy> makeDummyEnemys() {

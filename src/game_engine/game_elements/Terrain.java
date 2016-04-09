@@ -1,6 +1,8 @@
 package game_engine.game_elements;
 
 import java.util.Collection;
+import java.util.List;
+
 import game_engine.affectors.Affector;
 
 /*
@@ -9,6 +11,8 @@ import game_engine.affectors.Affector;
 * a certain area on the map.
 */
 public class Terrain extends MapPiece{
+	
+	private List<Affector> myAffectors;
 	
 	public Terrain(String name) {
 		super(name);
@@ -27,8 +31,8 @@ public class Terrain extends MapPiece{
 	/*
 	* Sets the affector for the terrain, which will be applied to each unit within the the terrain
 	*/
-	public void setAffector(Affector effect){
-		
+	public void addAffector(Affector effect){
+		myAffectors.add(effect);
 	}
 
 	/*

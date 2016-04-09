@@ -1,4 +1,6 @@
-package game_engine;
+package game_engine.factories;
+
+import game_engine.EngineWorkspace;
 
 public class PropertyFactory {
 

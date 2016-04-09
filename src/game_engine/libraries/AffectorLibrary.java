@@ -1,8 +1,10 @@
-package game_engine.affectors;
+package game_engine.libraries;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import game_engine.affectors.Affector;
 
 public class AffectorLibrary {
 

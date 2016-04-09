@@ -1,7 +1,13 @@
-package game_engine.functions;
+package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import game_engine.functions.Constant;
+import game_engine.functions.Function;
+import game_engine.functions.Term;
+import game_engine.functions.Variable;
+import game_engine.libraries.FunctionLibrary;
 
 public class FunctionFactory {
 

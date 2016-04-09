@@ -1,11 +1,12 @@
-package game_engine.affectors;
+package game_engine.factories;
 
 import java.util.Arrays;
 import java.util.List;
 
+import game_engine.affectors.Affector;
 import game_engine.functions.Function;
-import game_engine.functions.FunctionFactory;
-import game_engine.functions.FunctionLibrary;
+import game_engine.libraries.AffectorLibrary;
+import game_engine.libraries.FunctionLibrary;
 
 public class AffectorFactory {
 

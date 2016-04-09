@@ -2,8 +2,8 @@ package game_engine.factories;
 
 import java.util.Collections;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorLibrary;
 import game_engine.game_elements.Enemy;
+import game_engine.libraries.AffectorLibrary;
 
 public class EnemyFactory {
 
