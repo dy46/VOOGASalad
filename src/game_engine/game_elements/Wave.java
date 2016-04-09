@@ -24,14 +24,14 @@ public class Wave extends MapPiece{
 	public void setLevel(Level level){
 		myLevel = level;
 	}
-
+	
 	/*
 	 * Returns the number of enemies left in this wave
 	 */
 	public int getEnemiesLeft(){
 		int numEnemies = 0;
 		for(Enemy e: myEnemies){
-			if(e.isAlive()){
+			if(e.isAlive() && e.isVisible()){
 				numEnemies++;
 			}
 		}
