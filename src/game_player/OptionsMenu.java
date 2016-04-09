@@ -28,7 +28,7 @@ public class OptionsMenu implements IMenuInterface{
 	}
 	
 	public Menu createMenu() {
-		myMenu = new Menu(myResources.getString("OptionsMenu"));
+		myMenu = menuMaker.addMenu(myResources.getString("OptionsMenu"));
 		String[] menuItems = myResources.getString("Options").split("/");
 		for (String pair: menuItems) {
 			String[] combo = pair.split(",");
