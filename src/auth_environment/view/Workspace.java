@@ -25,6 +25,7 @@ public class Workspace {
 	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
+	private MapDisplay myDisplay = new MapDisplay();
 	
 	public Workspace(TabPane tabPane) {
 		this.myTabPane = tabPane; 
@@ -37,7 +38,7 @@ public class Workspace {
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
 		this.myBorderPane.setLeft(new VBox());
 		this.myBorderPane.setRight(new VBox());
-		this.myBorderPane.setCenter(new MapDisplay());
+		this.myBorderPane.setCenter(myDisplay);
 	}
 
 
