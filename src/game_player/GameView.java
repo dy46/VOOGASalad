@@ -1,39 +1,39 @@
 package game_player;
 
+import java.util.ArrayList;
 import java.util.List;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
-import game_engine.game_elements.Enemy;
-import game_engine.game_elements.Projectile;
-import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class GameView implements IGameView{
     
+    private int timer;
     private AnimationTimer AT;
     private boolean isPlaying;
     private Canvas canvas;
-    private GraphicsContext GC;
+    private Group root;
     private Stage myStage;
     private IPlayerEngineInterface playerEngineInterface;
+    private List<ImageViewPicker> units;
     
     public GameView(Stage primaryStage) {
         playerEngineInterface = new EngineWorkspace();
         playerEngineInterface.setUpEngine(null);
-        Group root = new Group();
+        root = new Group();
         Scene theScene = new Scene(root);
         primaryStage.setScene(theScene);
         myStage = primaryStage;
         canvas = new Canvas(500, 500);
-        GC = canvas.getGraphicsContext2D();
         root.getChildren().add(canvas);
         isPlaying = true;
+        this.units = new ArrayList<>();
+        this.timer = 0;
     }
     
     public void display() {
@@ -50,6 +50,7 @@ public class GameView implements IGameView{
                    placeTerrain();
                    placePath();
                    placeUnit();
+                   timer++;
                }
             }
         };
@@ -83,24 +84,14 @@ public class GameView implements IGameView{
 
     @Override
     public void placeUnit () {
-        GC.clearRect(0, 0, 500, 500);
-        List<Enemy> currEnemies = playerEngineInterface.getEnemies();
-        for(int i = 0; i < currEnemies.size(); i++) {
-            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
-                         currEnemies.get(i).getProperties().getPosition().getX(),
-                         currEnemies.get(i).getProperties().getPosition().getY());
+        List<Unit> currUnits = playerEngineInterface.getUnits();
+        for(int i = units.size(); i < currUnits.size(); i++) {
+            Unit u = currUnits.get(i);
+            units.add(new ImageViewPicker(u.toString(), u.getNumFrames(), 
+                                          u.getProperties().getState().getValue(), root));
         }
-        List<Tower> currTowers = playerEngineInterface.getTowers();
-        for(int i = 0; i < currTowers.size(); i++) {
-            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
-                         currTowers.get(i).getProperties().getPosition().getX(),
-                         currTowers.get(i).getProperties().getPosition().getY());
-        }
-        List<Projectile> currProjectiles = playerEngineInterface.getProjectiles();
-        for(int i = 0; i < currProjectiles.size(); i++) {
-            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
-                         currProjectiles.get(i).getProperties().getPosition().getX(),
-                         currProjectiles.get(i).getProperties().getPosition().getY());
+        for(int i = 0; i < currUnits.size(); i++) {
+            units.get(i).selectNextImageView(currUnits.get(i), timer);
         }
     }
 

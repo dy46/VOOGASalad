@@ -17,13 +17,13 @@ public class CollisionDetector {
 	}
 	// returns which Unit from the list collided with the target unit
 	private void updateEnemies(Unit unit, List<Projectile> collideChecks){
-		ArrayList<Unit> removeList = new ArrayList<Unit>();
 		for(int i = 0;i < collideChecks.size();i++){
 			if(!(unit == collideChecks.get(i)) && collides(unit, collideChecks.get(i))){
-//				myEngine.remove(unit);
-//				myEngine.remove(collideChecks.get(i));
-				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
-				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
+			        if(!collideChecks.get(i).hasCollided()) {
+        				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
+        				collideChecks.get(i).setElapsedTimeToDeath();
+        				collideChecks.get(i).setHasCollided(true);
+			        }
 				
 			}
 		}

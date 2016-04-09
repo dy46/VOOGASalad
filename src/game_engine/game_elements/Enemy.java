@@ -5,8 +5,8 @@ import game_engine.affectors.Affector;
 
 public class Enemy extends LiveableUnit {
 
-    public Enemy (String name, List<Affector> affectors) {
-        super(name, affectors);
+    public Enemy (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
 //        setID(getWorkspace().getIDFactory().createID(this));
     }
     
@@ -30,7 +30,6 @@ public class Enemy extends LiveableUnit {
 
     public void update () {
         super.update(this);
-        System.out.println(this.getProperties().getHealth().getValue());
     }
     
 }

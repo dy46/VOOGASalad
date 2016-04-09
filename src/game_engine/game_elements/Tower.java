@@ -17,17 +17,20 @@ public class Tower extends SellableUnit {
 
     private List<Projectile> allProjectiles;
     private List<Projectile> myProjectiles;
+    private List<Unit> allUnits;
     
-    public Tower (String name, List<Affector> affectors) {
-        super(name, affectors);
+    public Tower (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
         // setID(getWorkspace().getIDFactory().createID(this));
     }
     
 
-    public Tower (String name, List<Affector> affectors, List<Projectile> allProjectiles, List<Projectile> myProjectiles) {
-        super(name, affectors);
+    public Tower (String name, List<Affector> affectors, List<Projectile> allProjectiles, 
+                  List<Unit> allUnits, List<Projectile> myProjectiles, int numFrames) {
+        super(name, affectors, numFrames);
         this.allProjectiles = allProjectiles;
         this.myProjectiles = myProjectiles;
+        this.allUnits = allUnits;
         // setID(getWorkspace().getIDFactory().createID(this));
     }
 
@@ -41,6 +44,7 @@ public class Tower extends SellableUnit {
                                                        .map(p -> p.copyProjectile()).collect(Collectors.toList());
         newProjectiles.forEach(p -> {
                                   allProjectiles.add(p);
+                                  allUnits.add(p);
                                   p.getProperties().setPosition(getProperties().getPosition().getX(), 
                                                                 getProperties().getPosition().getY());
                                });      
