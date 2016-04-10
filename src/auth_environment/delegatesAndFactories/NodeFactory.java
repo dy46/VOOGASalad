@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -54,8 +55,13 @@ public class NodeFactory {
 		return new Button(text); 
 	}
 	
-	public TextField buildTextField(String label) {
-//		Label label = new Label 
+	public HBox buildTextFieldWithLabel(String labelText, double spacing) {
+		Label label = this.buildLabel(labelText); 
+		TextField textField = new TextField(); 
+		HBox hBox = new HBox(); 
+		hBox.getChildren().addAll(label, textField);
+		hBox.setSpacing(spacing);
+		return hBox; 
 	}
 	
 	public void addImageView(Pane pane, String imageName) {

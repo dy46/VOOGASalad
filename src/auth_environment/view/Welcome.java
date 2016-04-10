@@ -30,14 +30,16 @@ public class Welcome {
 	private BorderPane myRoot = new BorderPane(); 
 	
 	public Welcome() {
-		
+		this.myRoot.setCenter(this.buildCenter());
 	}
 	
 	private VBox buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 											  Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
 											  );
-		
+		center.getChildren().add(myNodeFactory.buildTextFieldWithLabel(myNamesBundle.getString("gameNameLabel"), 
+				                 Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing"))
+				                 ));
 		return center; 
 	}
 	
