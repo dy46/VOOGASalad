@@ -3,6 +3,8 @@ package auth_environment.delegatesAndFactories;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -52,6 +54,10 @@ public class NodeFactory {
 		return new Button(text); 
 	}
 	
+	public TextField buildTextField(String label) {
+//		Label label = new Label 
+	}
+	
 	public void addImageView(Pane pane, String imageName) {
 		pane.getChildren().add(makeImageView(imageName));
 	}
@@ -61,13 +67,17 @@ public class NodeFactory {
 	}
 	
 	public void addLabelToPane(Pane pane, String label, Font font) {
-		pane.getChildren().add(this.makeLabel(label, font));
+		pane.getChildren().add(this.buildLabel(label, font));
 	}
 	
-	public Text makeLabel(String label, Font font) {
-		Text myLabel = new Text(label);
-		myLabel.setFont(font);
-		return myLabel;
+	public Label buildLabel(String text) {
+		return new Label(text);
+	}
+	
+	public Label buildLabel(String text, Font font) {
+		Label label = this.buildLabel(text);
+		label.setFont(font);
+		return label; 
 	}
 	
 	public Font defaultFont() {
