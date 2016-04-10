@@ -4,5 +4,5 @@
 	<classpathentry kind="src" path="game_images"/>
 	<classpathentry kind="src" path="Resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="output" path="game_engine/bin"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
