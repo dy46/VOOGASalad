@@ -1,5 +1,7 @@
 package auth_environment.view;
 
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Created by BrianLin on 4/6/16.
@@ -11,9 +13,14 @@ package auth_environment.view;
 
 public class Welcome {
 	
+	private BorderPane myRoot = new BorderPane(); 
+	
 	public Welcome() {
+		
 	}
 	
-	
+	public Node getRoot() {
+		return this.myRoot;
+	}
 
 }
