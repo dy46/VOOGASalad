@@ -42,9 +42,6 @@ public class VAsTesterTab {
         
 		elTabo.setContent(myGridPane);
 		// 99% sure everyone else can ignore those
-		
-		
-		
 	}
 
 	
