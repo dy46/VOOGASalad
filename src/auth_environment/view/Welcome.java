@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -37,9 +38,8 @@ public class Welcome {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 											  Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
 											  );
-		center.getChildren().add(myNodeFactory.buildTextFieldWithLabel(myNamesBundle.getString("gameNameLabel"), 
-				                 Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing"))
-				                 ));
+		TextField gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
+		center.getChildren().addAll(gameNameInput);
 		return center; 
 	}
 	
