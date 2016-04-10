@@ -14,11 +14,8 @@ public interface ISelector {
 	
 	// For debugging and testing
 	public void printIndex(); 
-	public void printPositions(); 
-	public void printMostRecentPosition(); 
+	public void printPosition(); 
 	
 	public void choosePosition(double x, double y);
 	public Position getPosition(); 
-	public Collection<Position> getPositions(); 
-
 }
