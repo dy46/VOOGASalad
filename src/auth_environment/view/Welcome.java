@@ -55,6 +55,7 @@ public class Welcome {
 		this.welcomeScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
 		this.myStage.setScene(this.welcomeScene);
 		this.myStage.show();
+		this.myStage.toFront();
 	}
 	
 	private HBox buildWompImage() {
@@ -63,6 +64,7 @@ public class Welcome {
 	
 	private TextField buildTextInput() {
 		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
+		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
 		return this.gameNameInput; 
 	}
 	

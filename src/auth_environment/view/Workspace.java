@@ -6,6 +6,7 @@ import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.view.Menus.MenuToolBar;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,7 @@ public class Workspace {
 	private ISelector mySelector = new SelectorModel(); 
 	
 	private TabPane myTabPane; 
+	private Scene workScene; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	private MapDisplay myDisplay = new MapDisplay(this.mySelector);
 	
