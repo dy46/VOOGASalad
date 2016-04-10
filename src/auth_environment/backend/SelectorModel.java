@@ -18,7 +18,7 @@ import game_engine.properties.Position;
 
 public class SelectorModel implements ISelector {
 	
-	private int elementIndex;
+	private int elementIndex; 
 	private List<Position> myPositions = new ArrayList<Position>();
 	
 	public SelectorModel() {}; 
@@ -50,12 +50,27 @@ public class SelectorModel implements ISelector {
 
 	@Override
 	public void choosePosition(double x, double y) {
-		this.myPositions.add(new Position(x,y));
+		Position pos = new Position(x,y);
+		this.myPositions.add(pos); 
+//		if (!this.checkContains(pos)) {
+//			this.myPositions.add(pos);
+//		}
 	}
+
+	// TODO: extract all the List of Position stuff away
+//	private boolean checkContains(Position pos) {
+//		boolean contains = false; 
+//		for (Position p : this.myPositions) {
+//			if (p.equals(pos)) {
+//				this.myPositions.remove(this.myPositions.indexOf(p));
+//				contains = true; 
+//			}
+//		}
+//		return contains;
+//	}
 
 	@Override
 	public Collection<Position> getPositions() {
 		return this.myPositions;
 	}
-
 }
