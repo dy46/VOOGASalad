@@ -1,5 +1,10 @@
 package auth_environment.backend;
 
+import java.util.Collection;
+import java.util.List;
+
+import game_engine.properties.Position;
+
 /**
  * Created by BrianLin on 4/9/16.
  * Team member responsible: Brian
@@ -13,8 +18,7 @@ package auth_environment.backend;
 public class SelectorModel implements ISelector {
 	
 	private int elementIndex;
-	private double x;
-	private double y; 
+	private List<Position> myPositions; 
 	
 	public SelectorModel() {}; 
 
@@ -24,34 +28,28 @@ public class SelectorModel implements ISelector {
 	}
 
 	@Override
-	public void chooseCoordinates(double x, double y) {
-		this.x = x;
-		this.y = y; 
-	}
-
-	@Override
 	public int getElementIndex() {
 		return this.elementIndex;
 	}
 
 	@Override
-	public double getX() {
-		return this.x;
-	}
-	
-	@Override
-	public double getY() {
-		return this.y;
-	}
-
-	@Override
-	public void printCoordinates() {
-		System.out.println("(" + this.x + "," + this.y + ")");
+	public void printPositions() {
+		this.myPositions.stream().forEach(s -> System.out.println("(" + s.getX() + "," + s.getY()+ ")"));
 	}
 
 	@Override
 	public void printIndex() {
 		System.out.println("GameElement index of: " + this.elementIndex);
+	}
+
+	@Override
+	public void choosePosition(double x, double y) {
+		this.myPositions.add(new Position(x,y));
+	}
+
+	@Override
+	public Collection<Position> getPositions() {
+		return this.myPositions;
 	}
 
 }
