@@ -2,12 +2,10 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -35,7 +33,6 @@ public class View {
         myStage = stage;
         
         Welcome welcome = new Welcome();
-        
         setupWorkspace();
     }
 
@@ -49,7 +46,6 @@ public class View {
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
-		this.myStage.toBack();
 	}
 
 

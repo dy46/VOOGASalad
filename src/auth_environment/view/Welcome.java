@@ -3,16 +3,12 @@ package auth_environment.view;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -21,6 +17,8 @@ import javafx.stage.Stage;
  * Team member responsible: Brian
  * 
  * First (interactive) screen displayed to the Developer. Asks for Game name. 
+ * 
+ * TODO: Ask Austin to store (and pass around) the Game Name
  */
 
 public class Welcome {

@@ -26,7 +26,6 @@ public class Workspace {
 	private ISelector mySelector = new SelectorModel(); 
 	
 	private TabPane myTabPane; 
-	private Scene workScene; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	private MapDisplay myDisplay = new MapDisplay(this.mySelector);
 	
