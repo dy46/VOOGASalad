@@ -52,7 +52,7 @@ public class Welcome {
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-//		this.welcomeScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
+		this.welcomeScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
 	}
 	
 	private HBox buildWompImage() {
