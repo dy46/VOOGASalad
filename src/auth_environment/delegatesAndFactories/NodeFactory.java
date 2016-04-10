@@ -29,11 +29,22 @@ public class NodeFactory {
 	}
 	
 	public void setupVBox(VBox vbox, String titleText, Font font, double spacing, double padding) {
+		vbox = this.buildVBox(titleText, font, spacing, padding);
+	}
+	
+	public VBox buildVBox(double spacing, double padding) {
+		VBox vbox = new VBox(); 
 		vbox.setSpacing(spacing);
 		vbox.setPadding(new Insets(padding));
+		return vbox; 
+	}
+	
+	public VBox buildVBox(String titleText, Font font, double spacing, double padding) {
+		VBox vbox = this.buildVBox(spacing, padding);
 		Text title = new Text(titleText);
 		title.setFont(font);
 		vbox.getChildren().add(title);
+		return vbox; 
 	}
 	
 	public void addImageView(Pane pane, String imageName) {

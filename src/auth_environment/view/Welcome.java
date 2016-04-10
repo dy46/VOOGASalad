@@ -19,6 +19,10 @@ public class Welcome {
 		
 	}
 	
+	private VBox buildCenter() {
+		
+	}
+	
 	public Node getRoot() {
 		return this.myRoot;
 	}
