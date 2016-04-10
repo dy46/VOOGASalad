@@ -16,6 +16,10 @@ public class FileChooserDelegate {
 		return this.fileFromWindow(this.initChooser(title));
     }
     
+    public File chooseImage(String title) {
+    	return this.fileFromWindow(this.addImageFilter(this.initChooser(title)));
+    }
+    
     private File fileFromWindow(FileChooser f) {
         ContextMenu prefWindow = new ContextMenu();
         File file = f.showOpenDialog(prefWindow.getOwnerWindow());
@@ -26,11 +30,6 @@ public class FileChooserDelegate {
     	FileChooser f = new FileChooser();
     	f.setTitle(title);
     	return f; 
-    }
-    
-    public File chooseImage(String title) {
-    	return this.fileFromWindow(this.addImageFilter(this.initChooser(title)));
-    	
     }
     
     private FileChooser addImageFilter(FileChooser f) {
