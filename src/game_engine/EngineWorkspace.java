@@ -14,9 +14,9 @@ import game_engine.functions.FunctionLibrary;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
@@ -29,7 +29,8 @@ import game_engine.properties.UnitProperties;
 
 public class EngineWorkspace implements IPlayerEngineInterface{
 
-        private int myTimer;
+	private int myTimer;
+	private boolean pause;
 	private List<Level> myLevels;
 	private List<Path> myPaths;
 	
@@ -42,12 +43,12 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
-	
+
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
-	
+
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
@@ -65,23 +66,34 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
-	        myEnemys = makeDummyEnemys();
+		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-	        myTowers = makeDummyTowers();
+		myTowers = makeDummyTowers();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		myTimer = 0;
-	}
-	
-	private List<Unit> makeDummyEnemys() {
-	    Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-	    return new ArrayList<>(Arrays.asList(new Enemy[]{e1}));
+		myCurrentLevel = makeDummyLevel();
 	}
 	
 	private List<Unit> makeDummyTowers() {
 	    Position position2 = new Position(200, 300);
             Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, position2);
             return new ArrayList<>(Arrays.asList(new Tower[]{t}));
+	}
+
+	private Level makeDummyLevel(){
+		Wave w = new Wave("I'm not quite sure what goes here");
+		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		w.addEnemy(e1, 0);
+		w.addEnemy(e2, 60);
+		w.addEnemy(e3, 60);
+		w.addEnemy(e4, 60);
+		Level l = new Level("still not sure", w);
+		l.addWave(w);
+		return l;
 	}
 
 	public List<String> saveGame() {
@@ -91,6 +103,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public void playLevel(int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
+		pause = false;
 	}
 
 	public void playWave(int waveNumber) {
@@ -99,42 +112,52 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void updateElements() { 
-	        myTimer++;
-		myTowers.forEach(t -> t.update());
-		myTowers.forEach(t -> ((Tower) t).fire());
-		myEnemys.forEach(e -> e.update());
-		myProjectiles.forEach(p -> p.update());
-		myCollider.resolveEnemyCollisions(myProjectiles);
-		if(myTimer % 240 == 0 ) {
-		    Enemy e = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		    myEnemys.add(e);
+		if(!pause){
+			myTimer++;
+			myTowers.forEach(t -> t.update());
+			myTowers.forEach(t -> ((Tower) t).fire());
+			myEnemys.forEach(e -> e.update());
+			myProjectiles.forEach(p -> p.update());
+			
+			myCollider.resolveEnemyCollisions(myProjectiles);
+			Enemy newE = myCurrentLevel.update();
+			if(newE != null){
+				myEnemys.add(newE);
+			}// tries to spawn new enemies using Waves
+			if(myCurrentLevel.getCurrentWave().isFinished()){
+				myProjectiles.clear();
+				pause = true;
+			}
+			
 		}
 	}
 
 	public String getGameStatus() {
 		return "Waves left: " + wavesLeft() + " Current wave: " + myCurrentLevel.toString();
 	}
-	
+
 	public void addBalance(double money){
 		myBalance += money;
 	}
-	
+
 	public int wavesLeft(){
 		return myCurrentLevel.wavesLeft();
 	}
-	
+
 	public void addEnemy(Enemy enemy){
 		myEnemys.add(enemy);
 	}
-
-	public void addTower(String ID, int towerTypeIndex){
-//		towerTypeBoundsCheck(towerTypeIndex);
-//		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-//		Tower newTower = new Tower(ID);
-//		newTower.upgrade(towerProperties);
-//		myTowers.add(newTower);
+	public void addLevel(Level level){
+		myLevels.add(level);
 	}
-	
+	public void addTower(String ID, int towerTypeIndex){
+		//		towerTypeBoundsCheck(towerTypeIndex);
+		//		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
+		//		Tower newTower = new Tower(ID);
+		//		newTower.upgrade(towerProperties);
+		//		myTowers.add(newTower);
+	}
+
 	public void remove(Unit unit){
 		String className = unit.getClass().getSimpleName();
 		String instanceVarName = "my" + className + "s";
@@ -167,15 +190,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 			throw new IndexOutOfBoundsException();
 		}
 	}
-	
+
 	private void towerTypeBoundsCheck(int index){
 		if(index < 0 || index > myTowerTypes.size()){
 			throw new IndexOutOfBoundsException();
 		}
 	}
-	
+
 	// Getters
-	
+
 	public Level getCurrentLevel(){
 		return myCurrentLevel;
 	}
@@ -183,11 +206,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public IDFactory getIDFactory(){
 		return myIDFactory;
 	}
-	
+
 	public double getBalance(){
 		return myBalance;
 	}
-	
+
 	public List<Level> getLevels(){
 		return myLevels;
 	}
@@ -211,7 +234,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public FunctionFactory getFunctionFactory(){
 		return myFunctionFactory;
 	}
-	
+
 	public FunctionLibrary getFunctionLibrary(){
 		return myFunctionFactory.getFunctionLibrary();
 	}
@@ -219,7 +242,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public EnemyFactory getEnemyFactory() {
 		return myEnemyFactory;
 	}
-	
+
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorFactory.getAffectorLibrary();
 	}
