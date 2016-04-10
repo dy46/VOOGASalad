@@ -13,8 +13,8 @@ package auth_environment.backend;
 public class SelectorModel implements ISelector {
 	
 	private int elementIndex;
-	private int x;
-	private int y; 
+	private double x;
+	private double y; 
 	
 	public SelectorModel() {}; 
 
@@ -24,7 +24,7 @@ public class SelectorModel implements ISelector {
 	}
 
 	@Override
-	public void chooseCoordinates(int x, int y) {
+	public void chooseCoordinates(double x, double y) {
 		this.x = x;
 		this.y = y; 
 	}
@@ -35,12 +35,12 @@ public class SelectorModel implements ISelector {
 	}
 
 	@Override
-	public int getX() {
+	public double getX() {
 		return this.x;
 	}
 	
 	@Override
-	public int getY() {
+	public double getY() {
 		return this.y;
 	}
 
