@@ -3,6 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import game_engine.properties.Position;
 
@@ -13,7 +14,7 @@ import game_engine.properties.Position;
 public class Path extends MapPiece{
 	
 	private List<Position> myPositions;
-	private HashMap<Position, Position> nextPositions;
+	private Map<Position, Position> nextPositions;
 	private boolean cycle;
 	
 	public Path(String name){
@@ -133,6 +134,12 @@ public class Path extends MapPiece{
 	    List<Position> allPositions = new ArrayList<>();
 	    allPositions.addAll(nextPositions.keySet());
 	    return allPositions;
+	}
+	
+	public boolean isUnitAtLastPosition(Unit u) {
+	    Position lastPos = myPositions.get(myPositions.size()-1);
+	    return u.getProperties().getPosition().getX() == lastPos.getX() &&
+	           u.getProperties().getPosition().getY() == lastPos.getY();
 	}
 	
 }
