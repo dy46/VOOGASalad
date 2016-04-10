@@ -9,47 +9,59 @@ import game_engine.properties.Position;
 public class Wave extends MapPiece{
 
 	private List<Enemy> myEnemies;
+	private List<Integer> mySpawnTimes;
 	private Level myLevel;
+	private int myCurrentEnemy;
+	private int timeSinceLastSpawn;
 
 	public Wave(String name){
 		super(name);
-		setID(getWorkspace().getIDFactory().createID(this));
+//		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}
 
 	private void initialize(){
 		myEnemies = new ArrayList<>();
+		mySpawnTimes = new ArrayList<>();
+		myCurrentEnemy = 0;
+		timeSinceLastSpawn = 0;
 	}
-	
+
 	public void setLevel(Level level){
 		myLevel = level;
 	}
-	
+
 	/*
 	 * Returns the number of enemies left in this wave
 	 */
 	public int getEnemiesLeft(){
 		int numEnemies = 0;
 		for(Enemy e: myEnemies){
-			if(e.isAlive() && e.isVisible()){
+			if(e.isVisible()){
 				numEnemies++;
 			}
 		}
 		return numEnemies;
 	}
-	
+
 	public boolean isFinished(){
 		return getEnemiesLeft() == 0;
 	}
-	
+	public void addEnemy(Enemy e, int spawnTime){
+		myEnemies.add(e);
+		mySpawnTimes.add(spawnTime);
+	}
 	/*
 	 * Spawns an enemy at the spawn location of the level
 	 */
-	public void spawnEnemy(){
-		Position spawnPosition = myLevel.getSpawnPosition();
-		Enemy enemy = getWorkspace().getEnemyFactory().createConstantEnemy("Spawned");
-		enemy.getProperties().setPosition(spawnPosition.getX(), spawnPosition.getY());
-		getWorkspace().addEnemy(enemy);
+	public Enemy tryToSpawnEnemy(){
+		timeSinceLastSpawn++;
+		if(myCurrentEnemy < myEnemies.size() && timeSinceLastSpawn >= mySpawnTimes.get(myCurrentEnemy)){
+			Enemy enemy = myEnemies.get(myCurrentEnemy++);
+			timeSinceLastSpawn = 0;
+			return enemy;
+		}
+		return null;
 	}
-	
+
 }

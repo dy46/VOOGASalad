@@ -17,6 +17,7 @@ import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.game_elements.Wave;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
 import game_engine.properties.Position;
@@ -34,6 +35,7 @@ import game_engine.properties.Velocity;
 public class EngineWorkspace implements IPlayerEngineInterface{
 
 	private int myTimer;
+	private boolean pause;
 	private List<Level> myLevels;
 	private List<Path> myPaths;
 
@@ -64,12 +66,13 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
-		myEnemys = makeDummyEnemys();
+		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = makeDummyTowers();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		myTimer = 0;
+		myCurrentLevel = makeDummyLevel();
 		myUnits.addAll(myTowers);
 		myUnits.addAll(myProjectiles);
 		myUnits.addAll(myEnemys);
@@ -79,7 +82,20 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		return new ArrayList<>(Arrays.asList(new Enemy[]{e1}));
 	}
-
+	private Level makeDummyLevel(){
+		Wave w = new Wave("I'm not quite sure what goes here");
+		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		w.addEnemy(e1, 0);
+		w.addEnemy(e2, 60);
+		w.addEnemy(e3, 60);
+		w.addEnemy(e4, 60);
+		Level l = new Level("still not sure", w);
+		l.addWave(w);
+		return l;
+	}
 	private List<Tower> makeDummyTowers() {
 		Position position2 = new Position(200, 300);
 		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, myUnits, position2);
@@ -93,6 +109,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public void playLevel(int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
+		pause = false;
 	}
 
 	public void playWave(int waveNumber) {
@@ -101,16 +118,30 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	public void updateElements() { 
-		myTimer++;
-		myTowers.forEach(t -> t.update());
-		myTowers.forEach(t -> t.fire());
-		myEnemys.forEach(e -> e.update());
-		myProjectiles.forEach(p -> p.update());
-		myCollider.resolveEnemyCollisions(myProjectiles);
-		if(myTimer % 240 == 0 ) {
-			Enemy e = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-			myEnemys.add(e);
-			myUnits.add(e);
+		if(!pause){
+			myTimer++;
+			myTowers.forEach(t -> t.update());
+			myTowers.forEach(t -> t.fire());
+			myEnemys.forEach(e -> e.update());
+			myProjectiles.forEach(p -> p.update());
+			
+			myCollider.resolveEnemyCollisions(myProjectiles);
+			// currently spawns enemies every 240 ticks
+//			if(myTimer % 240 == 0 ) {
+//				Enemy e = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//				myEnemys.add(e);
+//				myUnits.add(e);
+//			}
+			Enemy newE = myCurrentLevel.update();
+			if(newE != null){
+				System.out.println("hello");
+				myEnemys.add(newE);
+				myUnits.add(newE);
+			}// tries to spawn new enemies using Waves
+			System.out.println(myCurrentLevel.wavesLeft());
+			if(myCurrentLevel.wavesLeft() == 0){
+				pause = true;
+			}
 		}
 	}
 
@@ -129,7 +160,9 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public void addEnemy(Enemy enemy){
 		myEnemys.add(enemy);
 	}
-
+	public void addLevel(Level level){
+		myLevels.add(level);
+	}
 	public void addTower(String ID, int towerTypeIndex){
 		//		towerTypeBoundsCheck(towerTypeIndex);
 		//		UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
