@@ -21,11 +21,32 @@ public class TowerFactory {
             this.myAffectorLibrary = affectorLibrary;
     }
     
+    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition){
+    	//
+    	//
+    	//Need to add elementbuildingblock class to parse info from
+    	//
+    	//
+    	
+    	List<Projectile> myProjectiles = new ArrayList<Projectile>(); 
+    	Affector projectileMove = myAffectorLibrary.getAffector("Constant", "PositionMove");
+    	projectileMove.setTTL(Integer.MAX_VALUE);
+    	
+    	Projectile p = new Projectile("ConstantHealth", Arrays.asList(projectileMove));
+    	p.setTTL(Integer.MAX_VALUE);
+    	p.setFireRate(60); //Change value
+    	Velocity projVelocity = new Velocity(0.5, 180); //Change value
+    	List<Position> boundaries = new ArrayList<>(); 
+    	//Add boundary positions here. 
+    	Bounds b = new Bounds(boundaries); 
+    	UnitProperties properties = new UnitProperties(null, null, null, projVelocity, b, startingPosition.copyPosition(), null);
+	}
+    
+    
     public Tower createFourWayTower(String name, List<Projectile> allProjectiles, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
         Affector projectileMove = myAffectorLibrary.getAffector("Constant", "PositionMove");
         projectileMove.setTTL(Integer.MAX_VALUE);
-        
         
         Projectile p = new Projectile("ConstantHealth", Arrays.asList(projectileMove));
         p.setTTL(Integer.MAX_VALUE);
@@ -37,6 +58,7 @@ public class TowerFactory {
         l1.add(new Position(62,62));
         l1.add(new Position(0,62));
         Bounds b = new Bounds(l1);
+        
         UnitProperties properties = new UnitProperties(null, null, null, velocity, b, startingPosition.copyPosition(), null);
         p.setProperties(properties);
         myProjectiles.add(p);
