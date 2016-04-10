@@ -3,6 +3,8 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import auth_environment.buildingBlocks.ElementalBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorLibrary;
 import game_engine.game_elements.Projectile;
@@ -16,12 +18,13 @@ import game_engine.properties.Velocity;
 public class TowerFactory {
 
     private AffectorLibrary myAffectorLibrary;
+    private ElementalBuildingBlock block; 
 
     public TowerFactory(AffectorLibrary affectorLibrary){
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition){
+    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition, ElementalBuildingBlock eleBlock){
     	//
     	//
     	//Need to add elementbuildingblock class to parse info from
@@ -35,11 +38,14 @@ public class TowerFactory {
     	Projectile p = new Projectile("ConstantHealth", Arrays.asList(projectileMove));
     	p.setTTL(Integer.MAX_VALUE);
     	p.setFireRate(60); //Change value
-    	Velocity projVelocity = new Velocity(0.5, 180); //Change value
-    	List<Position> boundaries = new ArrayList<>(); 
+    	Velocity projVelocity = eleBlock.getMyVelocity(); //Change value
+//    	List<Position> boundaries = new ArrayList<>(); 
     	//Add boundary positions here. 
-    	Bounds b = new Bounds(boundaries); 
+    	Bounds b = eleBlock.getMyBounds(); 
     	UnitProperties properties = new UnitProperties(null, null, null, projVelocity, b, startingPosition.copyPosition(), null);
+    	p.setProperties(properties);
+    	myProjectiles.add(p);
+    	
 	}
     
     
