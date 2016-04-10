@@ -41,7 +41,7 @@ public class FileMenu extends Menu {
 	}
 	
 	private void load() {
-		File file = myFileChooser.chooseFile();
+		File file = myFileChooser.chooseFile(myNamesBundle.getString("fileChooserTitle"));
 		System.out.println(file.getAbsolutePath());
 	}
 	

@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import game_engine.properties.Bounds;
 import game_engine.properties.Damage;
 import game_engine.properties.Health;
@@ -125,12 +126,18 @@ public class ElementMenu extends Menu {
 
 	private void selectImage(Tooltip t){
 		System.out.println("WERWERWER");
-		FileChooser imageChoice = new FileChooser();
-		imageChoice.setTitle("ermage");
-		imageChoice.getExtensionFilters()
-		.add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-		ContextMenu prefWindow = new ContextMenu();
-		File file = imageChoice.showOpenDialog(prefWindow.getOwnerWindow());
+		
+//		FileChooser imageChoice = new FileChooser();
+//		imageChoice.setTitle("ermage");
+//		imageChoice.getExtensionFilters()
+//		.add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+//		ContextMenu prefWindow = new ContextMenu();
+//		File file = imageChoice.showOpenDialog(prefWindow.getOwnerWindow());
+		
+		// FileChooserDelegate moves FileChooser code above away 
+		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
+		File file = fileChooser.chooseImage("ermage");
+		
 		if (file != null) {
 			try {
 				String fileName = file.toURI().toURL().toString();

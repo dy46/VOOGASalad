@@ -10,15 +10,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileChooserDelegate {
 	
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	public FileChooserDelegate() {}
 	
-	public FileChooserDelegate() {
-		
-	}
-	
-    public File chooseFile() {
-		return this.fileFromWindow(this.initChooser());
+    public File chooseFile(String title) {
+		return this.fileFromWindow(this.initChooser(title));
     }
     
     private File fileFromWindow(FileChooser f) {
@@ -27,14 +22,14 @@ public class FileChooserDelegate {
         return file;
     }
     
-    private FileChooser initChooser() {
+    private FileChooser initChooser(String title) {
     	FileChooser f = new FileChooser();
-        f.setTitle(myNamesBundle.getString("fileChooserTitle")); 
-        return f; 
+    	f.setTitle(title);
+    	return f; 
     }
     
-    public File chooseImage() {
-    	return this.fileFromWindow(this.addImageFilter(this.initChooser()));
+    public File chooseImage(String title) {
+    	return this.fileFromWindow(this.addImageFilter(this.initChooser(title)));
     	
     }
     
