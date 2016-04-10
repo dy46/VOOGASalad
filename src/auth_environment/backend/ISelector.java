@@ -17,8 +17,8 @@ public interface ISelector {
 	public void printPositions(); 
 	public void printMostRecentPosition(); 
 	
-	// Maintain a List of selected points (SHIFT + click), used for Terrain and Path
 	public void choosePosition(double x, double y);
+	public Position getPosition(); 
 	public Collection<Position> getPositions(); 
 
 }

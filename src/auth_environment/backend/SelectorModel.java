@@ -20,6 +20,7 @@ public class SelectorModel implements ISelector {
 	
 	private int elementIndex; 
 	private List<Position> myPositions = new ArrayList<Position>();
+	private Position myPosition; 
 	
 	public SelectorModel() {}; 
 
@@ -35,7 +36,8 @@ public class SelectorModel implements ISelector {
 
 	@Override
 	public void printPositions() {
-		this.myPositions.stream().forEach(s -> System.out.println("(" + s.getX() + "," + s.getY()+ ")"));
+		System.out.println("(" + this.myPosition.getX() + "," + this.myPosition.getY() + ")"); 
+//		this.myPositions.stream().forEach(s -> System.out.println("(" + s.getX() + "," + s.getY()+ ")"));
 	}
 	
 	@Override
@@ -50,8 +52,9 @@ public class SelectorModel implements ISelector {
 
 	@Override
 	public void choosePosition(double x, double y) {
-		Position pos = new Position(x,y);
-		this.myPositions.add(pos); 
+		this.myPosition = new Position(x,y); 
+//		Position pos = new Position(x,y);
+//		this.myPositions.add(pos); 
 //		if (!this.checkContains(pos)) {
 //			this.myPositions.add(pos);
 //		}
@@ -72,5 +75,10 @@ public class SelectorModel implements ISelector {
 	@Override
 	public Collection<Position> getPositions() {
 		return this.myPositions;
+	}
+
+	@Override
+	public Position getPosition() {
+		return this.myPosition;
 	}
 }
