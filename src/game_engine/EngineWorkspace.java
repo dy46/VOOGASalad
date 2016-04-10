@@ -155,13 +155,19 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myProjectiles.removeIf(p -> p.getTTL() == p.getElapsedTime());
 		myProjectiles.forEach(p -> p.update());
 		myCollider.resolveEnemyCollisions(getCollideList());
-		myCollider.resolveTowerCollisions(myTerrains);
+		myCollider.resolveTowerCollisions(getTowerCollideList());
 	}
 	
 	private List<CollidableUnit> getCollideList(){
 		List<CollidableUnit> collideList = new ArrayList<>();
 		collideList.addAll(myTerrains);
 		collideList.addAll(myProjectiles);
+		return collideList;
+	}
+	
+	private List<CollidableUnit> getTowerCollideList(){
+		List<CollidableUnit> collideList = new ArrayList<>();
+		collideList.addAll(myTerrains);
 		return collideList;
 	}
 

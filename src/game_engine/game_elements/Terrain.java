@@ -1,10 +1,7 @@
 package game_engine.game_elements;
 
-import java.util.Collection;
 import java.util.List;
-
 import game_engine.affectors.Affector;
-import game_engine.properties.Bounds;
 
 /*
 * Internal API that will be used to reflect the inclusion of terrain effects in games. 
@@ -13,39 +10,16 @@ import game_engine.properties.Bounds;
 */
 public class Terrain extends CollidableUnit{
 	
-	private List<Affector> myAffectors;
-	private Bounds myBounds;
-	
 	public Terrain(String name, List<Affector> affectors) {
 		super(name, affectors);
 		setID(getWorkspace().getIDFactory().createID(this));
-	}
-	
-	public void setBounds(Bounds bounds){
-		this.myBounds = bounds;
-	}
-	
-	/*
-	* Grabs all of the units within the area specified by the Terrain 
-	*
-	* @return	
-	*/
-	public Collection<Unit> getAffectedUnits(){
-		return null; // TEMP
 	}
 	
 	/*
 	* Sets the affector for the terrain, which will be applied to each unit within the the terrain
 	*/
 	public void addAffector(Affector effect){
-		myAffectors.add(effect);
-	}
-
-	/*
-	* Applies the currently set affector to each unit that is considered inside the terrain.
-	*/
-	public void applyEffect(){
-		
+		getAffectors().add(effect);
 	}
 	
 }

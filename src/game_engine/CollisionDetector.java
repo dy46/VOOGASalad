@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.game_elements.CollidableUnit;
-import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 
 public class CollisionDetector {
@@ -21,13 +19,12 @@ public class CollisionDetector {
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, collideList));
 	}
 
-	public void resolveTowerCollisions(List<Terrain> terrainList){
-		myEngine.getTowers().forEach(t -> updateTowers(t, terrainList));
+	public void resolveTowerCollisions(List<CollidableUnit> collideList){
+		myEngine.getTowers().forEach(t -> updateTowers(t, collideList));
 	}
 
-	private Object updateTowers(Tower t, List<Terrain> terrainList) {
-		// TODO Auto-generated method stub
-		return null;
+	private void updateTowers(Tower t, List<CollidableUnit> terrainList) {
+		updateEnemies(t, terrainList);
 	}
 
 	// returns which Unit from the list collided with the target unit
@@ -37,6 +34,10 @@ public class CollisionDetector {
 			if(!(unit == collideChecks.get(i)) && collides(unit, collideChecks.get(i))){
 				//				myEngine.remove(unit);
 				//				myEngine.remove(collideChecks.get(i));
+				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
+				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
+			}
+			if(!(unit == collideChecks.get(i) && encapsulates(unit, collideChecks.get(i)))){
 				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
 				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
 			}
