@@ -3,7 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Set;
 import game_engine.properties.Position;
 
 /*
@@ -127,7 +127,12 @@ public class Path extends MapPiece{
 			System.out.printf("X: %f Y: %f\n", start.getX(), start.getY());
 			start = p2.getNextPosition(start);
 		}
-		
+	}
+	
+	public List<Position> getAllPositions() {
+	    List<Position> allPositions = new ArrayList<>();
+	    allPositions.addAll(nextPositions.keySet());
+	    return allPositions;
 	}
 	
 }

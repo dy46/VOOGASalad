@@ -12,14 +12,12 @@ public interface IGameView {
     //event handler that begins the animation and movement of elements
     void playGame(int gameIndex);
     
+    //event handler that toggles the game
     void toggleGame();
     
     void changeColorScheme (int colorIndex);
       
     void changeGameSpeed (int gameSpeed); 
-    
-    //event handler that stops the game
-    void pauseGame();
     
     //gets terrain from engine and places/animates 
     void placeTerrain();
@@ -29,5 +27,6 @@ public interface IGameView {
     
     //gets units (enemies, towers) from engine and places/animates
     void placeUnit();  
+
     
 }

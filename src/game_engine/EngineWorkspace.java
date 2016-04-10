@@ -17,12 +17,8 @@ import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Bounds;
-import game_engine.properties.Health;
 import game_engine.properties.Position;
-import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
-import game_engine.properties.Velocity;
 
 /**
  * This class represents the "workspace" for a single instance of a game.
@@ -37,10 +33,9 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Level> myLevels;
 	private List<Path> myPaths;
 	
-	private List<Unit> myUnits;
-	private List<Tower> myTowers;
-	private List<Enemy> myEnemys;
-	private List<Projectile> myProjectiles;
+	private List<Unit> myTowers;
+	private List<Unit> myEnemys;
+	private List<Unit> myProjectiles;
 
 	private CollisionDetector myCollider;
 	private List<UnitProperties> myTowerTypes;
@@ -56,10 +51,16 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public void setUpEngine(List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
+	        Path p2 = new Path("Dirt");
+                p2.addPosition(new Position(0,30));
+                p2.addPosition(new Position(200, 30));
+                p2.addPosition(new Position(200, 200));
+                p2.addPosition(new Position(400, 200));
+                p2.addPosition(new Position(400, 600));
+	        myPaths.add(p2);
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
-		myUnits = new ArrayList<>();
 		//projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
@@ -70,19 +71,16 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		myTimer = 0;
-		myUnits.addAll(myTowers);
-		myUnits.addAll(myProjectiles);
-		myUnits.addAll(myEnemys);
 	}
 	
-	private List<Enemy> makeDummyEnemys() {
+	private List<Unit> makeDummyEnemys() {
 	    Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 	    return new ArrayList<>(Arrays.asList(new Enemy[]{e1}));
 	}
 	
-	private List<Tower> makeDummyTowers() {
+	private List<Unit> makeDummyTowers() {
 	    Position position2 = new Position(200, 300);
-            Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, myUnits, position2);
+            Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, position2);
             return new ArrayList<>(Arrays.asList(new Tower[]{t}));
 	}
 
@@ -103,14 +101,13 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public void updateElements() { 
 	        myTimer++;
 		myTowers.forEach(t -> t.update());
-		myTowers.forEach(t -> t.fire());
+		myTowers.forEach(t -> ((Tower) t).fire());
 		myEnemys.forEach(e -> e.update());
 		myProjectiles.forEach(p -> p.update());
 		myCollider.resolveEnemyCollisions(myProjectiles);
 		if(myTimer % 240 == 0 ) {
 		    Enemy e = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		    myEnemys.add(e);
-		    myUnits.add(e);
 		}
 	}
 
@@ -194,15 +191,20 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public List<Level> getLevels(){
 		return myLevels;
 	}
+	
 	public List<Path> getPaths(){
 		return myPaths;
 	}
 	
-	public List<Enemy> getEnemies(){
+	public List<Unit> getEnemies(){
 		return myEnemys;
 	}
+	
+	public List<Unit> getTowers() {
+	    return myTowers;
+	}
 
-	public List<Projectile> getProjectiles(){
+	public List<Unit> getProjectiles(){
 		return myProjectiles;
 	}
 
@@ -220,10 +222,6 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorFactory.getAffectorLibrary();
-	}
-	
-	public List<Unit> getUnits() {
-	    return myUnits;
 	}
 
 }

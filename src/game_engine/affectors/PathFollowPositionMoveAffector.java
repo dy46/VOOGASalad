@@ -1,6 +1,5 @@
 package game_engine.affectors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.functions.Function;

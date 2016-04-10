@@ -24,7 +24,6 @@ public class Projectile extends Unit {
      */
     public void update () {
        super.update();
-//       System.out.println(getProperties().getState().getValue());
     }
 
     public Projectile copyProjectile () {

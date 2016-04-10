@@ -12,15 +12,15 @@ public class CollisionDetector {
 	public CollisionDetector(EngineWorkspace engine){
 		myEngine = engine;
 	}
-	public void resolveEnemyCollisions(List<Projectile> collideList){
+	public void resolveEnemyCollisions(List<Unit> collideList){
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, collideList));
 	}
 	// returns which Unit from the list collided with the target unit
-	private void updateEnemies(Unit unit, List<Projectile> collideChecks){
+	private void updateEnemies(Unit unit, List<Unit> collideChecks){
 		for(int i = 0;i < collideChecks.size();i++){
 			if(!(unit == collideChecks.get(i)) && collides(unit, collideChecks.get(i))){
 				if(!collideChecks.get(i).hasCollided() && unit.isVisible()) {
-					unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
+					unit.addAffectors(((Projectile) collideChecks.get(i)).getAffectorsToApply());
 					collideChecks.get(i).setElapsedTimeToDeath();
 					collideChecks.get(i).setHasCollided(true);
 

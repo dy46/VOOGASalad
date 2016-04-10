@@ -25,13 +25,10 @@ public class TowerFactory {
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createFourWayTower(String name, List<Projectile> allProjectiles, List<Unit> allUnits, 
-                                    Position startingPosition){
+    public Tower createFourWayTower(String name, List<Unit> allProjectiles, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
         Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
         move.setTTL(Integer.MAX_VALUE);
-        
-        
         Projectile p = new Projectile("Projectile", Arrays.asList(move), 3);
         p.setDeathDelay(30);
         p.setTTL(1000000);
@@ -45,26 +42,24 @@ public class TowerFactory {
         Bounds b = new Bounds(l1);
         State st = new State("Moving");
         Path p2 = new Path("Something here");
-		p2.addPosition(startingPosition.copyPosition());
-		p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
-		
+        p2.addPosition(startingPosition.copyPosition());
+	p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
         UnitProperties properties = new UnitProperties(null, null, null, velocity, b, startingPosition.copyPosition(), null, st, p2);
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
-        damage.setBaseNumbers(Arrays.asList(new Double(10)));
+        damage.setBaseNumbers(Arrays.asList(new Double(5)));
         Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
         stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
         stateToDamaging.setTTL(1);
         p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
         p.setProperties(properties);
         myProjectiles.add(p);
-        return createSpecifiedTower(name, allProjectiles, allUnits, myProjectiles);
+        return createSpecifiedTower(name, allProjectiles, myProjectiles);
     }
     
-    public Tower createSpecifiedTower(String name, List<Projectile> allProjectiles, 
-                                List<Unit> allUnits, List<Projectile> myProjectiles) {
+    public Tower createSpecifiedTower(String name, List<Unit> allProjectiles, List<Projectile> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
-        Tower t = new Tower(name, affectors, allProjectiles, allUnits, myProjectiles, 2);
+        Tower t = new Tower(name, affectors, allProjectiles, myProjectiles, 2);
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0,0));
         l1.add(new Position(70,0));
