@@ -27,10 +27,15 @@ public class ElementMenu extends Menu {
 	
 	private static final String ELEMENT_LABELS_PACKAGE = "auth_environment/properties/labels";
 	private static final String TERRAIN_LABELS_PACKAGE = "auth_environment/properties/terrain_labels";
+	private static final String ENEMY_LABELS_PACKAGE = "auth_environment/properties/enemy_labels";
+	private static final String STRING_LABELS_PACKAGE = "auth_environment/properties/string_labels";
+	private ResourceBundle myStringBundle = ResourceBundle.getBundle(STRING_LABELS_PACKAGE);
 	
 	//private List<TextField> myTextFieldList = new ArrayList<TextField>();
-	private Map<String, TextField> StrToTextMap = new HashMap<String, TextField>();
+	private Map<String, TextField> intTextMap = new HashMap<String, TextField>();
+	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	private GridPane myGridPane;
+	private int index;
 	
 	public ElementMenu() {
 		this.init();
@@ -40,11 +45,19 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
+		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
 		towerItem.setOnAction(e -> createNewTower());
 		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem); 
+		enemyItem.setOnAction(e -> createNewEnemy());
+		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
 	}
 	
+	private void createNewEnemy() {
+		//make the resource bundles
+		ResourceBundle myEnemiesBundle = ResourceBundle.getBundle(ENEMY_LABELS_PACKAGE);
+		createNewElement(myEnemiesBundle);
+	}
+
 	public void createNewTower(){
 		ResourceBundle myElementLabelsBundle = ResourceBundle.getBundle(ELEMENT_LABELS_PACKAGE);
 		createNewElement(myElementLabelsBundle);
@@ -56,11 +69,10 @@ public class ElementMenu extends Menu {
 	}
 	
 	
-	private void addLabels(ResourceBundle myLabelsBundle){
+	private void addLabels(ResourceBundle myLabelsBundle, Map<String, TextField> StrToTextMap){
 	    myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
 	 	myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
 		Enumeration<String> myKeys = myLabelsBundle.getKeys();	//prolly should split this up into Strings and ints
-		int index = 0;
 		StrToTextMap.clear();
 		
 		while(myKeys.hasMoreElements()){
@@ -83,18 +95,20 @@ public class ElementMenu extends Menu {
 	 	   uploadImage.setOnAction(e -> selectImage(t));
 	 	   uploadImage.setPrefWidth(150.0);
 	 	   uploadImage.setTooltip(t);
-	 	   myGridPane.add(uploadImage, 1, StrToTextMap.size()+1);
+	 	   myGridPane.add(uploadImage, 1, index+2);
 	 	   
 	 	   Button ok = new Button("OK");
 	 	   ok.setOnAction(e -> makeElement(t));
-	 	   myGridPane.add(ok, 2, StrToTextMap.size()+1);
+	 	   myGridPane.add(ok, 2, index+2);
 	}
 	
 	
    private void createNewElement(ResourceBundle myLabelsBundle){		//va will refactor this later 
-    	myGridPane = new GridPane();
-	   
-    	addLabels(myLabelsBundle);
+	    index = 0;
+	    myGridPane = new GridPane();
+	    
+    	addLabels(myLabelsBundle, intTextMap);
+    	addLabels(myStringBundle, strTextMap);
 		addButtons();
 
  	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
@@ -130,10 +144,15 @@ public class ElementMenu extends Menu {
         }
     	
     }
+    
     private void makeElement(Tooltip t){
-    	for(String str: StrToTextMap.keySet()){
-    		System.out.println(str + " " + StrToTextMap.get(str).getText());
+    	for(String str: strTextMap.keySet()){
+    		System.out.println(str + " " + strTextMap.get(str).getText());
     	}
+    	for(String str: intTextMap.keySet()){
+    		System.out.println(str + " " + intTextMap.get(str).getText());
+    	}
+    	
     	
     	//don't forget to give them the imageview too
     	
