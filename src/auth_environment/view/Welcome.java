@@ -36,7 +36,7 @@ public class Welcome {
 	
 	private NodeFactory myNodeFactory = new NodeFactory();
 	private TextField gameNameInput;
-	private Stage mainStage; 
+	private Stage myStage = new Stage(); 
 	private Scene welcomeScene; 
 	private VBox myRoot;
 	
@@ -53,6 +53,8 @@ public class Welcome {
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.welcomeScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
+		this.myStage.setScene(this.welcomeScene);
+		this.myStage.show();
 	}
 	
 	private HBox buildWompImage() {
@@ -72,12 +74,12 @@ public class Welcome {
 	
 	private void submitButtonPressed() {
 		if (checkValidName()) {
-			this.mainStage.hide
+			this.myStage.hide();
 		}
 	}
 	
 	private boolean checkValidName() {
-		return false; 
+		return this.gameNameInput.getText().length() > 0; 
 	}
 	
 	public Node getRoot() {

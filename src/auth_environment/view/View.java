@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -33,17 +34,16 @@ public class View {
     public View (Stage stage) {
         myStage = stage;
         
-        Welcome welcome = new Welcome(root); 
-        stage.setScene(welcome.showScene());
+        Welcome welcome = new Welcome();
         
-//        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
-//        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
-//        myStage.setScene(myScene);
-//		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-//		mainWorkspace = new Workspace(myTabs);
-//		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
-//		mainTab.setClosable(false);
-//		myTabs.getTabs().add(mainTab);
+        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
+        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
+        myStage.setScene(myScene);
+		myStage.setTitle(myNamesBundle.getString("wompTitle"));
+		mainWorkspace = new Workspace(myTabs);
+		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
+		mainTab.setClosable(false);
+		myTabs.getTabs().add(mainTab);
     }
 
 
