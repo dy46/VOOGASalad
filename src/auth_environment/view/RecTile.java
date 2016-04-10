@@ -26,23 +26,28 @@ public class RecTile extends Rectangle {
 	}
 	
 	private void addListener() {
-		this.setOnMouseClicked(e -> mySelector.chooseCoordinates(x, y));
+		this.setOnMouseClicked(e -> this.recTileAction());
+	}
+	
+	private void recTileAction() {
+		System.out.println(this.x + " " +  this.y); 
+//		mySelector.chooseCoordinates(this.x, this.y);
 	}
 
-	public RecTile(double arg0, double arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
-
-	public RecTile(double arg0, double arg1, Paint arg2) {
-		super(arg0, arg1, arg2);
-		// TODO Auto-generated constructor stub
-	}
+	// Remove these constructors to force input of X and Y coordinates
+//	public RecTile(double arg0, double arg1) {
+//		super(arg0, arg1);
+//	}
+//
+//	public RecTile(double arg0, double arg1, Paint arg2) {
+//		super(arg0, arg1, arg2);
+//	}
 
 	public RecTile(int x, int y, double arg0, double arg1, double arg2, double arg3) {
 		super(arg0, arg1, arg2, arg3);
 		this.x = x;
 		this.y = y; 
+		this.addListener();
 	}
 
 }
