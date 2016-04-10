@@ -83,10 +83,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		List<Terrain> terrains = new ArrayList<>();
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(0, 0));
+		pos.add(new Position(700, 0));
 		pos.add(new Position(700, 700));
-		pos.add(new Position(700, 700));
-		pos.add(new Position(700, 700));
-		pos.add(new Position(700, 700));
+		pos.add(new Position(0, 700));
 		Bounds b = new Bounds(pos);
 		Position p = new Position(25, 25);
 		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null);

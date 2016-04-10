@@ -23,7 +23,8 @@ public class TerrainFactory {
 		List<Affector> affectors = new ArrayList<>();
 		Affector speedUp = myAffectorLibrary.getAffector("Constant", "PositionMove");
 		affectors.add(speedUp);
-		Terrain ice = new Terrain("Ice", affectors);
+		Terrain ice = new Terrain("Ice");
+		ice.setAffectorsToApply(affectors);
 		myTerrainLibrary.addTerrain(ice);
 	}
 

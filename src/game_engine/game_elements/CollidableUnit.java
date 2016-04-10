@@ -13,6 +13,10 @@ public class CollidableUnit extends Unit{
 		// TODO Auto-generated constructor stub
 	}
 
+	public CollidableUnit(String name) {
+		super(name);
+	}
+
 	public List<Affector> getAffectorsToApply() {
 		return affectorsToApply;
 	}

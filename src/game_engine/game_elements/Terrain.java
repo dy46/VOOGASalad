@@ -1,6 +1,5 @@
 package game_engine.game_elements;
 
-import java.util.List;
 import game_engine.affectors.Affector;
 
 /*
@@ -10,8 +9,8 @@ import game_engine.affectors.Affector;
 */
 public class Terrain extends CollidableUnit{
 	
-	public Terrain(String name, List<Affector> affectors) {
-		super(name, affectors);
+	public Terrain(String name) {
+		super(name);
 	}
 	
 	/*

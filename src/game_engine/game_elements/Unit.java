@@ -36,6 +36,13 @@ public abstract class Unit extends GameElement {
         this.myProperties = properties;
         initialize();
     }
+    
+    public Unit(String name){
+    	super(name);
+    	initialize();
+    	this.myProperties = new UnitProperties();
+    	elapsedTime = 0;
+    }
 
     private void initialize () {
         myAffectors = new ArrayList<>();
@@ -48,6 +55,7 @@ public abstract class Unit extends GameElement {
     }
 
     public void addAffectors (List<Affector> affectors) {
+    	System.out.println(myAffectors);
         myAffectors.addAll(affectors);
     }
 
