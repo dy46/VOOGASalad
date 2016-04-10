@@ -26,7 +26,6 @@ public class View {
 	
 	
 	
-	
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
@@ -41,10 +40,10 @@ public class View {
 		mainWorkspace = new Workspace(myTabs);
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
-		myTabs.getTabs().add(mainTab);
+		//myTabs.getTabs().add(mainTab);
 		
 		
-		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
+		VAsTesterTab vtest = new VAsTesterTab(myTabs);
     }
 
 
