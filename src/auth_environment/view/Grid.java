@@ -3,20 +3,20 @@ package auth_environment.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class Grid{
 	
-	MapDisplayModel myModel;
+	private ISelector mySelector; 
+	private MapDisplayModel myModel;
 	int numX;
 	int numY;
 	double mapWidth;
 	double mapHeight;
-	Pane myPane;
+	private Pane myPane;
 	List<RecTile> myTiles= new ArrayList<RecTile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {

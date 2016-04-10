@@ -8,14 +8,17 @@ import game_engine.game_elements.GameElement;
 
 public class MapDisplayModel {
 
-	Map<Coordinate, GameElement> myMap; 
-	List<Coordinate> myList;
+	private Map<Coordinate, GameElement> myMap; 
+	private List<Coordinate> myList;
 	private int xMax;
 	private int yMax;
 	
-	public MapDisplayModel(int xLim, int yLim) {
+	private ISelector mySelector; 
+	
+	public MapDisplayModel(int xLim, int yLim, ISelector selector) {
 		xMax = xLim;
 		yMax = yLim;
+		this.mySelector = selector; 
 	}
 	
 	public void generateMap(){
