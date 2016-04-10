@@ -4,9 +4,11 @@ import java.util.List;
 
 import game_engine.game_elements.CollidableUnit;
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -44,11 +46,17 @@ public interface IPlayerEngineInterface {
     //sets up the engine with a list of files
     void setUpEngine(List<String> fileNames);
     
-    List<Tower> getTowers();
+    public List<Unit> getEnemies();
     
-    List<Enemy> getEnemies();
+    public List<Unit> getTowers();
     
-    List<Projectile> getProjectiles();
+    public List<Unit> getProjectiles();
+    
+    public List<Path> getPaths();
+    
+    public int getLives();
+
+    public void clearProjectiles();
     
     List<Terrain> getTerrains();
     

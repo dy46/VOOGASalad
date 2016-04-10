@@ -14,32 +14,31 @@ public class CollisionDetector {
 	public CollisionDetector(EngineWorkspace engine){
 		myEngine = engine;
 	}
-
-	public void resolveEnemyCollisions(List<CollidableUnit> collideList){
+	public void resolveEnemyCollisions(List<Unit> collideList){
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, collideList));
 	}
 
-	public void resolveTowerCollisions(List<CollidableUnit> collideList){
+	public void resolveTowerCollisions(List<Unit> collideList){
 		myEngine.getTowers().forEach(t -> updateTowers(t, collideList));
 	}
 
-	private void updateTowers(Tower t, List<CollidableUnit> terrainList) {
+	private void updateTowers(Unit t, List<Unit> terrainList) {
 		updateEnemies(t, terrainList);
 	}
 
 	// returns which Unit from the list collided with the target unit
-	private void updateEnemies(Unit unit, List<CollidableUnit> collideChecks){
-		ArrayList<Unit> removeList = new ArrayList<Unit>();
+	private void updateEnemies(Unit unit, List<Unit> collideChecks){
 		for(int i = 0;i < collideChecks.size();i++){
 			if(!(unit == collideChecks.get(i)) && collides(unit, collideChecks.get(i))){
-				//				myEngine.remove(unit);
-				//				myEngine.remove(collideChecks.get(i));
-				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
-				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
+				if(!collideChecks.get(i).hasCollided() && unit.isVisible()) {
+					unit.addAffectors(((CollidableUnit) collideChecks.get(i)).getAffectorsToApply());
+					collideChecks.get(i).setElapsedTimeToDeath();
+					collideChecks.get(i).setHasCollided(true);
+				}
 			}
 			if(!(unit == collideChecks.get(i)) && encapsulates(unit, collideChecks.get(i))){
-				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
-				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
+				unit.addAffectors(((CollidableUnit) collideChecks.get(i)).getAffectorsToApply());
+				collideChecks.get(i).setElapsedTimeToDeath();
 			}
 		}
 	}
@@ -53,7 +52,7 @@ public class CollisionDetector {
 		}
 		return newBounds;
 	}
-	
+
 	private boolean insidePolygon(Unit outer, Position p){
 		int counter = 0;
 		double xinters;
@@ -80,7 +79,7 @@ public class CollisionDetector {
 		else
 			return(true);
 	}
-	
+
 	private boolean encapsulates(Unit outer, Unit inner){
 		List<Position> bounds = getUseableBounds(inner);
 		for(Position pos : bounds){
@@ -90,7 +89,7 @@ public class CollisionDetector {
 		}
 		return true;
 	}
-	
+
 	private boolean collides(Unit a, Unit b){
 		List<Position> aPos = getUseableBounds(a);
 		List<Position> bPos = getUseableBounds(b);

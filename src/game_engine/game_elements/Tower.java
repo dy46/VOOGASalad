@@ -15,17 +15,18 @@ import game_engine.properties.UnitProperties;
  */
 public class Tower extends SellableUnit {
 
-    private List<Projectile> allProjectiles;
+    private List<Unit> allProjectiles;
     private List<Projectile> myProjectiles;
     
-    public Tower (String name, List<Affector> affectors) {
-        super(name, affectors);
+    public Tower (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
         // setID(getWorkspace().getIDFactory().createID(this));
     }
     
 
-    public Tower (String name, List<Affector> affectors, List<Projectile> allProjectiles, List<Projectile> myProjectiles) {
-        super(name, affectors);
+    public Tower (String name, List<Affector> affectors, List<Unit> allProjectiles, 
+                  List<Projectile> myProjectiles, int numFrames) {
+        super(name, affectors, numFrames);
         this.allProjectiles = allProjectiles;
         this.myProjectiles = myProjectiles;
         // setID(getWorkspace().getIDFactory().createID(this));

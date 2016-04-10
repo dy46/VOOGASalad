@@ -8,8 +8,8 @@ public class CollidableUnit extends Unit{
 
 	private List<Affector> affectorsToApply;
 
-	public CollidableUnit(String name, List<Affector> affectors) {
-		super(name, affectors);
+	public CollidableUnit(String name, List<Affector> affectors, int numFrames) {
+		super(name, affectors, numFrames);
 		// TODO Auto-generated constructor stub
 	}
 
