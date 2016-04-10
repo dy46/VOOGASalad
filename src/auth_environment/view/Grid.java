@@ -51,7 +51,7 @@ public class Grid{
 		
 	}
 	
-	public Pane getPane(){
+	public Pane getRoot(){
 		return myPane;
 	}
 	public double calcRecWidth(){

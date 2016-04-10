@@ -34,7 +34,7 @@ public class MapDisplay extends Pane {
 		myGrid = new Grid(myModel, 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));
-		this.getChildren().add(myGrid.getPane());
+		this.getChildren().add(myGrid.getRoot());
 	}
 	
 	
