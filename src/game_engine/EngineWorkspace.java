@@ -138,10 +138,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 				myEnemys.add(newE);
 				myUnits.add(newE);
 			}// tries to spawn new enemies using Waves
-			System.out.println(myCurrentLevel.wavesLeft());
-			if(myCurrentLevel.wavesLeft() == 0){
+			if(myCurrentLevel.getCurrentWave().isFinished()){
+				myProjectiles.clear();
 				pause = true;
 			}
+			
 		}
 	}
 

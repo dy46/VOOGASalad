@@ -40,12 +40,15 @@ public class Level extends MapPiece{
 			myCurrentWave = nextWave;
 		}
 	}
-
+	public Wave getCurrentWave(){
+		return myCurrentWave;
+	}
 	public void setCurrentWave(int wave){
 		checkCurrentWaveFinished();
 		myCurrentWave = myWaves.get(wave);
 	}
 
+	
 	private void checkCurrentWaveFinished(){
 		if(!myCurrentWave.isFinished()){
 			// TODO: Throw exception "Current wave not finished"
@@ -79,6 +82,7 @@ public class Level extends MapPiece{
 
 	public Enemy update(){
 		return myCurrentWave.tryToSpawnEnemy();
+		
 	}
 
 
