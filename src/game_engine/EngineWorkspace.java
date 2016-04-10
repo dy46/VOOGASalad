@@ -31,7 +31,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	private int myTimer;
 	private int nextWaveTimer;
-	private boolean pause;
+	private int pause;
 	private List<Level> myLevels;
 	private List<Path> myPaths;
 	
@@ -124,7 +124,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public void playLevel(int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
-		pause = false;
+		pause = 0;
 	}
 
 	public void playWave(int waveNumber) {
@@ -134,11 +134,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 
 	public void continueWaves(){
 		myCurrentLevel.playNextWave();
-		pause = false;
+		pause = 0;
 	}
 	public void updateElements() { 
 		nextWaveTimer++;
-		if(!pause){
+		if(pause < 2){
 			myTimer++;
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
@@ -151,8 +151,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 				myEnemys.add(newE);
 			}// tries to spawn new enemies using Waves
 			if(myCurrentLevel.getCurrentWave().isFinished()){
-				myProjectiles.forEach(t -> t.setInvisible());
-				pause = true;
+				myProjectiles.forEach(t -> {
+					t.setInvisible();
+					t.setHasCollided(true);
+				});
+				pause++;
 				nextWaveTimer = 0;
 			}
 			
