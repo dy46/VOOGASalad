@@ -27,6 +27,7 @@ import game_engine.properties.Bounds;
 import game_engine.properties.Health;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
+import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 
 
@@ -140,7 +141,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(0, 700));
 		Bounds b = new Bounds(pos);
 		Position p = new Position(25, 25);
-		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, null, null);
+		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
 		return new ArrayList<>(Arrays.asList(new Terrain[] { ice }));
@@ -188,7 +189,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
 			continueWaves();
 		}
-		myProjectiles.forEach(p -> p.update());
+		getCollideList().forEach(p -> p.update());
 		updateLives();
 	}
 
