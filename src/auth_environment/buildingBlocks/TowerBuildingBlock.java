@@ -9,12 +9,14 @@ public class TowerBuildingBlock extends BuildingBlock{
 
 	private Price myPrice;
 	private double range; 
-	
+	private double firingRate; 
+
 	public TowerBuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, double direction,
-			double r, double price, List<Position> positionList){
+			double r, double price, List<Position> positionList, double fRate){
 		super(image, name, health, damage, teamName, speed, direction, positionList); 
 		myPrice = new Price(price);
 		range = r;
+		firingRate = fRate; 
 	}
 	
 	//Getters and Setters 
@@ -33,6 +35,14 @@ public class TowerBuildingBlock extends BuildingBlock{
 
 	public void setRange(double range) {
 		this.range = range;
+	}
+	
+	public double getFiringRate() {
+		return firingRate;
+	}
+
+	public void setFiringRate(double firingRate) {
+		this.firingRate = firingRate;
 	}
 	
 	

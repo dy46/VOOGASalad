@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import auth_environment.buildingBlocks.ElementalBuildingBlock;
+import auth_environment.buildingBlocks.*;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorLibrary;
 import game_engine.game_elements.Projectile;
@@ -18,34 +18,32 @@ import game_engine.properties.Velocity;
 public class TowerFactory {
 
     private AffectorLibrary myAffectorLibrary;
-    private ElementalBuildingBlock block; 
+    private TowerBuildingBlock block; 
 
     public TowerFactory(AffectorLibrary affectorLibrary){
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition, ElementalBuildingBlock eleBlock){
-    	//
-    	//
-    	//Need to add elementbuildingblock class to parse info from
-    	//
-    	//
-    	
+    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition, TowerBuildingBlock eleBlock){
     	List<Projectile> myProjectiles = new ArrayList<Projectile>(); 
     	Affector projectileMove = myAffectorLibrary.getAffector("Constant", "PositionMove");
     	projectileMove.setTTL(Integer.MAX_VALUE);
     	
     	Projectile p = new Projectile("ConstantHealth", Arrays.asList(projectileMove));
     	p.setTTL(Integer.MAX_VALUE);
-    	p.setFireRate(60); //Change value
-    	Velocity projVelocity = eleBlock.getMyVelocity(); //Change value
-//    	List<Position> boundaries = new ArrayList<>(); 
-    	//Add boundary positions here. 
+    	p.setFireRate(60);
+    	Velocity projVelocity = eleBlock.getMyVelocity();
     	Bounds b = eleBlock.getMyBounds(); 
     	UnitProperties properties = new UnitProperties(null, null, null, projVelocity, b, startingPosition.copyPosition(), null);
     	p.setProperties(properties);
     	myProjectiles.add(p);
     	
+    	Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
+    	damage.setTTL(1);
+    	damage.setBaseNumbers(Arrays.asList(new Double(1)));
+    	p.setAffectorsToApply(Arrays.asList(damage));
+    	
+    	return createSpecifiedTower("OneWay", allProjectiles, myProjectiles); 
 	}
     
     
