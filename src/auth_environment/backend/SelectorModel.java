@@ -44,4 +44,14 @@ public class SelectorModel implements ISelector {
 		return this.y;
 	}
 
+	@Override
+	public void printCoordinates() {
+		System.out.println("(" + this.x + "," + this.y + ")");
+	}
+
+	@Override
+	public void printIndex() {
+		System.out.println("GameElement index of: " + this.elementIndex);
+	}
+
 }

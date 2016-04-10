@@ -12,5 +12,9 @@ public interface ISelector {
 	// Returns X and Y coordinates of the selected Map Tile. 
 	public int getX();
 	public int getY(); 
+	
+	// For debugging and testing
+	public void printIndex(); 
+	public void printCoordinates(); 
 
 }
