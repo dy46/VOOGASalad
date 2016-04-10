@@ -52,6 +52,9 @@ public class GameView implements IGameView{
         if(code.equals("SPACE")) {
             toggleGame();
         }
+        if(code.equals("ENTER")) {
+            
+        }
     }
     
     @Override
@@ -81,6 +84,11 @@ public class GameView implements IGameView{
                    placeUnit();
                    placePath();
                    timer++;
+                   System.out.println(playerEngineInterface.getLives());
+                   if(playerEngineInterface.getLives() == 0) {
+                       timerStatus = false;
+                       AT.stop();
+                   }
                }
             }
         };
@@ -121,10 +129,12 @@ public class GameView implements IGameView{
     
     @Override
     public void placeUnit () {
-        placeUnits(playerEngineInterface.getEnemies(), enemies);
+        List<Unit> currEnemies = playerEngineInterface.getEnemies();
+        placeUnits(currEnemies, enemies);
         placeUnits(playerEngineInterface.getProjectiles(), projectiles);
         placeUnits(playerEngineInterface.getTowers(), towers);
     }
+
     
     public void placeUnits(List<Unit> currUnits, List<ImageViewPicker> imageViews) {
         for(int i = imageViews.size(); i < currUnits.size(); i++) {

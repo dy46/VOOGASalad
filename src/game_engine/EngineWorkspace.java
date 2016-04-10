@@ -91,8 +91,18 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		w.addEnemy(e2, 60);
 		w.addEnemy(e3, 60);
 		w.addEnemy(e4, 60);
-		Level l = new Level("still not sure", w);
+		Level l = new Level("still not sure", w, 3);
 		l.addWave(w);
+		Wave w2 = new Wave("I'm not quite sure what goes here");
+                Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+                Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+                Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+                Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+                w2.addEnemy(e5, 0);
+                w2.addEnemy(e6, 60);
+                w2.addEnemy(e7, 60);
+                w2.addEnemy(e8, 60);
+                l.addWave(w2);      
 		return l;
 	}
 
@@ -128,8 +138,19 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 				myProjectiles.clear();
 				pause = true;
 			}
-			
 		}
+		updateLives();
+		
+	}
+	
+	public void updateLives() {
+            int livesToSubtract = 0;
+            for(int i = 0; i < myEnemys.size(); i++) {
+                if(myEnemys.get(i).getProperties().getPath().isUnitAtLastPosition(myEnemys.get(i))) {
+                    livesToSubtract++;
+                }
+            }
+            myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
 	}
 
 	public String getGameStatus() {
@@ -246,5 +267,10 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorFactory.getAffectorLibrary();
 	}
+
+        @Override
+        public int getLives () {
+            return myCurrentLevel.getMyLives();
+        }
 
 }

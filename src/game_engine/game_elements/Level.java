@@ -12,15 +12,18 @@ import game_engine.properties.Position;
  */
 public class Level extends MapPiece{
 
+        private int myLives;
+        private int startingLives;
 	private Wave myCurrentWave;
 	private List<Wave> myWaves;
 
-	public Level(String name, Wave first){
+	public Level(String name, Wave first, int myLives){
 		super(name);
 		//		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 		myCurrentWave = first;
-
+		this.myLives = myLives;
+		this.startingLives = myLives;
 	}
 
 	private void initialize(){
@@ -110,5 +113,17 @@ public class Level extends MapPiece{
 	public String toFile(){
 		return getID();
 	}
+
+        public int getMyLives () {
+            return myLives;
+        }
+
+        public void setMyLives (int myLives) {
+            this.myLives = myLives;
+        }
+        
+        public int getStartingLives() {
+            return startingLives;
+        }
 
 }
