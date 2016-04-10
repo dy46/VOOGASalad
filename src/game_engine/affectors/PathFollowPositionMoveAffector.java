@@ -13,6 +13,7 @@ import game_engine.properties.UnitProperties;
  * 
  */
 public class PathFollowPositionMoveAffector extends PositionMoveAffector {
+        
 	public PathFollowPositionMoveAffector(List<Function> functions) {
 		super(functions);
 	}
@@ -22,7 +23,7 @@ public class PathFollowPositionMoveAffector extends PositionMoveAffector {
 		double speed = properties.getVelocity().getSpeed();
 		Path myPath = properties.getPath();
 		for(int i = 0;i < speed;i++){
-			Position curr = properties.getPosition();
+		        Position curr = properties.getPosition();
 			Position next = myPath.getNextPosition(curr);
 			properties.getPosition().setX(next.getX());
 			properties.getPosition().setY(next.getY());

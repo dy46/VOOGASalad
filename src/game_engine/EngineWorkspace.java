@@ -41,7 +41,6 @@ import game_engine.properties.UnitProperties;
 
 public class EngineWorkspace implements IPlayerEngineInterface {
 
-	private int myTimer;
 	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
@@ -50,10 +49,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
 	private List<Unit> myProjectiles;
-	private List<Unit> myTerrains;
-	
+
 	private CollisionDetector myCollider;
-	private List<UnitProperties> myTowerTypes;
+	private List<Tower> myTowerTypes;
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
@@ -62,6 +60,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
+
+	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
 	public void setUpEngine (List<String> fileNames) {
@@ -83,17 +83,17 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-		myTowers = makeDummyTowers();
+		myTowers = new ArrayList<>();
+		myTowerTypes = makeDummyTowers();
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
-		myTimer = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 	}
 
-	private List<Unit> makeDummyTowers () {
+	private List<Tower> makeDummyTowers () {
 		Position position2 = new Position(200, 300);
 		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, position2);
 		return new ArrayList<>(Arrays.asList(new Tower[] { t }));
@@ -147,30 +147,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		return new ArrayList<>(Arrays.asList(new Terrain[] { ice }));
 	}
 
-	public List<String> saveGame () {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void playLevel (int levelNumber) {
-		myCurrentLevel = myLevels.get(levelNumber);
-		pause = false;
-	}
-
-	public void playWave (int waveNumber) {
-		// TODO: pause current wave
-		myCurrentLevel.setCurrentWave(waveNumber);
-	}
-
-	public void continueWaves () {
-		myCurrentLevel.playNextWave();
-		pause = false;
-	}
-
 	public void updateElements() { 
 		nextWaveTimer++;
 		if(!pause){
-			myTimer++;
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
 			myEnemys.forEach(e -> e.update());
@@ -264,9 +243,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	public void modifyTower (int activeTowerIndex, UnitProperties newProperties) {
-		towerBoundsCheck(activeTowerIndex);
-		myTowers.get(activeTowerIndex).setProperties(newProperties);
-		myTowerTypes.set(activeTowerIndex, newProperties);
+		//		towerBoundsCheck(activeTowerIndex);
+		//		myTowers.get(activeTowerIndex).setProperties(newProperties);
+		//		myTowerTypes.set(activeTowerIndex, newProperties);
+		//	
 	}
 
 	private void towerBoundsCheck (int index) {
@@ -347,6 +327,35 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	public List<Terrain> getTerrains() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+
+	public List<String> saveGame () {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void playLevel (int levelNumber) {
+		myCurrentLevel = myLevels.get(levelNumber);
+		pause = false;
+	}
+
+	public void playWave (int waveNumber) {
+		// TODO: pause current wave
+		myCurrentLevel.setCurrentWave(waveNumber);
+	}
+
+	public void continueWaves () {
+		myCurrentLevel.playNextWave();
+		pause = false;
+	}
+
+	@Override
+	public void addTower (double x, double y, int towerTypeIndex) {
+		Tower newTower = myTowerTypes.get(towerTypeIndex).copyTower(x, y);
+		myTowers.add(newTower);
 	}
 
 }
