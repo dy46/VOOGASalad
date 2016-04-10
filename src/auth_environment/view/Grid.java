@@ -48,7 +48,6 @@ public class Grid{
 				myPane.getChildren().add(myTile);
 			}
 		}
-		
 	}
 	
 	public Pane getRoot(){
