@@ -37,7 +37,7 @@ public class CollisionDetector {
 				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
 				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
 			}
-			if(!(unit == collideChecks.get(i) && encapsulates(unit, collideChecks.get(i)))){
+			if(!(unit == collideChecks.get(i)) && encapsulates(unit, collideChecks.get(i))){
 				unit.addAffectors(collideChecks.get(i).getAffectorsToApply());
 				collideChecks.get(i).setElapsedTime(collideChecks.get(i).getTTL());
 			}

@@ -8,6 +8,7 @@ public class TerrainLibrary {
 	private HashMap<String, Terrain> myTerrains;
 	
 	public TerrainLibrary() {
+		myTerrains = new HashMap<>();
 	}
 	
 	public Terrain getTerrainByName(String name) {

@@ -70,10 +70,11 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = makeDummyEnemys();
-		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-		myTowers = makeDummyTowers();
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
+		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
+		myTowers = makeDummyTowers();
+		
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 	}
@@ -82,12 +83,13 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		List<Terrain> terrains = new ArrayList<>();
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
-		pos.add(new Position(0, 0));
-		pos.add(new Position(0, 50));
-		pos.add(new Position(50, 0));
-		pos.add(new Position(50, 50));
+		pos.add(new Position(700, 700));
+		pos.add(new Position(700, 700));
+		pos.add(new Position(700, 700));
+		pos.add(new Position(700, 700));
 		Bounds b = new Bounds(pos);
-		UnitProperties properties = new UnitProperties(null, null, null, null, b, null, null);
+		Position p = new Position(25, 25);
+		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null);
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
 		terrains.add(ice);
@@ -160,8 +162,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	
 	private List<CollidableUnit> getCollideList(){
 		List<CollidableUnit> collideList = new ArrayList<>();
-		collideList.addAll(myTerrains);
 		collideList.addAll(myProjectiles);
+		collideList.addAll(myTerrains);
 		return collideList;
 	}
 	

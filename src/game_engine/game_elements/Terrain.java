@@ -12,7 +12,6 @@ public class Terrain extends CollidableUnit{
 	
 	public Terrain(String name, List<Affector> affectors) {
 		super(name, affectors);
-		setID(getWorkspace().getIDFactory().createID(this));
 	}
 	
 	/*

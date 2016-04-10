@@ -21,7 +21,7 @@ public class TerrainFactory {
 	
 	private void setupDefaultTerrains(){
 		List<Affector> affectors = new ArrayList<>();
-		Affector speedUp = myAffectorLibrary.getAffector("ExpIncr", "PositionMove");
+		Affector speedUp = myAffectorLibrary.getAffector("Constant", "PositionMove");
 		affectors.add(speedUp);
 		Terrain ice = new Terrain("Ice", affectors);
 		myTerrainLibrary.addTerrain(ice);
