@@ -27,14 +27,11 @@ public class View {
 	
     private Stage myStage;
     private Scene myScene; 
-    private Parent root; 
     private TabPane myTabs = new TabPane();
     private Workspace mainWorkspace;
 
     public View (Stage stage) {
         myStage = stage;
-        myScene =  new Scene(root); 
-        stage.setScene(myScene);
         
         Welcome welcome = new Welcome(root); 
         stage.setScene(welcome.showScene());
