@@ -166,7 +166,8 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 			continueWaves();
 		}
 		// below is true whenever level ends
-		System.out.println(myCurrentLevel.getNextWave() == null && myCurrentLevel.getCurrentWave().isFinished());
+//		System.out.println(myCurrentLevel.getNextWave() == null && myCurrentLevel.getCurrentWave().isFinished());
+		System.out.println(nextWaveTimer);
 		myProjectiles.forEach(p -> p.update());
 	}
 
