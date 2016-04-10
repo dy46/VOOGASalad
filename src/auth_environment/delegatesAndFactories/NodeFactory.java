@@ -2,6 +2,7 @@ package auth_environment.delegatesAndFactories;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -45,6 +46,10 @@ public class NodeFactory {
 		title.setFont(font);
 		vbox.getChildren().add(title);
 		return vbox; 
+	}
+	
+	public Button buildButton(String text) {
+		return new Button(text); 
 	}
 	
 	public void addImageView(Pane pane, String imageName) {
