@@ -4,9 +4,11 @@ import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 4/6/16.
@@ -27,10 +29,13 @@ public class Welcome {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
-	private NodeFactory myNodeFactory = new NodeFactory(); 
+	private NodeFactory myNodeFactory = new NodeFactory();
+	private Stage mainStage; 
+	private Scene welcomeScene; 
 	private BorderPane myRoot = new BorderPane(); 
 	
-	public Welcome() {
+	public Welcome(Stage stage) {
+		this.mainStage = stage; 
 		this.myRoot.setCenter(this.buildCenter());
 	}
 	
@@ -45,6 +50,10 @@ public class Welcome {
 	
 	public Node getRoot() {
 		return this.myRoot;
+	}
+	
+	public Scene show() {
+		return this.welcomeScene;
 	}
 
 }
