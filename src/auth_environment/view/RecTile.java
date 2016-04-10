@@ -16,13 +16,13 @@ import javafx.scene.shape.Rectangle;
 
 public class RecTile extends Rectangle {
 	
-	private int x;
-	private int y; 
+	private double x;
+	private double y; 
 	
 	private ISelector mySelector; 
 	
-	public RecTile(ISelector selector, int x, int y, double arg0, double arg1, double arg2, double arg3) {
-		super(arg0, arg1, arg2, arg3);
+	public RecTile(ISelector selector, double x, double y, double width, double height) {
+		super(x, y, width, height);
 		this.x = x;
 		this.y = y; 
 		this.mySelector = selector; 
