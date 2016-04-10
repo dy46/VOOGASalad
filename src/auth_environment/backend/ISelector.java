@@ -15,6 +15,7 @@ public interface ISelector {
 	// For debugging and testing
 	public void printIndex(); 
 	public void printPositions(); 
+	public void printMostRecentPosition(); 
 	
 	// Maintain a List of selected points (SHIFT + click), used for Terrain and Path
 	public void choosePosition(double x, double y);

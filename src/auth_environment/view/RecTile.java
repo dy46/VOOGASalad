@@ -34,7 +34,7 @@ public class RecTile extends Rectangle {
 	}
 	
 	private void recTileAction() {
-		mySelector.chooseCoordinates(this.x, this.y);
+		mySelector.choosePosition(this.x, this.y);
 		mySelector.printPositions();
 	}
 }

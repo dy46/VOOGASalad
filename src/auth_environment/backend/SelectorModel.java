@@ -1,5 +1,6 @@
 package auth_environment.backend;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import game_engine.properties.Position;
 public class SelectorModel implements ISelector {
 	
 	private int elementIndex;
-	private List<Position> myPositions; 
+	private List<Position> myPositions = new ArrayList<Position>();
 	
 	public SelectorModel() {}; 
 
@@ -35,6 +36,11 @@ public class SelectorModel implements ISelector {
 	@Override
 	public void printPositions() {
 		this.myPositions.stream().forEach(s -> System.out.println("(" + s.getX() + "," + s.getY()+ ")"));
+	}
+	
+	@Override
+	public void printMostRecentPosition() {
+		System.out.println("(" + this.myPositions.get(myPositions.size()).getX() + "," + this.myPositions.get(myPositions.size()).getY()+ ")");
 	}
 
 	@Override
