@@ -81,7 +81,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	private List<Terrain> makeDummyTerrains() {
 		List<Terrain> terrains = new ArrayList<>();
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
-
+		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(0, 0));
+		pos.add(new Position(0, 50));
+		pos.add(new Position(50, 0));
+		pos.add(new Position(50, 50));
+		Bounds b = new Bounds(pos);
+		UnitProperties properties = new UnitProperties(null, null, null, null, b, null, null);
+		ice.setProperties(properties);
+		ice.setTTL(Integer.MAX_VALUE);
 		terrains.add(ice);
 		return terrains;
 	}
