@@ -55,13 +55,19 @@ public class NodeFactory {
 		return new Button(text); 
 	}
 	
-	public HBox buildTextFieldWithLabel(String labelText, double spacing) {
-		Label label = this.buildLabel(labelText); 
+	public HBox buildTextFieldWithLabel(String text, double spacing) {
+		Label label = this.buildLabel(text); 
 		TextField textField = new TextField(); 
 		HBox hBox = new HBox(); 
 		hBox.getChildren().addAll(label, textField);
 		hBox.setSpacing(spacing);
 		return hBox; 
+	}
+	
+	public TextField buildTextFieldWithPrompt(String text) {
+		TextField textField = new TextField();
+		textField.setPromptText(text);
+		return textField;
 	}
 	
 	public void addImageView(Pane pane, String imageName) {
