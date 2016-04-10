@@ -147,6 +147,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myProjectiles.removeIf(p -> p.getTTL() == p.getElapsedTime());
 		myProjectiles.forEach(p -> p.update());
 		myCollider.resolveEnemyCollisions(getCollideList());
+		myCollider.resolveTowerCollisions(myTerrains);
 	}
 	
 	private List<CollidableUnit> getCollideList(){
