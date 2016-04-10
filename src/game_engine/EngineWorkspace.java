@@ -144,7 +144,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
 			myEnemys.forEach(e -> e.update());
-			myProjectiles.forEach(p -> p.update());
+			
 			
 			myCollider.resolveEnemyCollisions(myProjectiles);
 			Enemy newE = myCurrentLevel.update();
@@ -165,6 +165,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
 			continueWaves();
 		}
+		myProjectiles.forEach(p -> p.update());
 	}
 
 	public String getGameStatus() {
