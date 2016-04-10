@@ -34,6 +34,9 @@ public class TabMenu extends Menu {
 	// TODO: pop up an alert asking the Developer to name gthe new Wave (or auto-generate a Wave name) 
 	private void createNewTab(){
 		Workspace newWorkspace = new Workspace(myTabs);
+		//Tab elTab = new Tab(myNamesBundle.getString("levelItemLabel"));
+		//elTab.setContent(newWorkspace.getRoot());
 		myTabs.getTabs().add(new Tab(myNamesBundle.getString("levelItemLabel"), newWorkspace.getRoot()));
+		//myTabs.getTabs().add(elTab);
 	}
 }
