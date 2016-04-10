@@ -6,6 +6,7 @@ import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,7 +51,8 @@ public class Welcome {
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
 				this.buildTextInput(), 
-				this.buildSubmitButton()
+				this.buildSubmitButton(),
+				this.buildAnimation()
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
@@ -75,6 +77,12 @@ public class Welcome {
 		Button submit = myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel"));
 		submit.setOnAction(e -> this.submitButtonPressed());
 		return myNodeFactory.centerNode(submit);
+	}
+	
+	private ImageView buildAnimation() {
+		ImageView animation = myNodeFactory.buildImageView(myNamesBundle.getString("wompAnimation"));
+		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
+		return animation;
 	}
 
 	private void submitButtonPressed() {
