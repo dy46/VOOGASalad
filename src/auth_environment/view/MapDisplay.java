@@ -2,10 +2,11 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
+import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
+import auth_environment.backend.SelectorModel;
 import game_engine.game_elements.GameElement;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -24,15 +25,16 @@ public class MapDisplay extends Pane {
 	private MapDisplayModel myModel;
 	private Grid myGrid;
 	
-	public MapDisplay() {
+	public MapDisplay(ISelector selector) {
 		this.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						 Double.parseDouble(myDimensionsBundle.getString("defaultMapHeightPixels")));
 		myModel = new MapDisplayModel(Integer.parseInt(myDimensionsBundle.getString("defaultMapWidthCount")), 
-									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")));
+									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")),
+									  selector);
 		myGrid = new Grid(myModel, 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));
-		this.getChildren().add(myGrid.getPane());
+		this.getChildren().add(myGrid.getRoot());
 	}
 	
 	

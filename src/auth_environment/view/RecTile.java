@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import auth_environment.backend.ISelector;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -14,23 +15,26 @@ import javafx.scene.shape.Rectangle;
  */
 
 public class RecTile extends Rectangle {
-
-	public RecTile() {
+	
+	private double x;
+	private double y; 
+	
+	private ISelector mySelector; 
+	
+	public RecTile(ISelector selector, double x, double y, double scaledX, double scaledY, double width, double height) {
+		super(scaledX, scaledY, width, height);
+		this.x = x;
+		this.y = y; 
+		this.mySelector = selector; 
+		this.addListener();
 	}
 
-	public RecTile(double arg0, double arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
+	private void addListener() {
+		this.setOnMouseClicked(e -> this.recTileAction());
 	}
-
-	public RecTile(double arg0, double arg1, Paint arg2) {
-		super(arg0, arg1, arg2);
-		// TODO Auto-generated constructor stub
+	
+	private void recTileAction() {
+		mySelector.choosePosition(this.x, this.y);
+		mySelector.printPositions();
 	}
-
-	public RecTile(double arg0, double arg1, double arg2, double arg3) {
-		super(arg0, arg1, arg2, arg3);
-		// TODO Auto-generated constructor stub
-	}
-
 }

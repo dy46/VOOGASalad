@@ -1,18 +1,25 @@
 package auth_environment.backend;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import game_engine.properties.Position;
+
 /**
  * Created by BrianLin on 4/9/16.
  * Team member responsible: Brian
  *
  * This class holds the selected Game Element index and the coordinates of the selected tile. 
  * These values will be passed to the Backend using the getter methods.  
+ * 
+ * Pass this class to anything that will modify the selected Element or Coordinates. 
  */
 
 public class SelectorModel implements ISelector {
 	
-	private int elementIndex;
-	private int x;
-	private int y; 
+	private int elementIndex; 
+	private List<Position> myPositions = new ArrayList<Position>();
 	
 	public SelectorModel() {}; 
 
@@ -22,24 +29,48 @@ public class SelectorModel implements ISelector {
 	}
 
 	@Override
-	public void chooseCoordinates(int x, int y) {
-		this.x = x;
-		this.y = y; 
-	}
-
-	@Override
 	public int getElementIndex() {
 		return this.elementIndex;
 	}
 
 	@Override
-	public int getX() {
-		return this.x;
+	public void printPositions() {
+		this.myPositions.stream().forEach(s -> System.out.println("(" + s.getX() + "," + s.getY()+ ")"));
 	}
 	
 	@Override
-	public int getY() {
-		return this.y;
+	public void printMostRecentPosition() {
+		System.out.println("(" + this.myPositions.get(myPositions.size()).getX() + "," + this.myPositions.get(myPositions.size()).getY()+ ")");
 	}
 
+	@Override
+	public void printIndex() {
+		System.out.println("GameElement index of: " + this.elementIndex);
+	}
+
+	@Override
+	public void choosePosition(double x, double y) {
+		Position pos = new Position(x,y);
+		this.myPositions.add(pos); 
+//		if (!this.checkContains(pos)) {
+//			this.myPositions.add(pos);
+//		}
+	}
+
+	// TODO: extract all the List of Position stuff away
+//	private boolean checkContains(Position pos) {
+//		boolean contains = false; 
+//		for (Position p : this.myPositions) {
+//			if (p.equals(pos)) {
+//				this.myPositions.remove(this.myPositions.indexOf(p));
+//				contains = true; 
+//			}
+//		}
+//		return contains;
+//	}
+
+	@Override
+	public Collection<Position> getPositions() {
+		return this.myPositions;
+	}
 }

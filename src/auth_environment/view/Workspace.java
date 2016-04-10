@@ -2,20 +2,19 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
+import auth_environment.backend.ISelector;
+import auth_environment.backend.SelectorModel;
 import auth_environment.view.Menus.MenuToolBar;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 3/31/16.
  * Team member responsible: Brian
  *
- * This class represents a single tab within our View.
+ * This class represents a single tab (ie Level) within our View.
  */
 
 public class Workspace {
@@ -23,9 +22,11 @@ public class Workspace {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
+	private ISelector mySelector = new SelectorModel(); 
+	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	private MapDisplay myDisplay = new MapDisplay();
+	private MapDisplay myDisplay = new MapDisplay(this.mySelector);
 	
 	public Workspace(TabPane tabPane) {
 		this.myTabPane = tabPane; 
@@ -40,7 +41,10 @@ public class Workspace {
 		this.myBorderPane.setRight(new VBox());
 		this.myBorderPane.setCenter(myDisplay);
 	}
-
+	
+	public ISelector getSelector() {
+		return this.mySelector;
+	}
 
     public Node getRoot() {
     	return this.myBorderPane; 
