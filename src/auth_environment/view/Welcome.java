@@ -6,8 +6,10 @@ import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -32,19 +34,27 @@ public class Welcome {
 	private NodeFactory myNodeFactory = new NodeFactory();
 	private Stage mainStage; 
 	private Scene welcomeScene; 
-	private BorderPane myRoot = new BorderPane(); 
+	private VBox myRoot = new VBox(); 
 	
 	public Welcome(Stage stage) {
 		this.mainStage = stage; 
-		this.myRoot.setCenter(this.buildCenter());
+		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
+								Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
+		this.myRoot = this.addWompImage();
+		this.myRoot.setStyle("-fx-background-color: #292929;");
+		this.welcomeScene = new Scene(this.myRoot);
+//		this.welcomeScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
 	}
 	
-	private VBox buildCenter() {
+	private VBox addWompImage() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 											  Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
 											  );
 		TextField gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-		center.getChildren().addAll(gameNameInput);
+		ImageView womp = myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage"));
+		womp.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth"))/2);
+		womp.setFitHeight(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight"))/2);
+		center.getChildren().addAll(womp, gameNameInput);
 		return center; 
 	}
 	
@@ -52,7 +62,7 @@ public class Welcome {
 		return this.myRoot;
 	}
 	
-	public Scene show() {
+	public Scene showScene() {
 		return this.welcomeScene;
 	}
 

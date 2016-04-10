@@ -71,10 +71,10 @@ public class NodeFactory {
 	}
 	
 	public void addImageView(Pane pane, String imageName) {
-		pane.getChildren().add(makeImageView(imageName));
+		pane.getChildren().add(buildImageView(imageName));
 	}
 	
-	public ImageView makeImageView(String imageName) {
+	public ImageView buildImageView(String imageName) {
 		return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imageName)));
 	}
 	

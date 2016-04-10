@@ -31,8 +31,8 @@ public class View {
 
     public View (Stage stage) {
         myStage = stage;
-        
-        
+        Welcome welcome = new Welcome(myStage); 
+        stage.setScene(welcome.showScene());
         
 //        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
 //        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
