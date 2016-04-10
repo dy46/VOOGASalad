@@ -37,6 +37,8 @@ public class Grid{
 		for(int i=0; i<myModel.getXmax(); i++){
 			for(int j=0; j<myModel.getYmax(); j++){
 				RecTile myTile = new RecTile(this.mySelector,
+											 i,
+											 j,
 											 i*recWidth, 
 											 j*recHeight, 
 											 recWidth, 

@@ -21,8 +21,8 @@ public class RecTile extends Rectangle {
 	
 	private ISelector mySelector; 
 	
-	public RecTile(ISelector selector, double x, double y, double width, double height) {
-		super(x, y, width, height);
+	public RecTile(ISelector selector, double x, double y, double scaledX, double scaledY, double width, double height) {
+		super(scaledX, scaledY, width, height);
 		this.x = x;
 		this.y = y; 
 		this.mySelector = selector; 
