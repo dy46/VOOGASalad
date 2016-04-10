@@ -36,7 +36,11 @@ public class Grid{
 		myPane.setPrefSize(mapWidth, mapHeight);
 		for(int i=0; i<myModel.getXmax(); i++){
 			for(int j=0; j<myModel.getYmax(); j++){
-				RecTile myTile = new RecTile(i,j,i*recWidth, j*recHeight, recWidth, recHeight);
+				RecTile myTile = new RecTile(this.mySelector,
+											 i*recWidth, 
+											 j*recHeight, 
+											 recWidth, 
+											 recHeight);
 				myTile.setStroke(Color.BLACK);
 				myTile.setFill(Color.WHITE);
 				myPane.getChildren().add(myTile);
@@ -55,6 +59,4 @@ public class Grid{
 	public double calcRecHeight(){
 		return (mapHeight/numY);
 	}
-	
-
 }
