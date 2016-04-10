@@ -53,5 +53,7 @@ public interface IPlayerEngineInterface {
     public List<Path> getPaths();
     
     public int getLives();
+
+    public void clearProjectiles();
     
 }

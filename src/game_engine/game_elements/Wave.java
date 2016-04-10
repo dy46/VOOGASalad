@@ -9,10 +9,12 @@ public class Wave extends MapPiece{
 	private List<Integer> mySpawnTimes;
 	private int myCurrentEnemy;
 	private int timeSinceLastSpawn;
+	private int timeBeforeWave;
 
-	public Wave(String name){
+	public Wave(String name, int time){
 		super(name);
 //		setID(getWorkspace().getIDFactory().createID(this));
+		timeBeforeWave = time;
 		initialize();
 	}
 
@@ -22,7 +24,9 @@ public class Wave extends MapPiece{
 		myCurrentEnemy = 0;
 		timeSinceLastSpawn = 0;
 	}
-	
+	public int getTimeBeforeWave(){
+		return timeBeforeWave;
+	}
 	/*
 	 * Returns the number of enemies left in this wave
 	 */

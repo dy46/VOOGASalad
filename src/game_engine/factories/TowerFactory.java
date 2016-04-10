@@ -30,7 +30,7 @@ public class TowerFactory {
         Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
         move.setTTL(Integer.MAX_VALUE);
         Projectile p = new Projectile("Projectile", Arrays.asList(move), 3);
-        p.setDeathDelay(30);
+        p.setDeathDelay(15);
         p.setTTL(1000000);
         p.setFireRate(90);
         Velocity velocity = new Velocity(0.5, 180);        

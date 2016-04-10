@@ -79,15 +79,15 @@ public class GameView implements IGameView{
         AT = new AnimationTimer() {            
             public void handle(long currentNanoTime) {
                if(isPlaying) {
+                   timer++;
                    playerEngineInterface.updateElements();
                    placeTerrain();
                    placeUnit();
                    placePath();
-                   timer++;
-                   System.out.println(playerEngineInterface.getLives());
-                   if(playerEngineInterface.getLives() == 0) {
+                   System.out.println(playerEngineInterface.getGameStatus());
+                   if(playerEngineInterface.getLives() < 0) {
                        timerStatus = false;
-                       AT.stop();
+                       playerEngineInterface.clearProjectiles();
                    }
                }
             }
