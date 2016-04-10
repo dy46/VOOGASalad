@@ -6,7 +6,6 @@ import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.view.Menus.MenuToolBar;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;

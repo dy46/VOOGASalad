@@ -32,7 +32,7 @@ public class View {
     public View (Stage stage) {
         myStage = stage;
         
-        Welcome welcome = new Welcome();
+        Welcome welcome = new Welcome(this);
         setupWorkspace();
     }
 

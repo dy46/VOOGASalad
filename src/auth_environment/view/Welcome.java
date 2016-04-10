@@ -3,7 +3,6 @@ package auth_environment.view;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -22,31 +21,37 @@ import javafx.stage.Stage;
  */
 
 public class Welcome {
-	
+
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
+
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
+
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-	
+
 	private NodeFactory myNodeFactory = new NodeFactory();
 	private TextField gameNameInput;
 	private Stage myStage = new Stage(); 
 	private Scene welcomeScene; 
 	private VBox myRoot;
-	
-	public Welcome() {
+	private View myView; 
+
+	public Welcome(View view) {
+		this.myView = view; 
+		this.init();
+	}
+
+	private void init() {
 		this.myRoot = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
-			  							      Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
-				  							 );
+				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
+				);
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
-										 this.buildTextInput(), 
-										 this.buildSubmitButton()
-										 );
+				this.buildTextInput(), 
+				this.buildSubmitButton()
+				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
@@ -55,39 +60,32 @@ public class Welcome {
 		this.myStage.show();
 		this.myStage.toFront();
 	}
-	
+
 	private HBox buildWompImage() {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
-	
+
 	private TextField buildTextInput() {
 		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
 		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
 		return this.gameNameInput; 
 	}
-	
+
 	private HBox buildSubmitButton() {
 		Button submit = myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel"));
 		submit.setOnAction(e -> this.submitButtonPressed());
 		return myNodeFactory.centerNode(submit);
 	}
-	
+
 	private void submitButtonPressed() {
 		if (checkValidName()) {
 			this.myStage.hide();
+			this.myView.display();
+			// TODO: save entered name somewhere... ask Austin
 		}
 	}
-	
+
 	private boolean checkValidName() {
 		return this.gameNameInput.getText().length() > 0; 
 	}
-	
-	public Node getRoot() {
-		return this.myRoot;
-	}
-	
-	public Scene showScene() {
-		return this.welcomeScene;
-	}
-
 }
