@@ -35,12 +35,12 @@ public class Welcome {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
 	private NodeFactory myNodeFactory = new NodeFactory();
+	private TextField gameNameInput;
 	private Stage mainStage; 
 	private Scene welcomeScene; 
 	private VBox myRoot;
 	
-	public Welcome(Stage stage) {
-		this.mainStage = stage; 
+	public Welcome() {
 		this.myRoot = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 			  							      Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
 				  							 );
@@ -60,13 +60,24 @@ public class Welcome {
 	}
 	
 	private TextField buildTextInput() {
-		TextField gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-		gameNameInput.setPrefWidth(200);
-		return gameNameInput; 
+		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
+		return this.gameNameInput; 
 	}
 	
 	private HBox buildSubmitButton() {
-		return myNodeFactory.centerNode(myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel")));
+		Button submit = myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel"));
+		submit.setOnAction(e -> this.submitButtonPressed());
+		return myNodeFactory.centerNode(submit);
+	}
+	
+	private void submitButtonPressed() {
+		if (checkValidName()) {
+			this.mainStage.hide
+		}
+	}
+	
+	private boolean checkValidName() {
+		return false; 
 	}
 	
 	public Node getRoot() {
