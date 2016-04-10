@@ -1,6 +1,7 @@
 package auth_environment.delegatesAndFactories;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -53,6 +54,13 @@ public class NodeFactory {
 	
 	public Button buildButton(String text) {
 		return new Button(text); 
+	}
+	
+	public HBox centerNode(Node node) {
+		HBox hb = new HBox();
+		hb.getChildren().add(node);
+		hb.setAlignment(Pos.CENTER);
+		return hb; 
 	}
 	
 	public HBox buildTextFieldWithLabel(String text, double spacing) {

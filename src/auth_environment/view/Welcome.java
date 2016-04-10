@@ -3,11 +3,14 @@ package auth_environment.view;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -34,28 +37,33 @@ public class Welcome {
 	private NodeFactory myNodeFactory = new NodeFactory();
 	private Stage mainStage; 
 	private Scene welcomeScene; 
-	private VBox myRoot = new VBox(); 
+	private VBox myRoot;
 	
 	public Welcome(Stage stage) {
 		this.mainStage = stage; 
-		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
-								Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myRoot = this.addWompImage();
-		this.myRoot.setStyle("-fx-background-color: #292929;");
+		this.myRoot = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
+			  							      Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
+				  							 );
 		this.welcomeScene = new Scene(this.myRoot);
+		this.myRoot.getChildren().addAll(this.buildWompImage(), this.buildTextInput());
+		this.myRoot.setStyle("-fx-background-color: #292929;");
+		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 //		this.welcomeScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
 	}
 	
-	private VBox addWompImage() {
-		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
-											  Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
-											  );
+	private HBox buildWompImage() {
+		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
+	}
+	
+	private TextField buildTextInput() {
 		TextField gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-		ImageView womp = myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage"));
-		womp.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth"))/2);
-		womp.setFitHeight(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight"))/2);
-		center.getChildren().addAll(womp, gameNameInput);
-		return center; 
+		gameNameInput.setPrefWidth(200);
+		return gameNameInput; 
+	}
+	
+	private HBox buildSubmitButton() {
+		return myNodeFactory.centerNode(myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel")));
 	}
 	
 	public Node getRoot() {
