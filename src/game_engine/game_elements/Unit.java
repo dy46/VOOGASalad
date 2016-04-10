@@ -52,6 +52,9 @@ public abstract class Unit extends GameElement {
         myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
         myAffectors.forEach(a -> a.apply(myProperties));
     }
+    public void setInvisible(){
+    	this.setElapsedTime(this.getTTL());
+    }
 
     public void addAffectors (List<Affector> affectors) {
         myAffectors.addAll(affectors);

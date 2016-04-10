@@ -86,22 +86,17 @@ public class Level extends MapPiece{
 	}
 
 
-	private Wave getNextWave(){
-		for(int x=0; x<myWaves.size(); x++){ 
+	public Wave getNextWave(){
+		for(int x=0; x<myWaves.size()-1; x++){ 
 			if(myWaves.get(x).equals(myCurrentWave)){
 				int nextWaveIndex = x+1;
-				waveBoundsCheck(nextWaveIndex);
 				return myWaves.get(nextWaveIndex);
 			}
 		}
 		return null;
 	}
 
-	private void waveBoundsCheck(int index){
-		if(index < 0 || index > myWaves.size()){
-			throw new IndexOutOfBoundsException();
-		}
-	}
+	
 
 	public String toString() {
 		return getID() + ", Number of Waves: " + myWaves.size();

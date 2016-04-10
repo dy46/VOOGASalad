@@ -30,6 +30,7 @@ import game_engine.properties.UnitProperties;
 public class EngineWorkspace implements IPlayerEngineInterface{
 
 	private int myTimer;
+	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Path> myPaths;
@@ -72,6 +73,7 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		myTimer = 0;
+		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 	}
 	
@@ -82,17 +84,36 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 	}
 
 	private Level makeDummyLevel(){
-		Wave w = new Wave("I'm not quite sure what goes here");
+		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		e1.getProperties().setHealth(1);
+		e2.getProperties().setHealth(1);
+		e3.getProperties().setHealth(1);
+		e4.getProperties().setHealth(1);
 		w.addEnemy(e1, 0);
 		w.addEnemy(e2, 60);
 		w.addEnemy(e3, 60);
 		w.addEnemy(e4, 60);
+		
+		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
+		Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		e5.getProperties().setHealth(1);
+		e6.getProperties().setHealth(1);
+		e7.getProperties().setHealth(1);
+		e8.getProperties().setHealth(1);
+		w2.addEnemy(e5, 0);
+		w2.addEnemy(e6, 60);
+		w2.addEnemy(e7, 60);
+		w2.addEnemy(e8, 60);
 		Level l = new Level("still not sure", w);
 		l.addWave(w);
+		l.addWave(w2);
 		return l;
 	}
 
@@ -111,7 +132,12 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
+	public void continueWaves(){
+		myCurrentLevel.playNextWave();
+		pause = false;
+	}
 	public void updateElements() { 
+		nextWaveTimer++;
 		if(!pause){
 			myTimer++;
 			myTowers.forEach(t -> t.update());
@@ -125,10 +151,15 @@ public class EngineWorkspace implements IPlayerEngineInterface{
 				myEnemys.add(newE);
 			}// tries to spawn new enemies using Waves
 			if(myCurrentLevel.getCurrentWave().isFinished()){
-				myProjectiles.clear();
+				myProjectiles.forEach(t -> t.setInvisible());
 				pause = true;
+				nextWaveTimer = 0;
 			}
 			
+			
+		}
+		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
+			continueWaves();
 		}
 	}
 
