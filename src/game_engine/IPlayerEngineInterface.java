@@ -36,7 +36,7 @@ public interface IPlayerEngineInterface {
     String getGameStatus();
     
     //tells engine to add tower to its active tower list given a tower index
-    void addTower(String ID, int towerTypeIndex);
+    void addTower(double x, double y, int towerTypeIndex);
     
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);

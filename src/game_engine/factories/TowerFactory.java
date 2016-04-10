@@ -44,10 +44,11 @@ public class TowerFactory {
         Path p2 = new Path("Something here");
         p2.addPosition(startingPosition.copyPosition());
 	p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
+	
         UnitProperties properties = new UnitProperties(null, null, null, velocity, b, startingPosition.copyPosition(), null, st, p2);
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
-        damage.setBaseNumbers(Arrays.asList(new Double(5)));
+        damage.setBaseNumbers(Arrays.asList(new Double(10)));
         Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
         stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
         stateToDamaging.setTTL(1);
@@ -70,7 +71,8 @@ public class TowerFactory {
         Position position2 = new Position(200, 300);
         Velocity velocity2 = new Velocity(0, 90);
         State st = new State ("Stationary");
-        UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st, null);
+        Path p2 = new Path("Something here");
+        UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st, p2);
         t.setProperties(properties2);
         t.setTTL(1000000);
         t.setDeathDelay(100);

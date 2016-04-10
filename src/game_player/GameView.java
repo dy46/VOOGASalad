@@ -2,6 +2,8 @@ package game_player;
 
 import java.util.ArrayList;
 import java.util.List;
+import auth_environment.backend.ISelector;
+import auth_environment.backend.SelectorModel;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
 import game_engine.game_elements.Path;
@@ -38,6 +40,8 @@ public class GameView implements IGameView{
         primaryStage.setScene(theScene);
         myStage = primaryStage;
         canvas = new Canvas(500, 500);
+        canvas.getGraphicsContext2D().drawImage(new Image(getClass().getClassLoader().getResourceAsStream("background.png")), 
+                                                0, 0);
         root.getChildren().add(canvas);
         isPlaying = true;
         this.towers = new ArrayList<>();
@@ -45,15 +49,18 @@ public class GameView implements IGameView{
         this.projectiles = new ArrayList<>();
         this.timer = 0;
         this.paths = new ArrayList<>();
+        
         root.getScene().setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
+        canvas.setOnMouseClicked(e -> {
+           playerEngineInterface.addTower(e.getSceneX(), e.getSceneY(), 0);
+        });
+        
+        
     }
     
     public void setUpKeyPressed(String code) {
         if(code.equals("SPACE")) {
             toggleGame();
-        }
-        if(code.equals("ENTER")) {
-            
         }
     }
     
@@ -84,7 +91,7 @@ public class GameView implements IGameView{
                    placeTerrain();
                    placeUnit();
                    placePath();
-                   System.out.println(playerEngineInterface.getGameStatus());
+//                   System.out.println(playerEngineInterface.getGameStatus());
                    if(playerEngineInterface.getLives() < 0) {
                        timerStatus = false;
                        playerEngineInterface.clearProjectiles();
@@ -122,7 +129,7 @@ public class GameView implements IGameView{
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
             root.getChildren().add(imgView);
-            imgView.toBack();
+            imgView.toFront();
             paths.add(imgView);
         }
     }
