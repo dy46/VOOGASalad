@@ -45,7 +45,10 @@ public class Welcome {
 			  							      Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
 				  							 );
 		this.welcomeScene = new Scene(this.myRoot);
-		this.myRoot.getChildren().addAll(this.buildWompImage(), this.buildTextInput());
+		this.myRoot.getChildren().addAll(this.buildWompImage(), 
+										 this.buildTextInput(), 
+										 this.buildSubmitButton()
+										 );
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
@@ -63,7 +66,7 @@ public class Welcome {
 	}
 	
 	private HBox buildSubmitButton() {
-		return myNodeFactory.centerNode(myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel")));
+		return myNodeFactory.centerNode(myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel")));
 	}
 	
 	public Node getRoot() {
