@@ -35,6 +35,6 @@ public class RecTile extends Rectangle {
 	
 	private void recTileAction() {
 		mySelector.choosePosition(this.x, this.y);
-		mySelector.printPositions();
+		mySelector.printPosition();
 	}
 }
