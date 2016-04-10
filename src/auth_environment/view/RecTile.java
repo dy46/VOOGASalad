@@ -20,34 +20,21 @@ public class RecTile extends Rectangle {
 	private int y; 
 	
 	private ISelector mySelector; 
-
-	public RecTile(ISelector selector) {
-		this.mySelector = selector; 
-	}
 	
+	public RecTile(ISelector selector, int x, int y, double arg0, double arg1, double arg2, double arg3) {
+		super(arg0, arg1, arg2, arg3);
+		this.x = x;
+		this.y = y; 
+		this.mySelector = selector; 
+		this.addListener();
+	}
+
 	private void addListener() {
 		this.setOnMouseClicked(e -> this.recTileAction());
 	}
 	
 	private void recTileAction() {
-		System.out.println(this.x + " " +  this.y); 
-//		mySelector.chooseCoordinates(this.x, this.y);
+		mySelector.chooseCoordinates(this.x, this.y);
+		mySelector.printCoordinates();
 	}
-
-	// Remove these constructors to force input of X and Y coordinates
-//	public RecTile(double arg0, double arg1) {
-//		super(arg0, arg1);
-//	}
-//
-//	public RecTile(double arg0, double arg1, Paint arg2) {
-//		super(arg0, arg1, arg2);
-//	}
-
-	public RecTile(int x, int y, double arg0, double arg1, double arg2, double arg3) {
-		super(arg0, arg1, arg2, arg3);
-		this.x = x;
-		this.y = y; 
-		this.addListener();
-	}
-
 }

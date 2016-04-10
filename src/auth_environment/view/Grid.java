@@ -20,13 +20,14 @@ public class Grid{
 	List<RecTile> myTiles= new ArrayList<RecTile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
-		myModel = model;
-		myPane = new Pane();
+		this.myModel = model;
+		this.mySelector = myModel.getSelector();
+		this.myPane = new Pane();
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
-		numX = model.getXmax();
-		numY = model.getYmax();
-		generateGrid();
+		this.numX = model.getXmax();
+		this.numY = model.getYmax();
+		this.generateGrid();
 	}
 	
 	public void generateGrid(){

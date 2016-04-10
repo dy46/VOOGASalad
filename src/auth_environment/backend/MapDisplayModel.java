@@ -61,5 +61,9 @@ public class MapDisplayModel {
 //	public List getMap(){
 //		return myList;
 //	}
+	
+	public ISelector getSelector() {
+		return this.mySelector;
+	}
 
 }
