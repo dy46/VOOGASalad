@@ -41,7 +41,10 @@ public class Workspace {
 		this.myBorderPane.setRight(new VBox());
 		this.myBorderPane.setCenter(myDisplay);
 	}
-
+	
+	public ISelector getSelector() {
+		return this.mySelector;
+	}
 
     public Node getRoot() {
     	return this.myBorderPane; 
