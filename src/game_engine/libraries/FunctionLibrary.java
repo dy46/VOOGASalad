@@ -1,7 +1,12 @@
-package game_engine.functions;
+package game_engine.libraries;
 
 import java.util.HashMap;
 import java.util.List;
+
+import game_engine.factories.FunctionFactory;
+import game_engine.functions.Constant;
+import game_engine.functions.Function;
+import game_engine.functions.Term;
 
 /**
  * This class represents a library or database of functions for a single instance of a game.

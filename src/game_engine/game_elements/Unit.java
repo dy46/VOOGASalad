@@ -41,6 +41,13 @@ public abstract class Unit extends GameElement {
         this.myProperties = properties;
         this.setToDeath = false;
     }
+    
+    public Unit(String name){
+    	super(name);
+    	initialize();
+    	this.myProperties = new UnitProperties();
+    	elapsedTime = 0;
+    }
 
     private void initialize () {
         myAffectors = new ArrayList<>();
@@ -48,13 +55,22 @@ public abstract class Unit extends GameElement {
     }
 
     public void update () {
-        elapsedTime++;
-        myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
-        myAffectors.forEach(a -> a.apply(myProperties));
+        if(isVisible()) {
+            elapsedTime++;
+            myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
+            myAffectors.forEach(a -> a.apply(myProperties));
+        }
+    }
+    public void setInvisible(){
+    	this.setElapsedTime(this.getTTL());
     }
 
     public void addAffectors (List<Affector> affectors) {
         myAffectors.addAll(affectors);
+    }
+    
+    public void addAffector(Affector affector){
+    	myAffectors.add(affector);
     }
 
     public UnitProperties getProperties () {
@@ -106,7 +122,7 @@ public abstract class Unit extends GameElement {
     }
     
     public boolean isVisible() {
-        return this.getTTL() != this.getElapsedTime();
+        return this.getTTL() >= this.getElapsedTime();
     }
     
     public void incrementElapsedTime(int i) {

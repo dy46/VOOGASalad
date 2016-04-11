@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorLibrary;
+import game_engine.game_elements.Projectile;
+import game_engine.game_elements.Tower;
+import game_engine.libraries.AffectorLibrary;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
@@ -18,21 +21,18 @@ import game_engine.properties.Velocity;
 
 public class TowerFactory {
 
-    private AffectorLibrary myAffectorLibrary;
+	private AffectorLibrary myAffectorLibrary;
 
     public TowerFactory(AffectorLibrary affectorLibrary){
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createFourWayTower(String name, List<Projectile> allProjectiles, List<Unit> allUnits, 
-                                    Position startingPosition){
+    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
-        Affector move = myAffectorLibrary.getAffector("Constant", "PositionMove");
+        Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
         move.setTTL(Integer.MAX_VALUE);
-        
-        
         Projectile p = new Projectile("Projectile", Arrays.asList(move), 3);
-        p.setDeathDelay(30);
+        p.setDeathDelay(15);
         p.setTTL(1000000);
         p.setFireRate(90);
         Velocity velocity = new Velocity(0.5, 180);        
@@ -43,7 +43,11 @@ public class TowerFactory {
         l1.add(new Position(0,30));
         Bounds b = new Bounds(l1);
         State st = new State("Moving");
-        UnitProperties properties = new UnitProperties(null, null, null, velocity, b, startingPosition.copyPosition(), null, st);
+        Path p2 = new Path("Something here");
+        p2.addPosition(startingPosition.copyPosition());
+	p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
+	
+        UnitProperties properties = new UnitProperties(null, null, null, velocity, b, startingPosition.copyPosition(), null, st, p2);
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
         damage.setBaseNumbers(Arrays.asList(new Double(10)));
@@ -53,13 +57,12 @@ public class TowerFactory {
         p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
         p.setProperties(properties);
         myProjectiles.add(p);
-        return createSpecifiedTower(name, allProjectiles, allUnits, myProjectiles);
+        return createSpecifiedTower(name, myProjectiles2, myProjectiles);
     }
     
-    public Tower createSpecifiedTower(String name, List<Projectile> allProjectiles, 
-                                List<Unit> allUnits, List<Projectile> myProjectiles) {
+    public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Projectile> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
-        Tower t = new Tower(name, affectors, allProjectiles, allUnits, myProjectiles, 2);
+        Tower t = new Tower(name, affectors, myProjectiles2, myProjectiles, 2);
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0,0));
         l1.add(new Position(70,0));
@@ -70,7 +73,8 @@ public class TowerFactory {
         Position position2 = new Position(200, 300);
         Velocity velocity2 = new Velocity(0, 90);
         State st = new State ("Stationary");
-        UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st);
+        Path p2 = new Path("Something here");
+        UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st, p2);
         t.setProperties(properties2);
         t.setTTL(1000000);
         t.setDeathDelay(100);

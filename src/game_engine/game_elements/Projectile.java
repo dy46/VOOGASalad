@@ -3,16 +3,16 @@ package game_engine.game_elements;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
+import game_engine.properties.Position;
 
 
 /*
  * Internal API used to represent projectiles fired by towers and/or enemies.
  * 
  */
-public class Projectile extends Unit {
+public class Projectile extends CollidableUnit {
 
     private int fireRate;
-    List<Affector> affectorsToApply;
 
     public Projectile (String name, List<Affector> affectors, int numFrames) {
         super(name, affectors, numFrames);
@@ -24,7 +24,6 @@ public class Projectile extends Unit {
      */
     public void update () {
        super.update();
-//       System.out.println(getProperties().getState().getValue());
     }
 
     public Projectile copyProjectile () {
@@ -50,14 +49,6 @@ public class Projectile extends Unit {
 
     }
 
-    public void setAffectorsToApply (List<Affector> affectorsToApply) {
-        this.affectorsToApply = affectorsToApply;
-    }
-
-    public List<Affector> getAffectorsToApply () {
-        return affectorsToApply;
-    }
-
     public int getFireRate () {
         return fireRate;
     }
@@ -65,4 +56,5 @@ public class Projectile extends Unit {
     public void setFireRate (int fireRate) {
         this.fireRate = fireRate;
     }
+    
 }

@@ -28,7 +28,6 @@ public class ImageViewPicker {
         this.classLoader = getClass().getClassLoader();
         this.imageView = new ImageView();
         root.getChildren().add(imageView);
-        imageView.toBack();
         myBundle = ResourceBundle.getBundle("game_engine/animation_rates/animation");
     }
     
@@ -42,6 +41,7 @@ public class ImageViewPicker {
             imageView.setX(u.getProperties().getPosition().getX() - imageView.getImage().getWidth()/2);
             imageView.setY(u.getProperties().getPosition().getY() - imageView.getImage().getHeight()/2);
             imageView.setRotate(transformDirection(u));
+            imageView.toFront();
             if(!u.isVisible()) {
                 root.getChildren().remove(imageView);
             }
