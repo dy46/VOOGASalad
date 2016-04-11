@@ -1,8 +1,16 @@
 package auth_environment.view.Menus;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.*;
+
+import auth_environment.buildingBlocks.BuildingBlock;
+import auth_environment.buildingBlocks.EnemyBuildingBlock;
+import auth_environment.buildingBlocks.TerrainBuildingBlock;
+import auth_environment.buildingBlocks.TowerBuildingBlock;
+import game_engine.game_elements.Tower;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -36,6 +44,7 @@ public class ElementMenu extends Menu {
 	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	private GridPane myGridPane;
 	private int index;
+	private List<Tower> myTowerList = new ArrayList<Tower>();
 	
 	public ElementMenu() {
 		this.init();
@@ -55,17 +64,17 @@ public class ElementMenu extends Menu {
 	private void createNewEnemy() {
 		//make the resource bundles
 		ResourceBundle myEnemiesBundle = ResourceBundle.getBundle(ENEMY_LABELS_PACKAGE);
-		createNewElement(myEnemiesBundle);
+		createNewElement(myEnemiesBundle, new EnemyBuildingBlock());
 	}
 
 	public void createNewTower(){
 		ResourceBundle myElementLabelsBundle = ResourceBundle.getBundle(ELEMENT_LABELS_PACKAGE);
-		createNewElement(myElementLabelsBundle);
+		createNewElement(myElementLabelsBundle, new TowerBuildingBlock());
 	}
 	
 	public void createNewTerrain(){
 		ResourceBundle myTerrainLabelsBundle = ResourceBundle.getBundle(TERRAIN_LABELS_PACKAGE);
-		createNewElement(myTerrainLabelsBundle);
+		createNewElement(myTerrainLabelsBundle, new TerrainBuildingBlock());
 	}
 	
 	
@@ -86,7 +95,7 @@ public class ElementMenu extends Menu {
 		}
 	}
 	
-	private void addButtons(){
+	private void addButtons(BuildingBlock block){
 	 	   Tooltip t = new Tooltip();
 	 	   ImageView image = new ImageView();
 	 	   image.setImage(new Image("pusheenNoodles.gif"));	//remember to change this later
@@ -98,18 +107,18 @@ public class ElementMenu extends Menu {
 	 	   myGridPane.add(uploadImage, 1, index+2);
 	 	   
 	 	   Button ok = new Button("OK");
-	 	   ok.setOnAction(e -> makeElement(t));
+	 	   ok.setOnAction(e -> makeElement(t, block));
 	 	   myGridPane.add(ok, 2, index+2);
 	}
 	
 	
-   private void createNewElement(ResourceBundle myLabelsBundle){		//va will refactor this later 
+   private void createNewElement(ResourceBundle myLabelsBundle, BuildingBlock block){		//va will refactor this later 
 	    index = 0;
 	    myGridPane = new GridPane();
 	    
     	addLabels(myLabelsBundle, intTextMap);
     	addLabels(myStringBundle, strTextMap);
-		addButtons();
+		addButtons(block);
 
  	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
  	   Scene scene1 = new Scene(myGridPane, 200, 100);
@@ -145,16 +154,40 @@ public class ElementMenu extends Menu {
     	
     }
     
-    private void makeElement(Tooltip t){
+    private void makeElement(Tooltip t, BuildingBlock block){
+    	Class<?> c = block.getClass();
     	for(String str: strTextMap.keySet()){
-    		System.out.println(str + " " + strTextMap.get(str).getText());
+    		block.setMyName(strTextMap.get(str).getText());
     	}
     	for(String str: intTextMap.keySet()){
     		System.out.println(str + " " + intTextMap.get(str).getText());
+    		Method[] allMethods = c.getMethods();
+    		
+    		for(Method m: allMethods){;
+//    			String[] mString = m.getName().split(".");
+//    			System.out.println(m.getName());
+//    			System.out.println("setMy" + str);
+    			if(m.getName().startsWith("setMy" + str)){
+    				try {
+						m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));
+						System.out.println("check");
+						break;
+
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println(str);
+					}
+    			}
+    		}	
     	}
     	
+    	block.setMyImage((ImageView)t.getGraphic());
     	
-    	//don't forget to give them the imageview too
+
+    	//call Cody's method
+    	//and add to list
+    	//and then update my Picker
     	
     }
     
