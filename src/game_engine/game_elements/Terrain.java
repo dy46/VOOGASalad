@@ -6,7 +6,7 @@ package game_engine.game_elements;
 * a certain area on the map.
 */
 public class Terrain extends CollidableUnit{
-	
+    
 	public Terrain(String name) {
 		super(name);
 	}

@@ -4,27 +4,20 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
-import game_engine.functions.Function;
-import game_engine.game_elements.CollidableUnit;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
-import game_engine.libraries.TerrainLibrary;
 import game_engine.properties.Bounds;
-import game_engine.properties.Health;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 import game_engine.properties.State;
@@ -67,12 +60,12 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	public void setUpEngine (List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		Path p2 = new Path("Dirt");
+		Path p2 = new Path("DirtNew");
 		p2.addPosition(new Position(0, 30));
 		p2.addPosition(new Position(200, 30));
 		p2.addPosition(new Position(200, 200));
 		p2.addPosition(new Position(400, 200));
-		p2.addPosition(new Position(400, 600));
+		p2.addPosition(new Position(400, 525));
 		myPaths.add(p2);
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
@@ -167,21 +160,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
 			continueWaves();
 		}
-		getCollideList().forEach(p -> p.update());
+		myProjectiles.forEach(p -> p.update());
+		myTerrains.forEach(t -> t.update());
 		updateLives();
-	}
-
-	private List<Unit> getCollideList(){
-		List<Unit> collideList = new ArrayList<>();
-		collideList.addAll(myProjectiles);
-		collideList.addAll(myTerrains);
-		return collideList;
-	}
-
-	private List<Unit> getTowerCollideList(){
-		List<Unit> collideList = new ArrayList<>();
-		collideList.addAll(myTerrains);
-		return collideList;
 	}
 
 	public void updateLives () {
@@ -209,14 +190,6 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	public void addLevel (Level level) {
 		myLevels.add(level);
-	}
-
-	public void addTower (String ID, int towerTypeIndex) {
-		// towerTypeBoundsCheck(towerTypeIndex);
-		// UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-		// Tower newTower = new Tower(ID);
-		// newTower.upgrade(towerProperties);
-		// myTowers.add(newTower);
 	}
 
 	public void remove (Unit unit) {

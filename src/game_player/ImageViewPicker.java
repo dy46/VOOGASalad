@@ -15,7 +15,6 @@ public class ImageViewPicker {
     private int numFrames;
     private int currFrame;
     private ImageView imageView;
-    private ClassLoader classLoader;
     private Group root;
     
     
@@ -25,7 +24,6 @@ public class ImageViewPicker {
         this.numFrames = numFrames;
         this.currFrame = 0;
         this.currState = startingState;
-        this.classLoader = getClass().getClassLoader();
         this.imageView = new ImageView();
         root.getChildren().add(imageView);
         myBundle = ResourceBundle.getBundle("game_engine/animation_rates/animation");

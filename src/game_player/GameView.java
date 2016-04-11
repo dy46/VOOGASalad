@@ -9,6 +9,7 @@ import game_engine.IPlayerEngineInterface;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
+import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import javafx.animation.AnimationTimer;
@@ -33,6 +34,7 @@ public class GameView implements IGameView{
     private List<ImageViewPicker> enemies;
     private List<ImageViewPicker> projectiles;
     private List<ImageView> paths;
+    private List<ImageView> terrains;
     
     public GameView(Stage primaryStage) {
         playerEngineInterface = new EngineWorkspace();
@@ -42,16 +44,15 @@ public class GameView implements IGameView{
         primaryStage.setScene(theScene);
         myStage = primaryStage;
         canvas = new Canvas(500, 500);
-        canvas.getGraphicsContext2D().drawImage(new Image(getClass().getClassLoader().getResourceAsStream("background.png")), 
-                                                0, 0);
+        canvas.getGraphicsContext2D().drawImage(new Image("background.png"), 0, 0);
         root.getChildren().add(canvas);
         isPlaying = true;
         this.towers = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.projectiles = new ArrayList<>();
+        this.terrains = new ArrayList<>();
         this.timer = 0;
         this.paths = new ArrayList<>();
-        
         root.getScene().setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
         canvas.setOnMouseClicked(e -> {
            playerEngineInterface.addTower(e.getSceneX(), e.getSceneY(), 0);
@@ -90,9 +91,9 @@ public class GameView implements IGameView{
                if(isPlaying) {
                    timer++;
                    playerEngineInterface.updateElements();
-                   placeTerrain();
                    placeUnit();
                    placePath();
+                   placeTerrain();
                    if(playerEngineInterface.getLives() < 0) {
                        timerStatus = false;
                        playerEngineInterface.clearProjectiles();
@@ -116,7 +117,16 @@ public class GameView implements IGameView{
 
     @Override
     public void placeTerrain () {
-        // TODO Auto-generated method stub
+        List<Unit> currTerrain = playerEngineInterface.getTerrains();
+        for(int i = terrains.size(); i < currTerrain.size(); i++) {
+            Image img = new Image(currTerrain.get(i).toString() + ".png");
+            ImageView imgView = new ImageView(img);
+            imgView.setX(currTerrain.get(i).getProperties().getPosition().getX());
+            imgView.setY(currTerrain.get(i).getProperties().getPosition().getY());
+            root.getChildren().add(imgView);
+            imgView.toFront();
+            terrains.add(imgView);
+        }
     }
 
     @Override
@@ -125,7 +135,7 @@ public class GameView implements IGameView{
         List<Position> allPositions = new ArrayList<>();
         currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
         for(int i = paths.size(); i < allPositions.size(); i++) {
-            Image img = new Image(getClass().getClassLoader().getResourceAsStream(currPaths.get(0).toString() + ".png"));
+            Image img = new Image(currPaths.get(0).toString() + ".png");
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
