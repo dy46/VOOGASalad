@@ -1,5 +1,6 @@
 package game_player.view;
 
+import game_player.GameDataSource;
 import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
@@ -17,11 +18,13 @@ public class PlayerGUI{
 	private AnchorPane myRoot;
 	private TabPane myTabs;
 	private ResourceBundle myResources;
+	private GameDataSource gameData;
 	
-	public PlayerGUI(int windowWidth, int windowHeight) {
+	public PlayerGUI(int windowWidth, int windowHeight, GameDataSource gameData) {
 		this.windowWidth = windowWidth;
 		this.windowHeight = windowHeight;
 		this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
+		this.gameData = gameData;
 	}
 	
 	public Scene createPlayerScene() {
@@ -32,7 +35,7 @@ public class PlayerGUI{
 		Button newTabButton = new Button(myResources.getString("NewTabText"));
 		newTabButton.setOnAction(event -> createNewTab());
 		
-		myTabs.getTabs().add(new PlayerMainTab(myResources).getTab());
+		myTabs.getTabs().add(new PlayerMainTab(myResources, gameData).getTab());
 		
 		AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
 		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
@@ -45,7 +48,7 @@ public class PlayerGUI{
 	}
 	
 	private void createNewTab() {
-		Tab tab = new PlayerMainTab(myResources).getTab();
+		Tab tab = new PlayerMainTab(myResources, gameData).getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
 	}

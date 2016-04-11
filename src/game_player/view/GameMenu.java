@@ -2,6 +2,7 @@ package game_player.view;
 
 import java.util.ResourceBundle;
 
+import game_player.GameDataSource;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +20,7 @@ public class GameMenu implements IGUIObject {
 	private Menu myMenu;
 	private MenuBar myMenuBar;
 	
-	public GameMenu(ResourceBundle r) {
+	public GameMenu(ResourceBundle r, GameDataSource gameData) {
 		myResources = r;
 	}
 

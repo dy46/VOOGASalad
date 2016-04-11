@@ -3,6 +3,7 @@ package game_player.view;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import game_player.GameDataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -22,7 +23,7 @@ public class GameColorTheme implements IGUIObject {
 	private Button comboBoxButton;
 	private ObservableList<String> options;
 	
-	public GameColorTheme(ResourceBundle r) {
+	public GameColorTheme(ResourceBundle r, GameDataSource gameData) {
 		myResources = r;
 	}
 

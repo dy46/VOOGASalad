@@ -2,6 +2,7 @@ package game_player.view;
 
 import java.util.ResourceBundle;
 
+import game_player.GameDataSource;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -18,7 +19,7 @@ public class GameSpeedSlider implements IGUIObject{
 	private static final int VBOX_SPACING = 5;
 	private ResourceBundle myResources;
 	
-	public GameSpeedSlider(ResourceBundle r) {
+	public GameSpeedSlider(ResourceBundle r, GameDataSource gameData) {
 		myResources = r;
 	}
 	

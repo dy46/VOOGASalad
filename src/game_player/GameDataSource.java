@@ -1,18 +1,27 @@
 package game_player;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameDataSource implements IGameDataSource{
-
+	
+	private Map<String, Double> doubleValues;
+	private Map<String, List<String>> stringValues;
+	
+	public GameDataSource() {
+		doubleValues = new HashMap<>();
+		stringValues = new HashMap<>();
+	}
+	
     @Override
     public void setDoubleValue (String key, double value) {
-        // TODO Auto-generated method stub
+        doubleValues.put(key, value);
     }
 
     @Override
-    public List<Double> getDoubleValue (String key) {
-        // TODO Auto-generated method stub
-        return null;
+    public double getDoubleValue (String key) {
+        return doubleValues.get(key);
     }
 
     @Override

@@ -1,5 +1,8 @@
 package game_player.view;
 
+import game_player.GameDataSource;
+
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
@@ -11,13 +14,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 
 public class PlayerMainTab implements IPlayerTab{
-	private static final int TOP_PADDING = 10;
-	private static final int RIGHT_PADDING = 5;
-	private static final int BOTTOM_PADDING = 10;
-	private static final int LEFT_PADDING = 5;
+	private static final int TOP_PADDING = 5;
+	private static final int RIGHT_PADDING = 10;
+	private static final int BOTTOM_PADDING = 5;
+	private static final int LEFT_PADDING = 10;
 	private static final String GUI_ELEMENTS = "GUIElements";
 	private static final String PACKAGE_NAME = "game_player.view.";
 	private static final int PANEL_PADDING = 10;
@@ -25,15 +27,17 @@ public class PlayerMainTab implements IPlayerTab{
 	private BorderPane myRoot;
 	private ResourceBundle myResources;
 	private ResourceBundle elementsResources;
+	private GameDataSource gameData;
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private HBox gamePanel;
 	
-	public PlayerMainTab(ResourceBundle r) {
-		myResources = r;
-		elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
+	public PlayerMainTab(ResourceBundle r, GameDataSource gameData) {
+		this.myResources = r;
+		this.gameData = gameData;
+		this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
 	}
 	
 	@Override
@@ -62,7 +66,8 @@ public class PlayerMainTab implements IPlayerTab{
 			String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
 			try {
 				newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
-						.getConstructor(ResourceBundle.class).newInstance(myResources);
+						.getConstructor(ResourceBundle.class, GameDataSource.class)
+						.newInstance(myResources, gameData);
 
 				placeElement(newElement, keyAndPosition[1].trim());
 			}
@@ -101,6 +106,7 @@ public class PlayerMainTab implements IPlayerTab{
 		configurationPanel.setAlignment(Pos.TOP_CENTER);
 		configurationPanel.getChildren().add(configurationLabel);
 		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+		gamePanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
 		
 	}
 	

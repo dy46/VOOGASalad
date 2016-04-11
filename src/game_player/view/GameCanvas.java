@@ -2,6 +2,7 @@ package game_player.view;
 
 import java.util.ResourceBundle;
 
+import game_player.GameDataSource;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,7 +19,7 @@ public class GameCanvas implements IGUIObject {
 	private GraphicsContext myGC;
 	private ResourceBundle myResources;
 	
-	public GameCanvas(ResourceBundle r) {
+	public GameCanvas(ResourceBundle r, GameDataSource gameData) {
 		myResources = r;
 	}
 	
