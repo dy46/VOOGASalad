@@ -18,11 +18,12 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		authView = new View(primaryStage); // for testing Auth
-//		myView = new GameView(primaryStage);
-//		myEngineController = new EngineController();
-//		myEngineController.initialize();
-//		myView.display();
+//		authView = new View(primaryStage); // for testing Auth
+//		authView.display(); // for testing Auth
+		myView = new GameView(primaryStage);
+		myEngineController = new EngineController();
+		myEngineController.initialize();
+		myView.display();
 	}
 
 }

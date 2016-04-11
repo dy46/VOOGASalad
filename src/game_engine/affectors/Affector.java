@@ -24,34 +24,39 @@ public class Affector {
 	 *
 	 *
 	 */
-	
+
 	public Affector(List<Function> functions){
 		this.myFunctions = functions;
 		this.elapsedTime = 0;
 	}
-	
+
+	public Affector(){
+		this.elapsedTime = 0;
+	}
+
 	public Affector copyAffector() {
-	//may need to copy functions too
-	Affector copy = null;
-        try {
-            copy = (Affector) Class.forName(this.getClass().getName())
-                            .getConstructor(List.class).newInstance(this.getFunctions());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-	copy.setTTL(this.getTTL());
-	return copy;
+		//may need to copy functions too
+		Affector copy = null;
+		try {
+			copy = (Affector) Class.forName(this.getClass().getName())
+					.getConstructor(List.class).newInstance(this.getFunctions());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		copy.setBaseNumbers(this.getBaseNumbers());
+		copy.setTTL(this.getTTL());
+		return copy;
 	}
 
 	public void apply(UnitProperties properties) {
-	      updateElapsedTime();
+		updateElapsedTime();
 	};
-	
+
 	public int getElapsedTime(){
 		return elapsedTime;
 	}
-	
+
 	public void updateElapsedTime(){
 		elapsedTime++;
 	}
@@ -59,9 +64,9 @@ public class Affector {
 	public List<Double> getBaseNumbers () {
 		return baseNumbers;
 	}
-	
+
 	public void setBaseNumbers (List<Double> baseNumbers) {
-	    this.baseNumbers = baseNumbers;
+		this.baseNumbers = baseNumbers;
 	}
 
 	public int getTTL () {
@@ -69,11 +74,11 @@ public class Affector {
 	}
 	
 	public void setTTL(int TTL) {
-	    this.TTL = TTL;
+		this.TTL = TTL;
 	}
-	
+
 	public List<Function> getFunctions(){
 		return myFunctions;
 	}
-	
+
 }

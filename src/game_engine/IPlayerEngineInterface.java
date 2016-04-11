@@ -1,9 +1,14 @@
 package game_engine;
 
 import java.util.List;
+
+import game_engine.game_elements.CollidableUnit;
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
+import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -33,7 +38,7 @@ public interface IPlayerEngineInterface {
     String getGameStatus();
     
     //tells engine to add tower to its active tower list given a tower index
-    void addTower(String ID, int towerTypeIndex);
+    void addTower(double x, double y, int towerTypeIndex);
     
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
@@ -41,10 +46,18 @@ public interface IPlayerEngineInterface {
     //sets up the engine with a list of files
     void setUpEngine(List<String> fileNames);
     
-    List<Tower> getTowers();
+    public List<Unit> getEnemies();
     
-    List<Enemy> getEnemies();
+    public List<Unit> getTowers();
     
-    List<Projectile> getProjectiles();
+    public List<Unit> getProjectiles();
+    
+    public List<Path> getPaths();
+    
+    public int getLives();
+
+    public void clearProjectiles();
+    
+    public List<Unit> getTerrains();
     
 }

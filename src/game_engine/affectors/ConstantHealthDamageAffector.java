@@ -12,9 +12,8 @@ public class ConstantHealthDamageAffector extends Affector{
     
     public void apply(UnitProperties properties) {
         super.apply(properties);
-        double damage = getBaseNumbers().get(0) * getFunctions().get(0).evaluate(getElapsedTime());
-        properties.getHealth().decrementValue(damage);
-        
+        double damage = getBaseNumbers().get(0) + getFunctions().get(0).evaluate(getElapsedTime());
+        properties.getHealth().decrementValue(damage);   
     }
 
 }

@@ -12,29 +12,50 @@ import game_engine.EngineWorkspace;
  *
  */
 public class Function {
-	
+	private static final double DEFAULT_DX = 0.001;
 	private List<Term> myTerms;
 	private EngineWorkspace myWorkspace;
 	private String myName;
-	
+	private double[] domain;
+	private double dx;
 	public Function(String type, String strength, EngineWorkspace workspace){
 		myTerms = new ArrayList<>();
 		this.myWorkspace = workspace;
 		myTerms = myWorkspace.getFunctionLibrary().getTerms(type, strength);
+		domain = new double[2];
+		dx = DEFAULT_DX;
 	}
 	
 	public Function(String name, List<Term> terms){
 		this.myName = name;
 		this.myTerms = terms;
+		domain = new double[2];
 	}
-	
+	public void setDomain(int start, int end){
+		domain[0] = start;
+		domain[1] = end;
+	}
+	public void setDX(double newDX){
+		dx = newDX;
+	}
+	public boolean atDomainEnd(double x){
+		return  (Math.abs(x-domain[1]) < 0.00000001);
+	}
+	public double getDomainEnd(){
+		return domain[1];
+	}
+	public double getDX(){
+		return dx;
+	}
 	public Function(String equation, EngineWorkspace workspace){
 		myTerms = new ArrayList<>();
 		this.myWorkspace = workspace;
+		domain = new double[2];
 	}
 	
 	public Function(List<Term> terms){
 		this.myTerms = terms;
+		domain = new double[2];
 	}
 	
 	public double evaluate(int index){

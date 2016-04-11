@@ -4,8 +4,8 @@ import game_engine.affectors.Affector;
 
 public abstract class SellableUnit extends Unit{
 	
-	public SellableUnit(String name, List<Affector> affectors) {
-		super(name, affectors);
+	public SellableUnit(String name, List<Affector> affectors, int numFrames) {
+		super(name, affectors, numFrames);
 	}
 
 	public double getSellPrice(){

@@ -13,12 +13,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class VAsTesterTab {
 
 	
 	public VAsTesterTab(TabPane myTabs){
 		ElementMenu elmen = new ElementMenu();
+		TowerView tview = new TowerView();
 		Tab elTabo = new Tab("WOOO");
 		myTabs.getTabs().add(elTabo);
 		
@@ -32,14 +34,20 @@ public class VAsTesterTab {
         myGoButton2.setOnAction(e -> doNothing());
         
         Button myGoButton3 = new Button("Create New Terrain");
-        myGoButton3.setOnAction(e -> doNothing());
+        myGoButton3.setOnAction(e -> elmen.createNewTerrain());
+        
+        Button butt = new Button("HERE IS MY PICKER");
+        butt.setOnAction(e -> tview.show());
         
         List<Node> myButtonsList =
                 new ArrayList<>(Arrays
                         .asList(myGoButton, myGoButton2, myGoButton3));
         myGridPane.add(makeBox(new HBox(), "WHAT AM I DOING", myButtonsList, false),
-                2, 6, 3, 6);
+                0, 0);
         
+        List<Node> myTView = new ArrayList<>(Arrays.asList(butt, new Button("huehuheu")));
+ 
+        myGridPane.add(makeBox(new VBox(), "WERERK", myTView, false), 0, 1);
 		elTabo.setContent(myGridPane);
 		// 99% sure everyone else can ignore those
 	}
