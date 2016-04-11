@@ -3,14 +3,13 @@ package game_engine.game_elements;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.properties.Position;
 
 
 /*
  * Internal API used to represent projectiles fired by towers and/or enemies.
  * 
  */
-public class Projectile extends CollidableUnit {
+public class Projectile extends Unit {
 
     private int fireRate;
 

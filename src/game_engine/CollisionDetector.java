@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.game_elements.CollidableUnit;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
@@ -30,14 +29,14 @@ public class CollisionDetector {
         for (int i = 0; i < myProjectiles.size(); i++) {
             if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
                 if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
-                    unit.addAffectors(((CollidableUnit) myProjectiles.get(i))
+                    unit.addAffectors((myProjectiles.get(i))
                             .getAffectorsToApply());
                     myProjectiles.get(i).setElapsedTimeToDeath();
                 }
             }
             if (!(unit == myProjectiles.get(i)) && encapsulates(unit, myProjectiles.get(i))) {
                 List<Affector> newAffectorsToApply =
-                        ((CollidableUnit) myProjectiles.get(i)).getAffectorsToApply().stream()
+                        (myProjectiles.get(i)).getAffectorsToApply().stream()
                                 .map(e -> e.copyAffector()).collect(Collectors.toList());
                 unit.addAffectors(newAffectorsToApply);
             }
@@ -50,7 +49,7 @@ public class CollisionDetector {
                 (!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
                 if (!terrains.get(i).hasCollided() && unit.isVisible()) {
                     List<Affector> newAffectorsToApply =
-                            ((CollidableUnit) terrains.get(i)).getAffectorsToApply().stream()
+                            (terrains.get(i)).getAffectorsToApply().stream()
                                     .map(e -> e.copyAffector()).collect(Collectors.toList());
                     unit.addAffectors(newAffectorsToApply);
                 }

@@ -19,6 +19,7 @@ public abstract class Unit extends GameElement {
 
     private UnitProperties myProperties;
     private List<Affector> myAffectors;
+    private List<Affector> affectorsToApply;
     private int TTL;
     private boolean setToDeath;
     private boolean hasCollided;
@@ -60,7 +61,15 @@ public abstract class Unit extends GameElement {
             myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
             myAffectors.forEach(a -> a.apply(myProperties));
         }
+        if (!isAlive()) {
+            setElapsedTimeToDeath();
+        }
     }
+    
+    public boolean isAlive () {
+        return getProperties().getHealth().getValue() > 0;
+    }
+    
     public void setInvisible(){
     	this.setElapsedTime(this.getTTL());
     }
@@ -87,6 +96,14 @@ public abstract class Unit extends GameElement {
 
     public void setAffectors (List<Affector> affectors) {
         this.myAffectors = affectors;
+    }
+    
+    public List<Affector> getAffectorsToApply() {
+		return affectorsToApply;
+	}
+	
+	public void setAffectorsToApply(List<Affector> affectorsToApply) {
+        this.affectorsToApply = affectorsToApply;
     }
 
     public int getTTL () {
@@ -144,4 +161,14 @@ public abstract class Unit extends GameElement {
     public int getNumFrames() {
         return numFrames;
     }
+    
+    public double getSellPrice(){
+		return getProperties().getPrice().getValue();
+	}
+	
+	public void sell(Unit unit){
+		getWorkspace().addBalance(getSellPrice());
+		getWorkspace().remove(unit);
+	}
+	
 }
