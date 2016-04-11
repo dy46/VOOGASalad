@@ -1,7 +1,13 @@
-package game_engine.functions;
+package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import game_engine.functions.Constant;
+import game_engine.functions.Function;
+import game_engine.functions.Term;
+import game_engine.functions.Variable;
+import game_engine.libraries.FunctionLibrary;
 
 public class FunctionFactory {
 
@@ -57,15 +63,11 @@ public class FunctionFactory {
 	}
 
 	public Function createExpIncrFunction(String type){
-		Function expIncr = myFunctionLibrary.getFunction(getName("ExpIncr", type));
-		System.out.println(expIncr);
-		return expIncr;
+		return myFunctionLibrary.getFunction(getName("ExpIncr", type));
 	}
 
 	public Function createExpDecrFunction(String type){
-		Function expDecr = myFunctionLibrary.getFunction(getName("ExpDecr", type));
-		System.out.println(expDecr);
-		return expDecr;
+		return myFunctionLibrary.getFunction(getName("ExpDecr", type));
 	}
 
 	public Function createRandomConstantFunction(){

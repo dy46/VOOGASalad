@@ -23,9 +23,7 @@ public class View {
 	
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-	
-	
-	
+
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
