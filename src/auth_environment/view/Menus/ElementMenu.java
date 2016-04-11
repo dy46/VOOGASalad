@@ -2,7 +2,6 @@ package auth_environment.view.Menus;
 
 import java.io.File;
 import java.net.MalformedURLException;
-<<<<<<< HEAD
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
@@ -13,9 +12,7 @@ import game_engine.properties.Position;
 import game_engine.properties.Price;
 import game_engine.properties.Team;
 import game_engine.properties.Velocity;
-=======
 import java.util.*;
->>>>>>> master
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -143,7 +140,6 @@ public class ElementMenu extends Menu {
         }
     	
     }
-    
     private void makeElement(Tooltip t){
     	for(String str: StrToTextMap.keySet()){
     		System.out.println(str + " " + StrToTextMap.get(str).getText());
