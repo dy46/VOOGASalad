@@ -1,19 +1,13 @@
 package game_engine.affectors;
-
-import java.util.List;
-
-import game_engine.functions.Function;
-import game_engine.game_elements.Path;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
-public class HomingMoveAffector extends PositionMoveAffector{
+public class HomingMoveAffector extends Affector{
 
 	private Unit trackedUnit;
 	
-	public HomingMoveAffector(List<Function> functions, Unit tracked) {
-		super(functions);
+	public HomingMoveAffector(Unit tracked) {
 		this.trackedUnit = tracked;
 	}
 	

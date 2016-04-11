@@ -6,7 +6,9 @@ import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
+import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import javafx.animation.AnimationTimer;
@@ -91,7 +93,6 @@ public class GameView implements IGameView{
                    placeTerrain();
                    placeUnit();
                    placePath();
-//                   System.out.println(playerEngineInterface.getGameStatus());
                    if(playerEngineInterface.getLives() < 0) {
                        timerStatus = false;
                        playerEngineInterface.clearProjectiles();
@@ -143,14 +144,14 @@ public class GameView implements IGameView{
     }
 
     
-    public void placeUnits(List<Unit> currUnits, List<ImageViewPicker> imageViews) {
-        for(int i = imageViews.size(); i < currUnits.size(); i++) {
-            Unit u = currUnits.get(i);
+    public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
+        for(int i = imageViews.size(); i < list.size(); i++) {
+            Unit u = list.get(i);
             imageViews.add(new ImageViewPicker(u.toString(), u.getNumFrames(), 
                                           u.getProperties().getState().getValue(), root));
         }
-        for(int i = 0; i < currUnits.size(); i++) {
-            imageViews.get(i).selectNextImageView(currUnits.get(i), timer);
+        for(int i = 0; i < list.size(); i++) {
+            imageViews.get(i).selectNextImageView(list.get(i), timer);
         }   
     }
 

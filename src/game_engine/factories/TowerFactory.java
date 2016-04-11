@@ -27,7 +27,7 @@ public class TowerFactory {
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createFourWayTower(String name, List<Unit> allProjectiles, Position startingPosition){
+    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
         Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
         move.setTTL(Integer.MAX_VALUE);
@@ -57,12 +57,12 @@ public class TowerFactory {
         p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
         p.setProperties(properties);
         myProjectiles.add(p);
-        return createSpecifiedTower(name, allProjectiles, myProjectiles);
+        return createSpecifiedTower(name, myProjectiles2, myProjectiles);
     }
     
-    public Tower createSpecifiedTower(String name, List<Unit> allProjectiles, List<Projectile> myProjectiles) {
+    public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Projectile> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
-        Tower t = new Tower(name, affectors, allProjectiles, myProjectiles, 2);
+        Tower t = new Tower(name, affectors, myProjectiles2, myProjectiles, 2);
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0,0));
         l1.add(new Position(70,0));

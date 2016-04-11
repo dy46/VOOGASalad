@@ -66,8 +66,11 @@ public abstract class Unit extends GameElement {
     }
 
     public void addAffectors (List<Affector> affectors) {
-    	System.out.println(myAffectors);
         myAffectors.addAll(affectors);
+    }
+    
+    public void addAffector(Affector affector){
+    	myAffectors.add(affector);
     }
 
     public UnitProperties getProperties () {

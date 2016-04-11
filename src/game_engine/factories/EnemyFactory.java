@@ -45,7 +45,7 @@ public class EnemyFactory {
 		Health health = new Health(30);
 		Velocity velocity = new Velocity(0.5, 90);
 		List<Position> l1 = new ArrayList<>();
-		l1.add(new Position(30,0));
+		l1.add(new Position(0,0));
 		l1.add(new Position(30,0));
 		l1.add(new Position(30,30));
 		l1.add(new Position(0,30));

@@ -136,25 +136,24 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
-		pos.add(new Position(700, 0));
-		pos.add(new Position(700, 700));
-		pos.add(new Position(0, 700));
+		pos.add(new Position(200, 0));
+		pos.add(new Position(200, 200));
+		pos.add(new Position(0, 200));
+		Position p = new Position(100, 100);
 		Bounds b = new Bounds(pos);
-		Position p = new Position(25, 25);
 		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
 		return new ArrayList<>(Arrays.asList(new Terrain[] { ice }));
 	}
 
-	public void updateElements() { 
+	public void updateElements() {
 		nextWaveTimer++;
 		if(!pause){
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
 			myEnemys.forEach(e -> e.update());
-			myCollider.resolveEnemyCollisions(getCollideList());
-			myCollider.resolveTowerCollisions(getTowerCollideList());
+			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
 			Enemy newE = myCurrentLevel.update();
 			if(newE != null){
 				myEnemys.add(newE);
@@ -323,14 +322,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		});
 	}
 
-	@Override
-	public List<Terrain> getTerrains() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Unit> getTerrains() {
+		return myTerrains;
 	}
-
-
-
 
 	public List<String> saveGame () {
 		// TODO Auto-generated method stub

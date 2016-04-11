@@ -2,9 +2,10 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import game_engine.affectors.Affector;
 import game_engine.game_elements.CollidableUnit;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
@@ -14,31 +15,38 @@ public class CollisionDetector {
 	public CollisionDetector(EngineWorkspace engine){
 		myEngine = engine;
 	}
-	public void resolveEnemyCollisions(List<Unit> collideList){
-		myEngine.getEnemies().forEach(t -> updateEnemies(t, collideList));
+	public void resolveEnemyCollisions(List<Unit> myProjectiles, List<Unit> myTerrains){
+		myEngine.getEnemies().forEach(t -> updateEnemies(t, myProjectiles));
+		myEngine.getEnemies().forEach(t -> terrainHandling(t, myTerrains));
 	}
 
-	public void resolveTowerCollisions(List<Unit> collideList){
-		myEngine.getTowers().forEach(t -> updateTowers(t, collideList));
-	}
-
-	private void updateTowers(Unit t, List<Unit> terrainList) {
-		updateEnemies(t, terrainList);
+	public void resolveTowerCollisions(List<Unit> terrains){
+		myEngine.getTowers().forEach(t -> terrainHandling(t, terrains));
 	}
 
 	// returns which Unit from the list collided with the target unit
-	private void updateEnemies(Unit unit, List<Unit> collideChecks){
-		for(int i = 0;i < collideChecks.size();i++){
-			if(!(unit == collideChecks.get(i)) && collides(unit, collideChecks.get(i))){
-				if(!collideChecks.get(i).hasCollided() && unit.isVisible()) {
-					unit.addAffectors(((CollidableUnit) collideChecks.get(i)).getAffectorsToApply());
-					collideChecks.get(i).setElapsedTimeToDeath();
-					collideChecks.get(i).setHasCollided(true);
+	private void updateEnemies(Unit unit, List<Unit> myProjectiles){
+		for(int i = 0; i<myProjectiles.size();i++){
+			if(!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))){
+				if(!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
+					unit.addAffectors(((CollidableUnit) myProjectiles.get(i)).getAffectorsToApply());
+					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
 			}
-			if(!(unit == collideChecks.get(i)) && encapsulates(unit, collideChecks.get(i))){
-				unit.addAffectors(((CollidableUnit) collideChecks.get(i)).getAffectorsToApply());
-				collideChecks.get(i).setElapsedTimeToDeath();
+			if(!(unit == myProjectiles.get(i)) && encapsulates(unit, myProjectiles.get(i))){
+				List<Affector> newAffectorsToApply = ((CollidableUnit) myProjectiles.get(i)).getAffectorsToApply().stream().map(e -> e.copyAffector()).collect(Collectors.toList());
+				unit.addAffectors(newAffectorsToApply);
+			}
+		}
+	}
+	
+	private void terrainHandling(Unit unit, List<Unit> terrains){
+		for(int i = 0; i<terrains.size();i++){
+			if(!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) || (!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))){
+				if(!terrains.get(i).hasCollided() && unit.isVisible()) {
+					List<Affector> newAffectorsToApply = ((CollidableUnit) terrains.get(i)).getAffectorsToApply().stream().map(e -> e.copyAffector()).collect(Collectors.toList());
+					unit.addAffectors(newAffectorsToApply);
+				}
 			}
 		}
 	}
@@ -57,6 +65,7 @@ public class CollisionDetector {
 		int counter = 0;
 		double xinters;
 		List<Position> bounds = getUseableBounds(outer);
+
 		Position p1 = bounds.get(0);
 		int numPos = bounds.size();
 		for (int i=1;i<=numPos;i++) {
@@ -80,7 +89,7 @@ public class CollisionDetector {
 			return(true);
 	}
 
-	private boolean encapsulates(Unit outer, Unit inner){
+	private boolean encapsulates(Unit inner, Unit outer){
 		List<Position> bounds = getUseableBounds(inner);
 		for(Position pos : bounds){
 			if(!insidePolygon(outer, pos)){

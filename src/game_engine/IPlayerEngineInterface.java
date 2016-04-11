@@ -58,6 +58,6 @@ public interface IPlayerEngineInterface {
 
     public void clearProjectiles();
     
-    List<Terrain> getTerrains();
+    public List<Unit> getTerrains();
     
 }

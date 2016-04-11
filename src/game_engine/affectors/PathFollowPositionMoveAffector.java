@@ -13,23 +13,32 @@ import game_engine.properties.UnitProperties;
  * 
  */
 public class PathFollowPositionMoveAffector extends PositionMoveAffector {
-        
+
 	public PathFollowPositionMoveAffector(List<Function> functions) {
 		super(functions);
 	}
 
 	@Override
 	public void apply (UnitProperties properties) {
-		double speed = properties.getVelocity().getSpeed();
-		Path myPath = properties.getPath();
-		for(int i = 0;i < speed;i++){
-		        Position curr = properties.getPosition();
-			Position next = myPath.getNextPosition(curr);
-			properties.getPosition().setX(next.getX());
-			properties.getPosition().setY(next.getY());
-			
+		if(this.getElapsedTime() <= this.getTTL()){
+//			System.out.println(this.getElapsedTime());
+//			System.out.println(this.getTTL());
+			double speed = properties.getVelocity().getSpeed();
+			Path myPath = properties.getPath();
+			for(int i = 0;i < speed;i++){
+				Position curr = properties.getPosition();
+				Position next = myPath.getNextPosition(curr);
+				properties.getPosition().setX(next.getX());
+				properties.getPosition().setY(next.getY());
+
+			}
+			this.updateElapsedTime();
+		}
+		if(this.getElapsedTime() == this.getTTL()){
+			// clear
+		
 		}
 	}
-	
+
 
 }

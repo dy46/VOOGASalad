@@ -15,7 +15,7 @@ public class AffectorLibrary {
 	}
 	
 	public Affector getAffector(String property, String effect){
-		return myAffectors.get(getIdentifier(property, effect));
+		return myAffectors.get(getIdentifier(property, effect)).copyAffector();
 	}
 	
 	public void addAffector(String property, String effect, Affector affector){
