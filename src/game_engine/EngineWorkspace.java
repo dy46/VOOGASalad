@@ -79,7 +79,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myProjectiles = new ArrayList<>();
 		// projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
-		myAffectorFactory = new AffectorFactory(myFunctionFactory);
+		myAffectorFactory = new AffectorFactory(myFunctionFactory, this);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
@@ -189,6 +189,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		for (int i = 0; i < myEnemys.size(); i++) {
 			if (myEnemys.get(i).getProperties().getPath().isUnitAtLastPosition(myEnemys.get(i))) {
 				livesToSubtract++;
+				myEnemys.get(i).setElapsedTimeToDeath();
 			}
 		}
 		myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
