@@ -30,16 +30,12 @@ public class CollisionDetector {
         for (int i = 0; i < myProjectiles.size(); i++) {
             if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
                 if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
+                    System.out.println("hi");
                     unit.addAffectors(((CollidableUnit) myProjectiles.get(i))
                             .getAffectorsToApply());
+                    myProjectiles.get(i).setHasCollided(true);
                     myProjectiles.get(i).setElapsedTimeToDeath();
                 }
-            }
-            if (!(unit == myProjectiles.get(i)) && encapsulates(unit, myProjectiles.get(i))) {
-                List<Affector> newAffectorsToApply =
-                        ((CollidableUnit) myProjectiles.get(i)).getAffectorsToApply().stream()
-                                .map(e -> e.copyAffector()).collect(Collectors.toList());
-                unit.addAffectors(newAffectorsToApply);
             }
         }
     }

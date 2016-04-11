@@ -46,7 +46,6 @@ public class TowerFactory {
         Path p2 = new Path("Something here");
         p2.addPosition(startingPosition.copyPosition());
 	p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
-	
         UnitProperties properties = new UnitProperties(null, null, null, velocity, b, startingPosition.copyPosition(), null, st, p2);
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
