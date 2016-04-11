@@ -60,6 +60,7 @@ public abstract class Unit extends GameElement {
             elapsedTime++;
             myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
             myAffectors.forEach(a -> a.apply(myProperties));
+            //System.out.println("Enemy health: " + myProperties.getHealth().getValue());
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();
@@ -67,7 +68,9 @@ public abstract class Unit extends GameElement {
     }
     
     public boolean isAlive () {
-        return getProperties().getHealth().getValue() > 0;
+    	if(myProperties.getHealth() == null)
+    		return true;
+        return myProperties.getHealth().getValue() > 0;
     }
     
     public void setInvisible(){

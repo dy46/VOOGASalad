@@ -5,9 +5,9 @@ import java.util.List;
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 
-public class ConstantHealthDamageAffector extends HealthDamageAffector{
+public class ExpIncrHealthDamageAffector extends Affector{
 
-    public ConstantHealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
+	public ExpIncrHealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
         super(functions, engineWorkspace);
     }
 

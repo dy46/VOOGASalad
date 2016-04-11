@@ -27,6 +27,22 @@ public class TerrainFactory {
 		Terrain ice = new Terrain("Ice");
 		ice.setAffectorsToApply(affectors);
 		myTerrainLibrary.addTerrain(ice);
+		
+		List<Affector> affectors2 = new ArrayList<>();
+		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
+		expIncrDamage.setTTL(Integer.MAX_VALUE);
+		affectors2.add(expIncrDamage);
+		Terrain poisonSpike = new Terrain("PoisonSpikes");
+		poisonSpike.setAffectorsToApply(affectors2);
+		myTerrainLibrary.addTerrain(poisonSpike);
+		
+		List<Affector> affectors3 = new ArrayList<>();
+		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
+		constantDamage.setTTL(Integer.MAX_VALUE);
+		affectors3.add(constantDamage);
+		Terrain spike = new Terrain("Spikes");
+		spike.setAffectorsToApply(affectors2);
+		myTerrainLibrary.addTerrain(spike);
 	}
 
 	public TerrainLibrary getTerrainLibrary() {

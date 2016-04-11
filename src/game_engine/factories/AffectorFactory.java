@@ -17,7 +17,7 @@ public class AffectorFactory {
 	public AffectorFactory(FunctionFactory myFunctionFactory, IPlayerEngineInterface engineWorkspace){
 		myAffectorLibrary = new AffectorLibrary();
 		this.engineWorkspace = engineWorkspace;
-	        setDefaultAffectors(myFunctionFactory);
+		setDefaultAffectors(myFunctionFactory);
 	}
 
 	private void constructAffector(String property, String effect, List<Function> functions){
@@ -38,19 +38,29 @@ public class AffectorFactory {
 		Function healthFunction = myFunctionFactory.createConstantFunction(0);
 		String effect4 ="HealthDamage";
 		constructAffector(property4, effect4, Arrays.asList(healthFunction));
+
+		String expIncrProperty = "ExpIncr";
+		Function exprIncrFunction = myFunctionFactory.createExpIncrFunction("Moderate");
+		String healthDamageEffect = "HealthDamage";
+		constructAffector(expIncrProperty, healthDamageEffect, Arrays.asList(exprIncrFunction));
 		
+		String randomPoison = "RandomPoison";
+		Function randomPoisonFunction = myFunctionFactory.createExpIncrFunction("Moderate");
+		String randomPoisonEffect = "HealthDamage";
+		constructAffector(randomPoison, randomPoisonEffect, Arrays.asList(randomPoisonFunction));
+
 		String property5 = "State";
 		String effect5 = "Change";
-		constructAffector(property5, effect5, null);	
-		
+		constructAffector(property5, effect5, null);
+
 		String property6 = "PathFollow";
 		String effect6 = "PositionMove";
 		constructAffector(property6, effect6, null);
-		
 
-                String property7 = "Homing";
-                String effect7 = "Move";
-                constructAffector(property7, effect7, null);
+
+		String property7 = "Homing";
+		String effect7 = "Move";
+		constructAffector(property7, effect7, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

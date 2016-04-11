@@ -126,6 +126,13 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	private List<Unit> makeDummyTerrains() {
+		Terrain ice = makeDummyIceTerrain();
+		Terrain poisonSpike = makeDummyPoisonSpike();
+		Terrain spike = makeDummySpike();
+		return new ArrayList<>(Arrays.asList(new Terrain[] { ice, poisonSpike, spike }));
+	}
+	
+	private Terrain makeDummyIceTerrain(){
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
@@ -137,7 +144,37 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
-		return new ArrayList<>(Arrays.asList(new Terrain[] { ice }));
+		return ice;
+	}
+	
+	private Terrain makeDummyPoisonSpike(){
+		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
+		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(170, 45));
+		pos.add(new Position(190, 45));
+		pos.add(new Position(190, 75));
+		pos.add(new Position(170, 75));
+		Position p = new Position(185, 50);
+		Bounds b = new Bounds(pos);
+		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
+		poisonSpike.setProperties(properties);
+		poisonSpike.setTTL(Integer.MAX_VALUE);
+		return poisonSpike;
+	}
+	
+	private Terrain makeDummySpike(){
+		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
+		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(170, 65));
+		pos.add(new Position(190, 65));
+		pos.add(new Position(190, 95));
+		pos.add(new Position(170, 95));
+		Position p = new Position(185, 70);
+		Bounds b = new Bounds(pos);
+		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
+		poisonSpike.setProperties(properties);
+		poisonSpike.setTTL(Integer.MAX_VALUE);
+		return poisonSpike;
 	}
 
 	public void updateElements() {

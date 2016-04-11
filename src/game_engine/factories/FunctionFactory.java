@@ -121,16 +121,11 @@ public class FunctionFactory {
 		List<Constant> expConsts = new ArrayList<>();
 		Constant const_proportionality = new Constant(myFunctionLibrary.getStrength(strength).evaluate() * sign, 1);
 		expConsts.add(const_proportionality);
-		List<Variable> expVars1 = new ArrayList<>();
-		expVars1.add(new Variable("t", 1));
-		List<Variable> expVars2 = new ArrayList<>();
-		expVars2.add(new Variable("s", 1));
-		Term expTerm1 = new Term(expVars1, expConsts);
-		Term expTerm2 = new Term(expVars2, copyConstantList(expConsts));
+		List<Variable> expVars = new ArrayList<>();
+		expVars.add(new Variable("t", 1));
+		Term expTerm1 = new Term(expVars, expConsts);
 		List<Term> expTerms = new ArrayList<>();
 		expTerms.add(expTerm1);
-		List<Term> expTerms2 = new ArrayList<>();
-		expTerms2.add(expTerm2);
 		String type = "";
 		if(sign == 1)
 			type = "ExpIncr";
@@ -145,7 +140,7 @@ public class FunctionFactory {
 			myFunctionLibrary.addFunction(expIncr);
 		}
 		if(sign==-1){
-			Function expDecr = new Function(getName(type, strength), expTerms2);
+			Function expDecr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expDecr);
 		}
 		

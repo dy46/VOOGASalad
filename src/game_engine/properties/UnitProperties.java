@@ -46,7 +46,7 @@ public class UnitProperties {
 
 	public UnitProperties copyUnitProperties() {
 		UnitProperties newProperties = new UnitProperties();
-		//            newProperties.myHealth = this.getHealth().copyHealth();
+		//newProperties.myHealth = this.getHealth().copyHealth();
 		//            newProperties.myDamage = this.getDamage().copyDamage();
 		//            newProperties.myTeam = this.getTeam().copyTeam();
 		newProperties.myState = this.getState().copyState();
