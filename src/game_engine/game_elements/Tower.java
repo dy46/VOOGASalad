@@ -15,7 +15,7 @@ import game_engine.properties.UnitProperties;
  * need to
  * be implemented for subclasses created in the authoring environment.
  */
-public class Tower extends SellableUnit {
+public class Tower extends Unit {
 
     private List<Unit> allProjectiles;
     private List<Projectile> myProjectiles;
