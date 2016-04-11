@@ -5,20 +5,72 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.view.Menus.ElementMenu;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class VAsTesterTab {
 
 	
 	public VAsTesterTab(TabPane myTabs){
+		int w = 100;
+		int h = 100;
+		
+		
+		   FlowPane myV = new FlowPane(Orientation.VERTICAL);
+		   myV.setVgap(8);
+		   myV.setHgap(4);
+		   myV.setPrefWrapLength(300);
+		   myV.setPrefSize(300, 200);
+		   myV.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
+	 	   myV.setStyle("-fx-background-color:pink;-fx-padding:10px;");
+
+	 	   ImageView image = new ImageView();
+	 	   image.setImage(new Image("pusheenNoodles.gif"));	
+	 	   image.setFitHeight(w);
+	 	   image.setFitWidth(h);
+	 	   image.setOnMouseClicked(e -> System.out.println("wrwer"));
+	 	   
+	 	   ImageView image2 = new ImageView();
+	 	   image2.setImage(new Image("unicornCat.gif"));
+	 	   image2.setFitHeight(w);
+	 	   image2.setFitWidth(h);
+	 	   
+	 	   ImageView image3 = new ImageView();
+	 	   image3.setImage(new Image("dj.gif"));
+	 	   image3.setFitHeight(w);
+	 	   image3.setFitWidth(h);
+	 	   
+	 	   ImageView image4 = new ImageView();
+	 	   image4.setImage(new Image("coffeeBackground.gif"));
+	 	   image4.setFitHeight(w);
+	 	   image4.setFitWidth(h);
+	 	   
+	 	   ImageView image5 = new ImageView();
+	 	   image5.setImage(new Image("catKeyboard.gif"));
+	 	   image5.setFitHeight(w);
+	 	   image5.setFitWidth(h);
+	 	   
+	 	   myV.getChildren().addAll(image, image2, image3, image4, image5);
+	 	   
+	 	   
 		ElementMenu elmen = new ElementMenu();
 		TowerView tview = new TowerView();
 		Tab elTabo = new Tab("WOOO");
@@ -48,6 +100,7 @@ public class VAsTesterTab {
         List<Node> myTView = new ArrayList<>(Arrays.asList(butt, new Button("huehuheu")));
  
         myGridPane.add(makeBox(new VBox(), "WERERK", myTView, false), 0, 1);
+        myGridPane.add(myV, 0, 2);
 		elTabo.setContent(myGridPane);
 		// 99% sure everyone else can ignore those
 		
