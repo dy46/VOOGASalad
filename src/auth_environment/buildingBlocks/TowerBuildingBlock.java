@@ -9,10 +9,10 @@ public class TowerBuildingBlock extends BuildingBlock{
 
 	private Price myPrice;
 	private double range; 
-	private double firingRate; 
+	private int firingRate; 
 
 	public TowerBuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, double direction,
-			double r, double price, List<Position> positionList, double fRate){
+			double r, double price, List<Position> positionList, int fRate){
 		super(image, name, health, damage, teamName, speed, direction, positionList); 
 		myPrice = new Price(price);
 		range = r;
@@ -37,11 +37,11 @@ public class TowerBuildingBlock extends BuildingBlock{
 		this.range = range;
 	}
 	
-	public double getFiringRate() {
+	public int getFiringRate() {
 		return firingRate;
 	}
 
-	public void setFiringRate(double firingRate) {
+	public void setFiringRate(int firingRate) {
 		this.firingRate = firingRate;
 	}
 	

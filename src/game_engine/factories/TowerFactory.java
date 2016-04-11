@@ -24,16 +24,16 @@ public class TowerFactory {
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition, TowerBuildingBlock eleBlock){
+    public Tower createOneWayTower(String name, List<Projectile> allProjectiles, Position startingPosition, TowerBuildingBlock tBlock){
     	List<Projectile> myProjectiles = new ArrayList<Projectile>(); 
     	Affector projectileMove = myAffectorLibrary.getAffector("Constant", "PositionMove");
     	projectileMove.setTTL(Integer.MAX_VALUE);
     	
     	Projectile p = new Projectile("ConstantHealth", Arrays.asList(projectileMove));
     	p.setTTL(Integer.MAX_VALUE);
-    	p.setFireRate(60);
-    	Velocity projVelocity = eleBlock.getMyVelocity();
-    	Bounds b = eleBlock.getMyBounds(); 
+    	p.setFireRate(tBlock.getFiringRate());
+    	Velocity projVelocity = tBlock.getMyVelocity();
+    	Bounds b = tBlock.getMyBounds(); 
     	UnitProperties properties = new UnitProperties(null, null, null, projVelocity, b, startingPosition.copyPosition(), null);
     	p.setProperties(properties);
     	myProjectiles.add(p);
@@ -45,6 +45,13 @@ public class TowerFactory {
     	
     	return createSpecifiedTower("OneWay", allProjectiles, myProjectiles); 
 	}
+    
+    //NEED TO WORK ON THIS
+    private void setUpNWayProjectiles(double directions, double startDirection){
+    	double increments = 360 / directions; 
+    	for(int i = 0; i < directions)
+    	
+    }
     
     
     public Tower createFourWayTower(String name, List<Projectile> allProjectiles, Position startingPosition){
