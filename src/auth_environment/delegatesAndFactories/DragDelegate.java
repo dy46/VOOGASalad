@@ -104,7 +104,7 @@ public class DragDelegate {
 				if (db.hasString()) {
 					NodeFactory nf = new NodeFactory();
 //					target.setImage(ngaf.buildImage(myNamesBundle.getString("tower")));
-					target.showCurrentElement(); // replace with target.update(GameElement dragged)
+					target.placeCurrentElement(); // replace with target.update(GameElement dragged)
 					success = true;
 				}
 				/* let the source know whether the string was successfully 

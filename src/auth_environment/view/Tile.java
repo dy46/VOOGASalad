@@ -8,8 +8,6 @@ import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -47,10 +45,9 @@ public abstract class Tile implements IElementHolder {
 	protected abstract void addListener();
 	
 	@Override
-	public void update(GameElement element) {
+	public void updateElement(GameElement element) {
 		this.hasElement = true;
 		this.myElement = element; 
-		// TODO: eventually call this.setImage(element.getImage()) or something like that
 	}
 
 	@Override
@@ -58,9 +55,14 @@ public abstract class Tile implements IElementHolder {
 		return this.myElement;
 	}
 	
-	public void showCurrentElement(){
+	public void showCurrentElement() {
 		NodeFactory nf = new NodeFactory(); 
 		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+	}
+	
+	public void placeCurrentElement() {
+		this.hasElement = true;
+		this.showCurrentElement();
 	}
 	
 	protected abstract void setImage(Image image); 

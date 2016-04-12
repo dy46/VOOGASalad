@@ -3,6 +3,7 @@ package auth_environment.view;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
+import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -38,5 +39,4 @@ public class RecTile extends Tile {
 	public Shape getShape() {
 		return this.myRectangle;
 	}
-	
 }
