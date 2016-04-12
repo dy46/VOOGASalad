@@ -6,6 +6,7 @@ import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
+import auth_environment.view.Menus.PickerMenu;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -43,7 +44,7 @@ public class Workspace {
 		DragDelegate drag = new DragDelegate();
 		drag.setupSource(hello);
 		this.myBorderPane.setLeft(hello);
-		this.myBorderPane.setRight(new VBox());
+		this.myBorderPane.setRight(new PickerMenu());
 		this.myBorderPane.setCenter(myDisplay);
 	}
 	

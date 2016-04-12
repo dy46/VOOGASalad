@@ -66,15 +66,15 @@ public class ElementMenu extends Menu {
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
 		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
-		towerItem.setOnAction(e -> createNewTower());
-		terrainItem.setOnAction(e -> createNewTerrain());
-		enemyItem.setOnAction(e -> createNewEnemy());
-		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
+//		towerItem.setOnAction(e -> createNewTower());
+//		terrainItem.setOnAction(e -> createNewTerrain());
+//		enemyItem.setOnAction(e -> createNewEnemy());
+//		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
 		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
 		viewTowerItem.setOnAction(e -> viewTowers());
 		towerItem.setOnAction(e -> createNewTower());
 		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
+		this.getItems().addAll(viewTowerItem); 
 	}
 	
 	private void viewTowers() {
