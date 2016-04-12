@@ -16,8 +16,7 @@ public class RecTile extends Tile {
 	
 	private Rectangle myRectangle; 
 	
-	public RecTile(ISelector selector, double x, double y, double scaledX, double scaledY, double width, double height) {
-		super(selector, x, y); 
+	public RecTile(double scaledX, double scaledY, double width, double height) {
 		myRectangle = new Rectangle(scaledX, scaledY, width, height); 
 	}
 

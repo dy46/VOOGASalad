@@ -12,12 +12,9 @@ public class MapDisplayModel {
 	private int xMax;
 	private int yMax;
 	
-	private ISelector mySelector; 
-	
-	public MapDisplayModel(int xLim, int yLim, ISelector selector) {
+	public MapDisplayModel(int xLim, int yLim) {
 		xMax = xLim;
 		yMax = yLim;
-		this.mySelector = selector; 
 	}
 	
 	public void generateMap(){
@@ -60,9 +57,5 @@ public class MapDisplayModel {
 //	public List getMap(){
 //		return myList;
 //	}
-	
-	public ISelector getSelector() {
-		return this.mySelector;
-	}
 
 }

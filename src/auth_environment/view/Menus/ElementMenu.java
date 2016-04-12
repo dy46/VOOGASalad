@@ -21,7 +21,9 @@ import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
+import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Tower;
+import game_engine.libraries.AffectorLibrary;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -57,6 +59,7 @@ public class ElementMenu extends Menu {
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
 	
+	
 	public ElementMenu() {
 		this.init();
 	}
@@ -65,7 +68,7 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
-		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
+//		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
 //		towerItem.setOnAction(e -> createNewTower());
 //		terrainItem.setOnAction(e -> createNewTerrain());
 //		enemyItem.setOnAction(e -> createNewEnemy());
@@ -74,7 +77,7 @@ public class ElementMenu extends Menu {
 		viewTowerItem.setOnAction(e -> viewTowers());
 		towerItem.setOnAction(e -> createNewTower());
 		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(viewTowerItem); 
+		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
 	}
 	
 	private void viewTowers() {
@@ -205,7 +208,10 @@ public class ElementMenu extends Menu {
     	
     	block.setMyImage((ImageView)t.getGraphic());
     	
-
+    	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	Tower tower = towerFac.defineTowerModel(block);
+    	
+    	myTowerList.add(tower);
     	//call Cody's method
     	//and add to list
     	//and then update my Picker
