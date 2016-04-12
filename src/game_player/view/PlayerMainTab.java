@@ -2,8 +2,10 @@ package game_player.view;
 
 import game_player.GameDataSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
@@ -28,6 +30,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private ResourceBundle myResources;
 	private ResourceBundle elementsResources;
 	private GameDataSource gameData;
+	private List<IGUIObject> gameElements;
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
@@ -37,6 +40,7 @@ public class PlayerMainTab implements IPlayerTab{
 	public PlayerMainTab(ResourceBundle r, GameDataSource gameData) {
 		this.myResources = r;
 		this.gameData = gameData;
+		this.gameElements = new ArrayList<>();
 		this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
 	}
 	
@@ -68,6 +72,7 @@ public class PlayerMainTab implements IPlayerTab{
 				newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
 						.getConstructor(ResourceBundle.class, GameDataSource.class)
 						.newInstance(myResources, gameData);
+				gameElements.add(newElement);
 
 				placeElement(newElement, keyAndPosition[1].trim());
 			}
@@ -107,7 +112,12 @@ public class PlayerMainTab implements IPlayerTab{
 		configurationPanel.getChildren().add(configurationLabel);
 		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
 		gamePanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
-		
+	}
+	
+	private void updateGameElements() {
+		for (IGUIObject object: gameElements) {
+			object.updateNode();
+		}
 	}
 	
 	private void addToTop(IGUIObject element) {
