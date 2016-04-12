@@ -39,10 +39,7 @@ public class Workspace {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
-		Text hello = new Text("Hello"); 
-		DragDelegate drag = new DragDelegate();
-		drag.setupSource(hello);
-		this.myBorderPane.setLeft(hello);
+		this.myBorderPane.setLeft(new VBox());
 		this.myBorderPane.setRight(new VBox());
 		this.myBorderPane.setCenter(myDisplay);
 	}

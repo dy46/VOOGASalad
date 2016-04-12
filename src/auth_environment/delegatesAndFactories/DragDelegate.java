@@ -3,6 +3,7 @@ package auth_environment.delegatesAndFactories;
 import java.util.ResourceBundle;
 
 import auth_environment.view.Tile;
+import game_engine.game_elements.GameElement;
 import javafx.event.EventHandler;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -10,8 +11,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 /**
  * Created by BrianLin on 4/11/2016
@@ -25,36 +24,35 @@ public class DragDelegate {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private DataFormat gameElementFormat; 
+	private static final DataFormat gameElementFormat = new DataFormat("Game Element"); // need help extracting  
 			
 	public DragDelegate() {
-		this.gameElementFormat = new DataFormat(myNamesBundle.getString("gameElementFormat"));
 
 	}
 	
-	public void setupSource(Text source) {
-		source.setOnDragDetected(new EventHandler<MouseEvent>() {
+	
+	public void setupSource(Tile source) {
+		source.getShape().setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				/* drag was detected, start a drag-and-drop gesture*/
 				/* allow any transfer mode */
-				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+				Dragboard db = source.getShape().startDragAndDrop(TransferMode.ANY);
 
 				/* Put a string on a dragboard */
 				ClipboardContent content = new ClipboardContent();
-				
-				content.putString(source.getText());
+				content.put(DragDelegate.gameElementFormat, source.getElement());
 				db.setContent(content);
 
 				event.consume();
 			}
 		});
 		
-		source.setOnDragDone(new EventHandler<DragEvent>() {
+		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* the drag and drop gesture ended */
 				/* if the data was successfully moved, clear it */
 				if (event.getTransferMode() == TransferMode.MOVE) {
-					source.setText("Done");
+					System.out.println("Done"); 
 				}
 				event.consume();
 			}
@@ -68,7 +66,7 @@ public class DragDelegate {
 				/* accept it only if it is not dragged from the same node 
 				 * and if it has a string data */
 				if (event.getGestureSource() != target &&
-						event.getDragboard().hasString()) {
+						event.getDragboard().hasContent(DragDelegate.gameElementFormat)) {
 					/* allow for both copying and moving, whatever user chooses */
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 				}
@@ -81,7 +79,7 @@ public class DragDelegate {
 				/* the drag-and-drop gesture entered the target */
 				/* show to the user that it is an actual gesture target */
 				if (event.getGestureSource() != target &&
-						event.getDragboard().hasString()) {
+						event.getDragboard().hasContent(DragDelegate.gameElementFormat)) {
 					target.showCurrentElement();
 				}
 
@@ -95,7 +93,6 @@ public class DragDelegate {
 				if(!target.hasElement()){
 						target.clear();
 				}
-
 				event.consume();
 			}
 		});
@@ -106,10 +103,9 @@ public class DragDelegate {
 				/* if there is a string data on dragboard, read it and use it */
 				Dragboard db = event.getDragboard();
 				boolean success = false;
-				if (db.hasString()) {
-					NodeFactory nf = new NodeFactory();
-//					target.setImage(ngaf.buildImage(myNamesBundle.getString("tower")));
-					target.placeCurrentElement(); // replace with target.update(GameElement dragged)
+				if (db.hasContent(DragDelegate.gameElementFormat)) {
+					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) ); 
+					target.placeCurrentElement(); 
 					success = true;
 				}
 				/* let the source know whether the string was successfully 
