@@ -12,8 +12,8 @@ public class TowerBuildingBlock extends BuildingBlock{
 	private int firingRate; 
 
 	public TowerBuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, double direction,
-			double r, double price, List<Position> positionList, int fRate){
-		super(image, name, health, damage, teamName, speed, direction, positionList); 
+			double r, double price, List<Position> positionList, State s, int fRate){
+		super(image, name, health, damage, teamName, speed, direction, positionList, s); 
 		myPrice = new Price(price);
 		range = r;
 		firingRate = fRate; 

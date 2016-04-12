@@ -2,13 +2,7 @@ package auth_environment.buildingBlocks;
 
 import java.util.List;
 
-import game_engine.properties.Bounds;
-import game_engine.properties.Damage;
-import game_engine.properties.Health;
-import game_engine.properties.Position;
-import game_engine.properties.Price;
-import game_engine.properties.Team;
-import game_engine.properties.Velocity;
+import game_engine.properties.*;
 import javafx.scene.image.ImageView;
 
 /**
@@ -26,10 +20,11 @@ public abstract class BuildingBlock {
 	private Velocity myVelocity;
 	private Bounds myBounds;
 	private Price myPrice;
+	private State myState; 
 	private ImageView myImage;
 	
 	public BuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, 
-			double direction, List<Position> positionList){
+			double direction, List<Position> positionList, State s){
 		myImage = image;
 		myName = name;
 		myHealth = new Health(health);
@@ -37,11 +32,16 @@ public abstract class BuildingBlock {
 		myTeam = new Team(teamName);
 		myVelocity = new Velocity(speed, direction);
 		myBounds = new Bounds(positionList);
+		myState = s;
 	}
 	
 	//Getters and Setters
 	public String getMyName() {
 		return myName;
+	}
+	
+	public State getMyState(){
+		return myState;
 	}
 
 	public void setMyName(String myName) {
