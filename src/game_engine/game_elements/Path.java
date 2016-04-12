@@ -35,6 +35,7 @@ public class Path extends MapPiece{
 		nextPositions = new HashMap<Position, Position>();
 		setNextPositions();
 	}
+	
 	public void initialize(List<Position> list){
 		myPositions = list;
 		nextPositions = new HashMap<Position, Position>();

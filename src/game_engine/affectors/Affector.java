@@ -1,7 +1,7 @@
 package game_engine.affectors;
 
 import java.util.List;
-
+import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.properties.UnitProperties;
 
@@ -12,6 +12,7 @@ public class Affector {
 	private int TTL;
 	private int elapsedTime;
 	private List<Function> myFunctions;
+	private IPlayerEngineInterface engineWorkspace;
 
 	/**
 	 * Applies an effect to a unit by altering the 
@@ -25,9 +26,10 @@ public class Affector {
 	 *
 	 */
 
-	public Affector(List<Function> functions){
+	public Affector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
 		this.myFunctions = functions;
 		this.elapsedTime = 0;
+		this.engineWorkspace = engineWorkspace;
 	}
 
 	public Affector(){
@@ -39,7 +41,8 @@ public class Affector {
 		Affector copy = null;
 		try {
 			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class).newInstance(this.getFunctions());
+					.getConstructor(List.class, IPlayerEngineInterface.class)
+					.newInstance(this.getFunctions(), this.getEngineWorkspace());
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -60,6 +63,10 @@ public class Affector {
 	public void updateElapsedTime(){
 		elapsedTime++;
 	}
+	
+	public void setElapsedTime(int elapsedTime) {
+	    this.elapsedTime = elapsedTime;
+	}
 
 	public List<Double> getBaseNumbers () {
 		return baseNumbers;
@@ -73,12 +80,24 @@ public class Affector {
 		return TTL;
 	}
 	
+	public void setElapsedTimeToDeath() {
+	    this.setElapsedTime(this.getTTL());
+	}
+	
 	public void setTTL(int TTL) {
 		this.TTL = TTL;
 	}
 
 	public List<Function> getFunctions(){
 		return myFunctions;
+	}
+	
+	public IPlayerEngineInterface getEngineWorkspace() {
+	        return engineWorkspace;
+	}
+	
+	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
+	    this.engineWorkspace = engineWorkspace;
 	}
 
 }
