@@ -3,6 +3,7 @@ package game_engine.affectors;
 import java.util.List;
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
+import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
 public class Affector {
@@ -52,7 +53,7 @@ public class Affector {
 		return copy;
 	}
 
-	public void apply(UnitProperties properties) {
+	public void apply(Unit u) {
 		updateElapsedTime();
 	};
 

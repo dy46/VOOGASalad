@@ -34,6 +34,7 @@ public class Projectile extends Unit {
         copy.setAffectorsToApply(copyApplyAffectors);
         copy.setProperties(this.getProperties().copyUnitProperties());
         copy.setDeathDelay(this.getDeathDelay());
+        copy.setNumberList(this.getNumberList());
         return copy;
     }
 

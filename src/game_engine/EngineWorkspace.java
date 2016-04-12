@@ -3,6 +3,7 @@ package game_engine;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
+import game_engine.properties.Velocity;
 
 
 /**
@@ -93,7 +95,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	private List<Tower> makeDummyTowers () {
 		Position position2 = new Position(200, 300);
-		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, position2);
+		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers), position2);
 		return new ArrayList<>(Arrays.asList(new Tower[] { t }));
 	}
 
@@ -146,8 +148,13 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(0, 200));
 		Position p = new Position(100, 100);
 		Bounds b = new Bounds(pos);
+<<<<<<< HEAD
 		Health health = new Health(20);
 		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
+=======
+	        Velocity velocity = new Velocity(0, 90);
+		UnitProperties properties = new UnitProperties(null, null, null, velocity, b, p, null, new State("Stationary"), null);
+>>>>>>> 2644dea77f1258a7f847453cb880537379bb2d20
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
 		return ice;
