@@ -15,7 +15,6 @@ public class ImageViewPicker {
     private int numFrames;
     private int currFrame;
     private ImageView imageView;
-    private ClassLoader classLoader;
     private Group root;
     
     
@@ -25,7 +24,6 @@ public class ImageViewPicker {
         this.numFrames = numFrames;
         this.currFrame = 0;
         this.currState = startingState;
-        this.classLoader = getClass().getClassLoader();
         this.imageView = new ImageView();
         root.getChildren().add(imageView);
         myBundle = ResourceBundle.getBundle("game_engine/animation_rates/animation");
@@ -36,8 +34,8 @@ public class ImageViewPicker {
         if(timer % Integer.parseInt(myBundle.getString(name + state)) == 0) {
             currState = state;
             currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
-            imageView.setImage(new Image(classLoader.getResourceAsStream(name + u.getProperties().getState().getValue() 
-                                          + currFrame + EXTENSION)));
+            imageView.setImage(new Image(name + u.getProperties().getState().getValue() 
+                                          + currFrame + EXTENSION));
             imageView.setX(u.getProperties().getPosition().getX() - imageView.getImage().getWidth()/2);
             imageView.setY(u.getProperties().getPosition().getY() - imageView.getImage().getHeight()/2);
             imageView.setRotate(transformDirection(u));
