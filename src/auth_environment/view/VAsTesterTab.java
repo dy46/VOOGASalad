@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import auth_environment.backend.ISelector;
 import auth_environment.view.Menus.ElementMenu;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +21,7 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,45 +34,50 @@ public class VAsTesterTab {
 
 	
 	public VAsTesterTab(TabPane myTabs){
-		int w = 100;
-		int h = 100;
-		
-		
-		   FlowPane myV = new FlowPane(Orientation.VERTICAL);
-		   myV.setVgap(8);
-		   myV.setHgap(4);
-		   myV.setPrefWrapLength(300);
-		   myV.setPrefSize(300, 200);
-		   myV.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
-	 	   myV.setStyle("-fx-background-color:pink;-fx-padding:10px;");
-
-	 	   ImageView image = new ImageView();
-	 	   image.setImage(new Image("pusheenNoodles.gif"));	
-	 	   image.setFitHeight(w);
-	 	   image.setFitWidth(h);
-	 	   image.setOnMouseClicked(e -> System.out.println("wrwer"));
-	 	   
-	 	   ImageView image2 = new ImageView();
-	 	   image2.setImage(new Image("unicornCat.gif"));
-	 	   image2.setFitHeight(w);
-	 	   image2.setFitWidth(h);
-	 	   
-	 	   ImageView image3 = new ImageView();
-	 	   image3.setImage(new Image("dj.gif"));
-	 	   image3.setFitHeight(w);
-	 	   image3.setFitWidth(h);
-	 	   
-	 	   ImageView image4 = new ImageView();
-	 	   image4.setImage(new Image("coffeeBackground.gif"));
-	 	   image4.setFitHeight(w);
-	 	   image4.setFitWidth(h);
-	 	   
-	 	   ImageView image5 = new ImageView();
-	 	   image5.setImage(new Image("catKeyboard.gif"));
-	 	   image5.setFitHeight(w);
-	 	   image5.setFitWidth(h);
-	 	   
-	 	   myV.getChildren().addAll(image, image2, image3, image4, image5);
+//		int w = 50;
+//		int h = 50;
+//		
+//		   ScrollPane scroll = new ScrollPane();
+//		   scroll.setFitToWidth(true);
+//		   //scroll.setFitToHeight(true);
+//		   FlowPane myV = new FlowPane(Orientation.VERTICAL);
+//		   myV.setVgap(4);
+//		   myV.setHgap(4);
+//		   scroll.setContent(myV);
+//		  // myV.setAlignment(Pos.TOP_RIGHT);
+//		   myV.setPadding(new Insets(10,10,10,10));
+//		   myV.setPrefWrapLength(210);
+////	   myV.setPrefSize(100, 100);
+//		   myV.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//		   myV.setStyle("-fx-background-color:pink;-fx-padding:10px;");
+//
+//	 	   ImageView image = new ImageView();
+//	 	   image.setImage(new Image("pusheenNoodles.gif"));	
+//	 	   image.setFitHeight(w);
+//	 	   image.setFitWidth(h);
+//	 	   image.setOnMouseClicked(e -> System.out.println("wrwer"));
+//	 	   
+//	 	   ImageView image2 = new ImageView();
+//	 	   image2.setImage(new Image("unicornCat.gif"));
+//	 	   image2.setFitHeight(w);
+//	 	   image2.setFitWidth(h);
+//	 	   
+//	 	   ImageView image3 = new ImageView();
+//	 	   image3.setImage(new Image("dj.gif"));
+//	 	   image3.setFitHeight(w);
+//	 	   image3.setFitWidth(h);
+//	 	   
+//	 	   ImageView image4 = new ImageView();
+//	 	   image4.setImage(new Image("coffeeBackground.gif"));
+//	 	   image4.setFitHeight(w);
+//	 	   image4.setFitWidth(h);
+//	 	   
+//	 	   ImageView image5 = new ImageView();
+//	 	   image5.setImage(new Image("catKeyboard.gif"));
+//	 	   image5.setFitHeight(w);
+//	 	   image5.setFitWidth(h);
+//	 	   
+//	 	   myV.getChildren().addAll(image, image2, image3, image4, image5);
 	 	   
 	 	   
 		ElementMenu elmen = new ElementMenu();
@@ -100,7 +109,9 @@ public class VAsTesterTab {
         List<Node> myTView = new ArrayList<>(Arrays.asList(butt, new Button("huehuheu")));
  
         myGridPane.add(makeBox(new VBox(), "WERERK", myTView, false), 0, 1);
-        myGridPane.add(myV, 0, 2);
+        //myGridPane.add(myV, 0, 2);
+        myGridPane.add(new Button("WEREWRE"), 0, 3);
+        myGridPane.add(new Button("ack"), 1, 2);
 		elTabo.setContent(myGridPane);
 		// 99% sure everyone else can ignore those
 		

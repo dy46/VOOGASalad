@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import auth_environment.backend.ISelector;
 import game_engine.game_elements.GameElement;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -21,47 +22,52 @@ import javafx.stage.Stage;
 public class TowerView implements UnitView {
 
 	private GridPane myGridPane;
+	private ISelector mySelector;
     
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		int w = 100;
-		int h = 100;
+		int w = 50;
+		int h = 50;
 		
 		
-		   FlowPane myV = new FlowPane(Orientation.VERTICAL);
-		   myV.setVgap(8);
+		   FlowPane myV = new FlowPane();
+		   myV.setVgap(4);
 		   myV.setHgap(4);
-		   myV.setPrefWrapLength(300);
-		   myV.setPrefSize(300, 200);
-		   myV.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(3))));
+		   myV.setPrefWrapLength(100);
+		   myV.setPrefSize(100,100);
+		   myV.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
 	 	   myV.setStyle("-fx-background-color:pink;-fx-padding:10px;");
 
 	 	   ImageView image = new ImageView();
 	 	   image.setImage(new Image("pusheenNoodles.gif"));	
 	 	   image.setFitHeight(w);
 	 	   image.setFitWidth(h);
-	 	   image.setOnMouseClicked(e -> clicked());
+	 	   image.setOnMouseClicked(e -> mySelector.chooseElement(0));
 	 	   
 	 	   ImageView image2 = new ImageView();
 	 	   image2.setImage(new Image("unicornCat.gif"));
 	 	   image2.setFitHeight(w);
 	 	   image2.setFitWidth(h);
+	 	   image.setOnMouseClicked(e -> mySelector.chooseElement(1));
 	 	   
 	 	   ImageView image3 = new ImageView();
 	 	   image3.setImage(new Image("dj.gif"));
 	 	   image3.setFitHeight(w);
 	 	   image3.setFitWidth(h);
+	 	   image.setOnMouseClicked(e -> mySelector.chooseElement(2));
 	 	   
 	 	   ImageView image4 = new ImageView();
 	 	   image4.setImage(new Image("coffeeBackground.gif"));
 	 	   image4.setFitHeight(w);
 	 	   image4.setFitWidth(h);
+	 	   image.setOnMouseClicked(e -> mySelector.chooseElement(3));
 	 	   
 	 	   ImageView image5 = new ImageView();
 	 	   image5.setImage(new Image("catKeyboard.gif"));
 	 	   image5.setFitHeight(w);
 	 	   image5.setFitWidth(h);
+	 	   image.setOnMouseClicked(e -> mySelector.chooseElement(4));
 	 	   
 	 	   
 	 	   
@@ -78,9 +84,6 @@ public class TowerView implements UnitView {
 		
 	}
 
-	private void clicked() {
-		System.out.println("werwerwerwerk");
-	}
 
 	@Override
 	public GameElement build() {
