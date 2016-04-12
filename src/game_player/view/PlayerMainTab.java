@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import game_engine.IPlayerEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -31,37 +32,43 @@ public class PlayerMainTab implements IPlayerTab{
 	private ResourceBundle elementsResources;
 	private GameDataSource gameData;
 	private List<IGUIObject> gameElements;
+	private GameView gameView;
+	private GameCanvas myCanvas;
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private HBox gamePanel;
 	
-	public PlayerMainTab(ResourceBundle r, GameDataSource gameData) {
+	public PlayerMainTab(ResourceBundle r) {
 		this.myResources = r;
-		this.gameData = gameData;
 		this.gameElements = new ArrayList<>();
 		this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
+		this.gameData = new GameDataSource();
+		gameData.setDoubleValue("High Score", 0);
 	}
 	
 	@Override
 	public Tab getTab() {
-		initializeTab();
 		myTab = new Tab();
 		myRoot = new BorderPane();
 		
 		createUISections();
 		initializeElements();
+		initializeCanvas();
 		placeUISections();
 		
 		myTab.setContent(myRoot);
 		return myTab;
 	}
 	
-	private void initializeTab() {
+	private void initializeCanvas() {
+		myCanvas = new GameCanvas(myResources);
+		gameSection.getChildren().add(myCanvas.createCanvas());
+		gameView = new GameView(myCanvas);
+		gameView.display();
 	}
 	
-	//TODO: Possibly use reflection/other techniques to initialize elements.
 	private void initializeElements() {
 		IGUIObject newElement = null;
 		Enumeration<String> resourceKeys = elementsResources.getKeys();
@@ -122,10 +129,6 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private void addToTop(IGUIObject element) {
 		gameMenu.getChildren().add(element.createNode());
-	}
-	
-	private void addToGameCanvas(IGUIObject element) {
-		gameSection.getChildren().add(element.createNode());
 	}
 	
 	private void addToConfigurationPanel(IGUIObject element) {

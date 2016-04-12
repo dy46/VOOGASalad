@@ -3,6 +3,8 @@ package game_player.view;
 import game_player.GameDataSource;
 import java.util.ResourceBundle;
 
+import game_engine.EngineWorkspace;
+import game_engine.IPlayerEngineInterface;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -18,13 +20,12 @@ public class PlayerGUI{
 	private AnchorPane myRoot;
 	private TabPane myTabs;
 	private ResourceBundle myResources;
-	private GameDataSource gameData;
+	private IPlayerEngineInterface gameEngine;
 	
-	public PlayerGUI(int windowWidth, int windowHeight, GameDataSource gameData) {
+	public PlayerGUI(int windowWidth, int windowHeight) {
 		this.windowWidth = windowWidth;
 		this.windowHeight = windowHeight;
 		this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
-		this.gameData = gameData;
 	}
 	
 	public Scene createPlayerScene() {
@@ -35,7 +36,7 @@ public class PlayerGUI{
 		Button newTabButton = new Button(myResources.getString("NewTabText"));
 		newTabButton.setOnAction(event -> createNewTab());
 		
-		myTabs.getTabs().add(new PlayerMainTab(myResources, gameData).getTab());
+		createNewTab();
 		
 		AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
 		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
@@ -48,7 +49,8 @@ public class PlayerGUI{
 	}
 	
 	private void createNewTab() {
-		Tab tab = new PlayerMainTab(myResources, gameData).getTab();
+		gameEngine = new EngineWorkspace();
+		Tab tab = new PlayerMainTab(myResources).getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
 	}

@@ -1,4 +1,4 @@
-package game_player;
+package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,14 @@ import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
+import game_player.GameDataSource;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class GameView implements IGameView{
@@ -26,26 +28,27 @@ public class GameView implements IGameView{
     private AnimationTimer AT;
     private boolean timerStatus;
     private boolean isPlaying;
-    private Canvas canvas;
-    private Group root;
+    private GameCanvas canvas;
+    private Pane root;
     private Stage myStage;
+    private PlayerGUI myGUI;
     private IPlayerEngineInterface playerEngineInterface;
+	private GameDataSource gameData;
     private List<ImageViewPicker> towers;
     private List<ImageViewPicker> enemies;
     private List<ImageViewPicker> projectiles;
     private List<ImageView> paths;
     private List<ImageView> terrains;
     
-    public GameView(Stage primaryStage) {
+    public GameView(GameCanvas canvas) {
+    	this.root = canvas.getRoot();
         playerEngineInterface = new EngineWorkspace();
         playerEngineInterface.setUpEngine(null);
-        root = new Group();
-        Scene theScene = new Scene(root);
-        primaryStage.setScene(theScene);
-        myStage = primaryStage;
-        canvas = new Canvas(500, 500);
-        canvas.getGraphicsContext2D().drawImage(new Image("background.png"), 0, 0);
-        root.getChildren().add(canvas);
+        gameData = new GameDataSource();
+//        primaryStage.setScene(theScene);
+//        canvas = new Canvas(500, 500);
+//        canvas.getGraphicsContext2D().drawImage(new Image("background.png"), 0, 0);
+//        root.getChildren().add(canvas);
         isPlaying = true;
         this.towers = new ArrayList<>();
         this.enemies = new ArrayList<>();
@@ -53,9 +56,9 @@ public class GameView implements IGameView{
         this.terrains = new ArrayList<>();
         this.timer = 0;
         this.paths = new ArrayList<>();
-        root.getScene().setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
-        canvas.setOnMouseClicked(e -> {
-           playerEngineInterface.addTower(e.getSceneX(), e.getSceneY(), 0);
+        this.root.setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
+        this.root.setOnMouseClicked(e -> {
+           playerEngineInterface.addTower(e.getX(), e.getY(), 0);
         });
         
         
@@ -80,7 +83,7 @@ public class GameView implements IGameView{
     }
     
     public void display() {
-        this.myStage.show();
+//        this.myStage.show();
         playGame(0);
     }
     
