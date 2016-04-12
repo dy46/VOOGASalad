@@ -30,7 +30,7 @@ public class SettingsMenu extends Menu {
 	
 	// TODO: only show .mp3 files for selection
 	private void chooseMusic() {
-		File file = myFileChooser.chooseFile();
+		File file = myFileChooser.chooseFile(myNamesBundle.getString("musicItemLabel"));
 		System.out.println(file.getAbsolutePath());
 	}
 

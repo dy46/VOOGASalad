@@ -31,7 +31,14 @@ public class View {
 
     public View (Stage stage) {
         myStage = stage;
-        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
+        
+        Welcome welcome = new Welcome(this);
+        setupWorkspace();
+    }
+
+
+	private void setupWorkspace() {
+		myScene = new Scene(myTabs, Color.web("292929")); 
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
@@ -39,11 +46,7 @@ public class View {
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
-		//myTabs.getTabs().add(mainTab);
-		
-		
-		VAsTesterTab vtest = new VAsTesterTab(myTabs);
-    }
+	}
 
 
     public void display() {

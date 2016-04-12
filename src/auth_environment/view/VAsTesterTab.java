@@ -50,9 +50,6 @@ public class VAsTesterTab {
         myGridPane.add(makeBox(new VBox(), "WERERK", myTView, false), 0, 1);
 		elTabo.setContent(myGridPane);
 		// 99% sure everyone else can ignore those
-		
-		
-		
 	}
 
 	
