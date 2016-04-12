@@ -21,22 +21,9 @@ import javafx.scene.text.Text;
  */
 
 public class DragDelegate {
-	
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
-	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	public DragDelegate() {
 
-	}
-	
-	public void setImageViewAsSource(ImageView source) {
-		
 	}
 	
 	public void setupSource(Text source) {
@@ -118,7 +105,7 @@ public class DragDelegate {
 //					target.setText(db.getString());
 //					target.setFill(Color.BLACK);
 					NodeFactory nf = new NodeFactory();
-//					target.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+//					target.setImage(ngaf.buildImage(myNamesBundle.getString("tower")));
 					target.placeTower();
 					System.out.println("success");
 					success = true;
