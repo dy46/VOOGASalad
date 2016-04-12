@@ -7,8 +7,10 @@ import auth_environment.backend.ISelector;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  * Team member responsible: Xander
@@ -21,14 +23,14 @@ import javafx.scene.shape.Rectangle;
  * If this is a Map tile, this can be clicked on to set Path (or some other feature). 
  */
 
-public class Tile implements IElementHolder {
+public abstract class Tile implements IElementHolder {
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private double x;
 	private double y; 
-	public boolean hasImage;
+	private boolean hasElement; 
 	
 	private GameElement myElement; 
 	
@@ -40,45 +42,42 @@ public class Tile implements IElementHolder {
 		this.y = y; 
 	}
 	
-	private void addListener() {
-		this.setOnMouseClicked(e -> this.recTileAction());
-	}
+	public abstract Shape getShape();
 	
-	private void recTileAction() {
-		this.placeTower();
-		mySelector.choosePosition(this.x, this.y);
-		mySelector.printPosition();
-	}
+	protected abstract void addListener();
 	
 	@Override
 	public void update(GameElement element) {
+		this.hasElement = true;
 		this.myElement = element; 
 		// TODO: eventually call this.setImage(element.getImage()) or something like that
 	}
 
 	@Override
-	public GameElement unload() {
+	public GameElement getElement() {
 		return this.myElement;
 	}
 	
-	public void placeTower() {
+	public void showCurrentElement(){
 		NodeFactory nf = new NodeFactory(); 
 		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
-		this.hasImage = true;
-		System.out.println("Placing tower...");
 	}
 	
-	public void showTower(){
-		NodeFactory nf = new NodeFactory(); 
-		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
-		System.out.println("Placing tower...");
-	}
-	public void setImage(Image image) {
-		this.setFill(new ImagePattern(image));
+	protected abstract void setImage(Image image); 
+	
+	public void clear() {
+		this.getShape().setFill(Color.WHITE);
+		this.myElement = null;
+		this.hasElement = false; 
 	}
 	
-	public ImagePattern getImage(Image image){
-		return new ImagePattern(image);
+	public boolean hasElement() {
+		return this.hasElement; 
+	}
+	
+	protected void chooseAndPrint() {
+		mySelector.choosePosition(this.x, this.y);
+		mySelector.printPosition();
 	}
 	
 }

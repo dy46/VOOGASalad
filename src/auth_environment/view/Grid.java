@@ -42,18 +42,18 @@ public class Grid{
 		myPane.setPrefSize(mapWidth, mapHeight);
 		for(int i=0; i<myModel.getXmax(); i++){
 			for(int j=0; j<myModel.getYmax(); j++){
-				Tile myTile = new Tile(this.mySelector,
+				RecTile myTile = new RecTile(this.mySelector,
 											 i,
 											 j,
 											 i*recWidth, 
 											 j*recHeight, 
 											 recWidth, 
 											 recHeight);
-				myTile.setStroke(Color.BLACK);
-				myTile.setFill(Color.WHITE);
+				myTile.getShape().setStroke(Color.BLACK);
+				myTile.getShape().setFill(Color.WHITE);
 				DragDelegate drag = new DragDelegate(); 
 				drag.setupTarget(myTile);
-				myPane.getChildren().add(myTile);
+				myPane.getChildren().add(myTile.getShape());
 			}
 		}
 	}
