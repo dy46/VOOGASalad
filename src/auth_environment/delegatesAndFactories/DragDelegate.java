@@ -103,7 +103,9 @@ public class DragDelegate {
 				boolean success = false;
 				if (db.hasString()) {
 //					target.setText(db.getString());
-					target.setFill(Color.BLACK);
+//					target.setFill(Color.BLACK);
+					NodeFactory nf = new NodeFactory();
+					target.setImage(nf.build);
 					System.out.println("success");
 					success = true;
 				}
