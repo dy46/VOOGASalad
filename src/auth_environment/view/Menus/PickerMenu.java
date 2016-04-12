@@ -49,10 +49,12 @@ public class PickerMenu extends Accordion {
 		TitledPane myTerrains = new TitledPane();
 		myTerrains.setText("Terrains");
 		
+		RecTile tile = new RecTile(); 
+		
 //		Text hello = new Text("Hello"); 
 //		DragDelegate drag = new DragDelegate();
 //		drag.setupSource(hello);
-//		myTerrains.setContent(hello);
+//		myTerrains.setContent(hello);P
 		
 		List<TitledPane> myPanes = Arrays.asList(myTowers,myEnemies,myTerrains);
 		return myPanes; 

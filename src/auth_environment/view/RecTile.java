@@ -11,6 +11,11 @@ public class RecTile extends Tile {
 	private double y;
 	
 	private Rectangle myRectangle; 
+	
+	public RecTile(double width, double height) {
+		myRectangle = new Rectangle(width, height); 
+	}
+	
 	public RecTile(double scaledX, double scaledY, double width, double height) {
 		myRectangle = new Rectangle(scaledX, scaledY, width, height); 
 	}
