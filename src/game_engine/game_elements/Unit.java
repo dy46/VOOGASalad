@@ -60,7 +60,7 @@ public abstract class Unit extends GameElement {
             elapsedTime++;
             myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
             myAffectors.forEach(a -> a.apply(myProperties));
-            //System.out.println("Enemy health: " + myProperties.getHealth().getValue());
+            System.out.println("Enemy health: " + myProperties.getHealth().getValue());
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();

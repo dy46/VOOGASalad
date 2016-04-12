@@ -18,6 +18,7 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.properties.Bounds;
+import game_engine.properties.Health;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 import game_engine.properties.State;
@@ -141,7 +142,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(0, 200));
 		Position p = new Position(100, 100);
 		Bounds b = new Bounds(pos);
-		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
+		Health health = new Health(20);
+		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
 		return ice;
@@ -156,7 +158,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(170, 75));
 		Position p = new Position(185, 50);
 		Bounds b = new Bounds(pos);
-		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
+		Health health = new Health(20);
+		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
 		poisonSpike.setProperties(properties);
 		poisonSpike.setTTL(Integer.MAX_VALUE);
 		return poisonSpike;
@@ -171,7 +174,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(170, 95));
 		Position p = new Position(185, 70);
 		Bounds b = new Bounds(pos);
-		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
+		Health health = new Health(20);
+		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
 		poisonSpike.setProperties(properties);
 		poisonSpike.setTTL(Integer.MAX_VALUE);
 		return poisonSpike;
