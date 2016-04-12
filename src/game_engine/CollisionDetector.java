@@ -66,7 +66,6 @@ public class CollisionDetector {
 		int counter = 0;
 		double xinters;
 		List<Position> bounds = getUseableBounds(outer);
-
 		Position p1 = bounds.get(0);
 		int numPos = bounds.size();
 		for (int i = 1; i <= numPos; i++) {
@@ -86,10 +85,7 @@ public class CollisionDetector {
 			}
 			p1 = new Position(p2.getX(), p2.getY());
 		}
-		if (counter % 2 == 0)
-			return (false);
-		else
-			return (true);
+		return counter % 2 != 0;
 	}
 
 	private boolean encapsulates (Unit inner, Unit outer) {

@@ -12,6 +12,7 @@ public class RandomPoisonHealthDamageAffector extends ExpIncrHealthDamageAffecto
 		super(functions, engineWorkspace);
 	}
 
+	// poisons with 1/5th chance
 	public void apply(UnitProperties properties) {
 		if((int) (Math.random()*100) < 20)
 			super.apply(properties);

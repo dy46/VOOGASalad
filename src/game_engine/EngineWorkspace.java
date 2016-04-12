@@ -104,9 +104,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		e3.getProperties().setHealth(20);
 		e4.getProperties().setHealth(20);
 		w.addEnemy(e1, 0);
-//		w.addEnemy(e2, 60);
-//		w.addEnemy(e3, 60);
-//		w.addEnemy(e4, 60);
+		w.addEnemy(e2, 60);
+		w.addEnemy(e3, 60);
+		w.addEnemy(e4, 60);
 		Level l = new Level("still not sure", w, 3);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
