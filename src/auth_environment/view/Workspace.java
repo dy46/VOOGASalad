@@ -39,12 +39,13 @@ public class Workspace {
 	}
 	
 	private void setupBorderPane() {
+	    PickerMenu myPicker = new PickerMenu();
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, myPicker));
 //		this.myBorderPane.setLeft(hello);
-		ArrayList<Tower> myTowersList = new ArrayList<Tower>();
-		this.myBorderPane.setRight(new PickerMenu(myTowersList));
+		myPicker.setPrefSize(400,400);
+		this.myBorderPane.setRight(myPicker);
 		this.myBorderPane.setCenter(myDisplay);
 	}
 	

@@ -58,9 +58,11 @@ public class ElementMenu extends Menu {
 	private GridPane myGridPane;
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
+	PickerMenu myPicker;
 	
 	
-	public ElementMenu() {
+	public ElementMenu(PickerMenu myPicker) {
+		this.myPicker = myPicker;
 		this.init();
 	}
 	
@@ -68,16 +70,16 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
-//		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
-//		towerItem.setOnAction(e -> createNewTower());
-//		terrainItem.setOnAction(e -> createNewTerrain());
-//		enemyItem.setOnAction(e -> createNewEnemy());
-//		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
-		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
-		viewTowerItem.setOnAction(e -> viewTowers());
+		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
 		towerItem.setOnAction(e -> createNewTower());
 		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
+		enemyItem.setOnAction(e -> createNewEnemy());
+		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
+//		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
+//		viewTowerItem.setOnAction(e -> viewTowers());
+//		towerItem.setOnAction(e -> createNewTower());
+//		terrainItem.setOnAction(e -> createNewTerrain());
+//		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
 	}
 	
 	private void viewTowers() {
@@ -212,6 +214,7 @@ public class ElementMenu extends Menu {
     	Tower tower = towerFac.defineTowerModel(block);
     	
     	myTowerList.add(tower);
+    	myPicker.updateMenu(myTowerList, tower);
     	//call Cody's method
     	//and add to list
     	//and then update my Picker

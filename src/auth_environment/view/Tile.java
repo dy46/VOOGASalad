@@ -31,6 +31,7 @@ public abstract class Tile implements IElementHolder {
 	private GameElement myElement; 
 
 	public Tile() {
+		hasElement = false;
 	}
 	
 	public abstract Shape getShape();
@@ -41,6 +42,8 @@ public abstract class Tile implements IElementHolder {
 	public void updateElement(GameElement element) {
 		this.hasElement = true;
 		this.myElement = element; 
+		//System.out.println(element.toString());
+		showCurrentElement();
 	}
 
 	@Override
@@ -50,8 +53,8 @@ public abstract class Tile implements IElementHolder {
 	
 	public void showCurrentElement() {
 		NodeFactory nf = new NodeFactory(); 
-//		this.setImage(nf.buildImage(this.myElement.toString()));
-		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+		this.setImage(nf.buildImage(this.myElement.toString()));
+//		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
 	}
 	
 	public void placeCurrentElement() {
