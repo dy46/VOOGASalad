@@ -5,6 +5,7 @@ import java.util.List;
 
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Grid;
+import auth_environment.view.RecTile;
 import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
@@ -49,12 +50,12 @@ public class PickerMenu extends Accordion {
 		TitledPane myTerrains = new TitledPane();
 		myTerrains.setText("Terrains");
 		
-		RecTile tile = new RecTile(); 
+		RecTile tile = new RecTile(20, 20); 
 		
 //		Text hello = new Text("Hello"); 
-//		DragDelegate drag = new DragDelegate();
-//		drag.setupSource(hello);
-//		myTerrains.setContent(hello);P
+		DragDelegate drag = new DragDelegate();
+		drag.setupSource(tile);
+		myTerrains.setContent(tile.getShape());
 		
 		List<TitledPane> myPanes = Arrays.asList(myTowers,myEnemies,myTerrains);
 		return myPanes; 

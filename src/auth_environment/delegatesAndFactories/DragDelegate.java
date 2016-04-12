@@ -28,7 +28,8 @@ public class DragDelegate {
 			public void handle(MouseEvent event) {
 				Dragboard db = source.getShape().startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-				content.put(DragDelegate.gameElementFormat, source.getElement());
+				content.putString("test");
+//				content.put(DragDelegate.gameElementFormat, source.getElement());
 				db.setContent(content);
 				event.consume();
 			}
@@ -48,7 +49,7 @@ public class DragDelegate {
 		target.getShape().setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getGestureSource() != target &&
-						event.getDragboard().hasContent(DragDelegate.gameElementFormat)) {
+						event.getDragboard().hasString()) {
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 				}
 				event.consume();
@@ -58,7 +59,7 @@ public class DragDelegate {
 		target.getShape().setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getGestureSource() != target &&
-						event.getDragboard().hasContent(DragDelegate.gameElementFormat)) {
+						event.getDragboard().hasString()) {
 					target.showCurrentElement();
 				}
 				event.consume();
@@ -79,8 +80,8 @@ public class DragDelegate {
 			public void handle(DragEvent event) {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
-				if (db.hasContent(DragDelegate.gameElementFormat)) {
-					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) ); 
+				if (db.hasString()) {
+//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) ); 
 					target.placeCurrentElement(); 
 					success = true;
 				}
