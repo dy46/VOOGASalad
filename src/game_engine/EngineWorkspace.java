@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -49,6 +51,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
+	private int myLives;
 
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
@@ -59,6 +62,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private TerrainFactory myTerrainFactory;
 
 	public void setUpEngine (List<String> fileNames) {
+		myLives = 3;
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
 		Path p2 = new Path("DirtNew");
@@ -132,7 +136,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		Terrain spike = makeDummySpike();
 		return new ArrayList<>(Arrays.asList(new Terrain[] { ice, poisonSpike, spike }));
 	}
-	
+
 	private Terrain makeDummyIceTerrain(){
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
@@ -148,7 +152,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		ice.setTTL(Integer.MAX_VALUE);
 		return ice;
 	}
-	
+
 	private Terrain makeDummyPoisonSpike(){
 		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
 		List<Position> pos = new ArrayList<>();
@@ -164,7 +168,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		poisonSpike.setTTL(Integer.MAX_VALUE);
 		return poisonSpike;
 	}
-	
+
 	private Terrain makeDummySpike(){
 		Terrain spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
 		List<Position> pos = new ArrayList<>();
@@ -180,13 +184,24 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		spike.setTTL(Integer.MAX_VALUE);
 		return spike;
 	}
+	
+	private List<Unit> aliveUnits(List<Unit> units){
+		return units.stream().
+			filter(unit -> unit.isAlive())
+			.collect(Collectors.toList());
+	}
 
 	public void updateElements() {
 		nextWaveTimer++;
-		if(!pause){
+		boolean gameOver = myLives <= 0;
+		if(!pause && !gameOver){
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
-			myEnemys.forEach(e -> e.update());
+			int numAliveBefore = aliveUnits(myEnemys).size();
+			int numAliveAfter = (int) myEnemys.stream().map(e -> e.isAlive() && e.isAlive() != e.update()).count();
+			updateLives();
+			myLives -= numAliveBefore - numAliveAfter;
+			System.out.println("Lives left: " + myLives);
 			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
 			Enemy newE = myCurrentLevel.update();
 			if(newE != null){

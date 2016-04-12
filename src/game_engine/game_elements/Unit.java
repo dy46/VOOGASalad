@@ -55,22 +55,27 @@ public abstract class Unit extends GameElement {
 		this.setHasCollided(false);
 	}
 
-	public void update () {
+	// returns false if died
+	public boolean update () {
 		if(isVisible()) {
 			elapsedTime++;
 			myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
 			myAffectors.forEach(a -> a.apply(myProperties));
 			if(!(this instanceof Terrain))
-				System.out.println("Enemy health: " + myProperties.getHealth().getValue());
+			System.out.println("Enemy health: " + myProperties.getHealth().getValue());
 		}
 		if (!isAlive()) {
+			System.out.println("Dying");
 			setElapsedTimeToDeath();
+			setToDeath = true;
+			return false;
 		}
+		return true;
 	}
 
 	public boolean isAlive () {
 		if(myProperties.getHealth() == null)
-			return true;
+			return false;
 		return myProperties.getHealth().getValue() > 0;
 	}
 

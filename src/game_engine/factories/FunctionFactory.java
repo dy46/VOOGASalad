@@ -17,7 +17,7 @@ public class FunctionFactory {
 	public FunctionFactory(){
 		myFunctionLibrary = new FunctionLibrary(this);
 		setupSpecialConstants();
-		setupDefaultStrengths(0.0001, 0.00005, 0.000005);
+		setupDefaultStrengths(0.0001, 50, 0.000005);
 		setupDefaultTypes();
 	}
 

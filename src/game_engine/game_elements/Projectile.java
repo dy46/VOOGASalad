@@ -21,8 +21,8 @@ public class Projectile extends Unit {
     /*
      * Updates the position of the projectile
      */
-    public void update () {
-       super.update();
+    public boolean update () {
+       return super.update();
     }
 
     public Projectile copyProjectile () {

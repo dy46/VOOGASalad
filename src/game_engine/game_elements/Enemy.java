@@ -7,7 +7,7 @@ public class Enemy extends Unit {
 
     public Enemy (String name, List<Affector> affectors, int numFrames) {
         super(name, affectors, numFrames);
-//        setID(getWorkspace().getIDFactory().createID(this));
+        //setID(getWorkspace().getIDFactory().createID(this));
     }
 
     /*
