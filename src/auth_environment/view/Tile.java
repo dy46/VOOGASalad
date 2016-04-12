@@ -26,18 +26,14 @@ public abstract class Tile implements IElementHolder {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private double x;
-	private double y; 
 	private boolean hasElement; 
 	
 	private GameElement myElement; 
 	
 	private ISelector mySelector; // Do we still need this? 
 	
-	public Tile(ISelector selector, double x, double y) {
+	public Tile(ISelector selector) {
 		this.mySelector = selector; 
-		this.x = x; 
-		this.y = y; 
 	}
 	
 	public abstract Shape getShape();
@@ -76,10 +72,4 @@ public abstract class Tile implements IElementHolder {
 	public boolean hasElement() {
 		return this.hasElement; 
 	}
-	
-	protected void chooseAndPrint() {
-		mySelector.choosePosition(this.x, this.y);
-		mySelector.printPosition();
-	}
-	
 }

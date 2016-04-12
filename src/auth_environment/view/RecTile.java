@@ -13,22 +13,33 @@ public class RecTile extends Tile {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
+	private double x;
+	private double y;
+	
 	private Rectangle myRectangle; 
 	
+	public RecTile(ISelector selector, double width, double height) {
+		super(selector); 
+		myRectangle = new Rectangle(width, height);
+	}
+	
 	public RecTile(ISelector selector, double x, double y, double scaledX, double scaledY, double width, double height) {
-		super(selector, x, y); 
+		super(selector);
+		this.x = x;
+		this.y = y; 
 		myRectangle = new Rectangle(scaledX, scaledY, width, height); 
 	}
-
+	
 	@Override
 	protected void addListener() {
 		this.myRectangle.setOnMouseClicked(e -> this.recTileAction());
 	}
 	
 	private void recTileAction() {
-		chooseAndPrint();
+		System.out.println("(" + this.x + "," + this.y + ")");
 	}
 	
+	@Override
 	protected void setImage(Image image) {
 		this.myRectangle.setFill(new ImagePattern(image));
 	}
