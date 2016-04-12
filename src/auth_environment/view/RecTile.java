@@ -53,13 +53,13 @@ public class RecTile extends Rectangle implements IElementHolder {
 	}
 	
 	@Override
-	public void update(GameElement element) {
+	public void updateElement(GameElement element) {
 		this.myElement = element; 
 		// TODO: eventually call this.setImage(element.getImage()) or something like that
 	}
 
 	@Override
-	public GameElement unload() {
+	public GameElement getElement() {
 		return this.myElement;
 	}
 	

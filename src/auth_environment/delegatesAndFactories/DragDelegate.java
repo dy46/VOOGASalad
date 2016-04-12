@@ -4,8 +4,8 @@ import java.util.ResourceBundle;
 
 import auth_environment.view.RecTile;
 import javafx.event.EventHandler;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
@@ -21,8 +21,14 @@ import javafx.scene.text.Text;
  */
 
 public class DragDelegate {
-
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private DataFormat gameElementFormat; 
+			
 	public DragDelegate() {
+		this.gameElementFormat = new DataFormat(myNamesBundle.getString("gameElementFormat"));
 
 	}
 	
@@ -76,7 +82,6 @@ public class DragDelegate {
 				/* show to the user that it is an actual gesture target */
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
-//					target.setFill(Color.Green);
 					target.showTower();
 				}
 
@@ -102,8 +107,6 @@ public class DragDelegate {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-//					target.setText(db.getString());
-//					target.setFill(Color.BLACK);
 					NodeFactory nf = new NodeFactory();
 //					target.setImage(ngaf.buildImage(myNamesBundle.getString("tower")));
 					target.placeTower();
