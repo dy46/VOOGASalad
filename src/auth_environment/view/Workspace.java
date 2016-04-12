@@ -4,11 +4,13 @@ import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -37,7 +39,10 @@ public class Workspace {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
-		this.myBorderPane.setLeft(new VBox());
+		Text hello = new Text("Hello"); 
+		DragDelegate drag = new DragDelegate();
+		drag.setupSource(hello);
+		this.myBorderPane.setLeft(hello);
 		this.myBorderPane.setRight(new VBox());
 		this.myBorderPane.setCenter(myDisplay);
 	}

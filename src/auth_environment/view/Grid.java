@@ -2,13 +2,19 @@ package auth_environment.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Grid{
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private ISelector mySelector; 
 	private MapDisplayModel myModel;
@@ -17,7 +23,7 @@ public class Grid{
 	double mapWidth;
 	double mapHeight;
 	private Pane myPane;
-	List<RecTile> myTiles= new ArrayList<RecTile>();
+	List<Tile> myTiles= new ArrayList<Tile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -43,9 +49,11 @@ public class Grid{
 											 j*recHeight, 
 											 recWidth, 
 											 recHeight);
-				myTile.setStroke(Color.BLACK);
-				myTile.setFill(Color.WHITE);
-				myPane.getChildren().add(myTile);
+				myTile.getShape().setStroke(Color.BLACK);
+				myTile.getShape().setFill(Color.WHITE);
+				DragDelegate drag = new DragDelegate(); 
+				drag.setupTarget(myTile);
+				myPane.getChildren().add(myTile.getShape());
 			}
 		}
 	}
