@@ -13,8 +13,7 @@ public class RandomPoisonHealthDamageAffector extends ExpIncrHealthDamageAffecto
 	}
 
 	public void apply(UnitProperties properties) {
-		int random = (int) Math.random()*100;
-		if(random < 20)
+		if((int) (Math.random()*100) < 20)
 			super.apply(properties);
 	}
 

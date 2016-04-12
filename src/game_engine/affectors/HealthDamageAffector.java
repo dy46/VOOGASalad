@@ -14,7 +14,7 @@ public class HealthDamageAffector extends Affector{
 
 	public void apply(UnitProperties properties) {
 		super.apply(properties);
-		double damage = getBaseNumbers().get(0) + getFunctions().get(0).evaluate(getElapsedTime());
+		double damage = getFunctions().get(0).evaluate(getElapsedTime());
 		properties.getHealth().decrementValue(damage);   
 	}
 

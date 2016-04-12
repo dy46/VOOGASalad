@@ -38,10 +38,10 @@ public class TerrainFactory {
 		
 		List<Affector> affectors3 = new ArrayList<>();
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
-		constantDamage.setTTL(Integer.MAX_VALUE);
+		constantDamage.setTTL(3);
 		affectors3.add(constantDamage);
 		Terrain spike = new Terrain("Spikes");
-		spike.setAffectorsToApply(affectors2);
+		spike.setAffectorsToApply(affectors3);
 		myTerrainLibrary.addTerrain(spike);
 	}
 

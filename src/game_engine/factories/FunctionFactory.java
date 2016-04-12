@@ -109,9 +109,9 @@ public class FunctionFactory {
 	}
 
 	public void setupDefaultStrengths(){
-		Constant strong = new Constant(1.2,1);
-		Constant moderate = new Constant(1.1, 1);
-		Constant weak = new Constant(1.05, 1);
+		Constant strong = new Constant(0.0002,1);
+		Constant moderate = new Constant(0.0001, 1);
+		Constant weak = new Constant(0.00005, 1);
 		myFunctionLibrary.addStrength("Strong", strong);
 		myFunctionLibrary.addStrength("Moderate", moderate);
 		myFunctionLibrary.addStrength("Weak", weak);
@@ -123,9 +123,9 @@ public class FunctionFactory {
 		expConsts.add(const_proportionality);
 		List<Variable> expVars = new ArrayList<>();
 		expVars.add(new Variable("t", 1));
-		Term expTerm1 = new Term(expVars, expConsts);
+		Term expTerm = new Term(expVars, expConsts);
 		List<Term> expTerms = new ArrayList<>();
-		expTerms.add(expTerm1);
+		expTerms.add(expTerm);
 		String type = "";
 		if(sign == 1)
 			type = "ExpIncr";
@@ -138,6 +138,7 @@ public class FunctionFactory {
 		if(sign==1){
 			Function expIncr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expIncr);
+			System.out.println(expIncr);
 		}
 		if(sign==-1){
 			Function expDecr = new Function(getName(type, strength), expTerms);

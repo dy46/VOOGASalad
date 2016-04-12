@@ -35,7 +35,7 @@ public class AffectorFactory {
 
 	private void setDefaultAffectors(FunctionFactory myFunctionFactory){
 		String property4 = "Constant";
-		Function healthFunction = myFunctionFactory.createConstantFunction(0);
+		Function healthFunction = myFunctionFactory.createConstantFunction(0.0009);
 		String effect4 ="HealthDamage";
 		constructAffector(property4, effect4, Arrays.asList(healthFunction));
 

@@ -104,9 +104,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		e3.getProperties().setHealth(20);
 		e4.getProperties().setHealth(20);
 		w.addEnemy(e1, 0);
-		w.addEnemy(e2, 60);
-		w.addEnemy(e3, 60);
-		w.addEnemy(e4, 60);
+//		w.addEnemy(e2, 60);
+//		w.addEnemy(e3, 60);
+//		w.addEnemy(e4, 60);
 		Level l = new Level("still not sure", w, 3);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
@@ -152,13 +152,13 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private Terrain makeDummyPoisonSpike(){
 		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
 		List<Position> pos = new ArrayList<>();
-		pos.add(new Position(170, 45));
-		pos.add(new Position(190, 45));
-		pos.add(new Position(190, 75));
-		pos.add(new Position(170, 75));
-		Position p = new Position(185, 50);
+		pos.add(new Position(95, -25));
+		pos.add(new Position(275, -25));
+		pos.add(new Position(275, 150));
+		pos.add(new Position(95, 150));
+		Position p = new Position(185, 62.5);
 		Bounds b = new Bounds(pos);
-		Health health = new Health(20);
+		Health health = new Health(26);
 		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
 		poisonSpike.setProperties(properties);
 		poisonSpike.setTTL(Integer.MAX_VALUE);
@@ -166,19 +166,19 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 	
 	private Terrain makeDummySpike(){
-		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
+		Terrain spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
 		List<Position> pos = new ArrayList<>();
-		pos.add(new Position(170, 65));
-		pos.add(new Position(190, 65));
-		pos.add(new Position(190, 95));
-		pos.add(new Position(170, 95));
-		Position p = new Position(185, 70);
+		pos.add(new Position(95, -25));
+		pos.add(new Position(275, -25));
+		pos.add(new Position(275, 150));
+		pos.add(new Position(95, 150));
+		Position p = new Position(185, 62.5);
 		Bounds b = new Bounds(pos);
-		Health health = new Health(20);
+		Health health = new Health(25);
 		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
-		poisonSpike.setProperties(properties);
-		poisonSpike.setTTL(Integer.MAX_VALUE);
-		return poisonSpike;
+		spike.setProperties(properties);
+		spike.setTTL(Integer.MAX_VALUE);
+		return spike;
 	}
 
 	public void updateElements() {
