@@ -1,10 +1,13 @@
 package auth_environment.view.Menus;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Grid;
+import auth_environment.view.RecTile;
+import game_engine.game_elements.Tower;
 import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
@@ -23,8 +26,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class PickerMenu extends Accordion {
-
-	public PickerMenu() {
+	
+	private List<Tower> myTowerList;
+	
+	public PickerMenu(List<Tower> myTowers) {
+		myTowerList = myTowers;
 		this.getPanes().addAll(defaultPanes());
 		// TODO Auto-generated constructor stub
 	}
@@ -52,7 +58,6 @@ public class PickerMenu extends Accordion {
 	 	   image.setFitHeight(w);
 	 	   image.setFitWidth(h);
 	 	   //image.setOnMouseClicked(e -> mySelector.chooseElement(0));
-	 	   DragDelegate drag = new DragDelegate();
 	 	   
 	 	   
 	 	   ImageView image2 = new ImageView();
@@ -100,13 +105,15 @@ public class PickerMenu extends Accordion {
 		TitledPane myTerrains = new TitledPane();
 		myTerrains.setText("Terrains");
 		
-		Text hello = new Text("Hello"); 
-		drag.setupSource(hello);
-		myTerrains.setContent(hello);
+		RecTile tile = new RecTile(20, 20);
+		
+		
+//		Text hello = new Text("Hello"); 
+		DragDelegate drag = new DragDelegate();
+		drag.setupSource(tile);
+		myTerrains.setContent(tile.getShape());
 		
 		List<TitledPane> myPanes = Arrays.asList(myTowers,myEnemies,myTerrains);
 		return myPanes; 
 	}
-	
-
 }

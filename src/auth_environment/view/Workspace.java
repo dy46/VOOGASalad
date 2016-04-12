@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
@@ -7,6 +8,7 @@ import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import auth_environment.view.Menus.PickerMenu;
+import game_engine.game_elements.Tower;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -40,11 +42,9 @@ public class Workspace {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
-		Text hello = new Text("Hello"); 
-		DragDelegate drag = new DragDelegate();
-		drag.setupSource(hello);
-		this.myBorderPane.setLeft(hello);
-		this.myBorderPane.setRight(new PickerMenu());
+//		this.myBorderPane.setLeft(hello);
+		ArrayList<Tower> myTowersList = new ArrayList<Tower>();
+		this.myBorderPane.setRight(new PickerMenu(myTowersList));
 		this.myBorderPane.setCenter(myDisplay);
 	}
 	
