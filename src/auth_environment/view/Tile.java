@@ -5,7 +5,9 @@ import java.util.ResourceBundle;
 import auth_environment.backend.IElementHolder;
 import auth_environment.backend.ISelector;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import game_engine.factories.TerrainFactory;
 import game_engine.game_elements.GameElement;
+import game_engine.properties.Position;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -22,18 +24,13 @@ import javafx.scene.shape.Shape;
  */
 
 public abstract class Tile implements IElementHolder {
-	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
+
 	private boolean hasElement; 
-	
 	private GameElement myElement; 
-	
-	private ISelector mySelector; // Do we still need this? 
-	
-	public Tile(ISelector selector) {
-		this.mySelector = selector; 
+
+	public Tile() {
 	}
 	
 	public abstract Shape getShape();
@@ -53,6 +50,7 @@ public abstract class Tile implements IElementHolder {
 	
 	public void showCurrentElement() {
 		NodeFactory nf = new NodeFactory(); 
+//		this.setImage(nf.buildImage(this.myElement.toString()));
 		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
 	}
 	
@@ -71,5 +69,9 @@ public abstract class Tile implements IElementHolder {
 	
 	public boolean hasElement() {
 		return this.hasElement; 
+	}
+	
+	public void chooseAndPrint(){
+		this.getShape().setFill(Color.GREEN);
 	}
 }
