@@ -25,19 +25,27 @@ public class TowerFactory {
 
 	private AffectorLibrary myAffectorLibrary;
 	
-	public TowerFactory(){	
-	}
+//	public TowerFactory(){	
+//	}
 	
     public TowerFactory(AffectorLibrary affectorLibrary){
             this.myAffectorLibrary = affectorLibrary;
     }
     
     
-    
     public Tower defineTowerModel(TowerBuildingBlock tBlock){
     	List<Affector> affectors = new ArrayList<>(); 
     	Tower t = new Tower(tBlock.getMyName(), affectors, null, null, 2);
-    	List<Position>
+    	List<Position> l1 = new ArrayList<>();
+    	Health hp = tBlock.getMyHealth();
+    	Velocity velo = tBlock.getMyVelocity();
+    	State towerState = tBlock.getMyState();
+    	Path towerPath = new Path("Something here"); 
+    	UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, towerPath); 
+    	t.setProperties(towerProp);
+    	t.setTTL(1000000);
+    	t.setDeathDelay(100);
+    	return t; 
     }
     
     public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Projectile> myProjectiles) {
