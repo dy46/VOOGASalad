@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import game_engine.IPlayerEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
@@ -34,17 +35,19 @@ public class PlayerMainTab implements IPlayerTab{
 	private List<IGUIObject> gameElements;
 	private GameView gameView;
 	private GameCanvas myCanvas;
+	private Scene myScene;
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private HBox gamePanel;
 	
-	public PlayerMainTab(ResourceBundle r) {
+	public PlayerMainTab(ResourceBundle r, Scene scene) {
 		this.myResources = r;
 		this.gameElements = new ArrayList<>();
 		this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
 		this.gameData = new GameDataSource();
+		this.myScene = scene;
 		gameData.setDoubleValue("High Score", 0);
 	}
 	
@@ -65,7 +68,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private void initializeCanvas() {
 		myCanvas = new GameCanvas(myResources);
 		gameSection.getChildren().add(myCanvas.createCanvas());
-		gameView = new GameView(myCanvas);
+		gameView = new GameView(myCanvas, myScene);
 		gameView.display();
 	}
 	

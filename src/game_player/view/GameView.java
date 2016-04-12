@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -30,7 +31,7 @@ public class GameView implements IGameView{
     private boolean isPlaying;
     private GameCanvas canvas;
     private Pane root;
-    private Stage myStage;
+    private Scene myScene;
     private PlayerGUI myGUI;
     private IPlayerEngineInterface playerEngineInterface;
 	private GameDataSource gameData;
@@ -40,8 +41,9 @@ public class GameView implements IGameView{
     private List<ImageView> paths;
     private List<ImageView> terrains;
     
-    public GameView(GameCanvas canvas) {
+    public GameView(GameCanvas canvas, Scene scene) {
     	this.root = canvas.getRoot();
+    	this.myScene = scene;
         playerEngineInterface = new EngineWorkspace();
         playerEngineInterface.setUpEngine(null);
         gameData = new GameDataSource();
@@ -56,7 +58,7 @@ public class GameView implements IGameView{
         this.terrains = new ArrayList<>();
         this.timer = 0;
         this.paths = new ArrayList<>();
-        this.root.setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
+        this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
         this.root.setOnMouseClicked(e -> {
            playerEngineInterface.addTower(e.getX(), e.getY(), 0);
         });
@@ -64,9 +66,12 @@ public class GameView implements IGameView{
         
     }
     
-    public void setUpKeyPressed(String code) {
-        if(code.equals("SPACE")) {
-            toggleGame();
+    public void setUpKeyPressed(KeyCode code) {
+        switch (code) {
+        case SPACE:
+        	toggleGame();
+        default:
+        	//do nothing
         }
     }
     

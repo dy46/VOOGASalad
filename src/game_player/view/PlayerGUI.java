@@ -17,6 +17,7 @@ public class PlayerGUI{
 	private static final String GUI_RESOURCE = "GUI";
 	private int windowWidth;
 	private int windowHeight;
+	private Scene myScene;
 	private AnchorPane myRoot;
 	private TabPane myTabs;
 	private ResourceBundle myResources;
@@ -32,6 +33,8 @@ public class PlayerGUI{
 		myRoot = new AnchorPane();
 		myTabs = new TabPane();
 		
+		myScene = new Scene(myRoot, windowWidth, windowHeight);
+		
 		//TODO: Create resource file for UI text.
 		Button newTabButton = new Button(myResources.getString("NewTabText"));
 		newTabButton.setOnAction(event -> createNewTab());
@@ -43,14 +46,12 @@ public class PlayerGUI{
 		
 		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
-		Scene myScene = new Scene(myRoot, windowWidth, windowHeight);
-		
 		return myScene;
 	}
 	
 	private void createNewTab() {
 		gameEngine = new EngineWorkspace();
-		Tab tab = new PlayerMainTab(myResources).getTab();
+		Tab tab = new PlayerMainTab(myResources, myScene).getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
 	}
