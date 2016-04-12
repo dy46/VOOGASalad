@@ -1,0 +1,85 @@
+package auth_environment.view;
+
+import java.util.ResourceBundle;
+
+import auth_environment.backend.IElementHolder;
+import auth_environment.backend.ISelector;
+import auth_environment.delegatesAndFactories.NodeFactory;
+import game_engine.game_elements.GameElement;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
+
+/**
+ * Team member responsible: Xander
+ * Modifications from: Brian
+ *
+ * This represents the smallest unit of the GUI. Each Tile holds a single Game Element (or none at all).
+ * 
+ * Dragging a Game Element onto this Tile will update the Game Element of this tile.
+ * 
+ * If this is a Map tile, this can be clicked on to set Path (or some other feature). 
+ */
+
+public abstract class Tile implements IElementHolder {
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private double x;
+	private double y; 
+	private boolean hasElement; 
+	
+	private GameElement myElement; 
+	
+	private ISelector mySelector; // Do we still need this? 
+	
+	public Tile(ISelector selector, double x, double y) {
+		this.mySelector = selector; 
+		this.x = x; 
+		this.y = y; 
+	}
+	
+	public abstract Shape getShape();
+	
+	protected abstract void addListener();
+	
+	@Override
+	public void updateElement(GameElement element) {
+		this.hasElement = true;
+		this.myElement = element; 
+	}
+
+	@Override
+	public GameElement getElement() {
+		return this.myElement;
+	}
+	
+	public void showCurrentElement() {
+		NodeFactory nf = new NodeFactory(); 
+		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+	}
+	
+	public void placeCurrentElement() {
+		this.hasElement = true;
+		this.showCurrentElement();
+	}
+	
+	protected abstract void setImage(Image image); 
+	
+	public void clear() {
+		this.getShape().setFill(Color.WHITE);
+		this.myElement = null;
+		this.hasElement = false; 
+	}
+	
+	public boolean hasElement() {
+		return this.hasElement; 
+	}
+	
+	protected void chooseAndPrint() {
+		mySelector.choosePosition(this.x, this.y);
+		mySelector.printPosition();
+	}
+	
+}

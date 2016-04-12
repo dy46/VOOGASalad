@@ -4,7 +4,7 @@ import game_engine.game_elements.GameElement;
 
 public interface IElementHolder {
 	
-	public void update(GameElement element);
+	public void updateElement(GameElement element);
 	
-	public GameElement unload(); 
+	public GameElement getElement(); 
 }

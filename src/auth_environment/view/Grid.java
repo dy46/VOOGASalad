@@ -23,7 +23,7 @@ public class Grid{
 	double mapWidth;
 	double mapHeight;
 	private Pane myPane;
-	List<RecTile> myTiles= new ArrayList<RecTile>();
+	List<Tile> myTiles= new ArrayList<Tile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -49,11 +49,11 @@ public class Grid{
 											 j*recHeight, 
 											 recWidth, 
 											 recHeight);
-				myTile.setStroke(Color.BLACK);
-				myTile.setFill(Color.WHITE);
+				myTile.getShape().setStroke(Color.BLACK);
+				myTile.getShape().setFill(Color.WHITE);
 				DragDelegate drag = new DragDelegate(); 
 				drag.setupTarget(myTile);
-				myPane.getChildren().add(myTile);
+				myPane.getChildren().add(myTile.getShape());
 			}
 		}
 	}
