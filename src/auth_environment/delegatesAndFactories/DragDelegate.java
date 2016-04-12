@@ -1,7 +1,5 @@
 package auth_environment.delegatesAndFactories;
 
-import java.util.ResourceBundle;
-
 import auth_environment.view.Tile;
 import game_engine.game_elements.GameElement;
 import javafx.event.EventHandler;
