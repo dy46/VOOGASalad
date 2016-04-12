@@ -1,39 +1,82 @@
 package game_player;
 
+import java.util.ArrayList;
 import java.util.List;
+import auth_environment.backend.ISelector;
+import auth_environment.backend.SelectorModel;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Projectile;
-import game_engine.game_elements.Tower;
+import game_engine.game_elements.Terrain;
+import game_engine.game_elements.Unit;
+import game_engine.properties.Position;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class GameView implements IGameView{
     
+    private int timer;
     private AnimationTimer AT;
+    private boolean timerStatus;
     private boolean isPlaying;
     private Canvas canvas;
-    private GraphicsContext GC;
+    private Group root;
     private Stage myStage;
     private IPlayerEngineInterface playerEngineInterface;
+    private List<ImageViewPicker> towers;
+    private List<ImageViewPicker> enemies;
+    private List<ImageViewPicker> projectiles;
+    private List<ImageView> paths;
+    private List<ImageView> terrains;
     
     public GameView(Stage primaryStage) {
         playerEngineInterface = new EngineWorkspace();
         playerEngineInterface.setUpEngine(null);
-        Group root = new Group();
+        root = new Group();
         Scene theScene = new Scene(root);
         primaryStage.setScene(theScene);
         myStage = primaryStage;
         canvas = new Canvas(500, 500);
-        GC = canvas.getGraphicsContext2D();
+        canvas.getGraphicsContext2D().drawImage(new Image("background.png"), 0, 0);
         root.getChildren().add(canvas);
         isPlaying = true;
+        this.towers = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+        this.projectiles = new ArrayList<>();
+        this.terrains = new ArrayList<>();
+        this.timer = 0;
+        this.paths = new ArrayList<>();
+        root.getScene().setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
+        canvas.setOnMouseClicked(e -> {
+           playerEngineInterface.addTower(e.getSceneX(), e.getSceneY(), 0);
+        });
+        
+        
+    }
+    
+    public void setUpKeyPressed(String code) {
+        if(code.equals("SPACE")) {
+            toggleGame();
+        }
+    }
+    
+    @Override
+    public void toggleGame () {
+        if(timerStatus) {
+            AT.stop();
+            timerStatus = false;
+        }
+        else {
+            AT.start();
+            timerStatus = true;
+        }
     }
     
     public void display() {
@@ -46,19 +89,20 @@ public class GameView implements IGameView{
         AT = new AnimationTimer() {            
             public void handle(long currentNanoTime) {
                if(isPlaying) {
+                   timer++;
                    playerEngineInterface.updateElements();
-                   placeTerrain();
-                   placePath();
                    placeUnit();
+                   placePath();
+                   placeTerrain();
+                   if(playerEngineInterface.getLives() < 0) {
+                       timerStatus = false;
+                       playerEngineInterface.clearProjectiles();
+                   }
                }
             }
         };
         AT.start();
-    }
-
-    @Override
-    public void toggleGame () {
-        // TODO Auto-generated method stub
+        timerStatus = true;
     }
 
     @Override
@@ -73,40 +117,52 @@ public class GameView implements IGameView{
 
     @Override
     public void placeTerrain () {
-        // TODO Auto-generated method stub
+        List<Unit> currTerrain = playerEngineInterface.getTerrains();
+        for(int i = terrains.size(); i < currTerrain.size(); i++) {
+            Image img = new Image(currTerrain.get(i).toString() + ".png");
+            ImageView imgView = new ImageView(img);
+            imgView.setX(currTerrain.get(i).getProperties().getPosition().getX());
+            imgView.setY(currTerrain.get(i).getProperties().getPosition().getY());
+            root.getChildren().add(imgView);
+            imgView.toFront();
+            terrains.add(imgView);
+        }
     }
 
     @Override
     public void placePath () {
-        // TODO Auto-generated method stub
+        List<Path> currPaths = playerEngineInterface.getPaths();
+        List<Position> allPositions = new ArrayList<>();
+        currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
+        for(int i = paths.size(); i < allPositions.size(); i++) {
+            Image img = new Image(currPaths.get(0).toString() + ".png");
+            ImageView imgView = new ImageView(img);
+            imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
+            imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
+            root.getChildren().add(imgView);
+            imgView.toFront();
+            paths.add(imgView);
+        }
     }
-
+    
     @Override
     public void placeUnit () {
-        GC.clearRect(0, 0, 500, 500);
-        List<Enemy> currEnemies = playerEngineInterface.getEnemies();
-        for(int i = 0; i < currEnemies.size(); i++) {
-            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
-                         currEnemies.get(i).getProperties().getPosition().getX(),
-                         currEnemies.get(i).getProperties().getPosition().getY());
-        }
-        List<Tower> currTowers = playerEngineInterface.getTowers();
-        for(int i = 0; i < currTowers.size(); i++) {
-            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
-                         currTowers.get(i).getProperties().getPosition().getX(),
-                         currTowers.get(i).getProperties().getPosition().getY());
-        }
-        List<Projectile> currProjectiles = playerEngineInterface.getProjectiles();
-        for(int i = 0; i < currProjectiles.size(); i++) {
-            GC.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("enemy.png")), 
-                         currProjectiles.get(i).getProperties().getPosition().getX(),
-                         currProjectiles.get(i).getProperties().getPosition().getY());
-        }
+        List<Unit> currEnemies = playerEngineInterface.getEnemies();
+        placeUnits(currEnemies, enemies);
+        placeUnits(playerEngineInterface.getProjectiles(), projectiles);
+        placeUnits(playerEngineInterface.getTowers(), towers);
     }
 
-    @Override
-    public void pauseGame () {
-        // TODO Auto-generated method stub
+    
+    public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
+        for(int i = imageViews.size(); i < list.size(); i++) {
+            Unit u = list.get(i);
+            imageViews.add(new ImageViewPicker(u.toString(), u.getNumFrames(), 
+                                          u.getProperties().getState().getValue(), root));
+        }
+        for(int i = 0; i < list.size(); i++) {
+            imageViews.get(i).selectNextImageView(list.get(i), timer);
+        }   
     }
 
 }

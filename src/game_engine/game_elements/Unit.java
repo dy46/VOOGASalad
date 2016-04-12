@@ -20,13 +20,18 @@ public abstract class Unit extends GameElement {
     private UnitProperties myProperties;
     private List<Affector> myAffectors;
     private int TTL;
+    private boolean setToDeath;
+    private boolean hasCollided;
+    private int deathDelay;
     private int elapsedTime;
+    private int numFrames;
 
-    public Unit (String name, List<Affector> affectors) {
+    public Unit (String name, List<Affector> affectors, int numFrames) {
         super(name);
         initialize();
         myProperties = new UnitProperties();
         elapsedTime = 0;
+        this.numFrames = numFrames;
         addAffectors(affectors);
     }
 
@@ -34,21 +39,38 @@ public abstract class Unit extends GameElement {
         super(ID);
         initialize();
         this.myProperties = properties;
-        initialize();
+        this.setToDeath = false;
+    }
+    
+    public Unit(String name){
+    	super(name);
+    	initialize();
+    	this.myProperties = new UnitProperties();
+    	elapsedTime = 0;
     }
 
     private void initialize () {
         myAffectors = new ArrayList<>();
+        this.setHasCollided(false);
     }
 
     public void update () {
-        elapsedTime++;
-        myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
-        myAffectors.forEach(a -> a.apply(myProperties));
+        if(isVisible()) {
+            elapsedTime++;
+            myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
+            myAffectors.forEach(a -> a.apply(myProperties));
+        }
+    }
+    public void setInvisible(){
+    	this.setElapsedTime(this.getTTL());
     }
 
     public void addAffectors (List<Affector> affectors) {
         myAffectors.addAll(affectors);
+    }
+    
+    public void addAffector(Affector affector){
+    	myAffectors.add(affector);
     }
 
     public UnitProperties getProperties () {
@@ -79,11 +101,47 @@ public abstract class Unit extends GameElement {
         this.TTL = TTL;
     }
     
+    public void setDeathDelay(int deathDelay) {
+        this.deathDelay = deathDelay;
+    }
+    
+    public int getDeathDelay() {
+        return deathDelay;
+    }
+    
+    public void incrementTTL(int increment) {
+        this.TTL += increment;
+    }
+    
+    public void setElapsedTimeToDeath() {
+        if(!setToDeath) {
+            this.setElapsedTime(this.getTTL() - deathDelay);
+            this.getProperties().getState().changeState(5);
+            setToDeath = true;
+        }
+    }
+    
+    public boolean isVisible() {
+        return this.getTTL() >= this.getElapsedTime();
+    }
+    
     public void incrementElapsedTime(int i) {
         this.elapsedTime += 1;
     }
+    
     public void setElapsedTime(int newTime){
     	elapsedTime = newTime;
     }
 
+    public boolean hasCollided () {
+        return hasCollided;
+    }
+
+    public void setHasCollided (boolean hasCollided) {
+        this.hasCollided = hasCollided;
+    }
+    
+    public int getNumFrames() {
+        return numFrames;
+    }
 }

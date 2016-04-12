@@ -1,8 +1,10 @@
-package game_engine.affectors;
+package game_engine.libraries;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import game_engine.affectors.Affector;
 
 public class AffectorLibrary {
 
@@ -13,7 +15,7 @@ public class AffectorLibrary {
 	}
 	
 	public Affector getAffector(String property, String effect){
-		return myAffectors.get(getIdentifier(property, effect));
+		return myAffectors.get(getIdentifier(property, effect)).copyAffector();
 	}
 	
 	public void addAffector(String property, String effect, Affector affector){

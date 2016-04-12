@@ -5,8 +5,8 @@ import game_engine.affectors.Affector;
 
 public abstract class LiveableUnit extends Unit {
 
-    public LiveableUnit (String name, List<Affector> affectors) {
-        super(name, affectors);
+    public LiveableUnit (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
     }
 
     public boolean isAlive () {
@@ -16,7 +16,7 @@ public abstract class LiveableUnit extends Unit {
     public void update (Unit unit) {
         super.update();
         if (!isAlive()) {
-            getWorkspace().remove(unit);
+            unit.setElapsedTimeToDeath();
         }
     }
 

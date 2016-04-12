@@ -12,8 +12,8 @@ public class Timer extends Unit{
 	
 	private int elapsedTicks;
 	
-	public Timer(String name, List<Affector> affectors){
-		super(name, affectors);
+	public Timer(String name, List<Affector> affectors, int numFrames){
+		super(name, affectors, numFrames);
 		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}

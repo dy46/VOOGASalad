@@ -23,9 +23,7 @@ public class View {
 	
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-	
-	
-	
+
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
@@ -33,18 +31,22 @@ public class View {
 
     public View (Stage stage) {
         myStage = stage;
-        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
+        
+        Welcome welcome = new Welcome(this);
+        setupWorkspace();
+    }
+
+
+	private void setupWorkspace() {
+		myScene = new Scene(myTabs, Color.web("292929")); 
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
 		mainWorkspace = new Workspace(myTabs);
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
-		//myTabs.getTabs().add(mainTab);
-		
-		
-		VAsTesterTab vtest = new VAsTesterTab(myTabs);
-    }
+		myTabs.getTabs().add(mainTab);
+	}
 
 
     public void display() {

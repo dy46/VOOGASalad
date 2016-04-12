@@ -10,8 +10,8 @@ import game_engine.properties.UnitProperties;
 * Most implementations of the Terrain API will apply some sort of affector to game elements within
 * a certain area on the map.
 */
-public class Terrain extends MapPiece{
-	
+public class Terrain extends CollidableUnit{
+    
 	public Terrain(String name) {
 		super(name);
 		setID(getWorkspace().getIDFactory().createID(this));
