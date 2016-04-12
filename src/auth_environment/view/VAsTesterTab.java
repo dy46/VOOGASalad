@@ -114,9 +114,6 @@ public class VAsTesterTab {
         myGridPane.add(new Button("ack"), 1, 2);
 		elTabo.setContent(myGridPane);
 		// 99% sure everyone else can ignore those
-		
-		
-		
 	}
 
 	

@@ -1,9 +1,14 @@
 package auth_environment.delegatesAndFactories;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -29,29 +34,70 @@ public class NodeFactory {
 	}
 	
 	public void setupVBox(VBox vbox, String titleText, Font font, double spacing, double padding) {
+		vbox = this.buildVBox(titleText, font, spacing, padding);
+	}
+	
+	public VBox buildVBox(double spacing, double padding) {
+		VBox vbox = new VBox(); 
 		vbox.setSpacing(spacing);
 		vbox.setPadding(new Insets(padding));
+		return vbox; 
+	}
+	
+	public VBox buildVBox(String titleText, Font font, double spacing, double padding) {
+		VBox vbox = this.buildVBox(spacing, padding);
 		Text title = new Text(titleText);
 		title.setFont(font);
 		vbox.getChildren().add(title);
+		return vbox; 
+	}
+	
+	public Button buildButton(String text) {
+		return new Button(text); 
+	}
+	
+	public HBox centerNode(Node node) {
+		HBox hb = new HBox();
+		hb.getChildren().add(node);
+		hb.setAlignment(Pos.CENTER);
+		return hb; 
+	}
+	
+	public HBox buildTextFieldWithLabel(String text, double spacing) {
+		Label label = this.buildLabel(text); 
+		TextField textField = new TextField(); 
+		HBox hBox = new HBox(); 
+		hBox.getChildren().addAll(label, textField);
+		hBox.setSpacing(spacing);
+		return hBox; 
+	}
+	
+	public TextField buildTextFieldWithPrompt(String text) {
+		TextField textField = new TextField();
+		textField.setPromptText(text);
+		return textField;
 	}
 	
 	public void addImageView(Pane pane, String imageName) {
-		pane.getChildren().add(makeImageView(imageName));
+		pane.getChildren().add(buildImageView(imageName));
 	}
 	
-	public ImageView makeImageView(String imageName) {
+	public ImageView buildImageView(String imageName) {
 		return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imageName)));
 	}
 	
 	public void addLabelToPane(Pane pane, String label, Font font) {
-		pane.getChildren().add(this.makeLabel(label, font));
+		pane.getChildren().add(this.buildLabel(label, font));
 	}
 	
-	public Text makeLabel(String label, Font font) {
-		Text myLabel = new Text(label);
-		myLabel.setFont(font);
-		return myLabel;
+	public Label buildLabel(String text) {
+		return new Label(text);
+	}
+	
+	public Label buildLabel(String text, Font font) {
+		Label label = this.buildLabel(text);
+		label.setFont(font);
+		return label; 
 	}
 	
 	public Font defaultFont() {

@@ -4,6 +4,16 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.ResourceBundle;
+
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import game_engine.properties.Bounds;
+import game_engine.properties.Damage;
+import game_engine.properties.Health;
+import game_engine.properties.Position;
+import game_engine.properties.Price;
+import game_engine.properties.Team;
+import game_engine.properties.Velocity;
 import java.util.*;
 
 import auth_environment.buildingBlocks.BuildingBlock;
@@ -26,10 +36,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
  * Created by BrianLin on 4/1/16.
  */
 public class ElementMenu extends Menu {
-	
+
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
+
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
@@ -190,6 +200,4 @@ public class ElementMenu extends Menu {
     	//and then update my Picker
     	
     }
-    
-	
 }

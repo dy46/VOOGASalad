@@ -1,7 +1,5 @@
 package auth_environment.backend;
 
-import java.util.Collection;
-
 import game_engine.properties.Position;
 
 public interface ISelector {

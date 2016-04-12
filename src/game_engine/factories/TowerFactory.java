@@ -29,13 +29,13 @@ public class TowerFactory {
     
     public Tower createFourWayTower(String name, List<Unit> myProjectiles2, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
-        Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
+        Affector move = myAffectorLibrary.getAffector("Homing", "Move");
         move.setTTL(Integer.MAX_VALUE);
         Projectile p = new Projectile("Projectile", Arrays.asList(move), 3);
         p.setDeathDelay(15);
         p.setTTL(1000000);
         p.setFireRate(90);
-        Velocity velocity = new Velocity(0.5, 180);        
+        Velocity velocity = new Velocity(2, 180);        
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0,0));
         l1.add(new Position(30,0));

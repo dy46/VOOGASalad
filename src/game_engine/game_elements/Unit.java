@@ -144,5 +144,4 @@ public abstract class Unit extends GameElement {
     public int getNumFrames() {
         return numFrames;
     }
-
 }
