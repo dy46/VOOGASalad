@@ -52,7 +52,7 @@ public class PickerMenu extends Accordion {
 //		Text hello = new Text("Hello"); 
 //		DragDelegate drag = new DragDelegate();
 //		drag.setupSource(hello);
-		myTerrains.setContent(hello);
+//		myTerrains.setContent(hello);
 		
 		List<TitledPane> myPanes = Arrays.asList(myTowers,myEnemies,myTerrains);
 		return myPanes; 
