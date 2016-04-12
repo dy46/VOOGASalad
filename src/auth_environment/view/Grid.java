@@ -5,6 +5,7 @@ import java.util.List;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -45,6 +46,8 @@ public class Grid{
 											 recHeight);
 				myTile.setStroke(Color.BLACK);
 				myTile.setFill(Color.WHITE);
+				DragDelegate drag = new DragDelegate(); 
+				drag.setupTarget(myTile);
 				myPane.getChildren().add(myTile);
 			}
 		}

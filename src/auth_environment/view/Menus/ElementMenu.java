@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import auth_environment.view.TowerView;
 import game_engine.properties.Bounds;
 import game_engine.properties.Damage;
 import game_engine.properties.Health;
@@ -50,9 +51,16 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
+		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
+		viewTowerItem.setOnAction(e -> viewTowers());
 		towerItem.setOnAction(e -> createNewTower());
 		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem); 
+		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
+	}
+	
+	private void viewTowers() {
+		TowerView t = new TowerView(); 
+		t.show();
 	}
 	
 	public void createNewTower(){

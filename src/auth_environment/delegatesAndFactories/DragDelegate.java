@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import auth_environment.view.RecTile;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
@@ -27,7 +28,7 @@ public class DragDelegate {
 
 	}
 	
-	private void setupSource(Node source) {
+	public void setupSource(Text source) {
 		source.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				/* drag was detected, start a drag-and-drop gesture*/
@@ -37,38 +38,26 @@ public class DragDelegate {
 				/* Put a string on a dragboard */
 				ClipboardContent content = new ClipboardContent();
 				
-//				content.putString(source.getText());
-				db.setContent(content);
-
-				event.consume();
-			}
-		});
-	}
-
-	private Collection<Node> testDraggable() {
-
-		Text source = new Text(50, 100, "DRAG ME");
-		Text target = new Text(300, 100, "DROP HERE");
-
-		List<Node> out = new ArrayList<Node>();
-		out.add(source);
-		out.add(target);
-
-		source.setOnDragDetected(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent event) {
-				/* drag was detected, start a drag-and-drop gesture*/
-				/* allow any transfer mode */
-				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-
-				/* Put a string on a dragboard */
-				ClipboardContent content = new ClipboardContent();
 				content.putString(source.getText());
 				db.setContent(content);
 
 				event.consume();
 			}
 		});
-
+		
+		source.setOnDragDone(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				/* the drag and drop gesture ended */
+				/* if the data was successfully moved, clear it */
+				if (event.getTransferMode() == TransferMode.MOVE) {
+//					source.setText("");
+				}
+				event.consume();
+			}
+		});
+	}
+	
+	public void setupTarget(RecTile target) {
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* data is dragged over the target */
@@ -100,7 +89,7 @@ public class DragDelegate {
 		target.setOnDragExited(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* mouse moved away, remove the graphical cues */
-				target.setFill(Color.BLACK);
+				target.setFill(Color.WHITE);
 
 				event.consume();
 			}
@@ -113,7 +102,8 @@ public class DragDelegate {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-					target.setText(db.getString());
+//					target.setText(db.getString());
+					System.out.println("success");
 					success = true;
 				}
 				/* let the source know whether the string was successfully 
@@ -123,14 +113,28 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
+	}
 
-		source.setOnDragDone(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				/* the drag and drop gesture ended */
-				/* if the data was successfully moved, clear it */
-				if (event.getTransferMode() == TransferMode.MOVE) {
-					source.setText("");
-				}
+	private Collection<Node> testDraggable() {
+
+		Text source = new Text(50, 100, "DRAG ME");
+		Text target = new Text(300, 100, "DROP HERE");
+
+		List<Node> out = new ArrayList<Node>();
+		out.add(source);
+		out.add(target);
+
+		source.setOnDragDetected(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent event) {
+				/* drag was detected, start a drag-and-drop gesture*/
+				/* allow any transfer mode */
+				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+
+				/* Put a string on a dragboard */
+				ClipboardContent content = new ClipboardContent();
+				content.putString(source.getText());
+				db.setContent(content);
+
 				event.consume();
 			}
 		});
