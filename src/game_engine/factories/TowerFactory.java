@@ -27,7 +27,7 @@ public class TowerFactory {
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, Position startingPosition){
+    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
         Affector move = myAffectorLibrary.getAffector("Homing", "Move");
         move.setTTL(Integer.MAX_VALUE);
@@ -35,7 +35,7 @@ public class TowerFactory {
         p.setDeathDelay(15);
         p.setTTL(1000000);
         p.setFireRate(90);
-        Velocity velocity = new Velocity(2, 180);        
+        Velocity velocity = new Velocity(2, 90);        
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0,0));
         l1.add(new Position(30,0));
@@ -56,12 +56,12 @@ public class TowerFactory {
         p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
         p.setProperties(properties);
         myProjectiles.add(p);
-        return createSpecifiedTower(name, myProjectiles2, myProjectiles);
+        return createSpecifiedTower(name, myProjectiles2, myTowers, myProjectiles);
     }
     
-    public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Projectile> myProjectiles) {
+    public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, List<Projectile> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
-        Tower t = new Tower(name, affectors, myProjectiles2, myProjectiles, 2);
+        Tower t = new Tower(name, affectors, myProjectiles2, myProjectiles, myTowers, 2);
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0,0));
         l1.add(new Position(70,0));
@@ -70,7 +70,7 @@ public class TowerFactory {
         Bounds b = new Bounds(l1);
         Health health2 = new Health(50);
         Position position2 = new Position(200, 300);
-        Velocity velocity2 = new Velocity(0, 90);
+        Velocity velocity2 = new Velocity(0, 180);
         State st = new State ("Stationary");
         Path p2 = new Path("Something here");
         UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st, p2);

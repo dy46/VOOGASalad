@@ -1,6 +1,7 @@
 package game_engine.game_elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
@@ -19,6 +20,7 @@ public class Tower extends SellableUnit {
 
     private List<Unit> allProjectiles;
     private List<Projectile> myProjectiles;
+    private List<Unit> allTowers;
     
     public Tower (String name, List<Affector> affectors, int numFrames) {
         super(name, affectors, numFrames);
@@ -27,10 +29,11 @@ public class Tower extends SellableUnit {
     
 
     public Tower (String name, List<Affector> affectors, List<Unit> allProjectiles, 
-                  List<Projectile> myProjectiles, int numFrames) {
+                  List<Projectile> myProjectiles, List<Unit> allTowers, int numFrames) {
         super(name, affectors, numFrames);
         this.allProjectiles = allProjectiles;
         this.myProjectiles = myProjectiles;
+        this.allTowers = allTowers;
         // setID(getWorkspace().getIDFactory().createID(this));
     }
     
@@ -49,11 +52,12 @@ public class Tower extends SellableUnit {
             newMyProjectiles.get(i).getProperties().setPath(newPath);
         }
         
-        Tower copy = new Tower(this.toString(), copyAffectors, allProjectiles, newMyProjectiles, this.getNumFrames());
+        Tower copy = new Tower(this.toString(), copyAffectors, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());
         copy.setTTL(this.getTTL());
         copy.setProperties(this.getProperties().copyUnitProperties());
         copy.getProperties().setPosition(x, y);
         copy.setDeathDelay(this.getDeathDelay());
+        copy.setNumberList(this.getNumberList());
         return copy;
     }
 
@@ -68,6 +72,7 @@ public class Tower extends SellableUnit {
         newProjectiles.forEach(p -> {
                                   p.getProperties().setPosition(getProperties().getPosition().getX(), 
                                                                 getProperties().getPosition().getY());
+                                  p.setNumberList(Arrays.asList(new Double[]{findMyIndex()}));
                                   allProjectiles.add(p);
                                });      
     }
@@ -83,6 +88,10 @@ public class Tower extends SellableUnit {
     public void sell () {
         super.sell(this);
     }
+    
+    public double findMyIndex() {
+        return new Double(allTowers.indexOf(this));
+    }
 
     /*
      * changes the UnitProperties of the tower to reflect an upgrade (higher damage, better armor,
@@ -90,6 +99,10 @@ public class Tower extends SellableUnit {
      */
     public void upgrade (UnitProperties newProperties) {
         setProperties(newProperties);
+    }
+    
+    public List<Unit> getAllTowers() {
+        return allTowers;
     }
 
 }

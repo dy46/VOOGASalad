@@ -4,6 +4,7 @@ package game_engine.affectors;
 import java.util.List;
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
+import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
 public class ConstantHealthDamageAffector extends Affector{
@@ -12,10 +13,11 @@ public class ConstantHealthDamageAffector extends Affector{
         super(functions, engineWorkspace);
     }
 
-    public void apply(UnitProperties properties) {
-        super.apply(properties);
+    @Override
+    public void apply(Unit u) {
+        super.apply(u);
         double damage = getBaseNumbers().get(0) + getFunctions().get(0).evaluate(getElapsedTime());
-        properties.getHealth().decrementValue(damage);   
+        u.getProperties().getHealth().decrementValue(damage);   
     }
 
 }

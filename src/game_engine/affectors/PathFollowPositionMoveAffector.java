@@ -4,6 +4,7 @@ import java.util.List;
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
@@ -23,15 +24,16 @@ public class PathFollowPositionMoveAffector extends Affector {
     }
 
     @Override
-    public void apply (UnitProperties properties) {
+    public void apply (Unit u) {
+        super.apply(u);
         if (this.getElapsedTime() <= this.getTTL()) {
-            double speed = properties.getVelocity().getSpeed();
-            Path myPath = properties.getPath();
+            double speed = u.getProperties().getVelocity().getSpeed();
+            Path myPath = u.getProperties().getPath();
             for (int i = 0; i < speed; i++) {
-                Position curr = properties.getPosition();
+                Position curr = u.getProperties().getPosition();
                 Position next = myPath.getNextPosition(curr);
-                properties.getPosition().setX(next.getX());
-                properties.getPosition().setY(next.getY());
+                u.getProperties().getPosition().setX(next.getX());
+                u.getProperties().getPosition().setY(next.getY());
 
             }
             this.updateElapsedTime();

@@ -25,6 +25,7 @@ public abstract class Unit extends GameElement {
     private int deathDelay;
     private int elapsedTime;
     private int numFrames;
+    private List<Double> numberList;
 
     public Unit (String name, List<Affector> affectors, int numFrames) {
         super(name);
@@ -58,7 +59,7 @@ public abstract class Unit extends GameElement {
         if(isVisible()) {
             elapsedTime++;
             myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
-            myAffectors.forEach(a -> a.apply(myProperties));
+            myAffectors.forEach(a -> a.apply(this));
         }
     }
     public void setInvisible(){
@@ -143,5 +144,13 @@ public abstract class Unit extends GameElement {
     
     public int getNumFrames() {
         return numFrames;
+    }
+
+    public List<Double> getNumberList () {
+        return numberList;
+    }
+
+    public void setNumberList (List<Double> numberList) {
+        this.numberList = numberList;
     }
 }
