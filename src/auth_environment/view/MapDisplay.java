@@ -25,12 +25,11 @@ public class MapDisplay extends Pane {
 	private MapDisplayModel myModel;
 	private Grid myGrid;
 	
-	public MapDisplay(ISelector selector) {
+	public MapDisplay() {
 		this.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						 Double.parseDouble(myDimensionsBundle.getString("defaultMapHeightPixels")));
 		myModel = new MapDisplayModel(Integer.parseInt(myDimensionsBundle.getString("defaultMapWidthCount")), 
-									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")),
-									  selector);
+									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")));
 		myGrid = new Grid(myModel, 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));

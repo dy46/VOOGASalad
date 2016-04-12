@@ -29,7 +29,7 @@ public class Workspace {
 	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	private MapDisplay myDisplay = new MapDisplay(this.mySelector);
+	private MapDisplay myDisplay = new MapDisplay();
 	
 	public Workspace(TabPane tabPane) {
 		this.myTabPane = tabPane; 
