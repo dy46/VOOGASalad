@@ -32,7 +32,6 @@ public class GameView implements IGameView{
     private GameCanvas canvas;
     private Pane root;
     private Scene myScene;
-    private PlayerGUI myGUI;
     private IPlayerEngineInterface playerEngineInterface;
 	private GameDataSource gameData;
     private List<ImageViewPicker> towers;
