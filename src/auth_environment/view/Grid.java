@@ -2,14 +2,19 @@ package auth_environment.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Grid{
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private ISelector mySelector; 
 	private MapDisplayModel myModel;

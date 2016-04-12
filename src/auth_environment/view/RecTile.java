@@ -1,11 +1,13 @@
 package auth_environment.view;
 
+import java.util.ResourceBundle;
+
 import auth_environment.backend.IElementHolder;
 import auth_environment.backend.ISelector;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -20,8 +22,12 @@ import javafx.scene.shape.Rectangle;
 
 public class RecTile extends Rectangle implements IElementHolder {
 	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
 	private double x;
 	private double y; 
+	public boolean hasImage;
 	
 	private GameElement myElement; 
 	
@@ -33,6 +39,7 @@ public class RecTile extends Rectangle implements IElementHolder {
 		this.y = y; 
 		this.mySelector = selector; 
 		this.addListener();
+		this.hasImage = false;
 	}
 
 	private void addListener() {
@@ -40,6 +47,7 @@ public class RecTile extends Rectangle implements IElementHolder {
 	}
 	
 	private void recTileAction() {
+		this.placeTower();
 		mySelector.choosePosition(this.x, this.y);
 		mySelector.printPosition();
 	}
@@ -47,6 +55,7 @@ public class RecTile extends Rectangle implements IElementHolder {
 	@Override
 	public void update(GameElement element) {
 		this.myElement = element; 
+		// TODO: eventually call this.setImage(element.getImage()) or something like that
 	}
 
 	@Override
@@ -54,7 +63,24 @@ public class RecTile extends Rectangle implements IElementHolder {
 		return this.myElement;
 	}
 	
+	public void placeTower() {
+		NodeFactory nf = new NodeFactory(); 
+		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+		this.hasImage = true;
+		System.out.println("Placing tower...");
+	}
+	
+	public void showTower(){
+		NodeFactory nf = new NodeFactory(); 
+		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+		System.out.println("Placing tower...");
+	}
 	public void setImage(Image image) {
 		this.setFill(new ImagePattern(image));
 	}
+	
+	public ImagePattern getImage(Image image){
+		return new ImagePattern(image);
+	}
+	
 }

@@ -1,5 +1,7 @@
 package auth_environment.delegatesAndFactories;
 
+import java.util.ResourceBundle;
+
 import auth_environment.view.RecTile;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
@@ -19,6 +21,15 @@ import javafx.scene.text.Text;
  */
 
 public class DragDelegate {
+	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
+	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	public DragDelegate() {
 
@@ -68,7 +79,6 @@ public class DragDelegate {
 					/* allow for both copying and moving, whatever user chooses */
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 				}
-
 				event.consume();
 			}
 		});
@@ -79,7 +89,8 @@ public class DragDelegate {
 				/* show to the user that it is an actual gesture target */
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
-					target.setFill(Color.GREEN);
+//					target.setFill(Color.Green);
+					target.showTower();
 				}
 
 				event.consume();
@@ -89,7 +100,9 @@ public class DragDelegate {
 		target.setOnDragExited(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* mouse moved away, remove the graphical cues */
-				target.setFill(Color.WHITE);
+				if(!target.hasImage){
+						target.setFill(Color.WHITE);
+				}
 
 				event.consume();
 			}
@@ -105,14 +118,14 @@ public class DragDelegate {
 //					target.setText(db.getString());
 //					target.setFill(Color.BLACK);
 					NodeFactory nf = new NodeFactory();
-					target.setImage(nf.build);
+//					target.setImage(nf.buildImage(myNamesBundle.getString("tower")));
+					target.placeTower();
 					System.out.println("success");
 					success = true;
 				}
 				/* let the source know whether the string was successfully 
 				 * transferred and used */
 				event.setDropCompleted(success);
-
 				event.consume();
 			}
 		});
