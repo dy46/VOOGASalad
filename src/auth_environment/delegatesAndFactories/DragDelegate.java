@@ -2,7 +2,7 @@ package auth_environment.delegatesAndFactories;
 
 import java.util.ResourceBundle;
 
-import auth_environment.view.RecTile;
+import auth_environment.view.Tile;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -55,7 +55,7 @@ public class DragDelegate {
 		});
 	}
 	
-	public void setupTarget(RecTile target) {
+	public void setupTarget(Tile target) {
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* data is dragged over the target */

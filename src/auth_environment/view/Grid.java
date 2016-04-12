@@ -23,7 +23,7 @@ public class Grid{
 	double mapWidth;
 	double mapHeight;
 	private Pane myPane;
-	List<RecTile> myTiles= new ArrayList<RecTile>();
+	List<Tile> myTiles= new ArrayList<Tile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -42,7 +42,7 @@ public class Grid{
 		myPane.setPrefSize(mapWidth, mapHeight);
 		for(int i=0; i<myModel.getXmax(); i++){
 			for(int j=0; j<myModel.getYmax(); j++){
-				RecTile myTile = new RecTile(this.mySelector,
+				Tile myTile = new Tile(this.mySelector,
 											 i,
 											 j,
 											 i*recWidth, 
