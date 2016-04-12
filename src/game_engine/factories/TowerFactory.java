@@ -47,11 +47,11 @@ public class TowerFactory {
 	}
     
     //NEED TO WORK ON THIS
-    private void setUpNWayProjectiles(double directions, double startDirection){
-    	double increments = 360 / directions; 
-    	for(int i = 0; i < directions)
-    	
-    }
+//    private void setUpNWayProjectiles(double directions, double startDirection){
+//    	double increments = 360 / directions; 
+//    	for(int i = 0; i < directions)
+//    	
+//    }
     
     
     public Tower createFourWayTower(String name, List<Projectile> allProjectiles, Position startingPosition){
