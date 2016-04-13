@@ -1,6 +1,7 @@
 package game_engine.factories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import game_engine.functions.Constant;
@@ -16,7 +17,7 @@ public class FunctionFactory {
 	public FunctionFactory(){
 		myFunctionLibrary = new FunctionLibrary(this);
 		setupSpecialConstants();
-		setupDefaultStrengths();
+		setupDefaultStrengths(0.0001, 0.00005, 0.000005);
 		setupDefaultTypes();
 	}
 
@@ -29,9 +30,9 @@ public class FunctionFactory {
 		if(myFunctionLibrary.getFunction(name) != null){
 			return myFunctionLibrary.getFunction(name);
 		}
-		List<String> uniqueIdentifier = new ArrayList<>();
-		uniqueIdentifier.add(type);
-		uniqueIdentifier.add(str);
+		List<String> typeAndStr = new ArrayList<>();
+		typeAndStr.add(type);
+		typeAndStr.add(str);
 		List<Term> terms = myFunctionLibrary.getFunctionType(type);
 		if(terms == null){
 			// TODO: throw Womp error "Function type not implemented yet"
@@ -43,23 +44,17 @@ public class FunctionFactory {
 		for(Term term : terms){
 			List<Constant> constants = copyConstantList(term.getConstants());
 			for(Constant c: constants){
-				if(!c.isSpecial()){
+				if(!c.isNamedConstant()){
 					c.setValue(strength.evaluate());
 				}
 			}
 			term.setConstants(constants);
 		}
-		Function newFunction = new Function(getName(type, str), terms);
-		myFunctionLibrary.addFunction(newFunction);
-		return newFunction;
+		return myFunctionLibrary.addFunction(new Function(getName(type, str), terms));
 	}
 
 	public Function createConstantFunction(double constant){
-		List<Term> terms = new ArrayList<>();
-		Constant c = new Constant(constant, 1);
-		Term constantTerm = new Term(c);
-		terms.add(constantTerm);
-		return new Function(terms);
+		return new Function(Arrays.asList(new Term(new Constant(constant))));
 	}
 
 	public Function createExpIncrFunction(String type){
@@ -70,22 +65,16 @@ public class FunctionFactory {
 		return myFunctionLibrary.getFunction(getName("ExpDecr", type));
 	}
 
-	public Function createRandomConstantFunction(){
-		double randomConstant = 100*Math.random();
-		return createConstantFunction(randomConstant);
+	public Function createRandomConstantFunction(int randomMax){
+		return createConstantFunction(randomMax*Math.random());
 	}
 
 	public Function createSingleTermFunction(Constant constant, Variable variable){
-		List<Term> terms = new ArrayList<>();
-		terms.add(new Term(constant, variable));
-		return new Function(terms);
+		return new Function(Arrays.asList(new Term(constant, variable)));
 	}
 
 	public Function createLinearFunction(Constant constant, Term term){
-		List<Term> terms = new ArrayList<>();
-		terms.add(new Term(constant));
-		terms.add(term);
-		return new Function(terms);
+		return new Function(Arrays.asList(new Term(constant), term));
 	}
 
 	public String getName(String type, String str){
@@ -93,13 +82,11 @@ public class FunctionFactory {
 	}
 
 	private void setupSpecialConstants(){
-		Constant gravity = new Constant("Gravity", -9.8);
-		Constant pi = new Constant("Pi", Math.PI);
-		myFunctionLibrary.addSpecialConstant(gravity);
-		myFunctionLibrary.addSpecialConstant(pi);
+		myFunctionLibrary.addSpecialConstant(new Constant("Gravity", -9.8));
+		myFunctionLibrary.addSpecialConstant(new Constant("Pi", Math.PI));
 	}
 
-	public void setupDefaultTypes() {
+	private void setupDefaultTypes() {
 		setupExpIncrFunction("Strong");
 		setupExpIncrFunction("Moderate");
 		setupExpIncrFunction("Weak");
@@ -108,29 +95,21 @@ public class FunctionFactory {
 		setupExpDecrFunction("Weak");
 	}
 
-	public void setupDefaultStrengths(){
-		Constant strong = new Constant(1.2,1);
-		Constant moderate = new Constant(1.1, 1);
-		Constant weak = new Constant(1.05, 1);
-		myFunctionLibrary.addStrength("Strong", strong);
-		myFunctionLibrary.addStrength("Moderate", moderate);
-		myFunctionLibrary.addStrength("Weak", weak);
+	public void setupDefaultStrengths(double strong, double moderate, double weak){
+		myFunctionLibrary.addStrength("Strong", new Constant(strong));
+		myFunctionLibrary.addStrength("Moderate", new Constant(moderate));
+		myFunctionLibrary.addStrength("Weak", new Constant(weak));
 	}
 
 	private void setupExpFunction(String strength, int sign){
 		List<Constant> expConsts = new ArrayList<>();
-		Constant const_proportionality = new Constant(myFunctionLibrary.getStrength(strength).evaluate() * sign, 1);
+		Constant const_proportionality = new Constant(myFunctionLibrary.getStrength(strength).evaluate() * sign);
 		expConsts.add(const_proportionality);
-		List<Variable> expVars1 = new ArrayList<>();
-		expVars1.add(new Variable("t", 1));
-		List<Variable> expVars2 = new ArrayList<>();
-		expVars2.add(new Variable("s", 1));
-		Term expTerm1 = new Term(expVars1, expConsts);
-		Term expTerm2 = new Term(expVars2, copyConstantList(expConsts));
+		List<Variable> expVars = new ArrayList<>();
+		expVars.add(new Variable("t"));
+		Term expTerm = new Term(expVars, expConsts);
 		List<Term> expTerms = new ArrayList<>();
-		expTerms.add(expTerm1);
-		List<Term> expTerms2 = new ArrayList<>();
-		expTerms2.add(expTerm2);
+		expTerms.add(expTerm);
 		String type = "";
 		if(sign == 1)
 			type = "ExpIncr";
@@ -143,12 +122,13 @@ public class FunctionFactory {
 		if(sign==1){
 			Function expIncr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expIncr);
+//			System.out.println(expIncr);
 		}
 		if(sign==-1){
-			Function expDecr = new Function(getName(type, strength), expTerms2);
+			Function expDecr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expDecr);
 		}
-		
+
 	}
 
 	private void setupExpIncrFunction(String strength){
@@ -162,8 +142,7 @@ public class FunctionFactory {
 	private List<Constant> copyConstantList(List<Constant> constants){
 		List<Constant> constantsCopy = new ArrayList<Constant>();
 		for(Constant c : constants){
-			Constant cCopy = new Constant(c.getValue(), c.getPower());
-			constantsCopy.add(cCopy);
+			constantsCopy.add(new Constant(c.getValue(), c.getPower()));
 		}
 		return constantsCopy;
 	}

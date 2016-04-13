@@ -16,6 +16,11 @@ public class Variable {
 		this.myVariable = variable;
 		this.myPower = power;
 	}
+	
+	public Variable(String variable){
+		this.myVariable = variable;
+		this.myPower = 1;
+	}
 
 	public double evaluate(int index) {
 		return Math.pow(index, myPower);

@@ -64,9 +64,9 @@ public class Affector {
 	public void updateElapsedTime(){
 		elapsedTime++;
 	}
-	
+
 	public void setElapsedTime(int elapsedTime) {
-	    this.elapsedTime = elapsedTime;
+		this.elapsedTime = elapsedTime;
 	}
 
 	public List<Double> getBaseNumbers () {
@@ -80,11 +80,11 @@ public class Affector {
 	public int getTTL () {
 		return TTL;
 	}
-	
+
 	public void setElapsedTimeToDeath() {
-	    this.setElapsedTime(this.getTTL());
+		this.setElapsedTime(this.getTTL());
 	}
-	
+
 	public void setTTL(int TTL) {
 		this.TTL = TTL;
 	}
@@ -92,13 +92,13 @@ public class Affector {
 	public List<Function> getFunctions(){
 		return myFunctions;
 	}
-	
+
 	public IPlayerEngineInterface getEngineWorkspace() {
-	        return engineWorkspace;
+		return engineWorkspace;
 	}
-	
+
 	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
-	    this.engineWorkspace = engineWorkspace;
+		this.engineWorkspace = engineWorkspace;
 	}
 
 }

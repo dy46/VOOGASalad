@@ -17,12 +17,12 @@ public class UnitProperties {
 	private State myState;
 	private Path myPath;
 
-	private static String DEFAULT_STATE = "STATIONARY";
-	private static double DEFAULT_HEALTH = 0;
+	private static String DEFAULT_STATE = "Stationary";
+	private static double DEFAULT_HEALTH = 1;
 	private static double DEFAULT_DAMAGE = 0;
 	private static String DEFAULT_TEAM = "0";
 	private static double DEFAULT_SPEED = 1;
-	private static double DEFAULT_DIRECTION = 0;
+	private static double DEFAULT_DIRECTION = 90;
 	private static List<Position> DEFAULT_BOUNDS = new ArrayList<Position>();
 	private static double DEFAULT_X_POS = 0;
 	private static double DEFAULT_Y_POS = 0;
@@ -46,7 +46,7 @@ public class UnitProperties {
 
 	public UnitProperties copyUnitProperties() {
 		UnitProperties newProperties = new UnitProperties();
-		//            newProperties.myHealth = this.getHealth().copyHealth();
+		newProperties.myHealth = this.getHealth().copyHealth();
 		//            newProperties.myDamage = this.getDamage().copyDamage();
 		//            newProperties.myTeam = this.getTeam().copyTeam();
 		newProperties.myState = this.getState().copyState();
