@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import game_engine.properties.Position;
+
 // PathForest is a set of disjoint PathGraphs that represent all the paths for an instance of a game
 public class PathGraphForest {
 
@@ -25,21 +27,22 @@ public class PathGraphForest {
 		return myGraphs;
 	}
 
-	public PathGraph getGraphByID(String ID){
-		Optional<PathGraph> graph = myGraphs.stream().filter(g -> g.getID().equals(ID)).findFirst();
+	public PathGraph getGraphByID(int ID){
+		Optional<PathGraph> graph = myGraphs.stream().filter(g -> g.getID() == (ID)).findFirst();
 		return graph.isPresent() ? graph.get() : null;
 	}
 
-	public PathNode getPathByID(String ID){
-		for(PathGraph graph : myGraphs){
-			List<PathNode> paths = graph.getPathNodes(graph.getRoot());
-			for(PathNode p : paths){
-				if(p.getID().equals(ID)){
-					return p;
-				}
-			}
+	public PathNode getPathByID(int ID){
+		for(PathGraph pathGraph : myGraphs){
+			Optional<PathNode> graph = pathGraph.getPathNodes(pathGraph.getRoot()).stream().filter(p -> p.getID() == ID).findFirst();
+			if(graph.isPresent())
+				return graph.get();
 		}
 		return null;
 	}
-
+	
+	public PathGraph getGraphByPos(Position pos){
+		Optional<PathGraph> graph = myGraphs.stream().filter(g -> g.getPathByEdgePosition(pos) != null).findFirst();
+		return graph.isPresent() ? graph.get() : null;
+	}
 }

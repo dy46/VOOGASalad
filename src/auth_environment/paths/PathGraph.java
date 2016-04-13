@@ -15,14 +15,13 @@ import game_engine.properties.Position;
 public class PathGraph {
 
 	private PathNode myRoot;
-	private String myID;
+	private int myID;
 	
-	public PathGraph(String ID){
-		this.myID = ID;
-		this.myRoot = new PathNode();
+	public PathGraph(int graphID){
+		this.myID = graphID;
 	}
 	
-	public PathGraph(PathNode root, String ID){
+	public PathGraph(PathNode root, int ID){
 		this.myID = ID;
 		this.myRoot = root;
 	}
@@ -63,7 +62,7 @@ public class PathGraph {
 		return myUnits;
 	}
 	
-	public String getID(){
+	public int getID(){
 		return myID;
 	}
 	

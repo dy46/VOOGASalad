@@ -16,9 +16,9 @@ public class PathNode {
 	private List<Enemy> myEnemys;
 	private PathNode myParent;
 	private List<PathNode> myNeighbors;
-	private String myID;
+	private int myID;
 
-	public PathNode(PathNode parent, List<Position> positions, String ID){
+	public PathNode(PathNode parent, List<Position> positions, int ID){
 		this.myID = ID;
 		this.myParent = parent;
 		myPositions = positions;
@@ -26,8 +26,7 @@ public class PathNode {
 		myNeighbors = new ArrayList<>();
 	}
 
-	public PathNode() {
-		this.myID = "0";
+	public PathNode(int ID) {
 		this.myTerrains = new ArrayList<>();
 		this.myPositions = new ArrayList<>();
 		this.myEnemys = new ArrayList<>();
@@ -71,7 +70,7 @@ public class PathNode {
 		return myNeighbors;
 	}
 
-	public String getID(){
+	public int getID(){
 		return myID;
 	}
 
@@ -104,7 +103,7 @@ public class PathNode {
 		return cutoff;
 	}
 
-	public void addNeighbor(List<PathNode> neighbors) {
+	public void addNeighbors(List<PathNode> neighbors) {
 		myNeighbors.addAll(neighbors);
 	}
 
