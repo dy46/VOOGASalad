@@ -23,11 +23,19 @@ public class Path extends MapPiece{
 		cycle = false;
 		initialize();
 	}
+	
+	public Path(String name, List<Position> list) {
+	    super(name);
+	    cycle = false;
+	    initialize(list);
+	}
+	
 	public void initialize(){
 		myPositions = new ArrayList<>();
 		nextPositions = new HashMap<Position, Position>();
 		setNextPositions();
 	}
+	
 	public void initialize(List<Position> list){
 		myPositions = list;
 		nextPositions = new HashMap<Position, Position>();
@@ -102,33 +110,6 @@ public class Path extends MapPiece{
 		});
 		return newPath;
 	}
-	public static void main(String[] args){
-		Path p = new Path("Something here");
-		List<Position> list = new ArrayList<Position>();
-		list.add(new Position(0,0));
-		list.add(new Position(200, 0));
-		list.add(new Position(200, 200));
-		p.initialize(list);
-		p.setCycle(true);
-		Position start = new Position(0,0);
-		int i = 0;
-//		while(i++ <= 800){
-//			System.out.printf("X: %f Y: %f\n", start.getX(), start.getY());
-//			start = p.getNextPosition(start);
-//		}
-		Path p2 = new Path("Something here");
-		p2.initialize();
-		p2.addPosition(new Position(0,0));
-		p2.addPosition(new Position(200, 0));
-		p2.addPosition(new Position(200, 200));
-		p2.setCycle(true);
-		start = new Position(0, 0);
-		i = 0;
-		while(i++ <= 800){
-			System.out.printf("X: %f Y: %f\n", start.getX(), start.getY());
-			start = p2.getNextPosition(start);
-		}
-	}
 	
 	public List<Position> getAllPositions() {
 	    List<Position> allPositions = new ArrayList<>();
@@ -140,6 +121,10 @@ public class Path extends MapPiece{
 	    Position lastPos = myPositions.get(myPositions.size()-1);
 	    return u.getProperties().getPosition().getX() == lastPos.getX() &&
 	           u.getProperties().getPosition().getY() == lastPos.getY();
+	}
+	
+	public List<Position> getMyPositions() {
+	    return myPositions;
 	}
 	
 }

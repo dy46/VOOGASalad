@@ -22,18 +22,6 @@ public class EnemyFactory {
 		this.myAffectorLibrary = affectorLibrary;
 	}
 
-	public Enemy createConstantEnemy(String name){
-		return createSpecifiedEnemy(name, "Constant", "PositionMove");
-	}
-
-	public Enemy createExpIncrEnemy(String name){
-		return createSpecifiedEnemy(name, "ExpInc", "PositionMove");
-	}
-
-	public Enemy createExpDecrEnemy(String name){
-		return createSpecifiedEnemy(name, "ExpDecr", "PositionMove");
-	}
-
 	public Enemy createPathFollowPositionMoveEnemy(String name){
 		return createSpecifiedEnemy(name, "PathFollow", "PositionMove");
 	}
@@ -45,7 +33,7 @@ public class EnemyFactory {
 		Health health = new Health(30);
 		Velocity velocity = new Velocity(0.5, 90);
 		List<Position> l1 = new ArrayList<>();
-		l1.add(new Position(30,0));
+		l1.add(new Position(0,0));
 		l1.add(new Position(30,0));
 		l1.add(new Position(30,30));
 		l1.add(new Position(0,30));
@@ -56,7 +44,7 @@ public class EnemyFactory {
 		p2.addPosition(new Position(200, 30));
 		p2.addPosition(new Position(200, 200));
 		p2.addPosition(new Position(400, 200));
-		p2.addPosition(new Position(400, 600));
+		p2.addPosition(new Position(400, 525));
 		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, new Position(0,30), null, st, p2);
 		e1.setProperties(properties);
 		e1.setTTL(1000000);

@@ -1,5 +1,6 @@
 package game_engine.game_elements;
 
+import java.util.List;
 import game_engine.affectors.Affector;
 
 /*
@@ -8,16 +9,10 @@ import game_engine.affectors.Affector;
 * a certain area on the map.
 */
 public class Terrain extends CollidableUnit{
-	
-	public Terrain(String name) {
-		super(name);
-	}
-	
-	/*
-	* Sets the affector for the terrain, which will be applied to each unit within the the terrain
-	*/
-	public void addAffector(Affector effect){
-		getAffectors().add(effect);
-	}
+
+    public Terrain (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
+    }
+
 	
 }

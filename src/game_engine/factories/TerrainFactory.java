@@ -21,9 +21,11 @@ public class TerrainFactory {
 	
 	private void setupDefaultTerrains(){
 		List<Affector> affectors = new ArrayList<>();
-		Affector speedUp = myAffectorLibrary.getAffector("Constant", "PositionMove");
+		Affector speedUp = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
+		speedUp.setTTL(1);
 		affectors.add(speedUp);
-		Terrain ice = new Terrain("Ice");
+		List<Affector> myAffectors = new ArrayList<>();
+		Terrain ice = new Terrain("Ice", myAffectors, 2);
 		ice.setAffectorsToApply(affectors);
 		myTerrainLibrary.addTerrain(ice);
 	}

@@ -3,6 +3,7 @@ package game_engine.game_elements;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
+import game_engine.properties.Position;
 
 
 /*
@@ -34,6 +35,7 @@ public class Projectile extends CollidableUnit {
         copy.setAffectorsToApply(copyApplyAffectors);
         copy.setProperties(this.getProperties().copyUnitProperties());
         copy.setDeathDelay(this.getDeathDelay());
+        copy.setNumberList(this.getNumberList());
         return copy;
     }
 
@@ -55,4 +57,5 @@ public class Projectile extends CollidableUnit {
     public void setFireRate (int fireRate) {
         this.fireRate = fireRate;
     }
+    
 }

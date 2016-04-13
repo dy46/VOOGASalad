@@ -23,10 +23,7 @@ public class View {
 	
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-	
-	
-	
-	
+
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
@@ -42,9 +39,10 @@ public class View {
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
+		//myTabs.getTabs().add(mainTab);
 		
 		
-		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
+		VAsTesterTab vtest = new VAsTesterTab(myTabs);
     }
 
 

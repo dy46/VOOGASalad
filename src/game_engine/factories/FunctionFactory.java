@@ -63,15 +63,11 @@ public class FunctionFactory {
 	}
 
 	public Function createExpIncrFunction(String type){
-		Function expIncr = myFunctionLibrary.getFunction(getName("ExpIncr", type));
-		System.out.println(expIncr);
-		return expIncr;
+		return myFunctionLibrary.getFunction(getName("ExpIncr", type));
 	}
 
 	public Function createExpDecrFunction(String type){
-		Function expDecr = myFunctionLibrary.getFunction(getName("ExpDecr", type));
-		System.out.println(expDecr);
-		return expDecr;
+		return myFunctionLibrary.getFunction(getName("ExpDecr", type));
 	}
 
 	public Function createRandomConstantFunction(){

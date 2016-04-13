@@ -3,32 +3,27 @@ package game_engine;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
-import game_engine.functions.Function;
-import game_engine.game_elements.CollidableUnit;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
-import game_engine.libraries.TerrainLibrary;
 import game_engine.properties.Bounds;
-import game_engine.properties.Health;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
+import game_engine.properties.Velocity;
 
 
 /**
@@ -41,7 +36,6 @@ import game_engine.properties.UnitProperties;
 
 public class EngineWorkspace implements IPlayerEngineInterface {
 
-	private int myTimer;
 	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
@@ -50,10 +44,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
 	private List<Unit> myProjectiles;
-	private List<Unit> myTerrains;
-	
+
 	private CollisionDetector myCollider;
-	private List<UnitProperties> myTowerTypes;
+	private List<Tower> myTowerTypes;
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
@@ -62,40 +55,42 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
+
+	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
 	public void setUpEngine (List<String> fileNames) {
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		Path p2 = new Path("Dirt");
+		Path p2 = new Path("DirtNew");
 		p2.addPosition(new Position(0, 30));
 		p2.addPosition(new Position(200, 30));
 		p2.addPosition(new Position(200, 200));
 		p2.addPosition(new Position(400, 200));
-		p2.addPosition(new Position(400, 600));
+		p2.addPosition(new Position(400, 525));
 		myPaths.add(p2);
 		myTowerTypes = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
 		// projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
-		myAffectorFactory = new AffectorFactory(myFunctionFactory);
+		myAffectorFactory = new AffectorFactory(myFunctionFactory, this);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-		myTowers = makeDummyTowers();
+		myTowers = new ArrayList<>();
+		myTowerTypes = makeDummyTowers();
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
-		myTimer = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 	}
 
-	private List<Unit> makeDummyTowers () {
+	private List<Tower> makeDummyTowers () {
 		Position position2 = new Position(200, 300);
-		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, position2);
+		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers), position2);
 		return new ArrayList<>(Arrays.asList(new Tower[] { t }));
 	}
 
@@ -136,46 +131,25 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
-		pos.add(new Position(700, 0));
-		pos.add(new Position(700, 700));
-		pos.add(new Position(0, 700));
+		pos.add(new Position(200, 0));
+		pos.add(new Position(200, 200));
+		pos.add(new Position(0, 200));
+		Position p = new Position(100, 100);
 		Bounds b = new Bounds(pos);
-		Position p = new Position(25, 25);
-		UnitProperties properties = new UnitProperties(null, null, null, null, b, p, null, new State("Stationary"), null);
+	    Velocity velocity = new Velocity(0, 90);
+		UnitProperties properties = new UnitProperties(null, null, null, velocity, b, p, null, new State("Stationary"), null);
 		ice.setProperties(properties);
 		ice.setTTL(Integer.MAX_VALUE);
 		return new ArrayList<>(Arrays.asList(new Terrain[] { ice }));
 	}
 
-	public List<String> saveGame () {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void playLevel (int levelNumber) {
-		myCurrentLevel = myLevels.get(levelNumber);
-		pause = false;
-	}
-
-	public void playWave (int waveNumber) {
-		// TODO: pause current wave
-		myCurrentLevel.setCurrentWave(waveNumber);
-	}
-
-	public void continueWaves () {
-		myCurrentLevel.playNextWave();
-		pause = false;
-	}
-
-	public void updateElements() { 
+	public void updateElements() {
 		nextWaveTimer++;
 		if(!pause){
-			myTimer++;
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
 			myEnemys.forEach(e -> e.update());
-			myCollider.resolveEnemyCollisions(getCollideList());
-			myCollider.resolveTowerCollisions(getTowerCollideList());
+			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
 			Enemy newE = myCurrentLevel.update();
 			if(newE != null){
 				myEnemys.add(newE);
@@ -189,21 +163,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
 			continueWaves();
 		}
-		getCollideList().forEach(p -> p.update());
+
+		myProjectiles.forEach(p -> p.update());
+		myTerrains.forEach(t -> t.update());
 		updateLives();
-	}
-
-	private List<Unit> getCollideList(){
-		List<Unit> collideList = new ArrayList<>();
-		collideList.addAll(myProjectiles);
-		collideList.addAll(myTerrains);
-		return collideList;
-	}
-
-	private List<Unit> getTowerCollideList(){
-		List<Unit> collideList = new ArrayList<>();
-		collideList.addAll(myTerrains);
-		return collideList;
 	}
 
 	public void updateLives () {
@@ -211,6 +174,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		for (int i = 0; i < myEnemys.size(); i++) {
 			if (myEnemys.get(i).getProperties().getPath().isUnitAtLastPosition(myEnemys.get(i))) {
 				livesToSubtract++;
+				myEnemys.get(i).setElapsedTimeToDeath();
 			}
 		}
 		myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
@@ -230,14 +194,6 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	public void addLevel (Level level) {
 		myLevels.add(level);
-	}
-
-	public void addTower (String ID, int towerTypeIndex) {
-		// towerTypeBoundsCheck(towerTypeIndex);
-		// UnitProperties towerProperties = myTowerTypes.get(towerTypeIndex);
-		// Tower newTower = new Tower(ID);
-		// newTower.upgrade(towerProperties);
-		// myTowers.add(newTower);
 	}
 
 	public void remove (Unit unit) {
@@ -264,9 +220,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	public void modifyTower (int activeTowerIndex, UnitProperties newProperties) {
-		towerBoundsCheck(activeTowerIndex);
-		myTowers.get(activeTowerIndex).setProperties(newProperties);
-		myTowerTypes.set(activeTowerIndex, newProperties);
+		//		towerBoundsCheck(activeTowerIndex);
+		//		myTowers.get(activeTowerIndex).setProperties(newProperties);
+		//		myTowerTypes.set(activeTowerIndex, newProperties);
+		//	
 	}
 
 	private void towerBoundsCheck (int index) {
@@ -343,10 +300,34 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		});
 	}
 
-	@Override
-	public List<Terrain> getTerrains() {
+	public List<Unit> getTerrains() {
+		return myTerrains;
+	}
+
+	public List<String> saveGame () {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void playLevel (int levelNumber) {
+		myCurrentLevel = myLevels.get(levelNumber);
+		pause = false;
+	}
+
+	public void playWave (int waveNumber) {
+		// TODO: pause current wave
+		myCurrentLevel.setCurrentWave(waveNumber);
+	}
+
+	public void continueWaves () {
+		myCurrentLevel.playNextWave();
+		pause = false;
+	}
+
+	@Override
+	public void addTower (double x, double y, int towerTypeIndex) {
+		Tower newTower = myTowerTypes.get(towerTypeIndex).copyTower(x, y);
+		myTowers.add(newTower);
 	}
 
 }
