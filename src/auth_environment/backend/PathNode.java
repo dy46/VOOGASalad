@@ -2,7 +2,6 @@ package auth_environment.backend;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import game_engine.game_elements.Enemy;
@@ -16,15 +15,15 @@ public class PathNode {
 	private List<Terrain> myTerrains;
 	private List<Enemy> myEnemys;
 	private PathNode myParent;
-	private List<PathNode> myChildren;
+	private List<PathNode> myNeighbors;
 	private String myID;
 
-	public PathNode(PathNode parent, Position startingPos, String ID){
+	public PathNode(PathNode parent, List<Position> positions, String ID){
 		this.myID = ID;
 		this.myParent = parent;
-		myPositions = Arrays.asList(startingPos);
+		myPositions = positions;
 		myTerrains = new ArrayList<>();
-		myChildren = new ArrayList<>();
+		myNeighbors = new ArrayList<>();
 	}
 
 	public PathNode() {
@@ -33,7 +32,7 @@ public class PathNode {
 		this.myPositions = new ArrayList<>();
 		this.myEnemys = new ArrayList<>();
 		this.myParent = null;
-		this.myChildren = new ArrayList<>();
+		this.myNeighbors = new ArrayList<>();
 	}
 
 	public void addEnemy(Enemy enemy){
@@ -44,8 +43,12 @@ public class PathNode {
 		this.myTerrains.add(terrain);
 	}
 
-	public void addChild(PathNode child){
-		this.myChildren.add(child);
+	public void addNeighbor(PathNode neighbor){
+		this.myNeighbors.add(neighbor);
+	}
+
+	public void addPositions(List<Position> positions){
+		this.myPositions.addAll(positions);
 	}
 
 	public List<Position> getPositions(){
@@ -64,8 +67,8 @@ public class PathNode {
 		return myParent;
 	}
 
-	public List<PathNode> getChildren(){
-		return myChildren;
+	public List<PathNode> getNeighbors(){
+		return myNeighbors;
 	}
 
 	public String getID(){
@@ -94,4 +97,26 @@ public class PathNode {
 		}
 		return listInstanceVar;
 	}
+
+	public List<Position> cutoffByPosition(Position pos){
+		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
+		cutoff.clear();
+		return cutoff;
+	}
+
+	public void addNeighbor(List<PathNode> neighbors) {
+		myNeighbors.addAll(neighbors);
+	}
+
+	public List<PathNode> removeNeighbors(List<PathNode> neighbors){
+		List<PathNode> removed = new ArrayList<>();
+		for(PathNode neighbor : neighbors){
+			if(myNeighbors.contains(neighbor)){
+				myNeighbors.remove(neighbor);
+				removed.add(neighbor);
+			}
+		}
+		return removed;
+	}
+
 }

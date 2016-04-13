@@ -15,6 +15,10 @@ public class PathForest {
 	public PathForest() {
 		myTrees = new ArrayList<>();
 	}
+	
+	public void addTree(PathTree tree){
+		myTrees.add(tree);
+	}
 
 	public List<PathTree> getTrees(){
 		return myTrees;
