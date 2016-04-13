@@ -3,11 +3,11 @@ package game_engine.game_elements;
 import java.util.List;
 import game_engine.affectors.Affector;
 
-public class Enemy extends LiveableUnit {
+public class Enemy extends Unit {
 
     public Enemy (String name, List<Affector> affectors, int numFrames) {
         super(name, affectors, numFrames);
-//        setID(getWorkspace().getIDFactory().createID(this));
+        //setID(getWorkspace().getIDFactory().createID(this));
     }
 
     /*
@@ -27,7 +27,4 @@ public class Enemy extends LiveableUnit {
         return "Enemy " + getID();
     }
 
-    public void update () {
-        super.update(this);
-    }
 }
