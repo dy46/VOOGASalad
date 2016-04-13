@@ -17,6 +17,6 @@ public interface IGameView {
     
     void changeColorScheme (int colorIndex);
       
-    void changeGameSpeed (int gameSpeed); 
+    void changeGameSpeed (double gameSpeed); 
     
 }

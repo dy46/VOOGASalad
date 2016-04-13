@@ -20,7 +20,7 @@ public class GameMenu implements IGUIObject {
 	private Menu myMenu;
 	private MenuBar myMenuBar;
 	
-	public GameMenu(ResourceBundle r, GameDataSource gameData) {
+	public GameMenu(ResourceBundle r, GameDataSource gameData, PlayerMainTab myTab) {
 		myResources = r;
 	}
 

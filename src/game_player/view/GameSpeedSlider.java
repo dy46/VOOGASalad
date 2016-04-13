@@ -18,9 +18,11 @@ public class GameSpeedSlider implements IGUIObject{
 	private static final int PADDING = 10;
 	private static final int VBOX_SPACING = 5;
 	private ResourceBundle myResources;
+	private PlayerMainTab myTab;
 	
-	public GameSpeedSlider(ResourceBundle r, GameDataSource gameData) {
+	public GameSpeedSlider(ResourceBundle r, GameDataSource gameData, PlayerMainTab tab) {
 		myResources = r;
+		myTab = tab;
 	}
 	
 	@Override
@@ -45,7 +47,7 @@ public class GameSpeedSlider implements IGUIObject{
 	}
 	
 	private void setSpeed(double value) {
-		//figure out how to change animation speed from here
+		myTab.changeSpeed(value);
 	}
 
 	@Override

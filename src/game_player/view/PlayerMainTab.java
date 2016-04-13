@@ -80,8 +80,8 @@ public class PlayerMainTab implements IPlayerTab{
 			String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
 			try {
 				newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
-						.getConstructor(ResourceBundle.class, GameDataSource.class)
-						.newInstance(myResources, gameData);
+						.getConstructor(ResourceBundle.class, GameDataSource.class, PlayerMainTab.class)
+						.newInstance(myResources, gameData, this);
 				gameElements.add(newElement);
 
 				placeElement(newElement, keyAndPosition[1].trim());
@@ -90,6 +90,10 @@ public class PlayerMainTab implements IPlayerTab{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	protected void changeSpeed(double speed) {
+		gameView.changeGameSpeed(speed);
 	}
 	
 	private void placeElement(IGUIObject element, String position) {

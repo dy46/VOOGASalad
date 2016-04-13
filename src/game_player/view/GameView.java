@@ -28,7 +28,8 @@ import javafx.util.Duration;
 
 public class GameView implements IGameView{
     
-    private int timer;
+    private static final int DEFAULT_UPDATE_SPEED = 1;
+	private int timer;
     private AnimationTimer AT;
     private boolean timerStatus;
     private boolean isPlaying;
@@ -37,7 +38,7 @@ public class GameView implements IGameView{
     private Scene myScene;
     private IPlayerEngineInterface playerEngineInterface;
 	private GameDataSource gameData;
-	private int myStepDelay;
+	private double myUpdateSpeed;
     private List<ImageViewPicker> towers;
     private List<ImageViewPicker> enemies;
     private List<ImageViewPicker> projectiles;
@@ -56,7 +57,7 @@ public class GameView implements IGameView{
         this.projectiles = new ArrayList<>();
         this.terrains = new ArrayList<>();
         this.timer = 0;
-//        this.myStepDelay = 60;
+        this.myUpdateSpeed = DEFAULT_UPDATE_SPEED;
         this.paths = new ArrayList<>();
         this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
         this.root.setOnMouseClicked(e -> {
@@ -97,7 +98,7 @@ public class GameView implements IGameView{
             public void handle(long currentNanoTime) {
                if(isPlaying) {
                    timer++;
-                   playerEngineInterface.updateElements();
+                   updateEngine();
                    placePath();
                    placeUnits(playerEngineInterface.getTerrains(), terrains);
                    placeUnits(playerEngineInterface.getEnemies(), enemies);
@@ -113,6 +114,12 @@ public class GameView implements IGameView{
         AT.start();
         timerStatus = true;
     }
+    
+    private void updateEngine() {
+    	for (int i = 1; i <= myUpdateSpeed; i++) {
+    		playerEngineInterface.updateElements();
+    	}
+    }
 
     @Override
     public void changeColorScheme (int colorIndex) {
@@ -120,8 +127,8 @@ public class GameView implements IGameView{
     }
 
     @Override
-    public void changeGameSpeed (int gameSpeed) {
-        // TODO Auto-generated method stub
+    public void changeGameSpeed (double gameSpeed) {
+        this.myUpdateSpeed = DEFAULT_UPDATE_SPEED + gameSpeed;
     }
 
 

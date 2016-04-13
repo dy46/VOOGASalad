@@ -16,7 +16,7 @@ public class HighScoreDisplay implements IGUIObject {
 	private Label highScoreLabel;
 	private GameDataSource myGameData;
 	
-	public HighScoreDisplay(ResourceBundle r, GameDataSource gameData) {
+	public HighScoreDisplay(ResourceBundle r, GameDataSource gameData, PlayerMainTab myTab) {
 		myResources = r;
 		myGameData = gameData;
 	}
