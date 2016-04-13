@@ -50,9 +50,8 @@ public class Workspace {
 	}
 	
 	public void writeToGameData() {
-		List<Tower> towers = myPicker.getTowers();
 		GameData gameData = new GameData(); 
-		gameData.setTowers(towers);
+		gameData.setTowers(myPicker.getTowers());
 	}
 	
     public Node getRoot() {
