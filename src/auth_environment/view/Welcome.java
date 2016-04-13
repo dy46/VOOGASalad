@@ -67,7 +67,6 @@ public class Welcome {
 				this.buildSubmitButton(),
 				this.buildAnimation()
 				);
-		this.myRoot.getChildren().addAll(this.testDraggable());
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
