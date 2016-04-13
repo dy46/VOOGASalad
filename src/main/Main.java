@@ -24,7 +24,6 @@ public class Main extends Application {
 		myEngineController = new EngineController();
 		myEngineController.initialize();
 		primaryStage.setScene(myView.createPlayerScene());
-		primaryStage.show();
 	}
-
+	
 }

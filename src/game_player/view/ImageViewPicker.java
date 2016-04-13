@@ -1,5 +1,6 @@
 package game_player.view;
 
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import game_engine.game_elements.Unit;
 import javafx.scene.Group;
@@ -10,6 +11,7 @@ import javafx.scene.layout.Pane;
 public class ImageViewPicker {
     
     public static String EXTENSION = ".png";
+    public final String[] leftCornerElements = {"Terrain"};
     private ResourceBundle myBundle;
     private String name;
     private String currState;
@@ -36,11 +38,13 @@ public class ImageViewPicker {
             currState = state;
             currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
             imageView.setImage(new Image(name + u.getProperties().getState().getValue() 
-                                          + currFrame + EXTENSION));
-            imageView.setX(u.getProperties().getPosition().getX() - imageView.getImage().getWidth()/2);
-            imageView.setY(u.getProperties().getPosition().getY() - imageView.getImage().getHeight()/2);
+                                          + currFrame + EXTENSION));      
+            boolean isCornerElement = Arrays.asList(leftCornerElements).contains(u.getClass().getSimpleName());
+            double offsetX = isCornerElement ? 0 : -imageView.getImage().getWidth()/2;
+            double offsetY = isCornerElement ? 0 : -imageView.getImage().getHeight()/2;
+            imageView.setX(u.getProperties().getPosition().getX() + offsetX);
+            imageView.setY(u.getProperties().getPosition().getY() + offsetY);
             imageView.setRotate(transformDirection(u));
-            imageView.toFront();
             if(!u.isVisible()) {
                 root.getChildren().remove(imageView);
             }

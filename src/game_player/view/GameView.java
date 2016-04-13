@@ -42,7 +42,7 @@ public class GameView implements IGameView{
     private List<ImageViewPicker> enemies;
     private List<ImageViewPicker> projectiles;
     private List<ImageView> paths;
-    private List<ImageView> terrains;
+    private List<ImageViewPicker> terrains;
     
     public GameView(GameCanvas canvas, Scene scene) {
     	this.root = canvas.getRoot();
@@ -93,27 +93,25 @@ public class GameView implements IGameView{
     
     @Override
     public void playGame (int gameIndex) {
-        AT = new AnimationTimer() {
-        	public void handle(long now) {
-        		if (isPlaying) {
-        			runGame();
-        		}
-        	}
+        AT = new AnimationTimer() {            
+            public void handle(long currentNanoTime) {
+               if(isPlaying) {
+                   timer++;
+                   playerEngineInterface.updateElements();
+                   placePath();
+                   placeUnits(playerEngineInterface.getTerrains(), terrains);
+                   placeUnits(playerEngineInterface.getEnemies(), enemies);
+                   placeUnits(playerEngineInterface.getProjectiles(), projectiles);
+                   placeUnits(playerEngineInterface.getTowers(), towers);
+                   if(playerEngineInterface.getLives() < 0) {
+                       timerStatus = false;
+                       playerEngineInterface.clearProjectiles();
+                   }
+               }
+            }
         };
         AT.start();
         timerStatus = true;
-    }
-    
-    private void runGame() {
-    	timer++;
-        playerEngineInterface.updateElements();
-        placeUnit();
-        placePath();
-        placeTerrain();
-        if(playerEngineInterface.getLives() < 0) {
-            timerStatus = false;
-            playerEngineInterface.clearProjectiles();
-        }
     }
 
     @Override
@@ -126,21 +124,7 @@ public class GameView implements IGameView{
         // TODO Auto-generated method stub
     }
 
-    @Override
-    public void placeTerrain () {
-        List<Unit> currTerrain = playerEngineInterface.getTerrains();
-        for(int i = terrains.size(); i < currTerrain.size(); i++) {
-            Image img = new Image(currTerrain.get(i).toString() + ".png");
-            ImageView imgView = new ImageView(img);
-            imgView.setX(currTerrain.get(i).getProperties().getPosition().getX());
-            imgView.setY(currTerrain.get(i).getProperties().getPosition().getY());
-            root.getChildren().add(imgView);
-            imgView.toFront();
-            terrains.add(imgView);
-        }
-    }
 
-    @Override
     public void placePath () {
         List<Path> currPaths = playerEngineInterface.getPaths();
         List<Position> allPositions = new ArrayList<>();
@@ -155,15 +139,6 @@ public class GameView implements IGameView{
             paths.add(imgView);
         }
     }
-    
-    @Override
-    public void placeUnit () {
-        List<Unit> currEnemies = playerEngineInterface.getEnemies();
-        placeUnits(currEnemies, enemies);
-        placeUnits(playerEngineInterface.getProjectiles(), projectiles);
-        placeUnits(playerEngineInterface.getTowers(), towers);
-    }
-
     
     public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
         for(int i = imageViews.size(); i < list.size(); i++) {

@@ -3,6 +3,7 @@ package game_engine.affectors;
 import java.util.List;
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
+import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
 public class Affector {
@@ -52,7 +53,7 @@ public class Affector {
 		return copy;
 	}
 
-	public void apply(UnitProperties properties) {
+	public void apply(Unit u) {
 		updateElapsedTime();
 	};
 
@@ -63,9 +64,9 @@ public class Affector {
 	public void updateElapsedTime(){
 		elapsedTime++;
 	}
-	
+
 	public void setElapsedTime(int elapsedTime) {
-	    this.elapsedTime = elapsedTime;
+		this.elapsedTime = elapsedTime;
 	}
 
 	public List<Double> getBaseNumbers () {
@@ -79,11 +80,11 @@ public class Affector {
 	public int getTTL () {
 		return TTL;
 	}
-	
+
 	public void setElapsedTimeToDeath() {
-	    this.setElapsedTime(this.getTTL());
+		this.setElapsedTime(this.getTTL());
 	}
-	
+
 	public void setTTL(int TTL) {
 		this.TTL = TTL;
 	}
@@ -91,13 +92,13 @@ public class Affector {
 	public List<Function> getFunctions(){
 		return myFunctions;
 	}
-	
+
 	public IPlayerEngineInterface getEngineWorkspace() {
-	        return engineWorkspace;
+		return engineWorkspace;
 	}
-	
+
 	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
-	    this.engineWorkspace = engineWorkspace;
+		this.engineWorkspace = engineWorkspace;
 	}
 
 }

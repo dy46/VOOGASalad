@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.List;
 import game_engine.affectors.Affector;
 
-
 public abstract class LiveableUnit extends Unit {
 
     public LiveableUnit (String name, List<Affector> affectors, int numFrames) {
@@ -22,3 +21,4 @@ public abstract class LiveableUnit extends Unit {
     }
 
 }
+

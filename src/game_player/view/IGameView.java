@@ -19,14 +19,4 @@ public interface IGameView {
       
     void changeGameSpeed (int gameSpeed); 
     
-    //gets terrain from engine and places/animates 
-    void placeTerrain();
-    
-    //gets path from engine and places/animates 
-    void placePath();
-    
-    //gets units (enemies, towers) from engine and places/animates
-    void placeUnit();  
-
-    
 }
