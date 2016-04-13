@@ -12,31 +12,18 @@ import game_engine.properties.Position;
 public class PathNode {
 
 	private List<Position> myPositions;
-	private List<Terrain> myTerrains;
-	private List<Enemy> myEnemys;
 	private List<PathNode> myNeighbors;
 	private int myID;
 
 	public PathNode(List<Position> positions, int ID){
 		this.myID = ID;
 		myPositions = positions;
-		myTerrains = new ArrayList<>();
 		myNeighbors = new ArrayList<>();
 	}
 
 	public PathNode(int ID) {
-		this.myTerrains = new ArrayList<>();
 		this.myPositions = new ArrayList<>();
-		this.myEnemys = new ArrayList<>();
 		this.myNeighbors = new ArrayList<>();
-	}
-
-	public void addEnemy(Enemy enemy){
-		this.myEnemys.add(enemy);
-	}
-
-	public void addTerrain(Terrain terrain){
-		this.myTerrains.add(terrain);
 	}
 
 	public void addNeighbor(PathNode neighbor){
@@ -49,14 +36,6 @@ public class PathNode {
 
 	public List<Position> getPositions(){
 		return myPositions;
-	}
-
-	public List<Terrain> getTerrains(){
-		return myTerrains;
-	}
-
-	public List<Enemy> getEnemies(){
-		return myEnemys;
 	}
 
 	public List<PathNode> getNeighbors(){

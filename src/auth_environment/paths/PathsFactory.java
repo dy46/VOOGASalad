@@ -84,16 +84,6 @@ public class PathsFactory {
 		}
 	}
 
-	// Adds enemy to Graph on correct path
-	public void addEnemy(Enemy enemy, int pathID){
-		myForest.getPathByID(pathID).addEnemy(enemy);
-	}
-
-	// Adds terrain to Graph on correct path
-	public void addTerrain(Terrain terrain, int pathID){
-		myForest.getPathByID(pathID).addTerrain(terrain);
-	}
-
 	public PathGraphForest getForest(){
 		return myForest;
 	}
