@@ -1,12 +1,10 @@
-package auth_environment.view.Menus;
+package auth_environment.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.delegatesAndFactories.DragDelegate;
-import auth_environment.view.Grid;
-import auth_environment.view.RecTile;
 import game_engine.game_elements.Tower;
 import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
@@ -25,17 +23,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class PickerMenu extends Accordion {
+public class ElementPicker extends Accordion {
 	
 	private List<Tower> myTowerList = new ArrayList<Tower>();
 	FlowPane myPane = new FlowPane();
 	
-	public PickerMenu() {
+	public ElementPicker() {
 		this.getPanes().addAll(defaultPanes());
 		// TODO Auto-generated constructor stub
 	}
 
-	public PickerMenu(TitledPane... titledPanes) {
+	public ElementPicker(TitledPane... titledPanes) {
 		super(titledPanes);
 		// TODO Auto-generated constructor stub
 	}
