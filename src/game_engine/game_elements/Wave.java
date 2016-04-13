@@ -3,7 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wave extends MapPiece{
+public class Wave extends GameElement{
 
 	private List<Enemy> myEnemies;
 	private List<Integer> mySpawnTimes;

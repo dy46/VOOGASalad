@@ -9,7 +9,7 @@ import java.util.List;
  * this API will be responsible for dealing with transitions in between waves of enemies, as well as
  * keeping track of the order in which waves occur, and the initial conditions for waves.
  */
-public class Level extends MapPiece {
+public class Level extends GameElement {
 
     private int myLives;
     private int startingLives;
@@ -87,7 +87,6 @@ public class Level extends MapPiece {
 
     public Enemy update () {
         return myCurrentWave.tryToSpawnEnemy();
-
     }
 
     public Wave getNextWave () {
