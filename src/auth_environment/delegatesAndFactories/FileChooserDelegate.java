@@ -1,11 +1,9 @@
 package auth_environment.delegatesAndFactories;
 
 import java.io.File;
-import java.util.ResourceBundle;
 
 import javafx.scene.control.ContextMenu;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileChooserDelegate {
@@ -18,6 +16,17 @@ public class FileChooserDelegate {
     
     public File chooseImage(String title) {
     	return this.fileFromWindow(this.addImageFilter(this.initChooser(title)));
+    }
+    
+    public File chooseXML(String title) {
+    	return this.fileFromWindow(this.addXMLFilter(this.initChooser(title)));
+    }
+    
+    // TODO: refactor
+    public File save(String title) {
+    	ContextMenu prefWindow = new ContextMenu();
+        File file = this.initChooser(title).showSaveDialog(prefWindow.getOwnerWindow());
+        return file;
     }
     
     private File fileFromWindow(FileChooser f) {
@@ -36,6 +45,11 @@ public class FileChooserDelegate {
     	// TODO: do these need to be extracted? 
     	f.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
     	return f;
+    }
+    
+    private FileChooser addXMLFilter(FileChooser f) {
+    	f.getExtensionFilters().add(new ExtensionFilter("*.xml")); 
+    	return f; 
     }
 
 }

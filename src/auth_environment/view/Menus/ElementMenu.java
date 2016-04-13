@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import auth_environment.view.ElementPicker;
 import auth_environment.view.TowerView;
 import game_engine.properties.Bounds;
 import game_engine.properties.Damage;
@@ -58,10 +59,10 @@ public class ElementMenu extends Menu {
 	private GridPane myGridPane;
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
-	PickerMenu myPicker;
+	ElementPicker myPicker;
 	
 	
-	public ElementMenu(PickerMenu myPicker) {
+	public ElementMenu(ElementPicker myPicker) {
 		this.myPicker = myPicker;
 		this.init();
 	}

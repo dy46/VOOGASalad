@@ -1,27 +1,14 @@
 package auth_environment.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -102,6 +89,8 @@ public class Welcome {
 		if (checkValidName()) {
 			this.myStage.hide();
 			this.myView.display();
+			String name = this.gameNameInput.getText();
+			this.myView.getSettings().setName(name);
 			// TODO: save entered name somewhere... ask Austin
 		}
 	}
