@@ -1,5 +1,6 @@
 package auth_environment.paths;
 
+import java.util.Arrays;
 import java.util.List;
 
 import game_engine.game_elements.Enemy;
@@ -64,33 +65,22 @@ public class PathsFactory {
 		}
 		PathNode currentMidStartingPath = myGraph.getPathByMidPosition(startingPos);
 		PathNode currentMidEndingPath = myGraph.getPathByMidPosition(endingPos);
-		if(currentMidStartingPath != null){
-			List<Position> cutoffPositions = currentMidStartingPath.cutoffByPosition(startingPos);
-			Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
-			List<PathNode> cutoffConnectedPaths = myGraph.getPathByEdgePosition(lastCutoff);
-			PathNode newSplitPath = new PathNode(currentPathID++);
-			newSplitPath.addPositions(cutoffPositions);
-			newSplitPath.addNeighbor(currentMidStartingPath);
-			for(PathNode path : cutoffConnectedPaths){
-				newSplitPath.addNeighbors(currentMidStartingPath.removeNeighbors(path.getNeighbors()));
+		List<PathNode> edgePaths = Arrays.asList(currentMidStartingPath, currentMidEndingPath);
+		for(PathNode edgePath : edgePaths){
+			if(edgePath != null){
+				List<Position> cutoffPositions = edgePath.cutoffByPosition(startingPos);
+				Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
+				List<PathNode> cutoffConnectedPaths = myGraph.getPathByEdgePosition(lastCutoff);
+				PathNode newSplitPath = new PathNode(currentPathID++);
+				newSplitPath.addPositions(cutoffPositions);
+				newSplitPath.addNeighbor(edgePath);
+				for(PathNode path : cutoffConnectedPaths){
+					newSplitPath.addNeighbors(edgePath.removeNeighbors(path.getNeighbors()));
+				}
+				newPathNode.addNeighbor(edgePath);
+				newPathNode.addNeighbor(newSplitPath);
+				newSplitPath.addNeighbor(newPathNode);
 			}
-			newPathNode.addNeighbor(currentMidStartingPath);
-			newPathNode.addNeighbor(newSplitPath);
-			newSplitPath.addNeighbor(newPathNode);
-		}
-		if(currentMidEndingPath != null){
-			List<Position> cutoffPositions = currentMidEndingPath.cutoffByPosition(startingPos);
-			Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
-			List<PathNode> cutoffConnectedPaths = myGraph.getPathByEdgePosition(lastCutoff);
-			PathNode newSplitPath = new PathNode(currentPathID++);
-			newSplitPath.addPositions(cutoffPositions);
-			newSplitPath.addNeighbor(currentMidEndingPath);
-			for(PathNode path : cutoffConnectedPaths){
-				newSplitPath.addNeighbors(currentMidEndingPath.removeNeighbors(path.getNeighbors()));
-			}
-			newPathNode.addNeighbor(currentMidEndingPath);
-			newPathNode.addNeighbor(newSplitPath);
-			newSplitPath.addNeighbor(newPathNode);
 		}
 	}
 
