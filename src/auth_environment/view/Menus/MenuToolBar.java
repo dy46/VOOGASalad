@@ -26,8 +26,8 @@ public class MenuToolBar extends MenuBar {
 				new FileMenu(this.mySettings), 
 				new SettingsMenu(),
 				new ElementMenu(myPicker),
-				new HelpMenu()
-//				new TabMenu(this.myTabPane)
+				new HelpMenu(),
+				new TabMenu(this.myTabPane, this.mySettings)
 				);
 		return myMenus; 
 	}
