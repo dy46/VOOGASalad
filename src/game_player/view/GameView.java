@@ -14,6 +14,8 @@ import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_player.GameDataSource;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -22,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class GameView implements IGameView{
     
@@ -34,6 +37,7 @@ public class GameView implements IGameView{
     private Scene myScene;
     private IPlayerEngineInterface playerEngineInterface;
 	private GameDataSource gameData;
+	private int myStepDelay;
     private List<ImageViewPicker> towers;
     private List<ImageViewPicker> enemies;
     private List<ImageViewPicker> projectiles;
@@ -46,16 +50,13 @@ public class GameView implements IGameView{
         playerEngineInterface = new EngineWorkspace();
         playerEngineInterface.setUpEngine(null);
         gameData = new GameDataSource();
-//        primaryStage.setScene(theScene);
-//        canvas = new Canvas(500, 500);
-//        canvas.getGraphicsContext2D().drawImage(new Image("background.png"), 0, 0);
-//        root.getChildren().add(canvas);
         isPlaying = true;
         this.towers = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.projectiles = new ArrayList<>();
         this.terrains = new ArrayList<>();
         this.timer = 0;
+//        this.myStepDelay = 60;
         this.paths = new ArrayList<>();
         this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
         this.root.setOnMouseClicked(e -> {
@@ -87,29 +88,32 @@ public class GameView implements IGameView{
     }
     
     public void display() {
-//        this.myStage.show();
         playGame(0);
     }
     
     @Override
     public void playGame (int gameIndex) {
-        AT = new AnimationTimer() {            
-            public void handle(long currentNanoTime) {
-               if(isPlaying) {
-                   timer++;
-                   playerEngineInterface.updateElements();
-                   placeUnit();
-                   placePath();
-                   placeTerrain();
-                   if(playerEngineInterface.getLives() < 0) {
-                       timerStatus = false;
-                       playerEngineInterface.clearProjectiles();
-                   }
-               }
-            }
+        AT = new AnimationTimer() {
+        	public void handle(long now) {
+        		if (isPlaying) {
+        			runGame();
+        		}
+        	}
         };
         AT.start();
         timerStatus = true;
+    }
+    
+    private void runGame() {
+    	timer++;
+        playerEngineInterface.updateElements();
+        placeUnit();
+        placePath();
+        placeTerrain();
+        if(playerEngineInterface.getLives() < 0) {
+            timerStatus = false;
+            playerEngineInterface.clearProjectiles();
+        }
     }
 
     @Override
