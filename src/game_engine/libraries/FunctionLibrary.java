@@ -34,8 +34,8 @@ public class FunctionLibrary {
 		return myFunctions.get(myFactory.getName(type, strength)).getTerms();
 	}
 
-	public void addFunction(Function function) {
-		myFunctions.put(function.getName(), function);
+	public Function addFunction(Function function) {
+		return myFunctions.put(function.getName(), function);
 	}
 	
 	public void addStrength(String strength, Constant constant){
