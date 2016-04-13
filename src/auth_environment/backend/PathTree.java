@@ -1,8 +1,7 @@
 package auth_environment.backend;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
+import java.util.Arrays;
 import java.util.List;
 
 import game_engine.affectors.Affector;
@@ -14,12 +13,15 @@ import game_engine.game_elements.Unit;
 public class PathTree {
 
 	private PathNode myRoot;
+	private String myID;
 	
-	public PathTree(){
+	public PathTree(String ID){
+		this.myID = ID;
 		this.myRoot = new PathNode();
 	}
 	
-	public PathTree(PathNode root){
+	public PathTree(PathNode root, String ID){
+		this.myID = ID;
 		this.myRoot = root;
 	}
 	
@@ -39,6 +41,15 @@ public class PathTree {
 		return getUnits(myRoot, new Terrain("0", 0));
 	}
 	
+	public List<PathNode> getPathNodes(PathNode root){
+		List<PathNode> myNodes = new ArrayList<>();
+		myNodes.add(root);
+		for(PathNode n : root.getChildren()){
+			myNodes.addAll(getPathNodes(n));
+		}
+		return myNodes;
+	}
+	
 	// Uses post-order traversal to extract List of appropriate Unit
 	private List<Unit> getUnits(PathNode node, Unit target){
 		List<Unit> myUnits = new ArrayList<>();
@@ -47,6 +58,10 @@ public class PathTree {
 			myUnits.addAll(getUnits(n, target));
 		}
 		return myUnits;
+	}
+	
+	public String getID(){
+		return myID;
 	}
 	
 }
