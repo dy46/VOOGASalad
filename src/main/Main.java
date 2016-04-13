@@ -18,13 +18,15 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		//game_data.AuthSerializer.SerializeData(primaryStage); //Sample object saving
-		
+		String hello = "hello"; 
+//		game_data.AuthSerializer.SerializeData(hello); //Sample object saving
+		String out = (String) game_data.AuthSerializer.Deserialize();
+		System.out.println(out); 
 //		authView = new View(primaryStage); // for testing Auth
-		myView = new GameView(primaryStage);
-		myEngineController = new EngineController();
-		myEngineController.initialize();
-		myView.display();
+//		myView = new GameView(primaryStage);
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
+//		myView.display();
 	}
 	
 }

@@ -1,16 +1,22 @@
 package game_data;
 
 import com.thoughtworks.xstream.XStream;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 public class AuthSerializer {
 	public static void SerializeData(Object o) {
-
-		File f = pickFile(true);
+		
+		FileChooserDelegate chooser = new FileChooserDelegate(); 
+		File f = chooser.save("Save");
+//		File f = pickFile(true);
 		XStream xstream = new XStream();
 		String xml = xstream.toXML(o);
 
@@ -32,11 +38,13 @@ public class AuthSerializer {
 		fileChooser.setFileFilter(xmlFilter);
 
 		int result = 0;
-		if (amSaving)
+		if (amSaving) {
+			System.out.println("trying to open?");
 			result = fileChooser.showSaveDialog(null);
+			System.out.println(result); 
+		}
 		else
 			result = fileChooser.showOpenDialog(null);
-
 		if (result != JFileChooser.APPROVE_OPTION)
 			return null;
 
@@ -44,7 +52,9 @@ public class AuthSerializer {
 	}
 
 	public static Object Deserialize() {
-		File f = pickFile(false);
+//		File f = pickFile(false);
+		FileChooserDelegate chooser = new FileChooserDelegate();
+		File f = chooser.chooseFile("Choose");
 		XStream xstream = new XStream();
 
 		return xstream.fromXML(f);
