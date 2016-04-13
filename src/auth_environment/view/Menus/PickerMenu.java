@@ -27,7 +27,7 @@ import javafx.scene.text.Text;
 
 public class PickerMenu extends Accordion {
 	
-	private List<Tower> myTowerList = new ArrayList<Tower>();;
+	private List<Tower> myTowerList = new ArrayList<Tower>();
 	FlowPane myPane = new FlowPane();
 	
 	public PickerMenu() {
