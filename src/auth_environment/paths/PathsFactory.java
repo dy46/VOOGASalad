@@ -36,7 +36,7 @@ public class PathsFactory {
 		else{
 			if(newPath.size() > 0){
 				PathGraph newGraph = createGraph();
-				PathNode path = new PathNode(null, newPath, currentPathID++);
+				PathNode path = new PathNode(newPath, currentPathID++);
 				newGraph.setRoot(path);
 				myForest.addGraph(newGraph);
 			}

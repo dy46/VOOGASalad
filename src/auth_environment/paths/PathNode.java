@@ -14,13 +14,11 @@ public class PathNode {
 	private List<Position> myPositions;
 	private List<Terrain> myTerrains;
 	private List<Enemy> myEnemys;
-	private PathNode myParent;
 	private List<PathNode> myNeighbors;
 	private int myID;
 
-	public PathNode(PathNode parent, List<Position> positions, int ID){
+	public PathNode(List<Position> positions, int ID){
 		this.myID = ID;
-		this.myParent = parent;
 		myPositions = positions;
 		myTerrains = new ArrayList<>();
 		myNeighbors = new ArrayList<>();
@@ -30,7 +28,6 @@ public class PathNode {
 		this.myTerrains = new ArrayList<>();
 		this.myPositions = new ArrayList<>();
 		this.myEnemys = new ArrayList<>();
-		this.myParent = null;
 		this.myNeighbors = new ArrayList<>();
 	}
 
@@ -60,10 +57,6 @@ public class PathNode {
 
 	public List<Enemy> getEnemies(){
 		return myEnemys;
-	}
-
-	public PathNode getParent(){
-		return myParent;
 	}
 
 	public List<PathNode> getNeighbors(){
