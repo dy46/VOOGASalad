@@ -102,6 +102,8 @@ public class Welcome {
 		if (checkValidName()) {
 			this.myStage.hide();
 			this.myView.display();
+			String name = this.gameNameInput.getText();
+			this.myView.getSettings().setName(name);
 			// TODO: save entered name somewhere... ask Austin
 		}
 	}

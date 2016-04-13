@@ -2,6 +2,8 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
+import auth_environment.backend.GameSettings;
+import auth_environment.backend.ISettings;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -28,6 +30,7 @@ public class View {
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
     private Workspace mainWorkspace;
+    private GameSettings mySettings = new GameSettings(); 
 
     public View (Stage stage) {
         myStage = stage;
@@ -53,6 +56,10 @@ public class View {
 
     public void display() {
     	this.myStage.show();
+    }
+    
+    public ISettings getSettings() {
+    	return this.mySettings;
     }
 
 }

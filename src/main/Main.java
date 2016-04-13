@@ -19,12 +19,12 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		String hello = "hello"; 
-		AuthSerializer writer = new AuthSerializer(); 
-		writer.SerializeData(hello); //Sample object saving
-		String out = (String) writer.Deserialize();
-		System.out.println(out); 
-//		authView = new View(primaryStage); // for testing Auth
+//		String hello = "hello"; 
+//		AuthSerializer writer = new AuthSerializer(); 
+//		writer.SerializeData(hello); //Sample object saving
+//		String out = (String) writer.Deserialize();
+//		System.out.println(out); 
+		authView = new View(primaryStage); // for testing Auth
 //		myView = new GameView(primaryStage);
 //		myEngineController = new EngineController();
 //		myEngineController.initialize();
