@@ -4,7 +4,7 @@ import java.util.List;
 
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
-import game_engine.properties.UnitProperties;
+import game_engine.game_elements.Unit;
 
 public class HealthDamageAffector extends Affector{
 
@@ -12,10 +12,11 @@ public class HealthDamageAffector extends Affector{
 		super(functions, engineWorkspace);
 	}
 
-	public void apply(UnitProperties properties) {
-		super.apply(properties);
+	@Override
+	public void apply(Unit unit) {
+		super.apply(unit);
 		double damage = getFunctions().get(0).evaluate(getElapsedTime());
-		properties.getHealth().decrementValue(damage);   
+		unit.getProperties().getHealth().decrementValue(damage);   
 	}
 
 }

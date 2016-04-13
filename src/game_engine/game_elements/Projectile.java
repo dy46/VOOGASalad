@@ -18,12 +18,12 @@ public class Projectile extends Unit {
         // setID(getWorkspace().getIDFactory().createID(this));
     }
 
-    /*
-     * Updates the position of the projectile
-     */
-    public boolean update () {
-       return super.update();
-    }
+//    /*
+//     * Updates the position of the projectile
+//     */
+//    public boolean update () {
+//       return super.update();
+//    }
 
     public Projectile copyProjectile () {
         List<Affector> copyAffectors = this.getAffectors().stream().map(a -> a.copyAffector()).collect(Collectors.toList());

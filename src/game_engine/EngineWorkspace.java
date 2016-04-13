@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -20,13 +18,9 @@ import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
-import game_engine.properties.Bounds;
-import game_engine.properties.Health;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
-import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
-import game_engine.properties.Velocity;
 
 
 /**
@@ -146,16 +140,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(200, 0));
 		pos.add(new Position(200, 200));
 		pos.add(new Position(0, 200));
-		Position p = new Position(100, 100);
-		Bounds b = new Bounds(pos);
-<<<<<<< HEAD
-		Health health = new Health(20);
-		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
-=======
-	        Velocity velocity = new Velocity(0, 90);
-		UnitProperties properties = new UnitProperties(null, null, null, velocity, b, p, null, new State("Stationary"), null);
->>>>>>> 2644dea77f1258a7f847453cb880537379bb2d20
-		ice.setProperties(properties);
+		ice.getProperties().setPosition(100, 100);
+		ice.getProperties().setBounds(pos);
 		ice.setTTL(Integer.MAX_VALUE);
 		return ice;
 	}
@@ -167,11 +153,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(275, -25));
 		pos.add(new Position(275, 150));
 		pos.add(new Position(95, 150));
-		Position p = new Position(185, 62.5);
-		Bounds b = new Bounds(pos);
-		Health health = new Health(26);
-		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
-		poisonSpike.setProperties(properties);
+		poisonSpike.getProperties().setPosition(185, 62.5);
+		poisonSpike.getProperties().setBounds(pos);
 		poisonSpike.setTTL(Integer.MAX_VALUE);
 		return poisonSpike;
 	}
@@ -183,19 +166,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		pos.add(new Position(275, -25));
 		pos.add(new Position(275, 150));
 		pos.add(new Position(95, 150));
-		Position p = new Position(185, 62.5);
-		Bounds b = new Bounds(pos);
-		Health health = new Health(25);
-		UnitProperties properties = new UnitProperties(health, null, null, null, b, p, null, new State("Stationary"), null);
-		spike.setProperties(properties);
+		spike.getProperties().setPosition(185, 62.5);
+		spike.getProperties().setBounds(pos);
 		spike.setTTL(Integer.MAX_VALUE);
 		return spike;
-	}
-	
-	private List<Unit> aliveUnits(List<Unit> units){
-		return units.stream().
-			filter(unit -> unit.isAlive())
-			.collect(Collectors.toList());
 	}
 
 	public void updateElements() {
@@ -204,11 +178,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		if(!pause && !gameOver){
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
-			int numAliveBefore = aliveUnits(myEnemys).size();
-			int numAliveAfter = (int) myEnemys.stream().map(e -> e.isAlive() && e.isAlive() != e.update()).count();
-			updateLives();
-			myLives -= numAliveBefore - numAliveAfter;
-			System.out.println("Lives left: " + myLives);
+			myEnemys.forEach(e -> e.update());
 			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
 			Enemy newE = myCurrentLevel.update();
 			if(newE != null){
