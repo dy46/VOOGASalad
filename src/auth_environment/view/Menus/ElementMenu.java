@@ -21,7 +21,9 @@ import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
+import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Tower;
+import game_engine.libraries.AffectorLibrary;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -56,8 +58,11 @@ public class ElementMenu extends Menu {
 	private GridPane myGridPane;
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
+	PickerMenu myPicker;
 	
-	public ElementMenu() {
+	
+	public ElementMenu(PickerMenu myPicker) {
+		this.myPicker = myPicker;
 		this.init();
 	}
 	
@@ -70,11 +75,11 @@ public class ElementMenu extends Menu {
 		terrainItem.setOnAction(e -> createNewTerrain());
 		enemyItem.setOnAction(e -> createNewEnemy());
 		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
-		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
-		viewTowerItem.setOnAction(e -> viewTowers());
-		towerItem.setOnAction(e -> createNewTower());
-		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
+//		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
+//		viewTowerItem.setOnAction(e -> viewTowers());
+//		towerItem.setOnAction(e -> createNewTower());
+//		terrainItem.setOnAction(e -> createNewTerrain());
+//		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
 	}
 	
 	private void viewTowers() {
@@ -205,7 +210,11 @@ public class ElementMenu extends Menu {
     	
     	block.setMyImage((ImageView)t.getGraphic());
     	
-
+    	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	Tower tower = towerFac.defineTowerModel(block);
+    	
+    	myTowerList.add(tower);
+    	myPicker.updateMenu(myTowerList, tower);
     	//call Cody's method
     	//and add to list
     	//and then update my Picker

@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -15,6 +16,7 @@ public class RecTile extends Tile {
 	public RecTile(double width, double height) {
 		myRectangle = new Rectangle(width, height); 
 	}
+	
 	
 	public RecTile(double scaledX, double scaledY, double width, double height) {
 		myRectangle = new Rectangle(scaledX, scaledY, width, height); 
