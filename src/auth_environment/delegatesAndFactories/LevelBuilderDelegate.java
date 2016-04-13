@@ -13,6 +13,8 @@ public class LevelBuilderDelegate implements ITileDelegate {
 	public LevelBuilderDelegate(List<GameElement> elements) {
 		this.myElements = elements; 
 	}
+	
+	
 
 	@Override
 	public void importTiles(List<Tile> tiles) {
