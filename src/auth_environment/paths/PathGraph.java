@@ -2,6 +2,8 @@ package auth_environment.paths;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Enemy;
@@ -46,12 +48,9 @@ public class PathGraph {
 	}
 	
 	public List<PathNode> getPathNodes(PathNode root){
-		List<PathNode> myNodes = new ArrayList<>();
-		myNodes.add(root);
-		for(PathNode n : root.getNeighbors()){
-			myNodes.addAll(getPathNodes(n));
-		}
-		return myNodes;
+		List<PathNode> nodes = root.getNeighbors().stream().filter(n -> getPathNodes(n) != null).collect(Collectors.toList());
+		nodes.add(root);
+		return nodes;
 	}
 	
 	// Uses post-order traversal to extract List of appropriate Unit
@@ -69,22 +68,16 @@ public class PathGraph {
 	}
 	
 	public List<PathNode> getPathByEdgePosition(Position pos){
-		List<PathNode> paths = new ArrayList<>();
-		for(PathNode n : myRoot.getNeighbors()){
-			if(n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos)){
-				paths.add(n);
-			}
-		}
-		return paths;
+		return myRoot.getNeighbors().stream().filter(
+				n -> n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos))
+				.collect(Collectors.toList());
 	}
 	
 	public PathNode getPathByMidPosition(Position pos){
-		for(PathNode n : myRoot.getNeighbors()){
-			if(n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos)){
-				return n;
-			}
-		}
-		return null;
+		Optional<PathNode> graph = myRoot.getNeighbors().stream().filter(
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
+				.findFirst();
+		return graph.isPresent() ? graph.get() : null;
 	}
 	
 }

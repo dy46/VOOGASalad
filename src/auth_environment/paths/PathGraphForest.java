@@ -2,6 +2,7 @@ package auth_environment.paths;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 // PathForest is a set of disjoint PathGraphs that represent all the paths for an instance of a game
 public class PathGraphForest {
@@ -25,12 +26,8 @@ public class PathGraphForest {
 	}
 
 	public PathGraph getGraphByID(String ID){
-		for(PathGraph graph : myGraphs){
-			if(graph.getID().equals(ID)){
-				return graph;
-			}
-		}
-		return null;
+		Optional<PathGraph> graph = myGraphs.stream().filter(g -> g.getID().equals(ID)).findFirst();
+		return graph.isPresent() ? graph.get() : null;
 	}
 
 	public PathNode getPathByID(String ID){
