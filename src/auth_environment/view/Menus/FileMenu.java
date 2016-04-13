@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import auth_environment.backend.ISettings;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import game_data.AuthSerializer;
+import game_data.IGameData;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
@@ -23,10 +24,10 @@ public class FileMenu extends Menu {
 
 	private FileChooserDelegate myFileChooser = new FileChooserDelegate(); 
 	
-	private ISettings mySettings; 
+	private IGameData myGameData; 
 	
-	public FileMenu(ISettings settings) {
-		this.mySettings = settings; 
+	public FileMenu(IGameData gameData) {
+		this.myGameData = gameData; 
 		this.init();
 	}
 	
@@ -43,7 +44,7 @@ public class FileMenu extends Menu {
 	// TODO: should pass ONE object to XStream. (We need to decide how to store that) 
 	private void save() {
 		AuthSerializer writer = new AuthSerializer(); 
-		writer.SerializeData(this.mySettings.getName()); //Sample object saving
+		writer.SerializeData(this.myGameData); //Sample object saving
 	}
 	
 	private void load() {

@@ -49,7 +49,7 @@ public class View {
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		mainWorkspace = new Workspace(myTabs, this.myGameData.getSettings());
+		mainWorkspace = new Workspace(myTabs, this.myGameData);
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
