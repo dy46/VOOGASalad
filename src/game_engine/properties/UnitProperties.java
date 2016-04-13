@@ -117,10 +117,18 @@ public class UnitProperties {
 	public void setBounds(List<Position> positions){
 		myBounds.setPositions(positions);
 	}
+	
+	public void setBounds(Bounds b){
+		myBounds = b;
+	}
 
 	public void setPosition(double x, double y){
 		myPosition.setX(x);
 		myPosition.setY(y);
+	}
+	
+	public void setPosition(Position pos){
+		myPosition = pos;
 	}
 
 	public void setState(State state) {

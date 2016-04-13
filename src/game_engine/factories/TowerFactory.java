@@ -11,12 +11,7 @@ import game_engine.game_elements.Tower;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Bounds;
-import game_engine.properties.Health;
-import game_engine.properties.Position;
-import game_engine.properties.State;
-import game_engine.properties.UnitProperties;
-import game_engine.properties.Velocity;
+import game_engine.properties.*;
 
 
 public class TowerFactory {
@@ -33,15 +28,29 @@ public class TowerFactory {
     	Tower t = new Tower(tBlock.getMyName(), affectors, 2);
     	List<Position> l1 = new ArrayList<>();
     	Health hp = tBlock.getMyHealth();
+    	Damage dmg = tBlock.getMyDamage();
     	Velocity velo = tBlock.getMyVelocity();
     	State towerState = tBlock.getMyState();
     	Path towerPath = new Path("Something here"); 
-    	UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, towerPath); 
+    	Price towerPrice = tBlock.getMyPrice();
+    	UnitProperties towerProp = new UnitProperties(hp, dmg, null, velo, null, null, towerPrice, towerState, towerPath); 
     	t.setProperties(towerProp);
     	t.setTTL(1000000);
     	t.setDeathDelay(100);
     	return t; 
     }
+    
+    public Tower buildFromTowerModel(Tower model, Position towerPos, Bounds towerBounds){
+    	UnitProperties towerProp = model.getProperties().copyUnitProperties(); 
+    	towerProp.setPosition(towerPos);
+    	towerProp.setBounds(towerBounds);
+    	Tower built = new Tower(model.toString(), model.getAffectors(), 2);
+    	built.setProperties(towerProp);
+    	built.setTTL(1000000);
+    	built.setDeathDelay(100);
+    	return built;
+    }
+    
     
     public Tower createFourWayTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, Position startingPosition){
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();
