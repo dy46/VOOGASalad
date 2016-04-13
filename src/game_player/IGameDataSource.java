@@ -15,7 +15,7 @@ public interface IGameDataSource {
     void setDoubleValue(String key, double value);
     
     //get double values 
-    List<Double> getDoubleValue(String key);
+    double getDoubleValue(String key);
      
     //sets string values 
     void setStringValue(String key, List<String> values);

@@ -1,4 +1,4 @@
-package game_player;
+package game_player.view;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -6,6 +6,7 @@ import game_engine.game_elements.Unit;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 public class ImageViewPicker {
     
@@ -17,10 +18,10 @@ public class ImageViewPicker {
     private int numFrames;
     private int currFrame;
     private ImageView imageView;
-    private Group root;
+    private Pane root;
     
     
-    public ImageViewPicker(String name, int numFrames, String startingState, Group root) {
+    public ImageViewPicker(String name, int numFrames, String startingState, Pane root) {
         this.root = root;
         this.name = name;
         this.numFrames = numFrames;

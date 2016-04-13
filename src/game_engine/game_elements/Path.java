@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import game_engine.properties.Position;
 
-/*
+/**
 * Internal API that will be used in order to represent paths 
 * for enemy movements.
 */
@@ -75,8 +75,7 @@ public class Path extends MapPiece{
 		}
 	}
 	
-	
-	/*
+	/**
 	* Gets the next position (point) in the path.
 	* This will be used in order to determine which direction 
 	* an Enemy needs to move in next.
