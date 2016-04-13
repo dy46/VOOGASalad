@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
+import auth_environment.backend.ISettings;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
@@ -33,8 +34,11 @@ public class Workspace {
 	private MapDisplay myDisplay = new MapDisplay();
 	private ElementPicker myPicker = new ElementPicker(); 
 	
-	public Workspace(TabPane tabPane) {
+	private ISettings mySettings;
+	
+	public Workspace(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
+		this.mySettings = settings; 
 		this.setupBorderPane();
 	}
 	
@@ -42,7 +46,7 @@ public class Workspace {
 	    ElementPicker myPicker = new ElementPicker();
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, myPicker));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings));
 //		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(400,400);
 		this.myBorderPane.setRight(myPicker);
