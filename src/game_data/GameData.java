@@ -1,4 +1,4 @@
-package auth_environment.backend;
+package game_data;
 
 import java.util.List;
 

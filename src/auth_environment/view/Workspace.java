@@ -1,12 +1,14 @@
 package auth_environment.view;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
+import game_data.GameData;
 import game_engine.game_elements.Tower;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
@@ -48,7 +50,9 @@ public class Workspace {
 	}
 	
 	public void writeToGameData() {
-		
+		List<Tower> towers = myPicker.getTowers();
+		GameData gameData = new GameData(); 
+		gameData.setTowers(towers);
 	}
 	
     public Node getRoot() {

@@ -85,7 +85,7 @@ public class ElementPicker extends Accordion {
 		return myPanes; 
 	}
 	
-	public List<Tower> exportTowers() {
+	public List<Tower> getTowers() {
 		return this.myTowerList;
 	}
 }
