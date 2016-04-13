@@ -86,4 +86,8 @@ public class PickerMenu extends Accordion {
 		List<TitledPane> myPanes = Arrays.asList(myTowers,myEnemies,myTerrains);
 		return myPanes; 
 	}
+	
+	public List<Tower> exportTowers() {
+		return this.myTowerList;
+	}
 }
