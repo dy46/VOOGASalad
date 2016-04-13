@@ -3,6 +3,7 @@ package auth_environment.backend;
 import java.util.List;
 
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Terrain;
 import game_engine.properties.Position;
 
 public class PathForestFactory {
@@ -18,7 +19,7 @@ public class PathForestFactory {
 		PathTree myTree = myForest.getTreeByID(treeID);
 		if(myTree != null && newPath.size() > 0){
 			Position startingPos = newPath.get(0);
-			
+
 		}
 	}
 
@@ -28,13 +29,13 @@ public class PathForestFactory {
 	}
 
 	// Adds terrain to tree on correct path
-	public void addTerrain(Enemy enemy, String pathID){
-
+	public void addTerrain(Terrain terrain, String pathID){
+		myForest.getPathByID(pathID).addTerrain(terrain);
 	}
 
 	// Splits PathNode into two PathNodes at specific point
 	private void splitPath(String pathID, Position position){
-		
+
 	}
 
 	public PathForest getForest(){
