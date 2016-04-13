@@ -1,4 +1,4 @@
-package auth_environment.backend;
+package auth_environment.paths;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package auth_environment.backend;
+package auth_environment.paths;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +10,17 @@ import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
-public class PathTree {
+public class PathGraph {
 
 	private PathNode myRoot;
 	private String myID;
 	
-	public PathTree(String ID){
+	public PathGraph(String ID){
 		this.myID = ID;
 		this.myRoot = new PathNode();
 	}
 	
-	public PathTree(PathNode root, String ID){
+	public PathGraph(PathNode root, String ID){
 		this.myID = ID;
 		this.myRoot = root;
 	}
