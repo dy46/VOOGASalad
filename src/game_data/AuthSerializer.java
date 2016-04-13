@@ -12,10 +12,12 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AuthSerializer {
-	public static void SerializeData(Object o) {
+	
+	private FileChooserDelegate chooser = new FileChooserDelegate(); 
+	
+	public void SerializeData(Object o) {
 		
-		FileChooserDelegate chooser = new FileChooserDelegate(); 
-		File f = chooser.save("Save");
+		File f = this.chooser.save("Save");
 //		File f = pickFile(true);
 		XStream xstream = new XStream();
 		String xml = xstream.toXML(o);
@@ -28,6 +30,14 @@ public class AuthSerializer {
 		} catch (IOException e) {
 			System.out.println("Error saving to file " + f.getAbsolutePath());
 		}
+	}
+	
+	public Object Deserialize() {
+//		File f = pickFile(false);
+		File f = this.chooser.chooseFile("Choose");
+		XStream xstream = new XStream();
+
+		return xstream.fromXML(f);
 	}
 
 	private static File pickFile(boolean amSaving) {
@@ -51,13 +61,6 @@ public class AuthSerializer {
 		return fileChooser.getSelectedFile();
 	}
 
-	public static Object Deserialize() {
-//		File f = pickFile(false);
-		FileChooserDelegate chooser = new FileChooserDelegate();
-		File f = chooser.chooseFile("Choose");
-		XStream xstream = new XStream();
 
-		return xstream.fromXML(f);
-	}
 
 }
