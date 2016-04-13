@@ -15,6 +15,8 @@ public class AuthSerializer {
 	
 	private FileChooserDelegate chooser = new FileChooserDelegate(); 
 	
+	// TODO: force write as XML
+	
 	public void SerializeData(Object o) {
 		
 		File f = this.chooser.save("Save");
@@ -60,7 +62,4 @@ public class AuthSerializer {
 
 		return fileChooser.getSelectedFile();
 	}
-
-
-
 }

@@ -8,7 +8,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.stage.Stage;
 
 /**
  * Created by BrianLin on 3/31/16.

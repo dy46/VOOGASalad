@@ -1,11 +1,9 @@
 package auth_environment.delegatesAndFactories;
 
 import java.io.File;
-import java.util.ResourceBundle;
 
 import javafx.scene.control.ContextMenu;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileChooserDelegate {

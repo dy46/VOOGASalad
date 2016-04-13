@@ -1,21 +1,13 @@
 package auth_environment.view;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISelector;
 import auth_environment.backend.ISettings;
-import auth_environment.backend.SelectorModel;
-import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
-import game_engine.game_elements.Tower;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Created by BrianLin on 3/31/16.
