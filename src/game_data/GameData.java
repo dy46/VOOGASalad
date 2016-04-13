@@ -2,16 +2,17 @@ package game_data;
 
 import java.util.List;
 
+import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Tower;
 
 public class GameData implements IGameData {
 	
-	private ISettings mySettings; 
+	private ISettings mySettings;
 	
 	public GameData() {
-		
+		this.mySettings = new GameSettings(); 
 	}
 
 	@Override

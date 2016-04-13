@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
+import game_data.GameData;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -30,8 +31,11 @@ public class View {
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
     private Workspace mainWorkspace;
+    
+    // For Austin to manage
     private GameSettings mySettings = new GameSettings(); 
-
+    private GameData myGameData = new GameData(); 
+    
     public View (Stage stage) {
         myStage = stage;
         
