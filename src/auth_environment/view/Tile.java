@@ -52,8 +52,9 @@ public abstract class Tile implements IElementHolder {
 	}
 	
 	public void showCurrentElement() {
-		NodeFactory nf = new NodeFactory(); 
-		this.setImage(nf.buildImage(this.myElement.toString()));
+		NodeFactory nf = new NodeFactory();
+		System.out.println("HM");
+		this.setImage(nf.buildImage(getElement().toString()));
 //		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
 	}
 	
