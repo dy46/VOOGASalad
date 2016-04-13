@@ -18,6 +18,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		//game_data.AuthSerializer.SerializeData(primaryStage); //Sample object saving
+		
 //		authView = new View(primaryStage); // for testing Auth
 		myView = new GameView(primaryStage);
 		myEngineController = new EngineController();
