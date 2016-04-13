@@ -29,6 +29,7 @@ public abstract class Tile implements IElementHolder {
 
 	private boolean hasElement; 
 	private GameElement myElement; 
+	private String name;
 
 	public Tile() {
 		hasElement = false;
@@ -42,6 +43,7 @@ public abstract class Tile implements IElementHolder {
 	public void updateElement(GameElement element) {
 		this.hasElement = true;
 		this.myElement = element; 
+		this.setName(element.toString());
 		//System.out.println(element.toString());
 		showCurrentElement();
 	}
@@ -53,7 +55,8 @@ public abstract class Tile implements IElementHolder {
 	
 	public void showCurrentElement() {
 		NodeFactory nf = new NodeFactory(); 
-		this.setImage(nf.buildImage(this.myElement.toString()));
+//		this.setImage(nf.buildImage(this.myElement.toString()));
+		this.setImage(nf.buildImage(this.name));
 //		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
 	}
 	
@@ -76,5 +79,13 @@ public abstract class Tile implements IElementHolder {
 	
 	public void chooseAndPrint(){
 		this.getShape().setFill(Color.GREEN);
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 }

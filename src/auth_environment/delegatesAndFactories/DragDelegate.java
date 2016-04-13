@@ -19,7 +19,7 @@ import javafx.scene.input.TransferMode;
 
 public class DragDelegate {
 	
-	private static final DataFormat gameElementFormat = new DataFormat("Game Element"); // need help extracting  
+//	private static final DataFormat gameElementFormat = new DataFormat("Game Element"); // need help extracting  
 			
 	public DragDelegate() {}
 	
@@ -28,8 +28,8 @@ public class DragDelegate {
 			public void handle(MouseEvent event) {
 				Dragboard db = source.getShape().startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-				content.putString("test");
 //				content.put(DragDelegate.gameElementFormat, source.getElement());
+				content.putString(source.getName());
 				db.setContent(content);
 				event.consume();
 			}
@@ -60,7 +60,7 @@ public class DragDelegate {
 			public void handle(DragEvent event) {
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
-					target.showCurrentElement();
+//					target.showCurrentElement();
 				}
 				event.consume();
 			}
@@ -82,6 +82,7 @@ public class DragDelegate {
 				boolean success = false;
 				if (db.hasString()) {
 //					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) ); 
+					target.setName(db.getString());
 					target.placeCurrentElement(); 
 					success = true;
 				}
