@@ -48,6 +48,10 @@ public class TowerFactory {
     	return t; 
     }
     
+    public Tower createTowerFromModel(Tower model){
+    	
+    }
+    
     public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Projectile> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
         Tower t = new Tower(name, affectors, myProjectiles2, myProjectiles, 2);
@@ -69,7 +73,7 @@ public class TowerFactory {
         return t;
     }
     
-    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, Position startingPosition, TowerBuildingBlock tblock){
+    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, Position startingPosition){
         List<Projectile> myProjectiles = new ArrayList<Projectile>();
         Affector move = myAffectorLibrary.getAffector("Homing", "Move");
         move.setTTL(Integer.MAX_VALUE);
