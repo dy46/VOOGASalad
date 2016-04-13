@@ -27,7 +27,7 @@ public class TowerFactory {
     	List<Affector> affectors = new ArrayList<>(); 
     	Tower t = new Tower(tBlock.getMyName(), affectors, 2);
     	List<Position> l1 = new ArrayList<>();
-    	Health hp = tBlock.getMyHealth();
+    	Health hp = new Health(tBlock.getMyHealth().getValue());
     	Damage dmg = tBlock.getMyDamage();
     	Velocity velo = tBlock.getMyVelocity();
     	State towerState = tBlock.getMyState();

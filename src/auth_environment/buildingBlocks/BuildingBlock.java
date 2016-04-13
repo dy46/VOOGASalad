@@ -52,16 +52,16 @@ public abstract class BuildingBlock {
 		return myHealth;
 	}
 
-	public void setMyHealth(Health myHealth) {
-		this.myHealth = myHealth;
+	public void setMyHealth(double myHealth) {
+		this.myHealth = new Health(myHealth);
 	}
 
 	public Damage getMyDamage() {
 		return myDamage;
 	}
 
-	public void setMyDamage(Damage myDamage) {
-		this.myDamage = myDamage;
+	public void setMyDamage(double myDamage) {
+		this.myDamage = new Damage(myDamage);
 	}
 
 	public Team getMyTeam() {
