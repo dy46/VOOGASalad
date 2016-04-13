@@ -2,10 +2,13 @@ package game_data;
 
 import java.util.List;
 
+import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Tower;
 
 public interface IGameData {
+	
+	public ISettings getSettings(); 
 	
 	public List<Tower> getTowers();
 	
