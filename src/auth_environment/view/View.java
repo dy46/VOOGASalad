@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
 import game_data.GameData;
+import game_data.IGameData;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -33,7 +34,6 @@ public class View {
     private Workspace mainWorkspace;
     
     // For Austin to manage
-    private GameSettings mySettings = new GameSettings(); 
     private GameData myGameData = new GameData(); 
     
     public View (Stage stage) {
@@ -49,7 +49,7 @@ public class View {
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		mainWorkspace = new Workspace(myTabs, this.mySettings);
+		mainWorkspace = new Workspace(myTabs, this.myGameData.getSettings());
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
@@ -62,8 +62,8 @@ public class View {
     	this.myStage.show();
     }
     
-    public ISettings getSettings() {
-    	return this.mySettings;
+    public IGameData getGameData() {
+    	return this.myGameData;
     }
 
 }

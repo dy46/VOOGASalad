@@ -90,7 +90,7 @@ public class Welcome {
 			this.myStage.hide();
 			this.myView.display();
 			String name = this.gameNameInput.getText();
-			this.myView.getSettings().setName(name);
+			this.myView.getGameData().getSettings().setName(name);
 			// TODO: save entered name somewhere... ask Austin
 		}
 	}
