@@ -46,8 +46,10 @@ public class View {
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
-	}
-
+		
+		
+		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
+    }
 
     public void display() {
     	this.myStage.show();
