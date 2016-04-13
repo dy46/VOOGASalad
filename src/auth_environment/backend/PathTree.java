@@ -10,6 +10,10 @@ public class PathTree {
 
 	private PathNode myRoot;
 	
+	public PathTree(){
+		this.myRoot = new PathNode();
+	}
+	
 	public PathTree(PathNode root){
 		this.myRoot = root;
 	}

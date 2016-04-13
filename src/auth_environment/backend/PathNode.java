@@ -15,32 +15,52 @@ public class PathNode {
 	private List<Enemy> myEnemies;
 	private PathNode myParent;
 	private List<PathNode> myChildren;
-	
+
 	public PathNode(PathNode parent, Position startingPos){
 		this.myParent = parent;
 		myPositions = Arrays.asList(startingPos);
 		myTerrains = new ArrayList<>();
 		myChildren = new ArrayList<>();
 	}
+
+	public PathNode() {
+		this.myTerrains = new ArrayList<>();
+		this.myPositions = new ArrayList<>();
+		this.myEnemies = new ArrayList<>();
+		this.myParent = null;
+		this.myChildren = new ArrayList<>();
+	}
+
+	public void addEnemy(Enemy enemy){
+		this.myEnemies.add(enemy);
+	}
 	
+	public void addTerrain(Terrain terrain){
+		this.myTerrains.add(terrain);
+	}
+	
+	public void addChild(PathNode child){
+		this.myChildren.add(child);
+	}
+
 	public List<Position> getPositions(){
 		return myPositions;
 	}
-	
+
 	public List<Terrain> getTerrains(){
 		return myTerrains;
 	}
-	
+
 	public List<Enemy> getEnemies(){
 		return myEnemies;
 	}
-	
+
 	public PathNode getParent(){
 		return myParent;
 	}
-	
+
 	public List<PathNode> getChildren(){
 		return myChildren;
 	}
-	
+
 }
