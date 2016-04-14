@@ -42,6 +42,55 @@
   - Level: constructor is used to generate a level object `Level (String name, Wave first, int myLives)`
   - Level: waves are added by making repeated calls to `addWave (Wave newWave) `
   
+8. Engine detects when a wave has finished, and pauses in order to let the user make purchases
+  - EngineWorkspace: makes consecutive calls to `updateElements()`
+  - EngineWorkspace: `updateElements()` makes checks to `myCurrentLevel.getCurrentWave().isFinished()` which checks if wave has finished
+  - If wave has finished, EngineWorkspace calls 
+    - `clearProjectiles();`
+    - `pause = true;`
+  - During next call to `update()`, EngineWorkspace understands game is paused, and blocks calculations until next level or wave is played 
+  
+9. An enemy traverses its path, and decrements health
+  - EngineWorkspace: makes a call to `updateElements()`
+  - EngineWorkspace: `updateElements()` makes a call to `updateLives()`
+  - EngineWorkspace: `updateLives()` checks `isUnitAtLastPosition(myEnemys.get(i))`
+  - if enemy is at the last position in the path, `myLives` is decremented.
+
+10. Selling a tower returns money to the user (on the backend)
+  - EngineWorkspace: makes a call to selects a specific tower and calls `Tower.sellTower()`, which removes the tower from `myTowers`
+  - EngineWorkspace then makes a call to `Store.refundCost(Tower.getSellCost())`
+  - `Store` then increments users money value, which can be used for future purchases with `buyTower(int towerType)` method
+
+1. Auth Environment can drag in a Tower
+
+  > Use the DragDelegate.java class we've created for Player, set possible Towers as sources, and locations on the Map as targets (using the DragDelegate's .setSource and .setTarget methods)
+
+2. Auth Environment can load in a previous Game 
+
+  > Open FileChooser to locate corresponding XML file. Update local IGameData instance by deserializing the XML. Tower Pickers and other Game Element containers will be updated by setting their contents from GameData. 
+
+3. Auth Environment can edit placed Tower
+
+  > Take target locations on Map and add mouse listener that would return the location's Unit instance. Then the Unit editor window is opened and has its fields populated with the selected Unit instance using setter methods.
+
+4. Auth Environment can create multiple paths
+
+  > Click a 'Place Path' button to begin selecting Path positions on the Map. Each subsequent click adds another Position to a growing List of Positions. Clicking a 'Save Path' will add this List of Positions to the IGameData instance. 
+
+5. Auth Environment can view old (already placed) paths
+
+  > The Map will be updated by calling the IGameData's method that returns a Collection of previous Paths. These Paths will then be displayed on the Map in an alternate color scheme (to be distinct from the currently placed Path).
+
+6. Auth Environment can delete old Paths
+
+  > A side panel of active Paths will be updated each time a Path is saved. Each item in that panel will have an event handler that will remove the given Path from the IGameData with a removePath method call.
+
+7. Auth Environment can move placed Units
+
+  > Map tiles can be both sources and targets (as setup with the DragDelegate using .setSource() and .setTarget() ). 
+
+8. Auth Environment can change Map size
+  > A Map customization Menu takes in doubles for .setMapWidth and .setMapHeight (either in pixels or grid count). This is then used to create the Map size. 
 
 ### Game Player Use Cases
 
@@ -95,6 +144,5 @@
 10. Drag and Drop for Towers 
   * We need to create a TowerPalette class that implements IGUIObject.
   * When the user clicks on a tower within the TowerPalette, an EventHandler is triggered and the user will be able to drag the tower onto the Pane root of the player.
-
 
 
