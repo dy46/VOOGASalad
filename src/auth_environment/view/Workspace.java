@@ -41,8 +41,8 @@ public class Workspace {
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
 //		this.myBorderPane.setLeft(hello);
-		this.myBorderPane.setRight(new PickerMenu());
 		this.myBorderPane.setCenter(myDisplay);
+		this.myBorderPane.setRight(new PickerMenu());
 	}
 	
 	public ISelector getSelector() {

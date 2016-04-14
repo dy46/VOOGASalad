@@ -54,7 +54,7 @@ public abstract class Tile implements IElementHolder {
 		this.setImage(nf.buildImage(myNamesBundle.getString("tower")));
 	}
 	
-	public void placeCurrentElement() {
+	public void placeCurrentElement() {	
 		this.hasElement = true;
 		this.showCurrentElement();
 	}

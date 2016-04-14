@@ -70,11 +70,6 @@ public class ElementMenu extends Menu {
 		terrainItem.setOnAction(e -> createNewTerrain());
 		enemyItem.setOnAction(e -> createNewEnemy());
 		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
-		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
-		viewTowerItem.setOnAction(e -> viewTowers());
-		towerItem.setOnAction(e -> createNewTower());
-		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
 	}
 	
 	private void viewTowers() {

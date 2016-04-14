@@ -2,12 +2,15 @@ package auth_environment.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import game_engine.properties.Position;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -23,7 +26,7 @@ public class Grid{
 	double mapWidth;
 	double mapHeight;
 	private Pane myPane;
-	List<Tile> myTiles= new ArrayList<Tile>();
+	List<RecTile> myTiles= new ArrayList<RecTile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -47,8 +50,10 @@ public class Grid{
 											 recHeight);
 				myTile.getShape().setStroke(Color.BLACK);
 				myTile.getShape().setFill(Color.WHITE);
+				myModel.addElement(myTile, i, j);
 				DragDelegate drag = new DragDelegate(); 
 				drag.setupTarget(myTile);
+				myTiles.add(myTile);
 				myPane.getChildren().add(myTile.getShape());
 			}
 		}
@@ -63,5 +68,14 @@ public class Grid{
 	 
 	public double calcRecHeight(){
 		return (mapHeight/numY);
+	}
+	public ArrayList<Position> clickedList(){
+		ArrayList<Position> ans = new ArrayList<Position>();
+		for(Map.Entry<Position, Tile> entry : myModel.myMap.entrySet()){
+			if(((RecTile)(entry.getValue())).isPath){
+				ans.add(entry.getKey());
+			}
+		}
+		return ans;
 	}
 }
