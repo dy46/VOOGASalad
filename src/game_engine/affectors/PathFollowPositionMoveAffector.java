@@ -19,33 +19,35 @@ import game_engine.properties.UnitProperties;
  */
 public class PathFollowPositionMoveAffector extends Affector {
 
-    public PathFollowPositionMoveAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
-    }
+	public PathFollowPositionMoveAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
+		super(functions, engineWorkspace);
+	}
 
-    @Override
-    public void apply (Unit u) {
-        super.apply(u);
-        if (this.getElapsedTime() <= this.getTTL()) {
-            double speed = u.getProperties().getVelocity().getSpeed();
-            List<Path> myPath = u.getProperties().getMovement().getPaths();
-            int index = u.getProperties().getCurrentPath();
-            for (int i = 0; i < speed; i++) {
-                Position curr = u.getProperties().getPosition();
-                Position next = myPath.get(currentPath).getNextPosition(curr);
-                if(next == null){
-                	u.getProperties().getNextPath();
-                }
-                u.getProperties().getPosition().setX(next.getX());
-                u.getProperties().getPosition().setY(next.getY());
+	@Override
+	public void apply (Unit u) {
+		super.apply(u);
+		if (this.getElapsedTime() <= this.getTTL()) {
+			double speed = u.getProperties().getVelocity().getSpeed();
+			Path currentPath = u.getProperties().getMovement().getCurrentPath();
+			for (int i = 0; i < speed; i++) {
+				Position curr = u.getProperties().getPosition();
+				Position next = currentPath.getNextPosition(curr);
+				if(next == null){
+					currentPath = u.getProperties().getMovement().getNextPath();
+					next = currentPath.getFirstPosition();
+				}
+				if(next != null){
+					u.getProperties().getPosition().setX(next.getX());
+					u.getProperties().getPosition().setY(next.getY());
+				}
 
-            }
-            this.updateElapsedTime();
-        }
-        if (this.getElapsedTime() == this.getTTL()) {
-            // clear
+			}
+			this.updateElapsedTime();
+		}
+		if (this.getElapsedTime() == this.getTTL()) {
+			// clear
 
-        }
-    }
+		}
+	}
 
 }

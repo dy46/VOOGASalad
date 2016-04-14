@@ -8,31 +8,39 @@ import game_engine.game_elements.Unit;
 public class Movement {
 
 	private List<Path> myPaths;
-	private int currentPath;
-	
+	private int currentPathIndex;
+	private Path currentPath;
+
 	public Movement(List<Path> paths){
 		this.myPaths = paths;
-		currentPath = 0;
+		currentPathIndex = 0;
+		if(paths.size() > 0)
+			currentPath = myPaths.get(0);
 	}
-	
+
 	public List<Path> getPaths(){
 		return myPaths;
 	}
-	
+
 	public void setPaths(List<Path> paths){
 		this.myPaths = paths;
 	}
-	
+
 	public boolean isUnitAtLastPosition(Unit u) {
 		return getLastPath().isUnitAtLastPosition(u);
 	}
-	
+
 	public Path getCurrentPath(){
-		return myPaths.get(currentPath);
+		return currentPath;
 	}
-	
+
 	private Path getLastPath(){
 		return myPaths.get(myPaths.size()-1);
 	}
-	
+
+	public Path getNextPath() {
+		currentPath = myPaths.get(currentPathIndex++);
+		return currentPath;
+	}
+
 }

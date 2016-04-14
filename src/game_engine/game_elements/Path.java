@@ -131,4 +131,8 @@ public class Path extends Unit{
 		return myPositions;
 	}
 
+	public Position getFirstPosition() {
+		return myPositions.get(0);
+	}
+
 }
