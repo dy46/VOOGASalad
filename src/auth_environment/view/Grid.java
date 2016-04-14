@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
@@ -27,6 +28,8 @@ public class Grid{
 	double mapHeight;
 	private Pane myPane;
 	List<RecTile> myTiles= new ArrayList<RecTile>();
+	List<Position> temp = new ArrayList<Position>();
+	int count;
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -36,6 +39,7 @@ public class Grid{
 		this.numX = model.getXmax();
 		this.numY = model.getYmax();
 		this.generateGrid();
+		count = 1;
 	}
 	
 	public void generateGrid(){
@@ -47,9 +51,18 @@ public class Grid{
 				RecTile myTile = new RecTile(i*recWidth, 
 											 j*recHeight, 
 											 recWidth, 
-											 recHeight);
+											 recHeight,
+											 i,
+											 j);
 				myTile.getShape().setStroke(Color.BLACK);
 				myTile.getShape().setFill(Color.WHITE);
+				myTile.getShape().setOnMouseClicked(e->
+				{recTileAction(myTile);
+				myTile.setNum(count);
+				count++;
+				temp.add(new Position(myTile.x,myTile.y));
+				}
+				);
 				myModel.addElement(myTile, i, j);
 				DragDelegate drag = new DragDelegate(); 
 				drag.setupTarget(myTile);
@@ -69,13 +82,24 @@ public class Grid{
 	public double calcRecHeight(){
 		return (mapHeight/numY);
 	}
-	public ArrayList<Position> clickedList(){
-		ArrayList<Position> ans = new ArrayList<Position>();
-		for(Map.Entry<Position, Tile> entry : myModel.myMap.entrySet()){
-			if(((RecTile)(entry.getValue())).isPath){
-				ans.add(entry.getKey());
-			}
-		}
+	public List<Position> clickedList2(){
+		List<Position> ans = new ArrayList<Position>();
+//		for(Map.Entry<Position, Tile> entry : myModel.myMap.entrySet()){
+//			if(((RecTile)(entry.getValue())).isPath){
+//				ans.add(entry.getKey());
+//			}
+//		}
+		ans = myModel.myMap.entrySet().stream().filter(p->((RecTile)(p.getValue())).isPath).map(p -> p.getKey())
+				.collect(Collectors.toList());
 		return ans;
+	}
+	
+	public List<Position> clickedList(){
+		return temp;
+	}
+	
+	private void recTileAction(RecTile tempTile) {
+		tempTile.getShape().setFill(Color.GREEN);
+		tempTile.isPath = true;
 	}
 }

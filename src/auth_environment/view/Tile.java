@@ -35,7 +35,7 @@ public abstract class Tile implements IElementHolder {
 	
 	public abstract Shape getShape();
 	
-	protected abstract void addListener();
+//	protected abstract void addListener();
 	
 	@Override
 	public void updateElement(GameElement element) {
