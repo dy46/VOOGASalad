@@ -2,9 +2,6 @@ package auth_environment.view.Menus;
 
 import java.util.Arrays;
 import java.util.List;
-
-
-
 import auth_environment.backend.ISettings;
 import auth_environment.view.ElementPicker;
 import javafx.scene.control.Menu;
