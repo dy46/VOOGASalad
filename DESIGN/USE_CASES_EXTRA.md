@@ -56,8 +56,10 @@
   - EngineWorkspace: `updateLives()` checks `isUnitAtLastPosition(myEnemys.get(i))`
   - if enemy is at the last position in the path, `myLives` is decremented.
 
-10. A Projectile homes in on an enemy
-  - 
+10. Selling a tower returns money to the user (on the backend)
+  - EngineWorkspace: makes a call to selects a specific tower and calls `Tower.sellTower()`, which removes the tower from `myTowers`
+  - EngineWorkspace then makes a call to `Store.refundCost(Tower.getSellCost())`
+  - `Store` then increments users money value, which can be used for future purchases with `buyTower(int towerType)` method
 
 1. Auth Environment can drag in a Tower
 
