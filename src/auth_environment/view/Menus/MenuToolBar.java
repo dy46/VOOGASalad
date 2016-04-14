@@ -5,6 +5,7 @@ import java.util.List;
 
 import auth_environment.backend.ISettings;
 import auth_environment.view.ElementPicker;
+import game_data.IGameData;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
@@ -12,21 +13,21 @@ import javafx.scene.control.TabPane;
 public class MenuToolBar extends MenuBar {
 	
 	private TabPane myTabPane; 
-	private ISettings mySettings;
+	private IGameData myGameData; 
 
-	public MenuToolBar(TabPane tabPane, ElementPicker myPicker, ISettings settings) {
-		this.mySettings = settings; 
+	public MenuToolBar(TabPane tabPane, ElementPicker myPicker, IGameData gameData) {
+		this.myGameData = gameData; 
 		this.myTabPane = tabPane; 
 		this.init(myPicker);
 	}
 	
 	private List<Menu> defaultMenus(ElementPicker myPicker) {
 		List<Menu> myMenus = Arrays.asList(
-				new FileMenu(this.mySettings), 
+				new FileMenu(this.myGameData), 
 				new SettingsMenu(),
 				new ElementMenu(myPicker),
 				new HelpMenu(),
-				new TabMenu(this.myTabPane, this.mySettings)
+				new TabMenu(this.myTabPane, this.myGameData)
 				);
 		return myMenus; 
 	}

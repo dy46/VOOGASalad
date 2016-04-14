@@ -30,6 +30,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * Created by BrianLin on 4/1/16.
+ * 
+ * Team Member Responsible: va
+ * 
+ * This Menu allows the Developer to create new Game Elements. 
  */
 public class ElementMenu extends Menu {
 

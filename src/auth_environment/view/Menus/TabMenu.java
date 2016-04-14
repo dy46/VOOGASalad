@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import auth_environment.backend.ISettings;
 import auth_environment.view.Workspace;
+import game_data.IGameData;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -18,11 +19,11 @@ public class TabMenu extends Menu {
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
 	private TabPane myTabs;
-	private ISettings mySettings; 
+	private IGameData myGameData; 
 	
-	public TabMenu(TabPane tabs, ISettings settings){
+	public TabMenu(TabPane tabs, IGameData gameData){
 		this.myTabs = tabs;
-		this.mySettings = settings; 
+		this.myGameData = gameData; 
 		this.setText(myNamesBundle.getString("tabMenuLabel"));
 		this.init();
 	}
@@ -35,7 +36,7 @@ public class TabMenu extends Menu {
 	
 	// TODO: pop up an alert asking the Developer to name gthe new Wave (or auto-generate a Wave name) 
 	private void createNewTab(){
-		Workspace newWorkspace = new Workspace(myTabs, this.mySettings);
+		Workspace newWorkspace = new Workspace(myTabs, this.myGameData);
 		myTabs.getTabs().add(new Tab(myNamesBundle.getString("levelItemLabel"), newWorkspace.getRoot()));
 	}
 }
