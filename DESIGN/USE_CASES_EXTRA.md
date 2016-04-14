@@ -90,7 +90,59 @@
   > Map tiles can be both sources and targets (as setup with the DragDelegate using .setSource() and .setTarget() ). 
 
 8. Auth Environment can change Map size
-
   > A Map customization Menu takes in doubles for .setMapWidth and .setMapHeight (either in pixels or grid count). This is then used to create the Map size. 
+
+### Game Player Use Cases
+
+1. Integrate Save
+  * OptionsMenu: call saveGame() when the event handler is triggered.
+  * We will use XStream to save the current game state of the game engine as an XML file.
+    * This will be done by calling EngineWorkspace.saveGame().
+
+2. Integrate Load
+  * OptionsMenu: call loadGame() when the event handler is triggered.
+  * We will use XStream to parse the selected XML file.
+  * Once the information is parsed, the information will be sent to the EngineWorkspace class and an instance of the selected game will be created.
+  * The GameView.playGame() method will then be called and the game will begin.
+
+3. Integrate Restart
+  * OptionsMenu: call restartGame() when the event handler is triggered.
+  * We need to add a method within in EngineWorkspace called restartGame() that restarts the currently loaded game.
+  * With this new method, we can call EngineWorkspace.restartGame() in the OptionsMenu.restartGame() method.
+
+4. Display High Score
+  * HighScoreDisplay: update the display with the updateNode() method with the current high score.
+  * We need to create the backend for the game player that stores the game information. 
+  * This information would be stored within the GameDataSource class.
+
+5. Heads Up Display
+  * Create new IGUIObject HeadsUpDisplay.
+    * HeadsUpDisplay will contain a Label that is constantly updated every time the EngineWorkspace is updated.
+  * We can potentially work with other groups who are working on the Heads Up Display game utility.
+  * The information required for the HeadsUpDisplay will be stored within GameDataSource.
+
+6. Set Preferences For Different Games
+  * Using Reflection, we can add different components to the Configuration Panel by specifying the required components in a property file.
+  * The preferences that the player is able to change is set by the game designer.
+
+7. Integrate Cheat Codes
+  * The cheat codes will be set up by the user when designing the game, and will be added to the game enginer from the game data.
+  * The game player will have a text field of some kind that allows the player to enter a string to activate the cheat codes.
+  * Add Class to game player: CheatCodeTextField that implements IGUIObject.
+    * Additionally, contains method checkCheatCodes() that compares inputted string with backend codes.
+
+8. Integrate Social Center
+  * We would work with other groups on the Social Center utility.
+  * Once the Social Center utility is created, we will use the Social Center API to integrate it into the game player.
+  * We would need to create a new IGUIObject class called SocialCenter that uses the Social Center API.
+  * The social center could be used to rate games created by users, such as the system in Super Mario Maker.
+
+9. Add CSS to the player
+  * We already started on adding CSS to the player to make the game more appealing, but we have not spent much time on this case.
+  * The individual UI components will need to add Styles from CSS files.
+
+10. Drag and Drop for Towers 
+  * We need to create a TowerPalette class that implements IGUIObject.
+  * When the user clicks on a tower within the TowerPalette, an EventHandler is triggered and the user will be able to drag the tower onto the Pane root of the player.
 
 
