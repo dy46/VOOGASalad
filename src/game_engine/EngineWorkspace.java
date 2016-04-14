@@ -267,7 +267,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		}
 	}
 
-	// Getters
+	// Getters & Setters
 
 	public Level getCurrentLevel () {
 		return myCurrentLevel;
@@ -282,6 +282,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	public List<Level> getLevels () {
+		return myLevels;
+	}
+	
+	public List<Level> setLevels () {
 		return myLevels;
 	}
 

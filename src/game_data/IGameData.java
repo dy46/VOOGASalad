@@ -15,6 +15,6 @@ public interface IGameData {
 	
 	public void addTower(Tower tower);
 	
-	public void addLevel(Level level); 
+	public void setLevels(List<Level> levels); 
 	
 }

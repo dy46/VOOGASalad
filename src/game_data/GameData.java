@@ -2,11 +2,15 @@ package game_data;
 
 import java.util.List;
 
+import game_engine.EngineWorkspace;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Tower;
 
 public class GameData implements IGameData {
-
+	private List<Tower> myTowers;
+	private EngineWorkspace workspace;
+	
+	
 	@Override
 	public List<Tower> getTowers() {
 		// TODO Auto-generated method stub
@@ -32,7 +36,7 @@ public class GameData implements IGameData {
 	}
 
 	@Override
-	public void addLevel(Level level) {
+	public void setLevels(List<Level> levels) {
 		// TODO Auto-generated method stub
 		
 	}
