@@ -270,6 +270,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	public void setEnemies (List<Unit> enemies) { myEnemys = enemies; }
 
 	public List<Unit> getTowers() { return myTowers; }
+	public void setTowers(List<Unit> towers) {	this.myTowers = towers; }
 	
 	public List<Level> getLevels() { return myLevels; }
 	public void setLevels (List<Level> levels) { myLevels = levels; }

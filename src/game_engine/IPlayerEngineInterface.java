@@ -75,5 +75,9 @@ public interface IPlayerEngineInterface {
 	public void setTerrains(List<Unit> myTerrains);
 
 	public void setEnemies(List<Unit> myEnemies);
+
+	public void setProjectiles(List<Unit> myProjectiles);
+	
+	public void setTowers(List<Unit> myTowers);
 	
 }
