@@ -3,17 +3,16 @@ package auth_environment.view.Menus;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import auth_environment.buildingBlocks.BuildingBlock;
+import auth_environment.view.ElementPicker;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -29,10 +28,10 @@ public abstract class SuperMenu extends Menu{
 	private GridPane myGridPane;
 	private static final String STRING_LABELS_PACKAGE = "auth_environment/properties/string_labels";
 	private ResourceBundle myStringBundle = ResourceBundle.getBundle(STRING_LABELS_PACKAGE);
-	private PickerMenu myPicker;
+	private ElementPicker myPicker;
 	private int index = 0;
 	
-	public SuperMenu(PickerMenu myPicker){
+	public SuperMenu(ElementPicker myPicker){
 		this.myPicker = myPicker;
 	}
 	
@@ -95,7 +94,7 @@ public abstract class SuperMenu extends Menu{
     	
     }
     
-    public PickerMenu getPicker(){
+    public ElementPicker getPicker(){
     	return myPicker;
     }
     

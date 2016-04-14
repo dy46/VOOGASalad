@@ -43,7 +43,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
  */
 public class TowerMenu extends SuperMenu {
 
-	public TowerMenu(PickerMenu myPicker) {
+	public TowerMenu(ElementPicker myPicker) {
 		super(myPicker);
 		// TODO Auto-generated constructor stub
 	}
@@ -60,6 +60,7 @@ public class TowerMenu extends SuperMenu {
 
     
     public void makeElement(Tooltip t, BuildingBlock block){
+    	System.out.println("WHY");
     	Class<?> c = block.getClass();
     	for(String str: strTextMap.keySet()){
     		block.setMyName(strTextMap.get(str).getText());

@@ -7,5 +7,9 @@ package auth_environment.backend;
  * 
  * This class holds Game Settings (music, etc.) 
  */
-public interface Settings {
+public interface ISettings {
+	
+	public void setName(String name);
+	
+	public String getName(); 
 }

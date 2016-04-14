@@ -15,7 +15,6 @@ public class Grid{
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-
 	private MapDisplayModel myModel;
 	int numX;
 	int numY;
@@ -23,7 +22,6 @@ public class Grid{
 	double mapHeight;
 	private Pane myPane;
 	private List<Tile> myTiles= new ArrayList<Tile>();
-
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -49,6 +47,7 @@ public class Grid{
 				myTile.getShape().setFill(Color.WHITE);
 				DragDelegate drag = new DragDelegate(); 
 				drag.setupTarget(myTile);
+				myTiles.add(myTile);
 				myPane.getChildren().add(myTile.getShape());
 			}
 		}

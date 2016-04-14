@@ -10,11 +10,10 @@ public class TowerBuildingBlock extends BuildingBlock{
 	private Price myPrice;
 	private double range; 
 	private double firingRate; 
-	
 	//Getters and Setters 
 	
 	public TowerBuildingBlock() {
-		
+		// TODO Auto-generated constructor stub
 	}
 
 	public double getRange() {

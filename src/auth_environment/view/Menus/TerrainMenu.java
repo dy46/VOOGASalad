@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
+import auth_environment.view.ElementPicker;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Tower;
 import game_engine.libraries.AffectorLibrary;
@@ -17,7 +18,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 
 public class TerrainMenu extends SuperMenu{
-	public TerrainMenu(PickerMenu myPicker) {
+	public TerrainMenu(ElementPicker myPicker) {
 		super(myPicker);
 		// TODO Auto-generated constructor stub
 	}

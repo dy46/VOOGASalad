@@ -5,28 +5,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.view.RecTile;
+import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
-import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+
 
 public class ElementPicker extends Accordion {
 	
 	private List<Tower> myTowerList = new ArrayList<Tower>();
-	FlowPane myPane = new FlowPane();
+	private List<Enemy> myEnemyList = new ArrayList<Enemy>();
+	private List<Terrain> myTerrainList = new ArrayList<Terrain>();
+	FlowPane myTowerPane;
+	FlowPane myEnemyPane;
+	FlowPane myTerrainPane;
 	
 	public ElementPicker() {
 		this.getPanes().addAll(defaultPanes());
@@ -38,22 +34,50 @@ public class ElementPicker extends Accordion {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void updateMenu(List<Tower> myTowers, Tower t){
-		myTowerList = myTowers;
+	
+	
+	public void updateTower(Tower t){
+		System.out.println("hello");
+		 myTowerPane.getChildren().add(new Button("WREWER"));
+		 myTowerList.add(t);
 		 RecTile tile = new RecTile(50,50);
 		 tile.updateElement(t);
 		 DragDelegate drag = new DragDelegate();
 		 drag.setupSource(tile);
-		 myPane.getChildren().add(tile.getShape());
+		 myTowerPane.getChildren().add(tile.getShape());
+		 myTowerPane.getChildren().add(new Button("WREWER"));
 	}
 	
+	public void updateEnemy(Enemy t){
+		 myEnemyList.add(t);
+		 RecTile tile = new RecTile(50,50);
+		 tile.updateElement(t);
+		 DragDelegate drag = new DragDelegate();
+		 drag.setupSource(tile);
+		 myEnemyPane.getChildren().add(tile.getShape());
+	}
+	
+	public void updateTerrain(Terrain t){
+		 myTerrainList.add(t);
+		 RecTile tile = new RecTile(50,50);
+		 tile.updateElement(t);
+		 DragDelegate drag = new DragDelegate();
+		 drag.setupSource(tile);
+		 myTerrainPane.getChildren().add(tile.getShape());
+	}
+	
+	
+	
 	private List<TitledPane> defaultPanes() {
+		myTowerPane = new FlowPane();
+		myEnemyPane = new FlowPane();
+	    myTerrainPane = new FlowPane();
 		TitledPane myTowers = new TitledPane();
 		   int w = 50;
 		   int h = 50;
 	 	 
-		myPane.setVgap(4);
-		myPane.setHgap(4);
+		myTowerPane.setVgap(4);
+		myTowerPane.setHgap(4);
 //		GridPane grid = new GridPane();
 //		grid.setVgap(4);
 //		grid.setPadding(new Insets(5, 5, 5, 5));
@@ -65,27 +89,46 @@ public class ElementPicker extends Accordion {
 //		grid.add(new TextField(), 1, 2); 
 		myTowers.setText("Towers");
 //		myTowers.setContent(grid);
-	 	myTowers.setContent(myPane);
+	 	myTowers.setContent(myTowerPane);
 		
 		TitledPane myEnemies = new TitledPane();
 		myEnemies.setText("Enemies");
+		myEnemies.setContent(myEnemyPane);
+		myEnemyPane.setVgap(4);
+		myEnemyPane.setHgap(4);
 		
 		TitledPane myTerrains = new TitledPane();
 		myTerrains.setText("Terrains");
+		myTerrains.setContent(myTerrainPane);
+		myTerrainPane.setVgap(4);
+		myTerrainPane.setHgap(4);
 		
-		RecTile tile = new RecTile(20, 20);
-		
-		
-//		Text hello = new Text("Hello"); 
-		DragDelegate drag = new DragDelegate();
-		drag.setupSource(tile);
-		myTerrains.setContent(tile.getShape());
+//		RecTile tile = new RecTile(20, 20);
+//		
+//		
+////		Text hello = new Text("Hello"); 
+//		DragDelegate drag = new DragDelegate();
+//		drag.setupSource(tile);
+//		myTerrains.setContent(tile.getShape());
 		
 		List<TitledPane> myPanes = Arrays.asList(myTowers,myEnemies,myTerrains);
 		return myPanes; 
 	}
-	
+
 	public List<Tower> getTowers() {
-		return this.myTowerList;
+		// TODO Auto-generated method stub
+		return myTowerList;
 	}
+	
+	public List<Enemy> getEnemies() {
+		// TODO Auto-generated method stub
+		return myEnemyList;
+	}
+	
+	public List<Terrain> getTerrains() {
+		// TODO Auto-generated method stub
+		return myTerrainList;
+	}
+	
+	
 }

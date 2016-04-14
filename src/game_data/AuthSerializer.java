@@ -1,16 +1,26 @@
 package game_data;
 
 import com.thoughtworks.xstream.XStream;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AuthSerializer {
-	public static void SerializeData(Object o) {
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-		File f = pickFile(true);
+public class AuthSerializer {
+	
+	private FileChooserDelegate chooser = new FileChooserDelegate(); 
+	
+	// TODO: force write as XML
+	
+	public void SerializeData(Object o) {
+		
+		File f = this.chooser.save("Save");
+//		File f = pickFile(true);
 		XStream xstream = new XStream();
 		String xml = xstream.toXML(o);
 
@@ -23,6 +33,14 @@ public class AuthSerializer {
 			System.out.println("Error saving to file " + f.getAbsolutePath());
 		}
 	}
+	
+	public Object Deserialize() {
+//		File f = pickFile(false);
+		File f = this.chooser.chooseFile("Choose");
+		XStream xstream = new XStream();
+
+		return xstream.fromXML(f);
+	}
 
 	private static File pickFile(boolean amSaving) {
 		JFileChooser fileChooser = new JFileChooser();
@@ -32,22 +50,16 @@ public class AuthSerializer {
 		fileChooser.setFileFilter(xmlFilter);
 
 		int result = 0;
-		if (amSaving)
+		if (amSaving) {
+			System.out.println("trying to open?");
 			result = fileChooser.showSaveDialog(null);
+			System.out.println(result); 
+		}
 		else
 			result = fileChooser.showOpenDialog(null);
-
 		if (result != JFileChooser.APPROVE_OPTION)
 			return null;
 
 		return fileChooser.getSelectedFile();
 	}
-
-	public static Object Deserialize() {
-		File f = pickFile(false);
-		XStream xstream = new XStream();
-
-		return xstream.fromXML(f);
-	}
-
 }

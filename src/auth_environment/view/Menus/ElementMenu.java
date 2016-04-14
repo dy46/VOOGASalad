@@ -2,6 +2,7 @@ package auth_environment.view.Menus;
 
 import java.util.ResourceBundle;
 
+import auth_environment.view.ElementPicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
@@ -15,10 +16,10 @@ public class ElementMenu extends Menu {
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
 	
-	private PickerMenu myPicker;
+	private ElementPicker myPicker;
 	
 	
-	public ElementMenu(PickerMenu myPicker) {  ///MAKE SUPER CLAASSS + REFACTOR
+	public ElementMenu(ElementPicker myPicker) {  ///MAKE SUPER CLAASSS + REFACTOR
 		this.myPicker = myPicker;
 		this.init();
 	}
