@@ -8,35 +8,35 @@ import java.util.Map;
 import game_engine.properties.Position;
 
 /*
-* Internal API that will be used in order to represent paths 
-* for enemy movements.
-*/
+ * Internal API that will be used in order to represent paths 
+ * for enemy movements.
+ */
 public class Path extends Unit{
-	
+
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
 	private boolean cycle;
 
-	
+
 	public Path(String name){
 		super(name);
-//		setID(getWorkspace().getIDFactory().createID(this));
+		//		setID(getWorkspace().getIDFactory().createID(this));
 		cycle = false;
 		initialize();
 	}
-	
+
 	public Path(String name, List<Position> list) {
-	    super(name);
-	    cycle = false;
-	    initialize(list);
+		super(name);
+		cycle = false;
+		initialize(list);
 	}
-	
+
 	public void initialize(){
 		myPositions = new ArrayList<>();
 		nextPositions = new HashMap<Position, Position>();
 		setNextPositions();
 	}
-	
+
 	public void initialize(List<Position> list){
 		myPositions = list;
 		nextPositions = new HashMap<Position, Position>();
@@ -75,16 +75,19 @@ public class Path extends Unit{
 			y = p2.getY();
 		}
 	}
-	
-	
+
+
 	/*
-	* Gets the next position (point) in the path.
-	* This will be used in order to determine which direction 
-	* an Enemy needs to move in next.
-	*
-	* @return	The next Position in the list of Positions that represent the path being taken.
-	*/
+	 * Gets the next position (point) in the path.
+	 * This will be used in order to determine which direction 
+	 * an Enemy needs to move in next.
+	 *
+	 * @return	The next Position in the list of Positions that represent the path being taken.
+	 */
 	public Position getNextPosition(Position currentPosition){
+		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
+			return null;
+		}
 		if(nextPositions.containsKey(currentPosition)){
 			return nextPositions.get(currentPosition);
 		}
@@ -100,32 +103,32 @@ public class Path extends Unit{
 			return nextPositions.get(closest);
 		}
 	}
-	
+
 	public String toFile(){
 		return getID();
 	}
 	public Path copyPath(){
 		Path newPath = new Path("");
 		this.myPositions.forEach(t -> {
-				newPath.addPosition(t.copyPosition());
+			newPath.addPosition(t.copyPosition());
 		});
 		return newPath;
 	}
-	
+
 	public List<Position> getAllPositions() {
-	    List<Position> allPositions = new ArrayList<>();
-	    allPositions.addAll(nextPositions.keySet());
-	    return allPositions;
+		List<Position> allPositions = new ArrayList<>();
+		allPositions.addAll(nextPositions.keySet());
+		return allPositions;
 	}
-	
+
 	public boolean isUnitAtLastPosition(Unit u) {
-	    Position lastPos = myPositions.get(myPositions.size()-1);
-	    return u.getProperties().getPosition().getX() == lastPos.getX() &&
-	           u.getProperties().getPosition().getY() == lastPos.getY();
+		Position lastPos = myPositions.get(myPositions.size()-1);
+		return u.getProperties().getPosition().getX() == lastPos.getX() &&
+				u.getProperties().getPosition().getY() == lastPos.getY();
 	}
-	
+
 	public List<Position> getMyPositions() {
-	    return myPositions;
+		return myPositions;
 	}
-	
+
 }

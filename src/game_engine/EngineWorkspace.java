@@ -201,7 +201,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	public void updateLives () {
 		int livesToSubtract = 0;
 		for (int i = 0; i < myEnemys.size(); i++) {
-			if (myEnemys.get(i).getProperties().getPath().isUnitAtLastPosition(myEnemys.get(i))) {
+			if (myEnemys.get(i).getProperties().getMovement().isUnitAtLastPosition(myEnemys.get(i))) {
 				livesToSubtract++;
 				myEnemys.get(i).setElapsedTimeToDeath();
 			}

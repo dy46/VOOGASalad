@@ -28,10 +28,14 @@ public class PathFollowPositionMoveAffector extends Affector {
         super.apply(u);
         if (this.getElapsedTime() <= this.getTTL()) {
             double speed = u.getProperties().getVelocity().getSpeed();
-            Path myPath = u.getProperties().getPath();
+            List<Path> myPath = u.getProperties().getMovement().getPaths();
+            int index = u.getProperties().getCurrentPath();
             for (int i = 0; i < speed; i++) {
                 Position curr = u.getProperties().getPosition();
-                Position next = myPath.getNextPosition(curr);
+                Position next = myPath.get(currentPath).getNextPosition(curr);
+                if(next == null){
+                	u.getProperties().getNextPath();
+                }
                 u.getProperties().getPosition().setX(next.getX());
                 u.getProperties().getPosition().setY(next.getY());
 

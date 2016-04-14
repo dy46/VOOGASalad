@@ -14,6 +14,7 @@ import game_engine.game_elements.Path;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
+import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
@@ -36,8 +37,8 @@ public class TowerFactory {
     	Health hp = tBlock.getMyHealth();
     	Velocity velo = tBlock.getMyVelocity();
     	State towerState = new State("Stationary");
-    	Path towerPath = new Path("Something here"); 
-    	UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, towerPath); 
+    	Movement movement = new Movement(Arrays.asList(new Path("Something here"))); 
+    	UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, movement); 
     	t.setProperties(towerProp);
     	t.setTTL(1000000);
     	t.setDeathDelay(100);
@@ -64,7 +65,8 @@ public class TowerFactory {
 		Path p2 = new Path("Something here");
 		p2.addPosition(startingPosition.copyPosition());
 		p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
-		UnitProperties properties = new UnitProperties(new Health(1), null, null, velocity, b, startingPosition.copyPosition(), null, st, p2);
+		Movement movement = new Movement(Arrays.asList(p2));
+		UnitProperties properties = new UnitProperties(new Health(1), null, null, velocity, b, startingPosition.copyPosition(), null, st, movement);
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
 		damage.setBaseNumbers(Arrays.asList(new Double(10)));
@@ -90,7 +92,7 @@ public class TowerFactory {
 		Position position2 = new Position(200, 300);
 		Velocity velocity2 = new Velocity(0, 180);
 		State st = new State ("Stationary");
-		Path p2 = new Path("Something here");
+		Movement p2 = new Movement(Arrays.asList(new Path("Something here")));
 		UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st, p2);
 		t.setProperties(properties2);
 		t.setTTL(1000000);

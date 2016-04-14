@@ -2,6 +2,7 @@ package game_engine.properties;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import game_engine.game_elements.Path;
 
@@ -15,7 +16,7 @@ public class UnitProperties {
 	private Position myPosition;
 	private Price myPrice;
 	private State myState;
-	private Path myPath;
+	private Movement myMovement;
 
 	private static String DEFAULT_STATE = "Stationary";
 	private static double DEFAULT_HEALTH = 1;
@@ -32,7 +33,7 @@ public class UnitProperties {
 			Team team, Velocity velocity, 
 			Bounds bounds, Position position, 
 			Price price, State state,
-			Path newPath){
+			Movement movement){
 		this.myHealth = health;
 		this.myDamage = damage;
 		this.myTeam = team;
@@ -41,7 +42,7 @@ public class UnitProperties {
 		this.myPosition = position;
 		this.myPrice = price;
 		this.myState = state;
-		this.myPath = newPath;
+		this.myMovement = movement;
 	}
 
 	public UnitProperties copyUnitProperties() {
@@ -53,7 +54,8 @@ public class UnitProperties {
 		newProperties.myVelocity = this.getVelocity().copyVelocity();
 		newProperties.myBounds = this.getBounds().copyBounds();
 		newProperties.myPosition = this.myPosition.copyPosition();
-		newProperties.myPath = this.myPath.copyPath();
+		newProperties.myMovement = new Movement(myMovement.getPaths().stream().map(p -> p.copyPath()).collect(Collectors.toList()));
+		//newProperties.myPaths = this.myPath.copyPath();
 		//            newProperties.myPrice = this.myPrice.copyPrice();
 		return newProperties;
 	}
@@ -138,11 +140,9 @@ public class UnitProperties {
 	public State getState() {
 		return myState;
 	}
-	public Path getPath(){
-		return myPath;
-	}
-	public void setPath(Path newPath){
-		myPath = newPath;
+	
+	public Movement getMovement(){
+		return myMovement;
 	}
 
 }

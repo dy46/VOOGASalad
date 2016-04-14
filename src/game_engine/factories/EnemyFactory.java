@@ -1,6 +1,7 @@
 package game_engine.factories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import game_engine.affectors.Affector;
@@ -9,6 +10,7 @@ import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Path;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
+import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
@@ -45,7 +47,8 @@ public class EnemyFactory {
 		p2.addPosition(new Position(200, 200));
 		p2.addPosition(new Position(400, 200));
 		p2.addPosition(new Position(400, 525));
-		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, new Position(0,30), null, st, p2);
+		Movement movement = new Movement(Arrays.asList(p2));
+		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, new Position(0,30), null, st, movement);
 		e1.setProperties(properties);
 		e1.setTTL(1000000);
 		e1.setDeathDelay(3);

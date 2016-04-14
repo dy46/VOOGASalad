@@ -41,15 +41,15 @@ public class Tower extends Unit {
 		List<Affector> copyAffectors = new ArrayList<>();
 		List<Projectile> newMyProjectiles = myProjectiles.stream().map(p -> p.copyProjectile()).collect(Collectors.toList());
 		for(int i = 0; i < newMyProjectiles.size(); i++) {
-			Path path = newMyProjectiles.get(i).getProperties().getPath();
-			List<Position> newMyPositions = path.getMyPositions().stream().map(p -> p.copyPosition()).collect(Collectors.toList());
-			Path newPath = new Path("SomePath");
+			List<Path> paths = newMyProjectiles.get(i).getProperties().getMovement().getPaths();
+			List<Position> newMyPositions = paths.get(0).getMyPositions().stream().map(p -> p.copyPosition()).collect(Collectors.toList());
+			List<Path> newPaths = Arrays.asList(new Path("SomePath"));
 			for(int j = 0; j < newMyPositions.size(); j++) {
 				newMyPositions.get(j).addToXY(x - this.getProperties().getPosition().getX(), 
 						y - this.getProperties().getPosition().getY());
-				newPath.addPosition(newMyPositions.get(j));
+				newPaths.get(0).addPosition(newMyPositions.get(j));
 			}
-			newMyProjectiles.get(i).getProperties().setPath(newPath);
+			newMyProjectiles.get(i).getProperties().getMovement().setPaths(newPaths);
 		}
 
 		Tower copy = new Tower(this.toString(), copyAffectors, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());
