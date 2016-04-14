@@ -3,6 +3,9 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import auth_environment.paths.Branch;
+
 import java.util.List;
 import java.util.Map;
 import game_engine.properties.Position;
@@ -16,7 +19,7 @@ public class Path extends Unit{
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
 	private boolean cycle;
-
+	private List<Branch> myNeighbors;
 
 	public Path(String name){
 		super(name);
@@ -25,23 +28,26 @@ public class Path extends Unit{
 		initialize();
 	}
 
-	public Path(String name, List<Position> list) {
+	public Path(String name, List<Position> positions, List<Branch> neighbors) {
 		super(name);
 		cycle = false;
-		initialize(list);
+		initialize(positions, neighbors);
 	}
 
 	public void initialize(){
 		myPositions = new ArrayList<>();
 		nextPositions = new HashMap<Position, Position>();
+		myNeighbors = new ArrayList<>();
 		setNextPositions();
 	}
 
-	public void initialize(List<Position> list){
+	public void initialize(List<Position> list, List<Branch> neighbors){
 		myPositions = list;
 		nextPositions = new HashMap<Position, Position>();
+		myNeighbors = neighbors;
 		setNextPositions();
 	}
+	
 	public void setCycle(boolean state){
 		cycle = state;
 		setNextPositions();

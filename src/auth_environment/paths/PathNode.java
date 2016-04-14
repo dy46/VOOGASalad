@@ -1,59 +1,39 @@
 package auth_environment.paths;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import game_engine.affectors.Affector;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Terrain;
-import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 public class PathNode {
 
-	private Branch myRoot;
+	private List<Branch> myBranches;
 	private int myID;
 	
-	public PathNode(int graphID){
-		this.myID = graphID;
+	public PathNode(int pathID){
+		this.myID = pathID;
+		myBranches = new ArrayList<>();
 	}
 	
-	public PathNode(Branch root, int ID){
-		this.myID = ID;
-		this.myRoot = root;
+	public void addBranch(Branch branch){
+		myBranches.add(branch);
 	}
 	
-	public void setRoot(Branch root){
-		this.myRoot = root;
+	public Branch getBranchByID(int ID){
+		Optional<Branch> branch = myBranches.stream().filter(b -> b.getID() == ID).findFirst();
+		return branch.isPresent() ? branch.get() : null;
 	}
 	
-	public Branch getRoot(){
-		return myRoot;
-	}
-	
-	public List<Branch> getPathNodes(Branch root){
-		List<Branch> nodes = root.getNeighbors().stream().filter(n -> getPathNodes(n) != null).collect(Collectors.toList());
-		nodes.add(root);
+	public List<Branch> getPathNodes(Branch branch){
+		List<Branch> nodes = branch.getNeighbors().stream().filter(n -> getPathNodes(n) != null).collect(Collectors.toList());
+		nodes.add(branch);
 		return nodes;
 	}
 	
 	public List<Path> getPaths(){
-		return getPathsByNode(myRoot);
-	}
-	
-	// Uses post-order traversal to extract List of appropriate Unit
-	private List<Path> getPathsByNode(Branch node){
-		Set<Path> myPaths = new HashSet<>();
-		for(Branch n : node.getNeighbors()){
-			//myUnits.addAll(n.getUnitsByType(target));
-			myPaths.addAll(getPathsByNode(n));
-		}
-		return new ArrayList<Path>(myPaths);
+		return myBranches.stream().map(p -> new Path(p.getID()+"", p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
 	}
 	
 	public int getID(){
@@ -61,13 +41,13 @@ public class PathNode {
 	}
 	
 	public List<Branch> getPathByEdgePosition(Position pos){
-		return myRoot.getNeighbors().stream().filter(
+		return myBranches.stream().filter(
 				n -> n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos))
 				.collect(Collectors.toList());
 	}
 	
 	public Branch getPathByMidPosition(Position pos){
-		Optional<Branch> graph = myRoot.getNeighbors().stream().filter(
+		Optional<Branch> graph = myBranches.stream().filter(
 				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
 				.findFirst();
 		return graph.isPresent() ? graph.get() : null;

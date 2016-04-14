@@ -1,12 +1,6 @@
 package auth_environment.paths;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import game_engine.game_elements.Enemy;
-import game_engine.game_elements.Terrain;
-import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 public class Branch {

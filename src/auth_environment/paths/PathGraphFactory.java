@@ -36,8 +36,8 @@ public class PathGraphFactory {
 		else{
 			if(newPath.size() > 0){
 				PathNode newGraph = createGraph();
-				Branch path = new Branch(newPath, currentPathID++);
-				newGraph.setRoot(path);
+				Branch branch = new Branch(newPath, currentPathID++);
+				newGraph.addBranch(branch);
 				myForest.addGraph(newGraph);
 			}
 		}
@@ -89,6 +89,7 @@ public class PathGraphFactory {
 	}
 	
 	public List<Path> getPaths(){
+		System.out.println(myForest.getPaths());
 		return myForest.getPaths();
 	}
 
