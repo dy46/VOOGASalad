@@ -96,7 +96,16 @@
   > Select a Path in the Path menu (mouse action), opens up a Color Picker, selection of a Color then calls setColor and update methods on the Path to update its color. 
 
 10. Auth Environment can change CSS stylesheet
-  > Appearance menu has a 'Change Skin' button that opens up a FileChooser. The File returned by the FileChooser (filtered to .css files) will then be used to update the View window's scene with a .setStylesheet() method call
+  > Appearance menu has a 'Change Skin' button that opens up a FileChooser. The File returned by the FileChooser (filtered to .css files) will then be used to update the View window's scene with a .setStylesheet() method call.
+
+11. Auth Environment can add in AI 
+  > When Units have the choice of taking multiple paths, instead of random selection, they can use AI to make their choice. In the Unit customization window, there will be a button with event handler that takes in the input AI name (ex. 'distanceHeuristicAI') and will instantiate an instance of that class using Reflection. The created Unit will then have its AI componenet set to that. 
+
+12. Auth Environment can rename the Game
+  > In a Settings menu item, an event handler for 'Rename Game' button will open up a new Window with a prompt for the Game Name. Upon completion, an event handler will call IGameData's .getSettings() method and then .setName() to update.
+
+13. Auth Environment can clear/reset the current Game
+  > The current IGameData object is replaced with a new default instance. All frontend views and editor windows that are populated from this central Game object will now be given the corresponding default version of their storage object. 
 
 ### Game Player Use Cases
 
