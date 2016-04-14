@@ -33,6 +33,15 @@
   - The next position of the enemy is set to `Position next = myPath.getNextPosition(curr);`, which moves it along the path
   - `myPath.getNextPosition(curr);` obtains the next pixel-level position that the unit would move to in a single game tick
   
-6. 
+6. A wave of enemies is created on the back-end (Game Engine).
+  - EnemyFactory: multiple calls are made to `createSpecifiedEnemy(String name, String behavior, String property) `
+  - Wave: a new Wave object is constructed using `Wave(String name, int time)`
+  - Wave: enemies are added to the wave by using ` addEnemy(Enemy e, int spawnTime)` repeatedly
+  
+7. A level is composed from several different waves
+  - Level: constructor is used to generate a level object `Level (String name, Wave first, int myLives)`
+  - Level: waves are added by making repeated calls to `addWave (Wave newWave) `
+  
+
 
 
