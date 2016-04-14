@@ -11,18 +11,18 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 
 public class GameSpeedSlider implements IGUIObject{
-	private static final float TICK_UNITS = 0.5f;
-	private static final int SLIDER_DEFAULT = 1;
+	private static final float TICK_UNITS = 1;
+	private static final int SLIDER_DEFAULT = 2;
 	private static final int SLIDER_MIN = 0;
-	private static final double SLIDER_MAX = 2;
+	private static final double SLIDER_MAX = 4;
 	private static final int PADDING = 10;
 	private static final int VBOX_SPACING = 5;
 	private ResourceBundle myResources;
-	private PlayerMainTab myTab;
+	private IGameView myView;
 	
-	public GameSpeedSlider(ResourceBundle r, GameDataSource gameData, PlayerMainTab tab) {
+	public GameSpeedSlider(ResourceBundle r, GameDataSource gameData, IGameView view) {
 		myResources = r;
-		myTab = tab;
+		myView = view;
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class GameSpeedSlider implements IGUIObject{
 	}
 	
 	private void setSpeed(double value) {
-		myTab.changeSpeed(value);
+		myView.changeGameSpeed(value);
 	}
 
 	@Override

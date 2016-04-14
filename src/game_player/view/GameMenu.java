@@ -19,15 +19,17 @@ public class GameMenu implements IGUIObject {
 	private Button myButton;
 	private Menu myMenu;
 	private MenuBar myMenuBar;
+	private IGameView myView;
 	
-	public GameMenu(ResourceBundle r, GameDataSource gameData, PlayerMainTab myTab) {
+	public GameMenu(ResourceBundle r, GameDataSource gameData, IGameView view) {
 		myResources = r;
+		myView = view;
 	}
 
 	@Override
 	public Node createNode() {
 		myMenuBar = new MenuBar();
-		myMenu = new OptionsMenu(myResources).createMenu();
+		myMenu = new OptionsMenu(myResources, myView).createMenu();
 		
 		myMenuBar.getMenus().add(myMenu);
 		return myMenuBar;

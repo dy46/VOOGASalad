@@ -12,6 +12,8 @@ public interface IGameView {
     //event handler that begins the animation and movement of elements
     void playGame(int gameIndex);
     
+    void restartGame();
+    
     //event handler that toggles the game
     void toggleGame();
     

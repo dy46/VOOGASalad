@@ -33,7 +33,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private ResourceBundle elementsResources;
 	private GameDataSource gameData;
 	private List<IGUIObject> gameElements;
-	private GameView gameView;
+	private IGameView gameView;
 	private GameCanvas myCanvas;
 	private Scene myScene;
 	
@@ -57,8 +57,8 @@ public class PlayerMainTab implements IPlayerTab{
 		myRoot = new BorderPane();
 		
 		createUISections();
-		initializeElements();
 		initializeCanvas();
+		initializeElements();
 		placeUISections();
 		
 		myTab.setContent(myRoot);
@@ -69,7 +69,7 @@ public class PlayerMainTab implements IPlayerTab{
 		myCanvas = new GameCanvas(myResources);
 		gameSection.getChildren().add(myCanvas.createCanvas());
 		gameView = new GameView(myCanvas, myScene);
-		gameView.display();
+		gameView.playGame(0);
 	}
 	
 	private void initializeElements() {
@@ -80,8 +80,8 @@ public class PlayerMainTab implements IPlayerTab{
 			String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
 			try {
 				newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
-						.getConstructor(ResourceBundle.class, GameDataSource.class, PlayerMainTab.class)
-						.newInstance(myResources, gameData, this);
+						.getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class)
+						.newInstance(myResources, gameData, gameView);
 				gameElements.add(newElement);
 
 				placeElement(newElement, keyAndPosition[1].trim());
@@ -90,10 +90,6 @@ public class PlayerMainTab implements IPlayerTab{
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	protected void changeSpeed(double speed) {
-		gameView.changeGameSpeed(speed);
 	}
 	
 	private void placeElement(IGUIObject element, String position) {

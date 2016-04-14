@@ -23,7 +23,7 @@ public class GameColorTheme implements IGUIObject {
 	private Button comboBoxButton;
 	private ObservableList<String> options;
 	
-	public GameColorTheme(ResourceBundle r, GameDataSource gameData, PlayerMainTab myTab) {
+	public GameColorTheme(ResourceBundle r, GameDataSource gameData, IGameView view) {
 		myResources = r;
 	}
 

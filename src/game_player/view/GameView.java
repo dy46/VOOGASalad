@@ -28,7 +28,7 @@ import javafx.util.Duration;
 
 public class GameView implements IGameView{
     
-    private static final int DEFAULT_UPDATE_SPEED = 1;
+    private static final int DEFAULT_UPDATE_SPEED = 2;
 	private int timer;
     private AnimationTimer AT;
     private boolean timerStatus;
@@ -115,6 +115,11 @@ public class GameView implements IGameView{
         timerStatus = true;
     }
     
+    @Override
+    public void restartGame() {
+    	//restart Game
+    }
+    
     private void updateEngine() {
     	for (int i = 1; i <= myUpdateSpeed; i++) {
     		playerEngineInterface.updateElements();
@@ -128,7 +133,7 @@ public class GameView implements IGameView{
 
     @Override
     public void changeGameSpeed (double gameSpeed) {
-        this.myUpdateSpeed = DEFAULT_UPDATE_SPEED + gameSpeed;
+        this.myUpdateSpeed = gameSpeed;
     }
 
 
