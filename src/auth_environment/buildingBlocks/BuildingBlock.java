@@ -2,7 +2,13 @@ package auth_environment.buildingBlocks;
 
 import java.util.List;
 
-import game_engine.properties.*;
+import game_engine.properties.Bounds;
+import game_engine.properties.Damage;
+import game_engine.properties.Health;
+import game_engine.properties.Position;
+import game_engine.properties.Price;
+import game_engine.properties.Team;
+import game_engine.properties.Velocity;
 import javafx.scene.image.ImageView;
 
 /**
@@ -17,31 +23,20 @@ public abstract class BuildingBlock {
 	private Health myHealth;
 	private Damage myDamage;
 	private Team myTeam;
-	private Velocity myVelocity;
+	//private Velocity myVelocity;
 	private Bounds myBounds;
 	private Price myPrice;
-	private State myState; 
 	private ImageView myImage;
+	private double mySpeed;
+	private double myDirection;
 	
-	public BuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, 
-			double direction, List<Position> positionList, State s){
-		myImage = image;
-		myName = name;
-		myHealth = new Health(health);
-		myDamage = new Damage(damage);
-		myTeam = new Team(teamName);
-		myVelocity = new Velocity(speed, direction);
-		myBounds = new Bounds(positionList);
-		myState = s;
+	public BuildingBlock(){
+		
 	}
 	
 	//Getters and Setters
 	public String getMyName() {
 		return myName;
-	}
-	
-	public State getMyState(){
-		return myState;
 	}
 
 	public void setMyName(String myName) {
@@ -52,18 +47,27 @@ public abstract class BuildingBlock {
 		return myHealth;
 	}
 
+//	public void setMyHealth(Health myHealth) {
+//		this.myHealth = myHealth;
+//	}
+	
 	public void setMyHealth(double myHealth) {
 		this.myHealth = new Health(myHealth);
 	}
+
 
 	public Damage getMyDamage() {
 		return myDamage;
 	}
 
+//	public void setMyDamage(Damage myDamage) {
+//		this.myDamage = myDamage;
+//	}
+
 	public void setMyDamage(double myDamage) {
 		this.myDamage = new Damage(myDamage);
 	}
-
+	
 	public Team getMyTeam() {
 		return myTeam;
 	}
@@ -73,11 +77,20 @@ public abstract class BuildingBlock {
 	}
 
 	public Velocity getMyVelocity() {
-		return myVelocity;
+		return new Velocity(mySpeed, myDirection);
 	}
 
-	public void setMyVelocity(Velocity myVelocity) {
-		this.myVelocity = myVelocity;
+//	public void setMyVelocity(Velocity myVelocity) {
+//		this.mySpeed = myVelocity.getSpeed();
+//		this.myDirection = myVelocity.getDirection();
+//	}
+	
+	public void setMySpeed(double mySpeed) {
+		this.mySpeed = mySpeed;
+	}
+	
+	public void setMyDirection(double myDirection){
+		this.myDirection = myDirection;
 	}
 
 	public Bounds getMyBounds() {
@@ -92,8 +105,12 @@ public abstract class BuildingBlock {
 		return myPrice;
 	}
 
-	public void setMyPrice(Price myPrice) {
-		this.myPrice = myPrice;
+//	public void setMyPrice(Price myPrice) {
+//		this.myPrice = myPrice;
+//	}
+	
+	public void setMyPrice(double myPrice) {
+		this.myPrice = new Price(myPrice);
 	}
 
 	public ImageView getMyImage() {

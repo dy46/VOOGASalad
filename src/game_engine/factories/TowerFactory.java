@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Projectile;
@@ -11,48 +12,40 @@ import game_engine.game_elements.Tower;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Unit;
-import game_engine.properties.*;
+import game_engine.properties.Bounds;
+import game_engine.properties.Health;
+import game_engine.properties.Position;
+import game_engine.properties.State;
+import game_engine.properties.UnitProperties;
+import game_engine.properties.Velocity;
 
 
 public class TowerFactory {
 
 	private AffectorLibrary myAffectorLibrary;
-	
+
     public TowerFactory(AffectorLibrary affectorLibrary){
             this.myAffectorLibrary = affectorLibrary;
     }
     
-    
-    public Tower defineTowerModel(TowerBuildingBlock tBlock){
+    public Tower defineTowerModel(BuildingBlock block){
+    	TowerBuildingBlock tBlock = (TowerBuildingBlock) block;
     	List<Affector> affectors = new ArrayList<>(); 
-    	Tower t = new Tower(tBlock.getMyName(), affectors, 2);
+    	Tower t = new Tower(tBlock.getMyName(), affectors, null, null, null, 2);
     	List<Position> l1 = new ArrayList<>();
-    	Health hp = new Health(tBlock.getMyHealth().getValue());
-    	Damage dmg = tBlock.getMyDamage();
+    	Health hp = tBlock.getMyHealth();
     	Velocity velo = tBlock.getMyVelocity();
-    	State towerState = tBlock.getMyState();
+    	State towerState = new State("Stationary");
     	Path towerPath = new Path("Something here"); 
-    	Price towerPrice = tBlock.getMyPrice();
-    	UnitProperties towerProp = new UnitProperties(hp, dmg, null, velo, null, null, towerPrice, towerState, towerPath); 
+    	UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, towerPath); 
     	t.setProperties(towerProp);
     	t.setTTL(1000000);
     	t.setDeathDelay(100);
     	return t; 
     }
-    
-    public Tower buildFromTowerModel(Tower model, Position towerPos, Bounds towerBounds){
-    	UnitProperties towerProp = model.getProperties().copyUnitProperties(); 
-    	towerProp.setPosition(towerPos);
-    	towerProp.setBounds(towerBounds);
-    	Tower built = new Tower(model.toString(), model.getAffectors(), 2);
-    	built.setProperties(towerProp);
-    	built.setTTL(1000000);
-    	built.setDeathDelay(100);
-    	return built;
-    }
-    
-    
-    public Tower createFourWayTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, Position startingPosition){
+ 
+
+	public Tower createFourWayTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, Position startingPosition){
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();
 		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		move.setTTL(Integer.MAX_VALUE);
@@ -104,6 +97,4 @@ public class TowerFactory {
 		t.setDeathDelay(100);
 		return t;
 	}
-
-        
 }

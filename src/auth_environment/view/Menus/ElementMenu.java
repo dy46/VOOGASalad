@@ -1,10 +1,14 @@
 package auth_environment.view.Menus;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import auth_environment.view.ElementPicker;
+import auth_environment.view.TowerView;
 import game_engine.properties.Bounds;
 import game_engine.properties.Damage;
 import game_engine.properties.Health;
@@ -13,6 +17,14 @@ import game_engine.properties.Price;
 import game_engine.properties.Team;
 import game_engine.properties.Velocity;
 import java.util.*;
+
+import auth_environment.buildingBlocks.BuildingBlock;
+//import auth_environment.buildingBlocks.EnemyBuildingBlock;
+import auth_environment.buildingBlocks.TerrainBuildingBlock;
+import auth_environment.buildingBlocks.TowerBuildingBlock;
+import game_engine.factories.TowerFactory;
+import game_engine.game_elements.Tower;
+import game_engine.libraries.AffectorLibrary;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -37,12 +49,21 @@ public class ElementMenu extends Menu {
 	
 	private static final String ELEMENT_LABELS_PACKAGE = "auth_environment/properties/labels";
 	private static final String TERRAIN_LABELS_PACKAGE = "auth_environment/properties/terrain_labels";
+	private static final String ENEMY_LABELS_PACKAGE = "auth_environment/properties/enemy_labels";
+	private static final String STRING_LABELS_PACKAGE = "auth_environment/properties/string_labels";
+	private ResourceBundle myStringBundle = ResourceBundle.getBundle(STRING_LABELS_PACKAGE);
 	
 	//private List<TextField> myTextFieldList = new ArrayList<TextField>();
-	private Map<String, TextField> StrToTextMap = new HashMap<String, TextField>();
+	private Map<String, TextField> intTextMap = new HashMap<String, TextField>();
+	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	private GridPane myGridPane;
+	private int index;
+	private List<Tower> myTowerList = new ArrayList<Tower>();
+	ElementPicker myPicker;
 	
-	public ElementMenu() {
+	
+	public ElementMenu(ElementPicker myPicker) {
+		this.myPicker = myPicker;
 		this.init();
 	}
 	
@@ -50,27 +71,44 @@ public class ElementMenu extends Menu {
 		this.setText(this.myNamesBundle.getString("elementMenuLabel"));
 		MenuItem towerItem = new MenuItem(this.myNamesBundle.getString("towerItemLabel"));
 		MenuItem terrainItem = new MenuItem(this.myNamesBundle.getString("terrainItemLabel"));
+		MenuItem enemyItem = new MenuItem(this.myNamesBundle.getString("enemyItemLabel"));
 		towerItem.setOnAction(e -> createNewTower());
 		terrainItem.setOnAction(e -> createNewTerrain());
-		this.getItems().addAll(towerItem, terrainItem); 
+		enemyItem.setOnAction(e -> createNewEnemy());
+		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
+//		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
+//		viewTowerItem.setOnAction(e -> viewTowers());
+//		towerItem.setOnAction(e -> createNewTower());
+//		terrainItem.setOnAction(e -> createNewTerrain());
+//		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
 	}
 	
+	private void viewTowers() {
+		TowerView t = new TowerView(); 
+		t.show();
+	}
+	
+	private void createNewEnemy() {
+		//make the resource bundles
+		ResourceBundle myEnemiesBundle = ResourceBundle.getBundle(ENEMY_LABELS_PACKAGE);
+		createNewElement(myEnemiesBundle, new EnemyBuildingBlock());
+	}
+
 	public void createNewTower(){
 		ResourceBundle myElementLabelsBundle = ResourceBundle.getBundle(ELEMENT_LABELS_PACKAGE);
-		createNewElement(myElementLabelsBundle);
+		createNewElement(myElementLabelsBundle, new TowerBuildingBlock());
 	}
 	
 	public void createNewTerrain(){
 		ResourceBundle myTerrainLabelsBundle = ResourceBundle.getBundle(TERRAIN_LABELS_PACKAGE);
-		createNewElement(myTerrainLabelsBundle);
+		createNewElement(myTerrainLabelsBundle, new TerrainBuildingBlock());
 	}
 	
 	
-	private void addLabels(ResourceBundle myLabelsBundle){
+	private void addLabels(ResourceBundle myLabelsBundle, Map<String, TextField> StrToTextMap){
 	    myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
 	 	myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
 		Enumeration<String> myKeys = myLabelsBundle.getKeys();	//prolly should split this up into Strings and ints
-		int index = 0;
 		StrToTextMap.clear();
 		
 		while(myKeys.hasMoreElements()){
@@ -84,7 +122,7 @@ public class ElementMenu extends Menu {
 		}
 	}
 	
-	private void addButtons(){
+	private void addButtons(BuildingBlock block){
 	 	   Tooltip t = new Tooltip();
 	 	   ImageView image = new ImageView();
 	 	   image.setImage(new Image("pusheenNoodles.gif"));	//remember to change this later
@@ -93,19 +131,21 @@ public class ElementMenu extends Menu {
 	 	   uploadImage.setOnAction(e -> selectImage(t));
 	 	   uploadImage.setPrefWidth(150.0);
 	 	   uploadImage.setTooltip(t);
-	 	   myGridPane.add(uploadImage, 1, StrToTextMap.size()+1);
+	 	   myGridPane.add(uploadImage, 1, index+2);
 	 	   
 	 	   Button ok = new Button("OK");
-	 	   ok.setOnAction(e -> makeElement(t));
-	 	   myGridPane.add(ok, 2, StrToTextMap.size()+1);
+	 	   ok.setOnAction(e -> makeElement(t, block));
+	 	   myGridPane.add(ok, 2, index+2);
 	}
 	
 	
-   private void createNewElement(ResourceBundle myLabelsBundle){		//va will refactor this later 
-    	myGridPane = new GridPane();
-	   
-    	addLabels(myLabelsBundle);
-		addButtons();
+   private void createNewElement(ResourceBundle myLabelsBundle, BuildingBlock block){		//va will refactor this later 
+	    index = 0;
+	    myGridPane = new GridPane();
+	    
+    	addLabels(myLabelsBundle, intTextMap);
+    	addLabels(myStringBundle, strTextMap);
+		addButtons(block);
 
  	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
  	   Scene scene1 = new Scene(myGridPane, 200, 100);
@@ -140,12 +180,45 @@ public class ElementMenu extends Menu {
         }
     	
     }
-    private void makeElement(Tooltip t){
-    	for(String str: StrToTextMap.keySet()){
-    		System.out.println(str + " " + StrToTextMap.get(str).getText());
+    
+    private void makeElement(Tooltip t, BuildingBlock block){
+    	Class<?> c = block.getClass();
+    	for(String str: strTextMap.keySet()){
+    		block.setMyName(strTextMap.get(str).getText());
+    	}
+    	for(String str: intTextMap.keySet()){
+    		System.out.println(str + " " + intTextMap.get(str).getText());
+    		Method[] allMethods = c.getMethods();
+    		
+    		for(Method m: allMethods){;
+//    			String[] mString = m.getName().split(".");
+//    			System.out.println(m.getName());
+//    			System.out.println("setMy" + str);
+    			if(m.getName().startsWith("setMy" + str)){
+    				try {
+						m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));
+						System.out.println("check");
+						break;
+
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println(str);
+					}
+    			}
+    		}	
     	}
     	
-    	//don't forget to give them the imageview too
+    	block.setMyImage((ImageView)t.getGraphic());
+    	
+    	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	Tower tower = towerFac.defineTowerModel(block);
+    	
+    	myTowerList.add(tower);
+    	myPicker.updateMenu(myTowerList, tower);
+    	//call Cody's method
+    	//and add to list
+    	//and then update my Picker
     	
     }
 }
