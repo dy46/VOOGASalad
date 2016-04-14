@@ -95,6 +95,9 @@
 9. Auth Environment can change Path colors
   > Select a Path in the Path menu (mouse action), opens up a Color Picker, selection of a Color then calls setColor and update methods on the Path to update its color. 
 
+10. Auth Environment can change CSS stylesheet
+  > Appearance menu has a 'Change Skin' button that opens up a FileChooser. The File returned by the FileChooser (filtered to .css files) will then be used to update the View window's scene with a .setStylesheet() method call
+
 ### Game Player Use Cases
 
 1. Integrate Save
