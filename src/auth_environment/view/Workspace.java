@@ -54,6 +54,8 @@ public class Workspace {
 	
 	public void writeToGameData() {
 		GameData gameData = new GameData(); 
+//		gameData.setLevels(myPicker.getLevels());
+		
 		gameData.setTowerTypes(myPicker.getTowers());
 	}
 	

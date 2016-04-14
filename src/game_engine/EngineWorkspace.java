@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import game_data.GameData;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -57,7 +59,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
-	public void setUpEngine (List<String> fileNames) {
+	public void setUpEngine (GameData gameData) {
 		myLives = 3;
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
@@ -276,6 +278,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	public double getBalance() { return myBalance; }
 
 	public List<Unit> getEnemies() { return myEnemys;	}
+	public void setEnemies (List<Unit> enemies) { myEnemys = enemies; }
 
 	public List<Unit> getTowers() { return myTowers; }
 	

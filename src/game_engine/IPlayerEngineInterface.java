@@ -2,8 +2,11 @@ package game_engine;
 
 import java.util.List;
 
+import game_data.GameData;
+import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
@@ -41,7 +44,7 @@ public interface IPlayerEngineInterface {
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
     
     //sets up the engine with a list of files
-    void setUpEngine(List<String> fileNames);
+    void setUpEngine(GameData gameData);
     
     public List<Unit> getEnemies();
     
@@ -69,7 +72,8 @@ public interface IPlayerEngineInterface {
 
 	public void setLevels (List<Level> levels);
 	
-	public void setTerrains(List<Unit> terrains);
+	public void setTerrains(List<Unit> myTerrains);
 
-    
+	public void setEnemies(List<Unit> myEnemies);
+	
 }

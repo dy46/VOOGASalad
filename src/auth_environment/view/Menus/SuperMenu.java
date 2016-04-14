@@ -42,7 +42,7 @@ public abstract class SuperMenu extends Menu{
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
 	private TerrainFactory myTerrainFactory;
-	
+
 	public SuperMenu(ElementPicker myPicker){
 		this.myPicker = myPicker;
 		myFunctionFactory = new FunctionFactory();
@@ -51,137 +51,137 @@ public abstract class SuperMenu extends Menu{
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 	}
-	
+
 	public abstract void createNewElement();
-	
+
 	private void addLabels(ResourceBundle myLabelsBundle, Map<String, TextField> StrToTextMap){
-	    myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
-	 	myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
+		myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
+		myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
 		Enumeration<String> myKeys = myLabelsBundle.getKeys();	//prolly should split this up into Strings and ints
 		StrToTextMap.clear();
-		
+
 		while(myKeys.hasMoreElements()){
-		 	myGridPane.getRowConstraints().add(new RowConstraints(30));
+			myGridPane.getRowConstraints().add(new RowConstraints(30));
 			String name = myKeys.nextElement();
-            myGridPane.add(new Label(myLabelsBundle.getString(name) + ": "), 0, index);
-            TextField myTextField = new TextField();
-            myGridPane.add(myTextField, 1, index);
-            index++;
+			myGridPane.add(new Label(myLabelsBundle.getString(name) + ": "), 0, index);
+			TextField myTextField = new TextField();
+			myGridPane.add(myTextField, 1, index);
+			index++;
 			StrToTextMap.put(myLabelsBundle.getString(name),myTextField);
 		}
 	}
-	
+
 	private void addButtons(BuildingBlock block){
-	 	   Tooltip t = new Tooltip();
-	 	   ImageView image = new ImageView();
-	 	   image.setImage(new Image("pusheenNoodles.gif"));	//remember to change this later
-	 	   t.setGraphic(image);
-	 	   Button uploadImage = new Button("Upload Image");
-	 	   uploadImage.setOnAction(e -> selectImage(t));
-	 	   uploadImage.setPrefWidth(150.0);
-	 	   uploadImage.setTooltip(t);
-	 	   myGridPane.add(uploadImage, 1, index+2);
-	 	   
-	 	   Button ok = new Button("OK");
-	 	   ok.setOnAction(e -> makeElement(t, block));
-	 	   myGridPane.add(ok, 2, index+2);
+		Tooltip t = new Tooltip();
+		ImageView image = new ImageView();
+		image.setImage(new Image("pusheenNoodles.gif"));	//remember to change this later
+		t.setGraphic(image);
+		Button uploadImage = new Button("Upload Image");
+		uploadImage.setOnAction(e -> selectImage(t));
+		uploadImage.setPrefWidth(150.0);
+		uploadImage.setTooltip(t);
+		myGridPane.add(uploadImage, 1, index+2);
+
+		Button ok = new Button("OK");
+		ok.setOnAction(e -> makeElement(t, block));
+		myGridPane.add(ok, 2, index+2);
 	}
-	
+
 	public abstract void makeElement( Tooltip t, BuildingBlock block);
-	
-    private void selectImage(Tooltip t){
-    	FileChooser imageChoice = new FileChooser();
-        imageChoice.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
-        ContextMenu prefWindow = new ContextMenu();
-        File file = imageChoice.showOpenDialog(prefWindow.getOwnerWindow());
-        if (file != null) {
-            try {
-                String fileName = file.toURI().toURL().toString();
-                ImageView image = new ImageView();
-                image.setImage(new Image(fileName));
-                image.setFitHeight(50.0);
-                image.setFitWidth(50.0);
-                t.setGraphic(image);
-            }
-            catch (MalformedURLException e) {
-                System.out.println("womp");
-            }
 
-        }
-    	
-    }
-    
-    public ElementPicker getPicker(){
-    	return myPicker;
-    }
-    
-    public void createElement(BuildingBlock block, Map<String, TextField> intTextMap, Map<String, TextField> strTextMap, ResourceBundle myLabelsBundle, ResourceBundle myStringBundle){		//va will refactor this later 
- 	   index = 0;
- 	   myGridPane = new GridPane();
- 	   
- 	   if(myLabelsBundle != null){
- 		   addLabels(myLabelsBundle, intTextMap);
- 	   }
-       addLabels(myStringBundle, strTextMap);
- 	   addButtons(block);
+	private void selectImage(Tooltip t){
+		FileChooser imageChoice = new FileChooser();
+		imageChoice.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		ContextMenu prefWindow = new ContextMenu();
+		File file = imageChoice.showOpenDialog(prefWindow.getOwnerWindow());
+		if (file != null) {
+			try {
+				String fileName = file.toURI().toURL().toString();
+				ImageView image = new ImageView();
+				image.setImage(new Image(fileName));
+				image.setFitHeight(50.0);
+				image.setFitWidth(50.0);
+				t.setGraphic(image);
+			}
+			catch (MalformedURLException e) {
+				System.out.println("womp");
+			}
 
-  	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
-  	   Scene scene1 = new Scene(myGridPane, 200, 100);
-  	   
-  	   Stage newStage = new Stage();
-  	   newStage.setScene(scene1);
-  	   newStage.setMinWidth(350.0);
-  	   newStage.setMinHeight(350.0);
-  	   newStage.setTitle("Elemental Creator");
-  	   newStage.show();
-  }
-    
-    public FunctionFactory getFunctionFactory(){
-    	return myFunctionFactory;
-    }
-    
-    public TerrainFactory getTerrainFactory(){
-    	return myTerrainFactory;
-    }
-    
-    public AffectorFactory getAffectorFactory(){
-    	return myAffectorFactory;
-    }
-    
-    public EnemyFactory getEnemyFactory(){
-    	return myEnemyFactory;
-    }
-    
-    public TowerFactory getTowerFactory(){
-    	return myTowerFactory;
-    }
-    
-//    private String formatType(String type){
-//    	type = type.toLowerCase();
-//    	return type.substring(0,1).toUpperCase() + type.substring(1);
-//    }
-	
-//    public List<Unit> getUnitsByType(String type){
-//    	type = formatType(type);
-//		String instanceVarName = "my" + type + "Factory";
-//		Field f = null;
-//		try {
-//			f = getClass().getDeclaredField(instanceVarName);
-//		}
-//		catch (NoSuchFieldException | SecurityException e1) {
-//			// TODO: womp exception
-//			e1.printStackTrace();
-//		}
-//		f.setAccessible(true);
-//		List<Unit> listInstanceVar = null;
-//		try {
-//			listInstanceVar = (List<Unit>) f.get(this);
-//		}
-//		catch (IllegalArgumentException | IllegalAccessException e) {
-//			// TODO: womp exception
-//			e.printStackTrace();
-//		}
-//		return listInstanceVar;
-//	}
+		}
+
+	}
+
+	public ElementPicker getPicker(){
+		return myPicker;
+	}
+
+	public void createElement(BuildingBlock block, Map<String, TextField> intTextMap, Map<String, TextField> strTextMap, ResourceBundle myLabelsBundle, ResourceBundle myStringBundle){		//va will refactor this later 
+		index = 0;
+		myGridPane = new GridPane();
+
+		if(myLabelsBundle != null){
+			addLabels(myLabelsBundle, intTextMap);
+		}
+		addLabels(myStringBundle, strTextMap);
+		addButtons(block);
+
+		myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
+		Scene scene1 = new Scene(myGridPane, 200, 100);
+
+		Stage newStage = new Stage();
+		newStage.setScene(scene1);
+		newStage.setMinWidth(350.0);
+		newStage.setMinHeight(350.0);
+		newStage.setTitle("Elemental Creator");
+		newStage.show();
+	}
+
+	public FunctionFactory getFunctionFactory(){
+		return myFunctionFactory;
+	}
+
+	public TerrainFactory getTerrainFactory(){
+		return myTerrainFactory;
+	}
+
+	public AffectorFactory getAffectorFactory(){
+		return myAffectorFactory;
+	}
+
+	public EnemyFactory getEnemyFactory(){
+		return myEnemyFactory;
+	}
+
+	public TowerFactory getTowerFactory(){
+		return myTowerFactory;
+	}
+
+	//    private String formatType(String type){
+	//    	type = type.toLowerCase();
+	//    	return type.substring(0,1).toUpperCase() + type.substring(1);
+	//    }
+
+	//    public List<Unit> getUnitsByType(String type){
+	//    	type = formatType(type);
+	//		String instanceVarName = "my" + type + "Factory";
+	//		Field f = null;
+	//		try {
+	//			f = getClass().getDeclaredField(instanceVarName);
+	//		}
+	//		catch (NoSuchFieldException | SecurityException e1) {
+	//			// TODO: womp exception
+	//			e1.printStackTrace();
+	//		}
+	//		f.setAccessible(true);
+	//		List<Unit> listInstanceVar = null;
+	//		try {
+	//			listInstanceVar = (List<Unit>) f.get(this);
+	//		}
+	//		catch (IllegalArgumentException | IllegalAccessException e) {
+	//			// TODO: womp exception
+	//			e.printStackTrace();
+	//		}
+	//		return listInstanceVar;
+	//	}
 
 }

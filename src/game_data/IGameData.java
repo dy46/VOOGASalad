@@ -3,9 +3,12 @@ package game_data;
 import java.util.List;
 
 import auth_environment.backend.ISettings;
+import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 public interface IGameData {
@@ -14,6 +17,9 @@ public interface IGameData {
 
 	public void setTowerTypes(List<Tower> towerTypes);
 	public void addTowerType(Tower towerTypeToAdd);
+	
+	public void setEnemies(List<Unit> enemies);
+	public void setTerrains(List<Unit> terrains);
 
 //	public void setPaths(List<Path> paths);
 //	public void addPath(Path pathToAdd);
@@ -29,6 +35,8 @@ public interface IGameData {
 	public List<Tower> getTowerTypes();
 	public List<Path> getPaths();
 	public ISettings getSettings();
+	public List<Unit> getEnemies();
+	public List<Unit> getTerrains();
 
 	public void saveGameData();
 
