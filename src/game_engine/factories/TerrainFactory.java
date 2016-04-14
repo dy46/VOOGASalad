@@ -3,6 +3,7 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Terrain;
 import game_engine.libraries.AffectorLibrary;
@@ -17,6 +18,17 @@ public class TerrainFactory {
 		this.myAffectorLibrary = affectorLibrary;
 		myTerrainLibrary = new TerrainLibrary();
 		setupDefaultTerrains();
+	}
+	
+	public Terrain defineTerrainModel(TerrainBuildingBlock terBlock){
+		List<Affector> affectors = new ArrayList<>();
+		Affector speedUp = myAffectorLibrary.getAffector(terBlock.getMyProperty(), terBlock.getMyEffect());
+		speedUp.setTTL(1);
+		affectors.add(speedUp);
+		Terrain ter = new Terrain(terBlock.getMyName(), 2);
+		ter.setAffectorsToApply(affectors);
+		myTerrainLibrary.addTerrain(ter);
+		return ter;
 	}
 	
 	private void setupDefaultTerrains(){

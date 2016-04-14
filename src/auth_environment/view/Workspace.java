@@ -1,10 +1,16 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-
+import auth_environment.backend.ISelector;
+import auth_environment.backend.SelectorModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
-import game_data.IGameData;
+import game_engine.game_elements.Tower;
+
+import auth_environment.backend.ISettings;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -23,33 +29,32 @@ public class Workspace {
 	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	private MapDisplay myDisplay;
-	private ElementPicker myPicker = new ElementPicker(); 
+	private MapDisplay myDisplay = new MapDisplay();
+	private ElementPicker myPicker;
 	
-	private IGameData myGameData;
+	private ISettings mySettings;
 	
-	public Workspace(TabPane tabPane, IGameData gameData) {
+	public Workspace(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
-		this.myGameData = gameData; 
-		this.myDisplay = new MapDisplay(this.myGameData);
+		this.mySettings = settings; 
 		this.setupBorderPane();
 	}
 	
 	private void setupBorderPane() {
-	    ElementPicker myPicker = new ElementPicker();
+	    myPicker = new ElementPicker();
+
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.myGameData));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings));
 //		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(400,400);
 		this.myBorderPane.setRight(myPicker);
 		this.myBorderPane.setCenter(myDisplay);
-		this.myBorderPane.setRight(new ElementPicker());
 	}
 	
 	public void writeToGameData() {
 		GameData gameData = new GameData(); 
-		gameData.setTowers(myPicker.getTowers());
+		gameData.setTowerTypes(myPicker.getTowers());
 	}
 	
     public Node getRoot() {

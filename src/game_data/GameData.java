@@ -1,58 +1,88 @@
 package game_data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
+import game_engine.EngineWorkspace;
+import game_engine.IPlayerEngineInterface;
 import game_engine.game_elements.Level;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Tower;
-import game_engine.properties.Position;
+import game_engine.game_elements.Unit;
 
 public class GameData implements IGameData {
+	private List<Level> myLevels = new ArrayList<Level>();
+	private List<Tower> myTowerTypes = new ArrayList<Tower>();
+	private List<Path> myPaths = new ArrayList<Path>();
+	private ISettings mySettings = new GameSettings();
+//	private List<Unit> myTerrains;
 	
-	private ISettings mySettings;
+	private IDataConverter<IPlayerEngineInterface> mySerializer = new AuthSerializer<IPlayerEngineInterface>();
 	
-	public GameData() {
-		this.mySettings = new GameSettings(); 
+	@Override
+	public void setLevels(List<Level> levels) {
+		myLevels = levels;
+	}
+	@Override
+	public void addLevel(Level levelToAdd) {
+		myLevels.add(levelToAdd);
+	}
+	
+	@Override
+	public void setTowerTypes(List<Tower> towerTypes) {
+		myTowerTypes = towerTypes;
+	}
+	@Override
+	public void addTowerType(Tower towerTypeToAdd) {
+		myTowerTypes.add(towerTypeToAdd);
 	}
 
 	@Override
-	public List<Tower> getTowers() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setPaths(List<Path> paths) {
+		myPaths = paths;
 	}
-
 	@Override
-	public Level getLevel() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addPath(Path pathToAdd) {
+		myPaths.add(pathToAdd);
 	}
-
 	@Override
-	public void setTowers(List<Tower> towers) {
-		// TODO Auto-generated method stub
-		
+	public void addGameSettings(ISettings settings) {
+		mySettings = settings;
 	}
 
+//	@Override
+//	public void setTerrains(List<Unit> terrains) {
+//		myTerrains = terrains;
+//	}
+
+	// Getters
 	@Override
-	public void addLevel(Level level) {
-		// TODO Auto-generated method stub
-		
+	public List<Level> getLevels() {
+		return myLevels;
 	}
-
+	@Override
+	public List<Tower> getTowerTypes() {
+		return myTowerTypes;
+	}
+	@Override
+	public List<Path> getPaths() {
+		return myPaths;
+	}
 	@Override
 	public ISettings getSettings() {
-		return this.mySettings;
+		return mySettings;
 	}
-
+	
+	
 	@Override
-	public void updateSettings(ISettings settings) {
-		this.mySettings = settings; 
+	public void saveGameData() {
+		IPlayerEngineInterface workspace = new EngineWorkspace();
+	    workspace.setPaths(myPaths);
+	    workspace.setTowerTypes (myTowerTypes);
+	    workspace.setLevels (myLevels);
+		mySerializer.saveElement(workspace);
 	}
-
-	@Override
-	public void addPositions(List<Position> list) {
-		
-	}
-
+	
 }

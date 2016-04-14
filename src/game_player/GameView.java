@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
+import game_data.AuthSerializer;
+import game_data.IDataConverter;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
 import game_engine.game_elements.Enemy;
@@ -21,7 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class GameView implements IGameView{
-    
+    private IDataConverter dataConverter;
+
     private int timer;
     private AnimationTimer AT;
     private boolean timerStatus;
@@ -37,8 +40,7 @@ public class GameView implements IGameView{
     private List<ImageViewPicker> terrains;
     
     public GameView(Stage primaryStage) {
-        playerEngineInterface = new EngineWorkspace();
-        playerEngineInterface.setUpEngine(null);
+    	playerEngineInterface = readData();
         root = new Group();
         Scene theScene = new Scene(root);
         primaryStage.setScene(theScene);
@@ -60,6 +62,14 @@ public class GameView implements IGameView{
         
         
     }
+
+	private IPlayerEngineInterface readData() {
+		IDataConverter<IPlayerEngineInterface> dataConverter = new AuthSerializer<IPlayerEngineInterface>();
+		playerEngineInterface = dataConverter.loadElement();
+//        playerEngineInterface = new EngineWorkspace();
+//        playerEngineInterface.setUpEngine(null);
+        return playerEngineInterface;
+	}
     
     public void setUpKeyPressed(String code) {
         if(code.equals("SPACE")) {

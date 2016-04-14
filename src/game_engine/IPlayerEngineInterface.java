@@ -1,7 +1,10 @@
 package game_engine;
 
 import java.util.List;
+
+import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
@@ -42,16 +45,31 @@ public interface IPlayerEngineInterface {
     
     public List<Unit> getEnemies();
     
-    public List<Unit> getTowers();
-    
-    public List<Unit> getProjectiles();
-    
-    public List<Path> getPaths();
-    
-    public int getLives();
-
-    public void clearProjectiles();
+    public List<Unit> getTowers();    
     
     public List<Unit> getTerrains();
+    
+    public List<Path> getPaths();
+
+	public List<Tower> getTowerTypes();
+
+	public List<Level> getLevels();
+	
+    public int getLives();
+	
+    public List<Unit> getProjectiles();
+
+    public void clearProjectiles();
+
+    
+    // Methods for GameData to populate an EngineWorkspace
+    public void setPaths(List<Path> paths);
+    
+	public void setTowerTypes (List<Tower> towerTypes);
+
+	public void setLevels (List<Level> levels);
+	
+	public void setTerrains(List<Unit> terrains);
+
     
 }

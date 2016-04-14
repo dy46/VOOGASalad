@@ -4,31 +4,27 @@ import java.util.List;
 
 import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Tower;
-import game_engine.properties.Position;
-
-/**
- * Created by BrianLin on 4/12/16.
- * 
- * Team member responsible: Austin
- * 
- * This class handles Game Data at the highest level (nothing beyond this class will every be written to XML).
- */
 
 public interface IGameData {
+	public void setLevels(List<Level> levels);
+	public void addLevel(Level levelToAdd);
 	
-	public ISettings getSettings(); 
+	public void setTowerTypes(List<Tower> towerTypes);
+	public void addTowerType(Tower towerTypeToAdd);
 	
-	public void updateSettings(ISettings settings); 
-	
-	public List<Tower> getTowers();
-	
-	public Level getLevel(); 
-	
-	public void setTowers(List<Tower> towers);
-	
-	public void addLevel(Level level); 
-	
-	public void addPositions(List<Position> list); 
-	
+    public void setPaths(List<Path> paths);
+    public void addPath(Path pathToAdd);
+    
+    public void addGameSettings(ISettings settings);
+    
+    //Getters
+    public List<Level> getLevels();
+	public List<Tower> getTowerTypes();
+    public List<Path> getPaths();
+    public ISettings getSettings();
+    
+    public void saveGameData();
+
 }

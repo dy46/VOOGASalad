@@ -26,12 +26,17 @@ public class Main extends Application {
 //		String out = (String) writer.Deserialize();
 //		System.out.println(out); 
 		
-		authView = new View(primaryStage); // for testing Auth
+		//authView = new View(primaryStage); // for testing Auth
 //		myView = new GameView(primaryStage);
 //		myEngineController = new EngineController();
 //		myEngineController.initialize();
 //		myView.display();
 //		authView = new View(primaryStage); // for testing Auth
+//		myView = new GameView(primaryStage);
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
+//		myView.display();
+		authView = new View(primaryStage); // for testing Auth
 //		myView = new GameView(primaryStage);
 //		myEngineController = new EngineController();
 //		myEngineController.initialize();
