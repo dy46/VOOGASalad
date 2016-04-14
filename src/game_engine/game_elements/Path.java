@@ -2,6 +2,7 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Map;
 import game_engine.properties.Position;
@@ -15,6 +16,7 @@ public class Path extends Unit{
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
 	private boolean cycle;
+
 	
 	public Path(String name){
 		super(name);

@@ -3,6 +3,9 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import auth_environment.buildingBlocks.BuildingBlock;
+import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
@@ -21,9 +24,26 @@ public class TowerFactory {
 
 	private AffectorLibrary myAffectorLibrary;
 
-	public TowerFactory(AffectorLibrary affectorLibrary){
-		this.myAffectorLibrary = affectorLibrary;
-	}
+    public TowerFactory(AffectorLibrary affectorLibrary){
+            this.myAffectorLibrary = affectorLibrary;
+    }
+    
+    public Tower defineTowerModel(BuildingBlock block){
+    	TowerBuildingBlock tBlock = (TowerBuildingBlock) block;
+    	List<Affector> affectors = new ArrayList<>(); 
+    	Tower t = new Tower(tBlock.getMyName(), affectors, null, null, null, 2);
+    	List<Position> l1 = new ArrayList<>();
+    	Health hp = tBlock.getMyHealth();
+    	Velocity velo = tBlock.getMyVelocity();
+    	State towerState = new State("Stationary");
+    	Path towerPath = new Path("Something here"); 
+    	UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, towerPath); 
+    	t.setProperties(towerProp);
+    	t.setTTL(1000000);
+    	t.setDeathDelay(100);
+    	return t; 
+    }
+ 
 
 	public Tower createFourWayTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, Position startingPosition){
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();

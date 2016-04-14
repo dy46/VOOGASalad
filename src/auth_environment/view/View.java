@@ -2,6 +2,8 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
+import auth_environment.backend.GameSettings;
+import auth_environment.backend.ISettings;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -28,26 +30,36 @@ public class View {
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
     private Workspace mainWorkspace;
+    private GameSettings mySettings = new GameSettings(); 
 
     public View (Stage stage) {
         myStage = stage;
-        myScene = new Scene(myTabs, Color.LIGHTGRAY); 
-        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
-        myStage.setScene(myScene);
-		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		mainWorkspace = new Workspace(myTabs);
-		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
-		mainTab.setClosable(false);
-		myTabs.getTabs().add(mainTab);
-		//myTabs.getTabs().add(mainTab);
-		
-		
-		VAsTesterTab vtest = new VAsTesterTab(myTabs);
+        
+        Welcome welcome = new Welcome(this);
+        setupWorkspace();
     }
 
 
+	private void setupWorkspace() {
+		myScene = new Scene(myTabs, Color.web("292929")); 
+        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
+        myStage.setScene(myScene);
+		myStage.setTitle(myNamesBundle.getString("wompTitle"));
+		mainWorkspace = new Workspace(myTabs, this.mySettings);
+		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
+		mainTab.setClosable(false);
+		myTabs.getTabs().add(mainTab);
+		
+		
+		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
+    }
+
     public void display() {
     	this.myStage.show();
+    }
+    
+    public ISettings getSettings() {
+    	return this.mySettings;
     }
 
 }

@@ -1,6 +1,7 @@
 package main;
 
 import auth_environment.view.View;
+import game_data.AuthSerializer;
 import game_engine.EngineController;
 import game_player.GameView;
 import javafx.application.Application;
@@ -18,12 +19,18 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-//		authView = new View(primaryStage); // for testing Auth
-//		authView.display(); // for testing Auth
-		myView = new GameView(primaryStage);
-		myEngineController = new EngineController();
-		myEngineController.initialize();
-		myView.display();
+		
+//		String hello = "hello"; 
+//		AuthSerializer writer = new AuthSerializer(); 
+//		writer.SerializeData(hello); //Sample object saving
+//		String out = (String) writer.Deserialize();
+//		System.out.println(out); 
+		
+		authView = new View(primaryStage); // for testing Auth
+//		myView = new GameView(primaryStage);
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
+//		myView.display();
 	}
-
+	
 }
