@@ -21,6 +21,10 @@ public class EnemyFactory {
 	public EnemyFactory(AffectorLibrary affectorLibrary){
 		this.myAffectorLibrary = affectorLibrary;
 	}
+	
+	public Enemy defineEnemyModel(EnemyBuildingBlock eBlock){
+		
+	}
 
 	public Enemy createPathFollowPositionMoveEnemy(String name){
 		return createSpecifiedEnemy(name, "PathFollow", "PositionMove");
