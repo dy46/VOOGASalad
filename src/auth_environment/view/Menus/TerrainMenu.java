@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
@@ -20,8 +21,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 
 public class TerrainMenu extends SuperMenu{
-	public TerrainMenu(ElementPicker myPicker) {
-		super(myPicker);
+	public TerrainMenu(ElementPicker myPicker, FactoryController factoryController) {
+		super(myPicker, factoryController);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -83,7 +84,7 @@ public class TerrainMenu extends SuperMenu{
 	    	
 	    	block.setMyImage((ImageView)t.getGraphic());
 	    	
-	    	TerrainFactory terrainFac = super.getTerrainFactory();
+	    	TerrainFactory terrainFac = super.getFactoryController().getTerrainFactory();
 	    	Terrain terrain = terrainFac.defineTerrainModel(block);
 	    	
 	    	getPicker().updateTerrain(terrain);

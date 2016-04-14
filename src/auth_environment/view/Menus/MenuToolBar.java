@@ -2,6 +2,7 @@ package auth_environment.view.Menus;
 
 import java.util.Arrays;
 import java.util.List;
+
 import auth_environment.backend.ISettings;
 import auth_environment.view.ElementPicker;
 import javafx.scene.control.Menu;
@@ -19,7 +20,6 @@ public class MenuToolBar extends MenuBar {
 		this.init(myPicker);
 	}
 
-	
 	private List<Menu> defaultMenus(ElementPicker myPicker) {
 		List<Menu> myMenus = Arrays.asList(
 				new FileMenu(this.mySettings), 

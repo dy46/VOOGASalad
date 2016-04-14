@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.view.ElementPicker;
 import game_engine.factories.AffectorFactory;
@@ -37,19 +38,11 @@ public abstract class SuperMenu extends Menu{
 	private GridPane myGridPane;
 	private ElementPicker myPicker;
 	private int index = 0;
-	private FunctionFactory myFunctionFactory;
-	private AffectorFactory myAffectorFactory;
-	private EnemyFactory myEnemyFactory;
-	private TowerFactory myTowerFactory;
-	private TerrainFactory myTerrainFactory;
+	private FactoryController myFactoryController;
 
-	public SuperMenu(ElementPicker myPicker){
+	public SuperMenu(ElementPicker myPicker, FactoryController factoryController){
 		this.myPicker = myPicker;
-		myFunctionFactory = new FunctionFactory();
-		myAffectorFactory = new AffectorFactory(myFunctionFactory);
-		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
-		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
+		myFactoryController = factoryController;
 	}
 
 	public abstract void createNewElement();
@@ -135,25 +128,9 @@ public abstract class SuperMenu extends Menu{
 		newStage.setTitle("Elemental Creator");
 		newStage.show();
 	}
-
-	public FunctionFactory getFunctionFactory(){
-		return myFunctionFactory;
-	}
-
-	public TerrainFactory getTerrainFactory(){
-		return myTerrainFactory;
-	}
-
-	public AffectorFactory getAffectorFactory(){
-		return myAffectorFactory;
-	}
-
-	public EnemyFactory getEnemyFactory(){
-		return myEnemyFactory;
-	}
-
-	public TowerFactory getTowerFactory(){
-		return myTowerFactory;
+	
+	public FactoryController getFactoryController(){
+		return myFactoryController;
 	}
 
 	//    private String formatType(String type){
