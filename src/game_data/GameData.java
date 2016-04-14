@@ -11,6 +11,7 @@ import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Position;
 
 public class GameData implements IGameData {
 	private List<Level> myLevels = new ArrayList<Level>();
@@ -18,8 +19,8 @@ public class GameData implements IGameData {
 	private List<Path> myPaths = new ArrayList<Path>();
 	private ISettings mySettings = new GameSettings();
 //	private List<Unit> myTerrains;
-	
 	private IDataConverter<IPlayerEngineInterface> mySerializer = new AuthSerializer<IPlayerEngineInterface>();
+	private List<List<Position>> myPositionLists;
 	
 	@Override
 	public void setLevels(List<Level> levels) {
@@ -39,14 +40,14 @@ public class GameData implements IGameData {
 		myTowerTypes.add(towerTypeToAdd);
 	}
 
-	@Override
-	public void setPaths(List<Path> paths) {
-		myPaths = paths;
-	}
-	@Override
-	public void addPath(Path pathToAdd) {
-		myPaths.add(pathToAdd);
-	}
+//	@Override
+//	public void setPaths(List<Path> paths) {
+//		myPaths = paths;
+//	}
+//	@Override
+//	public void addPath(Path pathToAdd) {
+//		myPaths.add(pathToAdd);
+//	}
 	@Override
 	public void addGameSettings(ISettings settings) {
 		mySettings = settings;
@@ -83,6 +84,15 @@ public class GameData implements IGameData {
 	    workspace.setTowerTypes (myTowerTypes);
 	    workspace.setLevels (myLevels);
 		mySerializer.saveElement(workspace);
+	}
+	@Override
+	public void addPositions(List<Position> list) {
+		myPositionLists.add(list);
+	}
+	
+	@Override
+	public List<List<Position>> getPositions() {
+		return myPositionLists;
 	}
 	
 }
