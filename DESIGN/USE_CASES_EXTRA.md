@@ -42,6 +42,22 @@
   - Level: constructor is used to generate a level object `Level (String name, Wave first, int myLives)`
   - Level: waves are added by making repeated calls to `addWave (Wave newWave) `
   
+8. Engine detects when a wave has finished, and pauses in order to let the user make purchases
+  - EngineWorkspace: makes consecutive calls to `updateElements()`
+  - EngineWorkspace: `updateElements()` makes checks to `myCurrentLevel.getCurrentWave().isFinished()` which checks if wave has finished
+  - If wave has finished, EngineWorkspace calls 
+    - `clearProjectiles();`
+    - `pause = true;`
+  - During next call to `update()`, EngineWorkspace understands game is paused, and blocks calculations until next level or wave is played 
+  
+9. An enemy traverses its path, and decrements health
+  - EngineWorkspace: makes a call to `updateElements()`
+  - EngineWorkspace: `updateElements()` makes a call to `updateLives()`
+  - EngineWorkspace: `updateLives()` checks `isUnitAtLastPosition(myEnemys.get(i))`
+  - if enemy is at the last position in the path, `myLives` is decremented.
+
+10. A Projectile homes in on an enemy
+  - 
 
 
 
