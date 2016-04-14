@@ -329,4 +329,9 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myTowers.add(newTower);
 	}
 
+    @Override
+    public List<Tower> getTowerTypes () {
+        return myTowerTypes;
+    }
+
 }

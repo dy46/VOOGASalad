@@ -60,4 +60,6 @@ public interface IPlayerEngineInterface {
     
     public List<Unit> getTerrains();
     
+    public List<Tower> getTowerTypes();
+    
 }
