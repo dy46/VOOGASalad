@@ -26,7 +26,6 @@ import javafx.scene.shape.Shape;
 public abstract class Tile implements IElementHolder {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-
 	private boolean hasElement; 
 	private GameElement myElement; 
 	private String name;
@@ -43,7 +42,7 @@ public abstract class Tile implements IElementHolder {
 	public void updateElement(GameElement element) {
 		this.hasElement = true;
 		this.myElement = element; 
-		this.setName(element.toString());
+//		this.setName(element.toString());
 		//System.out.println(element.toString());
 		showCurrentElement();
 	}

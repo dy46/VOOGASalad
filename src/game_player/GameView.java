@@ -2,22 +2,27 @@ package game_player;
 
 import java.util.ArrayList;
 import java.util.List;
-import auth_environment.backend.ISelector;
-import auth_environment.backend.SelectorModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.view.RecTile;
+import auth_environment.view.Tile;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Projectile;
-import game_engine.game_elements.Terrain;
+import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 
 public class GameView implements IGameView{
@@ -35,6 +40,8 @@ public class GameView implements IGameView{
     private List<ImageViewPicker> projectiles;
     private List<ImageView> paths;
     private List<ImageViewPicker> terrains;
+    private List<ImageView> towerTypes;
+    private String clickedTower;
     
     public GameView(Stage primaryStage) {
         playerEngineInterface = new EngineWorkspace();
@@ -51,14 +58,13 @@ public class GameView implements IGameView{
         this.enemies = new ArrayList<>();
         this.projectiles = new ArrayList<>();
         this.terrains = new ArrayList<>();
+        this.towerTypes = new ArrayList<>();
         this.timer = 0;
         this.paths = new ArrayList<>();
         root.getScene().setOnKeyPressed(e -> setUpKeyPressed(e.getCode().toString()));
         canvas.setOnMouseClicked(e -> {
-           playerEngineInterface.addTower(e.getSceneX(), e.getSceneY(), 0);
-        });
-        
-        
+           playerEngineInterface.addTower(clickedTower, e.getSceneX(), e.getSceneY());
+        });      
     }
     
     public void setUpKeyPressed(String code) {
@@ -92,14 +98,11 @@ public class GameView implements IGameView{
                    timer++;
                    playerEngineInterface.updateElements();
                    placePath();
-                   placeUnits(playerEngineInterface.getTerrains(), terrains);
-                   placeUnits(playerEngineInterface.getEnemies(), enemies);
-                   placeUnits(playerEngineInterface.getProjectiles(), projectiles);
                    placeUnits(playerEngineInterface.getTowers(), towers);
-                   if(playerEngineInterface.getLives() < 0) {
-                       timerStatus = false;
-                       playerEngineInterface.clearProjectiles();
-                   }
+                   placeUnits(playerEngineInterface.getTerrains(), terrains);
+                   placeUnits(playerEngineInterface.getProjectiles(), projectiles);
+                   placeUnits(playerEngineInterface.getEnemies(), enemies);
+                   makeTowerPicker();
                }
             }
         };
@@ -115,6 +118,22 @@ public class GameView implements IGameView{
     @Override
     public void changeGameSpeed (int gameSpeed) {
         // TODO Auto-generated method stub
+    }
+    
+    public void makeTowerPicker() {
+        List<Tower> allTowerTypes = playerEngineInterface.getTowerTypes();
+        for(int i = towerTypes.size(); i < allTowerTypes.size(); i++) {
+            String name = allTowerTypes.get(i).toString();
+            Image img = new Image(name + ".png");
+            ImageView imgView = new ImageView(img);
+            imgView.setX(100*i);
+            imgView.setY(0);
+            towerTypes.add(imgView);
+            root.getChildren().add(imgView);
+            imgView.setOnMouseClicked(e -> {
+                clickedTower = name;
+            });
+        }
     }
 
 

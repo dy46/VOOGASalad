@@ -36,11 +36,6 @@ public class PathFollowPositionMoveAffector extends Affector {
                 u.getProperties().getPosition().setY(next.getY());
 
             }
-            this.updateElapsedTime();
-        }
-        if (this.getElapsedTime() == this.getTTL()) {
-            // clear
-
         }
     }
 

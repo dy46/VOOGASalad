@@ -2,6 +2,7 @@ package game_engine;
 
 import java.util.List;
 import game_engine.game_elements.Path;
+import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 
@@ -32,7 +33,7 @@ public interface IPlayerEngineInterface {
     String getGameStatus();
     
     //tells engine to add tower to its active tower list given a tower index
-    void addTower(double x, double y, int towerTypeIndex);
+    void addTower(String name, double x, double y);
     
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);

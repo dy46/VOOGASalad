@@ -38,7 +38,7 @@ public class DragDelegate {
 		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println("Done"); 
+					System.out.println(source.getName()); 
 				}
 				event.consume();
 			}
@@ -85,10 +85,13 @@ public class DragDelegate {
 					target.setName(db.getString());
 					target.placeCurrentElement(); 
 					success = true;
+					System.out.println("hi");
 				}
 				event.setDropCompleted(success);
 				event.consume();
 			}
 		});
+		
+		
 	}
 }
