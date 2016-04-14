@@ -2,20 +2,21 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import game_engine.properties.Position;
 
 /*
 * Internal API that will be used in order to represent paths 
 * for enemy movements.
 */
-public class Path extends MapPiece{
+public class Path extends Unit{
 	
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
 	private boolean cycle;
+
 	
 	public Path(String name){
 		super(name);

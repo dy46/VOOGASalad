@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
@@ -25,21 +26,20 @@ public class MapDisplay extends Pane {
 	private MapDisplayModel myModel;
 	private Grid myGrid;
 	
-	public MapDisplay(ISelector selector) {
+	public MapDisplay() {
 		this.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						 Double.parseDouble(myDimensionsBundle.getString("defaultMapHeightPixels")));
 		myModel = new MapDisplayModel(Integer.parseInt(myDimensionsBundle.getString("defaultMapWidthCount")), 
-									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")),
-									  selector);
+									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")));
 		myGrid = new Grid(myModel, 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));
 		this.getChildren().add(myGrid.getRoot());
 	}
 	
-	
-    public void displayElement(GameElement element) {
-    	
-    }
+	// TODO: find a better way to propagate this 
+	public List<Tile> getTiles() {
+		return myGrid.getTiles();
+	}
 
 }
