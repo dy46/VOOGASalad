@@ -16,7 +16,6 @@ public class Grid{
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private ISelector mySelector; 
 	private MapDisplayModel myModel;
 	int numX;
 	int numY;

@@ -57,11 +57,10 @@ public class ElementMenu extends Menu {
 	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	private GridPane myGridPane;
 	private int index;
-	private List<Tower> myTowerList = new ArrayList<Tower>();
 	PickerMenu myPicker;
 	
 	
-	public ElementMenu(PickerMenu myPicker) {
+	public ElementMenu(PickerMenu myPicker) {  ///MAKE SUPER CLAASSS + REFACTOR
 		this.myPicker = myPicker;
 		this.init();
 	}
@@ -180,13 +179,12 @@ public class ElementMenu extends Menu {
     	
     }
     
-    private void makeElement(Tooltip t, BuildingBlock block){
+    private void makeTower(Tooltip t, BuildingBlock block){
     	Class<?> c = block.getClass();
     	for(String str: strTextMap.keySet()){
     		block.setMyName(strTextMap.get(str).getText());
     	}
     	for(String str: intTextMap.keySet()){
-    		System.out.println(str + " " + intTextMap.get(str).getText());
     		Method[] allMethods = c.getMethods();
     		
     		for(Method m: allMethods){;
@@ -196,13 +194,12 @@ public class ElementMenu extends Menu {
     			if(m.getName().startsWith("setMy" + str)){
     				try {
 						m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));
-						System.out.println("check");
 						break;
 
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 						// TODO Auto-generated catch block
 						//e.printStackTrace();
-						System.out.println(str);
+						System.out.println("ERROR");
 					}
     			}
     		}	
@@ -213,11 +210,75 @@ public class ElementMenu extends Menu {
     	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
     	Tower tower = towerFac.defineTowerModel(block);
     	
-    	myTowerList.add(tower);
-    	myPicker.updateMenu(myTowerList, tower);
-    	//call Cody's method
-    	//and add to list
-    	//and then update my Picker
+    	myPicker.updateTower(tower);
+    	
+    }
+    private void makeEnemy(Tooltip t, BuildingBlock block){
+    	Class<?> c = block.getClass();
+    	for(String str: strTextMap.keySet()){
+    		block.setMyName(strTextMap.get(str).getText());
+    	}
+    	for(String str: intTextMap.keySet()){
+    		Method[] allMethods = c.getMethods();
+    		
+    		for(Method m: allMethods){;
+//    			String[] mString = m.getName().split(".");
+//    			System.out.println(m.getName());
+//    			System.out.println("setMy" + str);
+    			if(m.getName().startsWith("setMy" + str)){
+    				try {
+						m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));
+						break;
+
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println("ERROR");
+					}
+    			}
+    		}	
+    	}
+    	
+    	block.setMyImage((ImageView)t.getGraphic());
+    	
+    	EnemyFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	Enemy tower = towerFac.defineTowerModel(block);
+    	
+    	myPicker.updateEnemy(tower);
+    	
+    }
+    private void makeTerrain(Tooltip t, BuildingBlock block){
+    	Class<?> c = block.getClass();
+    	for(String str: strTextMap.keySet()){
+    		block.setMyName(strTextMap.get(str).getText());
+    	}
+    	for(String str: intTextMap.keySet()){
+    		Method[] allMethods = c.getMethods();
+    		
+    		for(Method m: allMethods){;
+//    			String[] mString = m.getName().split(".");
+//    			System.out.println(m.getName());
+//    			System.out.println("setMy" + str);
+    			if(m.getName().startsWith("setMy" + str)){
+    				try {
+						m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));
+						break;
+
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println("ERROR");
+					}
+    			}
+    		}	
+    	}
+    	
+    	block.setMyImage((ImageView)t.getGraphic());
+    	
+    	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	Tower tower = towerFac.defineTowerModel(block);
+    	
+    	myPicker.updateTerrain(tower);
     	
     }
 }
