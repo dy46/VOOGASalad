@@ -1,5 +1,7 @@
 package game_player.view;
 
+import game_engine.IPlayerEngineInterface;
+
 /**
  * This interface specifies the different methods needed to run and animate the game elements.
  * Throws exception when towers/units are placed in wrong locations.
@@ -21,4 +23,5 @@ public interface IGameView {
       
     void changeGameSpeed (double gameSpeed); 
     
+    IPlayerEngineInterface getGameStatus();
 }

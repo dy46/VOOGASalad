@@ -36,18 +36,20 @@ public class PlayerMainTab implements IPlayerTab{
 	private IGameView gameView;
 	private GameCanvas myCanvas;
 	private Scene myScene;
+	private String tabName;
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private HBox gamePanel;
 	
-	public PlayerMainTab(ResourceBundle r, Scene scene) {
+	public PlayerMainTab(ResourceBundle r, Scene scene, String tabName) {
 		this.myResources = r;
 		this.gameElements = new ArrayList<>();
 		this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
 		this.gameData = new GameDataSource();
 		this.myScene = scene;
+		this.tabName = tabName;
 		gameData.setDoubleValue("High Score", 0);
 	}
 	
@@ -62,6 +64,7 @@ public class PlayerMainTab implements IPlayerTab{
 		placeUISections();
 		
 		myTab.setContent(myRoot);
+		myTab.setText(tabName);
 		return myTab;
 	}
 	
@@ -118,9 +121,11 @@ public class PlayerMainTab implements IPlayerTab{
 	private void configurePanels() {
 		Label configurationLabel = new Label(myResources.getString("Configuration"));
 		configurationLabel.setFont(new Font("Arial", 20));
+		configurationLabel.getStyleClass().add("label-header");
 		configurationPanel.setAlignment(Pos.TOP_CENTER);
 		configurationPanel.getChildren().add(configurationLabel);
 		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+		configurationPanel.getStyleClass().add("vbox");
 		gamePanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
 	}
 	

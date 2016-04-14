@@ -46,12 +46,16 @@ public class PlayerGUI{
 		
 		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
+		myScene.getStylesheets().add("game_player/view/PlayerTheme1.css");
+		myRoot.getStyleClass().add("background");
+		
 		return myScene;
 	}
 	
 	private void createNewTab() {
 		gameEngine = new EngineWorkspace();
-		Tab tab = new PlayerMainTab(myResources, myScene).getTab();
+		Tab tab = new PlayerMainTab(myResources, myScene, 
+				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
 	}

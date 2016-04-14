@@ -1,12 +1,12 @@
 .background {
-    -fx-background-color: #1d1d1d;
+    -fx-background-color: #3399ff;
 }
 
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
     -fx-text-fill: white;
-    -fx-opacity: 0.6;
+    -fx-opacity: 1;
 }
 
 .label-bright {
@@ -17,7 +17,7 @@
 }
 
 .label-header {
-    -fx-font-size: 24pt;
+    -fx-font-size: 20pt;
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -140,4 +140,58 @@
 
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
+}
+
+.combobox {
+    -fx-border-color: #29C5A3;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: #1d1d1d;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #29C5A3;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #e6e6e6;
+
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #3c3c3c;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #828282;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: #96b946;
+}
+
+.vbox {
+    -fx-border-color: #2e8b57;
+    -fx-border-width: 2px;
+    -fx-padding: 10;
+    -fx-background-color: #4d4dff;
+    -fx-spacing: 8;
 }

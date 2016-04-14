@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import game_player.GameDataSource;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -12,7 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class GameSpeedSlider implements IGUIObject{
 	private static final float TICK_UNITS = 1;
-	private static final int SLIDER_DEFAULT = 2;
+	private static final int SLIDER_DEFAULT = 1;
 	private static final int SLIDER_MIN = 0;
 	private static final double SLIDER_MAX = 4;
 	private static final int PADDING = 10;
@@ -31,6 +32,7 @@ public class GameSpeedSlider implements IGUIObject{
 		
 		Label sliderLabel = new Label(myResources.getString("AnimationSlider"));
 		Slider animationSpeed = new Slider();
+		animationSpeed.setOrientation(Orientation.VERTICAL);
 		animationSpeed.setMin(SLIDER_MIN);
 		animationSpeed.setMax(SLIDER_MAX);
 		animationSpeed.setValue(SLIDER_DEFAULT);

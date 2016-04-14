@@ -28,7 +28,7 @@ import javafx.util.Duration;
 
 public class GameView implements IGameView{
     
-    private static final int DEFAULT_UPDATE_SPEED = 2;
+    private static final int DEFAULT_UPDATE_SPEED = 1;
 	private int timer;
     private AnimationTimer AT;
     private boolean timerStatus;
@@ -163,4 +163,8 @@ public class GameView implements IGameView{
         }   
     }
 
+	@Override
+	public IPlayerEngineInterface getGameStatus() {
+		return playerEngineInterface;
+	}
 }
