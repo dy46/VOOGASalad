@@ -6,22 +6,17 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
-import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import auth_environment.view.ElementPicker;
 import auth_environment.view.TowerView;
-import game_engine.properties.Bounds;
-import game_engine.properties.Damage;
-import game_engine.properties.Health;
-import game_engine.properties.Position;
-import game_engine.properties.Price;
-import game_engine.properties.Team;
-import game_engine.properties.Velocity;
 import java.util.*;
 
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
+import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Tower;
+import game_engine.libraries.AffectorLibrary;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -56,8 +51,11 @@ public class ElementMenu extends Menu {
 	private GridPane myGridPane;
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
+	ElementPicker myPicker;
 	
-	public ElementMenu() {
+	
+	public ElementMenu(ElementPicker myPicker) {
+		this.myPicker = myPicker;
 		this.init();
 	}
 	
@@ -200,7 +198,11 @@ public class ElementMenu extends Menu {
     	
     	block.setMyImage((ImageView)t.getGraphic());
     	
-
+    	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	Tower tower = towerFac.defineTowerModel(block);
+    	
+    	myTowerList.add(tower);
+    	myPicker.updateMenu(myTowerList, tower);
     	//call Cody's method
     	//and add to list
     	//and then update my Picker

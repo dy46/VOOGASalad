@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISelector;
@@ -47,9 +48,9 @@ public class MapDisplay extends Pane {
 		this.getChildren().add(temp);
 	}
 	
-	
-    public void displayElement(GameElement element) {
-    	
-    }
+	// TODO: find a better way to propagate this 
+	public List<Tile> getTiles() {
+		return myGrid.getTiles();
+	}
 
 }

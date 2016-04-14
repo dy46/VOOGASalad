@@ -19,14 +19,13 @@ public class Grid{
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private ISelector mySelector; 
 	private MapDisplayModel myModel;
 	int numX;
 	int numY;
 	double mapWidth;
 	double mapHeight;
 	private Pane myPane;
-	List<RecTile> myTiles= new ArrayList<RecTile>();
+	private List<Tile> myTiles= new ArrayList<Tile>();
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
 		this.myModel = model;
@@ -69,6 +68,7 @@ public class Grid{
 	public double calcRecHeight(){
 		return (mapHeight/numY);
 	}
+	
 	public ArrayList<Position> clickedList(){
 		ArrayList<Position> ans = new ArrayList<Position>();
 		for(Map.Entry<Position, Tile> entry : myModel.myMap.entrySet()){
@@ -77,5 +77,10 @@ public class Grid{
 			}
 		}
 		return ans;
+	}	
+	
+	public List<Tile> getTiles() {
+		return this.myTiles;
 	}
+	
 }

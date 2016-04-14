@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import game_engine.game_elements.GameElement;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -19,6 +20,7 @@ public class RecTile extends Tile {
 		isPath = false;
 		addListener();
 	}
+	
 	
 	public RecTile(double scaledX, double scaledY, double width, double height) {
 		super();

@@ -80,7 +80,7 @@ public class VAsTesterTab {
 //	 	   myV.getChildren().addAll(image, image2, image3, image4, image5);
 	 	   
 	 	   
-		ElementMenu elmen = new ElementMenu();
+		//ElementMenu elmen = new ElementMenu(new PickerMenu());
 		TowerView tview = new TowerView();
 		Tab elTabo = new Tab("WOOO");
 		myTabs.getTabs().add(elTabo);
@@ -89,13 +89,13 @@ public class VAsTesterTab {
         myGridPane.getStyleClass().add("myGridPane");
 
         Button myGoButton = new Button("Create New Tower");
-        myGoButton.setOnAction(e -> elmen.createNewTower());
+        //myGoButton.setOnAction(e -> elmen.createNewTower());
         
         Button myGoButton2 = new Button("Create New Enemy");
         myGoButton2.setOnAction(e -> doNothing());
         
         Button myGoButton3 = new Button("Create New Terrain");
-        myGoButton3.setOnAction(e -> elmen.createNewTerrain());
+       //myGoButton3.setOnAction(e -> elmen.createNewTerrain());
         
         Button butt = new Button("HERE IS MY PICKER");
         butt.setOnAction(e -> tview.show());

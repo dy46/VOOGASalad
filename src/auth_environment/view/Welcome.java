@@ -1,27 +1,14 @@
 package auth_environment.view;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.delegatesAndFactories.NodeFactory;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -67,7 +54,6 @@ public class Welcome {
 				this.buildSubmitButton(),
 				this.buildAnimation()
 				);
-		this.myRoot.getChildren().addAll(this.testDraggable());
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
@@ -93,99 +79,6 @@ public class Welcome {
 		return myNodeFactory.centerNode(submit);
 	}
 	
-	private Collection<Node> testDraggable() {
-		
-		Text source = new Text(50, 100, "DRAG ME");
-		Text target = new Text(300, 100, "DROP HERE");
-		
-		List<Node> out = new ArrayList<Node>();
-		out.add(source);
-		out.add(target);
-		
-		source.setOnDragDetected(new EventHandler<MouseEvent>() {
-		    public void handle(MouseEvent event) {
-		        /* drag was detected, start a drag-and-drop gesture*/
-		        /* allow any transfer mode */
-		        Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-		        
-		        /* Put a string on a dragboard */
-		        ClipboardContent content = new ClipboardContent();
-		        content.putString(source.getText());
-		        db.setContent(content);
-		        
-		        event.consume();
-		    }
-		});
-		
-		target.setOnDragOver(new EventHandler<DragEvent>() {
-		    public void handle(DragEvent event) {
-		        /* data is dragged over the target */
-		        /* accept it only if it is not dragged from the same node 
-		         * and if it has a string data */
-		        if (event.getGestureSource() != target &&
-		                event.getDragboard().hasString()) {
-		            /* allow for both copying and moving, whatever user chooses */
-		            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-		        }
-		        
-		        event.consume();
-		    }
-		});
-		
-		target.setOnDragEntered(new EventHandler<DragEvent>() {
-		    public void handle(DragEvent event) {
-		    /* the drag-and-drop gesture entered the target */
-		    /* show to the user that it is an actual gesture target */
-		         if (event.getGestureSource() != target &&
-		                 event.getDragboard().hasString()) {
-		             target.setFill(Color.GREEN);
-		         }
-		                
-		         event.consume();
-		    }
-		});
-		
-		target.setOnDragExited(new EventHandler<DragEvent>() {
-		    public void handle(DragEvent event) {
-		        /* mouse moved away, remove the graphical cues */
-		        target.setFill(Color.BLACK);
-
-		        event.consume();
-		    }
-		});
-		
-		target.setOnDragDropped(new EventHandler<DragEvent>() {
-		    public void handle(DragEvent event) {
-		        /* data dropped */
-		        /* if there is a string data on dragboard, read it and use it */
-		        Dragboard db = event.getDragboard();
-		        boolean success = false;
-		        if (db.hasString()) {
-		           target.setText(db.getString());
-		           success = true;
-		        }
-		        /* let the source know whether the string was successfully 
-		         * transferred and used */
-		        event.setDropCompleted(success);
-		        
-		        event.consume();
-		     }
-		});
-		
-		source.setOnDragDone(new EventHandler<DragEvent>() {
-		    public void handle(DragEvent event) {
-		        /* the drag and drop gesture ended */
-		        /* if the data was successfully moved, clear it */
-		        if (event.getTransferMode() == TransferMode.MOVE) {
-		            source.setText("");
-		        }
-		        event.consume();
-		    }
-		});
-		
-		return out;
-	}
-	
 	private ImageView buildAnimation() {
 		ImageView animation = myNodeFactory.buildImageView(myNamesBundle.getString("wompAnimation"));
 		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
@@ -196,6 +89,8 @@ public class Welcome {
 		if (checkValidName()) {
 			this.myStage.hide();
 			this.myView.display();
+			String name = this.gameNameInput.getText();
+			this.myView.getSettings().setName(name);
 			// TODO: save entered name somewhere... ask Austin
 		}
 	}

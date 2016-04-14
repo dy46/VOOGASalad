@@ -23,11 +23,17 @@ public class Constant {
 		this.myPower = 1;
 	}
 	
+	// Default power of 1
+	public Constant(double value){
+		this.myValue = value;
+		this.myPower = 1;
+	}
+	
 	public double evaluate(){
 		return Math.pow(myValue, myPower);
 	}
 	
-	public boolean isSpecial(){
+	public boolean isNamedConstant(){
 		return myName != null;
 	}
 	

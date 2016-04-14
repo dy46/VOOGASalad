@@ -2,16 +2,12 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISelector;
-import auth_environment.backend.SelectorModel;
-import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.backend.ISettings;
 import auth_environment.view.Menus.MenuToolBar;
-import auth_environment.view.Menus.PickerMenu;
+import game_data.GameData;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -25,30 +21,36 @@ public class Workspace {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
-	private ISelector mySelector = new SelectorModel(); 
-	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	private MapDisplay myDisplay = new MapDisplay();
+	private ElementPicker myPicker = new ElementPicker(); 
 	
-	public Workspace(TabPane tabPane) {
+	private ISettings mySettings;
+	
+	public Workspace(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
+		this.mySettings = settings; 
 		this.setupBorderPane();
 	}
 	
 	private void setupBorderPane() {
+	    ElementPicker myPicker = new ElementPicker();
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings));
 //		this.myBorderPane.setLeft(hello);
+		myPicker.setPrefSize(400,400);
+		this.myBorderPane.setRight(myPicker);
 		this.myBorderPane.setCenter(myDisplay);
-		this.myBorderPane.setRight(new PickerMenu());
+		this.myBorderPane.setRight(new ElementPicker());
 	}
 	
-	public ISelector getSelector() {
-		return this.mySelector;
+	public void writeToGameData() {
+		GameData gameData = new GameData(); 
+		gameData.setTowers(myPicker.getTowers());
 	}
-
+	
     public Node getRoot() {
     	return this.myBorderPane; 
     }
