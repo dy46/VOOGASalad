@@ -14,10 +14,13 @@ public class AffectorFactory {
 	private AffectorLibrary myAffectorLibrary;
 	private IPlayerEngineInterface engineWorkspace;
 
-	public AffectorFactory(FunctionFactory myFunctionFactory, IPlayerEngineInterface engineWorkspace){
+	public AffectorFactory(FunctionFactory myFunctionFactory){
 		myAffectorLibrary = new AffectorLibrary();
-		this.engineWorkspace = engineWorkspace;
 		setDefaultAffectors(myFunctionFactory);
+	}
+	
+	public void setWorkspace(IPlayerEngineInterface workspace){
+		this.engineWorkspace = workspace;
 	}
 
 	private void constructAffector(String property, String effect, List<Function> functions){

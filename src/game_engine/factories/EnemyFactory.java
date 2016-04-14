@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Enemy;
@@ -24,7 +25,8 @@ public class EnemyFactory {
 		this.myAffectorLibrary = affectorLibrary;
 	}
 	
-	public Enemy defineEnemyModel(EnemyBuildingBlock eBlock){
+	public Enemy defineEnemyModel(BuildingBlock block){
+		EnemyBuildingBlock eBlock = (EnemyBuildingBlock) block;
 		Affector moveAffector = myAffectorLibrary.getAffector(eBlock.getMyProperty(), eBlock.getMyBehavior());
 		moveAffector.setTTL(Integer.MAX_VALUE);
 		Enemy e = new Enemy(eBlock.getMyName(), Collections.singletonList(moveAffector), 3); 

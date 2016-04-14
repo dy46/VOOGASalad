@@ -3,6 +3,7 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Terrain;
@@ -20,7 +21,8 @@ public class TerrainFactory {
 		setupDefaultTerrains();
 	}
 	
-	public Terrain defineTerrainModel(TerrainBuildingBlock terBlock){
+	public Terrain defineTerrainModel(BuildingBlock block){
+		TerrainBuildingBlock terBlock = (TerrainBuildingBlock) block;
 		List<Affector> affectors = new ArrayList<>();
 		Affector speedUp = myAffectorLibrary.getAffector(terBlock.getMyProperty(), terBlock.getMyEffect());
 		speedUp.setTTL(1);

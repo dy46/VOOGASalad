@@ -46,29 +46,6 @@ public class PathNode {
 		return myID;
 	}
 
-	public List<Unit> getUnitsByType(Unit type){
-		String className = type.getClass().getSimpleName();
-		String instanceVarName = "my" + className + "s";
-		Field f = null;
-		try {
-			f = getClass().getDeclaredField(instanceVarName);
-		}
-		catch (NoSuchFieldException | SecurityException e1) {
-			// TODO: womp exception
-			e1.printStackTrace();
-		}
-		f.setAccessible(true);
-		List<Unit> listInstanceVar = null;
-		try {
-			listInstanceVar = (List<Unit>) f.get(this);
-		}
-		catch (IllegalArgumentException | IllegalAccessException e) {
-			// TODO: womp exception
-			e.printStackTrace();
-		}
-		return listInstanceVar;
-	}
-
 	public List<Position> cutoffByPosition(Position pos){
 		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
 		cutoff.clear();
