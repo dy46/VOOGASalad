@@ -21,7 +21,14 @@ public class TerrainFactory {
 	}
 	
 	public Terrain defineTerrainModel(TerrainBuildingBlock terBlock){
-		
+		List<Affector> affectors = new ArrayList<>();
+		Affector speedUp = myAffectorLibrary.getAffector(terBlock.getMyProperty(), terBlock.getMyEffect());
+		speedUp.setTTL(1);
+		affectors.add(speedUp);
+		Terrain ter = new Terrain(terBlock.getMyName(), 2);
+		ter.setAffectorsToApply(affectors);
+		myTerrainLibrary.addTerrain(ter);
+		return ter;
 	}
 	
 	private void setupDefaultTerrains(){
