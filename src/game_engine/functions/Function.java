@@ -18,10 +18,10 @@ public class Function {
 	private String myName;
 	private double[] domain;
 	private double dx;
-	public Function(String type, String strength, EngineWorkspace workspace){
+	public Function(String type, String strength){
 		myTerms = new ArrayList<>();
-		this.myWorkspace = workspace;
-		myTerms = myWorkspace.getFunctionLibrary().getTerms(type, strength);
+//		this.myWorkspace = workspace;
+//		myTerms = myWorkspace.getFunctionLibrary().getTerms(type, strength);
 		domain = new double[2];
 		dx = DEFAULT_DX;
 	}

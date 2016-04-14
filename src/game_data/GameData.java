@@ -18,9 +18,11 @@ import game_engine.properties.Position;
 public class GameData implements IGameData {
 	private List<Level> myLevels;
 	private List<Tower> myTowerTypes;
+	private List<Unit> myTowers;
 	private List<Path> myPaths;
 	private List<Unit> myTerrains;
 	private List<Unit> myEnemies;
+	private List<Unit> myProjectiles;
 	private ISettings mySettings;
 	//	private List<Unit> myTerrains;
 	private IDataConverter<IPlayerEngineInterface> mySerializer;
@@ -31,6 +33,7 @@ public class GameData implements IGameData {
 		myTowerTypes = new ArrayList<>();
 		myPaths = new ArrayList<>();
 		myTerrains = new ArrayList<>();
+		myProjectiles = new ArrayList<>();
 		mySettings = new GameSettings();
 		mySerializer = new AuthSerializer<IPlayerEngineInterface>();
 	}
@@ -122,6 +125,22 @@ public class GameData implements IGameData {
 	
 	public List<Unit> getTerrains() {
 		return myTerrains;
+	}
+
+	public List<Unit> getTowers() {
+		return myTowers;
+	}
+	
+	public void setTowers(List<Unit> towers){
+		this.myTowers = towers;
+	}
+
+	public List<Unit> getProjectiles() {
+		return myProjectiles;
+	}
+	
+	public void setProjectiles(List<Unit> projectiles){
+		this.myProjectiles = projectiles;
 	}
 
 }

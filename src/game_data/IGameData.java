@@ -21,6 +21,8 @@ public interface IGameData {
 	public void setEnemies(List<Unit> enemies);
 	public void setTerrains(List<Unit> terrains);
 
+	public void setProjectiles(List<Unit> projectiles);
+	
 //	public void setPaths(List<Path> paths);
 //	public void addPath(Path pathToAdd);
 
@@ -37,6 +39,7 @@ public interface IGameData {
 	public ISettings getSettings();
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();
+	public List<Unit> getProjectiles();
 
 	public void saveGameData();
 
