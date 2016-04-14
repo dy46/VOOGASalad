@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -114,8 +115,8 @@ public class GameView implements IGameView{
                }
             }
         };
-        AT.start();
-        timerStatus = true;
+//        AT.start();
+        timerStatus = false;
     }
     
     @Override
@@ -148,8 +149,9 @@ public class GameView implements IGameView{
             ImageView imgView = new ImageView(img);
             imgView.setX(100*i);
             imgView.setY(0);
+            imgView.setRotate(transformDirection(allTowerTypes.get(i)));
             towerTypes.add(imgView);
-            root.getChildren().add(imgView);
+            myTab.addToConfigurationPanel(imgView);
             imgView.setOnMouseClicked(e -> {
                 clickedTower = name;
             });
@@ -181,6 +183,10 @@ public class GameView implements IGameView{
         for(int i = 0; i < list.size(); i++) {
             imageViews.get(i).selectNextImageView(list.get(i), timer);
         }   
+    }
+    
+    public double transformDirection(Unit u) {
+        return -u.getProperties().getVelocity().getDirection() + 90;
     }
 
 	@Override

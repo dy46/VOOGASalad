@@ -32,7 +32,7 @@ public class ImageViewPicker {
         this.currFrame = 0;
         this.currState = startingState;
         this.imageView = new ImageView();
-        this.healthImage = new Image("health.png");
+        this.healthImage = new Image("health_red.png");
         this.health = new ImageView(healthImage);
         root.getChildren().add(health);
         root.getChildren().add(imageView);

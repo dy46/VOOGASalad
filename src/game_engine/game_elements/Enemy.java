@@ -29,7 +29,6 @@ public class Enemy extends Unit {
     
     public void update() {
         super.update();
-        System.out.println(this.getProperties().getHealth().getValue());
     }
 
 }

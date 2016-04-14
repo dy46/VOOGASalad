@@ -69,8 +69,8 @@ public abstract class Unit extends GameElement {
 			elapsedTime++;
 			myAffectors.removeIf(a -> a.getTTL() == a.getElapsedTime());
 			myAffectors.forEach(a -> a.apply(this));
-			if(!(this instanceof Terrain))
-				System.out.println("Enemy health: " + myProperties.getHealth().getValue());
+//			if(!(this instanceof Terrain))
+//				System.out.println("Enemy health: " + myProperties.getHealth().getValue());
 		}
 		if (!isAlive()) {
 			setElapsedTimeToDeath();

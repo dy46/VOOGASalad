@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import game_engine.IPlayerEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -97,7 +98,7 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private void placeElement(IGUIObject element, String position) {
 		try{
-			getClass().getDeclaredMethod(position, IGUIObject.class).invoke(this, element);
+			getClass().getDeclaredMethod(position, Node.class).invoke(this, element.createNode());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,15 +137,15 @@ public class PlayerMainTab implements IPlayerTab{
 		}
 	}
 	
-	private void addToTop(IGUIObject element) {
-		gameMenu.getChildren().add(element.createNode());
+	protected void addToTop(Node element) {
+		gameMenu.getChildren().add(element);
 	}
 	
-	private void addToConfigurationPanel(IGUIObject element) {
-		configurationPanel.getChildren().add(element.createNode());
+	protected void addToConfigurationPanel(Node element) {
+		configurationPanel.getChildren().add(element);
 	}
 	
-	private void addToGamePanel(IGUIObject element) {
-		gamePanel.getChildren().add(element.createNode());
+	protected void addToGamePanel(Node element) {
+		gamePanel.getChildren().add(element);
 	}
 }

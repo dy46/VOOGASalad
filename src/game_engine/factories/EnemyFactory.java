@@ -30,7 +30,7 @@ public class EnemyFactory {
 		Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
 		moveAffector.setTTL(Integer.MAX_VALUE);
 		Enemy e1 = new Enemy(name, Collections.singletonList(moveAffector), 3);
-		Health health = new Health(30);
+		Health health = new Health(50);
 		Velocity velocity = new Velocity(0.5, 90);
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(0,0));
