@@ -92,6 +92,9 @@
 8. Auth Environment can change Map size
   > A Map customization Menu takes in doubles for .setMapWidth and .setMapHeight (either in pixels or grid count). This is then used to create the Map size. 
 
+9. Auth Environment can change Path colors
+  > Select a Path in the Path menu (mouse action), opens up a Color Picker, selection of a Color then calls setColor and update methods on the Path to update its color. 
+
 ### Game Player Use Cases
 
 1. Integrate Save
