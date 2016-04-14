@@ -1,8 +1,10 @@
 package auth_environment.paths;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
@@ -34,32 +36,24 @@ public class PathNode {
 		return myRoot;
 	}
 	
-	public List<Unit> getEnemies(){
-		return getUnits(myRoot, new Enemy("0", new ArrayList<Affector>(), 0));
-	}
-	
-	public List<Unit> getPaths(){
-		return getUnits(myRoot, new Path("0"));
-	}
-	
-	public List<Unit> getTerrains(){
-		return getUnits(myRoot, new Terrain("0", 0));
-	}
-	
 	public List<Branch> getPathNodes(Branch root){
 		List<Branch> nodes = root.getNeighbors().stream().filter(n -> getPathNodes(n) != null).collect(Collectors.toList());
 		nodes.add(root);
 		return nodes;
 	}
 	
+	public List<Path> getPaths(){
+		return getPathsByNode(myRoot);
+	}
+	
 	// Uses post-order traversal to extract List of appropriate Unit
-	private List<Unit> getUnits(Branch node, Unit target){
-		List<Unit> myUnits = new ArrayList<>();
+	private List<Path> getPathsByNode(Branch node){
+		Set<Path> myPaths = new HashSet<>();
 		for(Branch n : node.getNeighbors()){
 			//myUnits.addAll(n.getUnitsByType(target));
-			myUnits.addAll(getUnits(n, target));
+			myPaths.addAll(getPathsByNode(n));
 		}
-		return myUnits;
+		return new ArrayList<Path>(myPaths);
 	}
 	
 	public int getID(){

@@ -36,10 +36,10 @@ public class Main extends Application {
 		//		System.out.println(out); 
 
 		authView = new View(primaryStage); // for testing Auth
-		//		myView = new GameView(primaryStage);
-		//		myEngineController = new EngineController();
-		//		myEngineController.initialize();
-		//		myView.display();
+//		myView = new GameView(primaryStage);
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
+//		myView.display();
 	}
 
 }

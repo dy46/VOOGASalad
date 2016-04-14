@@ -92,17 +92,17 @@ public class GameData implements IGameData {
 		return mySettings;
 	}
 
-
 	@Override
 	public void saveGameData() {
 		IPlayerEngineInterface workspace = new EngineWorkspace();
-		workspace.setPaths(myPaths);
-		workspace.setTerrains(myTerrains);
-		workspace.setTowerTypes (myTowerTypes);
-		workspace.setLevels (myLevels);
-		workspace.setEnemies(myEnemies);
-		workspace.setProjectiles(myProjectiles);
-		workspace.setTowers(myTowers);
+		workspace.setUpEngine(this);
+//		workspace.setPaths(myPaths);
+//		workspace.setTerrains(myTerrains);
+//		workspace.setTowerTypes (myTowerTypes);
+//		workspace.setLevels (myLevels);
+//		workspace.setEnemies(myEnemies);
+//		workspace.setProjectiles(myProjectiles);
+//		workspace.setTowers(myTowers);
 		mySerializer.saveElement(workspace);
 	}
 
@@ -144,6 +144,10 @@ public class GameData implements IGameData {
 	
 	public void setProjectiles(List<Unit> projectiles){
 		this.myProjectiles = projectiles;
+	}
+
+	public void setPaths(List<Path> paths) {
+		this.myPaths = paths;
 	}
 
 }

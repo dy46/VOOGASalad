@@ -56,5 +56,9 @@ public class MapDisplay extends Pane {
 	public List<Tile> getTiles() {
 		return myGrid.getTiles();
 	}
+	
+	public Grid getGrid(){
+		return myGrid;
+	}
 
 }
