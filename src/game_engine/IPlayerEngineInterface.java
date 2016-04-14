@@ -1,13 +1,7 @@
 package game_engine;
 
 import java.util.List;
-
-import game_engine.game_elements.CollidableUnit;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Projectile;
-import game_engine.game_elements.Terrain;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
 

@@ -1,24 +1,20 @@
 package auth_environment.backend;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import game_engine.game_elements.GameElement;
+import game_engine.properties.Position;
 
 public class MapDisplayModel {
 
-	private Map<Coordinate, GameElement> myMap; 
-	private List<Coordinate> myList;
+	private Map<Position, GameElement> myMap; 
 	private int xMax;
 	private int yMax;
 	
-	private ISelector mySelector; 
-	
-	public MapDisplayModel(int xLim, int yLim, ISelector selector) {
+	public MapDisplayModel(int xLim, int yLim) {
 		xMax = xLim;
 		yMax = yLim;
-		this.mySelector = selector; 
 	}
 	
 	public void generateMap(){
@@ -32,7 +28,7 @@ public class MapDisplayModel {
 //		}
 		
 		// Brian's code
-		myMap = new HashMap<Coordinate, GameElement>(); 
+		myMap = new HashMap<Position, GameElement>(); 
 
 	}
 	
@@ -40,7 +36,7 @@ public class MapDisplayModel {
 	// TODO: consider making this a void method
 	public boolean addElement(GameElement element, int x, int y) {
 		if (inBounds(x,y)) {
-			Coordinate point = new Coordinate(x,y); 
+			Position point = new Position(x,y); 
 				myMap.put(point, element);
 		}
 		return inBounds(x,y); 
@@ -61,9 +57,5 @@ public class MapDisplayModel {
 //	public List getMap(){
 //		return myList;
 //	}
-	
-	public ISelector getSelector() {
-		return this.mySelector;
-	}
 
 }

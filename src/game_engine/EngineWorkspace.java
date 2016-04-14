@@ -18,12 +18,9 @@ import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
-import game_engine.properties.Bounds;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
-import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
-import game_engine.properties.Velocity;
 
 
 /**
@@ -50,6 +47,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
+	private int myLives;
 
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
@@ -60,6 +58,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private TerrainFactory myTerrainFactory;
 
 	public void setUpEngine (List<String> fileNames) {
+		myLives = 3;
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
 		Path p2 = new Path("DirtNew");
@@ -128,24 +127,55 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	private List<Unit> makeDummyTerrains() {
+		Terrain ice = makeDummyIceTerrain();
+		Terrain poisonSpike = makeDummyPoisonSpike();
+		Terrain spike = makeDummySpike();
+		return new ArrayList<>(Arrays.asList(new Terrain[] { ice, poisonSpike, spike }));
+	}
+
+	private Terrain makeDummyIceTerrain(){
 		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
 		pos.add(new Position(200, 0));
 		pos.add(new Position(200, 200));
 		pos.add(new Position(0, 200));
-		Position p = new Position(100, 100);
-		Bounds b = new Bounds(pos);
-	        Velocity velocity = new Velocity(0, 90);
-		UnitProperties properties = new UnitProperties(null, null, null, velocity, b, p, null, new State("Stationary"), null);
-		ice.setProperties(properties);
+		ice.getProperties().setPosition(100, 100);
+		ice.getProperties().setBounds(pos);
 		ice.setTTL(Integer.MAX_VALUE);
-		return new ArrayList<>(Arrays.asList(new Terrain[] { ice }));
+		return ice;
+	}
+
+	private Terrain makeDummyPoisonSpike(){
+		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
+		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(95, -25));
+		pos.add(new Position(275, -25));
+		pos.add(new Position(275, 150));
+		pos.add(new Position(95, 150));
+		poisonSpike.getProperties().setPosition(185, 62.5);
+		poisonSpike.getProperties().setBounds(pos);
+		poisonSpike.setTTL(Integer.MAX_VALUE);
+		return poisonSpike;
+	}
+
+	private Terrain makeDummySpike(){
+		Terrain spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
+		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(95, -25));
+		pos.add(new Position(275, -25));
+		pos.add(new Position(275, 150));
+		pos.add(new Position(95, 150));
+		spike.getProperties().setPosition(185, 62.5);
+		spike.getProperties().setBounds(pos);
+		spike.setTTL(Integer.MAX_VALUE);
+		return spike;
 	}
 
 	public void updateElements() {
 		nextWaveTimer++;
-		if(!pause){
+		boolean gameOver = myLives <= 0;
+		if(!pause && !gameOver){
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
 			myEnemys.forEach(e -> e.update());
