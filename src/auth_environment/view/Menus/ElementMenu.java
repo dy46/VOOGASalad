@@ -58,10 +58,10 @@ public class ElementMenu extends Menu {
 	private GridPane myGridPane;
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
-	PickerMenu myPicker;
+	ElementPicker myPicker;
 	
 	
-	public ElementMenu(PickerMenu myPicker) {
+	public ElementMenu(ElementPicker myPicker) {
 		this.myPicker = myPicker;
 		this.init();
 	}

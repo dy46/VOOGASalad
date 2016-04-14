@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -8,13 +9,15 @@ import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
-import auth_environment.view.Menus.PickerMenu;
+//import auth_environment.view.Menus.PickerMenu;
 import game_engine.game_elements.Tower;
+import java.util.ResourceBundle;
+import auth_environment.backend.ISettings;
+import auth_environment.view.Menus.MenuToolBar;
+import game_data.GameData;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -32,20 +35,25 @@ public class Workspace {
 	private BorderPane myBorderPane = new BorderPane(); 
 	private MapDisplay myDisplay = new MapDisplay();
 	private ElementPicker myPicker = new ElementPicker(); 
+
+	private ISettings mySettings;
+
 	
-	public Workspace(TabPane tabPane) {
+	public Workspace(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
+		this.mySettings = settings; 
 		this.setupBorderPane();
 	}
 	
 	private void setupBorderPane() {
-//	    ElementPicker myPicker = new ElementPicker();
 
-	    PickerMenu myPicker = new PickerMenu();
+	    ElementPicker myPicker = new ElementPicker();
+
+//	    PickerMenu myPicker = new PickerMenu();
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, myPicker));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings));
 //		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(400,400);
 		this.myBorderPane.setRight(myPicker);
