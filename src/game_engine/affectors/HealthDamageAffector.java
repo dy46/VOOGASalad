@@ -8,8 +8,8 @@ import game_engine.game_elements.Unit;
 
 public class HealthDamageAffector extends Affector{
 
-	public HealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-		super(functions, engineWorkspace);
+	public HealthDamageAffector(List<Function> functions){
+		super(functions);
 	}
 
 	@Override

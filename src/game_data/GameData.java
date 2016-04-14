@@ -100,6 +100,9 @@ public class GameData implements IGameData {
 		workspace.setTerrains(myTerrains);
 		workspace.setTowerTypes (myTowerTypes);
 		workspace.setLevels (myLevels);
+		workspace.setEnemies(myEnemies);
+		workspace.setProjectiles(myProjectiles);
+		workspace.setTowers(myTowers);
 		mySerializer.saveElement(workspace);
 	}
 

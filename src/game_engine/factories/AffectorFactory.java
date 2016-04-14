@@ -27,8 +27,8 @@ public class AffectorFactory {
 		Affector affector = null;
 		try {
 			affector = (Affector) Class.forName(PACKAGE + property + effect + BASE)
-					.getConstructor(List.class, IPlayerEngineInterface.class)
-					.newInstance(functions, engineWorkspace);
+					.getConstructor(List.class)
+					.newInstance(functions);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

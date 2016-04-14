@@ -81,7 +81,8 @@ public class DragDelegate {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) ); 
+//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) );
+					System.out.println("Name: " + db.getString());
 					target.setName(db.getString());
 					target.placeCurrentElement(); 
 					success = true;

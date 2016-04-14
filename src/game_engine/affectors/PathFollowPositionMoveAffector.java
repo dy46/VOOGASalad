@@ -19,8 +19,8 @@ import game_engine.properties.UnitProperties;
  */
 public class PathFollowPositionMoveAffector extends Affector {
 
-	public PathFollowPositionMoveAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-		super(functions, engineWorkspace);
+	public PathFollowPositionMoveAffector(List<Function> functions){
+		super(functions);
 	}
 
 	@Override
