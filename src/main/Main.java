@@ -21,12 +21,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		
-//		String hello = "hello"; 
-//		AuthSerializer writer = new AuthSerializer(); 
-//		writer.SerializeData(hello); //Sample object saving
-//		String out = (String) writer.Deserialize();
-//		System.out.println(out); 
-		
 //		authView = new View(primaryStage); // for testing Auth
 		myView = new PlayerGUI(645, 587);
 		myEngineController = new EngineController();

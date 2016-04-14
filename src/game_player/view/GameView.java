@@ -43,6 +43,7 @@ public class GameView implements IGameView{
     private IPlayerEngineInterface playerEngineInterface;
 	private GameDataSource gameData;
 	private double myUpdateSpeed;
+	private double currentSpeed;
     private List<ImageViewPicker> towers;
     private List<ImageViewPicker> enemies;
     private List<ImageViewPicker> projectiles;
@@ -66,6 +67,7 @@ public class GameView implements IGameView{
         this.towerTypes = new ArrayList<>();
         this.timer = 0;
         this.myUpdateSpeed = DEFAULT_UPDATE_SPEED;
+        this.currentSpeed = DEFAULT_UPDATE_SPEED;
         this.paths = new ArrayList<>();
         this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
         this.root.setOnMouseClicked(e -> {
@@ -86,11 +88,11 @@ public class GameView implements IGameView{
     @Override
     public void toggleGame () {
         if(timerStatus) {
-            AT.stop();
+            myUpdateSpeed = 0;
             timerStatus = false;
         }
         else {
-            AT.start();
+            myUpdateSpeed = currentSpeed;
             timerStatus = true;
         }
     }
@@ -115,8 +117,8 @@ public class GameView implements IGameView{
                }
             }
         };
-//        AT.start();
-        timerStatus = false;
+        AT.start();
+        timerStatus = true;
     }
     
     @Override
@@ -139,6 +141,7 @@ public class GameView implements IGameView{
     @Override
     public void changeGameSpeed (double gameSpeed) {
         this.myUpdateSpeed = gameSpeed;
+        this.currentSpeed = gameSpeed;
     }
     
     public void makeTowerPicker() {
