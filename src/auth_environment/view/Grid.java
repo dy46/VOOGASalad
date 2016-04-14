@@ -69,7 +69,7 @@ public class Grid{
 		return (mapHeight/numY);
 	}
 	
-	public ArrayList<Position> clickedList(){
+	public List<Position> clickedList(){
 		ArrayList<Position> ans = new ArrayList<Position>();
 		for(Map.Entry<Position, Tile> entry : myModel.myMap.entrySet()){
 			if(((RecTile)(entry.getValue())).isPath){

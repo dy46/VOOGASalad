@@ -6,6 +6,7 @@ import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Tower;
+import game_engine.properties.Position;
 
 public class GameData implements IGameData {
 	
@@ -47,6 +48,11 @@ public class GameData implements IGameData {
 	@Override
 	public void updateSettings(ISettings settings) {
 		this.mySettings = settings; 
+	}
+
+	@Override
+	public void addPositions(List<Position> list) {
+		
 	}
 
 }

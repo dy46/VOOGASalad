@@ -5,6 +5,7 @@ import java.util.List;
 import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Tower;
+import game_engine.properties.Position;
 
 /**
  * Created by BrianLin on 4/12/16.
@@ -27,5 +28,7 @@ public interface IGameData {
 	public void setTowers(List<Tower> towers);
 	
 	public void addLevel(Level level); 
+	
+	public void addPositions(List<Position> list); 
 	
 }

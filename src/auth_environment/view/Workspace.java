@@ -2,7 +2,6 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISettings;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
 import game_data.IGameData;
@@ -24,14 +23,15 @@ public class Workspace {
 	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	private MapDisplay myDisplay = new MapDisplay();
+	private MapDisplay myDisplay;
 	private ElementPicker myPicker = new ElementPicker(); 
 	
-	private IGameData myGameData;; 
+	private IGameData myGameData;
 	
 	public Workspace(TabPane tabPane, IGameData gameData) {
 		this.myTabPane = tabPane; 
 		this.myGameData = gameData; 
+		this.myDisplay = new MapDisplay(this.myGameData);
 		this.setupBorderPane();
 	}
 	
