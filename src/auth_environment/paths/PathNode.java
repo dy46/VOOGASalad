@@ -1,93 +1,82 @@
 package auth_environment.paths;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import game_engine.affectors.Affector;
 import game_engine.game_elements.Enemy;
+import game_engine.game_elements.Path;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 public class PathNode {
 
-	private List<Position> myPositions;
-	private List<PathNode> myNeighbors;
+	private Branch myRoot;
 	private int myID;
-
-	public PathNode(List<Position> positions, int ID){
+	
+	public PathNode(int graphID){
+		this.myID = graphID;
+	}
+	
+	public PathNode(Branch root, int ID){
 		this.myID = ID;
-		myPositions = positions;
-		myNeighbors = new ArrayList<>();
+		this.myRoot = root;
 	}
-
-	public PathNode(int ID) {
-		this.myPositions = new ArrayList<>();
-		this.myNeighbors = new ArrayList<>();
+	
+	public void setRoot(Branch root){
+		this.myRoot = root;
 	}
-
-	public void addNeighbor(PathNode neighbor){
-		this.myNeighbors.add(neighbor);
+	
+	public Branch getRoot(){
+		return myRoot;
 	}
-
-	public void addPositions(List<Position> positions){
-		this.myPositions.addAll(positions);
+	
+	public List<Unit> getEnemies(){
+		return getUnits(myRoot, new Enemy("0", new ArrayList<Affector>(), 0));
 	}
-
-	public List<Position> getPositions(){
-		return myPositions;
+	
+	public List<Unit> getPaths(){
+		return getUnits(myRoot, new Path("0"));
 	}
-
-	public List<PathNode> getNeighbors(){
-		return myNeighbors;
+	
+	public List<Unit> getTerrains(){
+		return getUnits(myRoot, new Terrain("0", 0));
 	}
-
+	
+	public List<Branch> getPathNodes(Branch root){
+		List<Branch> nodes = root.getNeighbors().stream().filter(n -> getPathNodes(n) != null).collect(Collectors.toList());
+		nodes.add(root);
+		return nodes;
+	}
+	
+	// Uses post-order traversal to extract List of appropriate Unit
+	private List<Unit> getUnits(Branch node, Unit target){
+		List<Unit> myUnits = new ArrayList<>();
+		for(Branch n : node.getNeighbors()){
+			//myUnits.addAll(n.getUnitsByType(target));
+			myUnits.addAll(getUnits(n, target));
+		}
+		return myUnits;
+	}
+	
 	public int getID(){
 		return myID;
 	}
-
-	public List<Unit> getUnitsByType(Unit type){
-		String className = type.getClass().getSimpleName();
-		String instanceVarName = "my" + className + "s";
-		Field f = null;
-		try {
-			f = getClass().getDeclaredField(instanceVarName);
-		}
-		catch (NoSuchFieldException | SecurityException e1) {
-			// TODO: womp exception
-			e1.printStackTrace();
-		}
-		f.setAccessible(true);
-		List<Unit> listInstanceVar = null;
-		try {
-			listInstanceVar = (List<Unit>) f.get(this);
-		}
-		catch (IllegalArgumentException | IllegalAccessException e) {
-			// TODO: womp exception
-			e.printStackTrace();
-		}
-		return listInstanceVar;
+	
+	public List<Branch> getPathByEdgePosition(Position pos){
+		return myRoot.getNeighbors().stream().filter(
+				n -> n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos))
+				.collect(Collectors.toList());
 	}
-
-	public List<Position> cutoffByPosition(Position pos){
-		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
-		cutoff.clear();
-		return cutoff;
+	
+	public Branch getPathByMidPosition(Position pos){
+		Optional<Branch> graph = myRoot.getNeighbors().stream().filter(
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
+				.findFirst();
+		return graph.isPresent() ? graph.get() : null;
 	}
-
-	public void addNeighbors(List<PathNode> neighbors) {
-		myNeighbors.addAll(neighbors);
-	}
-
-	public List<PathNode> removeNeighbors(List<PathNode> neighbors){
-		List<PathNode> removed = new ArrayList<>();
-		for(PathNode neighbor : neighbors){
-			if(myNeighbors.contains(neighbor)){
-				myNeighbors.remove(neighbor);
-				removed.add(neighbor);
-			}
-		}
-		return removed;
-	}
-
+	
 }

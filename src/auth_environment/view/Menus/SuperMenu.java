@@ -1,13 +1,22 @@
 package auth_environment.view.Menus;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.view.ElementPicker;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.EnemyFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.TerrainFactory;
+import game_engine.factories.TowerFactory;
+import game_engine.game_elements.Unit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
@@ -26,13 +35,21 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public abstract class SuperMenu extends Menu{
 	private GridPane myGridPane;
-	private static final String STRING_LABELS_PACKAGE = "auth_environment/properties/string_labels";
-	private ResourceBundle myStringBundle = ResourceBundle.getBundle(STRING_LABELS_PACKAGE);
 	private ElementPicker myPicker;
 	private int index = 0;
+	private FunctionFactory myFunctionFactory;
+	private AffectorFactory myAffectorFactory;
+	private EnemyFactory myEnemyFactory;
+	private TowerFactory myTowerFactory;
+	private TerrainFactory myTerrainFactory;
 	
 	public SuperMenu(ElementPicker myPicker){
 		this.myPicker = myPicker;
+		myFunctionFactory = new FunctionFactory();
+		myAffectorFactory = new AffectorFactory(myFunctionFactory);
+		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
+		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
+		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 	}
 	
 	public abstract void createNewElement();
@@ -98,12 +115,14 @@ public abstract class SuperMenu extends Menu{
     	return myPicker;
     }
     
-    public void createElement(ResourceBundle myLabelsBundle, BuildingBlock block, Map<String, TextField> intTextMap, Map<String, TextField> strTextMap){		//va will refactor this later 
+    public void createElement(BuildingBlock block, Map<String, TextField> intTextMap, Map<String, TextField> strTextMap, ResourceBundle myLabelsBundle, ResourceBundle myStringBundle){		//va will refactor this later 
  	   index = 0;
  	   myGridPane = new GridPane();
- 	    
-        addLabels(myLabelsBundle, intTextMap);
-        addLabels(myStringBundle, strTextMap);
+ 	   
+ 	   if(myLabelsBundle != null){
+ 		   addLabels(myLabelsBundle, intTextMap);
+ 	   }
+       addLabels(myStringBundle, strTextMap);
  	   addButtons(block);
 
   	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
@@ -116,6 +135,53 @@ public abstract class SuperMenu extends Menu{
   	   newStage.setTitle("Elemental Creator");
   	   newStage.show();
   }
+    
+    public FunctionFactory getFunctionFactory(){
+    	return myFunctionFactory;
+    }
+    
+    public TerrainFactory getTerrainFactory(){
+    	return myTerrainFactory;
+    }
+    
+    public AffectorFactory getAffectorFactory(){
+    	return myAffectorFactory;
+    }
+    
+    public EnemyFactory getEnemyFactory(){
+    	return myEnemyFactory;
+    }
+    
+    public TowerFactory getTowerFactory(){
+    	return myTowerFactory;
+    }
+    
+//    private String formatType(String type){
+//    	type = type.toLowerCase();
+//    	return type.substring(0,1).toUpperCase() + type.substring(1);
+//    }
 	
+//    public List<Unit> getUnitsByType(String type){
+//    	type = formatType(type);
+//		String instanceVarName = "my" + type + "Factory";
+//		Field f = null;
+//		try {
+//			f = getClass().getDeclaredField(instanceVarName);
+//		}
+//		catch (NoSuchFieldException | SecurityException e1) {
+//			// TODO: womp exception
+//			e1.printStackTrace();
+//		}
+//		f.setAccessible(true);
+//		List<Unit> listInstanceVar = null;
+//		try {
+//			listInstanceVar = (List<Unit>) f.get(this);
+//		}
+//		catch (IllegalArgumentException | IllegalAccessException e) {
+//			// TODO: womp exception
+//			e.printStackTrace();
+//		}
+//		return listInstanceVar;
+//	}
 
 }
