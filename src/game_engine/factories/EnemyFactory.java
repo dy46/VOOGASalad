@@ -3,6 +3,8 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Enemy;
 import game_engine.libraries.AffectorLibrary;
@@ -23,7 +25,19 @@ public class EnemyFactory {
 	}
 	
 	public Enemy defineEnemyModel(EnemyBuildingBlock eBlock){
-		
+		Affector moveAffector = myAffectorLibrary.getAffector(eBlock.getMyProperty(), eBlock.getMyBehavior());
+		moveAffector.setTTL(Integer.MAX_VALUE);
+		Enemy e = new Enemy(eBlock.getMyName(), Collections.singletonList(moveAffector), 3); 
+		Health health = eBlock.getMyHealth();
+		Velocity velo = eBlock.getMyVelocity(); 
+		Bounds b = eBlock.getMyBounds();
+		State st = eBlock.getMyState(); 
+//		Path p = eBlock.getMyP 										This value is gonna be null for now
+		UnitProperties properties = new UnitProperties(health, null, null, velo, b, null, null, st, null);
+		e.setProperties(properties);
+		e.setTTL(100000);
+		e.setDeathDelay(3);
+		return e;
 	}
 
 	public Enemy createPathFollowPositionMoveEnemy(String name){
