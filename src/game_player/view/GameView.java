@@ -44,8 +44,9 @@ public class GameView implements IGameView{
     private List<ImageViewPicker> projectiles;
     private List<ImageView> paths;
     private List<ImageViewPicker> terrains;
+    private PlayerMainTab myTab;
     
-    public GameView(GameCanvas canvas, Scene scene) {
+    public GameView(GameCanvas canvas, Scene scene, PlayerMainTab tab) {
     	this.root = canvas.getRoot();
     	this.myScene = scene;
         playerEngineInterface = new EngineWorkspace();
@@ -63,6 +64,7 @@ public class GameView implements IGameView{
         this.root.setOnMouseClicked(e -> {
            playerEngineInterface.addTower(e.getX(), e.getY(), 0);
         });
+        this.myTab = tab;
         
         
     }
@@ -124,6 +126,7 @@ public class GameView implements IGameView{
     	for (int i = 1; i <= myUpdateSpeed; i++) {
     		playerEngineInterface.updateElements();
     	}
+    	myTab.updateGameElements();
     }
 
     @Override
@@ -164,7 +167,7 @@ public class GameView implements IGameView{
     }
 
 	@Override
-	public IPlayerEngineInterface getGameStatus() {
+	public IPlayerEngineInterface getGameEngine() {
 		return playerEngineInterface;
 	}
 }

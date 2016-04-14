@@ -45,7 +45,7 @@ public class AffectorFactory {
 		constructAffector(expIncrProperty, healthDamageEffect, Arrays.asList(exprIncrFunction));
 		
 		String randomPoison = "RandomPoison";
-		Function randomPoisonFunction = myFunctionFactory.createExpIncrFunction("Moderate");
+		Function randomPoisonFunction = myFunctionFactory.createExpIncrFunction("Weak");
 		String randomPoisonEffect = "HealthDamage";
 		constructAffector(randomPoison, randomPoisonEffect, Arrays.asList(randomPoisonFunction));
 

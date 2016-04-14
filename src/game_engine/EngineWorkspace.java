@@ -210,7 +210,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	public String getGameStatus () {
-		return "Waves left: " + myCurrentLevel.wavesLeft() + " " + myCurrentLevel.toString() + " Number of Lifes: " + myCurrentLevel.getMyLives();
+		if (myCurrentLevel.getMyLives() <= 0) {
+			return "Waves remaining: " + myCurrentLevel.wavesLeft() + ", Lives remaining: " + "0";
+		}
+		return "Waves remaining: " + myCurrentLevel.wavesLeft() + ", Lives remaining: " + myCurrentLevel.getMyLives();
 	}
 
 	public void addBalance (double money) {

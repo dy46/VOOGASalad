@@ -23,5 +23,5 @@ public interface IGameView {
       
     void changeGameSpeed (double gameSpeed); 
     
-    IPlayerEngineInterface getGameStatus();
+    IPlayerEngineInterface getGameEngine();
 }

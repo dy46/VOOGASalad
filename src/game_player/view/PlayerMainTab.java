@@ -71,7 +71,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private void initializeCanvas() {
 		myCanvas = new GameCanvas(myResources);
 		gameSection.getChildren().add(myCanvas.createCanvas());
-		gameView = new GameView(myCanvas, myScene);
+		gameView = new GameView(myCanvas, myScene, this);
 		gameView.playGame(0);
 	}
 	
@@ -119,17 +119,18 @@ public class PlayerMainTab implements IPlayerTab{
 	}
 	
 	private void configurePanels() {
-		Label configurationLabel = new Label(myResources.getString("Configuration"));
-		configurationLabel.setFont(new Font("Arial", 20));
-		configurationLabel.getStyleClass().add("label-header");
+//		Label configurationLabel = new Label(myResources.getString("Configuration"));
+//		configurationLabel.setFont(new Font("Arial", 20));
+//		configurationLabel.getStyleClass().add("label-header");
 		configurationPanel.setAlignment(Pos.TOP_CENTER);
-		configurationPanel.getChildren().add(configurationLabel);
-		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+//		configurationPanel.getChildren().add(configurationLabel);
+//		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
 		configurationPanel.getStyleClass().add("vbox");
 		gamePanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+		gamePanel.getStyleClass().add("hbox");
 	}
 	
-	private void updateGameElements() {
+	protected void updateGameElements() {
 		for (IGUIObject object: gameElements) {
 			object.updateNode();
 		}

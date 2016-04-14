@@ -88,7 +88,7 @@ public class OptionsMenu implements IMenuInterface{
         
 		File file = fileChooser.showOpenDialog(menuStage);
 		
-		//TODO: do soemthing when it loads the file
+		//TODO: do something when it loads the file
 		
 		try {
         	return file.toString();

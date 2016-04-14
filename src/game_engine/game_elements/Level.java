@@ -101,7 +101,7 @@ public class Level extends MapPiece {
     }
 
     public String toString () {
-        return "Number of Waves: " + myWaves.size();
+        return String.valueOf(myWaves.size());
     }
 
     public String toFile () {
