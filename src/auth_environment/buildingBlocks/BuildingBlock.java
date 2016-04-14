@@ -2,13 +2,7 @@ package auth_environment.buildingBlocks;
 
 import java.util.List;
 
-import game_engine.properties.Bounds;
-import game_engine.properties.Damage;
-import game_engine.properties.Health;
-import game_engine.properties.Position;
-import game_engine.properties.Price;
-import game_engine.properties.Team;
-import game_engine.properties.Velocity;
+import game_engine.properties.*;
 import javafx.scene.image.ImageView;
 
 /**
@@ -27,6 +21,7 @@ public abstract class BuildingBlock {
 	private Bounds myBounds;
 	private Price myPrice;
 	private ImageView myImage;
+	private State myState; 
 	private double mySpeed;
 	private double myDirection;
 	
@@ -119,6 +114,14 @@ public abstract class BuildingBlock {
 
 	public void setMyImage(ImageView myImage) {
 		this.myImage = myImage;
+	}
+	
+	public State getMyState() {
+		return myState;
+	}
+
+	public void setMyState(State myState) {
+		this.myState = myState;
 	}
 		
 }
