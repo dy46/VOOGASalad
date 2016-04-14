@@ -2,7 +2,6 @@ package game_player.view;
 
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Unit;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
