@@ -47,7 +47,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private CollisionDetector myCollider;
 	private List<Tower> myTowerTypes;
 	private Level myCurrentLevel;
-//	private IDFactory myIDFactory;
+	//	private IDFactory myIDFactory;
 	private double myBalance;
 	private int myLives;
 
@@ -64,18 +64,40 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
-//		Path p2 = new Path("DirtNew");
-//		p2.addPosition(new Position(0, 30));
-//		p2.addPosition(new Position(200, 30));
-//		p2.addPosition(new Position(200, 200));
-//		p2.addPosition(new Position(400, 200));
-//		p2.addPosition(new Position(400, 525));
-//		myPaths.add(p2);
-//		myIDFactory = new IDFactory();
+		nullCheck();
+		initialize();
+		//		Path p2 = new Path("DirtNew");
+		//		p2.addPosition(new Position(0, 30));
+		//		p2.addPosition(new Position(200, 30));
+		//		p2.addPosition(new Position(200, 200));
+		//		p2.addPosition(new Position(400, 200));
+		//		p2.addPosition(new Position(400, 525));
+		//		myPaths.add(p2);
+		//		myIDFactory = new IDFactory();
 		// projectiles must be intialized before towers
-//		myTowerTypes = makeDummyTowers();
-//		myTerrains = makeDummyTerrains();
-//		myCurrentLevel = makeDummyLevel();
+		//		myTowerTypes = makeDummyTowers();
+		//		myTerrains = makeDummyTerrains();
+		//		myCurrentLevel = makeDummyLevel();
+	}
+
+	private void nullCheck(){
+		if(myLevels == null)	myLevels = new ArrayList<>();
+		if(myPaths == null)		myPaths = new ArrayList<>();
+		if(myEnemys == null)	myEnemys = new ArrayList<>();
+		if(myProjectiles == null)	myProjectiles = new ArrayList<>();
+		if(myTowers == null)	myTowers = new ArrayList<>();
+		if(myTowerTypes == null)	myTowerTypes = new ArrayList<>();
+		if(myTerrains == null)	myTerrains = new ArrayList<>();
+		if(myLevels.size() == 0){
+			Wave w = new Wave("temp", 0);
+			Level l = new Level("temp2", w, 3);
+			myLevels.add(l);
+			myCurrentLevel = l;
+		}
+	}
+
+	private void initialize(){
+		
 	}
 
 //	private List<Tower> makeDummyTowers () {
@@ -83,85 +105,85 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 //		Tower t = myTowerFactory.createFourWayTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers), position2);
 //		return new ArrayList<>(Arrays.asList(new Tower[] { t }));
 //	}
-//
-//	private Level makeDummyLevel(){
-//		Wave w = new Wave("I'm not quite sure what goes here", 0);
-//		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		e1.getProperties().setHealth(20);
-//		e2.getProperties().setHealth(20);
-//		e3.getProperties().setHealth(20);
-//		e4.getProperties().setHealth(20);
-//		w.addEnemy(e1, 0);
-//		w.addEnemy(e2, 60);
-//		w.addEnemy(e3, 60);
-//		w.addEnemy(e4, 60);
-//		Level l = new Level("still not sure", w, 3);
-//		l.addWave(w);
-//		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
-//		Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-//		e5.getProperties().setHealth(20);
-//		e6.getProperties().setHealth(20);
-//		e7.getProperties().setHealth(20);
-//		e8.getProperties().setHealth(20);
-//		w2.addEnemy(e5, 0);
-//		w2.addEnemy(e6, 60);
-//		w2.addEnemy(e7, 60);
-//		w2.addEnemy(e8, 60);
-//		l.addWave(w2);
-//		return l;
-//	}
-//
-//	private List<Unit> makeDummyTerrains() {
-//		Terrain ice = makeDummyIceTerrain();
-//		Terrain poisonSpike = makeDummyPoisonSpike();
-//		Terrain spike = makeDummySpike();
-//		return new ArrayList<>(Arrays.asList(new Terrain[] { ice, poisonSpike, spike }));
-//	}
-//
-//	private Terrain makeDummyIceTerrain(){
-//		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
-//		List<Position> pos = new ArrayList<>();
-//		pos.add(new Position(0, 0));
-//		pos.add(new Position(200, 0));
-//		pos.add(new Position(200, 200));
-//		pos.add(new Position(0, 200));
-//		ice.getProperties().setPosition(100, 100);
-//		ice.getProperties().setBounds(pos);
-//		ice.setTTL(Integer.MAX_VALUE);
-//		return ice;
-//	}
-//
-//	private Terrain makeDummyPoisonSpike(){
-//		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
-//		List<Position> pos = new ArrayList<>();
-//		pos.add(new Position(95, -25));
-//		pos.add(new Position(275, -25));
-//		pos.add(new Position(275, 150));
-//		pos.add(new Position(95, 150));
-//		poisonSpike.getProperties().setPosition(185, 62.5);
-//		poisonSpike.getProperties().setBounds(pos);
-//		poisonSpike.setTTL(Integer.MAX_VALUE);
-//		return poisonSpike;
-//	}
-//
-//	private Terrain makeDummySpike(){
-//		Terrain spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
-//		List<Position> pos = new ArrayList<>();
-//		pos.add(new Position(95, -25));
-//		pos.add(new Position(275, -25));
-//		pos.add(new Position(275, 150));
-//		pos.add(new Position(95, 150));
-//		spike.getProperties().setPosition(185, 62.5);
-//		spike.getProperties().setBounds(pos);
-//		spike.setTTL(Integer.MAX_VALUE);
-//		return spike;
-//	}
+	//
+	//	private Level makeDummyLevel(){
+	//		Wave w = new Wave("I'm not quite sure what goes here", 0);
+	//		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		e1.getProperties().setHealth(20);
+	//		e2.getProperties().setHealth(20);
+	//		e3.getProperties().setHealth(20);
+	//		e4.getProperties().setHealth(20);
+	//		w.addEnemy(e1, 0);
+	//		w.addEnemy(e2, 60);
+	//		w.addEnemy(e3, 60);
+	//		w.addEnemy(e4, 60);
+	//		Level l = new Level("still not sure", w, 3);
+	//		l.addWave(w);
+	//		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
+	//		Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+	//		e5.getProperties().setHealth(20);
+	//		e6.getProperties().setHealth(20);
+	//		e7.getProperties().setHealth(20);
+	//		e8.getProperties().setHealth(20);
+	//		w2.addEnemy(e5, 0);
+	//		w2.addEnemy(e6, 60);
+	//		w2.addEnemy(e7, 60);
+	//		w2.addEnemy(e8, 60);
+	//		l.addWave(w2);
+	//		return l;
+	//	}
+	//
+	//	private List<Unit> makeDummyTerrains() {
+	//		Terrain ice = makeDummyIceTerrain();
+	//		Terrain poisonSpike = makeDummyPoisonSpike();
+	//		Terrain spike = makeDummySpike();
+	//		return new ArrayList<>(Arrays.asList(new Terrain[] { ice, poisonSpike, spike }));
+	//	}
+	//
+	//	private Terrain makeDummyIceTerrain(){
+	//		Terrain ice = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
+	//		List<Position> pos = new ArrayList<>();
+	//		pos.add(new Position(0, 0));
+	//		pos.add(new Position(200, 0));
+	//		pos.add(new Position(200, 200));
+	//		pos.add(new Position(0, 200));
+	//		ice.getProperties().setPosition(100, 100);
+	//		ice.getProperties().setBounds(pos);
+	//		ice.setTTL(Integer.MAX_VALUE);
+	//		return ice;
+	//	}
+	//
+	//	private Terrain makeDummyPoisonSpike(){
+	//		Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
+	//		List<Position> pos = new ArrayList<>();
+	//		pos.add(new Position(95, -25));
+	//		pos.add(new Position(275, -25));
+	//		pos.add(new Position(275, 150));
+	//		pos.add(new Position(95, 150));
+	//		poisonSpike.getProperties().setPosition(185, 62.5);
+	//		poisonSpike.getProperties().setBounds(pos);
+	//		poisonSpike.setTTL(Integer.MAX_VALUE);
+	//		return poisonSpike;
+	//	}
+	//
+	//	private Terrain makeDummySpike(){
+	//		Terrain spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
+	//		List<Position> pos = new ArrayList<>();
+	//		pos.add(new Position(95, -25));
+	//		pos.add(new Position(275, -25));
+	//		pos.add(new Position(275, 150));
+	//		pos.add(new Position(95, 150));
+	//		spike.getProperties().setPosition(185, 62.5);
+	//		spike.getProperties().setBounds(pos);
+	//		spike.setTTL(Integer.MAX_VALUE);
+	//		return spike;
+	//	}
 
 	public void updateElements() {
 		nextWaveTimer++;
@@ -262,7 +284,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	public Level getCurrentLevel() { return myCurrentLevel; }
 
-//	public IDFactory getIDFactory()	{ return myIDFactory; }
+	//	public IDFactory getIDFactory()	{ return myIDFactory; }
 
 	public double getBalance() { return myBalance; }
 
@@ -271,29 +293,29 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	public List<Unit> getTowers() { return myTowers; }
 	public void setTowers(List<Unit> towers) {	this.myTowers = towers; }
-	
+
 	public List<Level> getLevels() { return myLevels; }
 	public void setLevels (List<Level> levels) { myLevels = levels; }
 
 	public List<Path> getPaths() { return myPaths; }
 	public void setPaths (List<Path> paths) { myPaths = paths; }
-	
+
 	public List<Tower> getTowerTypes() { return myTowerTypes; }
 	public void setTowerTypes (List<Tower> towerTypes) { myTowerTypes = towerTypes; }
 
 	public List<Unit> getProjectiles() { return myProjectiles; }
 	public void setProjectiles(List<Unit> projectiles) { myProjectiles = projectiles; }
-	
+
 	public List<Unit> getTerrains() { return myTerrains; }
 	public void setTerrains(List<Unit> terrains) { myTerrains = terrains; }
 
-//	public FunctionFactory getFunctionFactory () { return myFunctionFactory; }
-//
-//	public FunctionLibrary getFunctionLibrary () { return myFunctionFactory.getFunctionLibrary(); }
-//
-//	public EnemyFactory getEnemyFactory () { return myEnemyFactory; }
-//
-//	public AffectorLibrary getAffectorLibrary () { return myAffectorFactory.getAffectorLibrary(); }
+	//	public FunctionFactory getFunctionFactory () { return myFunctionFactory; }
+	//
+	//	public FunctionLibrary getFunctionLibrary () { return myFunctionFactory.getFunctionLibrary(); }
+	//
+	//	public EnemyFactory getEnemyFactory () { return myEnemyFactory; }
+	//
+	//	public AffectorLibrary getAffectorLibrary () { return myAffectorFactory.getAffectorLibrary(); }
 
 	public int getLives () { return myCurrentLevel.getMyLives(); }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import game_data.AuthSerializer;
+import game_data.GameData;
 import game_data.IDataConverter;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
@@ -65,9 +66,10 @@ public class GameView implements IGameView{
 
 	private IPlayerEngineInterface readData() {
 		IDataConverter<IPlayerEngineInterface> dataConverter = new AuthSerializer<IPlayerEngineInterface>();
-		playerEngineInterface = dataConverter.loadElement();
-//        playerEngineInterface = new EngineWorkspace();
-//        playerEngineInterface.setUpEngine(null);
+		GameData gameData = (GameData) dataConverter.loadElement();
+//		playerEngineInterface = gameData.
+        playerEngineInterface = new EngineWorkspace();
+        playerEngineInterface.setUpEngine(gameData);
         return playerEngineInterface;
 	}
     
@@ -133,7 +135,8 @@ public class GameView implements IGameView{
         List<Position> allPositions = new ArrayList<>();
         currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
         for(int i = paths.size(); i < allPositions.size(); i++) {
-            Image img = new Image(currPaths.get(0).toString() + ".png");
+//            Image img = new Image(currPaths.get(0).toString() + ".png");
+        	Image img = new Image("DirtNew.png");
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
