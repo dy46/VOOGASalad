@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -7,6 +8,7 @@ import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.backend.SelectorModel;
 import game_engine.game_elements.GameElement;
+import game_engine.properties.Position;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 
@@ -20,33 +22,36 @@ import javafx.scene.layout.Pane;
  */
 
 public class MapDisplay extends Pane {
-	
+
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	 
+
 	private MapDisplayModel myModel;
 	private Grid myGrid;
-	
+
 	public MapDisplay() {
 		this.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
-						 Double.parseDouble(myDimensionsBundle.getString("defaultMapHeightPixels")));
+				Double.parseDouble(myDimensionsBundle.getString("defaultMapHeightPixels")));
 		myModel = new MapDisplayModel(Integer.parseInt(myDimensionsBundle.getString("defaultMapWidthCount")), 
-									  Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")));
+				Integer.parseInt(myDimensionsBundle.getString("defaultMapHeightCount")));
 		myGrid = new Grid(myModel, 
-						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
-						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));
+				Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
+				Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));
 		this.getChildren().add(myGrid.getRoot());
-		
+
 		Button temp = new Button("Path Coordinates");
+		List<Position> newPathPositions = new ArrayList<>();
 		temp.setOnAction(e->{
+			newPathPositions.clear();
 			for(int i=0; i<myGrid.clickedList().size(); i++){
-				System.out.println(myGrid.clickedList().get(i).toString());
+				newPathPositions.add(myGrid.clickedList().get(i));
 			}
-			});
+			myGrid.getPathGraphFactory().insertPath(newPathPositions); // Insert path into path graph
+		});
 		temp.setTranslateY(myGrid.mapHeight);
 		this.getChildren().add(temp);
 	}
-	
+
 	// TODO: find a better way to propagate this 
 	public List<Tile> getTiles() {
 		return myGrid.getTiles();

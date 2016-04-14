@@ -27,6 +27,8 @@ public class PathGraphFactory {
 	 * Inserts path with newPath positions into forest of path graphs
 	 */
 	public void insertPath(List<Position> newPath){
+		if(newPath.size() == 0)
+			return;
 		PathNode myGraph = myForest.getGraphByPos(newPath.get(0));
 		if(myGraph != null){
 			Branch newPathNode = new Branch(currentPathID++);

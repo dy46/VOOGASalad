@@ -9,6 +9,7 @@ import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import auth_environment.paths.PathGraphFactory;
 import game_engine.properties.Position;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -25,8 +26,10 @@ public class Grid{
 	double mapHeight;
 	private Pane myPane;
 	private List<Tile> myTiles= new ArrayList<Tile>();
+	private PathGraphFactory myPathGraphFactory;
 	
 	public Grid(MapDisplayModel model, double mapWidth, double mapHeight) {
+		myPathGraphFactory = new PathGraphFactory();
 		this.myModel = model;
 		this.myPane = new Pane();
 		this.mapWidth = mapWidth;
@@ -34,6 +37,10 @@ public class Grid{
 		this.numX = model.getXmax();
 		this.numY = model.getYmax();
 		this.generateGrid();
+	}
+	
+	public PathGraphFactory getPathGraphFactory(){
+		return myPathGraphFactory;
 	}
 	
 	public void generateGrid(){
@@ -76,7 +83,7 @@ public class Grid{
 			}
 		}
 		return ans;
-	}	
+	}
 	
 	public List<Tile> getTiles() {
 		return this.myTiles;
