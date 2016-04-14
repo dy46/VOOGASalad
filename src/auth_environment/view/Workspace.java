@@ -3,12 +3,12 @@ package auth_environment.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
+import auth_environment.view.Menus.PickerMenu;
 import game_engine.game_elements.Tower;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
@@ -39,7 +39,10 @@ public class Workspace {
 	}
 	
 	private void setupBorderPane() {
-	    ElementPicker myPicker = new ElementPicker();
+//	    ElementPicker myPicker = new ElementPicker();
+
+	    PickerMenu myPicker = new PickerMenu();
+
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, myPicker));

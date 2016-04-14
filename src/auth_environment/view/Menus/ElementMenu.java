@@ -17,9 +17,8 @@ import game_engine.properties.Price;
 import game_engine.properties.Team;
 import game_engine.properties.Velocity;
 import java.util.*;
-
 import auth_environment.buildingBlocks.BuildingBlock;
-//import auth_environment.buildingBlocks.EnemyBuildingBlock;
+import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.factories.TowerFactory;
@@ -59,10 +58,10 @@ public class ElementMenu extends Menu {
 	private GridPane myGridPane;
 	private int index;
 	private List<Tower> myTowerList = new ArrayList<Tower>();
-	ElementPicker myPicker;
+	PickerMenu myPicker;
 	
 	
-	public ElementMenu(ElementPicker myPicker) {
+	public ElementMenu(PickerMenu myPicker) {
 		this.myPicker = myPicker;
 		this.init();
 	}

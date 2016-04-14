@@ -12,13 +12,13 @@ import javafx.stage.Stage;
 public class MenuToolBar extends MenuBar {
 	
 	private TabPane myTabPane; 
-
-	public MenuToolBar(TabPane tabPane, ElementPicker myPicker) {
+	public MenuToolBar(TabPane tabPane, PickerMenu myPicker) {
 		this.myTabPane = tabPane; 
 		this.init(myPicker);
 	}
-	
-	private List<Menu> defaultMenus(ElementPicker myPicker) {
+
+	private List<Menu> defaultMenus(PickerMenu myPicker) {
+
 		List<Menu> myMenus = Arrays.asList(
 				new FileMenu(), 
 				new SettingsMenu(),
@@ -28,7 +28,7 @@ public class MenuToolBar extends MenuBar {
 		return myMenus; 
 	}
 	
-	private void init(ElementPicker myPicker) {
+	private void init(PickerMenu myPicker) {
 		this.getMenus().addAll(this.defaultMenus(myPicker));
 	}
 }
