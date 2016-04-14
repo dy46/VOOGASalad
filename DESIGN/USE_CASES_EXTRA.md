@@ -107,26 +107,9 @@
 13. Auth Environment can clear/reset the current Game
   > The current IGameData object is replaced with a new default instance. All frontend views and editor windows that are populated from this central Game object will now be given the corresponding default version of their storage object. 
 
-14. The authoring environment prompts the user to create a define a Tower.
-  * `ElementMenu` class: Calls `defineTowerModel(TowerBuildingBlock block)` method in the `TowerFactory` class.
-  * `TowerFactory` class: The above method takes in the user's custom inputs via the TowerBuildingBlock and returns a "template" Tower object back to the authoring environment. 
+14. Auth Environment can add Functions to modify how Units behave
+  > Open a Unit customization Window by clicking on the Menu. Any numerical value (ex. damage) can not only be assigned a constant value, but one of several preset functions (linear increasing, exponential decreasing, etc.) These will be available by clicking on a 'Custom Value' button next to the TextInput field that will provide several clickable options for the Developer to select. 
 
-15. The authoring environment prompts the user to create a define an Enemy.
-  * `ElementMenu` class: Calls `defineEnemyModel(EnemyBuildingBlock block)` method in the `EnemyFactory` class.
-  * `EnemyFactory` class: The above method takes in the user's custom inputs via the EnemyBuildingBlock and returns a "template" Enemy object back to the authoring environment. 
-
-16. The authoring environment prompts the user to create a define an Terrain.
-  * `ElementMenu` class: Calls `defineTerrainModel(TerrainBuildingBlock block)` method in the `TerrainFactory` class.
-  * `TerrainFactory` class: The above method takes in the user's custom inputs via the TerrainBuildingBlock and returns a "template" Terrain object back to the authoring environment. 
-
-17. After creating a "template" tower, the user drags the tower onto the game    map. 
- *  `ElementPicker` class: Calls `createTower(Tower template, Position p, Bounds b)` method in the `TowerFactory` class.
- * `TowerFactory` class: The above method takes in the Tower template the user has already identified as well as Position and Bounds objects to actually define where the Tower is physically on the game map. The method then returns an "initialized" tower. 
-
-18. After creating a "template" enemy, the user determines how many enemies to add to a wave.
-  * `ElementPicker` class: Calls `createEnemy(Enemy e, Wave w)` method in the `EnemyFactory` class.
-  * `EnemyFactory` class: The above method takes in the Enemy template that the user has already identified as well as a Wave object associated to the wave that the enemy will spawn on. The void method will then add that enemy to the wave. 
-  
 ### Game Player Use Cases
 
 1. Integrate Save
