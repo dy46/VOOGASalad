@@ -35,10 +35,10 @@ public class AffectorFactory {
 
 	private void setDefaultAffectors(FunctionFactory myFunctionFactory){
 		String property4 = "Constant";
-		Function healthFunction = myFunctionFactory.createConstantFunction(0.0009);
+		Function healthFunction = myFunctionFactory.createConstantFunction(1);
 		String effect4 ="HealthDamage";
 		constructAffector(property4, effect4, Arrays.asList(healthFunction));
-
+		
 		String expIncrProperty = "ExpIncr";
 		Function exprIncrFunction = myFunctionFactory.createExpIncrFunction("Moderate");
 		String healthDamageEffect = "HealthDamage";
@@ -58,9 +58,9 @@ public class AffectorFactory {
 		constructAffector(property6, effect6, null);
 
 
-		String property7 = "Homing";
-		String effect7 = "Move";
-		constructAffector(property7, effect7, null);
+		String property8 = "Homing";
+		String effect8 = "Move";
+		constructAffector(property8, effect8, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

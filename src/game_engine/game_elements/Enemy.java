@@ -26,5 +26,10 @@ public class Enemy extends Unit {
     public String toFile () {
         return "Enemy " + getID();
     }
+    
+    public void update() {
+        super.update();
+        System.out.println(this.getProperties().getHealth().getValue());
+    }
 
 }

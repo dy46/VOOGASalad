@@ -1,6 +1,7 @@
 package game_engine.factories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import game_engine.affectors.Affector;
@@ -38,7 +39,8 @@ public class TerrainFactory {
 		
 		List<Affector> affectors3 = new ArrayList<>();
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
-		constantDamage.setTTL(3);
+		constantDamage.setTTL(1);
+		constantDamage.setBaseNumbers(Arrays.asList(new Double[]{new Double(0.1)}));
 		affectors3.add(constantDamage);
 		Terrain spike = new Terrain("Spikes", 2);
 		spike.setAffectorsToApply(affectors3);

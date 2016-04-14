@@ -12,7 +12,7 @@ public class TerrainLibrary {
 	}
 	
 	public Terrain getTerrainByName(String name) {
-		return myTerrains.get(name);
+		return myTerrains.get(name).copyTerrain();
 	}
 	
 	public void addTerrain(Terrain terrain){
