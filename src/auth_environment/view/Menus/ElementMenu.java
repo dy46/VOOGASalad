@@ -6,16 +6,8 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.ResourceBundle;
 
-import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.view.ElementPicker;
 import auth_environment.view.TowerView;
-import game_engine.properties.Bounds;
-import game_engine.properties.Damage;
-import game_engine.properties.Health;
-import game_engine.properties.Position;
-import game_engine.properties.Price;
-import game_engine.properties.Team;
-import game_engine.properties.Velocity;
 import java.util.*;
 
 import auth_environment.buildingBlocks.BuildingBlock;
@@ -38,6 +30,10 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * Created by BrianLin on 4/1/16.
+ * 
+ * Team Member Responsible: va
+ * 
+ * This Menu allows the Developer to create new Game Elements. 
  */
 public class ElementMenu extends Menu {
 
@@ -76,11 +72,6 @@ public class ElementMenu extends Menu {
 		terrainItem.setOnAction(e -> createNewTerrain());
 		enemyItem.setOnAction(e -> createNewEnemy());
 		this.getItems().addAll(towerItem, terrainItem, enemyItem); 
-//		MenuItem viewTowerItem = new MenuItem(this.myNamesBundle.getString("viewTowerLabel")); 
-//		viewTowerItem.setOnAction(e -> viewTowers());
-//		towerItem.setOnAction(e -> createNewTower());
-//		terrainItem.setOnAction(e -> createNewTerrain());
-//		this.getItems().addAll(towerItem, terrainItem, viewTowerItem); 
 	}
 	
 	private void viewTowers() {

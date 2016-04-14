@@ -55,4 +55,8 @@ public class Position {
 				(this == o);
 	}
 	
+	@Override
+	public String toString(){
+		return Double.toString(this.myX)+ ", " +Double.toString(this.myY);
+	}
 }

@@ -2,9 +2,9 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISettings;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
+import game_data.IGameData;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -23,14 +23,15 @@ public class Workspace {
 	
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	private MapDisplay myDisplay = new MapDisplay();
+	private MapDisplay myDisplay;
 	private ElementPicker myPicker = new ElementPicker(); 
 	
-	private ISettings mySettings;
+	private IGameData myGameData;
 	
-	public Workspace(TabPane tabPane, ISettings settings) {
+	public Workspace(TabPane tabPane, IGameData gameData) {
 		this.myTabPane = tabPane; 
-		this.mySettings = settings; 
+		this.myGameData = gameData; 
+		this.myDisplay = new MapDisplay(this.myGameData);
 		this.setupBorderPane();
 	}
 	
@@ -38,11 +39,12 @@ public class Workspace {
 	    ElementPicker myPicker = new ElementPicker();
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.myGameData));
 //		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(400,400);
 		this.myBorderPane.setRight(myPicker);
 		this.myBorderPane.setCenter(myDisplay);
+		this.myBorderPane.setRight(new ElementPicker());
 	}
 	
 	public void writeToGameData() {

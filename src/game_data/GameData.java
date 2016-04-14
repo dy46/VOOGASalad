@@ -2,10 +2,19 @@ package game_data;
 
 import java.util.List;
 
+import auth_environment.backend.GameSettings;
+import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Tower;
+import game_engine.properties.Position;
 
 public class GameData implements IGameData {
+	
+	private ISettings mySettings;
+	
+	public GameData() {
+		this.mySettings = new GameSettings(); 
+	}
 
 	@Override
 	public List<Tower> getTowers() {
@@ -26,14 +35,23 @@ public class GameData implements IGameData {
 	}
 
 	@Override
-	public void addTower(Tower tower) {
+	public void addLevel(Level level) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addLevel(Level level) {
-		// TODO Auto-generated method stub
+	public ISettings getSettings() {
+		return this.mySettings;
+	}
+
+	@Override
+	public void updateSettings(ISettings settings) {
+		this.mySettings = settings; 
+	}
+
+	@Override
+	public void addPositions(List<Position> list) {
 		
 	}
 

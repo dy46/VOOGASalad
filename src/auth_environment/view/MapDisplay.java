@@ -6,7 +6,10 @@ import java.util.ResourceBundle;
 import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.backend.SelectorModel;
+import game_data.IGameData;
 import game_engine.game_elements.GameElement;
+import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 /**
@@ -25,8 +28,10 @@ public class MapDisplay extends Pane {
 	 
 	private MapDisplayModel myModel;
 	private Grid myGrid;
+	private IGameData myGameData;
 	
-	public MapDisplay() {
+	public MapDisplay(IGameData gameData) {
+		this.myGameData = gameData; 
 		this.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						 Double.parseDouble(myDimensionsBundle.getString("defaultMapHeightPixels")));
 		myModel = new MapDisplayModel(Integer.parseInt(myDimensionsBundle.getString("defaultMapWidthCount")), 
@@ -35,6 +40,16 @@ public class MapDisplay extends Pane {
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")), 
 						  Double.parseDouble(myDimensionsBundle.getString("defaultMapWidthPixels")));
 		this.getChildren().add(myGrid.getRoot());
+		
+		Button temp = new Button("Path Coordinates");
+		temp.setOnAction(e->{
+			for(int i=0; i<myGrid.clickedList().size(); i++){
+				System.out.println(myGrid.clickedList().get(i).toString());
+			}
+			});
+		this.myGameData.addPositions(myGrid.clickedList());
+		temp.setTranslateY(myGrid.mapHeight);
+		this.getChildren().add(temp);
 	}
 	
 	// TODO: find a better way to propagate this 
