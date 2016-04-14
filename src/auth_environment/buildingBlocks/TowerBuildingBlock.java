@@ -9,24 +9,20 @@ public class TowerBuildingBlock extends BuildingBlock{
 
 	private Price myPrice;
 	private double range; 
-	private int firingRate; 
+	private double firingRate; 
 
-	public TowerBuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, double direction,
-			double r, double price, List<Position> positionList, State s, int fRate){
-		super(image, name, health, damage, teamName, speed, direction, positionList, s); 
-		myPrice = new Price(price);
-		range = r;
-		firingRate = fRate; 
-	}
-	
+//	public TowerBuildingBlock(ImageView image, String name, double health, double damage, String teamName, double speed, double direction,
+//			double r, double price, List<Position> positionList, double fRate){
+//		//super(image, name, health, damage, teamName, speed, direction, positionList); 
+//		myPrice = new Price(price);
+//		range = r;
+//		firingRate = fRate; 
+//	}
+//	
 	//Getters and Setters 
 	
-	public Price getMyPrice() {
-		return myPrice;
-	}
-
-	public void setMyPrice(Price myPrice) {
-		this.myPrice = myPrice;
+	public TowerBuildingBlock() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public double getRange() {
@@ -37,11 +33,11 @@ public class TowerBuildingBlock extends BuildingBlock{
 		this.range = range;
 	}
 	
-	public int getFiringRate() {
+	public double getFiringRate() {
 		return firingRate;
 	}
 
-	public void setFiringRate(int firingRate) {
+	public void setFiringRate(double firingRate) {
 		this.firingRate = firingRate;
 	}
 	
