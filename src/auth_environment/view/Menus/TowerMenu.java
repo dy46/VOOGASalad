@@ -42,18 +42,21 @@ import javafx.stage.FileChooser.ExtensionFilter;
  * Created by BrianLin on 4/1/16.
  */
 public class TowerMenu extends SuperMenu {
+	
+	private static final String ELEMENT_LABELS_PACKAGE = "auth_environment/properties/labels";
+	private static final String STRING_LABELS_PACKAGE = "auth_environment/properties/tower_string_labels";
+	private Map<String, TextField> intTextMap = new HashMap<String, TextField>();
+	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 
 	public TowerMenu(ElementPicker myPicker) {
 		super(myPicker);
 		// TODO Auto-generated constructor stub
 	}
-	private static final String ELEMENT_LABELS_PACKAGE = "auth_environment/properties/labels";
-	private Map<String, TextField> intTextMap = new HashMap<String, TextField>();
-	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	
 	public void createNewElement(){
 		ResourceBundle myElementLabelsBundle = ResourceBundle.getBundle(ELEMENT_LABELS_PACKAGE);
-		createElement(myElementLabelsBundle, new TowerBuildingBlock(), intTextMap, strTextMap);
+		ResourceBundle myStringBundle = ResourceBundle.getBundle(STRING_LABELS_PACKAGE);
+		createElement(new TowerBuildingBlock(), intTextMap, strTextMap, myElementLabelsBundle, myStringBundle);
 		
 	}
 	
@@ -62,8 +65,28 @@ public class TowerMenu extends SuperMenu {
     public void makeElement(Tooltip t, BuildingBlock block){
     	Class<?> c = block.getClass();
     	for(String str: strTextMap.keySet()){
-    		block.setMyName(strTextMap.get(str).getText());
+    		Method[] allMethods = c.getMethods();
+    		
+    		for(Method m: allMethods){;
+//    			String[] mString = m.getName().split(".");
+//    			System.out.println(m.getName());
+//    			System.out.println("setMy" + str);
+    			if(m.getName().startsWith("setMy" + str)){
+    	    		System.out.println("setMy" + str);
+    				try {
+    		    		System.out.println(str);
+						m.invoke(block,strTextMap.get(str).getText());
+						break;
+
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+						System.out.println("ERROR");
+					}
+    			}
+    		}	
     	}
+    	System.out.println("hello");
     	for(String str: intTextMap.keySet()){
     		Method[] allMethods = c.getMethods();
     		
@@ -82,7 +105,7 @@ public class TowerMenu extends SuperMenu {
     	
     	block.setMyImage((ImageView)t.getGraphic());
     	
-    	TowerFactory towerFac = new TowerFactory(new AffectorLibrary());
+    	TowerFactory towerFac = super.getTowerFactory();
     	Tower tower = towerFac.defineTowerModel(block);
     	
     	getPicker().updateTower(tower);

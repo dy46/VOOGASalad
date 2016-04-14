@@ -7,19 +7,10 @@ import javafx.scene.image.ImageView;
 
 public class EnemyBuildingBlock extends BuildingBlock{
 
-	private Price myPrice;
 	private String myBehavior; 
 	private String myProperty; 
 	public EnemyBuildingBlock() {
 		
-	}
-
-	public Price getMyPrice() {
-		return myPrice;
-	}
-
-	public void setMyPrice(Price myPrice) {
-		this.myPrice = myPrice;
 	}
 	
 	public String getMyBehavior() {
