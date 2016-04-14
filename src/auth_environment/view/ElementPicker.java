@@ -37,15 +37,12 @@ public class ElementPicker extends Accordion {
 	
 	
 	public void updateTower(Tower t){
-		System.out.println("hello");
-		 myTowerPane.getChildren().add(new Button("WREWER"));
 		 myTowerList.add(t);
 		 RecTile tile = new RecTile(50,50);
 		 tile.updateElement(t);
 		 DragDelegate drag = new DragDelegate();
 		 drag.setupSource(tile);
 		 myTowerPane.getChildren().add(tile.getShape());
-		 myTowerPane.getChildren().add(new Button("WREWER"));
 	}
 	
 	public void updateEnemy(Enemy t){

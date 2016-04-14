@@ -60,7 +60,6 @@ public class TowerMenu extends SuperMenu {
 
     
     public void makeElement(Tooltip t, BuildingBlock block){
-    	System.out.println("WHY");
     	Class<?> c = block.getClass();
     	for(String str: strTextMap.keySet()){
     		block.setMyName(strTextMap.get(str).getText());
@@ -69,17 +68,12 @@ public class TowerMenu extends SuperMenu {
     		Method[] allMethods = c.getMethods();
     		
     		for(Method m: allMethods){;
-//    			String[] mString = m.getName().split(".");
-//    			System.out.println(m.getName());
-//    			System.out.println("setMy" + str);
     			if(m.getName().startsWith("setMy" + str)){
     				try {
 						m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));
 						break;
 
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						//e.printStackTrace();
 						System.out.println("ERROR");
 					}
     			}
