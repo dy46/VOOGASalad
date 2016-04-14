@@ -39,7 +39,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private List<Path> myPaths;
 
 	private List<Unit> myTowers;
-	private List<Unit> myEnemys;
+	private List<Unit> myEnemies;
 	private List<Unit> myProjectiles;
 
 	private CollisionDetector myCollider;
@@ -75,7 +75,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory, this);
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
-		myEnemys = new ArrayList<>();
+		myEnemies = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();
 		myTowerTypes = makeDummyTowers();
@@ -178,11 +178,11 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		if(!pause && !gameOver){
 			myTowers.forEach(t -> t.update());
 			myTowers.forEach(t -> ((Tower) t).fire());
-			myEnemys.forEach(e -> e.update());
+			myEnemies.forEach(e -> e.update());
 			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
 			Enemy newE = myCurrentLevel.update();
 			if(newE != null){
-				myEnemys.add(newE);
+				myEnemies.add(newE);
 			}// tries to spawn new enemies using Waves
 			if(myCurrentLevel.getCurrentWave().isFinished()){
 				clearProjectiles();
@@ -200,10 +200,10 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	public void updateLives () {
 		int livesToSubtract = 0;
-		for (int i = 0; i < myEnemys.size(); i++) {
-			if (myEnemys.get(i).getProperties().getPath().isUnitAtLastPosition(myEnemys.get(i))) {
+		for (int i = 0; i < myEnemies.size(); i++) {
+			if (myEnemies.get(i).getProperties().getPath().isUnitAtLastPosition(myEnemies.get(i))) {
 				livesToSubtract++;
-				myEnemys.get(i).setElapsedTimeToDeath();
+				myEnemies.get(i).setElapsedTimeToDeath();
 			}
 		}
 		myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
@@ -218,7 +218,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	public void addEnemy (Enemy enemy) {
-		myEnemys.add(enemy);
+		myEnemies.add(enemy);
 	}
 
 	public void addLevel (Level level) {
@@ -269,72 +269,46 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	// Getters & Setters
 
-	public Level getCurrentLevel () {
-		return myCurrentLevel;
-	}
+	public Level getCurrentLevel() { return myCurrentLevel; }
 
-	public IDFactory getIDFactory () {
-		return myIDFactory;
-	}
+	public IDFactory getIDFactory()	{ return myIDFactory; }
 
-	public double getBalance () {
-		return myBalance;
-	}
+	public double getBalance() { return myBalance; }
 
-	public List<Level> getLevels () {
-		return myLevels;
-	}
+	public List<Unit> getEnemies() { return myEnemies;	}
+
+	public List<Unit> getTowers() { return myTowers; }
 	
-	public List<Level> setLevels () {
-		return myLevels;
-	}
+	public List<Level> getLevels() { return myLevels; }
+	public void setLevels (List<Level> levels) { myLevels = levels; }
 
-	public List<Path> getPaths () {
-		return myPaths;
-	}
+	public List<Path> getPaths() { return myPaths; }
+	public void setPaths (List<Path> paths) { myPaths = paths; }
+	
+	public List<Tower> getTowerTypes() { return myTowerTypes; }
+	public void setTowerTypes (List<Tower> towerTypes) { myTowerTypes = towerTypes; }
 
-	public List<Unit> getEnemies () {
-		return myEnemys;
-	}
+	public List<Unit> getProjectiles() { return myProjectiles; }
+	public void setProjectiles(List<Unit> projectiles) { myProjectiles = projectiles; }
+	
+	public List<Unit> getTerrains() { return myTerrains; }
+	public void setTerrains(List<Unit> terrains) { myTerrains = terrains; }
 
-	public List<Unit> getTowers () {
-		return myTowers;
-	}
+	public FunctionFactory getFunctionFactory () { return myFunctionFactory; }
 
-	public List<Unit> getProjectiles () {
-		return myProjectiles;
-	}
+	public FunctionLibrary getFunctionLibrary () { return myFunctionFactory.getFunctionLibrary(); }
 
-	public FunctionFactory getFunctionFactory () {
-		return myFunctionFactory;
-	}
+	public EnemyFactory getEnemyFactory () { return myEnemyFactory; }
 
-	public FunctionLibrary getFunctionLibrary () {
-		return myFunctionFactory.getFunctionLibrary();
-	}
+	public AffectorLibrary getAffectorLibrary () { return myAffectorFactory.getAffectorLibrary(); }
 
-	public EnemyFactory getEnemyFactory () {
-		return myEnemyFactory;
-	}
-
-	public AffectorLibrary getAffectorLibrary () {
-		return myAffectorFactory.getAffectorLibrary();
-	}
-
-	@Override
-	public int getLives () {
-		return myCurrentLevel.getMyLives();
-	}
+	public int getLives () { return myCurrentLevel.getMyLives(); }
 
 	public void clearProjectiles() {
 		myProjectiles.forEach(t -> {
 			t.setInvisible();
 			t.setHasCollided(true);
 		});
-	}
-
-	public List<Unit> getTerrains() {
-		return myTerrains;
 	}
 
 	public List<String> saveGame () {

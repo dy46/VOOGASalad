@@ -3,6 +3,7 @@ package game_data;
 import com.thoughtworks.xstream.XStream;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import game_engine.EngineWorkspace;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,15 +12,15 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class AuthSerializer {
+public class AuthSerializer<T> implements IDataConverter<T> {
 	
 	private FileChooserDelegate chooser = new FileChooserDelegate(); 
 	
 	// TODO: force write as XML
 	
-	public void SerializeData(Object o) {
+	public void saveElement(T o) {
 		
-		File f = this.chooser.save("Save");
+		File f = this.chooser.save("Choose a file to save game data to");
 //		File f = pickFile(true);
 		XStream xstream = new XStream();
 		String xml = xstream.toXML(o);
@@ -31,15 +32,23 @@ public class AuthSerializer {
 			writer.close();
 		} catch (IOException e) {
 			System.out.println("Error saving to file " + f.getAbsolutePath());
+			// TODO: Add good exception handling
 		}
 	}
 	
-	public Object Deserialize() {
-//		File f = pickFile(false);
-		File f = this.chooser.chooseFile("Choose");
-		XStream xstream = new XStream();
-
-		return xstream.fromXML(f);
+	public T loadElement() {
+		try {
+//			File f = pickFile(false);
+			File f = this.chooser.chooseFile("Choose a file to load game data from");
+			XStream xstream = new XStream();
+	
+			return (T) xstream.fromXML(f);
+		}
+		catch (ClassCastException e) {
+			System.out.println("File is not in correct format for game data");
+			return null;
+			// TODO: Add good exception handling
+		}
 	}
 
 	private static File pickFile(boolean amSaving) {

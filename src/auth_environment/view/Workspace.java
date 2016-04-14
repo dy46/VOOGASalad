@@ -47,7 +47,7 @@ public class Workspace {
 	
 	public void writeToGameData() {
 		GameData gameData = new GameData(); 
-		gameData.setTowers(myPicker.getTowers());
+		gameData.setTowerTypes(myPicker.getTowers());
 	}
 	
     public Node getRoot() {
