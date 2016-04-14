@@ -1,6 +1,5 @@
 package auth_environment.view;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -9,12 +8,9 @@ import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
-//import auth_environment.view.Menus.PickerMenu;
 import game_engine.game_elements.Tower;
-import java.util.ResourceBundle;
+
 import auth_environment.backend.ISettings;
-import auth_environment.view.Menus.MenuToolBar;
-import game_data.GameData;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -34,10 +30,9 @@ public class Workspace {
 	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
 	private MapDisplay myDisplay = new MapDisplay();
-	private ElementPicker myPicker = new ElementPicker(); 
-
+	private ElementPicker myPicker;
+	
 	private ISettings mySettings;
-
 	
 	public Workspace(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
@@ -46,10 +41,7 @@ public class Workspace {
 	}
 	
 	private void setupBorderPane() {
-
-	    ElementPicker myPicker = new ElementPicker();
-
-//	    PickerMenu myPicker = new PickerMenu();
+	    myPicker = new ElementPicker();
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 									  Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));

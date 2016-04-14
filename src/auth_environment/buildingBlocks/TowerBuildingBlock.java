@@ -23,7 +23,6 @@ public class TowerBuildingBlock extends BuildingBlock{
 	
 	public TowerBuildingBlock() {
 		// TODO Auto-generated constructor stub
-
 	}
 
 	public double getRange() {

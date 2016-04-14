@@ -11,21 +11,14 @@ import javafx.scene.control.TabPane;
 public class MenuToolBar extends MenuBar {
 	
 	private TabPane myTabPane; 
-
-//	public MenuToolBar(TabPane tabPane, PickerMenu myPicker) {
-//		this.myTabPane = tabPane; 
-//		this.init(myPicker);
-//	}
-//
-//	private List<Menu> defaultMenus(PickerMenu myPicker) {
-
 	private ISettings mySettings;
-
+	
 	public MenuToolBar(TabPane tabPane, ElementPicker myPicker, ISettings settings) {
-		this.mySettings = settings; 
+		this.mySettings = settings;
 		this.myTabPane = tabPane; 
 		this.init(myPicker);
 	}
+
 	
 	private List<Menu> defaultMenus(ElementPicker myPicker) {
 		List<Menu> myMenus = Arrays.asList(
