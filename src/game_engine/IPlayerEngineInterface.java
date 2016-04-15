@@ -4,7 +4,7 @@ import java.util.List;
 
 import game_data.GameData;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
@@ -50,7 +50,7 @@ public interface IPlayerEngineInterface {
     
     public List<Unit> getTerrains();
     
-    public List<Path> getPaths();
+    public List<Branch> getPaths();
 
 	public List<Level> getLevels();
 	

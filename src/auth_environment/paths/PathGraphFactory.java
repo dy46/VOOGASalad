@@ -2,7 +2,7 @@ package auth_environment.paths;
 
 import java.util.Arrays;
 import java.util.List;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PathGraphFactory {
@@ -88,7 +88,7 @@ public class PathGraphFactory {
 		return myForest;
 	}
 	
-	public List<Path> getPaths(){
+	public List<Branch> getPaths(){
 		System.out.println(myForest.getPaths());
 		return myForest.getPaths();
 	}

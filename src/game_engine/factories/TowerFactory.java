@@ -10,7 +10,7 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.libraries.AffectorLibrary;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
@@ -37,7 +37,7 @@ public class TowerFactory {
 		Health hp = tBlock.getMyHealth();
 		Velocity velo = tBlock.getMyVelocity();
 		State towerState = new State("Stationary");
-		Movement movement = new Movement(Arrays.asList(new Path("Something here"))); 
+		Movement movement = new Movement(Arrays.asList(new Branch("Something here"))); 
 		UnitProperties towerProp = new UnitProperties(hp, null, null, velo, null, null, null, towerState, movement); 
 		t.setProperties(towerProp);
 		t.setTTL(1000000);
@@ -64,7 +64,7 @@ public class TowerFactory {
 		l1.add(new Position(0,30));
 		Bounds b = new Bounds(l1);
 		State st = new State("Moving");
-		Path p2 = new Path("Something here");
+		Branch p2 = new Branch("Something here");
 		Health h = new Health(30);
 		p2.addPosition(startingPosition.copyPosition());
 		p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
@@ -78,21 +78,21 @@ public class TowerFactory {
 		p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
 		p.setProperties(properties);
 		Projectile pp2 = p.copyProjectile();
-		Path path2 = new Path("Something here");
+		Branch path2 = new Branch("Something here");
 		path2.addPosition(startingPosition.copyPosition());
 		path2.addPosition(new Position(startingPosition.getX()-900, startingPosition.getY()));
 		pp2.getProperties().setVelocity(0.5, 90);
 		pp2.getProperties().setMovement(new Movement(Arrays.asList(path2)));
 
 		Projectile pp3 = p.copyProjectile();
-		Path path3 = new Path("Something here");
+		Branch path3 = new Branch("Something here");
 		path3.addPosition(startingPosition.copyPosition());
 		path3.addPosition(new Position(startingPosition.getX(), startingPosition.getY()+900));
 		pp3.getProperties().setVelocity(0.5, 0);
 		pp3.getProperties().setMovement(new Movement(Arrays.asList(path3)));
 
 		Projectile pp4 = p.copyProjectile();
-		Path path4 = new Path("Something here");
+		Branch path4 = new Branch("Something here");
 		path4.addPosition(startingPosition.copyPosition());
 		path4.addPosition(new Position(startingPosition.getX()+900, startingPosition.getY()));
 		pp4.getProperties().setVelocity(0.5, 270);
@@ -100,28 +100,28 @@ public class TowerFactory {
 
 
 		Projectile pp5 = p.copyProjectile();
-		Path path5 = new Path("Something here");
+		Branch path5 = new Branch("Something here");
 		path5.addPosition(startingPosition.copyPosition());
 		path5.addPosition(new Position(startingPosition.getX()+450, startingPosition.getY()+450));
 		pp5.getProperties().setVelocity(0.5, 225);
 		pp5.getProperties().setMovement(new Movement(Arrays.asList(path5)));
 
 		Projectile pp6 = p.copyProjectile();
-		Path path6 = new Path("Something here");
+		Branch path6 = new Branch("Something here");
 		path6.addPosition(startingPosition.copyPosition());
 		path6.addPosition(new Position(startingPosition.getX()-450, startingPosition.getY()+450));
 		pp6.getProperties().setVelocity(0.5, 135);
 		pp6.getProperties().setMovement(new Movement(Arrays.asList(path6)));
 
 		Projectile pp7 = p.copyProjectile();
-		Path path7 = new Path("Something here");
+		Branch path7 = new Branch("Something here");
 		path7.addPosition(startingPosition.copyPosition());
 		path7.addPosition(new Position(startingPosition.getX()+450, startingPosition.getY()-450));
 		pp7.getProperties().setVelocity(0.5, 315);
 		pp7.getProperties().setMovement(new Movement(Arrays.asList(path7)));
 
 		Projectile pp8 = p.copyProjectile();
-		Path path8 = new Path("Something here");
+		Branch path8 = new Branch("Something here");
 		path8.addPosition(startingPosition.copyPosition());
 		path8.addPosition(new Position(startingPosition.getX()-450, startingPosition.getY()-450));
 		pp8.getProperties().setVelocity(0.5, 45);
@@ -157,7 +157,7 @@ public class TowerFactory {
 		l1.add(new Position(0, 30));
 		Bounds b = new Bounds(l1);
 		State st = new State("Moving");
-		Path p2 = new Path("Something here");
+		Branch p2 = new Branch("Something here");
 		p2.addPosition(startingPosition.copyPosition());
 		p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY() - 900));
 		UnitProperties properties =
@@ -191,7 +191,7 @@ public class TowerFactory {
 		l1.add(new Position(0,30));
 		Bounds b = new Bounds(l1);
 		State st = new State("Moving");
-		Path p2 = new Path("Something here");
+		Branch p2 = new Branch("Something here");
 		p2.addPosition(startingPosition.copyPosition());
 		p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
 		Movement movement = new Movement(Arrays.asList(p2));
@@ -221,7 +221,7 @@ public class TowerFactory {
 		Position position2 = new Position(200, 300);
 		Velocity velocity2 = new Velocity(0, 180);
 		State st = new State ("Stationary");
-		Movement p2 = new Movement(Arrays.asList(new Path("Something here")));
+		Movement p2 = new Movement(Arrays.asList(new Branch("Something here")));
 		UnitProperties properties2 = new UnitProperties(health2, null, null, velocity2, b, position2, null, st, p2);
 		t.setProperties(properties2);
 		t.setTTL(1000000);

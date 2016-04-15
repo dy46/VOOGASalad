@@ -1,10 +1,11 @@
 package game_engine.properties;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 
 public class UnitProperties {
 
@@ -24,10 +25,11 @@ public class UnitProperties {
 	private static String DEFAULT_TEAM = "0";
 	private static double DEFAULT_SPEED = 1;
 	private static double DEFAULT_DIRECTION = 90;
-	private static List<Position> DEFAULT_BOUNDS = new ArrayList<Position>();
+	private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
 	private static double DEFAULT_X_POS = 0;
 	private static double DEFAULT_Y_POS = 0;
 	private static double DEFAULT_PRICE = 0;
+	private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
 
 	public UnitProperties(Health health, Damage damage, 
 			Team team, Velocity velocity, 
@@ -54,7 +56,7 @@ public class UnitProperties {
 		newProperties.myVelocity = this.getVelocity().copyVelocity();
 		newProperties.myBounds = this.getBounds().copyBounds();
 		newProperties.myPosition = this.myPosition.copyPosition();
-		newProperties.myMovement = new Movement(myMovement.getPaths().stream().map(p -> p.copyPath()).collect(Collectors.toList()));
+		newProperties.myMovement = this.myMovement.copyMovement();
 		//newProperties.myPaths = this.myPath.copyPath();
 		//            newProperties.myPrice = this.myPrice.copyPrice();
 		return newProperties;
@@ -69,6 +71,7 @@ public class UnitProperties {
 		myBounds = new Bounds(DEFAULT_BOUNDS);
 		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
+		myMovement = new Movement(DEFAULT_PATHS);
 	}
 
 	public Health getHealth(){

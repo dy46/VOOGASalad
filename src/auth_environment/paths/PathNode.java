@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PathNode {
@@ -32,8 +32,8 @@ public class PathNode {
 		return nodes;
 	}
 	
-	public List<Path> getPaths(){
-		return myBranches.stream().map(p -> new Path(p.getID()+"", p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
+	public List<Branch> getPaths(){
+		return myBranches.stream().map(p -> new Branch(p.getID()+"", p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
 	}
 	
 	public int getID(){

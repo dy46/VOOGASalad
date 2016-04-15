@@ -13,7 +13,7 @@ import auth_environment.view.Tile;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
 import game_engine.TestingEngineWorkspace;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -173,7 +173,7 @@ public class GameView implements IGameView{
 
 
 	public void placePath () {
-		List<Path> currPaths = playerEngineInterface.getPaths();
+		List<Branch> currPaths = playerEngineInterface.getPaths();
 		List<Position> allPositions = new ArrayList<>();
 		currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {
