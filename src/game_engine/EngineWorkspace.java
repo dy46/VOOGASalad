@@ -72,6 +72,8 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	private void initialize(){
 		if(myLevels == null)	myLevels = new ArrayList<>();
+		myAffectors.stream().forEach(a -> a.setWorkspace(this));
+		myCurrentLevel = myLevels.get(0);
 		if(myPaths == null)		myPaths = new ArrayList<>();
 		if(myEnemys == null)	myEnemys = new ArrayList<>();
 		if(myProjectiles == null)	myProjectiles = new ArrayList<>();
@@ -85,8 +87,6 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 			myLevels.add(l);
 			myCurrentLevel = l;
 		}
-		myAffectors.stream().forEach(a -> a.setWorkspace(this));
-		myCurrentLevel = myLevels.get(0);
 	}
 
 	public void updateElements() {

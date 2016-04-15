@@ -59,7 +59,7 @@ public class Affector {
 
 	public void apply(Unit u) {
 		updateElapsedTime();
-	};
+	}
 
 	public int getElapsedTime(){
 		return elapsedTime;

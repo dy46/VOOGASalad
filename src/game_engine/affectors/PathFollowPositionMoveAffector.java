@@ -31,6 +31,9 @@ public class PathFollowPositionMoveAffector extends Affector {
 			double speed = u.getProperties().getVelocity().getSpeed();
 			Movement move = u.getProperties().getMovement();
 			for (int i = 0; i < speed; i++) {
+				System.out.println("UNIT: " + u);
+				System.out.println(" Error?: ");
+				System.out.println(move.getNextPosition(u.getProperties().getPosition()));
 				Position next = move.getNextPosition(u.getProperties().getPosition());
 				u.getProperties().getPosition().setX(next.getX());
 				u.getProperties().getPosition().setY(next.getY());
