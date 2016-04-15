@@ -8,14 +8,14 @@ import game_engine.game_elements.Unit;
 
 public class HealthDamageAffector extends Affector{
 
-	public HealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-		super(functions, engineWorkspace);
+	public HealthDamageAffector(List<Function> functions){
+		super(functions);
 	}
 
 	@Override
 	public void apply(Unit unit) {
 		super.apply(unit);
-		double damage = getFunctions().get(0).evaluate(getElapsedTime());
+		double damage = getBaseNumbers().get(0);
 		unit.getProperties().getHealth().decrementValue(damage);   
 	}
 

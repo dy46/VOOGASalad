@@ -5,6 +5,7 @@ import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Path;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
@@ -19,29 +20,25 @@ import game_engine.properties.UnitProperties;
  */
 public class PathFollowPositionMoveAffector extends Affector {
 
-    public PathFollowPositionMoveAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
-    }
+	public PathFollowPositionMoveAffector(List<Function> functions){
+		super(functions);
+	}
 
-    @Override
-    public void apply (Unit u) {
-        super.apply(u);
-        if (this.getElapsedTime() <= this.getTTL()) {
-            double speed = u.getProperties().getVelocity().getSpeed();
-            Path myPath = u.getProperties().getPath();
-            for (int i = 0; i < speed; i++) {
-                Position curr = u.getProperties().getPosition();
-                Position next = myPath.getNextPosition(curr);
-                u.getProperties().getPosition().setX(next.getX());
-                u.getProperties().getPosition().setY(next.getY());
-
-            }
-            this.updateElapsedTime();
-        }
-        if (this.getElapsedTime() == this.getTTL()) {
-            // clear
-
-        }
-    }
+	@Override
+	public void apply (Unit u) {
+		super.apply(u);
+		if (this.getElapsedTime() <= this.getTTL()) {
+			double speed = u.getProperties().getVelocity().getSpeed();
+			Movement move = u.getProperties().getMovement();
+			for (int i = 0; i < speed; i++) {
+				Position next = move.getNextPosition(u.getProperties().getPosition());
+				u.getProperties().getPosition().setX(next.getX());
+				u.getProperties().getPosition().setY(next.getY());
+				u.getProperties().getVelocity().setDirection(move.getNextDirection(u.getProperties().getPosition(),
+																						  u.getProperties().getVelocity().getDirection()));
+			}
+			this.updateElapsedTime();
+		}
+	}
 
 }

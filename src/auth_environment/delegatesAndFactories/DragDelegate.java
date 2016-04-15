@@ -38,7 +38,7 @@ public class DragDelegate {
 		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println("Done"); 
+					System.out.println(source.getName()); 
 				}
 				event.consume();
 			}
@@ -81,14 +81,18 @@ public class DragDelegate {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) ); 
+//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) );
+					System.out.println("Name: " + db.getString());
 					target.setName(db.getString());
 					target.placeCurrentElement(); 
 					success = true;
+					System.out.println("hi");
 				}
 				event.setDropCompleted(success);
 				event.consume();
 			}
 		});
+		
+		
 	}
 }

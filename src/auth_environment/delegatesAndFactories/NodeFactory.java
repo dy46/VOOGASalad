@@ -87,6 +87,7 @@ public class NodeFactory {
 	}
 	
 	public Image buildImage(String imageName) {
+		System.out.println("Image name: " + imageName);
 		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
 	

@@ -14,7 +14,7 @@ public class Timer extends Unit{
 	
 	public Timer(String name, List<Affector> affectors, int numFrames){
 		super(name, affectors, numFrames);
-		setID(getWorkspace().getIDFactory().createID(this));
+//		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}
 	

@@ -10,9 +10,9 @@ import game_engine.properties.Position;
 
 public class CollisionDetector {
 
-	private EngineWorkspace myEngine;
+	private IPlayerEngineInterface myEngine;
 
-	public CollisionDetector (EngineWorkspace engine) {
+	public CollisionDetector (IPlayerEngineInterface engine) {
 		myEngine = engine;
 	}
 

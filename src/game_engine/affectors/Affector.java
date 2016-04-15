@@ -15,7 +15,7 @@ public class Affector {
 	private List<Function> myFunctions;
 	private IPlayerEngineInterface engineWorkspace;
 
-	/*
+	/**
 	 * Applies an effect to a unit by altering the 
 	 * UnitProperties of a GameElement object. The effect is determined
 	 * by the implementation of the method (this could involve)
@@ -27,10 +27,13 @@ public class Affector {
 	 *
 	 */
 
-	public Affector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
+	public Affector(List<Function> functions){
 		this.myFunctions = functions;
 		this.elapsedTime = 0;
-		this.engineWorkspace = engineWorkspace;
+	}
+	
+	public void setWorkspace(IPlayerEngineInterface workspace){
+		this.engineWorkspace = workspace;
 	}
 
 	public Affector(){
@@ -42,8 +45,9 @@ public class Affector {
 		Affector copy = null;
 		try {
 			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class, IPlayerEngineInterface.class)
-					.newInstance(this.getFunctions(), this.getEngineWorkspace());
+					.getConstructor(List.class)
+					.newInstance(this.getFunctions());
+			copy.setWorkspace(this.getEngineWorkspace());
 		}
 		catch (Exception e) {
 			e.printStackTrace();
