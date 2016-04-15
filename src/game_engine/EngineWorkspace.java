@@ -63,6 +63,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myTowers = gameData.getTowers();
 		myTowerTypes = gameData.getTowerTypes();
 		myAffectors = gameData.getAffectors();
+		myTerrains = gameData.getTerrains();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
@@ -85,6 +86,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 			myCurrentLevel = l;
 		}
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
+		myCurrentLevel = myLevels.get(0);
 	}
 
 	public void updateElements() {

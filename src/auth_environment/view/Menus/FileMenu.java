@@ -8,6 +8,8 @@ import auth_environment.backend.ISettings;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import game_data.AuthSerializer;
 import game_data.GameData;
+import game_engine.IPlayerEngineInterface;
+import game_engine.TestingEngineWorkspace;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
@@ -54,11 +56,19 @@ public class FileMenu extends Menu {
 
 	private void writeToGameData() {
 		//	gameData.setLevels(myPicker.getLevels());
-		myGameDataController.getGameData().setEnemies(myGameDataController.getPicker().getEnemies());
-		myGameDataController.getGameData().setTerrains(myGameDataController.getPicker().getTerrains());
-		myGameDataController.getGameData().setTowerTypes(myGameDataController.getPicker().getTowers());
-		myGameDataController.getGameData().setPaths(myGameDataController.getPathGraphFactory().getPaths());
-		System.out.println("TEST: " + myGameDataController.getGameData().getPaths());
+//		myGameDataController.getGameData().setEnemies(myGameDataController.getPicker().getEnemies());
+//		myGameDataController.getGameData().setTerrains(myGameDataController.getPicker().getTerrains());
+//		myGameDataController.getGameData().setTowerTypes(myGameDataController.getPicker().getTowers());
+//		myGameDataController.getGameData().setPaths(myGameDataController.getPathGraphFactory().getPaths());
+		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		myGameDataController.getGameData().setPaths(test.getPaths());
+		myGameDataController.getGameData().setEnemies(test.getEnemies());
+		myGameDataController.getGameData().setTerrains(test.getTerrains());
+		myGameDataController.getGameData().setTowerTypes(test.getTowerTypes());
+		myGameDataController.getGameData().setTowers(test.getTowers());
+		myGameDataController.getGameData().setProjectiles(test.getProjectiles());
+		myGameDataController.getGameData().setLevels(test.getLevels());
+		myGameDataController.getGameData().setAffectors(test.getAffectors());
 	}
 
 	private void load() {

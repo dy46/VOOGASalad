@@ -60,6 +60,10 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
+	public TestingEngineWorkspace(){
+		setUpEngine(null);
+	}
+	
 	public void setUpEngine (GameData gameData) {
 		myLives = 3;
 		myLevels = new ArrayList<>();
@@ -88,6 +92,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		myBalance = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
+		myLevels.add(myCurrentLevel);
 		myAffectors = myAffectorFactory.getAffectorLibrary().getAffectors();
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
@@ -415,6 +420,10 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 	@Override
 	public List<Tower> getTowerTypes () {
 		return myTowerTypes;
+	}
+	
+	public List<Affector> getAffectors(){
+		return myAffectors;
 	}
 
 }
