@@ -5,7 +5,7 @@ import java.util.List;
 import auth_environment.backend.ISettings;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
@@ -35,7 +35,7 @@ public interface IGameData {
 	//Getters
 	public List<Level> getLevels();
 	public List<Tower> getTowerTypes();
-	public List<Path> getPaths();
+	public List<Branch> getPaths();
 	public ISettings getSettings();
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();

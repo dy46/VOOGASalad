@@ -18,14 +18,6 @@ public class Enemy extends Unit {
     public void fire () {
 
     }
-
-    /*
-     * updates the Enemy's health when an Affector is applied to it.
-     */
-
-    public String toFile () {
-        return "Enemy " + getID();
-    }
     
     public void update() {
         super.update();

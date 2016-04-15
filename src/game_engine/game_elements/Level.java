@@ -103,10 +103,6 @@ public class Level extends GameElement {
         return String.valueOf(myWaves.size());
     }
 
-    public String toFile () {
-        return getID();
-    }
-
     public int getMyLives () {
         return myLives;
     }

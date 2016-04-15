@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import game_data.GameData;
+import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -14,7 +15,7 @@ import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
@@ -36,7 +37,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
-	private List<Path> myPaths;
+	private List<Branch> myPaths;
 
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
@@ -50,6 +51,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private int myLives;
 
 	private List<Unit> myTerrains;
+	private List<Affector> myAffectors;
 
 	public void setUpEngine (GameData gameData) {
 		myLives = 3;
@@ -60,6 +62,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myProjectiles = gameData.getProjectiles();
 		myTowers = gameData.getTowers();
 		myTowerTypes = gameData.getTowerTypes();
+		myAffectors = gameData.getAffectors();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
@@ -74,12 +77,14 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		if(myTowers == null)	myTowers = new ArrayList<>();
 		if(myTowerTypes == null)	myTowerTypes = new ArrayList<>();
 		if(myTerrains == null)	myTerrains = new ArrayList<>();
+		if(myAffectors == null)	myAffectors = new ArrayList<>();
 		if(myLevels.size() == 0){
 			Wave w = new Wave("temp", 0);
 			Level l = new Level("temp2", w, 3);
 			myLevels.add(l);
 			myCurrentLevel = l;
 		}
+		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
 
 	public void updateElements() {
@@ -187,7 +192,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	public List<Level> getLevels() { return myLevels; }
 
-	public List<Path> getPaths() { return myPaths; }
+	public List<Branch> getPaths() { return myPaths; }
 
 	public List<Tower> getTowerTypes() { return myTowerTypes; }
 
@@ -225,13 +230,13 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	@Override
-    public void addTower (String name, double x, double y) {
-        for(int i = 0; i < myTowerTypes.size(); i++) {
-            if(myTowerTypes.get(i).toString().equals(name)) {
-                Tower newTower = myTowerTypes.get(i).copyTower(x, y);
-                myTowers.add(newTower);
-            }
-        }
-    }
+	public void addTower (String name, double x, double y) {
+		for(int i = 0; i < myTowerTypes.size(); i++) {
+			if(myTowerTypes.get(i).toString().equals(name)) {
+				Tower newTower = myTowerTypes.get(i).copyTower(x, y);
+				myTowers.add(newTower);
+			}
+		}
+	}
 
 }

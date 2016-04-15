@@ -3,32 +3,49 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import auth_environment.paths.Branch;
-
+import java.util.stream.Collectors;
 import java.util.List;
-import java.util.Map;
 import game_engine.properties.Position;
 
 /*
  * Internal API that will be used in order to represent paths 
  * for enemy movements.
  */
-public class Path extends Unit{
+public class Branch extends Unit{
 
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
 	private boolean cycle;
 	private List<Branch> myNeighbors;
+	private int myID;
+	
+	public Branch(List<Position> positions, int ID){
+		super(ID+"");
+		this.myID = ID;
+		myPositions = positions;
+		myNeighbors = new ArrayList<>();
+	}
 
-	public Path(String name){
+	public Branch(int ID) {
+		super(ID+"");
+		this.myPositions = new ArrayList<>();
+		this.myNeighbors = new ArrayList<>();
+	}
+
+	public Branch(String name){
 		super(name);
 		//		setID(getWorkspace().getIDFactory().createID(this));
 		cycle = false;
 		initialize();
 	}
+	
+	public Branch(String name, List<Position> positions){
+		super(name);
+		cycle = false;
+		initialize(positions, new ArrayList<>());
+	}
 
-	public Path(String name, List<Position> positions, List<Branch> neighbors) {
+	public Branch(String name, List<Position> positions, List<Branch> neighbors) {
 		super(name);
 		cycle = false;
 		initialize(positions, neighbors);
@@ -109,15 +126,13 @@ public class Path extends Unit{
 			return nextPositions.get(closest);
 		}
 	}
-
-	public String toFile(){
-		return getID();
-	}
-	public Path copyPath(){
-		Path newPath = new Path("");
+	
+	public Branch copyBranch(){
+		Branch newPath = new Branch("");
 		this.myPositions.forEach(t -> {
 			newPath.addPosition(t.copyPosition());
 		});
+		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
 		return newPath;
 	}
 
@@ -156,6 +171,47 @@ public class Path extends Unit{
 
 	public Position getLastPosition() {
 		return myPositions.get(myPositions.size()-1);
+	}
+
+	public void addNeighbor(Branch neighbor){
+		this.myNeighbors.add(neighbor);
+	}
+
+	public void addPositions(List<Position> positions){
+		this.myPositions.addAll(positions);
+	}
+
+	public List<Position> getPositions(){
+		return myPositions;
+	}
+
+	public List<Branch> getNeighbors(){
+		return myNeighbors;
+	}
+
+	public int getID(){
+		return myID;
+	}
+
+	public List<Position> cutoffByPosition(Position pos){
+		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
+		cutoff.clear();
+		return cutoff;
+	}
+
+	public void addNeighbors(List<Branch> neighbors) {
+		myNeighbors.addAll(neighbors);
+	}
+
+	public List<Branch> removeNeighbors(List<Branch> neighbors){
+		List<Branch> removed = new ArrayList<>();
+		for(Branch neighbor : neighbors){
+			if(myNeighbors.contains(neighbor)){
+				myNeighbors.remove(neighbor);
+				removed.add(neighbor);
+			}
+		}
+		return removed;
 	}
 
 }

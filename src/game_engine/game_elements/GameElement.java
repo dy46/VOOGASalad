@@ -10,7 +10,6 @@ import game_engine.EngineWorkspace;
 
 public abstract class GameElement {
 	
-	private String myID;
 	private String myName;
 	private EngineWorkspace myWorkspace;
 	
@@ -22,16 +21,8 @@ public abstract class GameElement {
 		this.myWorkspace = workspace;
 	}
 	
-	public String getID(){
-		return myID;
-	}
-	
 	public EngineWorkspace getWorkspace(){
 		return myWorkspace;
-	}
-	
-	public void setID(String ID){
-		this.myID = ID;
 	}
 	
 	/*

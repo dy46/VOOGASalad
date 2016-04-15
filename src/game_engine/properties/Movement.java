@@ -1,69 +1,74 @@
 package game_engine.properties;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 
 public class Movement {
 
-	private List<Path> myPaths;
-	private int currentPathIndex;
-	private Path currentPath;
+	private List<Branch> myBranches;
+	private int currentBranchIndex;
+	private Branch currentBranch;
 
-	public Movement(List<Path> paths){
-		this.myPaths = paths;
-		currentPathIndex = 0;
-		if(paths.size() > 0)
-			currentPath = myPaths.get(0);
+	public Movement(List<Branch> branches){
+		this.myBranches = branches;
+		currentBranchIndex = 0;
+		if(branches.size() > 0)
+			currentBranch = myBranches.get(0);
 	}
 
-	public List<Path> getPaths(){
-		return myPaths;
+	public List<Branch> getBranches(){
+		return myBranches;
 	}
 
-	public void setPaths(List<Path> paths){
-		this.myPaths = paths;
+	public void setBranches(List<Branch> branches){
+		this.myBranches = branches;
 	}
 
 	public boolean isUnitAtLastPosition(Unit u) {
-		return getLastPath().isUnitAtLastPosition(u);
+		return getLastBranch().isUnitAtLastPosition(u);
+	}
+	
+	public Movement copyMovement(){
+		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
 	}
 
-	public Path getCurrentPath(){
-		return currentPath;
+	public Branch getCurrentBranch(){
+		return currentBranch;
 	}
 
-	private Path getLastPath(){
-		return myPaths.get(myPaths.size()-1);
+	private Branch getLastBranch(){
+		return myBranches.get(myBranches.size()-1);
 	}
 
-	public Path getNextPath() {
-		if(getLastPath().equals(currentPath))
+	public Branch getNextBranch() {
+		if(getLastBranch().equals(currentBranch))
 			return null;
-		return myPaths.get(currentPathIndex++);
+		return myBranches.get(currentBranchIndex++);
 	}
 
 	public double getNextDirection(Position currentPosition, double currDirection){
 		// TODO: womp exception if nextDirection is null? this shouldn't happen
-		if(currentPosition.equals(getLastPath().getLastPosition())) {
+		if(currentPosition.equals(getLastBranch().getLastPosition())) {
 			return currDirection;
 		}
-		return currentPath.getNextDirection(currentPosition);
+		return currentBranch.getNextDirection(currentPosition);
 	}
 
 	public Position getNextPosition(Position currentPosition){
-		if(currentPath == null){
-			return getLastPath().getLastPosition();
+		if(currentBranch == null){
+			return getLastBranch().getLastPosition();
 		}
-		Position next = currentPath.getNextPosition(currentPosition);
+		Position next = currentBranch.getNextPosition(currentPosition);
 		if(next == null){
-			System.out.println("My paths: " + myPaths.size());
-			currentPath = getNextPath();
-			if(currentPath == null) {
-				return getLastPath().getLastPosition();
+			System.out.println("My branches: " + myBranches.size());
+			currentBranch = getNextBranch();
+			if(currentBranch == null) {
+				return getLastBranch().getLastPosition();
 			}
-			next = currentPath.getFirstPosition();
+			next = currentBranch.getFirstPosition();
 		}
 		return next;
 	}

@@ -41,15 +41,15 @@ public class Tower extends Unit {
 		List<Affector> copyAffectors = new ArrayList<>();
 		List<Projectile> newMyProjectiles = myProjectiles.stream().map(p -> p.copyProjectile()).collect(Collectors.toList());
 		for(int i = 0; i < newMyProjectiles.size(); i++) {
-			List<Path> paths = newMyProjectiles.get(i).getProperties().getMovement().getPaths();
-			List<Position> newMyPositions = paths.get(0).getMyPositions().stream().map(p -> p.copyPosition()).collect(Collectors.toList());
-			List<Path> newPaths = Arrays.asList(new Path("SomePath"));
+			List<Branch> branches = newMyProjectiles.get(i).getProperties().getMovement().getBranches();
+			List<Position> newMyPositions = branches.get(0).getMyPositions().stream().map(p -> p.copyPosition()).collect(Collectors.toList());
+			List<Branch> newBranches = Arrays.asList(new Branch("SomePath"));
 			for(int j = 0; j < newMyPositions.size(); j++) {
 				newMyPositions.get(j).addToXY(x - this.getProperties().getPosition().getX(), 
 						y - this.getProperties().getPosition().getY());
-				newPaths.get(0).addPosition(newMyPositions.get(j));
+				newBranches.get(0).addPosition(newMyPositions.get(j));
 			}
-			newMyProjectiles.get(i).getProperties().getMovement().setPaths(newPaths);
+			newMyProjectiles.get(i).getProperties().getMovement().setBranches(newBranches);
 		}
 
 		Tower copy = new Tower(this.toString(), copyAffectors, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());

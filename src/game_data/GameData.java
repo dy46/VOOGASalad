@@ -7,10 +7,9 @@ import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
 import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
-import game_engine.game_elements.Enemy;
+import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Path;
-import game_engine.game_elements.Terrain;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -19,16 +18,18 @@ public class GameData implements IGameData {
 	private List<Level> myLevels;
 	private List<Tower> myTowerTypes;
 	private List<Unit> myTowers;
-	private List<Path> myPaths;
+	private List<Branch> myPaths;
 	private List<Unit> myTerrains;
 	private List<Unit> myEnemies;
 	private List<Unit> myProjectiles;
+	private List<Affector> myAffectors;
 	private ISettings mySettings;
 	//	private List<Unit> myTerrains;
 	private IDataConverter<IPlayerEngineInterface> mySerializer;
 	private List<List<Position>> myPositionLists;
 
 	public GameData(){
+		myAffectors = new ArrayList<>();
 		myLevels = new ArrayList<>();
 		myTowerTypes = new ArrayList<>();
 		myPaths = new ArrayList<>();
@@ -84,7 +85,7 @@ public class GameData implements IGameData {
 		return myTowerTypes;
 	}
 	@Override
-	public List<Path> getPaths() {
+	public List<Branch> getPaths() {
 		return myPaths;
 	}
 	@Override
@@ -96,13 +97,6 @@ public class GameData implements IGameData {
 	public void saveGameData() {
 		IPlayerEngineInterface workspace = new EngineWorkspace();
 		workspace.setUpEngine(this);
-//		workspace.setPaths(myPaths);
-//		workspace.setTerrains(myTerrains);
-//		workspace.setTowerTypes (myTowerTypes);
-//		workspace.setLevels (myLevels);
-//		workspace.setEnemies(myEnemies);
-//		workspace.setProjectiles(myProjectiles);
-//		workspace.setTowers(myTowers);
 		mySerializer.saveElement(workspace);
 	}
 
@@ -146,8 +140,16 @@ public class GameData implements IGameData {
 		this.myProjectiles = projectiles;
 	}
 
-	public void setPaths(List<Path> paths) {
+	public void setPaths(List<Branch> paths) {
 		this.myPaths = paths;
+	}
+	
+	public void setAffectors(List<Affector> affectors){
+		this.myAffectors = affectors;
+	}
+
+	public List<Affector> getAffectors() {
+		return myAffectors;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import game_data.GameData;
+import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -14,7 +15,7 @@ import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
@@ -36,7 +37,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
-	private List<Path> myPaths;
+	private List<Branch> myPaths;
 
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
@@ -53,6 +54,8 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
+	
+	private List<Affector> myAffectors;
 
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
@@ -61,7 +64,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		myLives = 3;
 		myLevels = new ArrayList<>();
 		myPaths = new ArrayList<>();
-		Path p2 = new Path("DirtNew");
+		Branch p2 = new Branch("DirtNew");
 		p2.addPosition(new Position(0, 30));
 		p2.addPosition(new Position(200, 30));
 		p2.addPosition(new Position(200, 200));
@@ -85,6 +88,8 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		myBalance = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
+		myAffectors = myAffectorFactory.getAffectorLibrary().getAffectors();
+		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
 
 	private List<Tower> makeDummyTowers () {
@@ -329,7 +334,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		return myLevels;
 	}
 
-	public List<Path> getPaths () {
+	public List<Branch> getPaths () {
 		return myPaths;
 	}
 
