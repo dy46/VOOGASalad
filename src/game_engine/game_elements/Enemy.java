@@ -2,11 +2,12 @@ package game_engine.game_elements;
 
 import java.util.List;
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 
 public class Enemy extends Unit {
 
-    public Enemy (String name, List<Affector> affectors, int numFrames) {
-        super(name, affectors, numFrames);
+    public Enemy (String name, List<AffectorTimeline> timelines, int numFrames) {
+        super(name, timelines, numFrames);
         //setID(getWorkspace().getIDFactory().createID(this));
     }
 
@@ -18,13 +19,9 @@ public class Enemy extends Unit {
     public void fire () {
 
     }
-
-    /*
-     * updates the Enemy's health when an Affector is applied to it.
-     */
-
-    public String toFile () {
-        return "Enemy " + getID();
+    
+    public void update() {
+        super.update();
     }
 
 }

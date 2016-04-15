@@ -3,8 +3,10 @@ package game_engine.properties;
 public class Health {
 
 	private double myHealth;
+	private double initialHealth;
 	
 	public Health(double health){
+	        this.initialHealth = health;
 		this.myHealth = health;
 	}
 	
@@ -18,6 +20,10 @@ public class Health {
 	
 	public void decrementValue(double health) {
 	    this.myHealth -= health;
+	}
+	
+	public double getInitialValue() {
+	    return initialHealth;
 	}
 	
 	public Health copyHealth() {

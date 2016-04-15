@@ -8,8 +8,8 @@ import game_engine.game_elements.Unit;
 
 public class RandomPoisonHealthDamageAffector extends ExpIncrHealthDamageAffector{
 
-	public RandomPoisonHealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace) {
-		super(functions, engineWorkspace);
+	public RandomPoisonHealthDamageAffector(List<Function> functions) {
+		super(functions);
 	}
 
 	// poisons with 1/5th chance

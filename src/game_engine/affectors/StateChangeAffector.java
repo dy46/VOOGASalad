@@ -10,8 +10,8 @@ import game_engine.properties.UnitProperties;
 
 public class StateChangeAffector extends Affector {
     
-    public StateChangeAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
+    public StateChangeAffector(List<Function> functions){
+        super(functions);
     }
     
     @Override

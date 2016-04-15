@@ -2,6 +2,7 @@ package game_engine.game_elements;
 
 import java.util.List;
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 
 /*
 * External API interface that will be available to the authoring environment for extension and creation
@@ -12,9 +13,9 @@ public class Timer extends Unit{
 	
 	private int elapsedTicks;
 	
-	public Timer(String name, List<Affector> affectors, int numFrames){
-		super(name, affectors, numFrames);
-		setID(getWorkspace().getIDFactory().createID(this));
+	public Timer(String name, List<AffectorTimeline> timelines, int numFrames){
+		super(name, timelines, numFrames);
+//		setID(getWorkspace().getIDFactory().createID(this));
 		initialize();
 	}
 	
