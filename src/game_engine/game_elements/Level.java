@@ -100,7 +100,7 @@ public class Level extends GameElement {
     }
 
     public String toString () {
-        return "Number of Waves: " + myWaves.size();
+        return String.valueOf(myWaves.size());
     }
 
     public String toFile () {

@@ -140,5 +140,22 @@ public class Path extends Unit{
 	public Position getFirstPosition() {
 		return myPositions.get(0);
 	}
+	
+	public Double getNextDirection (Position currentPosition) {
+        Position nextPosition = getNextPosition(currentPosition);
+        if(nextPosition == null){
+        	return null;
+        }
+        double dx = 
+                nextPosition.getX() - currentPosition.getX();
+        double dy = nextPosition.getY() - currentPosition.getY();
+        double newDir = Math.atan((dy) / (dx));
+        double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
+        return degreesDir;
+    }
+
+	public Position getLastPosition() {
+		return myPositions.get(myPositions.size()-1);
+	}
 
 }

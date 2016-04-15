@@ -145,4 +145,8 @@ public class UnitProperties {
 		return myMovement;
 	}
 
+	public void setMovement(Movement movement) {
+		this.myMovement = movement;
+	}
+
 }

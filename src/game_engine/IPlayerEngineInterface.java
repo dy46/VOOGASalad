@@ -3,10 +3,8 @@ package game_engine;
 import java.util.List;
 
 import game_data.GameData;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Path;
-import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
@@ -38,7 +36,7 @@ public interface IPlayerEngineInterface {
     String getGameStatus();
     
     //tells engine to add tower to its active tower list given a tower index
-    void addTower(double x, double y, int towerTypeIndex);
+    void addTower(String name, double x, double y);
     
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
@@ -54,8 +52,6 @@ public interface IPlayerEngineInterface {
     
     public List<Path> getPaths();
 
-	public List<Tower> getTowerTypes();
-
 	public List<Level> getLevels();
 	
     public int getLives();
@@ -63,21 +59,7 @@ public interface IPlayerEngineInterface {
     public List<Unit> getProjectiles();
 
     public void clearProjectiles();
-
+	
+    public List<Tower> getTowerTypes();
     
-    // Methods for GameData to populate an EngineWorkspace
-    public void setPaths(List<Path> paths);
-    
-	public void setTowerTypes (List<Tower> towerTypes);
-
-	public void setLevels (List<Level> levels);
-	
-	public void setTerrains(List<Unit> myTerrains);
-
-	public void setEnemies(List<Unit> myEnemies);
-
-	public void setProjectiles(List<Unit> myProjectiles);
-	
-	public void setTowers(List<Unit> myTowers);
-	
 }

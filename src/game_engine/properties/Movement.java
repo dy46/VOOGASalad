@@ -39,8 +39,33 @@ public class Movement {
 	}
 
 	public Path getNextPath() {
-		currentPath = myPaths.get(currentPathIndex++);
-		return currentPath;
+		if(getLastPath().equals(currentPath))
+			return null;
+		return myPaths.get(currentPathIndex++);
+	}
+
+	public double getNextDirection(Position currentPosition, double currDirection){
+		// TODO: womp exception if nextDirection is null? this shouldn't happen
+		if(currentPosition.equals(getLastPath().getLastPosition())) {
+			return currDirection;
+		}
+		return currentPath.getNextDirection(currentPosition);
+	}
+
+	public Position getNextPosition(Position currentPosition){
+		if(currentPath == null){
+			return getLastPath().getLastPosition();
+		}
+		Position next = currentPath.getNextPosition(currentPosition);
+		if(next == null){
+			System.out.println("My paths: " + myPaths.size());
+			currentPath = getNextPath();
+			if(currentPath == null) {
+				return getLastPath().getLastPosition();
+			}
+			next = currentPath.getFirstPosition();
+		}
+		return next;
 	}
 
 }

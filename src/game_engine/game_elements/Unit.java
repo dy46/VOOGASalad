@@ -73,7 +73,6 @@ public abstract class Unit extends GameElement {
 //				System.out.println("Enemy health: " + myProperties.getHealth().getValue());
 		}
 		if (!isAlive()) {
-			System.out.println("Dying");
 			setElapsedTimeToDeath();
 			setToDeath = true;
 		}
