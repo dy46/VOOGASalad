@@ -1,40 +1,23 @@
 package game_engine.affectors;
 
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
-public class HomingMoveAffector extends Affector {
+public class HomingMoveAffector extends SingleTrackRangeAffector {
 
-    private Unit trackedUnit;
-    private boolean firstApplication;
-
-    public HomingMoveAffector(List<Function> functions){
-	      super(functions);
-	      firstApplication = true;
+    public HomingMoveAffector(List<Function> functions, Bounds range){
+	      super(functions, range);
 	}
-
-    public void apply (Unit u) {
-        if(firstApplication) {
-            trackedUnit = findTrackedUnit(u.getProperties());
-            if(trackedUnit != null) {
-                updateDirectionAndPosition(u.getProperties());
-                changeEnemyDirection(u);
-                firstApplication = false;
-            }
-        }
-        else {
-            updateDirectionAndPosition(u.getProperties());
-        }
-    }
     
-    public void updateDirectionAndPosition(UnitProperties properties) {
+    public void futureApply(Unit u, Unit tracked) {
+        UnitProperties properties = u.getProperties();
         double speed = properties.getVelocity().getSpeed();
-        Position trackedPos = trackedUnit.getProperties().getPosition();
+        Position trackedPos = tracked.getProperties().getPosition();
         Position currPos = properties.getPosition();
         double currX = currPos.getX();
         double currY = currPos.getY();
@@ -45,29 +28,10 @@ public class HomingMoveAffector extends Affector {
         double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
         properties.getVelocity().setDirection(degreesDir);
         properties.getPosition().addToXY(speed*dx/num, speed*dy/num);
-        if(!trackedUnit.isVisible()) {
-            properties.getPosition().addToXY(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        }
     }
     
-    public Unit findTrackedUnit(UnitProperties properties) {
-        Position myPos = properties.getPosition();
-        double closestDiff = Double.MAX_VALUE;
-        Unit closestEnemy = null;
-        for(int i = 0; i < getEngineWorkspace().getEnemies().size(); i++) {
-            double currDiff;
-            Unit currEnemy = getEngineWorkspace().getEnemies().get(i);
-            Position currPos = currEnemy.getProperties().getPosition();
-            if ((currDiff = Math.abs(myPos.getX()-currPos.getX()) 
-                    + Math.abs(myPos.getY() - currPos.getY())) < closestDiff && currEnemy.isVisible()) {
-                closestDiff = currDiff;
-                closestEnemy = currEnemy;
-            }
-        }
-        return closestEnemy;
-    }
-    
-    public void changeEnemyDirection(Unit u) {
+    public void firstApply(Unit u, Unit tracked) {
+        futureApply(u, tracked);
         Unit tower = getEngineWorkspace().getTowers().get((u.getNumberList().get(0)).intValue());
         tower.getProperties().getVelocity().setDirection(u.getProperties().getVelocity().getDirection());
     }

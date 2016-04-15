@@ -4,6 +4,7 @@ import java.util.List;
 import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
 import game_engine.properties.UnitProperties;
 
 public class Affector {
@@ -12,6 +13,7 @@ public class Affector {
 	// this specifies how many ticks the affector applies its effect (it's "time to live")
 	private int TTL;
 	private int elapsedTime;
+	private Bounds range;
 	private List<Function> myFunctions;
 	private IPlayerEngineInterface engineWorkspace;
 
@@ -27,9 +29,10 @@ public class Affector {
 	 *
 	 */
 
-	public Affector(List<Function> functions){
+	public Affector(List<Function> functions, Bounds bounds){
 		this.myFunctions = functions;
 		this.elapsedTime = 0;
+		this.range = bounds;
 	}
 	
 	public void setWorkspace(IPlayerEngineInterface workspace){
@@ -45,8 +48,8 @@ public class Affector {
 		Affector copy = null;
 		try {
 			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class)
-					.newInstance(this.getFunctions());
+					.getConstructor(List.class, Bounds.class)
+					.newInstance(this.getFunctions(), this.getRange());
 			copy.setWorkspace(this.getEngineWorkspace());
 		}
 		catch (Exception e) {
@@ -103,6 +106,10 @@ public class Affector {
 
 	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
 		this.engineWorkspace = engineWorkspace;
+	}
+	
+	public Bounds getRange() {
+	    return range;
 	}
 
 }
