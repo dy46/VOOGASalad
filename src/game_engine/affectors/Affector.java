@@ -104,5 +104,13 @@ public class Affector {
 	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
 		this.engineWorkspace = engineWorkspace;
 	}
+	
+	public boolean collisionDeath(Unit unit){
+		if(unit.hasCollided()){
+			this.setElapsedTimeToDeath();
+			return true;
+		}
+		return false;
+	}
 
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Enemy;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Branch;
@@ -19,6 +18,7 @@ import game_engine.properties.Position;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
+import game_engine.timelines.Timeline;
 
 public class EnemyFactory {
 
@@ -32,7 +32,7 @@ public class EnemyFactory {
 		EnemyBuildingBlock eBlock = (EnemyBuildingBlock) block;
 		Affector moveAffector = myAffectorLibrary.getAffector(eBlock.getMyProperty(), eBlock.getMyBehavior());
 		moveAffector.setTTL(Integer.MAX_VALUE);
-		Enemy e = new Enemy(eBlock.getMyName(), Arrays.asList(new AffectorTimeline(Collections.singletonList(moveAffector))), 3); 
+		Enemy e = new Enemy(eBlock.getMyName(), Arrays.asList(new Timeline(Arrays.asList(Collections.singletonList(moveAffector)))), 3); 
 		Health health = eBlock.getMyHealth();
 		Velocity velo = eBlock.getMyVelocity(); 
 		Bounds b = eBlock.getMyBounds();
@@ -52,7 +52,7 @@ public class EnemyFactory {
 	public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
 		Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
 		moveAffector.setTTL(Integer.MAX_VALUE);
-		Enemy e1 = new Enemy(name, Arrays.asList(new AffectorTimeline(Collections.singletonList(moveAffector))), 3);
+		Enemy e1 = new Enemy(name, Arrays.asList(new Timeline(Arrays.asList(Collections.singletonList(moveAffector)))), 3);
 		Health health = new Health(50);
 		Velocity velocity = new Velocity(0.5, 90);
 		List<Position> l1 = new ArrayList<>();

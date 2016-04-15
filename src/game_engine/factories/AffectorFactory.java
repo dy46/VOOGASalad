@@ -60,10 +60,13 @@ public class AffectorFactory {
 		String effect6 = "PositionMove";
 		constructAffector(property6, effect6, null);
 
-
 		String property8 = "Homing";
 		String effect8 = "Move";
 		constructAffector(property8, effect8, null);
+		
+		String property7 = "Death";
+		String effect7 = "Activation";
+		constructAffector(property7, effect7, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

@@ -3,8 +3,8 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.Timeline;
 
 
 /**
@@ -18,8 +18,8 @@ import game_engine.properties.UnitProperties;
 public abstract class Unit extends GameElement {
 
 	private UnitProperties myProperties;
-	private List<AffectorTimeline> myTimelines;
-	private List<AffectorTimeline> myTimeslinesToApply;
+	private List<Timeline> myTimelines;
+	private List<Timeline> myTimeslinesToApply;
 	private int TTL;
 	private boolean setToDeath;
 	private boolean hasCollided;
@@ -28,7 +28,7 @@ public abstract class Unit extends GameElement {
 	private int numFrames;
 	private List<Double> numberList;
 
-	public Unit (String name, List<AffectorTimeline> timelines, int numFrames) {
+	public Unit (String name, List<Timeline> timelines, int numFrames) {
 		super(name);
 		initialize();
 		myProperties = new UnitProperties();
@@ -96,19 +96,19 @@ public abstract class Unit extends GameElement {
 		this.myProperties = properties;
 	}
 
-	public List<AffectorTimeline> getTimelines () {
+	public List<Timeline> getTimelines () {
 		return myTimelines;
 	}
 
-	public void setTimelines (List<AffectorTimeline> timelines) {
+	public void setTimelines (List<Timeline> timelines) {
 		this.myTimelines = timelines;
 	}
 
-	public List<AffectorTimeline> getTimelinesToApply() {
+	public List<Timeline> getTimelinesToApply() {
 		return myTimeslinesToApply;
 	}
 	
-	public void setTimelinesToApply(List<AffectorTimeline> timelinesToApply) {
+	public void setTimelinesToApply(List<Timeline> timelinesToApply) {
 		this.myTimeslinesToApply = timelinesToApply;
 	}
 
@@ -185,7 +185,7 @@ public abstract class Unit extends GameElement {
         this.numberList = numberList;
     }
 
-	public void addTimelines(List<AffectorTimeline> timelines) {
+	public void addTimelines(List<Timeline> timelines) {
 		myTimelines.addAll(timelines);
 	}
 

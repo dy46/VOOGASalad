@@ -3,7 +3,7 @@ package game_engine.game_elements;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
+import game_engine.timelines.Timeline;
 
 /*
 * Internal API that will be used to reflect the inclusion of terrain effects in games. 
@@ -26,7 +26,7 @@ public class Terrain extends Unit{
 	
 	public Terrain copyTerrain() {
 	    Terrain copy = new Terrain(this.toString(), this.getNumFrames());
-	    List<AffectorTimeline> copyApplyTimelines = this.getTimelinesToApply().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
+	    List<Timeline> copyApplyTimelines = this.getTimelinesToApply().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
 	    copy.setTimelinesToApply(copyApplyTimelines);
 	    copy.setTTL(this.getTTL());
 	    copy.getProperties().setPosition((this.getProperties().getPosition().copyPosition()));

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
+import game_engine.timelines.Timeline;
 
 
 public class CollisionDetector {
@@ -34,7 +34,6 @@ public class CollisionDetector {
 					unit.addTimelines(myProjectiles.get(i)
 							.getTimelinesToApply());
 					myProjectiles.get(i).setHasCollided(true);
-					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
 			}
 		}
@@ -45,7 +44,7 @@ public class CollisionDetector {
 			if (!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) ||
 					(!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
 				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
-					List<AffectorTimeline> newTimelinesToApply =
+					List<Timeline> newTimelinesToApply =
 							terrains.get(i).getTimelinesToApply().stream()
 							.map(t -> t.copyTimeline()).collect(Collectors.toList());
 					unit.addTimelines(newTimelinesToApply);
