@@ -7,6 +7,7 @@ import java.util.List;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Tower;
 import game_engine.libraries.AffectorLibrary;
@@ -32,7 +33,7 @@ public class TowerFactory {
 	public Tower defineTowerModel(BuildingBlock block){
 		TowerBuildingBlock tBlock = (TowerBuildingBlock) block;
 		List<Affector> affectors = new ArrayList<>(); 
-		Tower t = new Tower(tBlock.getMyName(), affectors, null, null, null, 2);
+		Tower t = new Tower(tBlock.getMyName(), Arrays.asList(new AffectorTimeline(affectors)), null, null, null, 2);
 		List<Position> l1 = new ArrayList<>();
 		Health hp = tBlock.getMyHealth();
 		Velocity velo = tBlock.getMyVelocity();
@@ -52,7 +53,7 @@ public class TowerFactory {
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();
 		Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
 		move.setTTL(Integer.MAX_VALUE);
-		Projectile p = new Projectile("Tack", Arrays.asList(move), 3);
+		Projectile p = new Projectile("Tack", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
 		p.setDeathDelay(30);
 		p.setTTL(30);
 		p.setFireRate(90);
@@ -75,7 +76,7 @@ public class TowerFactory {
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
 		stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
 		stateToDamaging.setTTL(1);
-		p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
+		p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays.asList(new Affector[]{damage, stateToDamaging}))));
 		p.setProperties(properties);
 		Projectile pp2 = p.copyProjectile();
 		Branch path2 = new Branch("Something here");
@@ -145,7 +146,7 @@ public class TowerFactory {
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();
 		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		move.setTTL(Integer.MAX_VALUE);
-		Projectile p = new Projectile("Projectile", Arrays.asList(move), 3);
+		Projectile p = new Projectile("Projectile", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
 		p.setDeathDelay(15);
 		p.setTTL(1000000);
 		p.setFireRate(90);
@@ -169,7 +170,7 @@ public class TowerFactory {
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
 		stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
 		stateToDamaging.setTTL(1);
-		p.setAffectorsToApply(Arrays.asList(new Affector[] { damage, stateToDamaging }));
+		p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays.asList(new Affector[] { damage, stateToDamaging }))));
 		p.setProperties(properties);
 		myProjectiles.add(p);
 		return createSpecifiedTower(name, myProjectiles2, myTowers, myProjectiles);
@@ -179,7 +180,7 @@ public class TowerFactory {
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();
 		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		move.setTTL(Integer.MAX_VALUE);
-		Projectile p = new Projectile("Projectile", Arrays.asList(move), 3);
+		Projectile p = new Projectile("Projectile", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
 		p.setDeathDelay(15);
 		p.setTTL(1000000);
 		p.setFireRate(90);
@@ -202,7 +203,7 @@ public class TowerFactory {
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
 		stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
 		stateToDamaging.setTTL(1);
-		p.setAffectorsToApply(Arrays.asList(new Affector[]{damage, stateToDamaging}));
+		p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays.asList(new Affector[]{damage, stateToDamaging}))));
 		p.setProperties(properties);
 		myProjectiles.add(p);
 		return createSpecifiedTower(name, myProjectiles2, myTowers, myProjectiles);
@@ -210,7 +211,7 @@ public class TowerFactory {
 
 	public Tower createSpecifiedTower(String name, List<Unit> myProjectiles2, List<Unit> myTowers, List<Projectile> myProjectiles) {
 		List<Affector> affectors = new ArrayList<>();
-		Tower t = new Tower(name, affectors, myProjectiles2, myProjectiles, myTowers, 2);
+		Tower t = new Tower(name, Arrays.asList(new AffectorTimeline(affectors)), myProjectiles2, myProjectiles, myTowers, 2);
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(0,0));
 		l1.add(new Position(70,0));
