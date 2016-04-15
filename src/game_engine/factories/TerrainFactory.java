@@ -56,8 +56,7 @@ public class TerrainFactory {
 		
 		List<Affector> affectors3 = new ArrayList<>();
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
-		constantDamage.setTTL(1);
-		constantDamage.setBaseNumbers(Arrays.asList(new Double[]{new Double(0.1)}));
+		constantDamage.setTTL(3);
 		affectors3.add(constantDamage);
 		Terrain spike = new Terrain("Spikes", 2);
 		spike.setTimelinesToApply(Arrays.asList(new Timeline(Arrays.asList(affectors3))));

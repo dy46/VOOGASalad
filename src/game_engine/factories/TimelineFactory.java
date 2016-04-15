@@ -1,10 +1,13 @@
 package game_engine.factories;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import game_engine.affectors.Affector;
+import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.TimelineLibrary;
+import game_engine.timelines.EndEvent;
 import game_engine.timelines.Timeline;
 
 public class TimelineFactory {
@@ -34,11 +37,16 @@ public class TimelineFactory {
 	}
 	
 	private void setDefaultTimelines(){
-		String name1 = "ForwardCollideDie";
+		String name1 = "PathFollowCollideDie";
 		Affector forward = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
 		Affector die = myAffectorLibrary.getAffector("Death", "Activation");
+		die.setTTL(1);
 		List<List<Affector>> affectors = Arrays.asList(Arrays.asList(forward), Arrays.asList(die));
 		constructTimeline(name1, affectors);
+	}
+
+	public TimelineLibrary getTimelineLibrary() {
+		return myTimelineLibrary;
 	}
 	
 }

@@ -12,6 +12,7 @@ import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.TerrainFactory;
+import game_engine.factories.TimelineFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
@@ -54,6 +55,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
+	private TimelineFactory myTimelineFactory;
 	
 	private List<Affector> myAffectors;
 
@@ -81,7 +83,8 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		// projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
-		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
+		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
+		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary(), myTimelineFactory.getTimelineLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();

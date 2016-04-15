@@ -65,12 +65,12 @@ public class PlayerGUI{
 	}
 	
 	private void createNewTab() {
-		gameEngine = new EngineWorkspace();
-		gameEngine = readData();
+//		gameEngine = new EngineWorkspace();
+//		gameEngine = readData();
 		
 		
-//		gameEngine = new TestingEngineWorkspace();
-//		gameEngine.setUpEngine(null);
+		gameEngine = new TestingEngineWorkspace();
+		gameEngine.setUpEngine(null);
 		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
