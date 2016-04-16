@@ -51,13 +51,13 @@ public class TowerFactory {
 			List<Unit> myTowers,
 			Position startingPosition) {
 		List<Projectile> myProjectiles = new ArrayList<Projectile>();
-		Affector move = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
+		Affector move = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
 		move.setTTL(Integer.MAX_VALUE);
 		Projectile p = new Projectile("Tack", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
 		p.setDeathDelay(30);
-		p.setTTL(30);
-		p.setFireRate(90);
-		Velocity velocity = new Velocity(0.5, 180);        
+		p.setTTL(60);
+		p.setFireRate(30);
+		Velocity velocity = new Velocity(0.5, 180); 
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(0,0));
 		l1.add(new Position(30,0));
@@ -65,10 +65,10 @@ public class TowerFactory {
 		l1.add(new Position(0,30));
 		Bounds b = new Bounds(l1);
 		State st = new State("Moving");
-		Branch p2 = new Branch("Something here");
+		Branch p2 = new Branch("MyBranch");
 		Health h = new Health(30);
 		p2.addPosition(startingPosition.copyPosition());
-		p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
+		p2.addPosition(new Position(startingPosition.getX()+636, startingPosition.getY()-636));
 		UnitProperties properties = new UnitProperties(h, null, null, velocity, b, startingPosition.copyPosition(), null, st, new Movement(Arrays.asList(p2)));
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
@@ -78,64 +78,87 @@ public class TowerFactory {
 		stateToDamaging.setTTL(1);
 		p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays.asList(new Affector[]{damage, stateToDamaging}))));
 		p.setProperties(properties);
+		
 		Projectile pp2 = p.copyProjectile();
+	        Affector move2 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+		pp2.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move2))));
 		Branch path2 = new Branch("Something here");
 		path2.addPosition(startingPosition.copyPosition());
-		path2.addPosition(new Position(startingPosition.getX()-900, startingPosition.getY()));
+		path2.addPosition(new Position(startingPosition.getX()-636, startingPosition.getY()+636));
 		pp2.getProperties().setVelocity(0.5, 90);
 		pp2.getProperties().setMovement(new Movement(Arrays.asList(path2)));
+		
+		
+              Projectile pp3 = p.copyProjectile();
+              pp3.setTTL(30);
+              Affector move3 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+              pp3.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move3))));
+              Branch path3 = new Branch("Something here");
+              path3.addPosition(startingPosition.copyPosition());
+              path3.addPosition(new Position(startingPosition.getX(), startingPosition.getY()+900));
+              pp3.getProperties().setVelocity(0.5, 0);
+              pp3.getProperties().setMovement(new Movement(Arrays.asList(path3)));
 
-		Projectile pp3 = p.copyProjectile();
-		Branch path3 = new Branch("Something here");
-		path3.addPosition(startingPosition.copyPosition());
-		path3.addPosition(new Position(startingPosition.getX(), startingPosition.getY()+900));
-		pp3.getProperties().setVelocity(0.5, 0);
-		pp3.getProperties().setMovement(new Movement(Arrays.asList(path3)));
-
-		Projectile pp4 = p.copyProjectile();
-		Branch path4 = new Branch("Something here");
-		path4.addPosition(startingPosition.copyPosition());
-		path4.addPosition(new Position(startingPosition.getX()+900, startingPosition.getY()));
-		pp4.getProperties().setVelocity(0.5, 270);
-		pp4.getProperties().setMovement(new Movement(Arrays.asList(path4)));
+              Projectile pp4 = p.copyProjectile();
+              pp4.setTTL(30);
+                    Affector move4 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+                      pp4.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move4))));
+              Branch path4 = new Branch("Something here");
+              path4.addPosition(startingPosition.copyPosition());
+              path4.addPosition(new Position(startingPosition.getX()+900, startingPosition.getY()));
+              pp4.getProperties().setVelocity(0.5, 270);
+              pp4.getProperties().setMovement(new Movement(Arrays.asList(path4)));
 
 
-		Projectile pp5 = p.copyProjectile();
-		Branch path5 = new Branch("Something here");
-		path5.addPosition(startingPosition.copyPosition());
-		path5.addPosition(new Position(startingPosition.getX()+450, startingPosition.getY()+450));
-		pp5.getProperties().setVelocity(0.5, 225);
-		pp5.getProperties().setMovement(new Movement(Arrays.asList(path5)));
+              Projectile pp5 = p.copyProjectile();
+              pp5.setTTL(30);
+                    Affector move5 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+                      pp5.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move5))));
+              Branch path5 = new Branch("Something here");
+              path5.addPosition(startingPosition.copyPosition());
+              path5.addPosition(new Position(startingPosition.getX()+636, startingPosition.getY()+636));
+              pp5.getProperties().setVelocity(0.5, 225);
+              pp5.getProperties().setMovement(new Movement(Arrays.asList(path5)));
 
-		Projectile pp6 = p.copyProjectile();
-		Branch path6 = new Branch("Something here");
-		path6.addPosition(startingPosition.copyPosition());
-		path6.addPosition(new Position(startingPosition.getX()-450, startingPosition.getY()+450));
-		pp6.getProperties().setVelocity(0.5, 135);
-		pp6.getProperties().setMovement(new Movement(Arrays.asList(path6)));
+              Projectile pp6 = p.copyProjectile();
+              pp6.setTTL(30);
+                    Affector move6 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+                      pp6.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move6))));
+              Branch path6 = new Branch("Something here");
+              path6.addPosition(startingPosition.copyPosition());
+              path6.addPosition(new Position(startingPosition.getX()-900, startingPosition.getY()));
+              pp6.getProperties().setVelocity(0.5, 135);
+              pp6.getProperties().setMovement(new Movement(Arrays.asList(path6)));
 
-		Projectile pp7 = p.copyProjectile();
-		Branch path7 = new Branch("Something here");
-		path7.addPosition(startingPosition.copyPosition());
-		path7.addPosition(new Position(startingPosition.getX()+450, startingPosition.getY()-450));
-		pp7.getProperties().setVelocity(0.5, 315);
-		pp7.getProperties().setMovement(new Movement(Arrays.asList(path7)));
+              Projectile pp7 = p.copyProjectile();
+              pp7.setTTL(30);
+                    Affector move7 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+                      pp7.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move7))));
+              Branch path7 = new Branch("Something here");
+              path7.addPosition(startingPosition.copyPosition());
+              path7.addPosition(new Position(startingPosition.getX(), startingPosition.getY()-900));
+              pp7.getProperties().setVelocity(0.5, 315);
+              pp7.getProperties().setMovement(new Movement(Arrays.asList(path7)));
 
-		Projectile pp8 = p.copyProjectile();
-		Branch path8 = new Branch("Something here");
-		path8.addPosition(startingPosition.copyPosition());
-		path8.addPosition(new Position(startingPosition.getX()-450, startingPosition.getY()-450));
-		pp8.getProperties().setVelocity(0.5, 45);
-		pp8.getProperties().setMovement(new Movement(Arrays.asList(path8)));
+              Projectile pp8 = p.copyProjectile();
+                    Affector move8 = myAffectorLibrary.getAffector("RangePathFollow", "PositionMove");
+                      pp8.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move8))));
+              Branch path8 = new Branch("Something here");
+              path8.addPosition(startingPosition.copyPosition());
+              path8.addPosition(new Position(startingPosition.getX()-450, startingPosition.getY()-450));
+              pp8.getProperties().setVelocity(0.5, 45);
+              pp8.getProperties().setMovement(new Movement(Arrays.asList(path8)));
 
-		myProjectiles.add(pp8);
-		myProjectiles.add(pp7);
-		myProjectiles.add(pp6);
-		myProjectiles.add(pp5);
-		myProjectiles.add(pp4);
-		myProjectiles.add(pp3);
+              myProjectiles.add(pp8);
+              myProjectiles.add(pp7);
+              myProjectiles.add(pp6);
+              myProjectiles.add(pp5);
+              myProjectiles.add(pp4);
+              myProjectiles.add(pp3);
 		myProjectiles.add(pp2);
+		
 		myProjectiles.add(p);
+		
 		return createSpecifiedTower(name, allProjectiles, myTowers, myProjectiles);
 	}
 
@@ -147,9 +170,9 @@ public class TowerFactory {
 		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		move.setTTL(Integer.MAX_VALUE);
 		Projectile p = new Projectile("Projectile", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
-		p.setDeathDelay(15);
+		p.setDeathDelay(5);
 		p.setTTL(1000000);
-		p.setFireRate(90);
+		p.setFireRate(30);
 		Velocity velocity = new Velocity(2, 90);
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(0, 0));

@@ -49,6 +49,10 @@ public class Projectile extends Unit {
     public void applyEffects (GameElement elem) {
 
     }
+    
+    public void update() {
+        super.update();
+    }
 
     public int getFireRate () {
         return fireRate;

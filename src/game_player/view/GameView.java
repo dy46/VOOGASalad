@@ -2,39 +2,18 @@ package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import auth_environment.backend.ISelector;
-import auth_environment.backend.SelectorModel;
-import game_data.AuthSerializer;
-import game_data.GameData;
-import game_data.IDataConverter;
-import auth_environment.delegatesAndFactories.DragDelegate;
-import auth_environment.view.RecTile;
-import auth_environment.view.Tile;
-import game_engine.EngineWorkspace;
 import game_engine.IPlayerEngineInterface;
-import game_engine.TestingEngineWorkspace;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_player.GameDataSource;
 import javafx.animation.AnimationTimer;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class GameView implements IGameView{
 	
@@ -62,12 +41,7 @@ public class GameView implements IGameView{
 	public GameView(IPlayerEngineInterface engine, GameCanvas canvas, Scene scene, PlayerMainTab tab) {
 		this.root = canvas.getRoot();
 		this.myScene = scene;
-		this.playerEngineInterface = engine;
-//		playerEngineInterface = new EngineWorkspace();
-//		playerEngineInterface = readData();
-		
-		
-		
+		this.playerEngineInterface = engine;	
 		gameData = new GameDataSource();
 		isPlaying = true;
 		this.towers = new ArrayList<>();
@@ -177,8 +151,7 @@ public class GameView implements IGameView{
 		List<Position> allPositions = new ArrayList<>();
 		currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {
-			//            Image img = new Image(currPaths.get(0).toString() + ".png");
-			Image img = new Image("DirtNew.png");
+			Image img = new Image(currPaths.get(0).toString() + ".png");
 			ImageView imgView = new ImageView(img);
 			imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
 			imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
@@ -189,6 +162,10 @@ public class GameView implements IGameView{
 	}
 
 	public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
+	        if(list.size() < imageViews.size()) {
+	            imageViews.stream().forEach(i -> root.getChildren().remove(i.getImageView()));
+	            imageViews.clear();
+	        }
 		for(int i = imageViews.size(); i < list.size(); i++) {
 			Unit u = list.get(i);
 			imageViews.add(new ImageViewPicker(u.toString(), u.getNumFrames(), 

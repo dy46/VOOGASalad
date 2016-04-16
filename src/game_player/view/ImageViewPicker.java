@@ -1,18 +1,23 @@
 package game_player.view;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import game_engine.CollisionDetector;
+import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import javafx.scene.Group;
+import game_engine.properties.Position;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 
 public class ImageViewPicker {
     
     public static String EXTENSION = ".png";
     public final String[] leftCornerElements = {"Terrain"};
     public final String[] needsHealth = {"Enemy"};
+    public final String[] seeRangeElements = {"Tower"};
     private ResourceBundle myBundle;
     private String name;
     private String currState;
@@ -22,6 +27,8 @@ public class ImageViewPicker {
     private Pane root;
     private ImageView health;
     private Image healthImage;
+    private Polygon range;
+    private boolean rangeStart;
     
     
     public ImageViewPicker(String name, int numFrames, String startingState, Pane root) {
@@ -33,6 +40,9 @@ public class ImageViewPicker {
         this.imageView = new ImageView();
         this.healthImage = new Image("health_red.png");
         this.health = new ImageView(healthImage);
+        this.range = new Polygon();
+        this.rangeStart = true;
+        root.getChildren().add(range);
         root.getChildren().add(health);
         root.getChildren().add(imageView);
         myBundle = ResourceBundle.getBundle("game_engine/animation_rates/animation");
@@ -55,19 +65,42 @@ public class ImageViewPicker {
                                healthImage.getWidth());
             double xpos = isHealth ? imageView.getX() : Integer.MAX_VALUE;
             double ypos = isHealth ? imageView.getY() - 5 : Integer.MAX_VALUE;
+            boolean seeRange = Arrays.asList(seeRangeElements).contains(u.getClass().getSimpleName());
+            if(seeRange && (timer % 60 == 0 || rangeStart)) {
+                fillPolygonWithPoints(range, CollisionDetector.getUseableBounds(((Tower) u)
+                                                                          .getMyProjectiles().get(0).getTimelines()
+                                                                          .get(0).getAffectors().get(0).getRange(), 
+                                                                           u.getProperties().getPosition()));
+                range.setOpacity(0.1);
+                range.toFront();
+                rangeStart = false;
+                
+            }
             health.setX(xpos);
             health.setY(ypos);
             health.toFront();
             imageView.setRotate(transformDirection(u));
             if(!u.isVisible()) {
+                root.getChildren().remove(range);
                 root.getChildren().remove(imageView);
                 root.getChildren().remove(health);
             }
         }
     }
     
+    public Polygon fillPolygonWithPoints(Polygon polygon, List<Position> points) {
+        for(Position p : points) {
+            polygon.getPoints().addAll(new Double[]{p.getX(), p.getY()});
+        }
+        return polygon;
+    }
+    
     public double transformDirection(Unit u) {
         return -u.getProperties().getVelocity().getDirection() + 90;
+    }
+    
+    public ImageView getImageView() {
+        return imageView;
     }
     
 }

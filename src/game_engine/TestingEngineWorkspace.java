@@ -93,8 +93,6 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 		myLevels.add(myCurrentLevel);
-		myAffectors = myAffectorFactory.getAffectorLibrary().getAffectors();
-		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
 
 	private List<Tower> makeDummyTowers () {
@@ -223,6 +221,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 
 	public void updateElements () {
 		nextWaveTimer++;
+	        myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));
 		boolean gameOver = myLives <= 0;
 		if (!pause && !gameOver) {
 			myTowers.forEach(t -> t.update());
@@ -244,6 +243,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 			continueWaves();
 		}
 		myProjectiles.forEach(p -> p.update());
+		myProjectiles.removeIf(p -> !p.isVisible());
 		myTerrains.forEach(t -> t.update());
 		updateLives();
 	}

@@ -3,7 +3,6 @@ package game_engine.affectors;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import game_engine.game_elements.Unit;
 
 public class AffectorTimeline {
