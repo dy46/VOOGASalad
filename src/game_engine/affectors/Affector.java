@@ -58,7 +58,7 @@ public class Affector {
 			copy = (Affector) Class.forName(this.getClass().getName())
 					.getConstructor(List.class)
 					.newInstance(this.getFunctions());
-			copy.setWorkspace(this.getEngineWorkspace());
+			copy.setWorkspace(this.getWS());
 //			copy.setEndEvents(this.myEndEvents);
 		}
 		catch (Exception e) {
@@ -113,7 +113,7 @@ public class Affector {
 		return myFunctions;
 	}
 
-	public GameEngineInterface getEngineWorkspace() {
+	public GameEngineInterface getWS() {
 		return engineWorkspace;
 	}
 

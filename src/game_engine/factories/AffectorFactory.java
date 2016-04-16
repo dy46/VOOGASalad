@@ -57,9 +57,17 @@ public class AffectorFactory {
 		String effect5 = "Change";
 		constructAffector(property5, effect5, null);
 
+//		String property10 = "Path";
+//		String effect10 = "Follow";
+//		constructAffector(property10, effect10, null);
+		
 		String property6 = "PathFollow";
 		String effect6 = "PositionMove";
 		constructAffector(property6, effect6, null);
+		
+		String AI = "AIPath";
+		String AIeffect = "Follow";
+		constructAffector(AI, AIeffect, null);
 
 		String property8 = "Homing";
 		String effect8 = "Move";

@@ -106,4 +106,13 @@ public class Tower extends Unit {
 	public List<Unit> getAllTowers() {
 		return allTowers;
 	}
+	
+	public List<Unit> getAllProjectiles(){
+		return allProjectiles;
+	}
+	
+	public List<Projectile> getProjectiles(){
+		return myProjectiles;
+	}
+	
 }

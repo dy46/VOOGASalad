@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import game_data.GameData;
+import game_data.IGameData;
 import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
@@ -17,6 +18,7 @@ import game_engine.factories.TerrainFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
@@ -55,6 +57,8 @@ public class TDGame implements GameEngineInterface {
 
 	private TDTimer myTimer;
 
+	private List<Position> myGoals;
+
 	public void setUpEngine (GameData gameData) {
 		myEnemys = gameData.getEnemies();
 		myProjectiles = gameData.getProjectiles();
@@ -81,18 +85,20 @@ public class TDGame implements GameEngineInterface {
 		}
 		myCurrentLevel = myLevels.get(0);
 		myCurrentLevel.setMyLives(3);
-
+		myGoals = myCurrentLevel.getGoals();
 		setupAffectorWorkspaces();
 	}
-	
+
 	public void setupAffectorWorkspaces(){
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
-		setEnemyAffectorWorkspaces();
+		setupInnerAffectorWorkspaces();
 	}
-	
-	public void setEnemyAffectorWorkspaces(){
+
+	public void setupInnerAffectorWorkspaces(){
 		List<List<Timeline>> timelines = myEnemys.stream().map(e -> e.getTimelines()).collect(Collectors.toList());
+		List<List<Timeline>> timelines2 = myProjectiles.stream().map(e -> e.getTimelines()).collect(Collectors.toList());
 		List<List<Wave>> waves = myLevels.stream().map(l -> l.getWaves()).collect(Collectors.toList());
+		List<List<Timeline>> towerTimelines = myTowers.stream().map(e -> e.getTimelines()).collect(Collectors.toList());
 		for(List<Wave> wList : waves){
 			for(Wave w: wList){
 				for(Enemy e : w.getEnemies()){
@@ -106,7 +112,77 @@ public class TDGame implements GameEngineInterface {
 				}
 			}
 		}
+		for(Unit tower : myTowers){
+			for(Projectile p: ((Tower) tower).getProjectiles()){
+				for(Timeline t : p.getTimelines()){
+					for(List<Affector> aList : t.getAffectors()){
+						for(Affector a: aList){
+							a.setWorkspace(this);
+						}
+					}
+				}
+			}
+		}
+
+		for(Unit tower : myTowers){
+			for(Unit p: ((Tower) tower).getAllProjectiles()){
+				for(Timeline t : p.getTimelines()){
+					for(List<Affector> aList : t.getAffectors()){
+						for(Affector a: aList){
+							a.setWorkspace(this);
+						}
+					}
+				}
+			}
+		}
+
+		for(Unit tower: myTowers){
+			for(Unit tower2 : ((Tower) tower).getAllTowers()){
+				for(Projectile p: ((Tower) tower2).getProjectiles()){
+					for(Timeline t : p.getTimelines()){
+						for(List<Affector> aList : t.getAffectors()){
+							for(Affector a: aList){
+								a.setWorkspace(this);
+							}
+						}
+					}
+				}
+			}
+
+			for(Unit tower2 : ((Tower) tower).getAllTowers()){
+				for(Unit p: ((Tower) tower2).getAllProjectiles()){
+					for(Timeline t : p.getTimelines()){
+						for(List<Affector> aList : t.getAffectors()){
+							for(Affector a: aList){
+								a.setWorkspace(this);
+							}
+						}
+					}
+				}
+			}
+		}
+
 		for(List<Timeline> tList : timelines){
+			for(Timeline t : tList){
+				for(List<Affector> aList : t.getAffectors()){
+					for(Affector a : aList){
+						a.setWorkspace(this);
+					}
+				}
+			}
+		}
+
+		for(List<Timeline> tList : towerTimelines){
+			for(Timeline t : tList){
+				for(List<Affector> aList : t.getAffectors()){
+					for(Affector a : aList){
+						a.setWorkspace(this);
+					}
+				}
+			}
+		}
+
+		for(List<Timeline> tList : timelines2){
 			for(Timeline t : tList){
 				for(List<Affector> aList : t.getAffectors()){
 					for(Affector a : aList){
@@ -275,9 +351,18 @@ public class TDGame implements GameEngineInterface {
 	public void setupTimer(GameEngineInterface ws) {
 		myTimer = new TDTimer((TDGame) ws);
 	}
-	
+
 	public void decrementLives(){
 		myCurrentLevel.decrementLife();
+	}
+
+	public List<Position> getGoals(){
+		return myGoals;
+	}
+
+	// TODO: remove after done with test WS
+	public void setGoals(){
+		myGoals = myCurrentLevel.getGoals();
 	}
 
 }

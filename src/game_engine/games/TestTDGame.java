@@ -60,11 +60,11 @@ public class TestTDGame extends TDGame {
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary(), myTimelineFactory.getTimelineLibrary());
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
-		super.setAffectors(myAffectorFactory.getAffectorLibrary().getAffectors());
 		super.setTerrains(makeDummyTerrains());
 		super.setTowerTypes(makeDummyTowers());
 		super.setCurrentLevel(makeDummyLevel());
 		super.addLevel(getCurrentLevel());
+		super.setGoals();
 		setupAffectorWorkspaces();
 	}
 
@@ -102,6 +102,18 @@ public class TestTDGame extends TDGame {
 		b4.addPosition(new Position(400, 200));
 		b4.addPosition(new Position(400, 525));
 		
+		b1.addNeighbor(b2);
+		b1.addNeighbor(b3);
+		b2.addNeighbor(b1);
+		b2.addNeighbor(b3);
+		b2.addNeighbor(b4);
+		b3.addNeighbor(b1);
+		b3.addNeighbor(b2);
+		b3.addNeighbor(b4);
+		b3.addNeighbor(b1);
+		b4.addNeighbor(b2);
+		b4.addNeighbor(b3);
+		
 		List<Branch> branches1 = Arrays.asList(b1, b2, b4);
 		List<Branch> branches2 = Arrays.asList(b1, b3, b4);
 		
@@ -113,18 +125,30 @@ public class TestTDGame extends TDGame {
 		l.addPath(p);
 		
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
+		Enemy AI1 = myEnemyFactory.createAIEnemy("Enemy", b1);
+		Enemy AI2 = myEnemyFactory.createAIEnemy("Enemy", b1);
 		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
 		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
 		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
 		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+		Enemy AI3 = myEnemyFactory.createAIEnemy("Enemy", b1);
+		Enemy AI4 = myEnemyFactory.createAIEnemy("Enemy", b1);
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
 		e3.getProperties().setHealth(50);
 		e4.getProperties().setHealth(50);
-		w.addEnemy(e1, 0);
-		w.addEnemy(e2, 60);
-		w.addEnemy(e3, 60);
-		w.addEnemy(e4, 60);
+		AI1.getProperties().setHealth(50);
+		AI2.getProperties().setHealth(50);
+		AI3.getProperties().setHealth(50);
+		AI4.getProperties().setHealth(50);
+//		w.addEnemy(e1, 0);
+//		w.addEnemy(e2, 60);
+//		w.addEnemy(e3, 60);
+//		w.addEnemy(e4, 60);
+		w.addEnemy(AI1, 0);
+		w.addEnemy(AI2, 60);
+		w.addEnemy(AI3, 60);
+		w.addEnemy(AI4, 60);
 		
 		l.setMyLives(5);
 		l.addWave(w);

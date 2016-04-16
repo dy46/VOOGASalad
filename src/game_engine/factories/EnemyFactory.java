@@ -57,16 +57,20 @@ public class EnemyFactory {
 		e.getProperties().setMovement(new Movement(branches));
 		return e;
 	}
+	
+	public Enemy createAIEnemy(String name, Branch startingBranch){
+		Enemy e = createSpecifiedEnemy(name, "AIPath", "Follow");
+		e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
+		return e;
+	}
 
 	public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
 		Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
 		moveAffector.setTTL(Integer.MAX_VALUE);
-		Timeline timeline1 = myTimelineLibrary.getTimeline("PathFollowCollideDie");
+		Timeline timeline1 = new Timeline(moveAffector);
 //		Field[] fields = Unit.class.getDeclaredFields();
-		Affector forward = timeline1.getAffectors().get(0).get(0);
 		Enemy e1 = new Enemy(name, Arrays.asList(timeline1), 3);
 //		forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
-		forward.setTTL(Integer.MAX_VALUE);
 		Health health = new Health(50);
 		Velocity velocity = new Velocity(0.5, 90);
 		List<Position> l1 = new ArrayList<>();

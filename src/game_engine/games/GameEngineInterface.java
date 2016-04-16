@@ -11,6 +11,7 @@ import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.genres.TD.TDGame;
+import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.games.Timer;
 
@@ -82,5 +83,7 @@ public interface GameEngineInterface {
 	public Level getCurrentLevel();
 	
 	public void decrementLives();
+
+	public List<Position> getGoals();
     
 }
