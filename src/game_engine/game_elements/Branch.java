@@ -89,7 +89,9 @@ public class Branch extends Unit{
 			vx /= mag;
 			vy /= mag;
 			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0)){
-				nextPositions.put(new Position(x, y), new Position(x + vx, y + vy));
+				Position newPosition = new Position(x + vx, y + vy);
+				//myPositions.add(newPosition);
+				nextPositions.put(new Position(x, y), newPosition);
 				x += vx;
 				y += vy;
 			}

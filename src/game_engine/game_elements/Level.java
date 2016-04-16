@@ -3,6 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.paths.Path;
 import game_engine.games.Timer;
 
 
@@ -18,19 +19,16 @@ public class Level extends GameElement {
     private Wave myCurrentWave;
     private List<Wave> myWaves;
     private Timer myWaveTimer;
+    private List<Path> myPaths;
 
-    public Level (String name, Wave first, int myLives) {
+    public Level (String name, int myLives) {
         super(name);
         // setID(getWorkspace().getIDFactory().createID(this));
-        initialize();
-        myCurrentWave = first;
+        myWaves = new ArrayList<>();
         this.myLives = myLives;
         this.startingLives = myLives;
         myWaveTimer = new Timer();
-    }
-
-    private void initialize () {
-        myWaves = new ArrayList<>();
+        myPaths = new ArrayList<>();
     }
 
     /*
@@ -87,6 +85,9 @@ public class Level extends GameElement {
      */
     public void addWave (Wave newWave) {
         myWaves.add(newWave);
+        if(myWaves.size () == 1){
+        	myCurrentWave = newWave;
+        }
     }
 
     public Enemy update () {
@@ -121,6 +122,14 @@ public class Level extends GameElement {
 
 	public Timer getWaveTimer() {
 		return myWaveTimer;
+	}
+
+	public void addPath(Path path) {
+		myPaths.add(path);
+	}
+
+	public List<Path> getPaths() {
+		return myPaths;
 	}
 
 }

@@ -54,8 +54,6 @@ public interface GameEngineInterface {
     public List<Unit> getTowers();    
     
     public List<Unit> getTerrains();
-    
-    public List<Branch> getPaths();
 
 	public List<Level> getLevels();
 	
@@ -80,5 +78,7 @@ public interface GameEngineInterface {
 	public boolean isGameOver();
 
 	public Timer getTimer();
+
+	public Level getCurrentLevel();
     
 }

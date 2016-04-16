@@ -15,8 +15,8 @@ public class PathGraphFactory {
 		this.myGraph = new PathGraph();
 	}
 
-	public PathNode createGraph(){
-		return new PathNode(currentGraphID++);
+	public Path createGraph(){
+		return new Path(currentGraphID++);
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class PathGraphFactory {
 	public void insertPath(List<Position> newPath){
 		if(newPath.size() == 0)
 			return;
-		PathNode myPath = myGraph.getGraphByPos(newPath.get(0));
+		Path myPath = myGraph.getGraphByPos(newPath.get(0));
 		if(myPath != null){
 			Branch newPathNode = new Branch(currentPathID++);
 			newPathNode.addPositions(newPath);
@@ -35,7 +35,7 @@ public class PathGraphFactory {
 		}
 		else{
 			if(newPath.size() > 0){
-				PathNode splitPath = createGraph();
+				Path splitPath = createGraph();
 				Branch branch = new Branch(newPath, currentPathID++);
 				splitPath.addBranch(branch);
 				myGraph.addPath(splitPath);
@@ -43,7 +43,7 @@ public class PathGraphFactory {
 		}
 	}
 
-	public void configure(Branch newPathNode, PathNode myGraph){
+	public void configure(Branch newPathNode, Path myGraph){
 		List<Position> positions = newPathNode.getPositions();
 		Position startingPos = positions.get(0);
 		Position endingPos = positions.get(positions.size()-1);

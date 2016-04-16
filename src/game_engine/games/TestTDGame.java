@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import auth_environment.paths.Path;
 import game_data.GameData;
 import game_engine.CollisionDetector;
 import game_engine.IDFactory;
@@ -53,13 +54,6 @@ public class TestTDGame extends TDGame {
 	public void setUpEngine (GameData gameData) {
 		super.setupTimer(this);
 		super.nullCheck();
-		Branch p2 = new Branch("DirtNew");
-		p2.addPosition(new Position(0, 30));
-		p2.addPosition(new Position(200, 30));
-		p2.addPosition(new Position(200, 200));
-		p2.addPosition(new Position(400, 200));
-		p2.addPosition(new Position(400, 525));
-		addPath(p2);
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
@@ -87,6 +81,27 @@ public class TestTDGame extends TDGame {
 	}
 
 	private Level makeDummyLevel () {
+		Level l = new Level("Dummy level", 3);
+		
+		Branch b1 = new Branch("DirtNew");
+		b1.addPosition(new Position(0, 30));
+		b1.addPosition(new Position(200, 30));
+		b1.addPosition(new Position(200, 200));
+		b1.addPosition(new Position(400, 200));
+		b1.addPosition(new Position(400, 525));
+		
+		Branch b2 = new Branch("DirtNew");
+		b2.addPosition(new Position(0, 30));
+		b2.addPosition(new Position(200, 30));
+		b2.addPosition(new Position(400, 30));
+		b2.addPosition(new Position(400, 200));
+		b2.addPosition(new Position(400, 525));
+		
+		Path p = new Path(0);
+		p.addBranch(b1);
+//		p.addBranch(b2);
+		l.addPath(p);
+		
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
 		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
@@ -100,7 +115,7 @@ public class TestTDGame extends TDGame {
 //		w.addEnemy(e2, 60);
 //		w.addEnemy(e3, 60);
 //		w.addEnemy(e4, 60);
-		Level l = new Level("still not sure", w, 3);
+		
 		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);

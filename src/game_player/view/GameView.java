@@ -2,12 +2,15 @@ package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import game_data.AuthSerializer;
 import game_data.GameData;
 import game_data.IDataConverter;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.paths.Path;
 import auth_environment.view.RecTile;
 import auth_environment.view.Tile;
 import game_engine.game_elements.Branch;
@@ -172,9 +175,14 @@ public class GameView implements IGameView{
 
 
 	public void placePath () {
-		List<Branch> currPaths = playerEngineInterface.getPaths();
+		List<Path> currPaths = playerEngineInterface.getCurrentLevel().getPaths();
 		List<Position> allPositions = new ArrayList<>();
-		currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
+		System.out.println(currPaths);
+		for(Path p : currPaths){
+			for(Branch b : p.getBranches()){
+				allPositions.addAll(b.getAllPositions());
+			}
+		}
 		for(int i = paths.size(); i < allPositions.size(); i++) {
 			//            Image img = new Image(currPaths.get(0).toString() + ".png");
 			Image img = new Image("DirtNew.png");

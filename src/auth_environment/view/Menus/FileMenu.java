@@ -61,7 +61,7 @@ public class FileMenu extends Menu {
 //		myGameDataController.getGameData().setTowerTypes(myGameDataController.getPicker().getTowers());
 //		myGameDataController.getGameData().setPaths(myGameDataController.getPathGraphFactory().getPaths());
 		TestTDGame test = new TestTDGame();
-		myGameDataController.getGameData().setPaths(test.getPaths());
+		myGameDataController.getGameData().setPaths(test.getCurrentLevel().getPaths());
 		myGameDataController.getGameData().setEnemies(test.getEnemies());
 		myGameDataController.getGameData().setTerrains(test.getTerrains());
 		myGameDataController.getGameData().setTowerTypes(test.getTowerTypes());

@@ -39,7 +39,6 @@ import game_engine.games.Timer;
 public class TDGame implements GameEngineInterface {
 
 	private List<Level> myLevels;
-	private List<Branch> myPaths;
 
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
@@ -55,7 +54,6 @@ public class TDGame implements GameEngineInterface {
 	private TDTimer myTimer;
 
 	public void setUpEngine (GameData gameData) {
-		myPaths = gameData.getPaths();
 		myEnemys = gameData.getEnemies();
 		myProjectiles = gameData.getProjectiles();
 		myTowers = gameData.getTowers();
@@ -75,19 +73,18 @@ public class TDGame implements GameEngineInterface {
 		if(myLevels.size() == 0){
 			System.out.println("My levels zero");
 			Wave w = new Wave("temp", 0);
-			Level l = new Level("temp2", w, 3);
-			myLevels.add(l);
-			myCurrentLevel = l;
+			Level l = new Level("temp2", 3);
+			l.addWave(w);
+			addLevel(l);
 		}
 		myCurrentLevel = myLevels.get(0);
 		myCurrentLevel.setMyLives(3);
-		
+
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
 
 	public void nullCheck(){
 		if(myLevels == null){ myLevels = new ArrayList<>(); System.out.println("My levels null"); }
-		if(myPaths == null)		myPaths = new ArrayList<>();
 		if(myEnemys == null)	myEnemys = new ArrayList<>();
 		if(myProjectiles == null)	myProjectiles = new ArrayList<>();
 		if(myTowers == null)	myTowers = new ArrayList<>();
@@ -110,8 +107,11 @@ public class TDGame implements GameEngineInterface {
 	}
 
 	public void addLevel (Level level) {
-		if(level != null)
-			myLevels.add(level);
+		if(level == null)
+			myLevels = new ArrayList<>();
+		myLevels.add(level);
+		if(myLevels.size() == 1)
+			myCurrentLevel = level;
 	}
 
 	public void remove (Unit unit) {
@@ -212,8 +212,6 @@ public class TDGame implements GameEngineInterface {
 
 	public List<Level> getLevels() { return myLevels; }
 
-	public List<Branch> getPaths() { return myPaths; }
-
 	public List<Tower> getTowerTypes() { return myTowerTypes; }
 
 	public List<Unit> getProjectiles() { return myProjectiles; }
@@ -221,8 +219,6 @@ public class TDGame implements GameEngineInterface {
 	public List<Unit> getTerrains() { return myTerrains; }
 
 	public int getLives () { return myCurrentLevel.getMyLives(); }
-
-	public void addPath(Branch b){ myPaths.add(b);	}
 
 	public void setTowerTypes(List<Tower> towers){ this.myTowerTypes = towers;	}
 

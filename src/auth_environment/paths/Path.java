@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-public class PathNode {
+public class Path {
 
 	private List<Branch> myBranches;
 	private int myID;
 	
-	public PathNode(int pathID){
+	public Path(int pathID){
 		this.myID = pathID;
 		myBranches = new ArrayList<>();
 	}
@@ -51,6 +51,10 @@ public class PathNode {
 				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
 				.findFirst();
 		return graph.isPresent() ? graph.get() : null;
+	}
+	
+	public List<Branch> getBranches(){
+		return myBranches;
 	}
 	
 }
