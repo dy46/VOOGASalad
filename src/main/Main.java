@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	private MainView mainView; 
 	private View authView; 
 	private PlayerGUI myView;
 	private EngineController myEngineController;
@@ -41,11 +42,13 @@ public class Main extends Application {
 //		myView.display();
 
 		//authView = new View(primaryStage); // for testing Auth
-		myView = new PlayerGUI(645, 587);
-		myEngineController = new EngineController();
-		myEngineController.initialize();
-		primaryStage.setScene(myView.createPlayerScene());
-		primaryStage.show();
+		mainView = new MainView(primaryStage); 
+		
+//		myView = new PlayerGUI(645, 587);
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
+//		primaryStage.setScene(myView.createPlayerScene());
+//		primaryStage.show();
 	}
 
 }

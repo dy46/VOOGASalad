@@ -8,5 +8,7 @@ package main;
  */
 
 public interface IMainView {
+	
+	public void display(); 
 
 }

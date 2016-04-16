@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.IMainView;
 
 /**
  * Created by BrianLin on 4/6/16.
@@ -37,9 +38,9 @@ public class Welcome {
 	private Stage myStage = new Stage(); 
 	private Scene welcomeScene; 
 	private VBox myRoot;
-	private View myView; 
+	private IMainView myView; 
 
-	public Welcome(View view) {
+	public Welcome(IMainView view) {
 		this.myView = view; 
 		this.init();
 	}
@@ -50,7 +51,7 @@ public class Welcome {
 				);
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
-				this.buildTextInput(), 
+//				this.buildTextInput(), 
 				this.buildSubmitButton(),
 				this.buildAnimation()
 				);
@@ -67,11 +68,11 @@ public class Welcome {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
 
-	private TextField buildTextInput() {
-		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
-		return this.gameNameInput; 
-	}
+//	private TextField buildTextInput() {
+//		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
+//		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
+//		return this.gameNameInput; 
+//	}
 
 	private HBox buildSubmitButton() {
 		Button submit = myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel"));
@@ -86,6 +87,9 @@ public class Welcome {
 	}
 
 	private void submitButtonPressed() {
+		this.myStage.hide();
+		this.myView.display();
+		
 //		if (checkValidName()) {
 //			this.myStage.hide();
 //			this.myView.display();
@@ -95,7 +99,7 @@ public class Welcome {
 //		}
 	}
 
-	private boolean checkValidName() {
-		return this.gameNameInput.getText().length() > 0; 
-	}
+//	private boolean checkValidName() {
+//		return this.gameNameInput.getText().length() > 0; 
+//	}
 }

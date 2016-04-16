@@ -2,6 +2,7 @@ package main;
 
 import java.util.ResourceBundle;
 
+import auth_environment.view.Welcome;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -11,7 +12,6 @@ import javafx.stage.Stage;
  *
  * This View allows a user to choose between entering the Auth Environment OR the Game Player. 
  */
-
 
 public class MainView implements IMainView {
 	
@@ -24,34 +24,12 @@ public class MainView implements IMainView {
     private Stage myStage;
     private Scene myScene; 
 
-    public View (Stage stage) {
+    public MainView (Stage stage) {
         myStage = stage;
-        
         Welcome welcome = new Welcome(this);
-        setupWorkspace();
     }
-
-
-	private void setupWorkspace() {
-		myScene = new Scene(myTabs, Color.web("292929")); 
-        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
-        myStage.setScene(myScene);
-		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		mainWorkspace = new GameWorkspace(myTabs, this.mySettings);
-		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
-		mainTab.setClosable(false);
-		myTabs.getTabs().add(mainTab);
-		
-		
-		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
-    }
-
+    
     public void display() {
     	this.myStage.show();
     }
-    
-    public ISettings getSettings() {
-    	return this.mySettings;
-    }
-
 }
