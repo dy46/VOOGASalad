@@ -86,13 +86,13 @@ public class Welcome {
 	}
 
 	private void submitButtonPressed() {
-		if (checkValidName()) {
-			this.myStage.hide();
-			this.myView.display();
-			String name = this.gameNameInput.getText();
-			this.myView.getSettings().setName(name);
-			// TODO: save entered name somewhere... ask Austin
-		}
+//		if (checkValidName()) {
+//			this.myStage.hide();
+//			this.myView.display();
+//			String name = this.gameNameInput.getText();
+//			this.myView.getSettings().setName(name);
+//			// TODO: save entered name somewhere... ask Austin
+//		}
 	}
 
 	private boolean checkValidName() {
