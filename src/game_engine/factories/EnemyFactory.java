@@ -43,7 +43,7 @@ public class EnemyFactory {
 		Velocity velo = eBlock.getMyVelocity(); 
 		Bounds b = eBlock.getMyBounds();
 		State st = eBlock.getMyState(); 
-//		Path p = eBlock.getMyPath(); 										This value is gonna be null for now
+//		Branch p = eBlock.get(); 										This value is gonna be null for now
 		UnitProperties properties = new UnitProperties(health, null, null, velo, b, null, null, st, null);
 		e.setProperties(properties);
 		e.setTTL(100000);

@@ -38,7 +38,6 @@ import game_engine.games.Timer;
 
 public class TDGame implements GameEngineInterface {
 
-	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myPaths;
 
@@ -56,7 +55,7 @@ public class TDGame implements GameEngineInterface {
 	private TDTimer myTimer;
 
 	public void setUpEngine (GameData gameData) {
-		myLevels = gameData.getLevels();
+		System.out.println("SETTING UP");
 		myPaths = gameData.getPaths();
 		System.out.println("My paths: " + myPaths);
 		myEnemys = gameData.getEnemies();
@@ -65,6 +64,8 @@ public class TDGame implements GameEngineInterface {
 		myTowerTypes = gameData.getTowerTypes();
 		myAffectors = gameData.getAffectors();
 		myTerrains = gameData.getTerrains();
+		myEnemys = gameData.getEnemies();
+		myLevels = gameData.getLevels();
 		myBalance = 0;
 		initialize();
 	}
@@ -85,6 +86,13 @@ public class TDGame implements GameEngineInterface {
 		myCurrentLevel = myLevels.get(0);
 		myCurrentLevel.setMyLives(3);
 
+		System.out.println("My levels: " + myLevels);
+		System.out.println("Current level : " + getCurrentLevel());
+		System.out.println("Current wave : " + getCurrentLevel().getCurrentWave());
+		System.out.println("Current wave enemies : " + getCurrentLevel().getCurrentWave().getEnemiesLeft());
+		System.out.println("Current level timer : " + getCurrentLevel().getWaveTimer());
+		System.out.println(myEnemys);
+		
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
 
@@ -165,11 +173,12 @@ public class TDGame implements GameEngineInterface {
 	}
 
 	public void playWave (int waveNumber) {
-		myCurrentLevel.getWaveTimer().pause();
+		//myCurrentLevel.getWaveTimer().pause();
 		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
 	public void continueWaves () {
+		System.out.println("CONTINUING WAVE");
 		myCurrentLevel.playNextWave();
 		myTimer.unpause();
 	}
@@ -185,11 +194,11 @@ public class TDGame implements GameEngineInterface {
 	}
 
 	public boolean isPaused() {
-		return pause;
+		return myTimer.isPaused();
 	}
 
 	public void setPaused() {
-		pause = true;
+		myTimer.pause();
 	}
 
 	public Wave getCurrentWave() {
@@ -244,8 +253,8 @@ public class TDGame implements GameEngineInterface {
 		myTimer.update();
 	}
 
-	public void setupTimer() {
-		myTimer = new TDTimer(this);
+	public void setupTimer(GameEngineInterface ws) {
+		myTimer = new TDTimer((TDGame) ws);
 	}
 
 }

@@ -49,5 +49,9 @@ public class Timer{
 	public void unpause(){
 		this.paused = false;
 	}
+	
+	public boolean isPaused(){
+		return paused;
+	}
 
 }

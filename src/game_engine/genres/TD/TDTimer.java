@@ -1,4 +1,5 @@
 package game_engine.genres.TD;
+import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Tower;
 import game_engine.games.GameTimer;
 import game_engine.games.GameEngineInterface;
@@ -18,9 +19,11 @@ public class TDTimer extends GameTimer{
 		if(!myGame.isPaused() && !myGame.isGameOver()){
 			myGame.getTowers().forEach(t -> t.update());
 			myGame.getTowers().forEach(t -> ((Tower) t).fire());
-			myGame.getTowers().forEach(e -> e.update());
+			myGame.getEnemies().forEach(e -> e.update());
 			myGame.getCollisionDetector().resolveEnemyCollisions(myGame.getProjectiles(), myGame.getTerrains());
-			myGame.addEnemy(myGame.getCurrentLevel().update());
+			Enemy e = myGame.getCurrentLevel().update();
+			System.out.println("SPAWNING " + e);
+			myGame.addEnemy(e);
 			// tries to spawn new enemies using Waves
 			if(myGame.getCurrentWave().isFinished()){
 				myGame.clearProjectiles();
@@ -29,6 +32,7 @@ public class TDTimer extends GameTimer{
 			}       
 		}
 		else if(myGame.getCurrentLevel().getNextWave() != null && myGame.getCurrentLevel().getNextWave().getTimeBeforeWave() <= myGame.getCurrentLevel().getWaveTimer().getTicks()){
+			System.out.println("CONTINUING WAVE");
 			myGame.continueWaves();
 		}
 		myGame.getProjectiles().forEach(p -> p.update());

@@ -51,7 +51,8 @@ public class TestTDGame extends TDGame {
 	}
 
 	public void setUpEngine (GameData gameData) {
-		super.setupTimer();
+		System.out.println("SETTING UP TEST ENGINE");
+		super.setupTimer(this);
 		super.nullCheck();
 		Branch p2 = new Branch("DirtNew");
 		p2.addPosition(new Position(0, 30));
@@ -72,6 +73,7 @@ public class TestTDGame extends TDGame {
 		super.setCurrentLevel(makeDummyLevel());
 		super.addLevel(getCurrentLevel());
 		System.out.println("ENEMIES!" + getEnemies());
+		System.out.println("CURRENT " + getCurrentLevel()+" "+getCurrentLevel().getCurrentWave().getEnemiesLeft());
 	}
 
 	private List<Tower> makeDummyTowers () {

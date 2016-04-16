@@ -42,11 +42,11 @@ public class Main extends Application {
 //		myEngineController = new EngineController();
 //		myEngineController.initialize();
 
-		authView = new View(primaryStage); // for testing Auth
+//		authView = new View(primaryStage); // for testing Auth
 		
-//		myView = new PlayerGUI(645, 587);
-//		primaryStage.setScene(myView.createPlayerScene());
-//		primaryStage.show();
+		myView = new PlayerGUI(645, 587);
+		primaryStage.setScene(myView.createPlayerScene());
+		primaryStage.show();
 	}
 
 }
