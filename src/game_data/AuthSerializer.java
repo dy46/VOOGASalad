@@ -3,7 +3,7 @@ package game_data;
 import com.thoughtworks.xstream.XStream;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
-import game_engine.EngineWorkspace;
+import game_engine.games.TD.TDGame;
 
 import java.io.File;
 import java.io.FileWriter;

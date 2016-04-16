@@ -2,9 +2,10 @@ package game_engine.affectors;
 
 import java.util.ArrayList;
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
+
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.games.IPlayerEngineInterface;
 import game_engine.properties.UnitProperties;
 import game_engine.timelines.EndEvent;
 

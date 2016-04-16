@@ -5,13 +5,13 @@ import java.util.List;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
-import game_engine.EngineWorkspace;
-import game_engine.IPlayerEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.TD.TDGame;
 import game_engine.properties.Position;
 
 public class GameData implements IGameData {
@@ -95,7 +95,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public void saveGameData() {
-		IPlayerEngineInterface workspace = new EngineWorkspace();
+		IPlayerEngineInterface workspace = new TDGame();
 		workspace.setUpEngine(this);
 		mySerializer.saveElement(workspace);
 	}

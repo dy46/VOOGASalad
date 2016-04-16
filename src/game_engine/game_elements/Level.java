@@ -3,6 +3,8 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.timers.Timer;
+
 
 /*
  * Internal API that is used in order to represent levels within a game. More specifically,
@@ -15,6 +17,7 @@ public class Level extends GameElement {
     private int startingLives;
     private Wave myCurrentWave;
     private List<Wave> myWaves;
+    private Timer myWaveTimer;
 
     public Level (String name, Wave first, int myLives) {
         super(name);
@@ -23,6 +26,7 @@ public class Level extends GameElement {
         myCurrentWave = first;
         this.myLives = myLives;
         this.startingLives = myLives;
+        myWaveTimer = new Timer();
     }
 
     private void initialize () {
@@ -114,5 +118,9 @@ public class Level extends GameElement {
     public int getStartingLives () {
         return startingLives;
     }
+
+	public Timer getWaveTimer() {
+		return myWaveTimer;
+	}
 
 }

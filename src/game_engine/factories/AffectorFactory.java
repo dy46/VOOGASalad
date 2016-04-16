@@ -2,9 +2,10 @@ package game_engine.factories;
 
 import java.util.Arrays;
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
+
 import game_engine.affectors.Affector;
 import game_engine.functions.Function;
+import game_engine.games.IPlayerEngineInterface;
 import game_engine.libraries.AffectorLibrary;
 
 public class AffectorFactory {

@@ -2,7 +2,7 @@ package game_data;
 
 import java.io.FileNotFoundException;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.IPlayerEngineInterface;
 
 public interface IGameDataHandler {
 	

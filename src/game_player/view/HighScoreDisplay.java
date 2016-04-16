@@ -3,7 +3,7 @@ package game_player.view;
 import game_player.GameDataSource;
 import java.util.ResourceBundle;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.IPlayerEngineInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

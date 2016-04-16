@@ -3,7 +3,7 @@ package game_engine.functions;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.EngineWorkspace;
+import game_engine.games.TD.TDGame;
 
 /**
  * This class represents a discrete function based on any number of independent variable as arguments.
@@ -14,7 +14,7 @@ import game_engine.EngineWorkspace;
 public class Function {
 	private static final double DEFAULT_DX = 0.001;
 	private List<Term> myTerms;
-	private EngineWorkspace myWorkspace;
+	private TDGame myWorkspace;
 	private String myName;
 	private double[] domain;
 	private double dx;
@@ -47,7 +47,7 @@ public class Function {
 	public double getDX(){
 		return dx;
 	}
-	public Function(String equation, EngineWorkspace workspace){
+	public Function(String equation, TDGame workspace){
 		myTerms = new ArrayList<>();
 		this.myWorkspace = workspace;
 		domain = new double[2];

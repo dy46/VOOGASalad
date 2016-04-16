@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.IPlayerEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

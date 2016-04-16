@@ -1,4 +1,4 @@
-package game_engine;
+package game_engine.games;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import game_data.GameData;
+import game_engine.CollisionDetector;
+import game_engine.IDFactory;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -427,6 +429,18 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 	
 	public List<Affector> getAffectors(){
 		return myAffectors;
+	}
+
+	public boolean isPaused() {
+		return pause;
+	}
+
+	public void setPaused() {
+		pause = true;
+	}
+	
+	public boolean isGameOver(){
+		return myCurrentLevel.getMyLives() <= 0;
 	}
 
 }

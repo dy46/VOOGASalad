@@ -1,4 +1,4 @@
-package game_engine;
+package game_engine.games.TD;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import game_data.GameData;
+import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -22,8 +23,11 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.game_elements.Wave;
+import game_engine.games.IPlayerEngineInterface;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.timers.TDTimer;
+import game_engine.timers.Timer;
 
 
 /**
@@ -32,9 +36,8 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public class EngineWorkspace implements IPlayerEngineInterface {
+public class TDGame implements IPlayerEngineInterface {
 
-	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myPaths;
@@ -43,18 +46,17 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	private List<Unit> myEnemys;
 	private List<Unit> myProjectiles;
 
-	private CollisionDetector myCollider;
 	private List<Tower> myTowerTypes;
 	private Level myCurrentLevel;
-	//	private IDFactory myIDFactory;
 	private double myBalance;
-	private int myLives;
 
 	private List<Unit> myTerrains;
 	private List<Affector> myAffectors;
 
+	private TDTimer myTimer;
+
 	public void setUpEngine (GameData gameData) {
-		myLives = 3;
+		myTimer = new TDTimer(this);
 		myLevels = gameData.getLevels();
 		myPaths = gameData.getPaths();
 		System.out.println("My paths: " + myPaths);
@@ -64,9 +66,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		myTowerTypes = gameData.getTowerTypes();
 		myAffectors = gameData.getAffectors();
 		myTerrains = gameData.getTerrains();
-		myCollider = new CollisionDetector(this);
 		myBalance = 0;
-		nextWaveTimer = 0;
 		initialize();
 	}
 
@@ -89,43 +89,6 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		}
 	}
 
-	public void updateElements() {
-		nextWaveTimer++;
-		boolean gameOver = myLives <= 0;
-		if(!pause && !gameOver){
-			myTowers.forEach(t -> t.update());
-			myTowers.forEach(t -> ((Tower) t).fire());
-			myEnemys.forEach(e -> e.update());
-			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
-			Enemy newE = myCurrentLevel.update();
-			if(newE != null){
-				myEnemys.add(newE);
-			}// tries to spawn new enemies using Waves
-			if(myCurrentLevel.getCurrentWave().isFinished()){
-				clearProjectiles();
-				pause = true;
-				nextWaveTimer = 0;
-			}  
-		}
-		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
-			continueWaves();
-		}
-		myProjectiles.forEach(p -> p.update());
-		myTerrains.forEach(t -> t.update());
-		updateLives();
-	}
-
-	public void updateLives () {
-		int livesToSubtract = 0;
-		for (int i = 0; i < myEnemys.size(); i++) {
-			if (myEnemys.get(i).getProperties().getMovement().isUnitAtLastPosition(myEnemys.get(i))) {
-				livesToSubtract++;
-				myEnemys.get(i).setElapsedTimeToDeath();
-			}
-		}
-		myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
-	}
-
 	public String getGameStatus () {
 		return "Waves left: " + myCurrentLevel.wavesLeft() + " " + myCurrentLevel.toString() + " Number of Lifes: " + myCurrentLevel.getMyLives();
 	}
@@ -135,11 +98,13 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 	}
 
 	public void addEnemy (Enemy enemy) {
-		myEnemys.add(enemy);
+		if(enemy != null)
+			myEnemys.add(enemy);
 	}
 
 	public void addLevel (Level level) {
-		myLevels.add(level);
+		if(level != null)
+			myLevels.add(level);
 	}
 
 	public void remove (Unit unit) {
@@ -170,18 +135,6 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 		//		myTowers.get(activeTowerIndex).setProperties(newProperties);
 		//		myTowerTypes.set(activeTowerIndex, newProperties);
 		//	
-	}
-
-	private void towerBoundsCheck (int index) {
-		if (index < 0 || index > myTowers.size()) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
-	private void towerTypeBoundsCheck (int index) {
-		if (index < 0 || index > myTowerTypes.size()) {
-			throw new IndexOutOfBoundsException();
-		}
 	}
 
 	public Level getCurrentLevel() { return myCurrentLevel; }
@@ -239,6 +192,30 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 				myTowers.add(newTower);
 			}
 		}
+	}
+
+	public void updateElements() {
+		myTimer.update();
+	}
+
+	public boolean isPaused() {
+		return pause;
+	}
+
+	public void setPaused() {
+		pause = true;
+	}
+
+	public Wave getCurrentWave() {
+		return myCurrentLevel.getCurrentWave();
+	}
+	
+	public Timer getNextWaveTimer(){
+		return myCurrentLevel.getWaveTimer();
+	}
+	
+	public boolean isGameOver(){
+		return myCurrentLevel.getMyLives() <= 0;
 	}
 
 }

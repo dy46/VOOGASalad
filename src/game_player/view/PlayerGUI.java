@@ -6,9 +6,9 @@ import java.util.ResourceBundle;
 import game_data.AuthSerializer;
 import game_data.GameData;
 import game_data.IDataConverter;
-import game_engine.EngineWorkspace;
-import game_engine.IPlayerEngineInterface;
-import game_engine.TestingEngineWorkspace;
+import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.TD.TDGame;
+import game_engine.games.TestingEngineWorkspace;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -59,7 +59,7 @@ public class PlayerGUI{
 	private IPlayerEngineInterface readData() {
 		IDataConverter<IPlayerEngineInterface> dataConverter = new AuthSerializer<IPlayerEngineInterface>();
 		GameData gameData = (GameData) dataConverter.loadElement();
-		gameEngine = new EngineWorkspace();
+		gameEngine = new TDGame();
 		gameEngine.setUpEngine(gameData);
 		return gameEngine;
 	}

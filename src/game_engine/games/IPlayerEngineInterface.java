@@ -1,13 +1,16 @@
-package game_engine;
+package game_engine.games;
 
 import java.util.List;
 
 import game_data.GameData;
 import game_engine.game_elements.Level;
+import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.games.TD.TDGame;
 import game_engine.properties.UnitProperties;
 
 /**
@@ -62,5 +65,17 @@ public interface IPlayerEngineInterface {
     public void clearProjectiles();
 	
     public List<Tower> getTowerTypes();
+
+	public boolean isPaused();
+	
+	public void setPaused();
+	
+	public default CollisionDetector getCollisionDetector(){
+		return new CollisionDetector(this);
+	}
+	
+	public void addEnemy(Enemy e);
+	
+	public boolean isGameOver();
     
 }

@@ -1,6 +1,6 @@
 package game_player.view;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.IPlayerEngineInterface;
 
 /**
  * This interface specifies the different methods needed to run and animate the game elements.

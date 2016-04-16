@@ -8,8 +8,8 @@ import auth_environment.backend.ISettings;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import game_data.AuthSerializer;
 import game_data.GameData;
-import game_engine.IPlayerEngineInterface;
-import game_engine.TestingEngineWorkspace;
+import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.TestingEngineWorkspace;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 

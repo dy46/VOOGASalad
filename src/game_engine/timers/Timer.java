@@ -1,7 +1,10 @@
-package game_engine.game_elements;
+package game_engine.timers;
 
 import java.util.List;
+
 import game_engine.affectors.Affector;
+import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.TD.TDGame;
 import game_engine.timelines.Timeline;
 
 /*
@@ -9,35 +12,28 @@ import game_engine.timelines.Timeline;
 * of XML files for use in games. API specifies some basic functionality of timers and which methods need to 
 * be implemented for subclasses created in the authoring environment.
 */
-public class Timer extends Unit{
+public class Timer{
 	
-	private int elapsedTicks;
-	
-	public Timer(String name, List<Timeline> timelines, int numFrames){
-		super(name, timelines, numFrames);
-//		setID(getWorkspace().getIDFactory().createID(this));
-		initialize();
-	}
-	
-	private void initialize(){
-		elapsedTicks = 0;
-	}
+	private int myElapsedTicks;
 	
 	/*
 	 * Progresses the program by one time step and updates all
 	 * necessary properties dependent on time (position due to velocity,
 	 * affector duration). 
 	 */
-	public void nextTimeStep(){
-		getWorkspace().updateElements();
-		elapsedTicks++;
+	public void update(){
+		myElapsedTicks++;
 	}
 	
 	/*
 	 * Returns the number of ticks since the program first executed.
 	 */
 	public int getTicks(){
-		return elapsedTicks;
+		return myElapsedTicks;
+	}
+	
+	public void reset(){
+		myElapsedTicks = 0;
 	}
 	
 }

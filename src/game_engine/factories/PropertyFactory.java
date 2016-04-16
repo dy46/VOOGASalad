@@ -1,12 +1,12 @@
 package game_engine.factories;
 
-import game_engine.EngineWorkspace;
+import game_engine.games.TD.TDGame;
 
 public class PropertyFactory {
 
-	public EngineWorkspace myWorkspace;
+	public TDGame myWorkspace;
 	
-	public PropertyFactory(EngineWorkspace workspace){
+	public PropertyFactory(TDGame workspace){
 		this.myWorkspace = workspace;
 	}
 	
