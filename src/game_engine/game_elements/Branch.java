@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.List;
+
 import game_engine.properties.Position;
+
+import java.util.List;
 
 /*
  * Internal API that will be used in order to represent paths 
@@ -161,10 +163,9 @@ public class Branch extends Unit{
 	public Double getNextDirection (Position currentPosition) {
         Position nextPosition = getNextPosition(currentPosition);
         if(nextPosition == null){
-        	return null;
+        	nextPosition = currentPosition;
         }
-        double dx = 
-                nextPosition.getX() - currentPosition.getX();
+        double dx = nextPosition.getX() - currentPosition.getX();
         double dy = nextPosition.getY() - currentPosition.getY();
         double newDir = Math.atan((dy) / (dx));
         double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
@@ -214,6 +215,10 @@ public class Branch extends Unit{
 			}
 		}
 		return removed;
+	}
+	
+	public String toString(){
+		return "Branch " + myID+" Positions: " + myPositions;
 	}
 
 }

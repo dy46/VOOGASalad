@@ -2,6 +2,7 @@ package auth_environment.paths;
 
 import java.util.Arrays;
 import java.util.List;
+
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -15,8 +16,8 @@ public class PathGraphFactory {
 		this.myGraph = new PathGraph();
 	}
 
-	public Path createGraph(){
-		return new Path(currentGraphID++);
+	public PathNode createGraph(){
+		return new PathNode(currentGraphID++);
 	}
 
 	/**
@@ -27,7 +28,7 @@ public class PathGraphFactory {
 	public void insertPath(List<Position> newPath){
 		if(newPath.size() == 0)
 			return;
-		Path myPath = myGraph.getGraphByPos(newPath.get(0));
+		PathNode myPath = myGraph.getGraphByPos(newPath.get(0));
 		if(myPath != null){
 			Branch newPathNode = new Branch(currentPathID++);
 			newPathNode.addPositions(newPath);
@@ -35,7 +36,7 @@ public class PathGraphFactory {
 		}
 		else{
 			if(newPath.size() > 0){
-				Path splitPath = createGraph();
+				PathNode splitPath = createGraph();
 				Branch branch = new Branch(newPath, currentPathID++);
 				splitPath.addBranch(branch);
 				myGraph.addPath(splitPath);
@@ -43,7 +44,7 @@ public class PathGraphFactory {
 		}
 	}
 
-	public void configure(Branch newPathNode, Path myGraph){
+	public void configure(Branch newPathNode, PathNode myGraph){
 		List<Position> positions = newPathNode.getPositions();
 		Position startingPos = positions.get(0);
 		Position endingPos = positions.get(positions.size()-1);
@@ -89,7 +90,6 @@ public class PathGraphFactory {
 	}
 	
 	public List<Branch> getPaths(){
-		System.out.println(myGraph.getPaths());
 		return myGraph.getPaths();
 	}
 

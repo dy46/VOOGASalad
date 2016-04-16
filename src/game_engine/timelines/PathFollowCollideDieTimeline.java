@@ -8,7 +8,6 @@ public class PathFollowCollideDieTimeline extends Timeline{
 
 	public PathFollowCollideDieTimeline(List<List<Affector>> affectors) {
 		super(affectors);
-		System.out.println("CREATED");
 	}
 
 }

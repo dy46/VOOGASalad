@@ -5,7 +5,7 @@ import java.util.List;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
-import auth_environment.paths.Path;
+import auth_environment.paths.PathNode;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
@@ -19,7 +19,7 @@ public class GameData implements IGameData {
 	private List<Level> myLevels;
 	private List<Tower> myTowerTypes;
 	private List<Unit> myTowers;
-	private List<Path> myPaths;
+	private List<PathNode> myPaths;
 	private List<Unit> myTerrains;
 	private List<Unit> myEnemies;
 	private List<Unit> myProjectiles;
@@ -86,7 +86,7 @@ public class GameData implements IGameData {
 		return myTowerTypes;
 	}
 	@Override
-	public List<Path> getPaths() {
+	public List<PathNode> getPaths() {
 		return myPaths;
 	}
 	@Override
@@ -141,7 +141,7 @@ public class GameData implements IGameData {
 		this.myProjectiles = projectiles;
 	}
 
-	public void setPaths(List<Path> list) {
+	public void setPaths(List<PathNode> list) {
 		this.myPaths = list;
 	}
 	

@@ -10,7 +10,7 @@ import game_data.AuthSerializer;
 import game_data.GameData;
 import game_data.IDataConverter;
 import auth_environment.delegatesAndFactories.DragDelegate;
-import auth_environment.paths.Path;
+import auth_environment.paths.PathNode;
 import auth_environment.view.RecTile;
 import auth_environment.view.Tile;
 import game_engine.game_elements.Branch;
@@ -175,10 +175,9 @@ public class GameView implements IGameView{
 
 
 	public void placePath () {
-		List<Path> currPaths = playerEngineInterface.getCurrentLevel().getPaths();
+		List<PathNode> currPaths = playerEngineInterface.getCurrentLevel().getPaths();
 		List<Position> allPositions = new ArrayList<>();
-		System.out.println(currPaths);
-		for(Path p : currPaths){
+		for(PathNode p : currPaths){
 			for(Branch b : p.getBranches()){
 				allPositions.addAll(b.getAllPositions());
 			}

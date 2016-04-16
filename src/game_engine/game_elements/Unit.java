@@ -198,4 +198,9 @@ public abstract class Unit extends GameElement {
 		this.isEncapsulated = encapsulated;
 	}
 
+	public void kill() {
+		setElapsedTimeToDeath();
+		setInvisible();
+	}
+
 }

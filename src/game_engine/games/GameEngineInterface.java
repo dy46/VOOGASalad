@@ -80,5 +80,7 @@ public interface GameEngineInterface {
 	public Timer getTimer();
 
 	public Level getCurrentLevel();
+	
+	public void decrementLives();
     
 }

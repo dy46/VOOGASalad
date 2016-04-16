@@ -36,7 +36,7 @@ public class TDTimer extends GameTimer{
 				myGame.getCurrentLevel().getWaveTimer().reset();
 			}       
 		}
-		else if(myGame.getCurrentLevel().getNextWave() != null && myGame.getCurrentLevel().getNextWave().getTimeBeforeWave() <= myGame.getCurrentLevel().getWaveTimer().getTicks()){
+		else if(myGame.getCurrentLevel().getNextWave() != null && myGame.getCurrentLevel().getNextWave().getTimeBeforeWave() >= myGame.getCurrentLevel().getWaveTimer().getTicks()){
 			System.out.println("CONTINUING WAVE");
 			myGame.continueWaves();
 		}

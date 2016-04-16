@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import game_data.GameData;
 import game_engine.CollisionDetector;
@@ -26,6 +27,7 @@ import game_engine.game_elements.Wave;
 import game_engine.games.GameEngineInterface;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.Timeline;
 import game_engine.genres.TD.TDTimer;
 import game_engine.games.Timer;
 
@@ -80,11 +82,43 @@ public class TDGame implements GameEngineInterface {
 		myCurrentLevel = myLevels.get(0);
 		myCurrentLevel.setMyLives(3);
 
+		setupAffectorWorkspaces();
+	}
+	
+	public void setupAffectorWorkspaces(){
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
+		setEnemyAffectorWorkspaces();
+	}
+	
+	public void setEnemyAffectorWorkspaces(){
+		List<List<Timeline>> timelines = myEnemys.stream().map(e -> e.getTimelines()).collect(Collectors.toList());
+		List<List<Wave>> waves = myLevels.stream().map(l -> l.getWaves()).collect(Collectors.toList());
+		for(List<Wave> wList : waves){
+			for(Wave w: wList){
+				for(Enemy e : w.getEnemies()){
+					for(Timeline t : e.getTimelines()){
+						for(List<Affector> aList : t.getAffectors()){
+							for(Affector a: aList){
+								a.setWorkspace(this);
+							}
+						}
+					}
+				}
+			}
+		}
+		for(List<Timeline> tList : timelines){
+			for(Timeline t : tList){
+				for(List<Affector> aList : t.getAffectors()){
+					for(Affector a : aList){
+						a.setWorkspace(this);
+					}
+				}
+			}
+		}
 	}
 
 	public void nullCheck(){
-		if(myLevels == null){ myLevels = new ArrayList<>(); System.out.println("My levels null"); }
+		if(myLevels == null){ myLevels = new ArrayList<>(); }
 		if(myEnemys == null)	myEnemys = new ArrayList<>();
 		if(myProjectiles == null)	myProjectiles = new ArrayList<>();
 		if(myTowers == null)	myTowers = new ArrayList<>();
@@ -240,6 +274,10 @@ public class TDGame implements GameEngineInterface {
 
 	public void setupTimer(GameEngineInterface ws) {
 		myTimer = new TDTimer((TDGame) ws);
+	}
+	
+	public void decrementLives(){
+		myCurrentLevel.decrementLife();
 	}
 
 }

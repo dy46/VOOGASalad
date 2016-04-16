@@ -8,6 +8,7 @@ import java.util.List;
 
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
+import auth_environment.paths.PathNode;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Unit;
@@ -51,15 +52,17 @@ public class EnemyFactory {
 		return e;
 	}
 
-	public Enemy createPathFollowPositionMoveEnemy(String name){
-		return createSpecifiedEnemy(name, "PathFollow", "PositionMove");
+	public Enemy createPathFollowPositionMoveEnemy(String name, List<Branch> branches){
+		Enemy e = createSpecifiedEnemy(name, "PathFollow", "PositionMove");
+		e.getProperties().setMovement(new Movement(branches));
+		return e;
 	}
 
 	public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
 		Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
 		moveAffector.setTTL(Integer.MAX_VALUE);
 		Timeline timeline1 = myTimelineLibrary.getTimeline("PathFollowCollideDie");
-		Field[] fields = Unit.class.getDeclaredFields();
+//		Field[] fields = Unit.class.getDeclaredFields();
 		Affector forward = timeline1.getAffectors().get(0).get(0);
 		Enemy e1 = new Enemy(name, Arrays.asList(timeline1), 3);
 //		forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
@@ -73,26 +76,19 @@ public class EnemyFactory {
 		l1.add(new Position(0,30));
 		Bounds b = new Bounds(l1);
 		State st = new State("Moving");
-		Branch p2 = new Branch("Something here");
-		p2.addPosition(new Position(0,30));
-		p2.addPosition(new Position(200, 30));
-		p2.addPosition(new Position(200, 200));
-		p2.addPosition(new Position(400, 200));
-		p2.addPosition(new Position(400, 525));
-		Movement movement = new Movement(Arrays.asList(p2));
-		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, new Position(0,30), null, st, movement);
+		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, new Position(0,30), null, st, null);
 		e1.setProperties(properties);
 		e1.setTTL(1000000);
 		e1.setDeathDelay(3);
 		return e1;
 	}
 
-	private Field getFieldByName(Field[] fields, String name){
-		for(Field field : fields){
-			if(field.getName().equals(name))
-				return field;
-		}
-		return null;
-	}
+//	private Field getFieldByName(Field[] fields, String name){
+//		for(Field field : fields){
+//			if(field.getName().equals(name))
+//				return field;
+//		}
+//		return null;
+//	}
 
 }

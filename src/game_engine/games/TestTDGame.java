@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import auth_environment.paths.Path;
+import auth_environment.paths.PathNode;
 import game_data.GameData;
 import game_engine.CollisionDetector;
 import game_engine.IDFactory;
@@ -65,6 +65,7 @@ public class TestTDGame extends TDGame {
 		super.setTowerTypes(makeDummyTowers());
 		super.setCurrentLevel(makeDummyLevel());
 		super.addLevel(getCurrentLevel());
+		setupAffectorWorkspaces();
 	}
 
 	private List<Tower> makeDummyTowers () {
@@ -86,43 +87,52 @@ public class TestTDGame extends TDGame {
 		Branch b1 = new Branch("DirtNew");
 		b1.addPosition(new Position(0, 30));
 		b1.addPosition(new Position(200, 30));
-		b1.addPosition(new Position(200, 200));
-		b1.addPosition(new Position(400, 200));
-		b1.addPosition(new Position(400, 525));
 		
 		Branch b2 = new Branch("DirtNew");
-		b2.addPosition(new Position(0, 30));
 		b2.addPosition(new Position(200, 30));
 		b2.addPosition(new Position(400, 30));
 		b2.addPosition(new Position(400, 200));
-		b2.addPosition(new Position(400, 525));
 		
-		Path p = new Path(0);
+		Branch b3 = new Branch("DirtNew");
+		b3.addPosition(new Position(200, 30));
+		b3.addPosition(new Position(200, 200));
+		b3.addPosition(new Position(400, 200));
+		
+		Branch b4 = new Branch("DirtNew");
+		b4.addPosition(new Position(400, 200));
+		b4.addPosition(new Position(400, 525));
+		
+		List<Branch> branches1 = Arrays.asList(b1, b2, b4);
+		List<Branch> branches2 = Arrays.asList(b1, b3, b4);
+		
+		PathNode p = new PathNode(0);
 		p.addBranch(b1);
-//		p.addBranch(b2);
+		p.addBranch(b2);
+		p.addBranch(b3);
+		p.addBranch(b4);
 		l.addPath(p);
 		
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
-		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+		Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+		Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+		Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
 		e3.getProperties().setHealth(50);
 		e4.getProperties().setHealth(50);
 		w.addEnemy(e1, 0);
-//		w.addEnemy(e2, 60);
-//		w.addEnemy(e3, 60);
-//		w.addEnemy(e4, 60);
+		w.addEnemy(e2, 60);
+		w.addEnemy(e3, 60);
+		w.addEnemy(e4, 60);
 		
 		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
-		Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+		Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+		Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+		Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+		Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
 		e5.getProperties().setHealth(50);
 		e6.getProperties().setHealth(50);
 		e7.getProperties().setHealth(50);
@@ -132,10 +142,10 @@ public class TestTDGame extends TDGame {
 //		w2.addEnemy(e7, 60);
 //		w2.addEnemy(e8, 60);
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
-		Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		Enemy e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		Enemy e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+		Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
+		Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
+		Enemy e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
+		Enemy e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
 		e9.getProperties().setHealth(50);
 		e10.getProperties().setHealth(50);
 		e11.getProperties().setHealth(50);

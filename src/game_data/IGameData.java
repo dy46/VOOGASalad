@@ -3,7 +3,7 @@ package game_data;
 import java.util.List;
 
 import auth_environment.backend.ISettings;
-import auth_environment.paths.Path;
+import auth_environment.paths.PathNode;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
@@ -36,7 +36,7 @@ public interface IGameData {
 	//Getters
 	public List<Level> getLevels();
 	public List<Tower> getTowerTypes();
-	public List<Path> getPaths();
+	public List<PathNode> getPaths();
 	public ISettings getSettings();
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();

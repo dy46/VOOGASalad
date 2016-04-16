@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-public class Path {
+public class PathNode {
 
 	private List<Branch> myBranches;
 	private int myID;
 	
-	public Path(int pathID){
+	public PathNode(int pathID){
 		this.myID = pathID;
 		myBranches = new ArrayList<>();
 	}

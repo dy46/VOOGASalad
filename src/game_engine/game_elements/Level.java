@@ -3,7 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import auth_environment.paths.Path;
+import auth_environment.paths.PathNode;
 import game_engine.games.Timer;
 
 
@@ -19,7 +19,7 @@ public class Level extends GameElement {
     private Wave myCurrentWave;
     private List<Wave> myWaves;
     private Timer myWaveTimer;
-    private List<Path> myPaths;
+    private List<PathNode> myPaths;
 
     public Level (String name, int myLives) {
         super(name);
@@ -124,12 +124,20 @@ public class Level extends GameElement {
 		return myWaveTimer;
 	}
 
-	public void addPath(Path path) {
+	public void addPath(PathNode path) {
 		myPaths.add(path);
 	}
 
-	public List<Path> getPaths() {
+	public List<PathNode> getPaths() {
 		return myPaths;
+	}
+
+	public void decrementLife() {
+		myLives--;
+	}
+	
+	public List<Wave> getWaves(){
+		return myWaves;
 	}
 
 }
