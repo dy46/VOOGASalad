@@ -34,7 +34,7 @@ public class Timeline {
 			return;
 		update();
 		List<Affector> affectors = myAffectors.get(0);
-		affectors.stream().forEach(a -> a.apply(unit));
+		affectors.stream().filter(a -> a.getTTL() > a.getElapsedTime()).forEach(a -> a.apply(unit));
 	}
 
 	public Timeline copyTimeline() {

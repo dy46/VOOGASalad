@@ -97,9 +97,9 @@ public class TestTDGame extends TDGame {
 		e3.getProperties().setHealth(50);
 		e4.getProperties().setHealth(50);
 		w.addEnemy(e1, 0);
-		w.addEnemy(e2, 60);
-		w.addEnemy(e3, 60);
-		w.addEnemy(e4, 60);
+//		w.addEnemy(e2, 60);
+//		w.addEnemy(e3, 60);
+//		w.addEnemy(e4, 60);
 		Level l = new Level("still not sure", w, 3);
 		l.setMyLives(5);
 		l.addWave(w);
@@ -113,9 +113,9 @@ public class TestTDGame extends TDGame {
 		e7.getProperties().setHealth(50);
 		e8.getProperties().setHealth(50);
 		w2.addEnemy(e5, 0);
-		w2.addEnemy(e6, 60);
-		w2.addEnemy(e7, 60);
-		w2.addEnemy(e8, 60);
+//		w2.addEnemy(e6, 60);
+//		w2.addEnemy(e7, 60);
+//		w2.addEnemy(e8, 60);
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
 		Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
@@ -126,9 +126,9 @@ public class TestTDGame extends TDGame {
 		e11.getProperties().setHealth(50);
 		e12.getProperties().setHealth(50);
 		w3.addEnemy(e9, 0);
-		w3.addEnemy(e10, 60);
-		w3.addEnemy(e11, 60);
-		w3.addEnemy(e12, 60);
+//		w3.addEnemy(e10, 60);
+//		w3.addEnemy(e11, 60);
+//		w3.addEnemy(e12, 60);
 		l.addWave(w3);
 		l.addWave(w2);
 		return l;
@@ -192,7 +192,7 @@ public class TestTDGame extends TDGame {
 		pos.add(new Position(0, 30));
 		pos.add(new Position(30, 30));
 		pos.add(new Position(30, 0));
-		spike.getProperties().setPosition(185, 70);
+		spike.getProperties().setPosition(15, 15);
 		spike.getProperties().setBounds(pos);
 		spike.setTTL(Integer.MAX_VALUE);
 		return spike;
