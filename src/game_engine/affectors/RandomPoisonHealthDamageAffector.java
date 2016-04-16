@@ -2,9 +2,9 @@ package game_engine.affectors;
 
 import java.util.List;
 
-import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.games.GameEngineInterface;
 
 public class RandomPoisonHealthDamageAffector extends ExpIncrHealthDamageAffector{
 

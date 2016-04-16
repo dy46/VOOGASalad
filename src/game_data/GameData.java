@@ -5,27 +5,28 @@ import java.util.List;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
-import game_engine.EngineWorkspace;
-import game_engine.IPlayerEngineInterface;
+import auth_environment.paths.PathNode;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
+import game_engine.games.GameEngineInterface;
+import game_engine.genres.TD.TDGame;
 import game_engine.properties.Position;
 
 public class GameData implements IGameData {
 	private List<Level> myLevels;
 	private List<Tower> myTowerTypes;
 	private List<Unit> myTowers;
-	private List<Branch> myPaths;
+	private List<PathNode> myPaths;
 	private List<Unit> myTerrains;
 	private List<Unit> myEnemies;
 	private List<Unit> myProjectiles;
 	private List<Affector> myAffectors;
 	private ISettings mySettings;
 	//	private List<Unit> myTerrains;
-	private IDataConverter<IPlayerEngineInterface> mySerializer;
+	private IDataConverter<GameEngineInterface> mySerializer;
 	private List<List<Position>> myPositionLists;
 
 	public GameData(){
@@ -36,7 +37,7 @@ public class GameData implements IGameData {
 		myTerrains = new ArrayList<>();
 		myProjectiles = new ArrayList<>();
 		mySettings = new GameSettings();
-		mySerializer = new AuthSerializer<IPlayerEngineInterface>();
+		mySerializer = new AuthSerializer<GameEngineInterface>();
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class GameData implements IGameData {
 		return myTowerTypes;
 	}
 	@Override
-	public List<Branch> getPaths() {
+	public List<PathNode> getPaths() {
 		return myPaths;
 	}
 	@Override
@@ -95,7 +96,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public void saveGameData() {
-		IPlayerEngineInterface workspace = new EngineWorkspace();
+		GameEngineInterface workspace = new TDGame();
 		workspace.setUpEngine(this);
 		mySerializer.saveElement(workspace);
 	}
@@ -140,8 +141,8 @@ public class GameData implements IGameData {
 		this.myProjectiles = projectiles;
 	}
 
-	public void setPaths(List<Branch> paths) {
-		this.myPaths = paths;
+	public void setPaths(List<PathNode> list) {
+		this.myPaths = list;
 	}
 	
 	public void setAffectors(List<Affector> affectors){

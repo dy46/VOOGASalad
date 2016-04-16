@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.Timeline;
 
 
 /*
@@ -23,13 +24,13 @@ public class Tower extends Unit {
 	private List<Projectile> myProjectiles;
 	private List<Unit> allTowers;
 
-	public Tower (String name, List<AffectorTimeline> timelines, int numFrames) {
+	public Tower (String name, List<Timeline> timelines, int numFrames) {
 		super(name, timelines, numFrames);
 		// setID(getWorkspace().getIDFactory().createID(this));
 	}
 
 
-	public Tower (String name, List<AffectorTimeline> timelines, List<Unit> allProjectiles, 
+	public Tower (String name, List<Timeline> timelines, List<Unit> allProjectiles, 
 			List<Projectile> myProjectiles, List<Unit> allTowers, int numFrames) {
 		super(name, timelines, numFrames);
 		this.allProjectiles = allProjectiles;
@@ -39,7 +40,7 @@ public class Tower extends Unit {
 	}
 
 	public Tower copyTower(double x, double y) {
-		List<AffectorTimeline> copyTimelines = new ArrayList<>();
+		List<Timeline> copyTimelines = new ArrayList<>();
 		List<Projectile> newMyProjectiles = myProjectiles.stream().map(p -> p.copyProjectile()).collect(Collectors.toList());
 		for(int i = 0; i < newMyProjectiles.size(); i++) {
 			List<Branch> branches = newMyProjectiles.get(i).getProperties().getMovement().getBranches();

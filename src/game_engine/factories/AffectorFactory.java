@@ -2,9 +2,10 @@ package game_engine.factories;
 
 import java.util.Arrays;
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
+
 import game_engine.affectors.Affector;
 import game_engine.functions.Function;
+import game_engine.games.GameEngineInterface;
 import game_engine.libraries.AffectorLibrary;
 
 public class AffectorFactory {
@@ -12,14 +13,14 @@ public class AffectorFactory {
 	private static final String PACKAGE = "game_engine.affectors.";
 	private static final String BASE = "Affector";
 	private AffectorLibrary myAffectorLibrary;
-	private IPlayerEngineInterface engineWorkspace;
+	private GameEngineInterface engineWorkspace;
 
 	public AffectorFactory(FunctionFactory myFunctionFactory){
 		myAffectorLibrary = new AffectorLibrary();
 		setDefaultAffectors(myFunctionFactory);
 	}
 	
-	public void setWorkspace(IPlayerEngineInterface workspace){
+	public void setWorkspace(GameEngineInterface workspace){
 		this.engineWorkspace = workspace;
 	}
 
@@ -60,10 +61,13 @@ public class AffectorFactory {
 		String effect6 = "PositionMove";
 		constructAffector(property6, effect6, null);
 
-
 		String property8 = "Homing";
 		String effect8 = "Move";
 		constructAffector(property8, effect8, null);
+		
+		String property7 = "Death";
+		String effect7 = "Activation";
+		constructAffector(property7, effect7, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){
