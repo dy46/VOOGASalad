@@ -20,7 +20,7 @@ public class Branch extends Unit{
 	private boolean cycle;
 	private List<Branch> myNeighbors;
 	private int myID;
-	
+
 	public Branch(List<Position> positions, int ID){
 		super(ID+"");
 		this.myID = ID;
@@ -40,7 +40,7 @@ public class Branch extends Unit{
 		cycle = false;
 		initialize();
 	}
-	
+
 	public Branch(String name, List<Position> positions){
 		super(name);
 		cycle = false;
@@ -66,7 +66,7 @@ public class Branch extends Unit{
 		myNeighbors = neighbors;
 		setNextPositions();
 	}
-	
+
 	public void setCycle(boolean state){
 		cycle = state;
 		setNextPositions();
@@ -130,7 +130,7 @@ public class Branch extends Unit{
 			return nextPositions.get(closest);
 		}
 	}
-	
+
 	public Branch copyBranch(){
 		Branch newPath = new Branch("");
 		this.myPositions.forEach(t -> {
@@ -159,21 +159,27 @@ public class Branch extends Unit{
 	public Position getFirstPosition() {
 		return myPositions.get(0);
 	}
-	
+
 	public Double getNextDirection (Position currentPosition) {
-        Position nextPosition = getNextPosition(currentPosition);
-        if(nextPosition == null){
-        	nextPosition = currentPosition;
-        }
-        double dx = nextPosition.getX() - currentPosition.getX();
-        double dy = nextPosition.getY() - currentPosition.getY();
-        double newDir = Math.atan((dy) / (dx));
-        double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
-        return degreesDir;
-    }
+		Position nextPosition = getNextPosition(currentPosition);
+		if(nextPosition == null){
+			nextPosition = currentPosition;
+		}
+		double dx = nextPosition.getX() - currentPosition.getX();
+		double dy = nextPosition.getY() - currentPosition.getY();
+		double newDir = Math.atan((dy) / (dx));
+		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
+		return degreesDir;
+	}
 
 	public Position getLastPosition() {
 		return myPositions.get(myPositions.size()-1);
+	}
+	
+	public Position getSecondPosition(){
+		if(getAllPositions().size() <= 1)
+			return null;
+		return getAllPositions().get(1);
 	}
 
 	public void addNeighbor(Branch neighbor){
@@ -216,9 +222,32 @@ public class Branch extends Unit{
 		}
 		return removed;
 	}
-	
+
 	public String toString(){
-		return "Branch " + myID+" Positions: " + myPositions;
+		return "Branch positions: " + myPositions;
+	}
+
+	public int getLength(){
+		return getAllPositions().size();
+	}
+
+	public List<Branch> getForwardNeighbors(){
+		List<Branch> forwards = new ArrayList<>();
+		for(Branch b : myNeighbors){
+			if(b.getFirstPosition().equals(getLastPosition())){
+				forwards.add(b);
+			}
+		}
+		return forwards;
+	}
+
+	public boolean isAccessible(Position p){
+		for(Branch b : getForwardNeighbors()){
+			if(b.getPositions().contains(p)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

@@ -20,6 +20,7 @@ public class TDTimer extends GameTimer{
 	}
 
 	public void updateElements() {
+		myGame.setupInnerAffectorWorkspaces();
 		myGame.getCurrentLevel().getWaveTimer().update();
 		if(!myGame.isPaused() && !myGame.isGameOver()){
 			myGame.getAffectors().stream().forEach(a -> a.setWorkspace(myGame));
@@ -42,19 +43,19 @@ public class TDTimer extends GameTimer{
 		}
 		myGame.getProjectiles().forEach(p -> p.update());
 		myGame.getTerrains().forEach(t -> t.update());
-		updateLives();
+//		updateLives();
 	}
 
-	public void updateLives () {
-		int livesToSubtract = 0;
-		for (int i = 0; i < myGame.getEnemies().size(); i++) {
-			if (myGame.getEnemies().get(i).getProperties().getMovement().isUnitAtLastPosition(myGame.getEnemies().get(i))) {
-				livesToSubtract++;
-				myGame.getEnemies().get(i).setElapsedTimeToDeath();
-			}
-		}
-		myGame.getCurrentLevel().setMyLives(myGame.getCurrentLevel().getStartingLives() - livesToSubtract);
-	}
+//	public void updateLives () {
+//		int livesToSubtract = 0;
+//		for (int i = 0; i < myGame.getEnemies().size(); i++) {
+//			if (myGame.getEnemies().get(i).getProperties().getMovement().isUnitAtLastPosition(myGame.getEnemies().get(i))) {
+//				livesToSubtract++;
+//				//myGame.getEnemies().get(i).setElapsedTimeToDeath();
+//			}
+//		}
+//		myGame.getCurrentLevel().setMyLives(myGame.getCurrentLevel().getStartingLives() - livesToSubtract);
+//	}
 
 	public void setWorkspace(GameEngineInterface ws) throws Exception{
 		super.setWorkspace(ws);

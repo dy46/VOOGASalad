@@ -5,6 +5,7 @@ import java.util.List;
 
 import auth_environment.paths.PathNode;
 import game_engine.games.Timer;
+import game_engine.properties.Position;
 
 
 /*
@@ -138,6 +139,20 @@ public class Level extends GameElement {
 	
 	public List<Wave> getWaves(){
 		return myWaves;
+	}
+
+	public List<Position> getGoals() {
+		List<Position> goals = new ArrayList<>();
+		for(PathNode p : myPaths){
+			List<Branch> branches = p.getBranches();
+			for(Branch b : branches){
+				Position lastPos = b.getLastPosition();
+				List<Branch> forwardNeighbors = b.getForwardNeighbors();
+				if(forwardNeighbors.size() == 0)
+					goals.add(lastPos);
+			}
+		}
+		return goals;
 	}
 
 }

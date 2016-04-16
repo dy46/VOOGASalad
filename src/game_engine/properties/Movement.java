@@ -51,4 +51,8 @@ public class Movement {
 		return myCurrentBranch;
 	}
 
+	public void setCurrentBranch(Branch branch) {
+		myCurrentBranch = branch;
+	}
+
 }

@@ -36,7 +36,6 @@ public class CollisionDetector {
 							.getTimelinesToApply());
 					myProjectiles.get(i).setHasCollided(true);
 					unit.setHasCollided(true);
-					System.out.println("COLLIDED");
 				}
 			}
 		}

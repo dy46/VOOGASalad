@@ -16,47 +16,25 @@ import game_engine.properties.Position;
  * based on a sampled version of the path that has been drawn out for them.
  * 
  */
-public class PathFollowPositionMoveAffector extends Affector {
+public class PathFollowPositionMoveAffector extends PathFollowAffector {
 
 	public PathFollowPositionMoveAffector(List<Function> functions){
 		super(functions);
 	}
 
-	@Override
-	public void apply (Unit u) {
-		super.apply(u);
-		if (this.getElapsedTime() <= this.getTTL()) {
-			double speed = u.getProperties().getVelocity().getSpeed();
-			Movement move = u.getProperties().getMovement();
-			for (int i = 0; i < speed; i++) {
-				Position next = getNextPosition(u);
-				if(next == null){
-					u.kill();
-					setElapsedTimeToDeath();
-					return;
-				}
-				u.getProperties().getPosition().setX(next.getX());
-				u.getProperties().getPosition().setY(next.getY());
-				u.getProperties().getVelocity().setDirection(getNextDirection(u));
-			}
-			this.updateElapsedTime();
-		}
-	}
-	
 	public Position getNextPosition(Unit u){
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
 		if(currentBranch == null){
-			System.out.println("Workspace: " + getEngineWorkspace());
-			getEngineWorkspace().decrementLives();
+			getWS().decrementLives();
 			return null;
 		}
 		Position next = currentBranch.getNextPosition(currentPosition);
 		if(next == null){
 			currentBranch = move.getNextBranch();
 			if(currentBranch == null) {
-				getEngineWorkspace().decrementLives();
+				getWS().decrementLives();
 				return null;
 			}
 			next = currentBranch.getFirstPosition();
@@ -73,5 +51,4 @@ public class PathFollowPositionMoveAffector extends Affector {
 		}
 		return move.getCurrentBranch().getNextDirection(currentPosition);
 	}
-
 }
