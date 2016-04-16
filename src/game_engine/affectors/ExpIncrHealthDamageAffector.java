@@ -7,8 +7,8 @@ import game_engine.functions.Function;
 
 public class ExpIncrHealthDamageAffector extends HealthDamageAffector{
 
-	public ExpIncrHealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
+	public ExpIncrHealthDamageAffector(List<Function> functions){
+        super(functions);
     }
 
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.view.ElementPicker;
@@ -18,8 +19,8 @@ import javafx.scene.image.ImageView;
 
 public class EnemyMenu extends SuperMenu{
 	
-	public EnemyMenu(ElementPicker myPicker) {
-		super(myPicker);
+	public EnemyMenu(ElementPicker myPicker, FactoryController factoryController) {
+		super(myPicker, factoryController);
 		// TODO Auto-generated constructor stub
 	}
 	private static final String ENEMY_LABELS_PACKAGE = "auth_environment/properties/enemy_labels";
@@ -84,7 +85,7 @@ public class EnemyMenu extends SuperMenu{
 	    	
 	    	block.setMyImage((ImageView)t.getGraphic());
 	    	
-	    	EnemyFactory enemyFac = super.getEnemyFactory();
+	    	EnemyFactory enemyFac = super.getFactoryController().getEnemyFactory();
 	    	Enemy enemy = enemyFac.defineEnemyModel(block);
 	    	
 	    	getPicker().updateEnemy(enemy);

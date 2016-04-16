@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 
 public class CollisionDetector {
 
-	private EngineWorkspace myEngine;
+	private IPlayerEngineInterface myEngine;
 
-	public CollisionDetector (EngineWorkspace engine) {
+	public CollisionDetector (IPlayerEngineInterface engine) {
 		myEngine = engine;
 	}
 
@@ -30,8 +31,8 @@ public class CollisionDetector {
 		for (int i = 0; i < myProjectiles.size(); i++) {
 			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
 				if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
-					unit.addAffectors(myProjectiles.get(i)
-							.getAffectorsToApply());
+					unit.addTimelines(myProjectiles.get(i)
+							.getTimelinesToApply());
 					myProjectiles.get(i).setHasCollided(true);
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
@@ -44,10 +45,10 @@ public class CollisionDetector {
 			if (!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) ||
 					(!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
 				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
-					List<Affector> newAffectorsToApply =
-							terrains.get(i).getAffectorsToApply().stream()
-							.map(e -> e.copyAffector()).collect(Collectors.toList());
-					unit.addAffectors(newAffectorsToApply);
+					List<AffectorTimeline> newTimelinesToApply =
+							terrains.get(i).getTimelinesToApply().stream()
+							.map(t -> t.copyTimeline()).collect(Collectors.toList());
+					unit.addTimelines(newTimelinesToApply);
 				}
 			}
 		}

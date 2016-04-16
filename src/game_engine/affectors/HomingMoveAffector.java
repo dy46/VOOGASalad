@@ -13,8 +13,8 @@ public class HomingMoveAffector extends Affector {
     private Unit trackedUnit;
     private boolean firstApplication;
 
-    public HomingMoveAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-	      super(functions, engineWorkspace);
+    public HomingMoveAffector(List<Function> functions){
+	      super(functions);
 	      firstApplication = true;
 	}
 

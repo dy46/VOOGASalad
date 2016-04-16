@@ -9,24 +9,26 @@ import auth_environment.view.RecTile;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.FlowPane;
 
 
 public class ElementPicker extends Accordion {
 	
-	private List<Tower> myTowerList = new ArrayList<Tower>();
-	private List<Enemy> myEnemyList = new ArrayList<Enemy>();
-	private List<Terrain> myTerrainList = new ArrayList<Terrain>();
+	private List<Tower> myTowerList;
+	private List<Unit> myEnemyList;
+	private List<Unit> myTerrainList;
 	FlowPane myTowerPane;
 	FlowPane myEnemyPane;
 	FlowPane myTerrainPane;
 	
 	public ElementPicker() {
 		this.getPanes().addAll(defaultPanes());
-		// TODO Auto-generated constructor stub
+		myTowerList = new ArrayList<>();
+		myEnemyList = new ArrayList<>();
+		myTerrainList = new ArrayList<>();
 	}
 
 	public ElementPicker(TitledPane... titledPanes) {
@@ -113,17 +115,14 @@ public class ElementPicker extends Accordion {
 	}
 
 	public List<Tower> getTowers() {
-		// TODO Auto-generated method stub
 		return myTowerList;
 	}
 	
-	public List<Enemy> getEnemies() {
-		// TODO Auto-generated method stub
+	public List<Unit> getEnemies() {
 		return myEnemyList;
 	}
 	
-	public List<Terrain> getTerrains() {
-		// TODO Auto-generated method stub
+	public List<Unit> getTerrains() {
 		return myTerrainList;
 	}
 	
