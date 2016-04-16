@@ -25,7 +25,6 @@ public class PathFollowPositionMoveAffector extends Affector {
 	@Override
 	public void apply (Unit u) {
 		super.apply(u);
-		System.out.println("APPLYING POSITION MOVE");
 		if (this.getElapsedTime() <= this.getTTL()) {
 			double speed = u.getProperties().getVelocity().getSpeed();
 			Movement move = u.getProperties().getMovement();
@@ -66,7 +65,6 @@ public class PathFollowPositionMoveAffector extends Affector {
 			}
 			next = currentBranch.getFirstPosition();
 		}
-		System.out.println("MOVED");
 		return next;
 	}
 

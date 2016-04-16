@@ -68,7 +68,6 @@ public abstract class Unit extends GameElement {
 	}
 
 	public void update () {
-		System.out.println("Updating element " + this.toString());
 		if(isVisible()) {
 			elapsedTime++;
 			myTimelines.removeIf(t -> t.getAffectors().size() == 0);

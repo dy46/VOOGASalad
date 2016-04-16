@@ -122,7 +122,6 @@ public class GameView implements IGameView{
 					placeUnits(playerEngineInterface.getTerrains(), terrains);
 					placeUnits(playerEngineInterface.getProjectiles(), projectiles);
 					placeUnits(playerEngineInterface.getEnemies(), enemies);
-					System.out.println(playerEngineInterface.getEnemies()+" PLACING");
 					makeTowerPicker();
 				}
 			}

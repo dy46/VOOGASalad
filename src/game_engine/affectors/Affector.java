@@ -121,14 +121,6 @@ public class Affector {
 		this.engineWorkspace = engineWorkspace;
 	}
 	
-	public boolean collisionDeath(Unit unit){
-		if(unit.hasCollided()){
-			this.setElapsedTimeToDeath();
-			return true;
-		}
-		return false;
-	}
-	
 //	public void setEndEvents(List<EndEvent> endEvents){
 //		this.myEndEvents = endEvents;
 //	}

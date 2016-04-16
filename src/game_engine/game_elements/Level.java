@@ -90,9 +90,7 @@ public class Level extends GameElement {
     }
 
     public Enemy update () {
-    	Enemy e = myCurrentWave.tryToSpawnEnemy();
-    	System.out.println("ENEMY: " + e);
-        return e;
+        return myCurrentWave.tryToSpawnEnemy();
     }
 
     public Wave getNextWave () {

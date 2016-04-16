@@ -4,7 +4,6 @@ import java.util.List;
 
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
-import game_engine.games.GameEngineInterface;
 
 public class HealthDamageAffector extends Affector{
 
@@ -14,7 +13,6 @@ public class HealthDamageAffector extends Affector{
 
 	@Override
 	public void apply(Unit unit) {
-		System.out.println("HERE " + getElapsedTime());
 		super.apply(unit);
 		double damage = getFunctions().get(0).evaluate(getElapsedTime());
 		unit.getProperties().getHealth().decrementValue(damage);   

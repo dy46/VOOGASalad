@@ -13,16 +13,21 @@ public class TDTimer extends GameTimer{
 		super(workspace);
 		this.myGame = workspace;
 	}
+	
+	public void update(){
+		super.update();
+		updateElements();
+	}
 
 	public void updateElements() {
 		myGame.getCurrentLevel().getWaveTimer().update();
 		if(!myGame.isPaused() && !myGame.isGameOver()){
+			myGame.getAffectors().stream().forEach(a -> a.setWorkspace(myGame));
 			myGame.getTowers().forEach(t -> t.update());
 			myGame.getTowers().forEach(t -> ((Tower) t).fire());
 			myGame.getEnemies().forEach(e -> e.update());
 			myGame.getCollisionDetector().resolveEnemyCollisions(myGame.getProjectiles(), myGame.getTerrains());
 			Enemy e = myGame.getCurrentLevel().update();
-			System.out.println("SPAWNING " + e);
 			myGame.addEnemy(e);
 			// tries to spawn new enemies using Waves
 			if(myGame.getCurrentWave().isFinished()){

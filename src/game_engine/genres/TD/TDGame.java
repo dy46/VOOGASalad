@@ -55,9 +55,7 @@ public class TDGame implements GameEngineInterface {
 	private TDTimer myTimer;
 
 	public void setUpEngine (GameData gameData) {
-		System.out.println("SETTING UP");
 		myPaths = gameData.getPaths();
-		System.out.println("My paths: " + myPaths);
 		myEnemys = gameData.getEnemies();
 		myProjectiles = gameData.getProjectiles();
 		myTowers = gameData.getTowers();
@@ -81,17 +79,8 @@ public class TDGame implements GameEngineInterface {
 			myLevels.add(l);
 			myCurrentLevel = l;
 		}
-		System.out.println("Levels created: " + myLevels.size() + "(Size) and "+myLevels.get(0).getCurrentWave());
-		System.out.println("ENEMIES: " + myEnemys);
 		myCurrentLevel = myLevels.get(0);
 		myCurrentLevel.setMyLives(3);
-
-		System.out.println("My levels: " + myLevels);
-		System.out.println("Current level : " + getCurrentLevel());
-		System.out.println("Current wave : " + getCurrentLevel().getCurrentWave());
-		System.out.println("Current wave enemies : " + getCurrentLevel().getCurrentWave().getEnemiesLeft());
-		System.out.println("Current level timer : " + getCurrentLevel().getWaveTimer());
-		System.out.println(myEnemys);
 		
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 	}
