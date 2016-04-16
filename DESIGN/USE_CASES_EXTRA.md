@@ -92,6 +92,41 @@
 8. Auth Environment can change Map size
   > A Map customization Menu takes in doubles for .setMapWidth and .setMapHeight (either in pixels or grid count). This is then used to create the Map size. 
 
+9. Auth Environment can change Path colors
+  > Select a Path in the Path menu (mouse action), opens up a Color Picker, selection of a Color then calls setColor and update methods on the Path to update its color. 
+
+10. Auth Environment can change CSS stylesheet
+  > Appearance menu has a 'Change Skin' button that opens up a FileChooser. The File returned by the FileChooser (filtered to .css files) will then be used to update the View window's scene with a .setStylesheet() method call.
+
+11. Auth Environment can add in AI 
+  > When Units have the choice of taking multiple paths, instead of random selection, they can use AI to make their choice. In the Unit customization window, there will be a button with event handler that takes in the input AI name (ex. 'distanceHeuristicAI') and will instantiate an instance of that class using Reflection. The created Unit will then have its AI componenet set to that. 
+
+12. Auth Environment can rename the Game
+  > In a Settings menu item, an event handler for 'Rename Game' button will open up a new Window with a prompt for the Game Name. Upon completion, an event handler will call IGameData's .getSettings() method and then .setName() to update.
+
+13. Auth Environment can clear/reset the current Game
+  > The current IGameData object is replaced with a new default instance. All frontend views and editor windows that are populated from this central Game object will now be given the corresponding default version of their storage object. 
+
+14. The authoring environment prompts the user to create a define a Tower.
+  * `ElementMenu` class: Calls `defineTowerModel(TowerBuildingBlock block)` method in the `TowerFactory` class.
+  * `TowerFactory` class: The above method takes in the user's custom inputs via the TowerBuildingBlock and returns a "template" Tower object back to the authoring environment. 
+
+15. The authoring environment prompts the user to create a define an Enemy.
+  * `ElementMenu` class: Calls `defineEnemyModel(EnemyBuildingBlock block)` method in the `EnemyFactory` class.
+  * `EnemyFactory` class: The above method takes in the user's custom inputs via the EnemyBuildingBlock and returns a "template" Enemy object back to the authoring environment. 
+
+16. The authoring environment prompts the user to create a define an Terrain.
+  * `ElementMenu` class: Calls `defineTerrainModel(TerrainBuildingBlock block)` method in the `TerrainFactory` class.
+  * `TerrainFactory` class: The above method takes in the user's custom inputs via the TerrainBuildingBlock and returns a "template" Terrain object back to the authoring environment. 
+
+17. After creating a "template" tower, the user drags the tower onto the game    map. 
+ *  `ElementPicker` class: Calls `createTower(Tower template, Position p, Bounds b)` method in the `TowerFactory` class.
+ * `TowerFactory` class: The above method takes in the Tower template the user has already identified as well as Position and Bounds objects to actually define where the Tower is physically on the game map. The method then returns an "initialized" tower. 
+
+18. After creating a "template" enemy, the user determines how many enemies to add to a wave.
+  * `ElementPicker` class: Calls `createEnemy(Enemy e, Wave w)` method in the `EnemyFactory` class.
+  * `EnemyFactory` class: The above method takes in the Enemy template that the user has already identified as well as a Wave object associated to the wave that the enemy will spawn on. The void method will then add that enemy to the wave. 
+  
 ### Game Player Use Cases
 
 1. Integrate Save
