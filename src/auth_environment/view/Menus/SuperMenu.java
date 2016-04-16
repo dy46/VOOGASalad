@@ -1,38 +1,19 @@
 package auth_environment.view.Menus;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.view.ElementPicker;
-import game_engine.factories.AffectorFactory;
-import game_engine.factories.EnemyFactory;
-import game_engine.factories.FunctionFactory;
-import game_engine.factories.TerrainFactory;
-import game_engine.factories.TowerFactory;
-import game_engine.game_elements.Unit;
+import game_engine.factories.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javafx.scene.layout.*;
+import javafx.stage.*;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public abstract class SuperMenu extends Menu{
