@@ -15,7 +15,6 @@ public class TerrainBuildingBlock extends BuildingBlock{
 
 
 	public void setMyProperty(String myProperty) {
-		System.out.println(myProperty);
 		this.myProperty = myProperty;
 	}
 
@@ -26,7 +25,6 @@ public class TerrainBuildingBlock extends BuildingBlock{
 
 
 	public void setMyEffect(String myEffect) {
-		System.out.println(myEffect);
 		this.myEffect = myEffect;
 	}
 	

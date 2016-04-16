@@ -19,6 +19,7 @@ import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -42,6 +43,7 @@ public abstract class SuperMenu extends Menu{
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
 	private TerrainFactory myTerrainFactory;
+	private Map<String, List<ComboBox<String>>> meeep;
 	
 	public SuperMenu(ElementPicker myPicker){
 		this.myPicker = myPicker;
@@ -82,10 +84,34 @@ public abstract class SuperMenu extends Menu{
 	 	   uploadImage.setTooltip(t);
 	 	   myGridPane.add(uploadImage, 1, index+2);
 	 	   
+	 	   Button newAffect = new Button("Add New Affector");
 	 	   Button ok = new Button("OK");
 	 	   ok.setOnAction(e -> makeElement(t, block));
+	 	   newAffect.setOnAction(e-> addNewAffectorSpace(newAffect, ok, uploadImage));
+	 	   myGridPane.add(newAffect, 1, index+1);
 	 	   myGridPane.add(ok, 2, index+2);
 	}
+	
+	private void addNewAffectorSpace(Button newAffect, Button ok, Button uploadImage){
+		ComboBox<String> cbox = new ComboBox<String>();
+        cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+        myGridPane.add(cbox, 1, index);
+        index++;
+        
+        myGridPane.getChildren().remove(newAffect);
+        myGridPane.getChildren().remove(ok);
+        myGridPane.getChildren().remove(uploadImage);
+        myGridPane.add(newAffect, 1, index++);
+        myGridPane.add(ok, 2, index+2);
+        myGridPane.add(uploadImage, 1, index+2);
+        
+        
+		List<ComboBox<String>> me = meeep.get("Affector");
+		me.add(cbox);
+		meeep.put("Affector", me);
+        
+	}
+	
 	
 	public abstract void makeElement( Tooltip t, BuildingBlock block);
 	
@@ -115,14 +141,13 @@ public abstract class SuperMenu extends Menu{
     	return myPicker;
     }
     
-    public void createElement(BuildingBlock block, Map<String, TextField> intTextMap, Map<String, TextField> strTextMap, ResourceBundle myLabelsBundle, ResourceBundle myStringBundle){		//va will refactor this later 
+    public void createElement(BuildingBlock block, Map<String, TextField> intTextMap, Map<String, TextField> strTextMap, Map<String, List<ComboBox<String>>> strDragMap, ResourceBundle myLabelsBundle, ResourceBundle myStringBundle, ResourceBundle myDragBundle){		//va will refactor this later 
  	   index = 0;
  	   myGridPane = new GridPane();
- 	   
- 	   if(myLabelsBundle != null){
- 		   addLabels(myLabelsBundle, intTextMap);
- 	   }
+ 
+ 	   addLabels(myLabelsBundle, intTextMap);
        addLabels(myStringBundle, strTextMap);
+       addDropLabels(myDragBundle, strDragMap);
  	   addButtons(block);
 
   	   myGridPane.setStyle("-fx-background-color:teal;-fx-padding:10px;");
@@ -135,6 +160,28 @@ public abstract class SuperMenu extends Menu{
   	   newStage.setTitle("Elemental Creator");
   	   newStage.show();
   }
+    
+    public void addDropLabels(ResourceBundle myDragBundle, Map<String, List<ComboBox<String>>> strDragMap){
+    	meeep = strDragMap;
+	    myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
+	 	myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
+		Enumeration<String> myKeys = myDragBundle.getKeys();	//prolly should split this up into Strings and ints
+		strDragMap.clear();
+		
+		while(myKeys.hasMoreElements()){
+		 	myGridPane.getRowConstraints().add(new RowConstraints(30));
+			String name = myKeys.nextElement();
+            myGridPane.add(new Label(myDragBundle.getString(name) + "(s): "), 0, index);
+            ComboBox<String> cbox = new ComboBox<String>();
+            cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+            myGridPane.add(cbox, 1, index);
+            index++;
+            ArrayList<ComboBox<String>> yerp = new ArrayList<ComboBox<String>>();
+            yerp.add(cbox);
+			strDragMap.put(myDragBundle.getString(name),yerp);
+		}
+    	
+    }
     
     public FunctionFactory getFunctionFactory(){
     	return myFunctionFactory;

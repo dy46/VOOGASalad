@@ -56,7 +56,7 @@ public class TowerMenu extends SuperMenu {
 	public void createNewElement(){
 		ResourceBundle myElementLabelsBundle = ResourceBundle.getBundle(ELEMENT_LABELS_PACKAGE);
 		ResourceBundle myStringBundle = ResourceBundle.getBundle(STRING_LABELS_PACKAGE);
-		createElement(new TowerBuildingBlock(), intTextMap, strTextMap, myElementLabelsBundle, myStringBundle);
+		//createElement(new TowerBuildingBlock(), intTextMap, strTextMap, myElementLabelsBundle, myStringBundle);
 		
 	}
 	
@@ -72,9 +72,7 @@ public class TowerMenu extends SuperMenu {
 //    			System.out.println(m.getName());
 //    			System.out.println("setMy" + str);
     			if(m.getName().startsWith("setMy" + str)){
-    	    		System.out.println("setMy" + str);
     				try {
-    		    		System.out.println(str);
 						m.invoke(block,strTextMap.get(str).getText());
 						break;
 
@@ -86,7 +84,6 @@ public class TowerMenu extends SuperMenu {
     			}
     		}	
     	}
-    	System.out.println("hello");
     	for(String str: intTextMap.keySet()){
     		Method[] allMethods = c.getMethods();
     		
