@@ -22,8 +22,8 @@ import game_engine.properties.UnitProperties;
  */
 public class PathFollowPositionMoveAffector extends Affector {
 
-	public PathFollowPositionMoveAffector(List<Function> functions, Bounds range){
-		super(functions, range);
+	public PathFollowPositionMoveAffector(List<Function> functions){
+		super(functions);
 	}
 
 	@Override

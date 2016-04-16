@@ -8,8 +8,8 @@ import game_engine.properties.Bounds;
 
 public class ExpIncrHealthDamageAffector extends HealthDamageAffector{
 
-    public ExpIncrHealthDamageAffector(List<Function> functions, Bounds range){
-        super(functions, range);
+    public ExpIncrHealthDamageAffector(List<Function> functions){
+        super(functions);
     }
 
 }

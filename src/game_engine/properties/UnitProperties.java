@@ -1,9 +1,7 @@
 package game_engine.properties;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import game_engine.game_elements.Branch;
 
@@ -14,6 +12,7 @@ public class UnitProperties {
 	private Team myTeam;
 	private Velocity myVelocity;
 	private Bounds myBounds;
+	private Bounds myRange;
 	private Position myPosition;
 	private Price myPrice;
 	private State myState;
@@ -33,7 +32,7 @@ public class UnitProperties {
 
 	public UnitProperties(Health health, Damage damage, 
 			Team team, Velocity velocity, 
-			Bounds bounds, Position position, 
+			Bounds bounds, Bounds range, Position position, 
 			Price price, State state,
 			Movement movement){
 		this.myHealth = health;
@@ -45,6 +44,7 @@ public class UnitProperties {
 		this.myPrice = price;
 		this.myState = state;
 		this.myMovement = movement;
+		this.myRange = range;
 	}
 
 	public UnitProperties copyUnitProperties() {
@@ -57,6 +57,9 @@ public class UnitProperties {
 		newProperties.myBounds = this.getBounds().copyBounds();
 		newProperties.myPosition = this.myPosition.copyPosition();
 		newProperties.myMovement = this.myMovement.copyMovement();
+		if(this.getRange() != null) {
+		    newProperties.myRange = this.getRange().copyBounds();
+		}
 		//newProperties.myPaths = this.myPath.copyPath();
 		//            newProperties.myPrice = this.myPrice.copyPrice();
 		return newProperties;
@@ -69,6 +72,7 @@ public class UnitProperties {
 		myTeam = new Team(DEFAULT_TEAM);
 		myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
 		myBounds = new Bounds(DEFAULT_BOUNDS);
+	        myRange = new Bounds(DEFAULT_BOUNDS);
 		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
 		myMovement = new Movement(DEFAULT_PATHS);
@@ -150,6 +154,14 @@ public class UnitProperties {
 
 	public void setMovement(Movement movement) {
 		this.myMovement = movement;
+	}
+	
+	public void setRange(Bounds range) {
+	    this.myRange = range;
+	}
+	
+	public Bounds getRange() {
+	    return myRange;
 	}
 
 }

@@ -68,8 +68,7 @@ public class ImageViewPicker {
             boolean seeRange = Arrays.asList(seeRangeElements).contains(u.getClass().getSimpleName());
             if(seeRange && (timer % 60 == 0 || rangeStart)) {
                 fillPolygonWithPoints(range, CollisionDetector.getUseableBounds(((Tower) u)
-                                                                          .getMyProjectiles().get(0).getTimelines()
-                                                                          .get(0).getAffectors().get(0).getRange(), 
+                                                                          .getMyProjectiles().get(0).getProperties().getRange(), 
                                                                            u.getProperties().getPosition()));
                 range.setOpacity(0.1);
                 range.toFront();

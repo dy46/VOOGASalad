@@ -13,7 +13,6 @@ public class Affector {
 	// this specifies how many ticks the affector applies its effect (it's "time to live")
 	private int TTL;
 	private int elapsedTime;
-	private Bounds range;
 	private List<Function> myFunctions;
 	private IPlayerEngineInterface engineWorkspace;
 
@@ -29,10 +28,8 @@ public class Affector {
 	 *
 	 */
 
-	public Affector(List<Function> functions, Bounds bounds){
+	public Affector(List<Function> functions){
 		this.myFunctions = functions;
-		this.elapsedTime = 0;
-		this.range = bounds;
 	}
 	
 	public void setWorkspace(IPlayerEngineInterface workspace){
@@ -48,8 +45,8 @@ public class Affector {
 		Affector copy = null;
 		try {
 			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class, Bounds.class)
-					.newInstance(this.getFunctions(), this.getRange());
+					.getConstructor(List.class)
+					.newInstance(this.getFunctions());
 			copy.setWorkspace(this.getEngineWorkspace());
 		}
 		catch (Exception e) {
@@ -106,10 +103,6 @@ public class Affector {
 
 	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
 		this.engineWorkspace = engineWorkspace;
-	}
-	
-	public Bounds getRange() {
-	    return range;
 	}
 
 }

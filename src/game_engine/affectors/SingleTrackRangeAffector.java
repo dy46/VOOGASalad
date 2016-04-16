@@ -13,8 +13,8 @@ public abstract class SingleTrackRangeAffector extends Affector{
     private Unit trackedUnit;
     private boolean firstApplication;
 
-    public SingleTrackRangeAffector(List<Function> functions, Bounds range){
-              super(functions, range);
+    public SingleTrackRangeAffector(List<Function> functions){
+              super(functions);
               firstApplication = true;
     }
     
@@ -61,7 +61,7 @@ public abstract class SingleTrackRangeAffector extends Affector{
         }
         return CollisionDetector.encapsulates(CollisionDetector.getUseableBounds(closestEnemy.getProperties().getBounds(), 
                                                                           closestEnemy.getProperties().getPosition()), 
-                                              CollisionDetector.getUseableBounds(this.getRange(), properties.getPosition()))
+                                              CollisionDetector.getUseableBounds(properties.getRange(), properties.getPosition()))
                                  ? closestEnemy : null;
     }
 }

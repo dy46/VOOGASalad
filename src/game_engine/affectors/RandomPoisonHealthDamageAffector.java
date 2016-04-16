@@ -8,8 +8,8 @@ import game_engine.properties.Bounds;
 
 public class RandomPoisonHealthDamageAffector extends ExpIncrHealthDamageAffector{
 
-	public RandomPoisonHealthDamageAffector(List<Function> functions, Bounds range) {
-		super(functions, range);
+	public RandomPoisonHealthDamageAffector(List<Function> functions) {
+		super(functions);
 	}
 
 	// poisons with 1/5th chance

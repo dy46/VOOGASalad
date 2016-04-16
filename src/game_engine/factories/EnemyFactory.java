@@ -38,7 +38,7 @@ public class EnemyFactory {
 		Bounds b = eBlock.getMyBounds();
 		State st = eBlock.getMyState(); 
 //		Path p = eBlock.getMyPath(); 										This value is gonna be null for now
-		UnitProperties properties = new UnitProperties(health, null, null, velo, b, null, null, st, null);
+		UnitProperties properties = new UnitProperties(health, null, null, velo, b, null, null, null, st, null);
 		e.setProperties(properties);
 		e.setTTL(100000);
 		e.setDeathDelay(3);
@@ -69,7 +69,7 @@ public class EnemyFactory {
 		p2.addPosition(new Position(400, 200));
 		p2.addPosition(new Position(400, 525));
 		Movement movement = new Movement(Arrays.asList(p2));
-		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, new Position(0,30), null, st, movement);
+		UnitProperties properties = new UnitProperties(health, null, null, velocity, b, null, new Position(0,30), null, st, movement);
 		e1.setProperties(properties);
 		e1.setTTL(1000000);
 		e1.setDeathDelay(3);

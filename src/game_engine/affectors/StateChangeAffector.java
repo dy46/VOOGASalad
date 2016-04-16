@@ -9,8 +9,8 @@ import game_engine.properties.State;
 
 public class StateChangeAffector extends Affector {
     
-    public StateChangeAffector(List<Function> functions, Bounds range){
-        super(functions, range);
+    public StateChangeAffector(List<Function> functions){
+        super(functions);
     }
     
     @Override

@@ -20,12 +20,12 @@ public class AffectorFactory {
 		setDefaultAffectors(myFunctionFactory);
 	}
 
-	private void constructAffector(String property, Bounds range, String effect, List<Function> functions){
+	private void constructAffector(String property,  String effect, List<Function> functions){
 		Affector affector = null;
 		try {
 			affector = (Affector) Class.forName(PACKAGE + property + effect + BASE)
-					.getConstructor(List.class, Bounds.class)
-					.newInstance(functions, range);
+					.getConstructor(List.class)
+					.newInstance(functions);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -38,39 +38,34 @@ public class AffectorFactory {
 		String property4 = "Constant";
 		Function healthFunction = myFunctionFactory.createConstantFunction(1);
 		String effect4 ="HealthDamage";
-		List<Position> l1 = new ArrayList<>();
-                l1.add(new Position(-100, -100));
-                l1.add(new Position(-100,100));
-                l1.add(new Position(100,100));
-                l1.add(new Position(100,-100));
-                Bounds b = new Bounds(l1);
-		constructAffector(property4, b, effect4, Arrays.asList(healthFunction));
+		
+		constructAffector(property4, effect4, Arrays.asList(healthFunction));
 		
 		String expIncrProperty = "ExpIncr";
 		Function exprIncrFunction = myFunctionFactory.createExpIncrFunction("Moderate");
 		String healthDamageEffect = "HealthDamage";
-		constructAffector(expIncrProperty, b, healthDamageEffect, Arrays.asList(exprIncrFunction));
+		constructAffector(expIncrProperty, healthDamageEffect, Arrays.asList(exprIncrFunction));
 		
 		String randomPoison = "RandomPoison";
 		Function randomPoisonFunction = myFunctionFactory.createExpIncrFunction("Weak");
 		String randomPoisonEffect = "HealthDamage";
-		constructAffector(randomPoison, b, randomPoisonEffect, Arrays.asList(randomPoisonFunction));
+		constructAffector(randomPoison, randomPoisonEffect, Arrays.asList(randomPoisonFunction));
 
 		String property5 = "State";
 		String effect5 = "Change";
-		constructAffector(property5, b, effect5, null);
+		constructAffector(property5, effect5, null);
 
 		String property6 = "RangePathFollow";
 		String effect6 = "PositionMove";
-		constructAffector(property6, b, effect6, null);
+		constructAffector(property6, effect6, null);
 		
 	        String property7 = "PathFollow";
 	        String effect7 = "PositionMove";
-	        constructAffector(property7, b, effect7, null);
+	        constructAffector(property7, effect7, null);
 
 		String property8 = "Homing";
 		String effect8 = "Move";
-		constructAffector(property8, b, effect8, null);
+		constructAffector(property8, effect8, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

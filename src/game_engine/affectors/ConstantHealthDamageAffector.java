@@ -7,8 +7,8 @@ import game_engine.properties.Bounds;
 
 public class ConstantHealthDamageAffector extends HealthDamageAffector{
 
-    public ConstantHealthDamageAffector(List<Function> functions, Bounds range){
-        super(functions, range);
+    public ConstantHealthDamageAffector(List<Function> functions){
+        super(functions);
     }
     
 }

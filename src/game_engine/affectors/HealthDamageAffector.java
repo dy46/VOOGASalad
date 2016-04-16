@@ -9,8 +9,8 @@ import game_engine.properties.Bounds;
 
 public class HealthDamageAffector extends Affector{
 
-	public HealthDamageAffector(List<Function> functions, Bounds range){
-		super(functions, range);
+	public HealthDamageAffector(List<Function> functions){
+		super(functions);
 	}
 
 	@Override
