@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.view.ElementPicker;
@@ -21,6 +22,10 @@ public class EnemyMenu extends SuperMenu{
 	
 	public EnemyMenu(ElementPicker myPicker) {
 		super(myPicker);
+	}
+	public EnemyMenu(ElementPicker myPicker, FactoryController factoryController) {
+		super(myPicker, factoryController);
+		// TODO Auto-generated constructor stub
 	}
 	private static final String ENEMY_LABELS_PACKAGE = "auth_environment/properties/enemy_labels";
 	private static final String STRING_LABELS_PACKAGE = "auth_environment/properties/enemy_string_labels";
@@ -85,6 +90,7 @@ public class EnemyMenu extends SuperMenu{
 //	    	
 //	    	getPicker().updateEnemy(enemy);
 //	    	
+
 	    }
 		
 	}

@@ -16,6 +16,8 @@ import game_engine.properties.Price;
 import game_engine.properties.Team;
 import game_engine.properties.Velocity;
 import java.util.*;
+
+import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.EnemyBuildingBlock;
 import auth_environment.buildingBlocks.TerrainBuildingBlock;
@@ -48,8 +50,8 @@ public class TowerMenu extends SuperMenu {
 	private Map<String, TextField> intTextMap = new HashMap<String, TextField>();
 	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 
-	public TowerMenu(ElementPicker myPicker) {
-		super(myPicker);
+	public TowerMenu(ElementPicker myPicker, FactoryController factoryController) {
+		super(myPicker, factoryController);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -102,7 +104,7 @@ public class TowerMenu extends SuperMenu {
     	
     	block.setMyImage((ImageView)t.getGraphic());
     	
-    	TowerFactory towerFac = super.getTowerFactory();
+    	TowerFactory towerFac = super.getFactoryController().getTowerFactory();
     	Tower tower = towerFac.defineTowerModel(block);
     	
     	getPicker().updateTower(tower);

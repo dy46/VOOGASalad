@@ -7,8 +7,8 @@ import game_engine.functions.Function;
 
 public class ConstantHealthDamageAffector extends HealthDamageAffector{
 
-    public ConstantHealthDamageAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
+    public ConstantHealthDamageAffector(List<Function> functions){
+        super(functions);
     }
     
 }

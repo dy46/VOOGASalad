@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import auth_environment.backend.FactoryController;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.view.ElementPicker;
 import game_engine.factories.AffectorFactory;
@@ -44,35 +45,36 @@ public abstract class SuperMenu extends Menu{
 	private TowerFactory myTowerFactory;
 	private TerrainFactory myTerrainFactory;
 	private Map<String, List<ComboBox<String>>> meeep;
-	
-	public SuperMenu(ElementPicker myPicker){
+
+	private FactoryController myFactoryController;
+
+	public SuperMenu(ElementPicker myPicker) {
 		this.myPicker = myPicker;
-		myFunctionFactory = new FunctionFactory();
-		myAffectorFactory = new AffectorFactory(myFunctionFactory);
-		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
-		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 	}
-	
+	public SuperMenu(ElementPicker myPicker, FactoryController factoryController){
+		this.myPicker = myPicker;
+		myFactoryController = factoryController;
+	}
+
 	public abstract void createNewElement();
-	
+
 	private void addLabels(ResourceBundle myLabelsBundle, Map<String, TextField> StrToTextMap){
-	    myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
-	 	myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
+		myGridPane.getColumnConstraints().add(new ColumnConstraints(90));
+		myGridPane.getColumnConstraints().add(new ColumnConstraints(200));
 		Enumeration<String> myKeys = myLabelsBundle.getKeys();	//prolly should split this up into Strings and ints
 		StrToTextMap.clear();
-		
+
 		while(myKeys.hasMoreElements()){
-		 	myGridPane.getRowConstraints().add(new RowConstraints(30));
+			myGridPane.getRowConstraints().add(new RowConstraints(30));
 			String name = myKeys.nextElement();
-            myGridPane.add(new Label(myLabelsBundle.getString(name) + ": "), 0, index);
-            TextField myTextField = new TextField();
-            myGridPane.add(myTextField, 1, index);
-            index++;
+			myGridPane.add(new Label(myLabelsBundle.getString(name) + ": "), 0, index);
+			TextField myTextField = new TextField();
+			myGridPane.add(myTextField, 1, index);
+			index++;
 			StrToTextMap.put(myLabelsBundle.getString(name),myTextField);
 		}
 	}
-	
+
 	private void addButtons(BuildingBlock block){
 	 	   Tooltip t = new Tooltip();
 	 	   ImageView image = new ImageView();
@@ -112,9 +114,10 @@ public abstract class SuperMenu extends Menu{
         
 	}
 	
-	
+
 	public abstract void makeElement( Tooltip t, BuildingBlock block);
-	
+
+
     private void selectImage(Tooltip t){
     	FileChooser imageChoice = new FileChooser();
         imageChoice.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
@@ -202,6 +205,10 @@ public abstract class SuperMenu extends Menu{
     public TowerFactory getTowerFactory(){
     	return myTowerFactory;
     }
+	public FactoryController getFactoryController() {
+		// TODO Auto-generated method stub
+		return myFactoryController;
+	}
     
 //    private String formatType(String type){
 //    	type = type.toLowerCase();
