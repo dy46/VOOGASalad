@@ -1,6 +1,6 @@
 package game_engine.game_elements;
 
-import game_engine.games.TD.TDGame;
+import game_engine.genres.TD.TDGame;
 
 /**
  * This interface is the external API of the game element module for providing element information to the front-end.

@@ -3,7 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.timers.Timer;
+import game_engine.games.Timer;
 
 
 /*
@@ -90,7 +90,9 @@ public class Level extends GameElement {
     }
 
     public Enemy update () {
-        return myCurrentWave.tryToSpawnEnemy();
+    	Enemy e = myCurrentWave.tryToSpawnEnemy();
+    	System.out.println("ENEMY: " + e);
+        return e;
     }
 
     public Wave getNextWave () {

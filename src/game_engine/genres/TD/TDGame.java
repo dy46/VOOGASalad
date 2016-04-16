@@ -1,4 +1,4 @@
-package game_engine.games.TD;
+package game_engine.genres.TD;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.game_elements.Wave;
-import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
-import game_engine.timers.TDTimer;
-import game_engine.timers.Timer;
+import game_engine.genres.TD.TDTimer;
+import game_engine.games.Timer;
 
 
 /**
@@ -36,7 +36,7 @@ import game_engine.timers.Timer;
  *
  */
 
-public class TDGame implements IPlayerEngineInterface {
+public class TDGame implements GameEngineInterface {
 
 	private boolean pause;
 	private List<Level> myLevels;
@@ -56,7 +56,6 @@ public class TDGame implements IPlayerEngineInterface {
 	private TDTimer myTimer;
 
 	public void setUpEngine (GameData gameData) {
-		myTimer = new TDTimer(this);
 		myLevels = gameData.getLevels();
 		myPaths = gameData.getPaths();
 		System.out.println("My paths: " + myPaths);
@@ -70,10 +69,27 @@ public class TDGame implements IPlayerEngineInterface {
 		initialize();
 	}
 
-	private void initialize(){
-		if(myLevels == null)	myLevels = new ArrayList<>();
-		myAffectors.stream().forEach(a -> a.setWorkspace(this));
+	// TODO: make private after TestTDGame deleted
+	public void initialize(){
+		myTimer = new TDTimer(this);
+		nullCheck();
+		if(myLevels.size() == 0){
+			System.out.println("My levels zero");
+			Wave w = new Wave("temp", 0);
+			Level l = new Level("temp2", w, 3);
+			myLevels.add(l);
+			myCurrentLevel = l;
+		}
+		System.out.println("Levels created: " + myLevels.size() + "(Size) and "+myLevels.get(0).getCurrentWave());
+		System.out.println("ENEMIES: " + myEnemys);
 		myCurrentLevel = myLevels.get(0);
+		myCurrentLevel.setMyLives(3);
+
+		myAffectors.stream().forEach(a -> a.setWorkspace(this));
+	}
+
+	public void nullCheck(){
+		if(myLevels == null){ myLevels = new ArrayList<>(); System.out.println("My levels null"); }
 		if(myPaths == null)		myPaths = new ArrayList<>();
 		if(myEnemys == null)	myEnemys = new ArrayList<>();
 		if(myProjectiles == null)	myProjectiles = new ArrayList<>();
@@ -81,12 +97,6 @@ public class TDGame implements IPlayerEngineInterface {
 		if(myTowerTypes == null)	myTowerTypes = new ArrayList<>();
 		if(myTerrains == null)	myTerrains = new ArrayList<>();
 		if(myAffectors == null)	myAffectors = new ArrayList<>();
-		if(myLevels.size() == 0){
-			Wave w = new Wave("temp", 0);
-			Level l = new Level("temp2", w, 3);
-			myLevels.add(l);
-			myCurrentLevel = l;
-		}
 	}
 
 	public String getGameStatus () {
@@ -137,6 +147,63 @@ public class TDGame implements IPlayerEngineInterface {
 		//	
 	}
 
+	public void clearProjectiles() {
+		myProjectiles.forEach(t -> {
+			t.setInvisible();
+			t.setHasCollided(true);
+		});
+	}
+
+	public List<String> saveGame () {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void playLevel (int levelNumber) {
+		myCurrentLevel = myLevels.get(levelNumber);
+		myTimer.unpause();
+	}
+
+	public void playWave (int waveNumber) {
+		myCurrentLevel.getWaveTimer().pause();
+		myCurrentLevel.setCurrentWave(waveNumber);
+	}
+
+	public void continueWaves () {
+		myCurrentLevel.playNextWave();
+		myTimer.unpause();
+	}
+
+	@Override
+	public void addTower (String name, double x, double y) {
+		for(int i = 0; i < myTowerTypes.size(); i++) {
+			if(myTowerTypes.get(i).toString().equals(name)) {
+				Tower newTower = myTowerTypes.get(i).copyTower(x, y);
+				myTowers.add(newTower);
+			}
+		}
+	}
+
+	public boolean isPaused() {
+		return pause;
+	}
+
+	public void setPaused() {
+		pause = true;
+	}
+
+	public Wave getCurrentWave() {
+		return myCurrentLevel.getCurrentWave();
+	}
+
+	public Timer getNextWaveTimer(){
+		return myCurrentLevel.getWaveTimer();
+	}
+
+	public boolean isGameOver(){
+		return myCurrentLevel.getMyLives() <= 0;
+	}
+
 	public Level getCurrentLevel() { return myCurrentLevel; }
 
 	public double getBalance() { return myBalance; }
@@ -157,65 +224,28 @@ public class TDGame implements IPlayerEngineInterface {
 
 	public int getLives () { return myCurrentLevel.getMyLives(); }
 
-	public void clearProjectiles() {
-		myProjectiles.forEach(t -> {
-			t.setInvisible();
-			t.setHasCollided(true);
-		});
+	public void addPath(Branch b){ myPaths.add(b);	}
+
+	public void setTowerTypes(List<Tower> towers){ this.myTowerTypes = towers;	}
+
+	public void setTerrains(List<Unit> terrains) {	this.myTerrains = terrains;	}
+
+	public void setCurrentLevel(Level level) {	myCurrentLevel = level; }
+
+	public void setAffectors(List<Affector> affectors) {	this.myAffectors = affectors; }
+
+	public List<Affector> getAffectors(){	return myAffectors; }
+
+	public Timer getTimer(){
+		return myTimer;
 	}
 
-	public List<String> saveGame () {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void playLevel (int levelNumber) {
-		myCurrentLevel = myLevels.get(levelNumber);
-		pause = false;
-	}
-
-	public void playWave (int waveNumber) {
-		// TODO: pause current wave
-		myCurrentLevel.setCurrentWave(waveNumber);
-	}
-
-	public void continueWaves () {
-		myCurrentLevel.playNextWave();
-		pause = false;
-	}
-
-	@Override
-	public void addTower (String name, double x, double y) {
-		for(int i = 0; i < myTowerTypes.size(); i++) {
-			if(myTowerTypes.get(i).toString().equals(name)) {
-				Tower newTower = myTowerTypes.get(i).copyTower(x, y);
-				myTowers.add(newTower);
-			}
-		}
-	}
-
-	public void updateElements() {
+	public void update() {
 		myTimer.update();
 	}
 
-	public boolean isPaused() {
-		return pause;
-	}
-
-	public void setPaused() {
-		pause = true;
-	}
-
-	public Wave getCurrentWave() {
-		return myCurrentLevel.getCurrentWave();
-	}
-	
-	public Timer getNextWaveTimer(){
-		return myCurrentLevel.getWaveTimer();
-	}
-	
-	public boolean isGameOver(){
-		return myCurrentLevel.getMyLives() <= 0;
+	public void setupTimer() {
+		myTimer = new TDTimer(this);
 	}
 
 }

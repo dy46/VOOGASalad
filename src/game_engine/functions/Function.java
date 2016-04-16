@@ -3,7 +3,7 @@ package game_engine.functions;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.games.TD.TDGame;
+import game_engine.genres.TD.TDGame;
 
 /**
  * This class represents a discrete function based on any number of independent variable as arguments.

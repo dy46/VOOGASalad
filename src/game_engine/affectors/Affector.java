@@ -5,7 +5,7 @@ import java.util.List;
 
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
-import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 import game_engine.properties.UnitProperties;
 import game_engine.timelines.EndEvent;
 
@@ -16,7 +16,7 @@ public class Affector {
 	private int TTL;
 	private int elapsedTime;
 	private List<Function> myFunctions;
-	private IPlayerEngineInterface engineWorkspace;
+	private GameEngineInterface engineWorkspace;
 //	private List<EndEvent> myEndEvents;
 
 	/**
@@ -43,7 +43,7 @@ public class Affector {
 //		this.elapsedTime = 0;
 //	}
 	
-	public void setWorkspace(IPlayerEngineInterface workspace){
+	public void setWorkspace(GameEngineInterface workspace){
 		this.engineWorkspace = workspace;
 	}
 
@@ -113,11 +113,11 @@ public class Affector {
 		return myFunctions;
 	}
 
-	public IPlayerEngineInterface getEngineWorkspace() {
+	public GameEngineInterface getEngineWorkspace() {
 		return engineWorkspace;
 	}
 
-	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
+	public void setEngineWorkspace(GameEngineInterface engineWorkspace) {
 		this.engineWorkspace = engineWorkspace;
 	}
 	

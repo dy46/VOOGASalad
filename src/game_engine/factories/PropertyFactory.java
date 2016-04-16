@@ -1,6 +1,6 @@
 package game_engine.factories;
 
-import game_engine.games.TD.TDGame;
+import game_engine.genres.TD.TDGame;
 
 public class PropertyFactory {
 

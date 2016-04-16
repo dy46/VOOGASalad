@@ -1,6 +1,6 @@
 package game_engine.properties;
 
-import game_engine.games.TD.TDGame;
+import game_engine.genres.TD.TDGame;
 
 public abstract class Property {
 

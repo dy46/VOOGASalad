@@ -10,8 +10,8 @@ import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.games.IPlayerEngineInterface;
-import game_engine.games.TD.TDGame;
+import game_engine.games.GameEngineInterface;
+import game_engine.genres.TD.TDGame;
 import game_engine.properties.Position;
 
 public class GameData implements IGameData {
@@ -25,7 +25,7 @@ public class GameData implements IGameData {
 	private List<Affector> myAffectors;
 	private ISettings mySettings;
 	//	private List<Unit> myTerrains;
-	private IDataConverter<IPlayerEngineInterface> mySerializer;
+	private IDataConverter<GameEngineInterface> mySerializer;
 	private List<List<Position>> myPositionLists;
 
 	public GameData(){
@@ -36,7 +36,7 @@ public class GameData implements IGameData {
 		myTerrains = new ArrayList<>();
 		myProjectiles = new ArrayList<>();
 		mySettings = new GameSettings();
-		mySerializer = new AuthSerializer<IPlayerEngineInterface>();
+		mySerializer = new AuthSerializer<GameEngineInterface>();
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public void saveGameData() {
-		IPlayerEngineInterface workspace = new TDGame();
+		GameEngineInterface workspace = new TDGame();
 		workspace.setUpEngine(this);
 		mySerializer.saveElement(workspace);
 	}

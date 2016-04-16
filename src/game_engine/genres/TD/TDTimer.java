@@ -1,7 +1,8 @@
-package game_engine.timers;
+package game_engine.genres.TD;
 import game_engine.game_elements.Tower;
-import game_engine.games.IPlayerEngineInterface;
-import game_engine.games.TD.TDGame;
+import game_engine.games.GameTimer;
+import game_engine.games.GameEngineInterface;
+import game_engine.genres.TD.TDGame;
 
 public class TDTimer extends GameTimer{
 
@@ -13,6 +14,7 @@ public class TDTimer extends GameTimer{
 	}
 
 	public void updateElements() {
+		myGame.getCurrentLevel().getWaveTimer().update();
 		if(!myGame.isPaused() && !myGame.isGameOver()){
 			myGame.getTowers().forEach(t -> t.update());
 			myGame.getTowers().forEach(t -> ((Tower) t).fire());
@@ -45,7 +47,7 @@ public class TDTimer extends GameTimer{
 		myGame.getCurrentLevel().setMyLives(myGame.getCurrentLevel().getStartingLives() - livesToSubtract);
 	}
 
-	public void setWorkspace(IPlayerEngineInterface ws) throws Exception{
+	public void setWorkspace(GameEngineInterface ws) throws Exception{
 		super.setWorkspace(ws);
 		if(ws instanceof TDGame)
 			myGame = (TDGame) ws;

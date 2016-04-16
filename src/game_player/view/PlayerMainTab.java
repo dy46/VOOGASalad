@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -44,9 +44,9 @@ public class PlayerMainTab implements IPlayerTab{
 	private VBox gameMenu;
 	private HBox gamePanel;
 	
-	private IPlayerEngineInterface gameEngine;
+	private GameEngineInterface gameEngine;
 	
-	public PlayerMainTab(IPlayerEngineInterface engine, ResourceBundle r, Scene scene, String tabName) {
+	public PlayerMainTab(GameEngineInterface engine, ResourceBundle r, Scene scene, String tabName) {
 		this.gameEngine = engine;
 		this.myResources = r;
 		this.gameElements = new ArrayList<>();

@@ -6,9 +6,9 @@ import java.util.ResourceBundle;
 import game_data.AuthSerializer;
 import game_data.GameData;
 import game_data.IDataConverter;
-import game_engine.games.IPlayerEngineInterface;
-import game_engine.games.TD.TDGame;
-import game_engine.games.TestingEngineWorkspace;
+import game_engine.games.GameEngineInterface;
+import game_engine.games.TestTDGame;
+import game_engine.genres.TD.TDGame;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -25,7 +25,7 @@ public class PlayerGUI{
 	private AnchorPane myRoot;
 	private TabPane myTabs;
 	private ResourceBundle myResources;
-	private IPlayerEngineInterface gameEngine;
+	private GameEngineInterface gameEngine;
 	
 	public PlayerGUI(int windowWidth, int windowHeight) {
 		this.windowWidth = windowWidth;
@@ -56,8 +56,8 @@ public class PlayerGUI{
 		return myScene;
 	}
 	
-	private IPlayerEngineInterface readData() {
-		IDataConverter<IPlayerEngineInterface> dataConverter = new AuthSerializer<IPlayerEngineInterface>();
+	private GameEngineInterface readData() {
+		IDataConverter<GameEngineInterface> dataConverter = new AuthSerializer<GameEngineInterface>();
 		GameData gameData = (GameData) dataConverter.loadElement();
 		gameEngine = new TDGame();
 		gameEngine.setUpEngine(gameData);
@@ -65,12 +65,11 @@ public class PlayerGUI{
 	}
 	
 	private void createNewTab() {
-//		gameEngine = new EngineWorkspace();
+//		gameEngine = new TDGame();
 //		gameEngine = readData();
 		
 		
-		gameEngine = new TestingEngineWorkspace();
-		gameEngine.setUpEngine(null);
+		gameEngine = new TestTDGame();
 		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();

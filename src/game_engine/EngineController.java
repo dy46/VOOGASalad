@@ -3,7 +3,7 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import game_engine.games.TD.TDGame;
+import game_engine.genres.TD.TDGame;
 
 /**
  * This class represents the womp-wide controller for all instances of specific game engine implementations.
@@ -14,13 +14,13 @@ import game_engine.games.TD.TDGame;
 
 public class EngineController {
 
-	Collection<TDGame> myActiveEngines;
-	TDGame myActiveWorkspace;
+	private Collection<TDGame> myActiveGames;
+	private TDGame TD;
 	
 	public void initialize(){
-		myActiveEngines = new ArrayList<>();
-		myActiveWorkspace = new TDGame();
-		myActiveEngines.add(myActiveWorkspace);
+		myActiveGames = new ArrayList<>();
+		TD = new TDGame();
+		myActiveGames.add(TD);
 	}
 	
 }

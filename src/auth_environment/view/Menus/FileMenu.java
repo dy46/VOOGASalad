@@ -8,8 +8,8 @@ import auth_environment.backend.ISettings;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import game_data.AuthSerializer;
 import game_data.GameData;
-import game_engine.games.IPlayerEngineInterface;
-import game_engine.games.TestingEngineWorkspace;
+import game_engine.games.GameEngineInterface;
+import game_engine.games.TestTDGame;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
@@ -60,7 +60,7 @@ public class FileMenu extends Menu {
 //		myGameDataController.getGameData().setTerrains(myGameDataController.getPicker().getTerrains());
 //		myGameDataController.getGameData().setTowerTypes(myGameDataController.getPicker().getTowers());
 //		myGameDataController.getGameData().setPaths(myGameDataController.getPathGraphFactory().getPaths());
-		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		TestTDGame test = new TestTDGame();
 		myGameDataController.getGameData().setPaths(test.getPaths());
 		myGameDataController.getGameData().setEnemies(test.getEnemies());
 		myGameDataController.getGameData().setTerrains(test.getTerrains());

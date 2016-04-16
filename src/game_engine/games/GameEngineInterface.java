@@ -10,8 +10,9 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.games.TD.TDGame;
+import game_engine.genres.TD.TDGame;
 import game_engine.properties.UnitProperties;
+import game_engine.games.Timer;
 
 /**
  * This interface is the external API for the game player module. It facilitates 
@@ -22,7 +23,7 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public interface IPlayerEngineInterface {
+public interface GameEngineInterface {
     
     //tells the engine to save the game and returns the list of fileNames that can be retrieved
     List<String> saveGame();
@@ -34,7 +35,7 @@ public interface IPlayerEngineInterface {
     void playWave(int waveNumber);
     
     //tells engine to update elements a single time unit 
-    void updateElements();
+    void update();
     
     //asks engine about the game status
     String getGameStatus();
@@ -77,5 +78,7 @@ public interface IPlayerEngineInterface {
 	public void addEnemy(Enemy e);
 	
 	public boolean isGameOver();
+
+	public Timer getTimer();
     
 }

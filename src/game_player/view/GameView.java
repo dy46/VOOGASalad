@@ -13,9 +13,9 @@ import auth_environment.view.Tile;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.games.IPlayerEngineInterface;
-import game_engine.games.TD.TDGame;
-import game_engine.games.TestingEngineWorkspace;
+import game_engine.games.GameEngineInterface;
+import game_engine.games.TestTDGame;
+import game_engine.genres.TD.TDGame;
 import game_engine.properties.Position;
 import game_player.GameDataSource;
 import javafx.animation.AnimationTimer;
@@ -46,7 +46,7 @@ public class GameView implements IGameView{
 	private GameCanvas canvas;
 	private Pane root;
 	private Scene myScene;
-	private IPlayerEngineInterface playerEngineInterface;
+	private GameEngineInterface playerEngineInterface;
 	private GameDataSource gameData;
 	private double myUpdateSpeed;
 	private double currentSpeed;
@@ -59,7 +59,7 @@ public class GameView implements IGameView{
 	private List<ImageView> towerTypes;
 	private String clickedTower;
 
-	public GameView(IPlayerEngineInterface engine, GameCanvas canvas, Scene scene, PlayerMainTab tab) {
+	public GameView(GameEngineInterface engine, GameCanvas canvas, Scene scene, PlayerMainTab tab) {
 		this.root = canvas.getRoot();
 		this.myScene = scene;
 		this.playerEngineInterface = engine;
@@ -75,7 +75,6 @@ public class GameView implements IGameView{
 		this.projectiles = new ArrayList<>();
 		this.terrains = new ArrayList<>();
 		this.towerTypes = new ArrayList<>();
-		this.timer = 0;
 		this.myUpdateSpeed = DEFAULT_UPDATE_SPEED;
 		this.currentSpeed = DEFAULT_UPDATE_SPEED;
 		this.paths = new ArrayList<>();
@@ -123,6 +122,7 @@ public class GameView implements IGameView{
 					placeUnits(playerEngineInterface.getTerrains(), terrains);
 					placeUnits(playerEngineInterface.getProjectiles(), projectiles);
 					placeUnits(playerEngineInterface.getEnemies(), enemies);
+					System.out.println(playerEngineInterface.getEnemies()+" PLACING");
 					makeTowerPicker();
 				}
 			}
@@ -138,7 +138,7 @@ public class GameView implements IGameView{
 
 	private void updateEngine() {
 		for (int i = 1; i <= myUpdateSpeed; i++) {
-			playerEngineInterface.updateElements();
+			playerEngineInterface.update();
 		}
 		myTab.updateGameElements();
 	}
@@ -204,7 +204,7 @@ public class GameView implements IGameView{
 	}
 
 	@Override
-	public IPlayerEngineInterface getGameEngine() {
+	public GameEngineInterface getGameEngine() {
 		return playerEngineInterface;
 	}
 }

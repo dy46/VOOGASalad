@@ -25,6 +25,7 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.game_elements.Wave;
+import game_engine.genres.TD.TDGame;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
@@ -36,81 +37,52 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public class TestingEngineWorkspace implements IPlayerEngineInterface {
-	private int nextWaveTimer;
-	private boolean pause;
-	private List<Level> myLevels;
-	private List<Branch> myPaths;
-
-	private List<Unit> myTowers;
-	private List<Unit> myEnemys;
-	private List<Unit> myProjectiles;
-
-	private CollisionDetector myCollider;
-	private List<Tower> myTowerTypes;
-	private Level myCurrentLevel;
-	private IDFactory myIDFactory;
-	private double myBalance;
-	private int myLives;
+public class TestTDGame extends TDGame {
 
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
 	private TimelineFactory myTimelineFactory;
-	
-	private List<Affector> myAffectors;
-
-	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
-	public TestingEngineWorkspace(){
+	public TestTDGame(){
 		setUpEngine(null);
 	}
-	
+
 	public void setUpEngine (GameData gameData) {
-		myLives = 3;
-		myLevels = new ArrayList<>();
-		myPaths = new ArrayList<>();
+		super.setupTimer();
+		super.nullCheck();
 		Branch p2 = new Branch("DirtNew");
 		p2.addPosition(new Position(0, 30));
 		p2.addPosition(new Position(200, 30));
 		p2.addPosition(new Position(200, 200));
 		p2.addPosition(new Position(400, 200));
 		p2.addPosition(new Position(400, 525));
-		myPaths.add(p2);
-		myTowerTypes = new ArrayList<>();
-		myIDFactory = new IDFactory();
-		myProjectiles = new ArrayList<>();
-		// projectiles must be intialized before towers
+		addPath(p2);
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary(), myTimelineFactory.getTimelineLibrary());
-		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
-		myTowers = new ArrayList<>();
-		myTowerTypes = makeDummyTowers();
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
-		myTerrains = makeDummyTerrains();
-		myCollider = new CollisionDetector(this);
-		myBalance = 0;
-		nextWaveTimer = 0;
-		myCurrentLevel = makeDummyLevel();
-		myLevels.add(myCurrentLevel);
-		myAffectors = myAffectorFactory.getAffectorLibrary().getAffectors();
-		myAffectors.stream().forEach(a -> a.setWorkspace(this));
+		super.setAffectors(myAffectorFactory.getAffectorLibrary().getAffectors());
+		super.setTerrains(makeDummyTerrains());
+		super.setTowerTypes(makeDummyTowers());
+		super.setCurrentLevel(makeDummyLevel());
+		super.addLevel(getCurrentLevel());
+		System.out.println("ENEMIES!" + getEnemies());
 	}
 
 	private List<Tower> makeDummyTowers () {
 		Position position2 = new Position(200, 300);
 		Tower t =
-				myTowerFactory.createHomingTower("Tower", myProjectiles,
-						Collections.unmodifiableList(myTowers),
+				myTowerFactory.createHomingTower("Tower", getProjectiles(),
+						Collections.unmodifiableList(getTowers()),
 						position2);
 		Tower t2 = 
-				myTowerFactory.createTackTower("Tack", myProjectiles,
-						Collections.unmodifiableList(myTowers),
+				myTowerFactory.createTackTower("Tack", getProjectiles(),
+						Collections.unmodifiableList(getTowers()),
 						position2);
 		return new ArrayList<>(Arrays.asList(new Tower[] { t, t2 }));
 	}
@@ -130,6 +102,7 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		w.addEnemy(e3, 60);
 		w.addEnemy(e4, 60);
 		Level l = new Level("still not sure", w, 3);
+		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
 		Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
@@ -226,140 +199,6 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 		return spike;
 	}
 
-	public void updateElements () {
-		nextWaveTimer++;
-		boolean gameOver = myLives <= 0;
-		if (!pause && !gameOver) {
-			myTowers.forEach(t -> t.update());
-			myTowers.forEach(t -> ((Tower) t).fire());
-			myEnemys.forEach(e -> e.update());
-			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
-			Enemy newE = myCurrentLevel.update();
-			if (newE != null) {
-				myEnemys.add(newE);
-			}// tries to spawn new enemies using Waves
-			if (myCurrentLevel.getCurrentWave().isFinished()) {
-				clearProjectiles();
-				pause = true;
-				nextWaveTimer = 0;
-			}
-		}
-		else if (myCurrentLevel.getNextWave() != null &&
-				myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer) {
-			continueWaves();
-		}
-		myProjectiles.forEach(p -> p.update());
-		myTerrains.forEach(t -> t.update());
-		updateLives();
-	}
-
-	public void updateLives () {
-		int livesToSubtract = 0;
-		for (int i = 0; i < myEnemys.size(); i++) {
-			if (myEnemys.get(i).getProperties().getMovement().isUnitAtLastPosition(myEnemys.get(i))) {
-				livesToSubtract++;
-				myEnemys.get(i).setElapsedTimeToDeath();
-			}
-		}
-		myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
-	}
-
-	public String getGameStatus () {
-		if (myCurrentLevel.getMyLives() <= 0) {
-			return "Waves remaining: " + myCurrentLevel.wavesLeft() + ", Lives remaining: " + "0";
-		}
-		return "Waves remaining: " + myCurrentLevel.wavesLeft() + 
-				", Lives remaining: " + myCurrentLevel.getMyLives();
-	}
-
-	public void addBalance (double money) {
-		myBalance += money;
-	}
-
-	public void addEnemy (Enemy enemy) {
-		myEnemys.add(enemy);
-	}
-
-	public void addLevel (Level level) {
-		myLevels.add(level);
-	}
-
-	public void remove (Unit unit) {
-		String className = unit.getClass().getSimpleName();
-		String instanceVarName = "my" + className + "s";
-		Field f = null;
-		try {
-			f = getClass().getDeclaredField(instanceVarName);
-		}
-		catch (NoSuchFieldException | SecurityException e1) {
-			// TODO: womp exception
-			e1.printStackTrace();
-		}
-		f.setAccessible(true);
-		List<Unit> listInstanceVar = null;
-		try {
-			listInstanceVar = (List<Unit>) f.get(this);
-		}
-		catch (IllegalArgumentException | IllegalAccessException e) {
-			// TODO: womp exception
-			e.printStackTrace();
-		}
-		listInstanceVar.remove(unit);
-	}
-
-	public void modifyTower (int activeTowerIndex, UnitProperties newProperties) {
-		// towerBoundsCheck(activeTowerIndex);
-		// myTowers.get(activeTowerIndex).setProperties(newProperties);
-		// myTowerTypes.set(activeTowerIndex, newProperties);
-		//
-	}
-
-	private void towerBoundsCheck (int index) {
-		if (index < 0 || index > myTowers.size()) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
-	private void towerTypeBoundsCheck (int index) {
-		if (index < 0 || index > myTowerTypes.size()) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
-	// Getters
-
-	public Level getCurrentLevel () {
-		return myCurrentLevel;
-	}
-
-	public IDFactory getIDFactory () {
-		return myIDFactory;
-	}
-
-	public double getBalance () {
-		return myBalance;
-	}
-
-	public List<Level> getLevels () {
-		return myLevels;
-	}
-
-	public List<Branch> getPaths () {
-		return myPaths;
-	}
-
-	public List<Unit> getEnemies () {
-		return myEnemys;
-	}
-
-	public List<Unit> getTowers () {
-		return myTowers;
-	}
-
-	public List<Unit> getProjectiles () {
-		return myProjectiles;
-	}
-
 	public FunctionFactory getFunctionFactory () {
 		return myFunctionFactory;
 	}
@@ -374,73 +213,6 @@ public class TestingEngineWorkspace implements IPlayerEngineInterface {
 
 	public AffectorLibrary getAffectorLibrary () {
 		return myAffectorFactory.getAffectorLibrary();
-	}
-
-	@Override
-	public int getLives () {
-		return myCurrentLevel.getMyLives();
-	}
-
-	public void clearProjectiles () {
-		myProjectiles.forEach(t -> {
-			t.setInvisible();
-			t.setHasCollided(true);
-		});
-	}
-
-	public List<Unit> getTerrains () {
-		return myTerrains;
-	}
-
-	public List<String> saveGame () {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void playLevel (int levelNumber) {
-		myCurrentLevel = myLevels.get(levelNumber);
-		pause = false;
-	}
-
-	public void playWave (int waveNumber) {
-		// TODO: pause current wave
-		myCurrentLevel.setCurrentWave(waveNumber);
-	}
-
-	public void continueWaves () {
-		myCurrentLevel.playNextWave();
-		pause = false;
-	}
-
-	@Override
-	public void addTower (String name, double x, double y) {
-		for(int i = 0; i < myTowerTypes.size(); i++) {
-			if(myTowerTypes.get(i).toString().equals(name)) {
-				Tower newTower = myTowerTypes.get(i).copyTower(x, y);
-				myTowers.add(newTower);
-			}
-		}
-	}
-
-	@Override
-	public List<Tower> getTowerTypes () {
-		return myTowerTypes;
-	}
-	
-	public List<Affector> getAffectors(){
-		return myAffectors;
-	}
-
-	public boolean isPaused() {
-		return pause;
-	}
-
-	public void setPaused() {
-		pause = true;
-	}
-	
-	public boolean isGameOver(){
-		return myCurrentLevel.getMyLives() <= 0;
 	}
 
 }

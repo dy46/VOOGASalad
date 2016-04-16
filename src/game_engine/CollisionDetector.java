@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
-import game_engine.games.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 import game_engine.properties.Position;
 import game_engine.timelines.Timeline;
 
 
 public class CollisionDetector {
 
-	private IPlayerEngineInterface myEngine;
+	private GameEngineInterface myEngine;
 
-	public CollisionDetector (IPlayerEngineInterface engine) {
+	public CollisionDetector (GameEngineInterface engine) {
 		myEngine = engine;
 	}
 
