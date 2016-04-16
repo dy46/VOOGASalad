@@ -1,5 +1,6 @@
 package game_engine.affectors;
 
+import java.util.ArrayList;
 import java.util.List;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
@@ -72,14 +73,15 @@ public class AIPathFollowAffector extends PathFollowAffector{
 				}
 			}
 		}
-		int numNearbyTowers = 0;
 		List<Unit> currentTowers = getWS().getTowers();
+		List<Unit> nearbyTowers = new ArrayList<>();
 		for(Position p : branchPositions){
 			for(Unit t : currentTowers){
 				if(t.isAlive()){
 					Position tPosition = t.getProperties().getPosition();
-					if(p.distanceTo(tPosition) < 300){
-						numNearbyTowers++;
+					//System.out.println("Distance to: " + p.distanceTo(tPosition));
+					if(p.distanceTo(tPosition) < 20 && !nearbyTowers.contains(t)){
+						nearbyTowers.add(t);
 					}
 				}
 			}
@@ -94,11 +96,18 @@ public class AIPathFollowAffector extends PathFollowAffector{
 				}
 			}
 		}
-		double pathValue = 0.01*pathLength;
-		double enemiesOnBranchValue = 5*numEnemiesOnBranch;
-		double nearbyTowersValue = 20*numNearbyTowers;
-		double goalValue = 10*minDistanceToGoal;
-		return pathValue + enemiesOnBranchValue + goalValue;
+		double goalValue, pathValue, enemiesOnBranchValue, nearbyTowersValue;
+		pathValue = 2*1/pathLength;
+		enemiesOnBranchValue = 5*numEnemiesOnBranch;
+		if(nearbyTowers.size() == 0)
+			nearbyTowersValue = 0;
+		else
+			nearbyTowersValue = 20*1/nearbyTowers.size();
+		if(minDistanceToGoal == Integer.MAX_VALUE)
+			goalValue = 0;
+		else
+			goalValue = 10*1/minDistanceToGoal;
+		return pathValue + enemiesOnBranchValue + goalValue + nearbyTowersValue;
 	}
 
 }
