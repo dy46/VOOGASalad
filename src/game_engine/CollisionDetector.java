@@ -35,6 +35,7 @@ public class CollisionDetector {
 							.getTimelinesToApply());
 					myProjectiles.get(i).setHasCollided(true);
 					unit.setHasCollided(true);
+					System.out.println("COLLIDED");
 				}
 			}
 		}
@@ -44,11 +45,25 @@ public class CollisionDetector {
 		for (int i = 0; i < terrains.size(); i++) {
 			if (!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) ||
 					(!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
-				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
+				if (!terrains.get(i).isEncapsulated() && unit.isVisible()) {
 					List<Timeline> newTimelinesToApply =
 							terrains.get(i).getTimelinesToApply().stream()
 							.map(t -> t.copyTimeline()).collect(Collectors.toList());
 					unit.addTimelines(newTimelinesToApply);
+					unit.setEncapsulated(true);
+					System.out.println("ENCAPSULATED");
+					for(Timeline t : newTimelinesToApply){
+						for(List<Affector> l : t.getAffectors()){
+							for(Affector a : l){
+								System.out.println(a);
+								System.out.println(a.getTTL());
+								System.out.println(a.getElapsedTime());
+							}
+						}
+					}
+				}
+				else if(unit.isVisible()){
+					unit.setEncapsulated(false);
 				}
 			}
 		}

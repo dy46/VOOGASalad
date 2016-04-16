@@ -39,7 +39,7 @@ public class Movement {
 		return currentBranch;
 	}
 
-	private Branch getLastBranch(){
+	public Branch getLastBranch(){
 		return myBranches.get(myBranches.size()-1);
 	}
 
@@ -47,30 +47,6 @@ public class Movement {
 		if(getLastBranch().equals(currentBranch))
 			return null;
 		return myBranches.get(currentBranchIndex++);
-	}
-
-	public double getNextDirection(Position currentPosition, double currDirection){
-		// TODO: womp exception if nextDirection is null? this shouldn't happen
-		if(currentPosition.equals(getLastBranch().getLastPosition())) {
-			return currDirection;
-		}
-		return currentBranch.getNextDirection(currentPosition);
-	}
-
-	public Position getNextPosition(Position currentPosition){
-		if(currentBranch == null){
-			return getLastBranch().getLastPosition();
-		}
-		Position next = currentBranch.getNextPosition(currentPosition);
-		if(next == null){
-			System.out.println("My branches: " + myBranches.size());
-			currentBranch = getNextBranch();
-			if(currentBranch == null) {
-				return getLastBranch().getLastPosition();
-			}
-			next = currentBranch.getFirstPosition();
-		}
-		return next;
 	}
 
 }

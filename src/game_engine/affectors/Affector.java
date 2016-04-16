@@ -16,7 +16,7 @@ public class Affector {
 	private int elapsedTime;
 	private List<Function> myFunctions;
 	private IPlayerEngineInterface engineWorkspace;
-	private List<EndEvent> myEndEvents;
+//	private List<EndEvent> myEndEvents;
 
 	/**
 	 * Applies an effect to a unit by altering the 
@@ -33,14 +33,14 @@ public class Affector {
 	public Affector(List<Function> functions){
 		this.myFunctions = functions;
 		this.elapsedTime = 0;
-		myEndEvents = new ArrayList<>();
+//		myEndEvents = new ArrayList<>();
 	}
 	
-	public Affector(List<Function> functions, List<EndEvent> endEvents){
-		this.myFunctions = functions;
-		this.myEndEvents = endEvents;
-		this.elapsedTime = 0;
-	}
+//	public Affector(List<Function> functions, List<EndEvent> endEvents){
+//		this.myFunctions = functions;
+//		this.myEndEvents = endEvents;
+//		this.elapsedTime = 0;
+//	}
 	
 	public void setWorkspace(IPlayerEngineInterface workspace){
 		this.engineWorkspace = workspace;
@@ -58,7 +58,7 @@ public class Affector {
 					.getConstructor(List.class)
 					.newInstance(this.getFunctions());
 			copy.setWorkspace(this.getEngineWorkspace());
-			copy.setEndEvents(this.myEndEvents);
+//			copy.setEndEvents(this.myEndEvents);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -69,10 +69,10 @@ public class Affector {
 	}
 
 	public void apply(Unit u) {
-		for(EndEvent endEvent : myEndEvents){
-			if(endEvent.checkEvent(u))
-				setElapsedTimeToDeath();
-		}
+//		for(EndEvent endEvent : myEndEvents){
+//			if(endEvent.checkEvent(u))
+//				setElapsedTimeToDeath();
+//		}
 		updateElapsedTime();
 	}
 
@@ -128,12 +128,12 @@ public class Affector {
 		return false;
 	}
 	
-	public void setEndEvents(List<EndEvent> endEvents){
-		this.myEndEvents = endEvents;
-	}
-	
-	public void addEndEvent(EndEvent endEvent){
-		this.myEndEvents.add(endEvent);
-	}
+//	public void setEndEvents(List<EndEvent> endEvents){
+//		this.myEndEvents = endEvents;
+//	}
+//	
+//	public void addEndEvent(EndEvent endEvent){
+//		this.myEndEvents.add(endEvent);
+//	}
 
 }

@@ -1,13 +1,11 @@
 package game_engine.affectors;
 
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
-import game_engine.properties.UnitProperties;
 
 
 /*
@@ -31,14 +29,43 @@ public class PathFollowPositionMoveAffector extends Affector {
 			double speed = u.getProperties().getVelocity().getSpeed();
 			Movement move = u.getProperties().getMovement();
 			for (int i = 0; i < speed; i++) {
-				Position next = move.getNextPosition(u.getProperties().getPosition());
+				Position next = getNextPosition(u);
 				u.getProperties().getPosition().setX(next.getX());
 				u.getProperties().getPosition().setY(next.getY());
-				u.getProperties().getVelocity().setDirection(move.getNextDirection(u.getProperties().getPosition(),
-																						  u.getProperties().getVelocity().getDirection()));
+				u.getProperties().getVelocity().setDirection(getNextDirection(u));
 			}
 			this.updateElapsedTime();
 		}
+	}
+
+	public double getNextDirection(Unit u){
+		// TODO: womp exception if nextDirection is null? this shouldn't happen
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
+			return u.getProperties().getVelocity().getDirection();
+		}
+		return move.getCurrentBranch().getNextDirection(currentPosition);
+	}
+
+	public Position getNextPosition(Unit u){
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		Branch currentBranch = move.getCurrentBranch();
+		List<Branch> branches = move.getBranches();
+		if(currentBranch == null){
+			return move.getLastBranch().getLastPosition();
+		}
+		Position next = currentBranch.getNextPosition(currentPosition);
+		if(next == null){
+			System.out.println("My branches: " + branches.size());
+			currentBranch = move.getNextBranch();
+			if(currentBranch == null) {
+				return move.getLastBranch().getLastPosition();
+			}
+			next = currentBranch.getFirstPosition();
+		}
+		return next;
 	}
 
 }

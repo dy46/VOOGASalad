@@ -105,7 +105,7 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 				clearProjectiles();
 				pause = true;
 				nextWaveTimer = 0;
-			}       
+			}  
 		}
 		else if(myCurrentLevel.getNextWave() != null && myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer){
 			continueWaves();

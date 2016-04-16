@@ -19,12 +19,22 @@ public class Timeline {
 		this.myAffectors = Arrays.asList(Arrays.asList(affector));
 	}
 
+	public void update(){
+		for(List<Affector> l : myAffectors){
+			for(Affector a : l){
+				if(a.getTTL() <= a.getElapsedTime())
+					a.setElapsedTimeToDeath();
+			}
+		}
+		//affectors.stream().filter(a -> a.getTTL() <= a.getElapsedTime());
+	}
+	
 	public void apply(Unit unit){
 		if(myAffectors.size() == 0)
 			return;
+		update();
 		List<Affector> affectors = myAffectors.get(0);
 		affectors.stream().forEach(a -> a.apply(unit));
-		affectors.stream().filter(a -> a.getTTL() <= a.getElapsedTime());
 	}
 
 	public Timeline copyTimeline() {

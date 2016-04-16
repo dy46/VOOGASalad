@@ -62,7 +62,7 @@ public class EnemyFactory {
 		Field[] fields = Unit.class.getDeclaredFields();
 		Affector forward = timeline1.getAffectors().get(0).get(0);
 		Enemy e1 = new Enemy(name, Arrays.asList(timeline1), 3);
-		forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
+//		forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
 		forward.setTTL(Integer.MAX_VALUE);
 		Health health = new Health(50);
 		Velocity velocity = new Velocity(0.5, 90);
