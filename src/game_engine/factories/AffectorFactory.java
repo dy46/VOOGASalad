@@ -80,6 +80,10 @@ public class AffectorFactory {
 		String property10 = "Death";
 		String effect10 = "Activation";
 		constructAffector(property10, effect10, null);
+		
+		String property11 = "RandomPath";
+		String effect11 = "Follow";
+		constructAffector(property11, effect11, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

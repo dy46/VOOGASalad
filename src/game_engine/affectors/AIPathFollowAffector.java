@@ -16,7 +16,6 @@ public class AIPathFollowAffector extends PathFollowAffector{
 	}
 
 	public Position getNextPosition(Unit u){
-	        Position lastPosOnBranch = u.getProperties().getMovement().getCurrentBranch().getLastPosition();
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
@@ -24,8 +23,8 @@ public class AIPathFollowAffector extends PathFollowAffector{
 			getWS().decrementLives();
 			return null;
 		}
-		Position next = null;
-		if(currentPosition.equals(lastPosOnBranch)){
+		Position next = currentBranch.getNextPosition(currentPosition);
+		if(next == null){
 			currentBranch = pickBestBranch(u);
 			u.getProperties().getMovement().setCurrentBranch(currentBranch);
 			if(currentBranch == null){
@@ -37,18 +36,8 @@ public class AIPathFollowAffector extends PathFollowAffector{
 		return next;
 	}
 
-	public Double getNextDirection(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			// END OF PATH
-			return u.getProperties().getVelocity().getDirection();
-		}
-		return move.getCurrentBranch().getNextDirection(currentPosition);
-	}
-
 	private Branch pickBestBranch(Unit u){
-		List<Branch> branchChoices = u.getProperties().getMovement().getCurrentBranch().getForwardNeighbors();
+		List<Branch> branchChoices = getBranchChoices(u);
 		Branch bestBranch = null;
 		double bestHeuristic = Integer.MIN_VALUE;
 		for(Branch b : branchChoices){
@@ -80,8 +69,7 @@ public class AIPathFollowAffector extends PathFollowAffector{
 			for(Unit t : currentTowers){
 				if(t.isAlive()){
 					Position tPosition = t.getProperties().getPosition();
-					//System.out.println("Distance to: " + p.distanceTo(tPosition));
-					if(p.distanceTo(tPosition) < 20 && !nearbyTowers.contains(t)){
+					if(p.distanceTo(tPosition) < 50 && !nearbyTowers.contains(t)){
 						nearbyTowers.add(t);
 					}
 				}
@@ -98,17 +86,18 @@ public class AIPathFollowAffector extends PathFollowAffector{
 			}
 		}
 		double goalValue, pathValue, enemiesOnBranchValue, nearbyTowersValue;
-		pathValue = 2*1/pathLength;
-		enemiesOnBranchValue = 5*numEnemiesOnBranch;
+		pathValue = 5000/pathLength;
+		enemiesOnBranchValue = 0.1 * numEnemiesOnBranch;
 		if(nearbyTowers.size() == 0)
-			nearbyTowersValue = 0;
+			nearbyTowersValue = 100000;
 		else
-			nearbyTowersValue = 20*1/nearbyTowers.size();
+			nearbyTowersValue = 100000/nearbyTowers.size();
 		if(minDistanceToGoal == Integer.MAX_VALUE)
 			goalValue = 0;
 		else
-			goalValue = 10*1/minDistanceToGoal;
-		return pathValue + enemiesOnBranchValue + goalValue + nearbyTowersValue;
+			goalValue = 10/minDistanceToGoal;
+		double heuristic = pathValue + enemiesOnBranchValue + goalValue + nearbyTowersValue;
+		return heuristic;
 	}
 
 }

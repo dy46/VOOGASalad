@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-// PathForest is a set of disjoint PathGraphs that represent all the paths for an instance of a game
+// PathForest is a set of disjoint PathNodes (or simply paths) that represent all the paths for an instance of a game
 public class PathGraph {
 
 	private List<PathNode> myPaths;
@@ -51,5 +51,9 @@ public class PathGraph {
 	public PathNode getGraphByPos(Position pos){
 		Optional<PathNode> graph = myPaths.stream().filter(g -> g.getPathByEdgePosition(pos) != null).findFirst();
 		return graph.isPresent() ? graph.get() : null;
+	}
+	
+	public PathNode getLastPath(){
+		return myPaths.get(myPaths.size()-1);
 	}
 }
