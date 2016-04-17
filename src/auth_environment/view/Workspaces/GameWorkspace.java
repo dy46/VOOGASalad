@@ -10,7 +10,7 @@ import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.ElementPicker;
 import auth_environment.view.MapDisplay;
-import auth_environment.view.Menus.MenuToolBar;
+//import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
 import game_engine.game_elements.Tower;
 
@@ -55,7 +55,7 @@ public class GameWorkspace implements IWorkspace {
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings, myGameDataController));
+//		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings, myGameDataController));
 		//		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(400,400);
 		this.myBorderPane.setRight(myPicker);
