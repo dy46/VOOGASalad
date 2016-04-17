@@ -5,6 +5,7 @@ import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.Timeline;
 
 
 /**
@@ -23,6 +24,7 @@ public abstract class Unit extends GameElement {
 	private int TTL;
 	private boolean setToDeath;
 	private boolean hasCollided;
+	private boolean isEncapsulated;
 	private int deathDelay;
 	private int elapsedTime;
 	private int numFrames;
@@ -187,6 +189,19 @@ public abstract class Unit extends GameElement {
 
 	public void addTimelines(List<AffectorTimeline> timelines) {
 		myTimelines.addAll(timelines);
+	}
+
+	public boolean isEncapsulated() {
+		return isEncapsulated;
+	}
+	
+	public void setEncapsulated(boolean encapsulated){
+		this.isEncapsulated = encapsulated;
+	}
+
+	public void kill() {
+		setElapsedTimeToDeath();
+		setInvisible();
 	}
 
 }

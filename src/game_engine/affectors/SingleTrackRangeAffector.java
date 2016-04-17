@@ -44,9 +44,9 @@ public abstract class SingleTrackRangeAffector extends Affector{
         Position myPos = properties.getPosition();
         double closestDiff = Double.MAX_VALUE;
         Unit closestEnemy = null;
-        for(int i = 0; i < getEngineWorkspace().getEnemies().size(); i++) {
+        for(int i = 0; i < getWS().getEnemies().size(); i++) {
             double currDiff;
-            Unit currEnemy = getEngineWorkspace().getEnemies().get(i);
+            Unit currEnemy = getWS().getEnemies().get(i);
             if(currEnemy.isVisible()) {
                 Position currPos = currEnemy.getProperties().getPosition();
                 if ((currDiff = Math.abs(myPos.getX()-currPos.getX()) 

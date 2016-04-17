@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
+import game_engine.timelines.Timeline;
 
 
 /*
@@ -61,5 +62,5 @@ public class Projectile extends Unit {
     public void setFireRate (int fireRate) {
         this.fireRate = fireRate;
     }
-    
+
 }

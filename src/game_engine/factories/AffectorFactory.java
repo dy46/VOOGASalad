@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.functions.Function;
+import game_engine.games.GameEngineInterface;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.properties.Bounds;
 import game_engine.properties.Position;
@@ -14,10 +15,15 @@ public class AffectorFactory {
 	private static final String PACKAGE = "game_engine.affectors.";
 	private static final String BASE = "Affector";
 	private AffectorLibrary myAffectorLibrary;
+	private GameEngineInterface engineWorkspace;
 
 	public AffectorFactory(FunctionFactory myFunctionFactory){
 		myAffectorLibrary = new AffectorLibrary();
 		setDefaultAffectors(myFunctionFactory);
+	}
+	
+	public void setWorkspace(GameEngineInterface workspace){
+		this.engineWorkspace = workspace;
 	}
 
 	private void constructAffector(String property,  String effect, List<Function> functions){
@@ -59,13 +65,21 @@ public class AffectorFactory {
 		String effect6 = "PositionMove";
 		constructAffector(property6, effect6, null);
 		
-	        String property7 = "PathFollow";
-	        String effect7 = "PositionMove";
-	        constructAffector(property7, effect7, null);
-
-		String property8 = "Homing";
-		String effect8 = "Move";
+		String property8 = "PathFollow";
+		String effect8 = "PositionMove";
 		constructAffector(property8, effect8, null);
+		
+		String AI = "AIPath";
+		String AIeffect = "Follow";
+		constructAffector(AI, AIeffect, null);
+
+		String property9 = "Homing";
+		String effect9 = "Move";
+		constructAffector(property9, effect9, null);
+		
+		String property10 = "Death";
+		String effect10 = "Activation";
+		constructAffector(property10, effect10, null);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

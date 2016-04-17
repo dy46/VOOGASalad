@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 
 public class UnitProperties {
 
@@ -17,6 +18,7 @@ public class UnitProperties {
 	private Price myPrice;
 	private State myState;
 	private Movement myMovement;
+	private List<Unit> myChildren;
 
 	private static String DEFAULT_STATE = "Stationary";
 	private static double DEFAULT_HEALTH = 1;
@@ -34,7 +36,7 @@ public class UnitProperties {
 			Team team, Velocity velocity, 
 			Bounds bounds, Bounds range, Position position, 
 			Price price, State state,
-			Movement movement){
+			Movement movement, List<Unit> children){
 		this.myHealth = health;
 		this.myDamage = damage;
 		this.myTeam = team;
@@ -45,6 +47,7 @@ public class UnitProperties {
 		this.myState = state;
 		this.myMovement = movement;
 		this.myRange = range;
+		this.myChildren = children;
 	}
 
 	public UnitProperties copyUnitProperties() {
@@ -78,7 +81,8 @@ public class UnitProperties {
 		myMovement = new Movement(DEFAULT_PATHS);
 	}
 
-	public Health getHealth(){
+
+    public Health getHealth(){
 		return myHealth;
 	}
 

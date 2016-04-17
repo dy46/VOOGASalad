@@ -3,6 +3,7 @@ package game_engine.game_elements;
 import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
+import game_engine.timelines.Timeline;
 
 public class Enemy extends Unit {
 

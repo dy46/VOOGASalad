@@ -1,17 +1,17 @@
-package game_engine.properties;
-
-import game_engine.EngineWorkspace;
-
-public abstract class Property {
-
-	private EngineWorkspace myWorkspace;
-	
-	public void setWorkspace(EngineWorkspace workspace){
-		this.myWorkspace = workspace;
-	}
-	
-	public EngineWorkspace getWorkspace(){
-		return myWorkspace;
-	}
-	
-}
+//package game_engine.properties;
+//
+//import game_engine.genres.TD.TDGame;
+//
+//public abstract class Property {
+//
+//	private TDGame myWorkspace;
+//	
+//	public void setWorkspace(TDGame workspace){
+//		this.myWorkspace = workspace;
+//	}
+//	
+//	public TDGame getWorkspace(){
+//		return myWorkspace;
+//	}
+//	
+//}

@@ -1,6 +1,6 @@
 package game_player.view;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 
 /**
  * This interface specifies the different methods needed to run and animate the game elements.
@@ -23,5 +23,5 @@ public interface IGameView {
       
     void changeGameSpeed (double gameSpeed); 
     
-    IPlayerEngineInterface getGameEngine();
+    GameEngineInterface getGameEngine();
 }

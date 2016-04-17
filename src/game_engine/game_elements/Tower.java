@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.Timeline;
 
 
 /*
@@ -109,4 +111,12 @@ public class Tower extends Unit {
 	public List<Projectile> getMyProjectiles() {
 	    return myProjectiles;
 	}
+	public List<Unit> getAllProjectiles(){
+		return allProjectiles;
+	}
+	
+	public List<Projectile> getProjectiles(){
+		return myProjectiles;
+	}
+	
 }

@@ -9,14 +9,12 @@ import game_engine.game_elements.Unit;
 public class Movement {
 
 	private List<Branch> myBranches;
-	private int currentBranchIndex;
-	private Branch currentBranch;
+	private Branch myCurrentBranch;
 
 	public Movement(List<Branch> branches){
 		this.myBranches = branches;
-		currentBranchIndex = 0;
 		if(branches.size() > 0)
-			currentBranch = myBranches.get(0);
+			myCurrentBranch = myBranches.get(0);
 	}
 
 	public List<Branch> getBranches(){
@@ -27,50 +25,34 @@ public class Movement {
 		this.myBranches = branches;
 	}
 
-	public boolean isUnitAtLastPosition(Unit u) {
-		return getLastBranch().isUnitAtLastPosition(u);
-	}
+//	public boolean isUnitAtLastPosition(Unit u) {
+//		return getLastBranch().isUnitAtLastPosition(u);
+//	}
 	
 	public Movement copyMovement(){
 		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
 	}
 
 	public Branch getCurrentBranch(){
-		return currentBranch;
+		return myCurrentBranch;
 	}
 
-	private Branch getLastBranch(){
+	public Branch getLastBranch(){
 		return myBranches.get(myBranches.size()-1);
 	}
 
 	public Branch getNextBranch() {
-		if(getLastBranch().equals(currentBranch))
+		if(getLastBranch().equals(myCurrentBranch)){
+			myCurrentBranch = null;
 			return null;
-		return myBranches.get(currentBranchIndex++);
+		}
+		int curentBranchIndex = myBranches.indexOf(myCurrentBranch);
+		myCurrentBranch = myBranches.get(curentBranchIndex + 1);
+		return myCurrentBranch;
 	}
 
-	public double getNextDirection(Position currentPosition, double currDirection){
-		// TODO: womp exception if nextDirection is null? this shouldn't happen
-		if(currentPosition.equals(getLastBranch().getLastPosition())) {
-			return currDirection;
-		}
-		return currentBranch.getNextDirection(currentPosition);
-	}
-
-	public Position getNextPosition(Position currentPosition){
-		if(currentBranch == null){
-			return getLastBranch().getLastPosition();
-		}
-		Position next = currentBranch.getNextPosition(currentPosition);
-		if(next == null){
-			System.out.println("My branches: " + myBranches.size());
-			currentBranch = getNextBranch();
-			if(currentBranch == null) {
-				return getLastBranch().getLastPosition();
-			}
-			next = currentBranch.getFirstPosition();
-		}
-		return next;
+	public void setCurrentBranch(Branch branch) {
+		myCurrentBranch = branch;
 	}
 
 }

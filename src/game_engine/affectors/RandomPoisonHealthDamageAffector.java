@@ -5,6 +5,7 @@ import java.util.List;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Bounds;
+import game_engine.games.GameEngineInterface;
 
 public class RandomPoisonHealthDamageAffector extends ExpIncrHealthDamageAffector{
 

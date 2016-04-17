@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
+import game_engine.timelines.Timeline;
 
 /*
 * Internal API that will be used to reflect the inclusion of terrain effects in games. 

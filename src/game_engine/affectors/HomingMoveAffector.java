@@ -32,8 +32,15 @@ public class HomingMoveAffector extends SingleTrackRangeAffector {
     
     public void firstApply(Unit u, Unit tracked) {
         futureApply(u, tracked);
-        Unit tower = getEngineWorkspace().getTowers().get((u.getNumberList().get(0)).intValue());
-        tower.getProperties().getVelocity().setDirection(u.getProperties().getVelocity().getDirection());
+        Unit tower = getWS().getTowers().get((u.getNumberList().get(0)).intValue());
+        if(!tracked.isVisible()) {
+            u.getProperties().getPosition().addToXY(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        }
     }
+    
+//    public void changeEnemyDirection(Unit u) {
+//        Unit tower = getWS().getTowers().get((u.getNumberList().get(0)).intValue());
+//        tower.getProperties().getVelocity().setDirection(u.getProperties().getVelocity().getDirection());
+//    }
 
 }
