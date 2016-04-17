@@ -1,12 +1,13 @@
 package game_engine.affectors;
 
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
+import game_engine.properties.Movement;
 import game_engine.properties.Position;
-import game_engine.properties.UnitProperties;
 
 
 /*
@@ -17,31 +18,44 @@ import game_engine.properties.UnitProperties;
  * based on a sampled version of the path that has been drawn out for them.
  * 
  */
-public class PathFollowPositionMoveAffector extends Affector {
+public class PathFollowPositionMoveAffector extends PathFollowAffector {
 
-    public PathFollowPositionMoveAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
-    }
+	public PathFollowPositionMoveAffector(List<Function> functions){
+		super(functions);
+	}
 
-    @Override
-    public void apply (Unit u) {
-        super.apply(u);
-        if (this.getElapsedTime() <= this.getTTL()) {
-            double speed = u.getProperties().getVelocity().getSpeed();
-            Path myPath = u.getProperties().getPath();
-            for (int i = 0; i < speed; i++) {
-                Position curr = u.getProperties().getPosition();
-                Position next = myPath.getNextPosition(curr);
-                u.getProperties().getPosition().setX(next.getX());
-                u.getProperties().getPosition().setY(next.getY());
+	@Override
+	public void apply (Unit u) {
+		super.apply(u);
+	}
+	           
+	public Position getNextPosition(Unit u){
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		Branch currentBranch = move.getCurrentBranch();
+		if(currentBranch == null){
+			getWS().decrementLives();
+			return null;
+		}
+		Position next = currentBranch.getNextPosition(currentPosition);
+		if(next == null){
+			currentBranch = move.getNextBranch();
+			if(currentBranch == null) {
+				getWS().decrementLives();
+				return null;
+			}
+			next = currentBranch.getFirstPosition();
+		}
+		return next;
+	}
 
-            }
-            this.updateElapsedTime();
-        }
-        if (this.getElapsedTime() == this.getTTL()) {
-            // clear
-
-        }
-    }
-
+	public Double getNextDirection(Unit u){
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
+			// END OF PATH
+			return u.getProperties().getVelocity().getDirection();
+		}
+		return move.getCurrentBranch().getNextDirection(currentPosition);
+	}
 }

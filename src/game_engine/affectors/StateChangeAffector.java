@@ -1,17 +1,19 @@
 package game_engine.affectors;
 
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
+import game_engine.functions.Function;
+import game_engine.game_elements.Unit;
+import game_engine.games.GameEngineInterface;
 import game_engine.properties.State;
-import game_engine.properties.UnitProperties;
 
 
 public class StateChangeAffector extends Affector {
     
-    public StateChangeAffector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
-        super(functions, engineWorkspace);
+    public StateChangeAffector(List<Function> functions){
+        super(functions);
     }
     
     @Override

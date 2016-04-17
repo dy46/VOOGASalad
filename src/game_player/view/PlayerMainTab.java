@@ -8,9 +8,10 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -33,21 +34,26 @@ public class PlayerMainTab implements IPlayerTab{
 	private ResourceBundle elementsResources;
 	private GameDataSource gameData;
 	private List<IGUIObject> gameElements;
-	private GameView gameView;
+	private IGameView gameView;
 	private GameCanvas myCanvas;
 	private Scene myScene;
+	private String tabName;
 	
 	private VBox gameSection;
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private HBox gamePanel;
 	
-	public PlayerMainTab(ResourceBundle r, Scene scene) {
+	private GameEngineInterface gameEngine;
+	
+	public PlayerMainTab(GameEngineInterface engine, ResourceBundle r, Scene scene, String tabName) {
+		this.gameEngine = engine;
 		this.myResources = r;
 		this.gameElements = new ArrayList<>();
 		this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
 		this.gameData = new GameDataSource();
 		this.myScene = scene;
+		this.tabName = tabName;
 		gameData.setDoubleValue("High Score", 0);
 	}
 	
@@ -57,19 +63,20 @@ public class PlayerMainTab implements IPlayerTab{
 		myRoot = new BorderPane();
 		
 		createUISections();
-		initializeElements();
 		initializeCanvas();
+		initializeElements();
 		placeUISections();
 		
 		myTab.setContent(myRoot);
+		myTab.setText(tabName);
 		return myTab;
 	}
 	
 	private void initializeCanvas() {
 		myCanvas = new GameCanvas(myResources);
 		gameSection.getChildren().add(myCanvas.createCanvas());
-		gameView = new GameView(myCanvas, myScene);
-		gameView.display();
+		gameView = new GameView(gameEngine, myCanvas, myScene, this);
+		gameView.playGame(0);
 	}
 	
 	private void initializeElements() {
@@ -80,8 +87,8 @@ public class PlayerMainTab implements IPlayerTab{
 			String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
 			try {
 				newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
-						.getConstructor(ResourceBundle.class, GameDataSource.class)
-						.newInstance(myResources, gameData);
+						.getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class)
+						.newInstance(myResources, gameData, gameView);
 				gameElements.add(newElement);
 
 				placeElement(newElement, keyAndPosition[1].trim());
@@ -94,7 +101,7 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private void placeElement(IGUIObject element, String position) {
 		try{
-			getClass().getDeclaredMethod(position, IGUIObject.class).invoke(this, element);
+			getClass().getDeclaredMethod(position, Node.class).invoke(this, element.createNode());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,29 +123,32 @@ public class PlayerMainTab implements IPlayerTab{
 	}
 	
 	private void configurePanels() {
-		Label configurationLabel = new Label(myResources.getString("Configuration"));
-		configurationLabel.setFont(new Font("Arial", 20));
+//		Label configurationLabel = new Label(myResources.getString("Configuration"));
+//		configurationLabel.setFont(new Font("Arial", 20));
+//		configurationLabel.getStyleClass().add("label-header");
 		configurationPanel.setAlignment(Pos.TOP_CENTER);
-		configurationPanel.getChildren().add(configurationLabel);
-		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+//		configurationPanel.getChildren().add(configurationLabel);
+//		configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+		configurationPanel.getStyleClass().add("vbox");
 		gamePanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+		gamePanel.getStyleClass().add("hbox");
 	}
 	
-	private void updateGameElements() {
+	protected void updateGameElements() {
 		for (IGUIObject object: gameElements) {
 			object.updateNode();
 		}
 	}
 	
-	private void addToTop(IGUIObject element) {
-		gameMenu.getChildren().add(element.createNode());
+	protected void addToTop(Node element) {
+		gameMenu.getChildren().add(element);
 	}
 	
-	private void addToConfigurationPanel(IGUIObject element) {
-		configurationPanel.getChildren().add(element.createNode());
+	protected void addToConfigurationPanel(Node element) {
+		configurationPanel.getChildren().add(element);
 	}
 	
-	private void addToGamePanel(IGUIObject element) {
-		gamePanel.getChildren().add(element.createNode());
+	protected void addToGamePanel(Node element) {
+		gamePanel.getChildren().add(element);
 	}
 }

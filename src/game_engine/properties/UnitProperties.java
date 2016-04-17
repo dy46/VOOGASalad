@@ -3,7 +3,8 @@ package game_engine.properties;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.game_elements.Path;
+import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 
 public class UnitProperties {
 
@@ -12,10 +13,12 @@ public class UnitProperties {
 	private Team myTeam;
 	private Velocity myVelocity;
 	private Bounds myBounds;
+	private Bounds myRange;
 	private Position myPosition;
 	private Price myPrice;
 	private State myState;
-	private Path myPath;
+	private Movement myMovement;
+	private List<Unit> myChildren;
 
 	private static String DEFAULT_STATE = "Stationary";
 	private static double DEFAULT_HEALTH = 1;
@@ -23,16 +26,17 @@ public class UnitProperties {
 	private static String DEFAULT_TEAM = "0";
 	private static double DEFAULT_SPEED = 1;
 	private static double DEFAULT_DIRECTION = 90;
-	private static List<Position> DEFAULT_BOUNDS = new ArrayList<Position>();
+	private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
 	private static double DEFAULT_X_POS = 0;
 	private static double DEFAULT_Y_POS = 0;
 	private static double DEFAULT_PRICE = 0;
+	private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
 
 	public UnitProperties(Health health, Damage damage, 
 			Team team, Velocity velocity, 
-			Bounds bounds, Position position, 
+			Bounds bounds, Bounds range, Position position, 
 			Price price, State state,
-			Path newPath){
+			Movement movement, List<Unit> children){
 		this.myHealth = health;
 		this.myDamage = damage;
 		this.myTeam = team;
@@ -41,7 +45,9 @@ public class UnitProperties {
 		this.myPosition = position;
 		this.myPrice = price;
 		this.myState = state;
-		this.myPath = newPath;
+		this.myMovement = movement;
+		this.myRange = range;
+		this.myChildren = children;
 	}
 
 	public UnitProperties copyUnitProperties() {
@@ -53,7 +59,11 @@ public class UnitProperties {
 		newProperties.myVelocity = this.getVelocity().copyVelocity();
 		newProperties.myBounds = this.getBounds().copyBounds();
 		newProperties.myPosition = this.myPosition.copyPosition();
-		newProperties.myPath = this.myPath.copyPath();
+		newProperties.myMovement = this.myMovement.copyMovement();
+		if(this.getRange() != null) {
+		    newProperties.myRange = this.getRange().copyBounds();
+		}
+		//newProperties.myPaths = this.myPath.copyPath();
 		//            newProperties.myPrice = this.myPrice.copyPrice();
 		return newProperties;
 	}
@@ -65,11 +75,14 @@ public class UnitProperties {
 		myTeam = new Team(DEFAULT_TEAM);
 		myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
 		myBounds = new Bounds(DEFAULT_BOUNDS);
+	        myRange = new Bounds(DEFAULT_BOUNDS);
 		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
+		myMovement = new Movement(DEFAULT_PATHS);
 	}
 
-	public Health getHealth(){
+
+    public Health getHealth(){
 		return myHealth;
 	}
 
@@ -117,10 +130,18 @@ public class UnitProperties {
 	public void setBounds(List<Position> positions){
 		myBounds.setPositions(positions);
 	}
+	
+	public void setBounds(Bounds b){
+		myBounds = b;
+	}
 
 	public void setPosition(double x, double y){
 		myPosition.setX(x);
 		myPosition.setY(y);
+	}
+	
+	public void setPosition(Position pos){
+		myPosition = pos;
 	}
 
 	public void setState(State state) {
@@ -130,11 +151,21 @@ public class UnitProperties {
 	public State getState() {
 		return myState;
 	}
-	public Path getPath(){
-		return myPath;
+	
+	public Movement getMovement(){
+		return myMovement;
 	}
-	public void setPath(Path newPath){
-		myPath = newPath;
+
+	public void setMovement(Movement movement) {
+		this.myMovement = movement;
+	}
+	
+	public void setRange(Bounds range) {
+	    this.myRange = range;
+	}
+	
+	public Bounds getRange() {
+	    return myRange;
 	}
 
 }

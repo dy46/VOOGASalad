@@ -20,11 +20,13 @@ public class OptionsMenu implements IMenuInterface{
 	private Menu myMenu;
 	private GridPane myRoot;
 	private SwitchWindow mySwitchWindow;
+	private IGameView myView;
 	
-	public OptionsMenu(ResourceBundle r) {
+	public OptionsMenu(ResourceBundle r, IGameView view) {
 		myResources = r;
 		menuMaker = new MenuMaker(r);
 		mySwitchWindow = new SwitchWindow(r);
+		myView = view;
 	}
 	
 	public Menu createMenu() {
@@ -56,7 +58,7 @@ public class OptionsMenu implements IMenuInterface{
 	}
 	
 	private void restartGame() {
-		//restart game using game engine
+		myView.restartGame();
 	}
 	
 	private void saveGame() {
@@ -86,7 +88,7 @@ public class OptionsMenu implements IMenuInterface{
         
 		File file = fileChooser.showOpenDialog(menuStage);
 		
-		//TODO: do soemthing when it loads the file
+		//TODO: do something when it loads the file
 		
 		try {
         	return file.toString();

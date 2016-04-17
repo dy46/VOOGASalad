@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.Timeline;
 
 
 /*
@@ -22,15 +25,15 @@ public class Tower extends Unit {
 	private List<Projectile> myProjectiles;
 	private List<Unit> allTowers;
 
-	public Tower (String name, List<Affector> affectors, int numFrames) {
-		super(name, affectors, numFrames);
+	public Tower (String name, List<AffectorTimeline> timelines, int numFrames) {
+		super(name, timelines, numFrames);
 		// setID(getWorkspace().getIDFactory().createID(this));
 	}
 
 
-	public Tower (String name, List<Affector> affectors, List<Unit> allProjectiles, 
+	public Tower (String name, List<AffectorTimeline> timelines, List<Unit> allProjectiles, 
 			List<Projectile> myProjectiles, List<Unit> allTowers, int numFrames) {
-		super(name, affectors, numFrames);
+		super(name, timelines, numFrames);
 		this.allProjectiles = allProjectiles;
 		this.myProjectiles = myProjectiles;
 		this.allTowers = allTowers;
@@ -38,21 +41,21 @@ public class Tower extends Unit {
 	}
 
 	public Tower copyTower(double x, double y) {
-		List<Affector> copyAffectors = new ArrayList<>();
+		List<AffectorTimeline> copyTimelines = new ArrayList<>();
 		List<Projectile> newMyProjectiles = myProjectiles.stream().map(p -> p.copyProjectile()).collect(Collectors.toList());
 		for(int i = 0; i < newMyProjectiles.size(); i++) {
-			Path path = newMyProjectiles.get(i).getProperties().getPath();
-			List<Position> newMyPositions = path.getMyPositions().stream().map(p -> p.copyPosition()).collect(Collectors.toList());
-			Path newPath = new Path("SomePath");
+			List<Branch> branches = newMyProjectiles.get(i).getProperties().getMovement().getBranches();
+			List<Position> newMyPositions = branches.get(0).getMyPositions().stream().map(p -> p.copyPosition()).collect(Collectors.toList());
+			List<Branch> newBranches = Arrays.asList(new Branch("SomePath"));
 			for(int j = 0; j < newMyPositions.size(); j++) {
 				newMyPositions.get(j).addToXY(x - this.getProperties().getPosition().getX(), 
 						y - this.getProperties().getPosition().getY());
-				newPath.addPosition(newMyPositions.get(j));
+				newBranches.get(0).addPosition(newMyPositions.get(j));
 			}
-			newMyProjectiles.get(i).getProperties().setPath(newPath);
+			newMyProjectiles.get(i).getProperties().getMovement().setBranches(newBranches);
 		}
 
-		Tower copy = new Tower(this.toString(), copyAffectors, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());
+		Tower copy = new Tower(this.toString(), copyTimelines, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());
 		copy.setTTL(this.getTTL());
 		copy.setProperties(this.getProperties().copyUnitProperties());
 		copy.getProperties().setPosition(x, y);
@@ -104,4 +107,16 @@ public class Tower extends Unit {
 	public List<Unit> getAllTowers() {
 		return allTowers;
 	}
+	
+	public List<Projectile> getMyProjectiles() {
+	    return myProjectiles;
+	}
+	public List<Unit> getAllProjectiles(){
+		return allProjectiles;
+	}
+	
+	public List<Projectile> getProjectiles(){
+		return myProjectiles;
+	}
+	
 }

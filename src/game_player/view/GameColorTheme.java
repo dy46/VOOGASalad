@@ -23,7 +23,7 @@ public class GameColorTheme implements IGUIObject {
 	private Button comboBoxButton;
 	private ObservableList<String> options;
 	
-	public GameColorTheme(ResourceBundle r, GameDataSource gameData) {
+	public GameColorTheme(ResourceBundle r, GameDataSource gameData, IGameView view) {
 		myResources = r;
 	}
 
@@ -41,6 +41,7 @@ public class GameColorTheme implements IGUIObject {
 	}
 	
 	public void configureComboBox() {
+		comboBox.getStyleClass().add("combobox");
 		comboBox.setVisibleRowCount(VISIBLE_ROW_COUNT);
 		comboBox.setPrefWidth(COMBOBOX_WIDTH);
 		comboBox.setPromptText(myResources.getString("ThemeLabel"));

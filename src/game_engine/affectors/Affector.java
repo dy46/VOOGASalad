@@ -1,10 +1,14 @@
 package game_engine.affectors;
 
+import java.util.ArrayList;
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
+
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
+import game_engine.games.GameEngineInterface;
 import game_engine.properties.UnitProperties;
+import game_engine.timelines.EndEvent;
 
 public class Affector {
 
@@ -13,7 +17,8 @@ public class Affector {
 	private int TTL;
 	private int elapsedTime;
 	private List<Function> myFunctions;
-	private IPlayerEngineInterface engineWorkspace;
+	private GameEngineInterface engineWorkspace;
+//	private List<EndEvent> myEndEvents;
 
 	/**
 	 * Applies an effect to a unit by altering the 
@@ -27,10 +32,20 @@ public class Affector {
 	 *
 	 */
 
-	public Affector(List<Function> functions, IPlayerEngineInterface engineWorkspace){
+	public Affector(List<Function> functions){
 		this.myFunctions = functions;
 		this.elapsedTime = 0;
-		this.engineWorkspace = engineWorkspace;
+//		myEndEvents = new ArrayList<>();
+	}
+	
+//	public Affector(List<Function> functions, List<EndEvent> endEvents){
+//		this.myFunctions = functions;
+//		this.myEndEvents = endEvents;
+//		this.elapsedTime = 0;
+//	}
+	
+	public void setWorkspace(GameEngineInterface workspace){
+		this.engineWorkspace = workspace;
 	}
 
 	public Affector(){
@@ -42,8 +57,10 @@ public class Affector {
 		Affector copy = null;
 		try {
 			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class, IPlayerEngineInterface.class)
-					.newInstance(this.getFunctions(), this.getEngineWorkspace());
+					.getConstructor(List.class)
+					.newInstance(this.getFunctions());
+			copy.setWorkspace(this.getWS());
+//			copy.setEndEvents(this.myEndEvents);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -54,8 +71,12 @@ public class Affector {
 	}
 
 	public void apply(Unit u) {
+//		for(EndEvent endEvent : myEndEvents){
+//			if(endEvent.checkEvent(u))
+//				setElapsedTimeToDeath();
+//		}
 		updateElapsedTime();
-	};
+	}
 
 	public int getElapsedTime(){
 		return elapsedTime;
@@ -93,12 +114,20 @@ public class Affector {
 		return myFunctions;
 	}
 
-	public IPlayerEngineInterface getEngineWorkspace() {
+	public GameEngineInterface getWS() {
 		return engineWorkspace;
 	}
 
-	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
+	public void setEngineWorkspace(GameEngineInterface engineWorkspace) {
 		this.engineWorkspace = engineWorkspace;
 	}
+	
+//	public void setEndEvents(List<EndEvent> endEvents){
+//		this.myEndEvents = endEvents;
+//	}
+//	
+//	public void addEndEvent(EndEvent endEvent){
+//		this.myEndEvents.add(endEvent);
+//	}
 
 }

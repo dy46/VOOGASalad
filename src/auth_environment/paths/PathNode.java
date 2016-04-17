@@ -1,114 +1,61 @@
 package auth_environment.paths;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-import game_engine.game_elements.Enemy;
-import game_engine.game_elements.Terrain;
-import game_engine.game_elements.Unit;
+import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PathNode {
 
-	private List<Position> myPositions;
-	private List<Terrain> myTerrains;
-	private List<Enemy> myEnemys;
-	private List<PathNode> myNeighbors;
+	private List<Branch> myBranches;
 	private int myID;
-
-	public PathNode(List<Position> positions, int ID){
-		this.myID = ID;
-		myPositions = positions;
-		myTerrains = new ArrayList<>();
-		myNeighbors = new ArrayList<>();
+	
+	public PathNode(int pathID){
+		this.myID = pathID;
+		myBranches = new ArrayList<>();
 	}
-
-	public PathNode(int ID) {
-		this.myTerrains = new ArrayList<>();
-		this.myPositions = new ArrayList<>();
-		this.myEnemys = new ArrayList<>();
-		this.myNeighbors = new ArrayList<>();
+	
+	public void addBranch(Branch branch){
+		myBranches.add(branch);
 	}
-
-	public void addEnemy(Enemy enemy){
-		this.myEnemys.add(enemy);
+	
+	public Branch getBranchByID(int ID){
+		Optional<Branch> branch = myBranches.stream().filter(b -> b.getID() == ID).findFirst();
+		return branch.isPresent() ? branch.get() : null;
 	}
-
-	public void addTerrain(Terrain terrain){
-		this.myTerrains.add(terrain);
+	
+	public List<Branch> getPathNodes(Branch branch){
+		List<Branch> nodes = branch.getNeighbors().stream().filter(n -> getPathNodes(n) != null).collect(Collectors.toList());
+		nodes.add(branch);
+		return nodes;
 	}
-
-	public void addNeighbor(PathNode neighbor){
-		this.myNeighbors.add(neighbor);
+	
+	public List<Branch> getPaths(){
+		return myBranches.stream().map(p -> new Branch(p.getID()+"", p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
 	}
-
-	public void addPositions(List<Position> positions){
-		this.myPositions.addAll(positions);
-	}
-
-	public List<Position> getPositions(){
-		return myPositions;
-	}
-
-	public List<Terrain> getTerrains(){
-		return myTerrains;
-	}
-
-	public List<Enemy> getEnemies(){
-		return myEnemys;
-	}
-
-	public List<PathNode> getNeighbors(){
-		return myNeighbors;
-	}
-
+	
 	public int getID(){
 		return myID;
 	}
-
-	public List<Unit> getUnitsByType(Unit type){
-		String className = type.getClass().getSimpleName();
-		String instanceVarName = "my" + className + "s";
-		Field f = null;
-		try {
-			f = getClass().getDeclaredField(instanceVarName);
-		}
-		catch (NoSuchFieldException | SecurityException e1) {
-			// TODO: womp exception
-			e1.printStackTrace();
-		}
-		f.setAccessible(true);
-		List<Unit> listInstanceVar = null;
-		try {
-			listInstanceVar = (List<Unit>) f.get(this);
-		}
-		catch (IllegalArgumentException | IllegalAccessException e) {
-			// TODO: womp exception
-			e.printStackTrace();
-		}
-		return listInstanceVar;
+	
+	public List<Branch> getPathByEdgePosition(Position pos){
+		return myBranches.stream().filter(
+				n -> n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos))
+				.collect(Collectors.toList());
 	}
-
-	public List<Position> cutoffByPosition(Position pos){
-		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
-		cutoff.clear();
-		return cutoff;
+	
+	public Branch getPathByMidPosition(Position pos){
+		Optional<Branch> graph = myBranches.stream().filter(
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
+				.findFirst();
+		return graph.isPresent() ? graph.get() : null;
 	}
-
-	public void addNeighbors(List<PathNode> neighbors) {
-		myNeighbors.addAll(neighbors);
+	
+	public List<Branch> getBranches(){
+		return myBranches;
 	}
-
-	public List<PathNode> removeNeighbors(List<PathNode> neighbors){
-		List<PathNode> removed = new ArrayList<>();
-		for(PathNode neighbor : neighbors){
-			if(myNeighbors.contains(neighbor)){
-				myNeighbors.remove(neighbor);
-				removed.add(neighbor);
-			}
-		}
-		return removed;
-	}
-
+	
 }

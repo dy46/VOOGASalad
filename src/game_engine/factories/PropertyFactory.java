@@ -1,14 +1,14 @@
-package game_engine.factories;
-
-import game_engine.EngineWorkspace;
-
-public class PropertyFactory {
-
-	public EngineWorkspace myWorkspace;
-	
-	public PropertyFactory(EngineWorkspace workspace){
-		this.myWorkspace = workspace;
-	}
-	
-	
-}
+//package game_engine.factories;
+//
+//import game_engine.genres.TD.TDGame;
+//
+//public class PropertyFactory {
+//
+//	public TDGame myWorkspace;
+//	
+//	public PropertyFactory(TDGame workspace){
+//		this.myWorkspace = workspace;
+//	}
+//	
+//	
+//}

@@ -2,9 +2,9 @@ package game_data;
 
 public interface IDataConverter<T> {
 	
-	public void saveElement(T gameElement, String filePath);
+	public void saveElement(T gameElement);
 	
-	public T loadElement(String filePath);
+	public T loadElement();
 	
 	
 }

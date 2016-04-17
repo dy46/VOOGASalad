@@ -1,40 +1,50 @@
 package auth_environment.view;
 
-import auth_environment.backend.ISelector;
-import javafx.scene.paint.Paint;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
-/**
- * Team member responsible: Xander
- * Modifications from: Brian
- *
- * This represents the smallest unit of the Map Display. This tile consists of several layers: empty (blank), Terrain
- * and GameElement (stacked with GameElements on top). 
- * 
- * The key action is that on mouse click. 
- */
-
-public class RecTile extends Rectangle {
+public class RecTile extends Tile {
 	
 	private double x;
-	private double y; 
+	private double y;
 	
-	private ISelector mySelector; 
-	
-	public RecTile(ISelector selector, double x, double y, double scaledX, double scaledY, double width, double height) {
-		super(scaledX, scaledY, width, height);
-		this.x = x;
-		this.y = y; 
-		this.mySelector = selector; 
-		this.addListener();
+	private Rectangle myRectangle; 
+	public boolean isPath;
+	public RecTile(double width, double height) {
+		super();
+		myRectangle = new Rectangle(width, height); 
+		isPath = false;
+		addListener();
 	}
-
-	private void addListener() {
-		this.setOnMouseClicked(e -> this.recTileAction());
+	
+	
+	public RecTile(double scaledX, double scaledY, double width, double height) {
+		super();
+		myRectangle = new Rectangle(scaledX, scaledY, width, height); 
+		isPath = false;
+		addListener();
+	}
+	
+	@Override
+	protected void addListener() {
+		this.myRectangle.setOnMouseClicked(e -> recTileAction());
 	}
 	
 	private void recTileAction() {
-		mySelector.choosePosition(this.x, this.y);
-		mySelector.printPosition();
+		this.getShape().setFill(Color.GREEN);
+		isPath = true;
+	}
+	
+	@Override
+	protected void setImage(Image image) {
+		this.myRectangle.setFill(new ImagePattern(image));
+	}
+
+	@Override
+	public Shape getShape() {
+		return this.myRectangle;
 	}
 }

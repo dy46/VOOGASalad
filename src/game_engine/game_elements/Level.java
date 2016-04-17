@@ -3,6 +3,10 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.paths.PathNode;
+import game_engine.games.Timer;
+import game_engine.properties.Position;
+
 
 /*
  * Internal API that is used in order to represent levels within a game. More specifically,
@@ -15,18 +19,17 @@ public class Level extends GameElement {
     private int startingLives;
     private Wave myCurrentWave;
     private List<Wave> myWaves;
+    private Timer myWaveTimer;
+    private List<PathNode> myPaths;
 
-    public Level (String name, Wave first, int myLives) {
+    public Level (String name, int myLives) {
         super(name);
         // setID(getWorkspace().getIDFactory().createID(this));
-        initialize();
-        myCurrentWave = first;
+        myWaves = new ArrayList<>();
         this.myLives = myLives;
         this.startingLives = myLives;
-    }
-
-    private void initialize () {
-        myWaves = new ArrayList<>();
+        myWaveTimer = new Timer();
+        myPaths = new ArrayList<>();
     }
 
     /*
@@ -83,6 +86,9 @@ public class Level extends GameElement {
      */
     public void addWave (Wave newWave) {
         myWaves.add(newWave);
+        if(myWaves.size () == 1){
+        	myCurrentWave = newWave;
+        }
     }
 
     public Enemy update () {
@@ -100,11 +106,7 @@ public class Level extends GameElement {
     }
 
     public String toString () {
-        return "Number of Waves: " + myWaves.size();
-    }
-
-    public String toFile () {
-        return getID();
+        return String.valueOf(myWaves.size());
     }
 
     public int getMyLives () {
@@ -118,5 +120,39 @@ public class Level extends GameElement {
     public int getStartingLives () {
         return startingLives;
     }
+
+	public Timer getWaveTimer() {
+		return myWaveTimer;
+	}
+
+	public void addPath(PathNode path) {
+		myPaths.add(path);
+	}
+
+	public List<PathNode> getPaths() {
+		return myPaths;
+	}
+
+	public void decrementLife() {
+		myLives--;
+	}
+	
+	public List<Wave> getWaves(){
+		return myWaves;
+	}
+
+	public List<Position> getGoals() {
+		List<Position> goals = new ArrayList<>();
+		for(PathNode p : myPaths){
+			List<Branch> branches = p.getBranches();
+			for(Branch b : branches){
+				Position lastPos = b.getLastPosition();
+				List<Branch> forwardNeighbors = b.getForwardNeighbors();
+				if(forwardNeighbors.size() == 0)
+					goals.add(lastPos);
+			}
+		}
+		return goals;
+	}
 
 }

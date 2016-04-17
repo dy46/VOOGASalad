@@ -83,7 +83,12 @@ public class NodeFactory {
 	}
 	
 	public ImageView buildImageView(String imageName) {
-		return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imageName)));
+		return new ImageView(this.buildImage(imageName));
+	}
+	
+	public Image buildImage(String imageName) {
+		System.out.println("Image name: " + imageName);
+		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
 	
 	public void addLabelToPane(Pane pane, String label, Font font) {
