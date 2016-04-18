@@ -18,6 +18,7 @@ public class AffectorLibrary {
 	}
 	
 	public Affector getAffector(String property, String effect){
+		System.out.println("GOT AFFECTOR: " + myAffectors.get(getIdentifier(property, effect)));
 		Affector a = myAffectors.get(getIdentifier(property, effect)).copyAffector();
 		allAffectors.add(a);
 		return a;

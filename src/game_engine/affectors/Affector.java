@@ -15,6 +15,9 @@ public abstract class Affector {
 	private int elapsedTime;
 	private GameEngineInterface engineWorkspace;
 	private AffectorData myData;
+	private final int SET_AFFECTOR = 0;
+	private final int INCREMENT_AFFECTOR = 1;
+	private final int DECREMENT_AFFECTOR = 2;
 
 	public Affector(AffectorData data){
 		this.myData = data;
@@ -29,7 +32,7 @@ public abstract class Affector {
 		Affector copy = null;
 		try {
 			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class)
+					.getConstructor(AffectorData.class)
 					.newInstance(myData);
 			copy.setWorkspace(this.getWS());
 			//			copy.setEndEvents(this.myEndEvents);
@@ -49,13 +52,13 @@ public abstract class Affector {
 				List<Function> functions = getData().getFunctions().get(x);
 				int type = getData().getTypes().get(x);
 				List<Double> values = getValues(p);
-				if(type == 0){
+				if(type == SET_AFFECTOR){
 					setValues(p, functions, values);
 				}
-				else if(type == 1){
+				else if(type == INCREMENT_AFFECTOR){
 					incrementValues(p, functions, values);
 				}
-				else if(type == 2){
+				else if(type == DECREMENT_AFFECTOR){
 					decrementValues(p, functions, values);
 				}
 			}

@@ -29,11 +29,9 @@ import game_engine.timelines.Timeline;
 public class EnemyFactory {
 
 	private AffectorLibrary myAffectorLibrary;
-	private TimelineLibrary myTimelineLibrary;
 
-	public EnemyFactory(AffectorLibrary affectorLibrary, TimelineLibrary timelineLibrary){
+	public EnemyFactory(AffectorLibrary affectorLibrary){
 		this.myAffectorLibrary = affectorLibrary;
-		this.myTimelineLibrary = timelineLibrary;
 	}
 	
 //	public Enemy defineEnemyModel(BuildingBlock block){

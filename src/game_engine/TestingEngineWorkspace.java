@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import auth_environment.paths.PathGraph;
-import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathNode;
 import game_data.GameData;
 import game_engine.CollisionDetector;
@@ -18,7 +15,6 @@ import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.TerrainFactory;
-import game_engine.factories.TimelineFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Enemy;
@@ -57,7 +53,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private EnemyFactory myEnemyFactory;
 	private TowerFactory myTowerFactory;
 
-	private TimelineFactory myTimelineFactory;
+//	private TimelineFactory myTimelineFactory;
 
 	private List<Affector> myAffectors;
 
@@ -85,8 +81,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		// projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
-		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
-		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary(), myTimelineFactory.getTimelineLibrary());
+//		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
+		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();
