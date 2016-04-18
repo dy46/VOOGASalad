@@ -32,7 +32,7 @@ public class AuthView {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private GlobalGameTab mainWorkspace; // TODO: deprecate
+    private GlobalGameTab globalGameTab; 
     private GameSettings mySettings = new GameSettings(); 
 
     public AuthView (Stage stage) {
@@ -42,7 +42,9 @@ public class AuthView {
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
-    	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot()));
+    	// TODO: cleanup
+    	globalGameTab = new GlobalGameTab(this.myTabs); 
+    	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
@@ -52,7 +54,6 @@ public class AuthView {
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-//		mainWorkspace = new GameWorkspace(myTabs, this.mySettings); 
 		myTabs.getTabs().addAll(this.defaultTabs());
     }
 

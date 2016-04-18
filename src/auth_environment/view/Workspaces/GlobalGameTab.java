@@ -36,14 +36,12 @@ public class GlobalGameTab implements IWorkspace {
 	private MapDisplay myDisplay = new MapDisplay();
 	private ElementPicker myPicker;
 
-	private ISettings mySettings;
 
-	private GameData gameData;
+	private GameData gameData; // This originates here via XML 
 	private GameDataController myGameDataController;
 
-	public GlobalGameTab(TabPane tabPane, ISettings settings) {
+	public GlobalGameTab(TabPane tabPane) {
 		this.myTabPane = tabPane; 
-		this.mySettings = settings;
 		this.gameData = new GameData();
 		myPicker = new ElementPicker();
 		this.myGameDataController = new GameDataController(gameData, myPicker, myDisplay.getGrid().getPathGraphFactory());
@@ -53,7 +51,7 @@ public class GlobalGameTab implements IWorkspace {
 	private void setupBorderPane() {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings, myGameDataController));
+		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.gameData.getSettings(), myGameDataController));
 		//		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(Integer.parseInt(myDimensionsBundle.getString("defaultPickerWidth")),
 				Integer.parseInt(myDimensionsBundle.getString("defaultPickerHeight"))); 
