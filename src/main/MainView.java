@@ -2,7 +2,7 @@ package main;
 
 import java.util.ResourceBundle;
 
-import auth_environment.view.View;
+import auth_environment.view.AuthView;
 import auth_environment.view.Welcome;
 import game_engine.EngineController;
 import game_player.view.PlayerGUI;
@@ -37,7 +37,7 @@ public class MainView implements IMainView {
     }
     
     public void displayAuth() {
-    	View authView = new View(this.myStage);
+    	AuthView authView = new AuthView(this.myStage);
     	this.display(); 
     }
     

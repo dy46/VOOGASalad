@@ -1,5 +1,6 @@
 package auth_environment.view;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.GameSettings;
@@ -19,7 +20,7 @@ import javafx.stage.Stage;
  * This is the most general frontend/view class and contains a reference to the main Stage and tabs. 
  */
 
-public class View {
+public class AuthView {
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
@@ -33,15 +34,19 @@ public class View {
     private GameWorkspace mainWorkspace;
     private GameSettings mySettings = new GameSettings(); 
 
-    public View (Stage stage) {
+    public AuthView (Stage stage) {
         myStage = stage;
         
-        setupWorkspace();
+        setupApperance();
+    }
+    
+    private List<Tab> defaultTabs() {
+    	return null;
     }
 
 
-	private void setupWorkspace() {
-		myScene = new Scene(myTabs, Color.web("292929")); 
+	private void setupApperance() {
+		myScene = new Scene(myTabs); 
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
@@ -49,9 +54,6 @@ public class View {
 		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
 		mainTab.setClosable(false);
 		myTabs.getTabs().add(mainTab);
-		
-		
-		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
     }
 
     public void display() {
