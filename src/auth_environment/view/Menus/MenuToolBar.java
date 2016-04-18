@@ -8,7 +8,6 @@ import auth_environment.backend.ISettings;
 import auth_environment.view.ElementPicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TabPane;
 
 public class MenuToolBar extends MenuBar {
 	
