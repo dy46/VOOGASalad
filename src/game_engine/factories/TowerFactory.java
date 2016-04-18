@@ -2,6 +2,7 @@ package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import auth_environment.buildingBlocks.BuildingBlock;
@@ -166,6 +167,20 @@ public class TowerFactory {
 		myProjectiles.add(p);
 
 		return createSpecifiedTower(name, allProjectiles, myTowers, myProjectiles);
+	}
+
+	public Tower createRespawningTower(String name,
+			List<Unit> myProjectiles,
+			List<Unit> myTowers,
+			Position startingPosition){
+		Tower respawning = createHomingTower(name, myProjectiles,
+				Collections.unmodifiableList(myTowers),
+				startingPosition);
+		Affector respawn = myAffectorLibrary.getAffector("MoveTo", "Spawn");
+		for(Unit p : respawning.getAllProjectiles()){
+			p.setAffectorsToApply(Arrays.asList(respawn));
+		}
+		return respawning;
 	}
 
 	public Tower createHomingTower (String name,

@@ -3,6 +3,7 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 import game_engine.affectors.Affector;
+import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
@@ -58,6 +59,10 @@ public abstract class Unit extends GameElement {
 		initialize();
 		this.myProperties = new UnitProperties();
 		elapsedTime = 0;
+	}
+	
+	public Unit(){
+		super("");
 	}
 
 	private void initialize () {
