@@ -3,7 +3,7 @@ package auth_environment.view.Menus;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.ISettings;
-import auth_environment.view.Workspaces.GameWorkspace;
+import auth_environment.view.Workspaces.GlobalGameTab;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -35,7 +35,7 @@ public class TabMenu extends Menu {
 	
 	// TODO: pop up an alert asking the Developer to name gthe new Wave (or auto-generate a Wave name) 
 	private void createNewTab(){
-		GameWorkspace newWorkspace = new GameWorkspace(myTabs, this.mySettings);
+		GlobalGameTab newWorkspace = new GlobalGameTab(myTabs, this.mySettings);
 		myTabs.getTabs().add(new Tab(myNamesBundle.getString("levelItemLabel"), newWorkspace.getRoot()));
 	}
 }

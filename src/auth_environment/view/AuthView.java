@@ -1,11 +1,12 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
-import auth_environment.view.Workspaces.GameWorkspace;
+import auth_environment.view.Workspaces.GlobalGameTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -31,29 +32,28 @@ public class AuthView {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private GameWorkspace mainWorkspace;
+    private GlobalGameTab mainWorkspace; // TODO: deprecate
     private GameSettings mySettings = new GameSettings(); 
 
     public AuthView (Stage stage) {
         myStage = stage;
-        
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
-    	return null;
+    	List<Tab> tabs = new ArrayList<Tab>(); 
+    	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot()));
+    	tabs.stream().forEach(s -> s.setClosable(false));
+    	return tabs; 
     }
-
 
 	private void setupApperance() {
 		myScene = new Scene(myTabs); 
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		mainWorkspace = new GameWorkspace(myTabs, this.mySettings);
-		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
-		mainTab.setClosable(false);
-		myTabs.getTabs().add(mainTab);
+//		mainWorkspace = new GameWorkspace(myTabs, this.mySettings); 
+		myTabs.getTabs().addAll(this.defaultTabs());
     }
 
     public void display() {

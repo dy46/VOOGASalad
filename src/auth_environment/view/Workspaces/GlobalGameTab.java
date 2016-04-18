@@ -26,7 +26,7 @@ import javafx.scene.layout.BorderPane;
  * This class represents a single tab (ie Level) within our View.
  */
 
-public class GameWorkspace implements IWorkspace {
+public class GlobalGameTab implements IWorkspace {
 
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -41,7 +41,7 @@ public class GameWorkspace implements IWorkspace {
 	private GameData gameData;
 	private GameDataController myGameDataController;
 
-	public GameWorkspace(TabPane tabPane, ISettings settings) {
+	public GlobalGameTab(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
 		this.mySettings = settings;
 		this.gameData = new GameData();
@@ -51,13 +51,12 @@ public class GameWorkspace implements IWorkspace {
 	}
 
 	private void setupBorderPane() {
-
-
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings, myGameDataController));
 		//		this.myBorderPane.setLeft(hello);
-		myPicker.setPrefSize(400,400);
+		myPicker.setPrefSize(Integer.parseInt(myDimensionsBundle.getString("defaultPickerWidth")),
+				Integer.parseInt(myDimensionsBundle.getString("defaultPickerHeight"))); 
 		this.myBorderPane.setRight(myPicker);
 		this.myBorderPane.setCenter(myDisplay);
 	}
