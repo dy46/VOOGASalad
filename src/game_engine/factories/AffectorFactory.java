@@ -75,7 +75,7 @@ public class AffectorFactory {
 		String pr5 = "RangePathFollow";
 		String e5 = "PositionMove";
 		List<List<Function>> f5 = new ArrayList<>();
-		List<List<String>> p5 = Arrays.asList(Arrays.asList("Position"));
+		List<List<String>> p5 = new ArrayList<>();
 		List<Integer> i5 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d5 = new AffectorData(f5, p5, i5);
 		constructAffector(pr5, e5, d5);
@@ -83,7 +83,7 @@ public class AffectorFactory {
 		String pr6 = "PathFollow";
 		String e6 = "PositionMove";
 		List<List<Function>> f6 = new ArrayList<>();
-		List<List<String>> p6 = Arrays.asList(Arrays.asList("Position"));
+		List<List<String>> p6 = new ArrayList<>();
 		List<Integer> i6 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d6 = new AffectorData(f6, p6, i6);
 		constructAffector(pr6, e6, d6);
@@ -91,7 +91,7 @@ public class AffectorFactory {
 		String pr7 = "AIPath";
 		String e7 = "Follow";
 		List<List<Function>> f7 = new ArrayList<>();
-		List<List<String>> p7 = Arrays.asList(Arrays.asList("Position"));
+		List<List<String>> p7 = new ArrayList<>();
 		List<Integer> i7 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d7 = new AffectorData(f7, p7, i7);
 		constructAffector(pr7, e7, d7);
@@ -99,7 +99,7 @@ public class AffectorFactory {
 		String pr8 = "Homing";
 		String e8 = "Move";
 		List<List<Function>> f8 = new ArrayList<>();
-		List<List<String>> p8 = Arrays.asList(Arrays.asList("Position"));
+		List<List<String>> p8 = new ArrayList<>();
 		List<Integer> i8 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d8 = new AffectorData(f8, p8, i8);
 		constructAffector(pr8, e8, d8);
@@ -107,7 +107,7 @@ public class AffectorFactory {
 		String pr9 = "Death";
 		String e9 = "Activation";
 		List<List<Function>> f9 = new ArrayList<>();
-		List<List<String>> p9 = Arrays.asList(Arrays.asList("Position"));
+		List<List<String>> p9 = new ArrayList<>();
 		List<Integer> i9 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d9 = new AffectorData(f9, p9, i9);
 		constructAffector(pr9, e9, d9);
@@ -115,7 +115,7 @@ public class AffectorFactory {
 		String pr10 = "RandomPath";
 		String e10 = "Follow";
 		List<List<Function>> f10 = new ArrayList<>();
-		List<List<String>> p10 = Arrays.asList(Arrays.asList("Position"));
+		List<List<String>> p10 = new ArrayList<>();
 		List<Integer> i10 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d10 = new AffectorData(f10, p10, i10);
 		constructAffector(pr10, e10, d10);

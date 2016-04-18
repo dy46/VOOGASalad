@@ -27,8 +27,8 @@ public class Terrain extends Unit{
 	
 	public Terrain copyTerrain() {
 	    Terrain copy = new Terrain(this.toString(), this.getNumFrames());
-	    List<AffectorTimeline> copyApplyTimelines = this.getTimelinesToApply().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
-	    copy.setTimelinesToApply(copyApplyTimelines);
+	    List<Affector> copyApplyAffectors = this.getAffectorsToApply().stream().map(a -> a.copyAffector()).collect(Collectors.toList());
+        copy.setAffectorsToApply(copyApplyAffectors);
 	    copy.setTTL(this.getTTL());
 	    copy.getProperties().setPosition((this.getProperties().getPosition().copyPosition()));
 	    copy.getProperties().setBounds((this.getProperties().getBounds().copyBounds()));

@@ -25,15 +25,15 @@ public class Tower extends Unit {
 	private List<Projectile> myProjectiles;
 	private List<Unit> allTowers;
 
-	public Tower (String name, List<AffectorTimeline> timelines, int numFrames) {
-		super(name, timelines, numFrames);
+	public Tower (String name, List<Affector> affectors, int numFrames) {
+		super(name, affectors, numFrames);
 		// setID(getWorkspace().getIDFactory().createID(this));
 	}
 
 
-	public Tower (String name, List<AffectorTimeline> timelines, List<Unit> allProjectiles, 
+	public Tower (String name, List<Affector> affectors, List<Unit> allProjectiles, 
 			List<Projectile> myProjectiles, List<Unit> allTowers, int numFrames) {
-		super(name, timelines, numFrames);
+		super(name, affectors, numFrames);
 		this.allProjectiles = allProjectiles;
 		this.myProjectiles = myProjectiles;
 		this.allTowers = allTowers;
@@ -41,7 +41,7 @@ public class Tower extends Unit {
 	}
 
 	public Tower copyTower(double x, double y) {
-		List<AffectorTimeline> copyTimelines = new ArrayList<>();
+		List<Affector> copyAffectors = new ArrayList<>();
 		List<Projectile> newMyProjectiles = myProjectiles.stream().map(p -> p.copyProjectile()).collect(Collectors.toList());
 		for(int i = 0; i < newMyProjectiles.size(); i++) {
 			List<Branch> branches = newMyProjectiles.get(i).getProperties().getMovement().getBranches();
@@ -55,7 +55,7 @@ public class Tower extends Unit {
 			newMyProjectiles.get(i).getProperties().getMovement().setBranches(newBranches);
 		}
 
-		Tower copy = new Tower(this.toString(), copyTimelines, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());
+		Tower copy = new Tower(this.toString(), copyAffectors, allProjectiles, newMyProjectiles, this.getAllTowers(), this.getNumFrames());
 		copy.setTTL(this.getTTL());
 		copy.setProperties(this.getProperties().copyUnitProperties());
 		copy.getProperties().setPosition(x, y);

@@ -48,19 +48,19 @@ public abstract class Affector {
 	public void apply(Unit u) {
 		for(int x=0; x<getData().getUnitProperties().size(); x++){
 			for(String prop : getData().getUnitProperties().get(x)){
-				Property p = getProperty(u, prop);
-				List<Function> functions = getData().getFunctions().get(x);
-				int type = getData().getTypes().get(x);
-				List<Double> values = getValues(p);
-				if(type == SET_AFFECTOR){
-					setValues(p, functions, values);
-				}
-				else if(type == INCREMENT_AFFECTOR){
-					incrementValues(p, functions, values);
-				}
-				else if(type == DECREMENT_AFFECTOR){
-					decrementValues(p, functions, values);
-				}
+//				Property p = getProperty(u, prop);
+//				List<Function> functions = getData().getFunctions().get(x);
+//				int type = getData().getTypes().get(x);
+//				List<Double> values = getValues(p);
+//				if(type == SET_AFFECTOR){
+//					setValues(p, functions, values);
+//				}
+//				else if(type == INCREMENT_AFFECTOR){
+//					incrementValues(p, functions, values);
+//				}
+//				else if(type == DECREMENT_AFFECTOR){
+//					decrementValues(p, functions, values);
+//				}
 			}
 		}
 		updateElapsedTime();
