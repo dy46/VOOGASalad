@@ -3,7 +3,9 @@ package game_engine.affectors;
 import java.util.List;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Bounds;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
 
@@ -18,10 +20,15 @@ import game_engine.properties.Position;
  */
 public class PathFollowPositionMoveAffector extends PathFollowAffector {
 
-	public PathFollowPositionMoveAffector(List<Function> functions){
-		super(functions);
+	public PathFollowPositionMoveAffector(AffectorData data){
+		super(data);
 	}
 
+	@Override
+	public void apply (Unit u) {
+		super.apply(u);
+	}
+	           
 	public Position getNextPosition(Unit u){
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();

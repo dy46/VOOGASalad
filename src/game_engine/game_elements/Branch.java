@@ -13,7 +13,7 @@ import java.util.List;
  * Internal API that will be used in order to represent paths 
  * for enemy movements.
  */
-public class Branch extends Unit{
+public class Branch{
 
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
@@ -22,33 +22,28 @@ public class Branch extends Unit{
 	private int myID;
 
 	public Branch(List<Position> positions, int ID){
-		super(ID+"");
 		this.myID = ID;
 		myPositions = positions;
 		myNeighbors = new ArrayList<>();
 	}
 
 	public Branch(int ID) {
-		super(ID+"");
 		this.myPositions = new ArrayList<>();
 		this.myNeighbors = new ArrayList<>();
 	}
 
 	public Branch(String name){
-		super(name);
 		//		setID(getWorkspace().getIDFactory().createID(this));
 		cycle = false;
 		initialize();
 	}
 
 	public Branch(String name, List<Position> positions){
-		super(name);
 		cycle = false;
 		initialize(positions, new ArrayList<>());
 	}
 
 	public Branch(String name, List<Position> positions, List<Branch> neighbors) {
-		super(name);
 		cycle = false;
 		initialize(positions, neighbors);
 	}

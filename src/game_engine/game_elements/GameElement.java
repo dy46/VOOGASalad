@@ -1,7 +1,5 @@
 package game_engine.game_elements;
 
-import game_engine.genres.TD.TDGame;
-
 /**
  * This interface is the external API of the game element module for providing element information to the front-end.
  * @author adamtache
@@ -11,18 +9,9 @@ import game_engine.genres.TD.TDGame;
 public abstract class GameElement {
 	
 	private String myName;
-	private TDGame myWorkspace;
 	
 	public GameElement(String name){
 		this.myName = name;
-	}
-	
-	public void setWorkspace(TDGame workspace){
-		this.myWorkspace = workspace;
-	}
-	
-	public TDGame getWorkspace(){
-		return myWorkspace;
 	}
 	
 	/*

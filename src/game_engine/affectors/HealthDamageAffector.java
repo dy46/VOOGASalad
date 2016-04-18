@@ -1,21 +1,18 @@
 package game_engine.affectors;
 
-import java.util.List;
-
-import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 
 public class HealthDamageAffector extends Affector{
 
-	public HealthDamageAffector(List<Function> functions){
-		super(functions);
+	public HealthDamageAffector(AffectorData data){
+		super(data);
 	}
 
 	@Override
 	public void apply(Unit unit) {
 		super.apply(unit);
-		double damage = getFunctions().get(0).evaluate(getElapsedTime());
-		unit.getProperties().getHealth().decrementValue(damage);   
+		double damage = getData().getFunctions().get(0).get(0).evaluate(getElapsedTime());
+		unit.getProperties().getHealth().decrementValue(damage);
 	}
 
 }

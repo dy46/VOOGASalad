@@ -6,13 +6,13 @@ import java.util.List;
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
 import auth_environment.paths.PathNode;
+import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.games.GameEngineInterface;
-import game_engine.genres.TD.TDGame;
 import game_engine.properties.Position;
 
 public class GameData implements IGameData {
@@ -96,7 +96,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public void saveGameData() {
-		GameEngineInterface workspace = new TDGame();
+		GameEngineInterface workspace = new TestingEngineWorkspace();
 		workspace.setUpEngine(this);
 		mySerializer.saveElement(workspace);
 	}

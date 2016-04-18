@@ -50,8 +50,8 @@ public class Position {
 	@Override
 	public boolean equals(Object o){
 		return (o instanceof Position && 
-				(((Position)o).myX - this.myX) < 0.0000001 && 
-				(((Position)o).myY - this.myY) < 0.0000001) ||
+				(Math.abs(((Position)o).myX - this.myX)) < 0.0000001 && 
+				(Math.abs(((Position)o).myY - this.myY)) < 0.0000001) ||
 				(this == o);
 	}
 	

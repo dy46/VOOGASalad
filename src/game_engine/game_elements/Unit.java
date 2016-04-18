@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.properties.UnitProperties;
-import game_engine.timelines.Timeline;
 
 
 /**
@@ -18,8 +17,8 @@ import game_engine.timelines.Timeline;
 public abstract class Unit extends GameElement {
 
 	private UnitProperties myProperties;
-	private List<Timeline> myTimelines;
-	private List<Timeline> myTimeslinesToApply;
+	private List<Affector> myAffectors;
+	private List<Affector> myAffectorsToApply;
 	private int TTL;
 	private boolean setToDeath;
 	private boolean hasCollided;
@@ -29,13 +28,13 @@ public abstract class Unit extends GameElement {
 	private int numFrames;
 	private List<Double> numberList;
 
-	public Unit (String name, List<Timeline> timelines, int numFrames) {
+	public Unit (String name, List<Affector> affectors, int numFrames) {
 		super(name);
 		initialize();
 		myProperties = new UnitProperties();
 		elapsedTime = 0;
 		this.numFrames = numFrames;
-		addTimelines(timelines);
+		addAffectors(affectors);
 	}
 	
 	public Unit (String name, int numFrames) {
@@ -62,16 +61,16 @@ public abstract class Unit extends GameElement {
 	}
 
 	private void initialize () {
-		myTimelines = new ArrayList<>();
-		myTimeslinesToApply = new ArrayList<>();
+		myAffectors = new ArrayList<>();
+		myAffectorsToApply = new ArrayList<>();
 		this.setHasCollided(false);
 	}
 
 	public void update () {
 		if(isVisible()) {
 			elapsedTime++;
-			myTimelines.removeIf(t -> t.getAffectors().size() == 0);
-			myTimelines.forEach(t -> t.apply(this));
+			myAffectors.removeIf(a -> a.getTTL() < a.getElapsedTime());
+			myAffectors.forEach(a -> a.apply(this));
 		}
 		if (!isAlive()) {
 			setElapsedTimeToDeath();
@@ -97,20 +96,20 @@ public abstract class Unit extends GameElement {
 		this.myProperties = properties;
 	}
 
-	public List<Timeline> getTimelines () {
-		return myTimelines;
+	public List<Affector> getAffectors () {
+		return myAffectors;
 	}
 
-	public void setTimelines (List<Timeline> timelines) {
-		this.myTimelines = timelines;
+	public void setAffectors (List<Affector> affectors) {
+		this.myAffectors = affectors;
 	}
 
-	public List<Timeline> getTimelinesToApply() {
-		return myTimeslinesToApply;
+	public List<Affector> getAffectorsToApply() {
+		return myAffectorsToApply;
 	}
 	
-	public void setTimelinesToApply(List<Timeline> timelinesToApply) {
-		this.myTimeslinesToApply = timelinesToApply;
+	public void setAffectorsToApply(List<Affector> affectorsToApply) {
+		this.myAffectorsToApply = affectorsToApply;
 	}
 
 	public int getTTL () {
@@ -186,8 +185,8 @@ public abstract class Unit extends GameElement {
         this.numberList = numberList;
     }
 
-	public void addTimelines(List<Timeline> timelines) {
-		myTimelines.addAll(timelines);
+	public void addAffectors(List<Affector> affectors) {
+		myAffectors.addAll(affectors);
 	}
 
 	public boolean isEncapsulated() {

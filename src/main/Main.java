@@ -2,7 +2,6 @@ package main;
 
 import auth_environment.view.View;
 import game_data.AuthSerializer;
-import game_engine.EngineController;
 import game_player.view.GameView;
 import game_player.view.PlayerGUI;
 import javafx.application.Application;
@@ -12,7 +11,6 @@ public class Main extends Application {
 
 	private View authView; 
 	private PlayerGUI myView;
-	private EngineController myEngineController;
 
 	public static void main(String[] args) {
 		launch(args);

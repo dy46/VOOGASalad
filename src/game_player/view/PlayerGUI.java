@@ -1,14 +1,8 @@
 package game_player.view;
 
-import game_player.GameDataSource;
 import java.util.ResourceBundle;
-
-import game_data.AuthSerializer;
-import game_data.GameData;
-import game_data.IDataConverter;
+import game_engine.TestingEngineWorkspace;
 import game_engine.games.GameEngineInterface;
-import game_engine.games.TestTDGame;
-import game_engine.genres.TD.TDGame;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -56,20 +50,19 @@ public class PlayerGUI{
 		return myScene;
 	}
 	
-	private GameEngineInterface readData() {
-		IDataConverter<GameEngineInterface> dataConverter = new AuthSerializer<GameEngineInterface>();
-		GameData gameData = (GameData) dataConverter.loadElement();
-		gameEngine = new TDGame();
-		gameEngine.setUpEngine(gameData);
-		return gameEngine;
-	}
-	
-	private void createNewTab() {
+//	private GameEngineInterface readData() {
+//		IDataConverter<GameEngineInterface> dataConverter = new AuthSerializer<GameEngineInterface>();
+//		GameData gameData = (GameData) dataConverter.loadElement();
 //		gameEngine = new TDGame();
-//		gameEngine = readData();
+//		gameEngine.setUpEngine(gameData);
+//		return gameEngine;
+//	}
+	
+	private void createNewTab() {    
+	    
+                gameEngine = new TestingEngineWorkspace();
+		gameEngine.setUpEngine(null);
 		
-		
-		gameEngine = new TestTDGame();
 		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();

@@ -10,7 +10,6 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.genres.TD.TDGame;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.games.Timer;
@@ -25,65 +24,69 @@ import game_engine.games.Timer;
  */
 
 public interface GameEngineInterface {
-    
+
     //tells the engine to save the game and returns the list of fileNames that can be retrieved
     List<String> saveGame();
-    
+
     //tells engine to play a specified level
     void playLevel(int levelNumber);
-    
+
     //tells engine to play a specified wave
     void playWave(int waveNumber);
-    
+
     //tells engine to update elements a single time unit 
     void update();
-    
+
     //asks engine about the game status
     String getGameStatus();
-    
+
     //tells engine to add tower to its active tower list given a tower index
     void addTower(String name, double x, double y);
-    
+
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
-    
+
     //sets up the engine with a list of files
     void setUpEngine(GameData gameData);
-    
+
     public List<Unit> getEnemies();
-    
+
     public List<Unit> getTowers();    
-    
+
     public List<Unit> getTerrains();
 
-	public List<Level> getLevels();
-	
+    public List<Level> getLevels();
+
     public int getLives();
-	
+
     public List<Unit> getProjectiles();
 
     public void clearProjectiles();
-	
+
     public List<Tower> getTowerTypes();
-
-	public boolean isPaused();
-	
-	public void setPaused();
-	
-	public default CollisionDetector getCollisionDetector(){
-		return new CollisionDetector(this);
-	}
-	
-	public void addEnemy(Enemy e);
-	
-	public boolean isGameOver();
-
-	public Timer getTimer();
-
-	public Level getCurrentLevel();
-	
-	public void decrementLives();
-
-	public List<Position> getGoals();
     
+    public List<Branch> getPaths();
+
+    public boolean isPaused();
+
+    public void setPaused();
+
+    public default CollisionDetector getCollisionDetector(){
+        return new CollisionDetector(this);
+    }
+
+    public void addEnemy(Enemy e);
+
+    public boolean isGameOver();
+
+    public Timer getTimer();
+
+    public Level getCurrentLevel();
+
+    public void decrementLives();
+
+    public List<Position> getGoals();
+
+	public List<Unit> getAllUnits();
+
 }
