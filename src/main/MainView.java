@@ -2,6 +2,7 @@ package main;
 
 import java.util.ResourceBundle;
 
+import auth_environment.view.View;
 import auth_environment.view.Welcome;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,5 +32,14 @@ public class MainView implements IMainView {
     
     public void display() {
     	this.myStage.show();
+    }
+    
+    public void displayAuth() {
+    	View authView = new View(this.myStage);
+    	this.display(); 
+    }
+    
+    public void displayPlayer() {
+    	System.out.println("David, add Player setup code here. Thanks!");
     }
 }

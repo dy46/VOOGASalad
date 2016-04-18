@@ -19,7 +19,7 @@ import main.IMainView;
  * 
  * First (interactive) screen displayed to the Developer. Asks for Game name. 
  * 
- * TODO: Ask Austin to store (and pass around) the Game Name
+ * TODO: Allow for segue back to main screen. 
  */
 
 public class Welcome {
@@ -93,10 +93,10 @@ public class Welcome {
 		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
 		return animation;
 	}
-
+	
 	private void authButtonPressed() {
 		this.myStage.hide();
-		this.myView.display();
+		this.myView.displayAuth();
 		
 //		if (checkValidName()) {
 //			this.myStage.hide();
@@ -108,10 +108,12 @@ public class Welcome {
 	}
 	
 	private void playButtonPressed() {
-		
+		this.myStage.hide();
+		this.myView.displayPlayer();
 	}
 
 //	private boolean checkValidName() {
 //		return this.gameNameInput.getText().length() > 0; 
 //	}
+	
 }
