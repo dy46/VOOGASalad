@@ -52,7 +52,7 @@ public class Welcome {
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
 //				this.buildTextInput(), 
-				this.buildSubmitButton(),
+				this.buildSelectionButtons(),
 				this.buildAnimation()
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
@@ -74,10 +74,18 @@ public class Welcome {
 //		return this.gameNameInput; 
 //	}
 
-	private HBox buildSubmitButton() {
-		Button submit = myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel"));
-		submit.setOnAction(e -> this.submitButtonPressed());
-		return myNodeFactory.centerNode(submit);
+	private HBox buildSelectionButtons() {
+		
+		// TODO: refactor this 
+		Button authButton = myNodeFactory.buildButton(myNamesBundle.getString("authButtonLabel"));
+		authButton.setOnAction(e -> this.authButtonPressed());
+		
+		Button playButton = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
+		playButton.setOnAction(e -> this.playButtonPressed());
+		
+		HBox hb = myNodeFactory.centerNode(authButton);
+		hb.getChildren().add(playButton); 
+		return hb;
 	}
 	
 	private ImageView buildAnimation() {
@@ -86,7 +94,7 @@ public class Welcome {
 		return animation;
 	}
 
-	private void submitButtonPressed() {
+	private void authButtonPressed() {
 		this.myStage.hide();
 		this.myView.display();
 		
@@ -97,6 +105,10 @@ public class Welcome {
 //			this.myView.getSettings().setName(name);
 //			// TODO: save entered name somewhere... ask Austin
 //		}
+	}
+	
+	private void playButtonPressed() {
+		
 	}
 
 //	private boolean checkValidName() {
