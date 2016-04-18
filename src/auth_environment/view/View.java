@@ -52,7 +52,8 @@ public class View {
 		myTabs.getTabs().add(mainTab);
 		
 		
-		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
+		VAsTesterTab vtest = new VAsTesterTab("WOOOO");
+		myTabs.getTabs().add(vtest);
     }
 
     public void display() {

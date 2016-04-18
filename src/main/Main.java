@@ -40,12 +40,12 @@ public class Main extends Application {
 //		myView = new GameView(primaryStage);
 //		myView.display();
 
-		//authView = new View(primaryStage); // for testing Auth
-		myView = new PlayerGUI(645, 587);
-		myEngineController = new EngineController();
-		myEngineController.initialize();
-		primaryStage.setScene(myView.createPlayerScene());
-		primaryStage.show();
+		authView = new View(primaryStage); // for testing Auth
+//		myView = new PlayerGUI(645, 587);
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
+//		primaryStage.setScene(myView.createPlayerScene());
+//		primaryStage.show();
 	}
 
 }
