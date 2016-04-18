@@ -7,8 +7,8 @@ import game_engine.game_elements.Unit;
 
 public class DeathActivationAffector extends Affector{
 
-	public DeathActivationAffector(List<Function> functions){
-		super(functions);
+	public DeathActivationAffector(AffectorData data){
+		super(data);
 	}
 	
 	public void apply(Unit unit){

@@ -9,8 +9,8 @@ import game_engine.games.GameEngineInterface;
 
 public class ExpIncrHealthDamageAffector extends HealthDamageAffector{
 
-    public ExpIncrHealthDamageAffector(List<Function> functions){
-        super(functions);
+    public ExpIncrHealthDamageAffector(AffectorData data){
+        super(data);
     }
 
 }

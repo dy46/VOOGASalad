@@ -580,5 +580,13 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		return myGoals;
 	}
 
+	public List<Unit> getAllUnits(){
+		List<Unit> units = new ArrayList<>();
+		units.addAll(myTowers);
+		units.addAll(myEnemys);
+		units.addAll(myProjectiles);
+		units.addAll(myTerrains);
+		return units;
+	}
 
 }

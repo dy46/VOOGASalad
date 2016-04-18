@@ -11,8 +11,8 @@ import game_engine.properties.Position;
 
 public class AIPathFollowAffector extends PathFollowAffector{
 
-	public AIPathFollowAffector(List<Function> functions) {
-		super(functions);
+	public AIPathFollowAffector(AffectorData data) {
+		super(data);
 	}
 
 	public Position getNextPosition(Unit u){

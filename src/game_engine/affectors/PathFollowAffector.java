@@ -10,8 +10,8 @@ import game_engine.properties.Position;
 
 public abstract class PathFollowAffector extends Affector{
 
-	public PathFollowAffector(List<Function> functions){
-		super(functions);
+	public PathFollowAffector(AffectorData data){
+		super(data);
 	}
 	
 	public void apply (Unit u) {

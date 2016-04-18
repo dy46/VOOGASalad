@@ -87,4 +87,6 @@ public interface GameEngineInterface {
 
     public List<Position> getGoals();
 
+	public List<Unit> getAllUnits();
+
 }

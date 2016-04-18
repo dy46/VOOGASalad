@@ -10,8 +10,8 @@ import game_engine.properties.UnitProperties;
 
 public class HomingMoveAffector extends SingleTrackRangeAffector {
 
-    public HomingMoveAffector(List<Function> functions){
-	      super(functions);
+    public HomingMoveAffector(AffectorData data){
+	      super(data);
 	}
     
     public void futureApply(Unit u, Unit tracked) {

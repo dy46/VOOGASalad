@@ -78,9 +78,9 @@ public class TowerFactory {
 		UnitProperties properties = new UnitProperties(h, null, null, velocity, b, range, startingPosition.copyPosition(), null, st, new Movement(Arrays.asList(p2)), null);
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
-		damage.setBaseNumbers(Arrays.asList(new Double(5)));
+		damage.getData().getFunctions().get(0).set(0, new FunctionFactory().createConstantFunction(5));
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
-		stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
+		stateToDamaging.getData().getFunctions().get(0).set(0, new FunctionFactory().createConstantFunction(4));
 		stateToDamaging.setTTL(1);
 		p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays.asList(new Affector[]{damage, stateToDamaging}))));
 		p.setProperties(properties);
@@ -201,9 +201,9 @@ public class TowerFactory {
 						startingPosition.copyPosition(), null, st, new Movement(Arrays.asList(p2)), null);
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
-		damage.setBaseNumbers(Arrays.asList(new Double(10)));
+		damage.getData().getFunctions().get(0).set(0, new FunctionFactory().createConstantFunction(10));
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
-		stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
+		stateToDamaging.getData().getFunctions().get(0).set(0, new FunctionFactory().createConstantFunction(4));
 		stateToDamaging.setTTL(1);
 		p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays.asList(new Affector[] { damage, stateToDamaging }))));
 		p.setProperties(properties);

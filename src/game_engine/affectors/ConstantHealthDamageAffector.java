@@ -9,8 +9,8 @@ import game_engine.games.GameEngineInterface;
 
 public class ConstantHealthDamageAffector extends HealthDamageAffector{
 
-    public ConstantHealthDamageAffector(List<Function> functions){
-        super(functions);
+    public ConstantHealthDamageAffector(AffectorData data){
+        super(data);
     }
     
 }

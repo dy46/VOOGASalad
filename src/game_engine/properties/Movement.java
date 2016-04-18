@@ -25,9 +25,9 @@ public class Movement {
 		this.myBranches = branches;
 	}
 
-//	public boolean isUnitAtLastPosition(Unit u) {
-//		return getLastBranch().isUnitAtLastPosition(u);
-//	}
+	public boolean isUnitAtLastPosition(Unit u) {
+		return getLastBranch().isUnitAtLastPosition(u);
+	}
 	
 	public Movement copyMovement(){
 		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));

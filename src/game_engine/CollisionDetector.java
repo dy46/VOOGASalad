@@ -149,5 +149,17 @@ public class CollisionDetector {
                                 (q.getX() - p.getX()) * (r.getY() - q.getY());
                 return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
         }
+        
+        public List<Unit> getUnitsInRange(Bounds range){
+        	List<Unit> units = myEngine.getAllUnits();
+        	List<Unit> inRange = new ArrayList<>();
+        	for(Unit u : units){
+        		if()
+        	}
+        	return CollisionDetector.encapsulates(CollisionDetector.getUseableBounds(closestEnemy.getProperties().getBounds(), 
+    				closestEnemy.getProperties().getPosition()), 
+    				CollisionDetector.getUseableBounds(properties.getRange(), properties.getPosition()))
+    				? closestEnemy : null;
+        }
 
 }
