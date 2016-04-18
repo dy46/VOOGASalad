@@ -8,6 +8,7 @@ import auth_environment.backend.GameDataController;
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.ElementPicker;
 import auth_environment.view.MapDisplay;
 import auth_environment.view.Menus.MenuToolBar;
@@ -17,6 +18,7 @@ import game_engine.game_elements.Tower;
 import auth_environment.backend.ISettings;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -31,20 +33,17 @@ public class GlobalGameTab implements IWorkspace {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
-	private TabPane myTabPane; 
 	private BorderPane myBorderPane = new BorderPane(); 
-	private MapDisplay myDisplay = new MapDisplay();
-	private ElementPicker myPicker;
 
-
+	// TODO: replace with EngineWorkspace class
 	private GameData gameData; // This originates here via XML 
-	private GameDataController myGameDataController;
+//	private GameDataController myGameDataController; // TODO: find this
+	private NodeFactory myNodeFactory = new NodeFactory(); 
 
-	public GlobalGameTab(TabPane tabPane) {
-		this.myTabPane = tabPane; 
+	public GlobalGameTab() {
 		this.gameData = new GameData();
 //		myPicker = new ElementPicker();
-		this.myGameDataController = new GameDataController(gameData, myPicker, myDisplay.getGrid().getPathGraphFactory());
+//		this.myGameDataController = new GameDataController(gameData, myPicker, myDisplay.getGrid().getPathGraphFactory());
 		this.setupBorderPane();
 	}
 
@@ -60,6 +59,12 @@ public class GlobalGameTab implements IWorkspace {
 //		this.myBorderPane.setRight(myPicker);
 //		this.myBorderPane.setCenter(myDisplay);
 	}
+	
+//	private TextField buildTextInput() {
+//		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
+//		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
+//		return this.gameNameInput; 
+//	}
 
 	//	public void writeToGameData() {
 	////		gameData.setLevels(myPicker.getLevels());

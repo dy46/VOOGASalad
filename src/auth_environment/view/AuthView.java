@@ -43,7 +43,7 @@ public class AuthView {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	globalGameTab = new GlobalGameTab(this.myTabs); 
+    	globalGameTab = new GlobalGameTab(); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
