@@ -1,7 +1,7 @@
 package game_engine.properties;
 
 
-public class Velocity extends Property{
+public class Velocity {
 
 	private double mySpeed;
 	private double myDirection;

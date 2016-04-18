@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -51,6 +52,10 @@ public class PathNode {
 				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
 				.findFirst();
 		return graph.isPresent() ? graph.get() : null;
+	}
+	
+	public List<Branch> getBranches(){
+		return myBranches;
 	}
 	
 }

@@ -9,16 +9,16 @@ import java.util.Collection;
  * @author adamtache
  *
  */
-
-public class EngineController {
-
-	Collection<EngineWorkspace> myActiveEngines;
-	EngineWorkspace myActiveWorkspace;
-	
-	public void initialize(){
-		myActiveEngines = new ArrayList<>();
-		myActiveWorkspace = new EngineWorkspace();
-		myActiveEngines.add(myActiveWorkspace);
-	}
-	
-}
+//
+//public class EngineController {
+//
+//	private Collection<TestingGame> myActiveGames;
+//	private TDGame TD;
+//	
+//	public void initialize(){
+//		myActiveGames = new ArrayList<>();
+//		TD = new TDGame();
+//		myActiveGames.add(TD);
+//	}
+//	
+//}

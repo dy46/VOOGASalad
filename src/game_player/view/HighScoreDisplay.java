@@ -3,7 +3,7 @@ package game_player.view;
 import game_player.GameDataSource;
 import java.util.ResourceBundle;
 
-import game_engine.IPlayerEngineInterface;
+import game_engine.games.GameEngineInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -17,7 +17,7 @@ public class HighScoreDisplay implements IGUIObject {
 	private Label highScoreLabel;
 	private GameDataSource myGameData;
 	private IGameView myView;
-	private IPlayerEngineInterface myEngine;
+	private GameEngineInterface myEngine;
 	
 	public HighScoreDisplay(ResourceBundle r, GameDataSource gameData, IGameView view) {
 		myResources = r;

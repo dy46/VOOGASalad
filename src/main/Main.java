@@ -2,7 +2,6 @@ package main;
 
 import auth_environment.view.View;
 import game_data.AuthSerializer;
-import game_engine.EngineController;
 import game_player.view.GameView;
 import game_player.view.PlayerGUI;
 import javafx.application.Application;
@@ -12,7 +11,6 @@ public class Main extends Application {
 
 	private View authView; 
 	private PlayerGUI myView;
-	private EngineController myEngineController;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -39,11 +37,12 @@ public class Main extends Application {
 		//		authView = new View(primaryStage); // for testing Auth
 //		myView = new GameView(primaryStage);
 //		myView.display();
+//		myEngineController = new EngineController();
+//		myEngineController.initialize();
 
-		//authView = new View(primaryStage); // for testing Auth
+//		authView = new View(primaryStage); // for testing Auth
+		
 		myView = new PlayerGUI(645, 587);
-		myEngineController = new EngineController();
-		myEngineController.initialize();
 		primaryStage.setScene(myView.createPlayerScene());
 		primaryStage.show();
 	}
