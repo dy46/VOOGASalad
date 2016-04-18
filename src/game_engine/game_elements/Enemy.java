@@ -7,8 +7,8 @@ import game_engine.timelines.Timeline;
 
 public class Enemy extends Unit {
 
-    public Enemy (String name, List<AffectorTimeline> timelines, int numFrames) {
-        super(name, timelines, numFrames);
+    public Enemy (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
         //setID(getWorkspace().getIDFactory().createID(this));
     }
 

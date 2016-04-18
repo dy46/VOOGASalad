@@ -29,11 +29,9 @@ import game_engine.timelines.Timeline;
 public class EnemyFactory {
 
 	private AffectorLibrary myAffectorLibrary;
-	private TimelineLibrary myTimelineLibrary;
 
-	public EnemyFactory(AffectorLibrary affectorLibrary, TimelineLibrary timelineLibrary){
+	public EnemyFactory(AffectorLibrary affectorLibrary){
 		this.myAffectorLibrary = affectorLibrary;
-		this.myTimelineLibrary = timelineLibrary;
 	}
 	
 //	public Enemy defineEnemyModel(BuildingBlock block){
@@ -76,9 +74,8 @@ public class EnemyFactory {
 	public Enemy createSpecifiedEnemy(String name, String behavior, String property) {
 		Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
 		moveAffector.setTTL(Integer.MAX_VALUE);
-		AffectorTimeline timeline1 = new AffectorTimeline(moveAffector);
 //		Field[] fields = Unit.class.getDeclaredFields();
-		Enemy e1 = new Enemy(name, Arrays.asList(timeline1), 3);
+		Enemy e1 = new Enemy(name, Arrays.asList(moveAffector), 3);
 //		forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
 		Health health = new Health(50);
 		Velocity velocity = new Velocity(0.5, 90);

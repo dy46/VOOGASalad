@@ -10,8 +10,8 @@ import game_engine.properties.Position;
 
 public class RandomPathFollowAffector extends PathFollowAffector{
 
-	public RandomPathFollowAffector(List<Function> functions) {
-		super(functions);
+	public RandomPathFollowAffector(AffectorData data) {
+		super(data);
 	}
 
 	public Position getNextPosition(Unit u) {

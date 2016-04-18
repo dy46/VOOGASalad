@@ -25,7 +25,7 @@ public class TerrainFactory {
 		myTerrainLibrary = new TerrainLibrary();
 		setupDefaultTerrains();
 	}
-	
+
 	public Terrain defineTerrainModel(BuildingBlock block){
 		TerrainBuildingBlock terBlock = (TerrainBuildingBlock) block;
 		List<Affector> affectors = new ArrayList<>();
@@ -33,34 +33,34 @@ public class TerrainFactory {
 		speedUp.setTTL(1);
 		affectors.add(speedUp);
 		Terrain ter = new Terrain(terBlock.getMyName(), 2);
-	        ter.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
+		ter.setAffectorsToApply(affectors);
 		myTerrainLibrary.addTerrain(ter);
 		return ter;
 	}
-	
+
 	private void setupDefaultTerrains(){
 		List<Affector> affectors = new ArrayList<>();
 		Affector speedUp = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
 		speedUp.setTTL(1);
 		affectors.add(speedUp);
 		Terrain ice = new Terrain("Ice", 2);
-	        ice.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
+		ice.setAffectorsToApply(affectors);
 		myTerrainLibrary.addTerrain(ice);
-		
+
 		List<Affector> affectors2 = new ArrayList<>();
 		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
 		expIncrDamage.setTTL(Integer.MAX_VALUE);
 		affectors2.add(expIncrDamage);
 		Terrain poisonSpike = new Terrain("PoisonSpikes", 2);
-                poisonSpike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors2)));
+		poisonSpike.setAffectorsToApply(affectors2);
 		myTerrainLibrary.addTerrain(poisonSpike);
-		
+
 		List<Affector> affectors3 = new ArrayList<>();
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		constantDamage.setTTL(1);
 		affectors3.add(constantDamage);
 		Terrain spike = new Terrain("Spikes", 2);
-		spike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors3)));
+		spike.setAffectorsToApply(affectors3);
 		myTerrainLibrary.addTerrain(spike);
 	}
 

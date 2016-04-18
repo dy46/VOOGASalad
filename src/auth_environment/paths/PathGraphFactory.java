@@ -17,6 +17,10 @@ public class PathGraphFactory {
 		currentGraphID = -1;
 		currentPathID = -1;
 	}
+	
+	public PathGraphFactory(List<Position> centers){
+		
+	}
 
 	public PathNode createPath(){
 		myGraph.addPath(new PathNode(currentGraphID++));

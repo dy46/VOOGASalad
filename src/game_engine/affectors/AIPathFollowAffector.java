@@ -8,11 +8,16 @@ import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
+import game_engine.properties.Property;
 
 public class AIPathFollowAffector extends PathFollowAffector{
 
-	public AIPathFollowAffector(List<Function> functions) {
-		super(functions);
+	public AIPathFollowAffector(AffectorData data) {
+		super(data);
+	}
+	
+	public List<Double> transformValues(Property p, List<Double> values){
+		return values;
 	}
 
 	public Position getNextPosition(Unit u){
