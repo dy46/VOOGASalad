@@ -7,6 +7,7 @@ import java.util.List;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Property;
+import game_engine.properties.UnitProperties;
 import game_engine.games.GameEngineInterface;
 
 public abstract class Affector {
@@ -48,19 +49,20 @@ public abstract class Affector {
 	public void apply(Unit u) {
 		for(int x=0; x<getData().getUnitProperties().size(); x++){
 			for(String prop : getData().getUnitProperties().get(x)){
-//				Property p = getProperty(u, prop);
-//				List<Function> functions = getData().getFunctions().get(x);
-//				int type = getData().getTypes().get(x);
-//				List<Double> values = getValues(p);
-//				if(type == SET_AFFECTOR){
-//					setValues(p, functions, values);
-//				}
-//				else if(type == INCREMENT_AFFECTOR){
-//					incrementValues(p, functions, values);
-//				}
-//				else if(type == DECREMENT_AFFECTOR){
-//					decrementValues(p, functions, values);
-//				}
+				Property p = getProperty(u, prop);
+				List<Function> functions = getData().getFunctions().get(x);
+				int type = getData().getTypes().get(x);
+				System.out.println("PROPERTY: " + p);
+				List<Double> values = getValues(p);
+				if(type == SET_AFFECTOR){
+					setValues(p, functions, values);
+				}
+				else if(type == INCREMENT_AFFECTOR){
+					incrementValues(p, functions, values);
+				}
+				else if(type == DECREMENT_AFFECTOR){
+					decrementValues(p, functions, values);
+				}
 			}
 		}
 		updateElapsedTime();
@@ -90,24 +92,28 @@ public abstract class Affector {
 	private Property getProperty(Unit u, String property){
 		Class cls = null;
 		try {
-			cls = Class.forName("game_engine.properties." + property);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		Method method = null;
+			cls = Class.forName("game_engine.properties.UnitProperties");
+		} catch (ClassNotFoundException e) {	e.printStackTrace();	}
+		
+		Object obj = null;
 		try {
-			method = cls.getDeclaredMethod("get" + property);
-		} catch (NoSuchMethodException | SecurityException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+			obj = cls.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {	e.printStackTrace();	}
+		System.out.println("CLASS: " + cls);
+		System.out.println("OBJ: " + u);
+		
+		Method method = null;
+		Class noparams[] = {};
+		try {
+			method = cls.getDeclaredMethod("get" + property, noparams);
+		} catch (NoSuchMethodException | SecurityException e2) {	e2.printStackTrace();	}
+		System.out.println("METHOD: " + method);
+		
 		Property p = null;
 		try {
-			p = ((Property) method.invoke(u.getProperties()));
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
-			e1.printStackTrace();
-		}
-		return p;
+			p = ((Property) method.invoke(obj, null));
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {	e1.printStackTrace();	}
+		return (Property)p;
 	}
 
 	private List<Double> getValues(Property p){

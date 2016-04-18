@@ -108,7 +108,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 				myTowerFactory.createTackTower("Tack", myProjectiles,
 						Collections.unmodifiableList(myTowers),
 						position2);
-		return new ArrayList<>(Arrays.asList(new Tower[] { t, t2 }));
+		Tower t3 = myTowerFactory.createRespawningTower("Tower", myProjectiles,
+				Collections.unmodifiableList(myTowers),
+				position2);
+		return new ArrayList<>(Arrays.asList(new Tower[] { t, t2, t3 }));
 	}
 
 	private Level makeDummyLevel () {

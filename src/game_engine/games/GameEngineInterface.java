@@ -6,6 +6,7 @@ import game_data.GameData;
 import game_engine.game_elements.Level;
 import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
+import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Tower;
@@ -88,5 +89,7 @@ public interface GameEngineInterface {
     public List<Position> getGoals();
 
 	public List<Unit> getAllUnits();
+
+	public FunctionFactory getFunctionFactory();
 
 }

@@ -107,6 +107,11 @@ public class CollisionDetector {
 				outer.getProperties().getBounds().getPositions());
 	}
 
+	private boolean encapsulatesBounds(Unit inner, Bounds outer){
+		return encapsulates(inner.getProperties().getBounds().getPositions(),
+				outer.getPositions());
+	}
+
 	private boolean collides (Unit a, Unit b) {
 		List<Position> aPos = getUseableBounds(a.getProperties().getBounds(),
 				a.getProperties().getPosition());
@@ -154,14 +159,12 @@ public class CollisionDetector {
 	public List<Unit> getUnitsInRange(Bounds range){
 		List<Unit> units = myEngine.getAllUnits();
 		List<Unit> inRange = new ArrayList<>();
-		return null;
-//		for(Unit u : units){
-//			if()
-//		}
-//		return CollisionDetector.encapsulates(CollisionDetector.getUseableBounds(closestEnemy.getProperties().getBounds(), 
-//				closestEnemy.getProperties().getPosition()), 
-//				CollisionDetector.getUseableBounds(properties.getRange(), properties.getPosition()))
-//				? closestEnemy : null;
+		for(Unit u : units){
+			if(encapsulatesBounds(u, range)){
+				inRange.add(u);
+			}
+		}
+		return inRange;
 	}
-
+	
 }
