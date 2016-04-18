@@ -43,7 +43,7 @@ public class GlobalGameTab implements IWorkspace {
 	public GlobalGameTab(TabPane tabPane) {
 		this.myTabPane = tabPane; 
 		this.gameData = new GameData();
-		myPicker = new ElementPicker();
+//		myPicker = new ElementPicker();
 		this.myGameDataController = new GameDataController(gameData, myPicker, myDisplay.getGrid().getPathGraphFactory());
 		this.setupBorderPane();
 	}
@@ -51,12 +51,14 @@ public class GlobalGameTab implements IWorkspace {
 	private void setupBorderPane() {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.gameData.getSettings(), myGameDataController));
-		//		this.myBorderPane.setLeft(hello);
-		myPicker.setPrefSize(Integer.parseInt(myDimensionsBundle.getString("defaultPickerWidth")),
-				Integer.parseInt(myDimensionsBundle.getString("defaultPickerHeight"))); 
-		this.myBorderPane.setRight(myPicker);
-		this.myBorderPane.setCenter(myDisplay);
+		
+		
+		
+//		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.gameData.getSettings(), myGameDataController));
+//		myPicker.setPrefSize(Integer.parseInt(myDimensionsBundle.getString("defaultPickerWidth")),
+//				Integer.parseInt(myDimensionsBundle.getString("defaultPickerHeight"))); 
+//		this.myBorderPane.setRight(myPicker);
+//		this.myBorderPane.setCenter(myDisplay);
 	}
 
 	//	public void writeToGameData() {
