@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.IMainView;
 
 /**
  * Created by BrianLin on 4/6/16.
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
  * 
  * First (interactive) screen displayed to the Developer. Asks for Game name. 
  * 
- * TODO: Ask Austin to store (and pass around) the Game Name
+ * TODO: Allow for segue back to main screen. 
  */
 
 public class Welcome {
@@ -37,9 +38,9 @@ public class Welcome {
 	private Stage myStage = new Stage(); 
 	private Scene welcomeScene; 
 	private VBox myRoot;
-	private View myView; 
+	private IMainView myView; 
 
-	public Welcome(View view) {
+	public Welcome(IMainView view) {
 		this.myView = view; 
 		this.init();
 	}
@@ -50,8 +51,8 @@ public class Welcome {
 				);
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
-				this.buildTextInput(), 
-				this.buildSubmitButton(),
+//				this.buildTextInput(), 
+				this.buildSelectionButtons(),
 				this.buildAnimation()
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
@@ -67,16 +68,24 @@ public class Welcome {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
 
-	private TextField buildTextInput() {
-		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
-		return this.gameNameInput; 
-	}
+//	private TextField buildTextInput() {
+//		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
+//		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
+//		return this.gameNameInput; 
+//	}
 
-	private HBox buildSubmitButton() {
-		Button submit = myNodeFactory.buildButton(myNamesBundle.getString("buildButtonLabel"));
-		submit.setOnAction(e -> this.submitButtonPressed());
-		return myNodeFactory.centerNode(submit);
+	private HBox buildSelectionButtons() {
+		
+		// TODO: refactor this 
+		Button authButton = myNodeFactory.buildButton(myNamesBundle.getString("authButtonLabel"));
+		authButton.setOnAction(e -> this.authButtonPressed());
+		
+		Button playButton = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
+		playButton.setOnAction(e -> this.playButtonPressed());
+		
+		HBox hb = myNodeFactory.centerNode(authButton);
+		hb.getChildren().add(playButton); 
+		return hb;
 	}
 	
 	private ImageView buildAnimation() {
@@ -84,18 +93,27 @@ public class Welcome {
 		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
 		return animation;
 	}
-
-	private void submitButtonPressed() {
-		if (checkValidName()) {
-			this.myStage.hide();
-			this.myView.display();
-			String name = this.gameNameInput.getText();
-			this.myView.getSettings().setName(name);
-			// TODO: save entered name somewhere... ask Austin
-		}
+	
+	private void authButtonPressed() {
+		this.myStage.hide();
+		this.myView.displayAuth();
+		
+//		if (checkValidName()) {
+//			this.myStage.hide();
+//			this.myView.display();
+//			String name = this.gameNameInput.getText();
+//			this.myView.getSettings().setName(name);
+//			// TODO: save entered name somewhere... ask Austin
+//		}
+	}
+	
+	private void playButtonPressed() {
+		this.myStage.hide();
+		this.myView.displayPlayer();
 	}
 
-	private boolean checkValidName() {
-		return this.gameNameInput.getText().length() > 0; 
-	}
+//	private boolean checkValidName() {
+//		return this.gameNameInput.getText().length() > 0; 
+//	}
+	
 }
