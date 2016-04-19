@@ -3,17 +3,19 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
+import game_engine.games.GameEngineInterface;
+import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 
 
 public class CollisionDetector {
 
-	private IPlayerEngineInterface myEngine;
+	private GameEngineInterface myEngine;
 
-	public CollisionDetector (IPlayerEngineInterface engine) {
+	public CollisionDetector (GameEngineInterface engine) {
 		myEngine = engine;
 	}
 
@@ -31,8 +33,8 @@ public class CollisionDetector {
 		for (int i = 0; i < myProjectiles.size(); i++) {
 			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
 				if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
-					unit.addTimelines(myProjectiles.get(i)
-							.getTimelinesToApply());
+					unit.addAffectors(myProjectiles.get(i)
+							.getAffectorsToApply());
 					myProjectiles.get(i).setHasCollided(true);
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
@@ -45,30 +47,27 @@ public class CollisionDetector {
 			if (!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) ||
 					(!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
 				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
-					List<AffectorTimeline> newTimelinesToApply =
-							terrains.get(i).getTimelinesToApply().stream()
-							.map(t -> t.copyTimeline()).collect(Collectors.toList());
-					unit.addTimelines(newTimelinesToApply);
+					List<Affector> newAffectorsToApply =
+							terrains.get(i).getAffectorsToApply().stream()
+							.map(a -> a.copyAffector()).collect(Collectors.toList());
+					unit.addAffectors(newAffectorsToApply);
 				}
 			}
 		}
 	}
 
-	private List<Position> getUseableBounds (Unit u) {
+	public static List<Position> getUseableBounds (Bounds bounds, Position pos) {
 		List<Position> newBounds = new ArrayList<Position>();
-		for (Position p : u.getProperties().getBounds().getPositions()) {
-			Position unitPos = u.getProperties().getPosition();
-			Position newP = new Position(p.getX() + unitPos.getX(), p.getY() + unitPos.getY());
+		for (Position p : bounds.getPositions()) {
+			Position newP = new Position(p.getX() + pos.getX(), p.getY() + pos.getY());
 			newBounds.add(newP);
 		}
 		return newBounds;
 	}
 
-	private boolean insidePolygon (Unit outer, Position p) {
+	private static boolean insidePolygon (List<Position> bounds, Position p) {
 		int counter = 0;
 		double xinters;
-		List<Position> bounds = getUseableBounds(outer);
-
 		Position p1 = bounds.get(0);
 		int numPos = bounds.size();
 		for (int i = 1; i <= numPos; i++) {
@@ -94,9 +93,8 @@ public class CollisionDetector {
 			return (true);
 	}
 
-	private boolean encapsulates (Unit inner, Unit outer) {
-		List<Position> bounds = getUseableBounds(inner);
-		for (Position pos : bounds) {
+	public static boolean encapsulates(List<Position> inner, List<Position> outer) {
+		for (Position pos : inner) {
 			if (!insidePolygon(outer, pos)) {
 				return false;
 			}
@@ -104,9 +102,21 @@ public class CollisionDetector {
 		return true;
 	}
 
+	private boolean encapsulates (Unit inner, Unit outer) {
+		return encapsulates(inner.getProperties().getBounds().getPositions(),
+				outer.getProperties().getBounds().getPositions());
+	}
+
+	private boolean encapsulatesBounds(Unit inner, Bounds outer){
+		return encapsulates(inner.getProperties().getBounds().getPositions(),
+				outer.getPositions());
+	}
+
 	private boolean collides (Unit a, Unit b) {
-		List<Position> aPos = getUseableBounds(a);
-		List<Position> bPos = getUseableBounds(b);
+		List<Position> aPos = getUseableBounds(a.getProperties().getBounds(),
+				a.getProperties().getPosition());
+		List<Position> bPos = getUseableBounds(b.getProperties().getBounds(),
+				b.getProperties().getPosition());
 		for (int i = 0; i < aPos.size(); i++) {
 			for (int j = 0; j < bPos.size(); j++) {
 				if (intersect(aPos.get(i), aPos.get((i + 1) % aPos.size()), bPos.get(j),
@@ -146,4 +156,15 @@ public class CollisionDetector {
 		return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
 	}
 
+	public List<Unit> getUnitsInRange(Bounds range){
+		List<Unit> units = myEngine.getAllUnits();
+		List<Unit> inRange = new ArrayList<>();
+		for(Unit u : units){
+			if(encapsulatesBounds(u, range)){
+				inRange.add(u);
+			}
+		}
+		return inRange;
+	}
+	
 }

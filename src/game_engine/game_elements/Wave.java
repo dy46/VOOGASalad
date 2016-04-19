@@ -61,4 +61,7 @@ public class Wave extends GameElement{
 		return null;
 	}
 
+	public List<Enemy> getEnemies(){
+		return myEnemies;
+	}
 }

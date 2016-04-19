@@ -2,21 +2,29 @@ package auth_environment.paths;
 
 import java.util.Arrays;
 import java.util.List;
+
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PathGraphFactory {
 
-	private PathGraph myForest;
+	private PathGraph myGraph;
 	private int currentGraphID;
 	private int currentPathID;
 
 	public PathGraphFactory(){
-		this.myForest = new PathGraph();
+		this.myGraph = new PathGraph();
+		currentGraphID = -1;
+		currentPathID = -1;
+	}
+	
+	public PathGraphFactory(List<Position> centers){
+		
 	}
 
-	public PathNode createGraph(){
-		return new PathNode(currentGraphID++);
+	public PathNode createPath(){
+		myGraph.addPath(new PathNode(currentGraphID++));
+		return myGraph.getLastPath();
 	}
 
 	/**
@@ -27,18 +35,18 @@ public class PathGraphFactory {
 	public void insertPath(List<Position> newPath){
 		if(newPath.size() == 0)
 			return;
-		PathNode myGraph = myForest.getGraphByPos(newPath.get(0));
-		if(myGraph != null){
+		PathNode myPath = myGraph.getGraphByPos(newPath.get(0));
+		if(myPath != null){
 			Branch newPathNode = new Branch(currentPathID++);
 			newPathNode.addPositions(newPath);
-			configure(newPathNode, myGraph);
+			configure(newPathNode, myPath);
 		}
 		else{
 			if(newPath.size() > 0){
-				PathNode newGraph = createGraph();
+				PathNode splitPath = createPath();
 				Branch branch = new Branch(newPath, currentPathID++);
-				newGraph.addBranch(branch);
-				myForest.addGraph(newGraph);
+				splitPath.addBranch(branch);
+				myGraph.addPath(splitPath);
 			}
 		}
 	}
@@ -84,13 +92,12 @@ public class PathGraphFactory {
 		}
 	}
 
-	public PathGraph getForest(){
-		return myForest;
+	public PathGraph getGraph(){
+		return myGraph;
 	}
-	
+
 	public List<Branch> getPaths(){
-		System.out.println(myForest.getPaths());
-		return myForest.getPaths();
+		return myGraph.getPaths();
 	}
 
 }

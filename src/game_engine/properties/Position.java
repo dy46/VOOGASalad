@@ -1,6 +1,9 @@
 package game_engine.properties;
 
-public class Position {
+import java.util.Arrays;
+import java.util.List;
+
+public class Position extends Property{
 
 	private double myX;
 	private double myY;
@@ -50,8 +53,8 @@ public class Position {
 	@Override
 	public boolean equals(Object o){
 		return (o instanceof Position && 
-				(((Position)o).myX - this.myX) < 0.0000001 && 
-				(((Position)o).myY - this.myY) < 0.0000001) ||
+				(Math.abs(((Position)o).myX - this.myX)) < 0.0000001 && 
+				(Math.abs(((Position)o).myY - this.myY)) < 0.0000001) ||
 				(this == o);
 	}
 	
@@ -59,4 +62,20 @@ public class Position {
 	public String toString(){
 		return Double.toString(this.myX)+ ", " +Double.toString(this.myY);
 	}
+
+	@Override
+	public void changeValues(List<Double> values) {
+		myX = values.get(0);
+		myY = values.get(1);
+	}
+
+	@Override
+	public List<Double> getValues() {
+		return Arrays.asList(myX, myY);
+	}
+	
+	public Position getPosition(){
+		return copyPosition();
+	}
+	
 }

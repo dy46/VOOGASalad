@@ -3,11 +3,12 @@ package game_engine.game_elements;
 import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
+import game_engine.timelines.Timeline;
 
 public class Enemy extends Unit {
 
-    public Enemy (String name, List<AffectorTimeline> timelines, int numFrames) {
-        super(name, timelines, numFrames);
+    public Enemy (String name, List<Affector> affectors, int numFrames) {
+        super(name, affectors, numFrames);
         //setID(getWorkspace().getIDFactory().createID(this));
     }
 

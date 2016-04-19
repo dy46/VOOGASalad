@@ -1,3 +1,4 @@
+
 package auth_environment.view.Menus;
 
 import java.lang.reflect.InvocationTargetException;
@@ -94,4 +95,5 @@ public class EnemyMenu extends SuperMenu{
 	    }
 		
 	}
+
 
