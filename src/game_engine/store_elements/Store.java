@@ -105,11 +105,14 @@ public class Store {
 			}
 		}
 	}
-	public List<Unit> getUnlockedUnits(){
+	public List<Unit> getUnlockedUnits(int currLevel){
 		List<Unit> unlocked = new ArrayList<Unit>();
 		for(Unit u : buyableUnits.keySet()){
-			if()
+			if(currLevel <= this.levelUnlock.get(u)){
+				unlocked.add(u);
+			}
 		}
+		return unlocked;
 	}
 	
 	
