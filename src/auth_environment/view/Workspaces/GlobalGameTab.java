@@ -1,5 +1,6 @@
 package auth_environment.view.Workspaces;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -8,6 +9,7 @@ import auth_environment.backend.GameDataController;
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.ElementPicker;
 import auth_environment.view.MapDisplay;
@@ -17,6 +19,7 @@ import game_engine.game_elements.Tower;
 
 import auth_environment.backend.ISettings;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -69,7 +72,8 @@ public class GlobalGameTab implements IWorkspace {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildWompImage(),
-				myNodeFactory.centerNode(this.buildTextInput()));
+				myNodeFactory.centerNode(this.buildTextInput()),
+				myNodeFactory.centerNode(this.buildSplashChooser()));
 		return center; 
 	}
 	
@@ -77,10 +81,22 @@ public class GlobalGameTab implements IWorkspace {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
 	
-	private TextField buildTextInput() {
+	private HBox buildTextInput() {
 		this.myGameNameField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
 		this.myGameNameField.setOnAction(e -> this.submitButtonPressed(this.myGameNameField));
-		return this.myGameNameField; 
+		
+		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
+		submitNameButton.setOnAction(e -> this.submitButtonPressed(this.myGameNameField));
+		
+		HBox hb = myNodeFactory.centerNode(this.myGameNameField);
+		hb.getChildren().add(submitNameButton);
+		return hb;
+	}
+	
+	private HBox buildSplashChooser() {
+		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
+		splashButton.setOnAction(e -> this.buildSplashChooser());
+		return myNodeFactory.centerNode(splashButton);
 	}
 
 	//	public void writeToGameData() {
@@ -97,6 +113,13 @@ public class GlobalGameTab implements IWorkspace {
 			this.gameData.getSettings().setName(input.getText());
 			input.clear();
 		}
+	}
+	
+	// TODO: put in Model
+	private void chooseSplash() {
+		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
+		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
+		// TODO: store File
 	}
 	
 	private boolean checkValidInput(TextField input) {
