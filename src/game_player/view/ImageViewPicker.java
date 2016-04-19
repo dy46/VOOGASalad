@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import game_engine.CollisionDetector;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import javafx.scene.image.Image;
@@ -50,12 +49,12 @@ public class ImageViewPicker {
             currState = state;
             currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
             imageView.setImage(new Image(name + state + currFrame + EXTENSION));      
-            boolean isCornerElement = Arrays.asList(leftCornerElements).contains(myUnit.getClass().getSimpleName());
+            boolean isCornerElement = myUnit.toString().contains(leftCornerElements[0]);
             double offsetX = isCornerElement ? 0 : -imageView.getImage().getWidth()/2;
             double offsetY = isCornerElement ? 0 : -imageView.getImage().getHeight()/2;
             imageView.setX(myUnit.getProperties().getPosition().getX() + offsetX);
             imageView.setY(myUnit.getProperties().getPosition().getY() + offsetY);
-            boolean isHealth = Arrays.asList(needsHealth).contains(myUnit.getClass().getSimpleName());   
+            boolean isHealth = myUnit.toString().contains(needsHealth[0]);
             health.setFitWidth(myUnit.getProperties().getHealth().getValue()/myUnit.getProperties().getHealth().getInitialValue()*
                                healthImage.getWidth());
             double xpos = isHealth ? imageView.getX() : Integer.MAX_VALUE;

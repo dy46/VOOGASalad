@@ -32,9 +32,10 @@ public class CollisionDetector {
                 for (int i = 0; i < myProjectiles.size(); i++) {
                         if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
                                 if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
-                                        unit.addTimelines(myProjectiles.get(i)
-                                                        .getTimelinesToApply());
-                                        myProjectiles.get(i).setHasCollided(true);
+                                    List<AffectorTimeline> affectorsToApply = myProjectiles.get(i).getTimelinesToApply()
+                                            .stream().map(p -> p.copyTimeline()).collect(Collectors.toList());                     
+                                        unit.addTimelines(affectorsToApply);
+                                        myProjectiles.get(i).setHasCollided(true);        
                                         myProjectiles.get(i).setElapsedTimeToDeath();
                                 }
                         }

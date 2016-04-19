@@ -21,11 +21,10 @@ public abstract class PathFollowAffector extends Affector{
 	public void pathFollow(Unit u) {
 	    if (this.getElapsedTime() <= this.getTTL()) {
                 double speed = u.getProperties().getVelocity().getSpeed();
-                Movement move = u.getProperties().getMovement();
                 for (int i = 0; i < speed; i++) {
                         Position next = getNextPosition(u);
                         if(next == null){
-                                u.kill();
+                                u.setElapsedTimeToDeath();
                                 setElapsedTimeToDeath();
                                 return;
                         }
@@ -34,7 +33,7 @@ public abstract class PathFollowAffector extends Affector{
                         u.getProperties().getVelocity().setDirection(getNextDirection(u));
                 }
                 this.updateElapsedTime();
-        }
+            }
 	}
 	
 	public abstract Position getNextPosition(Unit u);

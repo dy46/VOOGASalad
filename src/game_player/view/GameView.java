@@ -6,7 +6,6 @@ import java.util.List;
 import game_engine.CollisionDetector;
 import game_engine.games.GameEngineInterface;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_player.GameDataSource;
@@ -137,7 +136,7 @@ public class GameView implements IGameView{
         }
 
         public void makeTowerPicker() {
-                List<Tower> allTowerTypes = playerEngineInterface.getTowerTypes();
+                List<Unit> allTowerTypes = playerEngineInterface.getTowerTypes();
                 for(int i = towerTypes.size(); i < allTowerTypes.size(); i++) {
                         String name = allTowerTypes.get(i).toString();
                         Image img = new Image(name + ".png");
@@ -188,11 +187,10 @@ public class GameView implements IGameView{
         public void displayRange(List<ImageViewPicker> imageViews) {
             List<Polygon> ranges = new ArrayList<>();
             for(int i = 0; i < imageViews.size(); i++) {
-                boolean seeRange = Arrays.asList(seeRangeElements).contains(imageViews.get(i).getUnit()
-                                                                            .getClass().getSimpleName());
+                boolean seeRange = imageViews.get(i).getUnit().toString().contains(seeRangeElements[0]);
                 if(seeRange) {
                     Unit myUnit = imageViews.get(i).getUnit();
-                    List<Position> range = CollisionDetector.getUseableBounds(((Tower) myUnit).getMyProjectiles().get(0)
+                    List<Position> range = CollisionDetector.getUseableBounds(myUnit.getChildren().get(0)
                                                                               .getProperties().getRange(), 
                                                                               myUnit.getProperties().getPosition());
                     ranges.add(fillPolygonWithPoints(new Polygon(), range));

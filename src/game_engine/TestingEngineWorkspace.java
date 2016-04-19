@@ -18,10 +18,7 @@ import game_engine.factories.TerrainFactory;
 import game_engine.factories.TimelineFactory;
 import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Terrain;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 import game_engine.games.GameEngineInterface;
@@ -43,7 +40,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     private List<Unit> myProjectiles;
 
     private CollisionDetector myCollider;
-    private List<Tower> myTowerTypes;
+    private List<Unit> myTowerTypes;
     private Level myCurrentLevel;
     private IDFactory myIDFactory;
     private double myBalance;
@@ -99,17 +96,17 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));   
     }
 
-    private List<Tower> makeDummyTowers () {
+    private List<Unit> makeDummyTowers () {
         Position position2 = new Position(200, 300);
-        Tower t =
+        Unit t =
                 myTowerFactory.createHomingTower("Tower", myProjectiles,
                                                  Collections.unmodifiableList(myTowers),
                                                  position2);
-        Tower t2 = 
+        Unit t2 = 
                 myTowerFactory.createTackTower("Tack", myProjectiles,
                                                Collections.unmodifiableList(myTowers),
                                                position2);
-        return new ArrayList<>(Arrays.asList(new Tower[] { t, t2 }));
+        return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
     }
 
     private Level makeDummyLevel () {
@@ -201,14 +198,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         l.addPath(p);
 
         Wave w = new Wave("I'm not quite sure what goes here", 0);
-        Enemy AI1 = myEnemyFactory.createAIEnemy("Enemy", b1);
-        Enemy AI2 = myEnemyFactory.createAIEnemy("Enemy", b1);
-        Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
-        Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
-        Enemy AI3 = myEnemyFactory.createAIEnemy("Enemy", b1);
-        Enemy AI4 = myEnemyFactory.createAIEnemy("Enemy", b1);
+        Unit AI1 = myEnemyFactory.createAIEnemy("Enemy", b1);
+        Unit AI2 = myEnemyFactory.createAIEnemy("Enemy", b1);
+        Unit e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+        Unit e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+        Unit e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+        Unit e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+        Unit AI3 = myEnemyFactory.createAIEnemy("Enemy", b1);
+        Unit AI4 = myEnemyFactory.createAIEnemy("Enemy", b1);
         e1.getProperties().setHealth(50);
         e2.getProperties().setHealth(50);
         e3.getProperties().setHealth(50);
@@ -225,14 +222,13 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         w.addEnemy(AI2, 60);
         w.addEnemy(AI3, 60);
         w.addEnemy(AI4, 60);
-
         l.setMyLives(5);
         l.addWave(w);
         Wave w2 = new Wave("I'm not quite sure what goes here", 240);
-        Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
-        Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+        Unit e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+        Unit e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+        Unit e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
+        Unit e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
         e5.getProperties().setHealth(50);
         e6.getProperties().setHealth(50);
         e7.getProperties().setHealth(50);
@@ -242,10 +238,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         w2.addEnemy(e7, 60);
         w2.addEnemy(e8, 60);
         Wave w3 = new Wave("I'm not quite sure what goes here", 240);
-        Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
-        Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
-        Enemy e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
-        Enemy e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
+        Unit e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
+        Unit e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
+        Unit e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
+        Unit e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
         e9.getProperties().setHealth(50);
         e10.getProperties().setHealth(50);
         e11.getProperties().setHealth(50);
@@ -260,16 +256,16 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     }
 
     private List<Unit> makeDummyTerrains () {
-        List<Terrain> ice = makeDummyIceTerrain();
-        Terrain spike = makeDummySpike();
+        List<Unit> ice = makeDummyIceTerrain();
+        Unit spike = makeDummySpike();
         List<Unit> terrains = new ArrayList<>();
         terrains.addAll(ice);
         terrains.add(spike);
         return terrains;
     }
 
-    private List<Terrain> makeDummyIceTerrain () {
-        Terrain ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
+    private List<Unit> makeDummyIceTerrain () {
+        Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
         List<Position> pos = new ArrayList<>();
         pos.add(new Position(0, 0));
         pos.add(new Position(30, 0));
@@ -279,26 +275,26 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         ice1.getProperties().setBounds(pos);
         ice1.setTTL(Integer.MAX_VALUE);
 
-        Terrain ice2 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
+        Unit ice2 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
         ice2.getProperties().setPosition(185, 185);
         ice2.getProperties().setBounds(pos);
         ice2.setTTL(Integer.MAX_VALUE);
 
-        Terrain ice3 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
+        Unit ice3 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
         ice3.getProperties().setPosition(185, 185);
         ice3.getProperties().setBounds(pos);
         ice3.setTTL(Integer.MAX_VALUE);
 
-        Terrain ice4 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
+        Unit ice4 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
         ice4.getProperties().setPosition(215, 185);
         ice4.getProperties().setBounds(pos);
         ice4.setTTL(Integer.MAX_VALUE);
 
-        return new ArrayList<>(Arrays.asList(new Terrain[] { ice1, ice2, ice3, ice4 }));
+        return new ArrayList<>(Arrays.asList(new Unit[] { ice1, ice2, ice3, ice4 }));
     }
 
     //    private Terrain makeDummyPoisonSpike () {
-    //        Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikes");
+    //        Terrain poisonSpike = myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikesTerrain");
     //        List<Position> pos = new ArrayList<>();
     //        pos.add(new Position(95, -25));
     //        pos.add(new Position(275, -25));
@@ -310,8 +306,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     //        return poisonSpike;
     //    }
 
-    private Terrain makeDummySpike () {
-        Terrain spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes");
+    private Unit makeDummySpike () {
+        Unit spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("SpikesTerrain");
         List<Position> pos = new ArrayList<>();
         pos.add(new Position(0, 0));
         pos.add(new Position(0, 30));
@@ -345,10 +341,6 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
     public void addBalance (double money) {
         myBalance += money;
-    }
-
-    public void addEnemy (Enemy enemy) {
-        myEnemys.add(enemy);
     }
 
     public void addLevel (Level level) {
@@ -487,14 +479,15 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     public void addTower (String name, double x, double y) {
         for(int i = 0; i < myTowerTypes.size(); i++) {
             if(myTowerTypes.get(i).toString().equals(name)) {
-                Tower newTower = myTowerTypes.get(i).copyTower(x, y);
+                Unit newTower = myTowerTypes.get(i).copyUnit();
+                newTower.getProperties().setPosition(x, y);
                 myTowers.add(newTower);
             }
         }
     }
 
     @Override
-    public List<Tower> getTowerTypes () {
+    public List<Unit> getTowerTypes () {
         return myTowerTypes;
     }
 
@@ -508,10 +501,9 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         boolean gameOver = myLives <= 0;
         if (!pause && !gameOver) {
             myTowers.forEach(t -> t.update());
-            myTowers.forEach(t -> ((Tower) t).fire());
             myEnemys.forEach(e -> e.update());
             myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
-            Enemy newE = myCurrentLevel.update();
+            Unit newE = myCurrentLevel.update();
             if (newE != null) {
                 myEnemys.add(newE);
             }// tries to spawn new enemies using Waves

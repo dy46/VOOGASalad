@@ -9,7 +9,7 @@ import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Terrain;
+import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.TerrainLibrary;
 import game_engine.properties.Movement;
@@ -26,13 +26,13 @@ public class TerrainFactory {
 		setupDefaultTerrains();
 	}
 	
-	public Terrain defineTerrainModel(BuildingBlock block){
+	public Unit defineTerrainModel(BuildingBlock block){
 		TerrainBuildingBlock terBlock = (TerrainBuildingBlock) block;
 		List<Affector> affectors = new ArrayList<>();
 		Affector speedUp = myAffectorLibrary.getAffector(terBlock.getMyProperty(), terBlock.getMyEffect());
 		speedUp.setTTL(1);
 		affectors.add(speedUp);
-		Terrain ter = new Terrain(terBlock.getMyName(), 2);
+		Unit ter = new Unit(terBlock.getMyName(), new ArrayList<>(), 2);
 	        ter.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
 		myTerrainLibrary.addTerrain(ter);
 		return ter;
@@ -43,7 +43,7 @@ public class TerrainFactory {
 		Affector speedUp = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
 		speedUp.setTTL(1);
 		affectors.add(speedUp);
-		Terrain ice = new Terrain("Ice", 2);
+		Unit ice = new Unit("IceTerrain", new ArrayList<>(), 2);
 	        ice.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
 		myTerrainLibrary.addTerrain(ice);
 		
@@ -51,7 +51,7 @@ public class TerrainFactory {
 		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
 		expIncrDamage.setTTL(Integer.MAX_VALUE);
 		affectors2.add(expIncrDamage);
-		Terrain poisonSpike = new Terrain("PoisonSpikes", 2);
+		Unit poisonSpike = new Unit("PoisonSpikesTerrain", new ArrayList<>(), 2);
                 poisonSpike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors2)));
 		myTerrainLibrary.addTerrain(poisonSpike);
 		
@@ -59,7 +59,7 @@ public class TerrainFactory {
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		constantDamage.setTTL(1);
 		affectors3.add(constantDamage);
-		Terrain spike = new Terrain("Spikes", 2);
+		Unit spike = new Unit("SpikesTerrain", new ArrayList<>(), 2);
 		spike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors3)));
 		myTerrainLibrary.addTerrain(spike);
 	}
