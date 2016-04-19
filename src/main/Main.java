@@ -1,6 +1,6 @@
 package main;
 
-import auth_environment.view.View;
+import auth_environment.view.AuthView;
 import game_data.AuthSerializer;
 import game_player.view.GameView;
 import game_player.view.PlayerGUI;
@@ -9,8 +9,10 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private View authView; 
+
+	private AuthView authView; 
 	private PlayerGUI myView;
+
 
 	public static void main(String[] args) {
 		launch(args);
@@ -18,42 +20,18 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		//		myView = new GameView(primaryStage);
-		//		myEngineController = new EngineController();
-		//		myEngineController.initialize();
-		//		myView.display();
-		//		authView = new View(primaryStage); // for testing Auth
-		//		myView = new GameView(primaryStage);
-		//		myEngineController = new EngineController();
-		//		myEngineController.initialize();
-		//		myView.display();
-
-		//		String hello = "hello"; 
-		//		AuthSerializer writer = new AuthSerializer(); 
-		//		writer.SerializeData(hello); //Sample object saving
-		//		String out = (String) writer.Deserialize();
-		//		System.out.println(out); 
-
-		//		authView = new View(primaryStage); // for testing Auth
-//		myView = new GameView(primaryStage);
-//		myView.display();
-//		myEngineController = new EngineController();
-//		myEngineController.initialize();
-
-<<<<<<< HEAD
-		authView = new View(primaryStage); // for testing Auth
+		authView = new AuthView(primaryStage); // for testing Auth
 //		myView = new PlayerGUI(645, 587);
 //		myEngineController = new EngineController();
 //		myEngineController.initialize();
 //		primaryStage.setScene(myView.createPlayerScene());
 //		primaryStage.show();
-=======
 //		authView = new View(primaryStage); // for testing Auth
 		
 		myView = new PlayerGUI(645, 587);
 		primaryStage.setScene(myView.createPlayerScene());
 		primaryStage.show();
->>>>>>> origin/master
+		MainView mainView = new MainView(primaryStage); 
 	}
 
 }

@@ -1,5 +1,9 @@
 package auth_environment.delegatesAndFactories;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -57,8 +61,14 @@ public class NodeFactory {
 	}
 	
 	public HBox centerNode(Node node) {
-		HBox hb = new HBox();
-		hb.getChildren().add(node);
+		List<Node> nodes = new ArrayList<Node>();
+		nodes.add(node); 
+		return centerNodes(nodes); 
+	}
+
+	public HBox centerNodes(Collection<Node> nodes) {
+		HBox hb = new HBox(); 
+		hb.getChildren().addAll(nodes);
 		hb.setAlignment(Pos.CENTER);
 		return hb; 
 	}
@@ -87,7 +97,6 @@ public class NodeFactory {
 	}
 	
 	public Image buildImage(String imageName) {
-		System.out.println("Image name: " + imageName);
 		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
 	
