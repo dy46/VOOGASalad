@@ -1,4 +1,4 @@
-package auth_environment.Models;
+package auth_environment.Models.Interfaces;
 
 public interface IWorkspaceModel {
 	

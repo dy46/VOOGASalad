@@ -30,7 +30,8 @@ import javafx.scene.layout.VBox;
  * Created by BrianLin on 3/31/16.
  * Team member responsible: Brian
  *
- * This class represents a single tab (ie Level) within our View.
+ * This Tab is for customizing Global Game settings + Saving/Loading. Will need the entire IEngineWorkspace passed
+ * in so that it can be saved/loaded. 
  */
 
 public class GlobalGameTab implements IWorkspace {

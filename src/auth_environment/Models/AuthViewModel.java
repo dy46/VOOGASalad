@@ -1,6 +1,6 @@
 package auth_environment.Models;
 
-import game_data.AuthSerializer;
+import auth_environment.Models.Interfaces.IAuthViewModel;
 import game_engine.EngineWorkspace;
 import game_engine.IEngineWorkspace;
 
@@ -21,6 +21,18 @@ public class AuthViewModel implements IAuthViewModel {
 	public AuthViewModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
 		myEngineWorkspace = new EngineWorkspace(); 
+	}
+
+	@Override
+	// Only called by Brian's GlobalGameTab
+	public IEngineWorkspace getEngineWorkspace() {
+		return this.myEngineWorkspace;
+	}
+
+	@Override
+	// Only called by Brian's GlobalGameTab
+	public void setEngineWorkspace(IEngineWorkspace engineWorkspace) {
+		this.myEngineWorkspace = engineWorkspace; 
 	}
 	
 }

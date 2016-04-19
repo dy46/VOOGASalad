@@ -1,4 +1,6 @@
-package auth_environment.Models;
+package auth_environment.Models.Interfaces;
+
+import game_engine.IEngineWorkspace;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -13,5 +15,11 @@ package auth_environment.Models;
 // TODO: add to API changes document
 
 public interface IAuthViewModel {
+	
+	// Pass the IEngineWorkspace instance to GlobalGameTab to be saved
+	public IEngineWorkspace getEngineWorkspace(); 
+	
+	// Receive an IEngineWorkspace instance from GlobalGameTab after loading
+	public void setEngineWorkspace(IEngineWorkspace engineWorkspace); 
 	
 }
