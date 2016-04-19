@@ -41,7 +41,6 @@ public abstract class Affector {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//copy.setBaseNumbers(this.getBaseNumbers());
 		copy.setTTL(this.getTTL());
 		return copy;
 	}
