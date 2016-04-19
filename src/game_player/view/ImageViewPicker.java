@@ -15,7 +15,7 @@ public class ImageViewPicker {
     
     public static String EXTENSION = ".png";
     public final String[] leftCornerElements = {"Terrain"};
-    public final String[] needsHealth = {"Enemy"};
+    public final String[] needsHealth = {"Enemy", "Moab"};
     private ResourceBundle myBundle;
     private Unit myUnit;
     private String name;
@@ -54,7 +54,7 @@ public class ImageViewPicker {
             double offsetY = isCornerElement ? 0 : -imageView.getImage().getHeight()/2;
             imageView.setX(myUnit.getProperties().getPosition().getX() + offsetX);
             imageView.setY(myUnit.getProperties().getPosition().getY() + offsetY);
-            boolean isHealth = myUnit.toString().contains(needsHealth[0]);
+            boolean isHealth = myUnit.toString().contains(needsHealth[0]) ||  myUnit.toString().contains(needsHealth[1]);
             health.setFitWidth(myUnit.getProperties().getHealth().getValue()/myUnit.getProperties().getHealth().getInitialValue()*
                                healthImage.getWidth());
             double xpos = isHealth ? imageView.getX() : Integer.MAX_VALUE;
