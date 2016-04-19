@@ -2,27 +2,16 @@ package game_engine;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import game_data.GameData;
 import game_engine.affectors.Affector;
-import game_engine.factories.AffectorFactory;
-import game_engine.factories.EnemyFactory;
-import game_engine.factories.FunctionFactory;
-import game_engine.factories.TerrainFactory;
-import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.libraries.AffectorLibrary;
-import game_engine.libraries.FunctionLibrary;
 import game_engine.game_elements.Wave;
-import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
