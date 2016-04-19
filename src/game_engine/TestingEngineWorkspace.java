@@ -41,6 +41,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
 	private List<Unit> myProjectiles;
+	private Unit upgradeExample;
 
 	private CollisionDetector myCollider;
 	private Store myStore;
@@ -116,6 +117,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myStore.addBuyableTower(t, 100);
 		myStore.addBuyableTower(t2, 200);
 		myStore.addBuyableTower(t3, 400);
+		
+		List<Affector> toApply = new ArrayList<Affector>();
+		toApply.add(this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage"));
+		upgradeExample = myTowerFactory.createTackTower("Tack", myProjectiles,
+				Collections.unmodifiableList(myTowers),
+				position2);
+		upgradeExample.setAffectorsToApply(toApply);
+		myStore.addUpgrade(t, upgradeExample, 50);
 		
 		
 	}

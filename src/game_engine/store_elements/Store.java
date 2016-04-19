@@ -86,6 +86,22 @@ public class Store {
 		}
 		upgrades.put(upgradedUnit, list);
 	}
-	
+	public void buyUpgrade(Unit upgradedUnit, Unit upgradeType){
+		Unit found = null;
+		for(Unit u : upgrades.keySet()){
+			if(u.toString().equals(upgradedUnit.toString())){
+				found = u;
+			}
+		}
+		if(found == null){
+			throw new RuntimeException("This unit could not be found");
+		}
+		for(Pair<Unit, Integer> p : upgrades.get(found)){
+			if(p.getLeft().toString().equals(upgradeType.toString()) && myMoney >= p.getRight()){
+				myMoney -= p.getRight();
+				upgradedUnit.getAffectorsToApply().addAll(p.getLeft().getAffectorsToApply());
+			}
+		}
+	}
 	
 }
