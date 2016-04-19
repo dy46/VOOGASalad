@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
+	private static final int PLAYER_WIDTH = 587;
+	private static final int PLAYER_LENGTH = 645;
 	private View authView; 
 	private PlayerGUI myView;
 	private EngineController myEngineController;
@@ -22,7 +24,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		
 //		authView = new View(primaryStage); // for testing Auth
-		myView = new PlayerGUI(645, 587);
+		myView = new PlayerGUI(PLAYER_LENGTH, PLAYER_WIDTH);
 		myEngineController = new EngineController();
 		myEngineController.initialize();
 		primaryStage.setScene(myView.createPlayerScene());
