@@ -139,7 +139,7 @@ public class GameView implements IGameView{
 	}
 
 	public void makeTowerPicker() {
-		List<Tower> allTowerTypes = playerEngineInterface.getTowerTypes();
+		List<Unit> allTowerTypes = playerEngineInterface.getTowerTypes();
 		for(int i = towerTypes.size(); i < allTowerTypes.size(); i++) {
 			String name = allTowerTypes.get(i).toString();
 			Image img = new Image(name + ".png");

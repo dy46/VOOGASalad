@@ -3,18 +3,20 @@ package game_engine.store_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.game_elements.Unit;
+
 public class Inventory {
-	private List<Upgrade> items;
+	private List<Unit> items;
 	
 	public Inventory(int team){
-		this.items = new ArrayList<Upgrade>();
+		this.items = new ArrayList<Unit>();
 	}
-	public void addToInventory(Upgrade item){
+	public void addToInventory(Unit item){
 		this.items.add(item);
 	}
-	public Upgrade getFromInventory(String name){
-		for(Upgrade u : items){
-			if(u.getName().equals(name)){
+	public Unit getFromInventory(String name){
+		for(Unit u : items){
+			if(u.toString().equals(name)){
 				return u;
 			}
 		}

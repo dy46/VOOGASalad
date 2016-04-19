@@ -64,7 +64,7 @@ public interface GameEngineInterface {
 
     public void clearProjectiles();
 
-    public List<Tower> getTowerTypes();
+    public List<Unit> getTowerTypes();
     
     public List<Branch> getPaths();
 

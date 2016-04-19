@@ -116,8 +116,11 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myStore.addBuyableTower(t, 100);
 		myStore.addBuyableTower(t2, 200);
 		myStore.addBuyableTower(t3, 400);
+		
+		
 	}
 
+	
 	private Level makeDummyLevel () {
 		//              Wave w = new Wave("I'm not quite sure what goes here", 0);
 		//              Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
@@ -287,7 +290,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		terrains.add(spike);
 		return terrains;
 	}
-
+	
 	private List<Terrain> makeDummyIceTerrain () {
 		Terrain ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice");
 		List<Position> pos = new ArrayList<>();
@@ -518,7 +521,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public List<Tower> getTowerTypes () {
+	public List<Unit> getTowerTypes () {
 		return myStore.getTowerList();
 	}
 
