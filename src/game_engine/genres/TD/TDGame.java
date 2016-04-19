@@ -271,7 +271,7 @@
 //	}
 //
 //	public void playWave (int waveNumber) {
-//		//myCurrentLevel.getWaveTimer().pause();
+////		myCurrentLevel.getWaveTimer().pause();
 //		myCurrentLevel.setCurrentWave(waveNumber);
 //	}
 //

@@ -14,10 +14,17 @@ public class PathGraphFactory {
 
 	public PathGraphFactory(){
 		this.myGraph = new PathGraph();
+		currentGraphID = -1;
+		currentPathID = -1;
+	}
+	
+	public PathGraphFactory(List<Position> centers){
+		
 	}
 
-	public PathNode createGraph(){
-		return new PathNode(currentGraphID++);
+	public PathNode createPath(){
+		myGraph.addPath(new PathNode(currentGraphID++));
+		return myGraph.getLastPath();
 	}
 
 	/**
@@ -36,7 +43,7 @@ public class PathGraphFactory {
 		}
 		else{
 			if(newPath.size() > 0){
-				PathNode splitPath = createGraph();
+				PathNode splitPath = createPath();
 				Branch branch = new Branch(newPath, currentPathID++);
 				splitPath.addBranch(branch);
 				myGraph.addPath(splitPath);
@@ -85,10 +92,10 @@ public class PathGraphFactory {
 		}
 	}
 
-	public PathGraph getForest(){
+	public PathGraph getGraph(){
 		return myGraph;
 	}
-	
+
 	public List<Branch> getPaths(){
 		return myGraph.getPaths();
 	}

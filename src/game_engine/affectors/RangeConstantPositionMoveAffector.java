@@ -8,9 +8,9 @@ public class RangeConstantPositionMoveAffector extends SingleTrackRangeAffector{
     
     ConstantPositionMoveAffector affector;
     
-    public RangeConstantPositionMoveAffector (List<Function> functions) {
-        super(functions);
-        affector = new ConstantPositionMoveAffector(functions);
+    public RangeConstantPositionMoveAffector (AffectorData data) {
+        super(data);
+        affector = new ConstantPositionMoveAffector(data);
     }
 
     @Override

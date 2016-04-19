@@ -6,8 +6,8 @@ import game_engine.game_elements.Unit;
 
 public class ConstantPositionMoveAffector extends Affector{
     
-    public ConstantPositionMoveAffector(List<Function> functions){
-        super(functions);
+    public ConstantPositionMoveAffector(AffectorData data){
+        super(data);
     }
     
     @Override

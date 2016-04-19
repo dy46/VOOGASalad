@@ -3,6 +3,8 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 import game_engine.games.GameEngineInterface;
@@ -151,4 +153,21 @@ public class CollisionDetector {
                 return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
         }
 
+	private boolean encapsulatesBounds(Unit inner, Bounds outer){
+		return encapsulates(inner.getProperties().getBounds().getPositions(),
+				outer.getPositions());
+	}
+
+
+	public List<Unit> getUnitsInRange(Bounds range){
+		List<Unit> units = myEngine.getAllUnits();
+		List<Unit> inRange = new ArrayList<>();
+		for(Unit u : units){
+			if(encapsulatesBounds(u, range)){
+				inRange.add(u);
+			}
+		}
+		return inRange;
+	}
+	
 }

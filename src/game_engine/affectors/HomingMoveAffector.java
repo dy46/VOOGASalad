@@ -9,8 +9,8 @@ import game_engine.properties.UnitProperties;
 
 public class HomingMoveAffector extends SingleTrackRangeAffector {
 
-    public HomingMoveAffector(List<Function> functions){
-	      super(functions);
+	public HomingMoveAffector(AffectorData data){
+		super(data);
 	}
     
     public void futureApply(Unit u, Unit tracked) {
@@ -47,4 +47,5 @@ public class HomingMoveAffector extends SingleTrackRangeAffector {
         u.getParents().get(0).getProperties().getVelocity().setDirection(getDirection(u.getProperties().getPosition(),
                                                                                      tracked.getProperties().getPosition()));
     }
+
 }

@@ -1,6 +1,9 @@
 package game_engine.properties;
 
-public class Damage {
+import java.util.Arrays;
+import java.util.List;
+
+public class Damage extends Property{
 	
 	private double myDamage;
 	
@@ -18,6 +21,16 @@ public class Damage {
 	
 	public Damage copyDamage() {
 	    return new Damage(this.getDamage());
+	}
+
+	@Override
+	public void changeValues(List<Double> values) {
+		myDamage = values.get(0);
+	}
+
+	@Override
+	public List<Double> getValues() {
+		return Arrays.asList(myDamage);
 	}
 	
 }

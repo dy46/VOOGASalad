@@ -11,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class OptionsMenu implements IMenuInterface{
+public class OptionsMenu extends PlayerMenu{
 
 	private static final int WINDOW_SIZE = 500;
 	private Stage menuStage;
@@ -23,6 +23,7 @@ public class OptionsMenu implements IMenuInterface{
 	private IGameView myView;
 	
 	public OptionsMenu(ResourceBundle r, IGameView view) {
+		super(r, view);
 		myResources = r;
 		menuMaker = new MenuMaker(r);
 		mySwitchWindow = new SwitchWindow(r);
@@ -30,26 +31,11 @@ public class OptionsMenu implements IMenuInterface{
 	}
 	
 	public Menu createMenu() {
-		myMenu = menuMaker.addMenu(myResources.getString("OptionsMenu"));
-		String[] menuItems = myResources.getString("Options").split("/");
-		for (String pair: menuItems) {
-			String[] combo = pair.split(",");
-			try {
-                menuMaker.addMenuItem(combo[0], e -> {
-                    try {
-                        getClass().getDeclaredMethod(combo[1]).invoke(this);
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
-                } , myMenu);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-		}
+		myMenu = super.createNewMenu("OptionsMenu");
 		return myMenu;
 	}
 	
-	private void openSwitchWindow() {
+	protected void openSwitchWindow() {
 		menuStage = new Stage();
 		myRoot = mySwitchWindow.createWindow();
 		Scene switchWindowScene = new Scene(myRoot, WINDOW_SIZE, WINDOW_SIZE);
@@ -57,11 +43,11 @@ public class OptionsMenu implements IMenuInterface{
 		menuStage.show();
 	}
 	
-	private void restartGame() {
+	protected void restartGame() {
 		myView.restartGame();
 	}
 	
-	private void saveGame() {
+	protected void saveGame() {
 		menuStage = new Stage();
 		FileChooser fileChooser = new FileChooser();
 		  
@@ -79,7 +65,7 @@ public class OptionsMenu implements IMenuInterface{
         }
 	}
 	
-	private String loadGame() {
+	protected String loadGame() {
 		menuStage = new Stage();
 		FileChooser fileChooser = new FileChooser();
 		
@@ -98,7 +84,7 @@ public class OptionsMenu implements IMenuInterface{
 		return "";
 	}
 	
-	private void saveFile(Object content, File file){
+	protected void saveFile(Object content, File file){
         try {
             FileWriter fileWriter = null;
              

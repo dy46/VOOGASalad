@@ -37,7 +37,7 @@ public class TerrainFactory {
 		myTerrainLibrary.addTerrain(ter);
 		return ter;
 	}
-	
+
 	private void setupDefaultTerrains(){
 		List<Affector> affectors = new ArrayList<>();
 		Affector speedUp = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
@@ -46,7 +46,7 @@ public class TerrainFactory {
 		Unit ice = new Unit("IceTerrain", new ArrayList<>(), 2);
 	        ice.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
 		myTerrainLibrary.addTerrain(ice);
-		
+
 		List<Affector> affectors2 = new ArrayList<>();
 		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
 		expIncrDamage.setTTL(Integer.MAX_VALUE);
@@ -54,7 +54,7 @@ public class TerrainFactory {
 		Unit poisonSpike = new Unit("PoisonSpikesTerrain", new ArrayList<>(), 2);
                 poisonSpike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors2)));
 		myTerrainLibrary.addTerrain(poisonSpike);
-		
+
 		List<Affector> affectors3 = new ArrayList<>();
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		constantDamage.setTTL(1);

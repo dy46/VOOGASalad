@@ -27,30 +27,7 @@ public class EnemyFactory {
         this.myAffectorLibrary = affectorLibrary;
         this.myTimelineLibrary = timelineLibrary;
     }
-
-    // public Enemy defineEnemyModel(BuildingBlock block){
-    // EnemyBuildingBlock eBlock = (EnemyBuildingBlock) block;
-    // Affector moveAffector = myAffectorLibrary.getAffector(eBlock.getMyProperty(),
-    // eBlock.getMyBehavior());
-    // moveAffector.setTTL(Integer.MAX_VALUE);
-    // Enemy e = new Enemy(eBlock.getMyName(), Arrays.asList(new
-    // Timeline(Arrays.asList(Collections.singletonList(moveAffector)))), 3);
-    // Health health = eBlock.getMyHealth();
-    // Velocity velo = eBlock.getMyVelocity();
-    // Bounds b = eBlock.getMyBounds();
-    // State st = eBlock.getMyState();
-    //// Path p = eBlock.getMyPath(); This value is gonna be null for now
-    // UnitProperties properties = new UnitProperties(health, null, null, velo, b, null, null, null,
-    // st, null);
-    //// Branch p = eBlock.get(); This value is gonna be null for now
-    // UnitProperties properties = new UnitProperties(health, null, null, velo, b, null, null, st,
-    // null);
-    // e.setProperties(properties);
-    // e.setTTL(100000);
-    // e.setDeathDelay(3);
-    // return e;
-    // }
-
+    
     public Unit createPathFollowPositionMoveEnemy (String name, List<Branch> branches) {
         Unit e = createSpecifiedEnemy(name, "PathFollow", "PositionMove");
         e.getProperties().setMovement(new Movement(branches));

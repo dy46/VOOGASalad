@@ -8,9 +8,9 @@ public class RangePathFollowPositionMoveAffector extends SingleTrackRangeAffecto
 
     PathFollowPositionMoveAffector affector;
     
-    public RangePathFollowPositionMoveAffector (List<Function> functions) {
-        super(functions);
-        affector = new PathFollowPositionMoveAffector(functions);
+    public RangePathFollowPositionMoveAffector (AffectorData data) {
+        super(data);
+        affector = new PathFollowPositionMoveAffector(data);
     }
 
     @Override

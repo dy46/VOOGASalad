@@ -2,10 +2,12 @@ package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import auth_environment.buildingBlocks.BuildingBlock;
 import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorData;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Branch;
@@ -55,7 +57,7 @@ public class TowerFactory {
         Affector move = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         move.setTTL(Integer.MAX_VALUE);
         Unit p =
-                new Unit("TackBullet", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
+                new Unit("Tack", Arrays.asList(new AffectorTimeline(Arrays.asList(move))), 3);
         p.setDeathDelay(30);
         p.setTTL(60);
         Velocity velocity = new Velocity(0.5, 180);
@@ -83,9 +85,7 @@ public class TowerFactory {
                                    new Movement(Arrays.asList(p2)));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
-        damage.setBaseNumbers(Arrays.asList(new Double(5)));
         Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
-        stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
         stateToDamaging.setTTL(1);
         p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays
                                                                  .asList(new Affector[] { damage, stateToDamaging }))));
@@ -217,9 +217,7 @@ public class TowerFactory {
                                    new Movement(Arrays.asList(p2)));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
-        damage.setBaseNumbers(Arrays.asList(new Double(10)));
         Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
-        stateToDamaging.setBaseNumbers(Arrays.asList(new Double(4)));
         stateToDamaging.setTTL(1);
         p.setTimelinesToApply(Arrays.asList(new AffectorTimeline(Arrays
                                                                  .asList(new Affector[] { damage, stateToDamaging }))));
@@ -234,7 +232,9 @@ public class TowerFactory {
                                        List<Unit> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
         affectors.add(myAffectorLibrary.getAffector("Firing", "Children"));
-        affectors.get(0).setBaseNumbers(Arrays.asList(new Double[]{new Double(30)}));
+        AffectorData data = new AffectorData();
+        data.setBaseNumbers(Arrays.asList(new Double[]{new Double(30)}));
+        affectors.get(0).setData(data);
         affectors.get(0).setTTL(Integer.MAX_VALUE);
         Unit t = new Unit(name, 2);
         t.setTimelines(Arrays.asList(new AffectorTimeline(affectors)));

@@ -3,6 +3,8 @@ package game_player.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import auth_environment.paths.PathNode;
 import game_engine.CollisionDetector;
 import game_engine.games.GameEngineInterface;
 import game_engine.game_elements.Branch;
@@ -241,4 +243,5 @@ public class GameView implements IGameView{
         public GameEngineInterface getGameEngine() {
                 return playerEngineInterface;
         }
+
 }

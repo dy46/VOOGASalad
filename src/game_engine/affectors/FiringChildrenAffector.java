@@ -9,13 +9,13 @@ import game_engine.game_elements.Unit;
 public class FiringChildrenAffector extends Affector {
     
     
-    public FiringChildrenAffector (List<Function> functions) {
-        super(functions);
+    public FiringChildrenAffector (AffectorData data) {
+        super(data);
     }
 
     public void apply (Unit u) {
         super.apply(u);
-        if (getElapsedTime() % getBaseNumbers().get(0) == 0) {
+        if (getElapsedTime() % getData().getBaseNumbers().get(0) == 0) {
             List<Unit> newChildren =
                     u.getChildren().stream().map(p -> p.copyUnit()).collect(Collectors.toList());
             newChildren.forEach(p -> {

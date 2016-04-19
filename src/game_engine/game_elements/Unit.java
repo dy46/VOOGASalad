@@ -188,7 +188,8 @@ public class Unit extends GameElement {
         return getProperties().getPrice().getValue();
     }
 
-    public List<Double> getNumberList () {
+  
+	public List<Double> getNumberList () {
         return numberList;
     }
 

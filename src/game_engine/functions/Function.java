@@ -86,5 +86,9 @@ public class Function {
 		}
 		return str;
 	}
+
+	public void setFunction(Function fun) {
+		myTerms = fun.getTerms();
+	}
 	
 }

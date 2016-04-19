@@ -51,14 +51,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     private EnemyFactory myEnemyFactory;
     private TowerFactory myTowerFactory;
 
-    private TimelineFactory myTimelineFactory;
-
     private List<Affector> myAffectors;
 
     private List<Unit> myTerrains;
     private TerrainFactory myTerrainFactory;
     
     private List<Position> myGoals;
+    
+    private TimelineFactory myTimelineFactory;
     
     public TestingEngineWorkspace() {};
     
@@ -103,7 +103,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
                                                  Collections.unmodifiableList(myTowers),
                                                  position2);
         Unit t2 = 
-                myTowerFactory.createTackTower("Tack", myProjectiles,
+                myTowerFactory.createTackTower("TackTower", myProjectiles,
                                                Collections.unmodifiableList(myTowers),
                                                position2);
         return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
@@ -559,5 +559,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         return myGoals;
     }
 
-    
+
+	public List<Unit> getAllUnits(){
+		List<Unit> units = new ArrayList<>();
+		units.addAll(myTowers);
+		units.addAll(myEnemys);
+		units.addAll(myProjectiles);
+		units.addAll(myTerrains);
+		return units;
+	}
+
 }

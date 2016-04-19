@@ -13,6 +13,7 @@ import java.util.List;
  * Internal API that will be used in order to represent paths 
  * for enemy movements.
  */
+
 public class Branch {
 
 	private List<Position> myPositions;
