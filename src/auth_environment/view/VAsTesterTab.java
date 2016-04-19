@@ -26,7 +26,7 @@ public class VAsTesterTab extends Tab{
 	
 	private void booyah(){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));
+		myTabs.getTabs().addAll(new ElementTab("Projectiles"), new ElementTab("Affectors"), new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));
 		this.setContent(myTabs);
 	}
 	
