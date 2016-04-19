@@ -21,8 +21,9 @@ public class Store {
 		items = new HashMap<Unit, Integer>();
 		levelUnlock = new HashMap<Unit, Integer>();
 	}
-	public void addBuyableTower(Tower t, Integer cost){
+	public void addBuyableTower(Tower t, Integer cost, Integer level){
 		buyableUnits.put(t, cost);
+		levelUnlock.put(t, level);
 	}
 	public boolean canAfford(int cost){
 		return myMoney >= cost;

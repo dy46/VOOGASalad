@@ -114,9 +114,9 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Tower t3 = myTowerFactory.createRespawningTower("Tower", myProjectiles,
 				Collections.unmodifiableList(myTowers),
 				position2);
-		myStore.addBuyableTower(t, 100);
-		myStore.addBuyableTower(t2, 200);
-		myStore.addBuyableTower(t3, 400);
+		myStore.addBuyableTower(t, 100, 1);
+		myStore.addBuyableTower(t2, 200, 1);
+		myStore.addBuyableTower(t3, 400, 1);
 		
 		List<Affector> toApply = new ArrayList<Affector>();
 		toApply.add(this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage"));
