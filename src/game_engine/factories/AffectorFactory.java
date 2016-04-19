@@ -6,10 +6,7 @@ import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
 import game_engine.functions.Function;
-import game_engine.games.GameEngineInterface;
 import game_engine.libraries.AffectorLibrary;
-import game_engine.properties.Bounds;
-import game_engine.properties.Position;
 
 public class AffectorFactory {
 
@@ -40,6 +37,7 @@ public class AffectorFactory {
 	}
 
 	private void setDefaultAffectors(FunctionFactory myFunctionFactory){
+
 		String pr1 = "Constant";
 		String e1 ="HealthDamage";
 		List<List<Function>> f1 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(1)));
@@ -66,7 +64,7 @@ public class AffectorFactory {
 
 		String pr4 = "State";
 		String e4 = "Change";
-		List<List<Function>> f4 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(0)));
+		List<List<Function>> f4 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(4)));
 		List<List<String>> p4 = new ArrayList<>();
 		List<Integer> i4 = new ArrayList<>();
 		AffectorData d4 = new AffectorData(f4, p4, i4);
@@ -128,6 +126,22 @@ public class AffectorFactory {
 		AffectorData d11 = new AffectorData(f11, p11, i11);
 		constructAffector(pr11, e11, d11);
 		
+		String property10 = "Death";
+		String effect10 = "Activation";
+		constructAffector(property10, effect10, null);
+		
+		String property11 = "ConstantPosition";
+		String effect11 = "Move";
+		constructAffector(property11, effect11, null);
+		
+		String property12 = "RangeConstantPosition";
+                String effect12 = "Move";
+                constructAffector(property12, effect12, null);
+		
+                String property13 = "Firing";
+                String effect13 = "Children";
+                constructAffector(property13, effect13, null);
+                
 		String pr12 = "MoveTo";
 		String e12 = "Spawn";
 		Function function1 = myFunctionFactory.createConstantFunction(0);

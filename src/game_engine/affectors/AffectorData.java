@@ -9,6 +9,9 @@ public class AffectorData {
 	private List<List<Function>> myFunctions;
 	private List<List<String>> myUnitProperties;
 	private List<Integer> myAffectTypes;
+	private List<Double> baseNumbers;
+	
+	public AffectorData() {};
 	
 	public AffectorData(List<List<Function>> functions, List<List<String>> unitProperies, List<Integer> types){
 		myFunctions = functions;
@@ -34,6 +37,14 @@ public class AffectorData {
 	
 	public List<Integer> getTypes(){
 		return myAffectTypes;
+	}
+	
+	public void setBaseNumbers(List<Double> baseNumbers) {
+	    this.baseNumbers = baseNumbers;
+	}
+	
+	public List<Double> getBaseNumbers() {
+	    return baseNumbers;
 	}
 	
 }

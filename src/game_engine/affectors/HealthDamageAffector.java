@@ -1,9 +1,11 @@
 package game_engine.affectors;
 
+
 import game_engine.game_elements.Unit;
 
-public class HealthDamageAffector extends Affector{
 
+public class HealthDamageAffector extends Affector {
+    
 	public HealthDamageAffector(AffectorData data){
 		super(data);
 	}

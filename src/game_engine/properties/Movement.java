@@ -43,6 +43,8 @@ public class Movement {
 	}
 
 	public Movement copyMovement(){
+	        //hard-coded so program will run
+	        mySpawn = new Position(0, 0);
 		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()), mySpawn.copyPosition());
 	}
 

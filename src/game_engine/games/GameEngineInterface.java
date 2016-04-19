@@ -8,8 +8,6 @@ import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Enemy;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
@@ -64,7 +62,7 @@ public interface GameEngineInterface {
 
     public void clearProjectiles();
 
-    public List<Tower> getTowerTypes();
+    public List<Unit> getTowerTypes();
     
     public List<Branch> getPaths();
 
@@ -75,8 +73,6 @@ public interface GameEngineInterface {
     public default CollisionDetector getCollisionDetector(){
         return new CollisionDetector(this);
     }
-
-    public void addEnemy(Enemy e);
 
     public boolean isGameOver();
 
