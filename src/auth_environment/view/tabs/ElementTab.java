@@ -1,7 +1,7 @@
 package auth_environment.view.tabs;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
@@ -37,7 +37,7 @@ public class ElementTab extends Tab{
 		
 		newPane.setText("New");
 		newPane.setContent(newScrollPane);
-		newPane.setPrefSize(600.0, 800.0);
+		newPane.setPrefSize(700.0, 800.0);
 		newPane.setCollapsible(false);
 		newScrollPane.setContent(newBorderPane);
 		newBorderPane.setTop(newAnimationInfo);
@@ -55,10 +55,15 @@ public class ElementTab extends Tab{
 //		newTitleInfoPane.setCollapsible(false);
 //		newTitleInfoPane.setPrefSize(600, 200);
         GridPane newTableInfo = new GridPane();
-        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(100),new ColumnConstraints(200),new ColumnConstraints(200),new ColumnConstraints(100) );
+        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(150),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
         newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
         newTableInfo.setPrefSize(600, 200);
 		newBorderPane.setLeft(newTableInfo);
+//		newBorderPane.setRight(new Button("OK"));
+		GridPane bottomInfo = new GridPane();
+		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(600), new ColumnConstraints(70));
+		bottomInfo.add(new Button("OK"), 1, 0);
+		newBorderPane.setBottom(bottomInfo);
         
         
         Text propertiesTitle = new Text("Properties");
@@ -83,10 +88,15 @@ public class ElementTab extends Tab{
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String affectors = "Affector(s): ";
 		newTableInfo.add(new Text(affectors), 1, index);
-		myTextField = new TextField();
-		newTableInfo.add(myTextField, 2, index);
+		ComboBox<String> cbox = new ComboBox<String>();
+		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+		newTableInfo.add(cbox, 2, index);
 		index++;
 		
+		Button newAffectorButton = new Button("+ Add New Affector");
+		int num = index;
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton));
+		newTableInfo.add(newAffectorButton, 2, index);
 		
 		
         
@@ -138,6 +148,21 @@ public class ElementTab extends Tab{
 		editInfo.getChildren().addAll(new Button("YAAAS"),new Button("YESESS"),new Button("GO ME"));
 		
 		this.setContent(myPane);
+	}
+
+	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton) {
+		// TODO Auto-generated method stub
+		newTableInfo.getChildren().remove(AffectorButton);
+		ComboBox<String> cbox = new ComboBox<String>();
+		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+		newTableInfo.add(cbox, 2, index);
+		index++;
+		Button newAffectorButton = new Button("+ Add New Affector");
+		int num = index;
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton));
+		newTableInfo.add(newAffectorButton, 2, index);
+		
+		
 	}
 	
 

@@ -45,6 +45,7 @@ public class AuthView {
     	// TODO: cleanup
     	globalGameTab = new GlobalGameTab(); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
+    	tabs.add(new VAsTesterTab("WOOOO"));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
@@ -54,16 +55,6 @@ public class AuthView {
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-
-//		mainWorkspace = new GameWorkspace(myTabs, this.mySettings);
-//		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
-//		mainTab.setClosable(false);
-//		myTabs.getTabs().add(mainTab);
-		
-		
-//		VAsTesterTab vtest = new VAsTesterTab("WOOOO");
-//		myTabs.getTabs().add(vtest);
-		
 		myTabs.getTabs().addAll(this.defaultTabs());
     }
 

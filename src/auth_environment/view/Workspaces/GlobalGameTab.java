@@ -13,7 +13,6 @@ import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.ElementPicker;
 import auth_environment.view.MapDisplay;
-import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
 import game_engine.game_elements.Tower;
 
