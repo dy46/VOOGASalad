@@ -1,5 +1,9 @@
 package auth_environment.Models;
 
+import game_data.AuthSerializer;
+import game_engine.EngineWorkspace;
+import game_engine.IEngineWorkspace;
+
 /**
  * Created by BrianLin on 4/19/16
  * Team member responsible: Brian
@@ -12,14 +16,17 @@ package auth_environment.Models;
 
 public class AuthViewModel implements IAuthViewModel {
 	
+	private IEngineWorkspace myEngineWorkspace; 
+	
 	public AuthViewModel() {
-		
+		// Start with empty EngineWorkspace. Can load one from file however. 
+		myEngineWorkspace = new EngineWorkspace(); 
 	}
 
 	@Override
 	public void saveToFile() {
-		// TODO Auto-generated method stub
-		
+		AuthSerializer writer = new AuthSerializer(); 
+		writer.saveElement(this.myEngineWorkspace);
 	}
 	
 }
