@@ -30,7 +30,6 @@ public class ElementTab extends Tab{
 		ScrollPane editScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
 		GridPane newAnimationInfo = new GridPane();					//*****	
-		TitledPane newTitleInfoPane = new TitledPane();
 		FlowPane editInfo = new FlowPane();							//*****	
 		myPane.setLeft(newPane);
 		myPane.setRight(editPane);
@@ -47,19 +46,15 @@ public class ElementTab extends Tab{
 		animationButton.setOnAction( e -> System.out.println("ANIMATION"));
 		animationButton.setPrefSize(400.0,70.0);
 
-		newAnimationInfo.getColumnConstraints().addAll(new ColumnConstraints(200), new ColumnConstraints(200), new ColumnConstraints(200));
+		newAnimationInfo.getColumnConstraints().addAll(new ColumnConstraints(250), new ColumnConstraints(200), new ColumnConstraints(200));
 		newAnimationInfo.getRowConstraints().addAll(new RowConstraints(70));
 		newAnimationInfo.add(animationButton, 1, 0); //col, row
 		
-//		newTitleInfoPane.setText("Properties");
-//		newTitleInfoPane.setCollapsible(false);
-//		newTitleInfoPane.setPrefSize(600, 200);
         GridPane newTableInfo = new GridPane();
-        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(150),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
+        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
         newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
         newTableInfo.setPrefSize(600, 200);
 		newBorderPane.setLeft(newTableInfo);
-//		newBorderPane.setRight(new Button("OK"));
 		GridPane bottomInfo = new GridPane();
 		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(600), new ColumnConstraints(70));
 		bottomInfo.add(new Button("OK"), 1, 0);
@@ -70,10 +65,11 @@ public class ElementTab extends Tab{
         propertiesTitle.setFont(new Font(20));
         newTableInfo.add(propertiesTitle, 0, 0);
         
+        //labels stuff
         int index = 1;
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String name = "Name";
-		newTableInfo.add(new Text("Name: "), 1, index);
+		newTableInfo.add(new Text(name), 1, index);
 		TextField myTextField = new TextField();
 		newTableInfo.add(myTextField, 2, index);
 		index++;
@@ -92,54 +88,16 @@ public class ElementTab extends Tab{
 		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
 		newTableInfo.add(cbox, 2, index);
 		index++;
+		//labels stuff
 		
 		Button newAffectorButton = new Button("+ Add New Affector");
 		int num = index;
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton));
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, cbox));
 		newTableInfo.add(newAffectorButton, 2, index);
-		
-		
-        
-//        TableView table = new TableView();
-//        
-//        TableColumn nameCol = new TableColumn("Name");
-//        TableColumn valueCol = new TableColumn("Value");
-//        table.getColumns().addAll(nameCol, valueCol);
-//        
-//        newTableInfo.add(table, 1, 1);
-//		
-
-//		ObservableList<Element> data = FXCollections.observableArrayList(
-//			    new Element("Name", ""),
-//			    new Element("Attack", ""),
-//			    new Element("Damage", ""),
-//			    new Element("Emma", ""),
-//			    new Element("Michael", "")
-//			);
-//		
-//
-//		nameCol.setCellValueFactory(new PropertyValueFactory<Element,String>("Name"));
-//		valueCol.setCellValueFactory(new PropertyValueFactory<Element,String>("Value"));
-//		table.setEditable(true);
-//		
-//        valueCol.setOnEditCommit(
-//                new EventHandler<CellEditEvent<Element, String>>() {
-//                    public void handle(CellEditEvent<Element, String> t) {
-//                        ((Element) t.getTableView().getItems().get(
-//                            t.getTablePosition().getRow())
-//                            ).setValue(t.getNewValue());
-//                    }
-//                }
-//            );
-//		table.setItems(data);
-				
-	//	newTable.setItems("idk how to use this");
 		
 		editPane.setPrefSize(200.0, 800.0);
 		editScrollPane.setContent(editInfo);
 		editScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-		//editScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		//editScrollPane.setPrefSize(200.0,800.0);
 		editScrollPane.setFitToWidth(true);
 		
 		editPane.setText("Edit");
@@ -150,19 +108,18 @@ public class ElementTab extends Tab{
 		this.setContent(myPane);
 	}
 
-	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton) {
-		// TODO Auto-generated method stub
-		newTableInfo.getChildren().remove(AffectorButton);
-		ComboBox<String> cbox = new ComboBox<String>();
-		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
-		newTableInfo.add(cbox, 2, index);
-		index++;
-		Button newAffectorButton = new Button("+ Add New Affector");
-		int num = index;
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton));
-		newTableInfo.add(newAffectorButton, 2, index);
-		
-		
+	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
+		if(cbox.getValue() != null){
+			newTableInfo.getChildren().remove(AffectorButton);
+			ComboBox<String> newcbox = new ComboBox<String>();
+			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+			newTableInfo.add(newcbox, 2, index);
+			index++;
+			Button newAffectorButton = new Button("+ Add New Affector");
+			int num = index;
+			newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, newcbox));
+			newTableInfo.add(newAffectorButton, 2, index);	
+		}
 	}
 	
 
