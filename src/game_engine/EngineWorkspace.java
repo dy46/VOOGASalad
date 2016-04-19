@@ -32,7 +32,7 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public class EngineWorkspace implements IPlayerEngineInterface {
+public class EngineWorkspace implements IPlayerEngineInterface, IEngineWorkspace {
 
 	private int nextWaveTimer;
 	private boolean pause;
