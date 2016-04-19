@@ -97,23 +97,10 @@ public class Welcome {
 	private void authButtonPressed() {
 		this.myStage.hide();
 		this.myView.displayAuth();
-		
-//		if (checkValidName()) {
-//			this.myStage.hide();
-//			this.myView.display();
-//			String name = this.gameNameInput.getText();
-//			this.myView.getSettings().setName(name);
-//			// TODO: save entered name somewhere... ask Austin
-//		}
 	}
 	
 	private void playButtonPressed() {
 		this.myStage.hide();
 		this.myView.displayPlayer();
 	}
-
-//	private boolean checkValidName() {
-//		return this.gameNameInput.getText().length() > 0; 
-//	}
-	
 }
