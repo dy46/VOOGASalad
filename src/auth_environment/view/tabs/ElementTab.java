@@ -74,11 +74,19 @@ public class ElementTab extends Tab{
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String attack = "Attack: ";
-		newTableInfo.add(new Text(attack), 1, index);
+		String damage = "Attack: ";
+		newTableInfo.add(new Text(damage), 1, index);
 		myTextField = new TextField();
 		newTableInfo.add(myTextField, 2, index);
 		index++;
+		
+		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+		String affectors = "Affector(s): ";
+		newTableInfo.add(new Text(affectors), 1, index);
+		myTextField = new TextField();
+		newTableInfo.add(myTextField, 2, index);
+		index++;
+		
 		
 		
         
