@@ -564,6 +564,13 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myProjectiles.forEach(p -> p.update());
 		myProjectiles.removeIf(p -> !p.isVisible());
 		myTerrains.forEach(t -> t.update());
+		upgradeExample.setTTL(Integer.MAX_VALUE);
+		for(Unit u : myTowers){
+			myStore.buyUpgrade(u, upgradeExample);
+			System.out.println(u.getProperties().getHealth().getValue());
+			System.out.println(u.getAffectors().size());
+			System.out.println();
+		}
 		//        updateLives();
 
 	}

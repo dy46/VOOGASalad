@@ -12,12 +12,14 @@ public class Store {
 	private Map<Unit, Integer> buyableUnits;
 	private Map<Unit, List<Pair<Unit, Integer>>> upgrades;
 	private Map<Unit, Integer> items;
+	private Map<Unit, Integer> levelUnlock;
 	
 	public Store(int startMoney){
 		myMoney = startMoney;
 		buyableUnits = new HashMap<Unit, Integer>();
 		upgrades = new HashMap<Unit, List<Pair<Unit, Integer>>>();
 		items = new HashMap<Unit, Integer>();
+		levelUnlock = new HashMap<Unit, Integer>();
 	}
 	public void addBuyableTower(Tower t, Integer cost){
 		buyableUnits.put(t, cost);
@@ -99,9 +101,16 @@ public class Store {
 		for(Pair<Unit, Integer> p : upgrades.get(found)){
 			if(p.getLeft().toString().equals(upgradeType.toString()) && myMoney >= p.getRight()){
 				myMoney -= p.getRight();
-				upgradedUnit.getAffectorsToApply().addAll(p.getLeft().getAffectorsToApply());
+				upgradedUnit.addAffectors(p.getLeft().getAffectorsToApply());
 			}
 		}
 	}
+	public List<Unit> getUnlockedUnits(){
+		List<Unit> unlocked = new ArrayList<Unit>();
+		for(Unit u : buyableUnits.keySet()){
+			if()
+		}
+	}
+	
 	
 }
