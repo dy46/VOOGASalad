@@ -22,11 +22,5 @@ public class AuthViewModel implements IAuthViewModel {
 		// Start with empty EngineWorkspace. Can load one from file however. 
 		myEngineWorkspace = new EngineWorkspace(); 
 	}
-
-	@Override
-	public void saveToFile() {
-		AuthSerializer writer = new AuthSerializer(); 
-		writer.saveElement(this.myEngineWorkspace);
-	}
 	
 }

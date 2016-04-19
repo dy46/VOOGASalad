@@ -14,6 +14,4 @@ package auth_environment.Models;
 
 public interface IAuthViewModel {
 	
-	public void saveToFile(); 
-	
 }
