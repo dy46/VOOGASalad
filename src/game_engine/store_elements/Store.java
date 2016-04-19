@@ -5,17 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 public class Store {
 	private int myMoney;
-	private Map<Unit, Integer> buyableUnits;
+	private Map<Tower, Integer> buyableUnits;
 	private Map<Unit, List<Pair<Upgrade, Integer>>> upgrades;
 	private Map<Upgrade, Integer> items;
 	
 	public Store(int startMoney){
 		myMoney = startMoney;
-		buyableUnits = new HashMap<Unit, Integer>();
+		buyableUnits = new HashMap<Tower, Integer>();
 		upgrades = new HashMap<Unit, List<Pair<Upgrade, Integer>>>();
+	}
+	public void addBuyableTower(Tower t, Integer cost){
+		buyableUnits.put(t, cost);
 	}
 	public boolean canAfford(int cost){
 		return myMoney >= cost;
@@ -32,6 +36,9 @@ public class Store {
 		// this should have a copy method
 		return u;
 	}
+	public int getUnitListSize(){
+		return buyableUnits.size();
+	}
 	public void applyItem(String name, List<Unit> applied){
 		for(Upgrade u : items.keySet()){
 			if(u.getName().equals(name) && myMoney >= items.get(u)){
@@ -47,6 +54,17 @@ public class Store {
 				myMoney -= items.get(u);
 			}
 		}
+	}
+	public List<Tower> getTowerList(){
+		ArrayList<Tower> ret = new ArrayList<Tower>();
+		for(Tower t : buyableUnits.keySet()){
+			ret.add(t);
+		}
+		
+		return ret;
+	}
+	public void addMoney(int amount){
+		myMoney += amount;
 	}
 	
 	
