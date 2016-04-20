@@ -1,15 +1,10 @@
 package game_player.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import game_engine.CollisionDetector;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Position;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Polygon;
 
 public class ImageViewPicker {
     
@@ -33,7 +28,7 @@ public class ImageViewPicker {
         this.numFrames = u.getNumFrames();
         this.currFrame = 0;
         this.myUnit = u;
-        this.currState = u.getProperties().getState().getValue();
+        this.currState = u.getProperties().getState().getString();
         this.imageView = new ImageView();
         this.healthImage = new Image("health_red.png");
         this.health = new ImageView(healthImage);
@@ -44,7 +39,7 @@ public class ImageViewPicker {
     }
     
     public void selectNextImageView(int timer) {
-        String state = myUnit.getProperties().getState().getValue();
+        String state = myUnit.getProperties().getState().getString();
         if(timer % Integer.parseInt(myBundle.getString(name + state)) == 0) {
             currState = state;
             currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;

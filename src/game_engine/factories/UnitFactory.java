@@ -60,10 +60,6 @@ public class UnitFactory {
 		myUnitLibrary.getUnitByName(name).getProperties().getBounds().setPositions(bounds.getPositions());
 	}
 	
-	public void setNewDamageForUnit(String name, double damage){
-		myUnitLibrary.getUnitByName(name).getProperties().getDamage().setDamage(damage);
-	}
-	
 	public void setNewHealthForUnit(String name, double health){
 		myUnitLibrary.getUnitByName(name).getProperties().getHealth().setValue(health);
 	}

@@ -1,15 +1,12 @@
 package main;
 
-import auth_environment.view.View;
-import game_data.AuthSerializer;
-import game_player.view.GameView;
 import game_player.view.PlayerGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private View authView; 
+//	private View authView; 
 	private PlayerGUI myView;
 
 	public static void main(String[] args) {

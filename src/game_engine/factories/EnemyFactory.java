@@ -55,7 +55,7 @@ public class EnemyFactory {
         l1.add(new Position(30, 30));
         l1.add(new Position(0, 30));
         Bounds b = new Bounds(l1);
-        State st = new State("Moving");
+        State st = new State(2);
         Branch p2 = new Branch("Something here");
         p2.addPosition(new Position(0, 30));
         p2.addPosition(new Position(200, 30));
@@ -64,7 +64,7 @@ public class EnemyFactory {
         p2.addPosition(new Position(400, 525));
         Movement movement = new Movement(Arrays.asList(p2));
         UnitProperties properties =
-                new UnitProperties(health, null, null, velocity, b, null, new Position(0, 30), null,
+                new UnitProperties(health, null, velocity, b, null, new Position(0, 30), null,
                                    st, movement);
         e1.setProperties(properties);
         e1.setTTL(1000000);

@@ -1,7 +1,5 @@
 package game_engine.affectors;
 
-import java.util.List;
-import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 
 public class RangePathFollowPositionMoveAffector extends SingleTrackRangeAffector {
