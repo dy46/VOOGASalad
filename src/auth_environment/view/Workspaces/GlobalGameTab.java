@@ -97,7 +97,7 @@ public class GlobalGameTab implements IWorkspace {
 	// TODO: exctract these methods to the GlobalGameModel class
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
-//			this.gameData.getSettings().setName(input.getText());
+			this.myModel.setGameName(input.getText());
 			input.clear();
 		}
 	}
@@ -106,7 +106,14 @@ public class GlobalGameTab implements IWorkspace {
 	private void chooseSplash() {
 		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
 		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
-		// TODO: store File
+		// TODO: display the image in an ImageView
+		
+		// TODO: store the image name
+		System.out.println(splash.getName());
+		this.myModel.setSplashFile(splash.getName());
+		
+		// TODO: save the file to Game_Images (ask Virginia) 
+		
 	}
 	
 	private boolean checkValidInput(TextField input) {
