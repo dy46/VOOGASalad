@@ -3,7 +3,6 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -17,6 +16,25 @@ public class PathGraphFactory {
 		this.myPathGraph = new PathGraph();
 		currentPathID = -1;
 		currentPathID = -1;
+	}
+
+	public PathGraph createUnlimitedPathGraph(double width, double length, double sideLength){
+		double centerX = sideLength/2;
+		double centerY = sideLength/2;
+		int numCells = (int) Math.floor((width*length)/sideLength);
+		PathNode path = new PathNode(getNextPathID());
+		for(int x=0; x<numCells; x++){
+			List<Position> pos = Arrays.asList(new Position(centerX, centerY, 0));
+			Branch branch = new Branch(getNextBranchID(), pos);
+			path.addBranch(branch);
+			centerX += sideLength;
+			if(centerX >= width){
+				centerX = sideLength/2;
+				centerY += sideLength;
+			}
+		}
+		myPathGraph.addPath(path);
+		return myPathGraph;
 	}
 
 	/**

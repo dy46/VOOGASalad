@@ -170,15 +170,18 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
 
+		//		myBranches.addAll(pgf.getBranches());
+		//		List<PathNode> paths = pgf.getPaths();
+		//		l.addAllPaths(paths);
+
+		// For testing branching
 		myBranches.addAll(pgf.getBranches());
-		
 		Branch pb1 = myBranches.get(0);
 		Branch pb2 = myBranches.get(1);
 		Branch pb3 = myBranches.get(2);
 		Branch pb4 = myBranches.get(3);
 		Branch pb5 = myBranches.get(4);
 		Branch pb6 = myBranches.get(5);
-		
 		List<Branch> branches1 = Arrays.asList(pb1, pb6, pb2, pb4);
 		List<Branch> branches2 = Arrays.asList(pb1, pb6, pb3, pb4);
 		PathNode p = new PathNode(0);
@@ -188,6 +191,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		p.addBranch(pb4);
 		p.addBranch(pb5);
 		p.addBranch(pb6);
+
 		l.addPath(p);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);

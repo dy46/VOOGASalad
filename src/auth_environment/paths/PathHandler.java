@@ -14,6 +14,7 @@ public class PathHandler {
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
 		insertTestBranches();
+//		insertGrid();
 	}
 	
 	public void processStraightLine(List<Position> positions){
@@ -24,6 +25,10 @@ public class PathHandler {
 	public void spline(List<Position> positions){
 		List<Position> splinedPoints = getSplinedPoints(positions);
 		myPGF.insertBranch(splinedPoints);
+	}
+	
+	private void insertGrid(){
+		myPGF.createUnlimitedPathGraph(500, 500, 2);
 	}
 	
 	private void insertTestBranches(){

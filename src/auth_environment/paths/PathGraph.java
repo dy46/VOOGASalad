@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -12,6 +11,8 @@ import game_engine.properties.Position;
 public class PathGraph {
 
 	private List<PathNode> myPaths;
+	private List<Position> mySpawns;
+	private List<Position> myGoals;
 
 	public PathGraph(List<PathNode> paths){
 		this.myPaths = paths;
@@ -23,6 +24,14 @@ public class PathGraph {
 
 	public void addPath(PathNode graph){
 		myPaths.add(graph);
+	}
+	
+	public void addSpawn(Position spawn){
+		mySpawns.add(spawn);
+	}
+	
+	public void addGoal(Position goal){
+		myGoals.add(goal);
 	}
 
 	public List<Branch> getBranches(){
