@@ -554,7 +554,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 					nextWaveTimer = 0;
 				}
 			}
-			myStore.applyItem("Interesting", this.myEnemys);
+//			myStore.applyItem("Interesting", this.myEnemys);
 
 		}
 		else if (myCurrentLevel.getNextWave() != null &&
