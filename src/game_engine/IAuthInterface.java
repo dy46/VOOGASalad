@@ -12,7 +12,7 @@ import game_engine.game_elements.Unit;
  *
  */
 
-public interface IAuthEnvironmentInterface {
+public interface IAuthInterface {
 	
 	// GlobalGameTab - Brian
 	
@@ -31,6 +31,7 @@ public interface IAuthEnvironmentInterface {
 	public void addLevel(Level level); 
 	
 	// These Units have been placed on the Map. Not to be confused with available Enemy and Tower Units. 
+	
 	public List<Unit> getPlacedUnits(); 
 
 	public void placeUnit(Unit unit); // add this Unit to current List of placed Units 

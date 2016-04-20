@@ -21,7 +21,7 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public class EngineWorkspace implements IPlayerEngineInterface, IEngineWorkspace {
+public class EngineWorkspace implements IPlayerEngineInterface, IAuthInterface {
 
 	private int nextWaveTimer;
 	private boolean pause;
@@ -228,6 +228,102 @@ public class EngineWorkspace implements IPlayerEngineInterface, IEngineWorkspace
 				myTowers.add(newTower);
 			}
 		}
+	}
+
+	@Override
+	public void setGameName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getGameName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSplashScreen(String fileName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getSplashScreen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Unit> getPlacedUnits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void placeUnit(Unit unit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTower(Unit tower) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearTowers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTerrain(Unit terrain) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearTerrains() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEnemy(Unit enemy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearEnemies() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addProjectile(Unit projectile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addAffector(Affector affector) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Affector> getAffectors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void clearAffectors() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

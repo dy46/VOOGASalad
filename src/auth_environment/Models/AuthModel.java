@@ -2,6 +2,7 @@ package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IAuthModel;
 import game_engine.EngineWorkspace;
+import game_engine.IAuthInterface;
 import game_engine.IEngineWorkspace;
 
 /**
@@ -16,23 +17,23 @@ import game_engine.IEngineWorkspace;
 
 public class AuthModel implements IAuthModel {
 	
-	private IEngineWorkspace myEngineWorkspace; 
+	private IAuthInterface authInterface; 
 	
 	public AuthModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
-		myEngineWorkspace = new EngineWorkspace(); 
+		authInterface = new EngineWorkspace(); 
 	}
 
 	@Override
 	// Only called by Brian's GlobalGameTab
 	public IEngineWorkspace getEngineWorkspace() {
-		return this.myEngineWorkspace;
+		return (IEngineWorkspace) this.authInterface;
 	}
 
 	@Override
 	// Only called by Brian's GlobalGameTab
 	public void setEngineWorkspace(IEngineWorkspace engineWorkspace) {
-		this.myEngineWorkspace = engineWorkspace; 
+		this.authInterface = engineWorkspace; 
 	}
 	
 }
