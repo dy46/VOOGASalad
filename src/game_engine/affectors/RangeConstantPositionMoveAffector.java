@@ -4,23 +4,25 @@ import java.util.List;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 
-public class RangePathFollowPositionMoveAffector extends SingleTrackRangeAffector {
-
-    PathFollowPositionMoveAffector affector;
+public class RangeConstantPositionMoveAffector extends SingleTrackRangeAffector{
     
-    public RangePathFollowPositionMoveAffector (AffectorData data) {
+    ConstantPositionMoveAffector affector;
+    
+    public RangeConstantPositionMoveAffector (AffectorData data) {
         super(data);
-        affector = new PathFollowPositionMoveAffector(data);
+        affector = new ConstantPositionMoveAffector(data);
     }
 
     @Override
     public void firstApply (Unit u, Unit tracked) {
-        affector.pathFollow(u); 
+        affector.apply(u);
+        
     }
 
     @Override
     public void futureApply (Unit u, Unit tracked) {
         firstApply(u, tracked);
+        
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
@@ -58,9 +57,9 @@ public class AIPathFollowAffector extends PathFollowAffector{
 	private double branchingHeuristic(Branch b){
 		int pathLength = b.getLength();
 		List<Position> branchPositions = b.getAllPositions();
-		List<Enemy> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getEnemies();
+		List<Unit> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getEnemies();
 		int numEnemiesOnBranch = 0;
-		for(Enemy e : currentEnemies){
+		for(Unit e : currentEnemies){
 			if(e.isAlive()){
 				Position ePosition = e.getProperties().getPosition();
 				if(branchPositions.contains(ePosition)){

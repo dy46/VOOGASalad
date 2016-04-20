@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class HighScoreDisplay implements IGUIObject {
+public class GameStatusDisplay implements IGUIObject {
 	
 	private static final int VBOX_PADDING = 10;
 	private static final String HIGH_SCORE = "High Score";
@@ -19,7 +19,7 @@ public class HighScoreDisplay implements IGUIObject {
 	private IGameView myView;
 	private GameEngineInterface myEngine;
 	
-	public HighScoreDisplay(ResourceBundle r, GameDataSource gameData, IGameView view) {
+	public GameStatusDisplay(ResourceBundle r, GameDataSource gameData, IGameView view) {
 		myResources = r;
 		myGameData = gameData;
 		myView = view;
@@ -40,8 +40,8 @@ public class HighScoreDisplay implements IGUIObject {
 	}
 	
 	private void updateText() {
-		highScoreLabel.setText(myResources.getString("HighScore") 
-				+ myGameData.getDoubleValue(HIGH_SCORE));
+		highScoreLabel.setText(myResources.getString("GameStatus") 
+				+ myEngine.getGameStatus());
 	}
 
 }

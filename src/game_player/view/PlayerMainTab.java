@@ -42,7 +42,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private VBox gameSection;
 	private VBox configurationPanel;
 	private VBox gameMenu;
-	private HBox gamePanel;
+	private VBox gamePanel;
 	
 	private GameEngineInterface gameEngine;
 	
@@ -111,7 +111,7 @@ public class PlayerMainTab implements IPlayerTab{
 		gameSection = new VBox(PANEL_PADDING);
 		configurationPanel = new VBox(PANEL_PADDING);
 		gameMenu = new VBox(PANEL_PADDING);
-		gamePanel = new HBox(PANEL_PADDING);
+		gamePanel = new VBox(PANEL_PADDING);
 		this.configurePanels();
 	}
 	

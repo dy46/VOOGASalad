@@ -42,7 +42,7 @@ public class Main extends Application {
 
 //		authView = new View(primaryStage); // for testing Auth
 		
-		myView = new PlayerGUI(645, 587);
+		myView = new PlayerGUI(645, 614);
 		primaryStage.setScene(myView.createPlayerScene());
 		primaryStage.show();
 	}

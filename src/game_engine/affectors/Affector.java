@@ -41,30 +41,29 @@ public abstract class Affector {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//copy.setBaseNumbers(this.getBaseNumbers());
 		copy.setTTL(this.getTTL());
 		return copy;
 	}
 
 	public void apply(Unit u) {
-		for(int x=0; x<getData().getUnitProperties().size(); x++){
-			for(String prop : getData().getUnitProperties().get(x)){
-				Property p = getProperty(u, prop);
-				List<Function> functions = getData().getFunctions().get(x);
-				int type = getData().getTypes().get(x);
-				System.out.println("PROPERTY: " + p);
-				List<Double> values = getValues(p);
-				if(type == SET_AFFECTOR){
-					setValues(p, functions, values);
-				}
-				else if(type == INCREMENT_AFFECTOR){
-					incrementValues(p, functions, values);
-				}
-				else if(type == DECREMENT_AFFECTOR){
-					decrementValues(p, functions, values);
-				}
-			}
-		}
+//		for(int x=0; x<getData().getUnitProperties().size(); x++){
+//			for(String prop : getData().getUnitProperties().get(x)){
+//				Property p = getProperty(u, prop);
+//				List<Function> functions = getData().getFunctions().get(x);
+//				int type = getData().getTypes().get(x);
+//				System.out.println("PROPERTY: " + p);
+//				List<Double> values = getValues(p);
+//				if(type == SET_AFFECTOR){
+//					setValues(p, functions, values);
+//				}
+//				else if(type == INCREMENT_AFFECTOR){
+//					incrementValues(p, functions, values);
+//				}
+//				else if(type == DECREMENT_AFFECTOR){
+//					decrementValues(p, functions, values);
+//				}
+//			}
+//		}
 		updateElapsedTime();
 	}
 
@@ -168,6 +167,10 @@ public abstract class Affector {
 
 	public AffectorData getData(){
 		return myData;
+	}
+	
+	public void setData(AffectorData affectorData) {
+	    this.myData = affectorData;
 	}
 
 }

@@ -91,7 +91,7 @@ public class Level extends GameElement {
         }
     }
 
-    public Enemy update () {
+    public Unit update () {
         return myCurrentWave.tryToSpawnEnemy();
     }
 

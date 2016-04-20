@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 public class Store {
 	private int myMoney;
@@ -21,7 +20,7 @@ public class Store {
 		items = new HashMap<Unit, Integer>();
 		levelUnlock = new HashMap<Unit, Integer>();
 	}
-	public void addBuyableTower(Tower t, Integer cost, Integer level){
+	public void addBuyableTower(Unit t, Integer cost, Integer level){
 		buyableUnits.put(t, cost);
 		levelUnlock.put(t, level);
 	}
@@ -46,7 +45,7 @@ public class Store {
 	public void applyItem(String name, List<Unit> applied){
 		for(Unit u : items.keySet()){
 			if(u.toString().equals(name) && myMoney >= items.get(u)){
-				applied.forEach(t -> t.addAffectors(u.getAffectors()));
+				applied.forEach(t -> t.addAffectors(u.getTimelines().get(0).getAffectors()));
 				myMoney -= items.get(u);
 			}
 		}
@@ -102,7 +101,7 @@ public class Store {
 		for(Pair<Unit, Integer> p : upgrades.get(found)){
 			if(p.getLeft().toString().equals(upgradeType.toString()) && myMoney >= p.getRight()){
 				myMoney -= p.getRight();
-				upgradedUnit.addAffectors(p.getLeft().getAffectorsToApply());
+				upgradedUnit.addAffectors(p.getLeft().getTimelinesToApply().get(0).getAffectors());
 			}
 		}
 	}
