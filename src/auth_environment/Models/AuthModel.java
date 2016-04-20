@@ -21,7 +21,7 @@ public class AuthModel implements IAuthModel {
 	
 	public AuthModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
-		authInterface = new EngineWorkspace(); 
+		authInterface = new SampleAuthEngineWorkspace(); 
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class AuthModel implements IAuthModel {
 	@Override
 	// Only called by Brian's GlobalGameTab
 	public void setEngineWorkspace(IEngineWorkspace engineWorkspace) {
-		this.authInterface = engineWorkspace; 
+		this.authIN = engineWorkspace; 
 	}
 	
 }
