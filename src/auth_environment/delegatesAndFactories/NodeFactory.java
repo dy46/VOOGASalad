@@ -96,6 +96,13 @@ public class NodeFactory {
 		return new ImageView(this.buildImage(imageName));
 	}
 	
+	public ImageView buildImageView(String imageName, double width, double height) {
+		ImageView imageView = this.buildImageView(imageName); 
+		imageView.setFitWidth(width);
+		imageView.setFitHeight(height);
+		return imageView; 
+	}
+	
 	public Image buildImage(String imageName) {
 		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
