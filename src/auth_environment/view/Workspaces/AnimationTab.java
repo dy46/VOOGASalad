@@ -18,9 +18,12 @@ import game_engine.game_elements.Tower;
 
 import auth_environment.backend.ISettings;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -37,6 +40,7 @@ public class AnimationTab implements IWorkspace{
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
 	private BorderPane myBorderPane = new BorderPane(); 
+	private NodeFactory myNodeFactory = new NodeFactory();
 	
 	public AnimationTab(){
 		this.setupBorderPane();
@@ -46,7 +50,24 @@ public class AnimationTab implements IWorkspace{
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		
-//		this.myBorderPane.setCenter(this.buildCenter());
+		this.myBorderPane.setCenter(buildImageWindow());
+	}
+	
+	private Node buildImageWindow(){
+		VBox center = myNodeFactory.buildVBox(10, 10);
+		center.getChildren().addAll(imageWindow());
+		return center;
+	}
+	
+//	private Canvas imageWindow(){
+//		Canvas imageCanvas = new Canvas(100, 100);
+//		GraphicsContext gc = imageCanvas.getGraphicsContext2D();
+//		return imageCanvas;	
+//	}
+	
+	private ImageView imageWindow(){
+		ImageView unitImage = myNodeFactory.buildImageView("catKeyboard.gif");
+		return unitImage; 
 	}
 	
 	@Override
