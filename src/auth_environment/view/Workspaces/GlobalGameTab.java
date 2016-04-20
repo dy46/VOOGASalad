@@ -38,6 +38,7 @@ public class GlobalGameTab implements IWorkspace {
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
+	private ImageView mySplashPreview; 
 	private TextField myGameNameField;
 	
 	private IGlobalGameTabModel myModel;
@@ -84,10 +85,12 @@ public class GlobalGameTab implements IWorkspace {
 	// TODO: set spacing/padding 
 	// TODO: resize ImageView 
 	private HBox buildSplashChooser() {
-		ImageView splashView = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"));
+		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
+				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
+				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
 		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
 		splashButton.setOnAction(e -> this.buildSplashChooser());
-		HBox hb = myNodeFactory.centerNode(splashView);
+		HBox hb = myNodeFactory.centerNode(mySplashPreview);
 		hb.getChildren().add(splashButton); 
 		return hb; 
 	}
