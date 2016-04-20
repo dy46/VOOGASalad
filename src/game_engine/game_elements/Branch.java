@@ -193,8 +193,14 @@ public class Branch {
 	}
 
 	public List<Position> cutoffByPosition(Position pos){
-		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
-		cutoff.clear();
+		List<Position> cutoff = new ArrayList<>();
+		for(int x=myPositions.indexOf(pos); x<myPositions.size(); x++){
+			cutoff.add(myPositions.get(x));
+			if(x != myPositions.indexOf(pos)){
+				myPositions.remove(x);
+				x--;
+			}
+		}
 		return cutoff;
 	}
 

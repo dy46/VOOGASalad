@@ -84,7 +84,7 @@ public class Position extends Property {
 
 	@Override
 	public String toString () {
-		return Double.toString(this.myX) + ", " + Double.toString(this.myY) + ", " + Double.toString(this.myZ);
+		return Double.toString(this.myX) + ", " + Double.toString(this.myY);
 	}
 
 	@Override

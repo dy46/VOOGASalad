@@ -168,6 +168,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		Branch b1 = new Branch(0);
 		b1.addPosition(new Position(0, 30));
+		b1.addPosition(new Position(100, 30));
 		b1.addPosition(new Position(200, 30));
 
 		Branch b2 = new Branch(1);
@@ -202,16 +203,17 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Branch pb3 = myBranches.get(2);
 		Branch pb4 = myBranches.get(3);
 		Branch pb5 = myBranches.get(4);
-		System.out.println("Branch 5:  \n" + "Neighbors: " + pb5.getNeighbors());
+		Branch pb6 = myBranches.get(5);
 		
-		List<Branch> branches1 = Arrays.asList(pb1, pb2, pb4);
-		List<Branch> branches2 = Arrays.asList(pb1, pb3, pb4);
+		List<Branch> branches1 = Arrays.asList(pb1, pb6, pb2, pb4);
+		List<Branch> branches2 = Arrays.asList(pb1, pb6, pb3, pb4);
 		PathNode p = new PathNode(0);
 		p.addBranch(pb1);
 		p.addBranch(pb2);
 		p.addBranch(pb3);
 		p.addBranch(pb4);
 		p.addBranch(pb5);
+		p.addBranch(pb6);
 		l.addPath(p);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);

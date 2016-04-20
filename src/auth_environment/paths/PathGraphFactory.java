@@ -31,15 +31,13 @@ public class PathGraphFactory {
 		if(currentPath != null){
 			configureBranchInPath(newBranch, currentPath);
 		}
-		else{
-			currentPath = myPathGraph.getPathByPos(branchPos.get(branchPos.size()-1));
-			if(currentPath != null){
-				configureBranchInPath(newBranch, currentPath);
-			}
-			else{
-				if(branchPos.size() > 0){
-					createNewPath(newBranch);
-				}
+		currentPath = myPathGraph.getPathByPos(branchPos.get(branchPos.size()-1));
+		if(currentPath != null){
+			configureBranchInPath(newBranch, currentPath);
+		}
+		if(myPathGraph.getBranchByID(newBranch.getID()) == null){
+			if(branchPos.size() > 0){
+				createNewPath(newBranch);
 			}
 		}
 	}
@@ -66,14 +64,15 @@ public class PathGraphFactory {
 		if(!startPos.equals(endPos)){
 			configureBranchesWithEdgePos(newPathNode, myPath, endPos);
 		}
-		configureBranchesWithMidPos(newPathNode, myPath, startPos);
+		configureMidBranchSplits(newPathNode, myPath, startPos);
 		if(!startPos.equals(endPos)){
-			configureBranchesWithMidPos(newPathNode, myPath, endPos);
+			configureMidBranchSplits(newPathNode, myPath, endPos);
 		}
+		configureNewSplits(newPathNode, myPath);
 	}
 
 	private void configureBranchesWithEdgePos(Branch newBranch, PathNode myPath, Position pos){
-		List<Branch> branchesAtPos = myPath.getBranchByEdgePosition(pos);
+		List<Branch> branchesAtPos = myPath.getBranchesByEdgePosition(pos);
 		List<Branch> branchesChecked = new ArrayList<>();
 		for(Branch branch : branchesAtPos){
 			if(!branchesChecked.contains(branch)){
@@ -88,35 +87,41 @@ public class PathGraphFactory {
 			myPath.addBranch(newBranch);
 	}
 
-	private void configureBranchesWithMidPos(Branch newBranch, PathNode myPath, Position pos){
-		List<Branch> branchesToSplit = new ArrayList<>();
-		for(Branch b : myPath.getBranches()){
-			if(b.getPositions().contains(pos)){
-				if(!b.getFirstPosition().equals(pos) && !b.getLastPosition().equals(pos))
-					branchesToSplit.add(b);
+	private void configureMidBranchSplits(Branch newBranch, PathNode myPath, Position pos){
+		List<Branch> branchesToSplit = myPath.getBranchesByMidPosition(pos);
+		branchesToSplit.stream().filter(b -> b.equals(newBranch));
+		for(Branch b : branchesToSplit){
+			System.out.println("SPLITTING: " + b+" AT POS: " + pos);
+			List<Position> cutoffPositions = b.cutoffByPosition(pos);
+			System.out.println("CUTOFF POSITIONS: " + cutoffPositions);
+			System.out.println("ORIGINAL BRANCH POSITIONS: " + b);
+			Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
+			Branch newSplitBranch = new Branch(getNextBranchID());
+			newSplitBranch.addPositions(cutoffPositions);
+			newSplitBranch.addNeighbor(b);
+			newSplitBranch.addNeighbor(newBranch);
+			b.addNeighbor(newSplitBranch);
+			b.addNeighbor(newBranch);
+			List<Branch> cutoffConnectedBranches = myPath.getBranchesByEdgePosition(lastCutoff);
+			for(Branch br : cutoffConnectedBranches){
+				System.out.println("Cutoff connected branch: " + b);
+				if(br.getPositions().contains(pos))
+					newSplitBranch.addNeighbors(b.removeNeighbors(br.getNeighbors()));
 			}
+			//newBranch.addNeighbor(b);
+			newBranch.addNeighbor(newSplitBranch);
+			myPath.addBranch(newSplitBranch);
 		}
-		splitBranches(newBranch, myPath, pos, branchesToSplit);
 	}
 
-	private void splitBranches(Branch newBranch, PathNode myPath, Position pos, List<Branch> branchesToSplit){
-		for(Branch b : branchesToSplit){
-			List<Position> cutoffPositions = b.cutoffByPosition(pos);
-			Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
-			List<Branch> cutoffConnectedPaths = myPath.getBranchByEdgePosition(lastCutoff);
-			Branch newSplitPath = new Branch(getNextPathID());
-			newSplitPath.addPositions(cutoffPositions);
-			newSplitPath.addNeighbor(b);
-			for(Branch p : cutoffConnectedPaths){
-				if(!branchesToSplit.contains(p)){
-					branchesToSplit.add(p);
-					if(p.getPositions().contains(pos))
-						newSplitPath.addNeighbors(b.removeNeighbors(p.getNeighbors()));
+	private void configureNewSplits(Branch myBranch, PathNode myPath){
+		for(Position pos : myBranch.getPositions()){
+			List<Branch> branches = myPath.getBranchesByMidPosition(pos);
+			for(Branch b : branches){
+				if(!b.equals(myBranch)){
+
 				}
 			}
-			newBranch.addNeighbor(b);
-			newBranch.addNeighbor(newSplitPath);
-			newSplitPath.addNeighbor(newBranch);
 		}
 	}
 
