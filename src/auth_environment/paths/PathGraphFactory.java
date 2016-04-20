@@ -42,11 +42,14 @@ public class PathGraphFactory {
 	public void insertBranch(List<Position> branchPos){
 		if(branchPos.size() == 0)
 			return;
-		PathNode currentPath = myPathGraph.getPathByPos(branchPos.get(0));
 		Branch newBranch = new Branch(getNextBranchID(), branchPos);
+		PathNode currentPath = myPathGraph.getPathByPos(branchPos.get(0));
 		if(currentPath != null){
 			configureBranchInPath(newBranch, currentPath);
-			//System.out.println(myPathGraph.getBranches());
+		}
+		currentPath = myPathGraph.getPathByPos(branchPos.get(branchPos.size()-1));
+		if(currentPath != null){
+			configureBranchInPath(newBranch, currentPath);
 		}
 		else{
 			if(branchPos.size() > 0){
