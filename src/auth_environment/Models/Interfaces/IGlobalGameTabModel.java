@@ -10,10 +10,14 @@ package auth_environment.Models.Interfaces;
 
 public interface IGlobalGameTabModel {
 	
+	public void setGameName(String name); 
+	
+	public String getGameName(); 
+	
 	// Saves IAuthViewModel's instance of IEngineWorkspace
 	public void saveToFile(); 
 	
-	// Loads GameData from file and sets IAuthViewModel's instance of IEngineWorkspace 
+	// Loads GameData from file and setsGIAuthViewModel's instance of IEngineWorkspace 
 	public void loadFromFile(); 
 	
 }

@@ -46,22 +46,17 @@ public class GlobalGameTab implements IWorkspace {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	// TODO: replace with EngineWorkspace class
-	private GameData gameData; // This originates here via XML 
-//	private GameDataController myGameDataController; // TODO: find this
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TextField myGameNameField;
 	
 	public GlobalGameTab() {
-		this.gameData = new GameData();
-//		myPicker = new ElementPicker();
-//		this.myGameDataController = new GameDataController(gameData, myPicker, myDisplay.getGrid().getPathGraphFactory());
 		this.setupBorderPane();
 	}
 
 	private void setupBorderPane() {
-		
+
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		

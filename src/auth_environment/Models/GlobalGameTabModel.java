@@ -36,6 +36,16 @@ public class GlobalGameTabModel implements IGlobalGameTabModel {
 		// TODO: add error checking
 		this.myEngineWorkspace = (IEngineWorkspace) writer.loadElement();
 	}
+
+	@Override
+	public void setGameName(String name) {
+		
+	}
+
+	@Override
+	public String getGameName() {
+		return null;
+	}
 	
 	
 }
