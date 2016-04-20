@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
-import auth_environment.view.Workspaces.GlobalGameTab;
+import auth_environment.view.Workspaces.*;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -33,6 +33,7 @@ public class AuthView {
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
     private GlobalGameTab globalGameTab; 
+    private AnimationTab animTab; 
     private GameSettings mySettings = new GameSettings(); 
 
     public AuthView (Stage stage) {
@@ -44,7 +45,9 @@ public class AuthView {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
     	globalGameTab = new GlobalGameTab(); 
+    	animTab = new AnimationTab();
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
+    	tabs.add(new Tab(myNamesBundle.getString("animationTabTitle"), animTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
