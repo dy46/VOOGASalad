@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
+import auth_environment.backend.SampleAuthData;
 import auth_environment.view.Workspaces.GlobalGameTab;
 import javafx.scene.Scene;
 
@@ -45,7 +46,8 @@ public class AuthView {
     	// TODO: cleanup
     	globalGameTab = new GlobalGameTab(); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
-    	tabs.add(new VAsTesterTab("WOOOO"));
+    	//implementing this here but need to move vvv
+    	tabs.add(new VAsTesterTab("WOOOO", new SampleAuthData()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }

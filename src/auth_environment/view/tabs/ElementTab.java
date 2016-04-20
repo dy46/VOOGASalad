@@ -1,5 +1,10 @@
 package auth_environment.view.tabs;
 
+import java.util.List;
+
+import game_engine.IAuthInterface;
+import game_engine.game_elements.Tower;
+import game_engine.game_elements.Unit;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -7,6 +12,8 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.BorderPane;
@@ -17,8 +24,10 @@ import javafx.scene.text.Text;
 
 public class ElementTab extends Tab{
 	 
-	public ElementTab(String name){
+	private IAuthInterface myInterface;
+	public ElementTab(String name, IAuthInterface myInterface){
 		super(name);
+		this.myInterface = myInterface;
 		init();
 	}
 	
@@ -57,7 +66,9 @@ public class ElementTab extends Tab{
 		newBorderPane.setLeft(newTableInfo);
 		GridPane bottomInfo = new GridPane();
 		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(600), new ColumnConstraints(70));
-		bottomInfo.add(new Button("OK"), 1, 0);
+		Button ok = new Button("OK");
+		ok.setOnAction(e -> createNewUnit());
+		bottomInfo.add(ok, 1, 0);
 		newBorderPane.setBottom(bottomInfo);
         
         
@@ -103,9 +114,16 @@ public class ElementTab extends Tab{
 		editPane.setText("Edit");
 		editPane.setContent(editScrollPane);
 		editPane.setCollapsible(false);
-		editInfo.getChildren().addAll(new Button("YAAAS"),new Button("YESESS"),new Button("GO ME"));
-		
+		List<Unit> myList = myInterface.getTowers();
+		for(Unit unit: myList){
+			editInfo.getChildren().addAll(new ImageView(new Image(unit.toString())));
+		}
 		this.setContent(myPane);
+	}
+
+	private void createNewUnit() {
+		Unit tower = new Unit();
+		myInterface.addTower(tower);
 	}
 
 	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {

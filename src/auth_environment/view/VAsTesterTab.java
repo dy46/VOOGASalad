@@ -6,6 +6,7 @@ import java.util.List;
 
 import auth_environment.view.tabs.ElementTab;
 import auth_environment.view.tabs.TowerTab;
+import game_engine.IAuthInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -18,15 +19,15 @@ import javafx.scene.layout.VBox;
 
 public class VAsTesterTab extends Tab{
 
-	
-	public VAsTesterTab(String name){
+	public VAsTesterTab(String name, IAuthInterface myInterface){
 		super(name);
-		booyah();
+		booyah(myInterface);
 	}
 	
-	private void booyah(){
+	private void booyah(IAuthInterface myInterface){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new ElementTab("Projectiles"), new ElementTab("Affectors"), new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));
+		myTabs.getTabs().addAll(new ElementTab("Projectiles", myInterface));
+				//, new ElementTab("Affectors"), new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));
 		this.setContent(myTabs);
 	}
 	
