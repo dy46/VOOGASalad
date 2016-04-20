@@ -1,6 +1,6 @@
 package auth_environment.Models;
 
-import auth_environment.Models.Interfaces.IAuthViewModel;
+import auth_environment.Models.Interfaces.IAuthModel;
 import game_engine.EngineWorkspace;
 import game_engine.IEngineWorkspace;
 
@@ -14,11 +14,11 @@ import game_engine.IEngineWorkspace;
  * There will also be some helper methods- such as saving or loading the data. 
  */
 
-public class AuthViewModel implements IAuthViewModel {
+public class AuthModel implements IAuthModel {
 	
 	private IEngineWorkspace myEngineWorkspace; 
 	
-	public AuthViewModel() {
+	public AuthModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
 		myEngineWorkspace = new EngineWorkspace(); 
 	}

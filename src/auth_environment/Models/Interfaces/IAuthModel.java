@@ -14,7 +14,7 @@ import game_engine.IEngineWorkspace;
 
 // TODO: add to API changes document
 
-public interface IAuthViewModel {
+public interface IAuthModel {
 	
 	// Pass the IEngineWorkspace instance to GlobalGameTab to be saved
 	public IEngineWorkspace getEngineWorkspace(); 
