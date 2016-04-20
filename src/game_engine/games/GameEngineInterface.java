@@ -63,7 +63,7 @@ public interface GameEngineInterface {
 
     public List<Unit> getTowerTypes();
     
-    public List<Branch> getPaths();
+    public List<Branch> getBranches();
 
     public boolean isPaused();
 

@@ -13,8 +13,8 @@ public class PathGraph {
 
 	private List<PathNode> myPaths;
 
-	public PathGraph(List<PathNode> graphs){
-		this.myPaths = graphs;
+	public PathGraph(List<PathNode> paths){
+		this.myPaths = paths;
 	}
 
 	public PathGraph() {
@@ -25,20 +25,16 @@ public class PathGraph {
 		myPaths.add(graph);
 	}
 
-	public List<PathNode> getGraphs(){
-		return myPaths;
+	public List<Branch> getBranches(){
+		return myPaths.stream().map(p -> p.getBranches()).collect(Collectors.toList()).stream().flatMap(List<Branch>::stream).collect(Collectors.toList());
 	}
 
-	public List<Branch> getPaths(){
-		return myPaths.stream().map(p -> p.getPaths()).collect(Collectors.toList()).stream().flatMap(List<Branch>::stream).collect(Collectors.toList());
-	}
-
-	public PathNode getGraphByID(int ID){
+	public PathNode getPathByID(int ID){
 		Optional<PathNode> graph = myPaths.stream().filter(g -> g.getID() == (ID)).findFirst();
 		return graph.isPresent() ? graph.get() : null;
 	}
 
-	public Branch getPathByID(int ID){
+	public Branch getBranchByID(int ID){
 		for(PathNode path : myPaths){
 			Branch branch = path.getBranchByID(ID);
 			if(branch != null){
@@ -48,12 +44,17 @@ public class PathGraph {
 		return null;
 	}
 
-	public PathNode getGraphByPos(Position pos){
-		Optional<PathNode> graph = myPaths.stream().filter(g -> g.getPathByEdgePosition(pos) != null).findFirst();
-		return graph.isPresent() ? graph.get() : null;
+	public PathNode getPathByPos(Position pos){
+		Optional<PathNode> path = myPaths.stream().filter(g -> g.getBranchByEdgePosition(pos) != null).findFirst();
+		return path.isPresent() ? path.get() : null;
 	}
-	
+
 	public PathNode getLastPath(){
 		return myPaths.get(myPaths.size()-1);
 	}
+	
+	public List<PathNode> getPaths(){
+		return myPaths;
+	}
+	
 }

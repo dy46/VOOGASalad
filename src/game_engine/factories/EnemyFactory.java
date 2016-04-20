@@ -56,7 +56,7 @@ public class EnemyFactory {
         l1.add(new Position(0, 30));
         Bounds b = new Bounds(l1);
         State st = new State(2);
-        Branch p2 = new Branch("Something here");
+        Branch p2 = new Branch(0);
         p2.addPosition(new Position(0, 30));
         p2.addPosition(new Position(200, 30));
         p2.addPosition(new Position(200, 200));
