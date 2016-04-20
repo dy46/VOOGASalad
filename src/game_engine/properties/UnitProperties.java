@@ -9,7 +9,6 @@ import game_engine.game_elements.Unit;
 public class UnitProperties {
 
     private Health myHealth;
-    private Damage myDamage;
     private Team myTeam;
     private Velocity myVelocity;
     private Bounds myBounds;
@@ -20,10 +19,9 @@ public class UnitProperties {
     private Movement myMovement;
     private List<Unit> myChildren;
 
-    private static String DEFAULT_STATE = "Stationary";
+    private static double DEFAULT_STATE = 0;
     private static double DEFAULT_HEALTH = 1;
-    private static double DEFAULT_DAMAGE = 0;
-    private static String DEFAULT_TEAM = "0";
+    private static double DEFAULT_TEAM = 0;
     private static double DEFAULT_SPEED = 1;
     private static double DEFAULT_DIRECTION = 90;
     private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
@@ -33,7 +31,6 @@ public class UnitProperties {
     private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
 
     public UnitProperties (Health health,
-                           Damage damage,
                            Team team,
                            Velocity velocity,
                            Bounds bounds,
@@ -43,7 +40,6 @@ public class UnitProperties {
                            State state,
                            Movement movement) {
         this.myHealth = health;
-        this.myDamage = damage;
         this.myTeam = team;
         this.myVelocity = velocity;
         this.myBounds = bounds;
@@ -58,9 +54,6 @@ public class UnitProperties {
 		UnitProperties newProperties = new UnitProperties();
 		if(this.getHealth() != null) {
 		   newProperties.myHealth = this.getHealth().copyHealth();
-		}
-		if(this.getDamage() != null) {
-		    newProperties.myDamage = this.getDamage().copyDamage();
 		}
 		if(this.getTeam() != null) {
 		    newProperties.myTeam = this.getTeam().copyTeam();
@@ -90,7 +83,6 @@ public class UnitProperties {
     public UnitProperties () {
         myState = new State(DEFAULT_STATE);
         myHealth = new Health(DEFAULT_HEALTH);
-        myDamage = new Damage(DEFAULT_DAMAGE);
         myTeam = new Team(DEFAULT_TEAM);
         myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
         myBounds = new Bounds(DEFAULT_BOUNDS);
@@ -102,10 +94,6 @@ public class UnitProperties {
 
     public Health getHealth () {
         return myHealth;
-    }
-
-    public Damage getDamage () {
-        return myDamage;
     }
 
     public Team getTeam () {
@@ -132,11 +120,7 @@ public class UnitProperties {
         myHealth.setValue(health);
     }
 
-    public void setDamage (double damage) {
-        myDamage.setDamage(damage);
-    }
-
-    public void setTeam (String team) {
+    public void setTeam (double team) {
         myTeam.setTeam(team);
     }
 

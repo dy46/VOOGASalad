@@ -2,12 +2,8 @@ package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import auth_environment.buildingBlocks.BuildingBlock;
-import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorData;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Branch;
@@ -67,8 +63,8 @@ public class TowerFactory {
         l1.add(new Position(30, 30));
         l1.add(new Position(0, 30));
         Bounds b = new Bounds(l1);
-        State st = new State("Moving");
-        Branch p2 = new Branch("MyBranch");
+        State st = new State(2);
+        Branch p2 = new Branch(0);
         Health h = new Health(30);
         List<Position> l2 = new ArrayList<>();
         l2.add(new Position(-100, -100));
@@ -80,7 +76,7 @@ public class TowerFactory {
         p2.addPosition(startingPosition.copyPosition());
         p2.addPosition(new Position(startingPosition.getX() + 636, startingPosition.getY() - 636));
         UnitProperties properties =
-                new UnitProperties(h, null, null, velocity, b, range,
+                new UnitProperties(h, null, velocity, b, range,
                                    startingPosition.copyPosition(), null, st,
                                    new Movement(Arrays.asList(p2)));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
@@ -94,7 +90,7 @@ public class TowerFactory {
         Unit pp2 = p.copyUnit();
         Affector move2 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         pp2.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move2))));
-        Branch path2 = new Branch("Something here");
+        Branch path2 = new Branch(1);
         path2.addPosition(startingPosition.copyPosition());
         path2.addPosition(new Position(startingPosition.getX() - 636,
                                        startingPosition.getY() + 636));
@@ -106,7 +102,7 @@ public class TowerFactory {
         pp3.setTTL(30);
         Affector move3 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         pp3.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move3))));
-        Branch path3 = new Branch("Something here");
+        Branch path3 = new Branch(2);
         move3.setTTL(30);
         path3.addPosition(startingPosition.copyPosition());
         path3.addPosition(new Position(startingPosition.getX(), startingPosition.getY() + 900));
@@ -117,7 +113,7 @@ public class TowerFactory {
         pp4.setTTL(60);
         Affector move4 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         pp4.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move4))));
-        Branch path4 = new Branch("Something here");
+        Branch path4 = new Branch(3);
         path4.addPosition(startingPosition.copyPosition());
         path4.addPosition(new Position(startingPosition.getX() + 900, startingPosition.getY()));
         pp4.getProperties().setVelocity(0.5, 270);
@@ -129,7 +125,7 @@ public class TowerFactory {
         Affector move5 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         move5.setTTL(60);
         pp5.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move5))));
-        Branch path5 = new Branch("Something here");
+        Branch path5 = new Branch(4);
         path5.addPosition(startingPosition.copyPosition());
         path5.addPosition(new Position(startingPosition.getX() + 636,
                                        startingPosition.getY() + 636));
@@ -141,7 +137,7 @@ public class TowerFactory {
         Affector move6 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         move6.setTTL(60);
         pp6.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move6))));
-        Branch path6 = new Branch("Something here");
+        Branch path6 = new Branch(5);
         path6.addPosition(startingPosition.copyPosition());
         path6.addPosition(new Position(startingPosition.getX() - 900, startingPosition.getY()));
         pp6.getProperties().setVelocity(0.5, 135);
@@ -152,7 +148,7 @@ public class TowerFactory {
         Affector move7 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         move7.setTTL(30);
         pp7.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move7))));
-        Branch path7 = new Branch("Something here");
+        Branch path7 = new Branch(6);
         path7.addPosition(startingPosition.copyPosition());
         path7.addPosition(new Position(startingPosition.getX(), startingPosition.getY() - 900));
         pp7.getProperties().setVelocity(0.5, 315);
@@ -162,7 +158,7 @@ public class TowerFactory {
         Affector move8 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
         move8.setTTL(30);
         pp8.setTimelines(Arrays.asList(new AffectorTimeline(Arrays.asList(move8))));
-        Branch path8 = new Branch("Something here");
+        Branch path8 = new Branch(7);
         path8.addPosition(startingPosition.copyPosition());
         path8.addPosition(new Position(startingPosition.getX() - 450,
                                        startingPosition.getY() - 450));
@@ -201,8 +197,8 @@ public class TowerFactory {
         l1.add(new Position(30, 30));
         l1.add(new Position(0, 30));
         Bounds b = new Bounds(l1);
-        State st = new State("Moving");
-        Branch p2 = new Branch("Something here");
+        State st = new State(2);
+        Branch p2 = new Branch(8);
         p2.addPosition(startingPosition.copyPosition());
         p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY() - 900));
         List<Position> l2 = new ArrayList<>();
@@ -212,7 +208,7 @@ public class TowerFactory {
         l2.add(new Position(100, -100));
         Bounds range = new Bounds(l2);
         UnitProperties properties =
-                new UnitProperties(new Health(1), null, null, velocity, b, range,
+                new UnitProperties(new Health(1), null, velocity, b, range,
                                    startingPosition.copyPosition(), null, st,
                                    new Movement(Arrays.asList(p2)));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
@@ -232,9 +228,6 @@ public class TowerFactory {
                                        List<Unit> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
         affectors.add(myAffectorLibrary.getAffector("Firing", "Children"));
-        AffectorData data = new AffectorData();
-        data.setBaseNumbers(Arrays.asList(new Double[]{new Double(30)}));
-        affectors.get(0).setData(data);
         affectors.get(0).setTTL(Integer.MAX_VALUE);
         Unit t = new Unit(name, 2);
         t.setTimelines(Arrays.asList(new AffectorTimeline(affectors)));
@@ -249,10 +242,10 @@ public class TowerFactory {
         Health health2 = new Health(50);
         Position position2 = new Position(200, 300);
         Velocity velocity2 = new Velocity(0, 180);
-        State st = new State("Stationary");
-        Movement p2 = new Movement(Arrays.asList(new Branch("Something here")));
+        State st = new State(0);
+        Movement p2 = new Movement(Arrays.asList(new Branch(9)));
         UnitProperties properties2 =
-                new UnitProperties(health2, null, null, velocity2, b, null, position2, null, st,
+                new UnitProperties(health2, null, velocity2, b, null, position2, null, st,
                                    p2);
         t.setProperties(properties2);
         t.setTTL(1000000);

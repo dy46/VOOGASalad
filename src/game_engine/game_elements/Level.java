@@ -103,6 +103,8 @@ public class Level extends GameElement {
     }
 
     public Unit update () {
+    	if(myCurrentWave == null)
+    		return null;
         return myCurrentWave.tryToSpawnEnemy();
     }
 

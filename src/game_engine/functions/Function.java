@@ -17,6 +17,7 @@ public class Function {
 	private String myName;
 	private double[] domain;
 	private double dx;
+	
 	public Function(String type, String strength){
 		myTerms = new ArrayList<>();
 //		this.myWorkspace = workspace;
@@ -62,6 +63,10 @@ public class Function {
 			evaluation += term.evaluate(index);
 		}
 		return evaluation;
+	}
+	
+	public double evaluate(double time, double currValue) {
+	    return 10;
 	}
 	
 	public String getName(){

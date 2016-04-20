@@ -1,28 +1,24 @@
 package game_engine.affectors;
 
-import java.util.List;
-import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 
 public class RangeConstantPositionMoveAffector extends SingleTrackRangeAffector{
     
-    ConstantPositionMoveAffector affector;
+    PositionMoveAffector affector;
     
     public RangeConstantPositionMoveAffector (AffectorData data) {
         super(data);
-        affector = new ConstantPositionMoveAffector(data);
+        affector = new PositionMoveAffector(data);
     }
 
     @Override
     public void firstApply (Unit u, Unit tracked) {
-        affector.apply(u);
-        
+        affector.apply(u);     
     }
 
     @Override
     public void futureApply (Unit u, Unit tracked) {
         firstApply(u, tracked);
-        
     }
 
 }

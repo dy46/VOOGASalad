@@ -154,9 +154,9 @@ public class GameView implements IGameView{
 
 
         public void placePath () {
-                List<Branch> currPaths = playerEngineInterface.getPaths();
+                List<Branch> currBranches = playerEngineInterface.getBranches();
                 List<Position> allPositions = new ArrayList<>();
-                currPaths.stream().forEach(cp -> allPositions.addAll(cp.getAllPositions()));
+                currBranches.stream().forEach(cb -> allPositions.addAll(cb.getAllPositions()));
                 for(int i = paths.size(); i < allPositions.size(); i++) {
                         Image img = new Image("DirtNew.png");
                         ImageView imgView = new ImageView(img);
