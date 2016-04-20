@@ -198,14 +198,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         l.addPath(p);
 
         Wave w = new Wave("I'm not quite sure what goes here", 0);
-        Unit AI1 = myEnemyFactory.createAIEnemy("Enemy", b1);
-        Unit AI2 = myEnemyFactory.createAIEnemy("Enemy", b1);
+        Unit AI1 = myEnemyFactory.createAIEnemy("Moab", b1);
+        Unit AI2 = myEnemyFactory.createAIEnemy("Moab", b1);
         Unit e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
         Unit e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
         Unit e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
         Unit e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
-        Unit AI3 = myEnemyFactory.createAIEnemy("Enemy", b1);
-        Unit AI4 = myEnemyFactory.createAIEnemy("Enemy", b1);
+        Unit AI3 = myEnemyFactory.createAIEnemy("Moab", b1);
+        Unit AI4 = myEnemyFactory.createAIEnemy("Moab", b1);
         e1.getProperties().setHealth(50);
         e2.getProperties().setHealth(50);
         e3.getProperties().setHealth(50);

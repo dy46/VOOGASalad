@@ -45,7 +45,7 @@ public class AffectorFactory {
 		List<Integer> i1 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d1 = new AffectorData(f1, p1, i1);
 		constructAffector(pr1, e1, d1);
-		
+
 		String pr2 = "ExpIncr";
 		String e2 = "HealthDamage";
 		List<List<Function>> f2 = Arrays.asList(Arrays.asList(myFunctionFactory.createExpIncrFunction("Moderate")));
@@ -53,7 +53,7 @@ public class AffectorFactory {
 		List<Integer> i2 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d2 = new AffectorData(f2, p2, i2);
 		constructAffector(pr2, e2, d2);
-		
+
 		String pr3 = "RandomPoison";
 		String e3 = "HealthDamage";
 		List<List<Function>> f3 = Arrays.asList(Arrays.asList(myFunctionFactory.createExpIncrFunction("Weak")));
@@ -69,7 +69,7 @@ public class AffectorFactory {
 		List<Integer> i4 = new ArrayList<>();
 		AffectorData d4 = new AffectorData(f4, p4, i4);
 		constructAffector(pr4, e4, d4);
-		
+
 		String pr5 = "RangePathFollow";
 		String e5 = "PositionMove";
 		List<List<Function>> f5 = new ArrayList<>();
@@ -77,7 +77,7 @@ public class AffectorFactory {
 		List<Integer> i5 = new ArrayList<>();
 		AffectorData d5 = new AffectorData(f5, p5, i5);
 		constructAffector(pr5, e5, d5);
-		
+
 		String pr6 = "PathFollow";
 		String e6 = "PositionMove";
 		List<List<Function>> f6 = new ArrayList<>();
@@ -85,7 +85,7 @@ public class AffectorFactory {
 		List<Integer> i6 = new ArrayList<>();
 		AffectorData d6 = new AffectorData(f6, p6, i6);
 		constructAffector(pr6, e6, d6);
-		
+
 		String pr7 = "AIPath";
 		String e7 = "Follow";
 		List<List<Function>> f7 = new ArrayList<>();
@@ -101,7 +101,7 @@ public class AffectorFactory {
 		List<Integer> i8 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d8 = new AffectorData(f8, p8, i8);
 		constructAffector(pr8, e8, d8);
-		
+
 		String pr9 = "Death";
 		String e9 = "Activation";
 		List<List<Function>> f9 = new ArrayList<>();
@@ -109,7 +109,7 @@ public class AffectorFactory {
 		List<Integer> i9 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d9 = new AffectorData(f9, p9, i9);
 		constructAffector(pr9, e9, d9);
-		
+
 		String pr10 = "RandomPath";
 		String e10 = "Follow";
 		List<List<Function>> f10 = new ArrayList<>();
@@ -117,7 +117,7 @@ public class AffectorFactory {
 		List<Integer> i10 = Arrays.asList(UNIQUE_AFFECTOR);
 		AffectorData d10 = new AffectorData(f10, p10, i10);
 		constructAffector(pr10, e10, d10);
-		
+
 		String pr11 = "Explosion";
 		String e11 = "Radius";
 		List<List<Function>> f11 = new ArrayList<>();
@@ -125,23 +125,23 @@ public class AffectorFactory {
 		List<Integer> i11 = Arrays.asList(DECREMENT_AFFECTOR);
 		AffectorData d11 = new AffectorData(f11, p11, i11);
 		constructAffector(pr11, e11, d11);
-		
+
 		String property10 = "Death";
 		String effect10 = "Activation";
 		constructAffector(property10, effect10, null);
-		
+
 		String property11 = "ConstantPosition";
 		String effect11 = "Move";
 		constructAffector(property11, effect11, null);
-		
+
 		String property12 = "RangeConstantPosition";
-                String effect12 = "Move";
-                constructAffector(property12, effect12, null);
-		
-                String property13 = "Firing";
-                String effect13 = "Children";
-                constructAffector(property13, effect13, null);
-                
+		String effect12 = "Move";
+		constructAffector(property12, effect12, null);
+
+		String property13 = "Firing";
+		String effect13 = "Children";
+		constructAffector(property13, effect13, null);
+
 		String pr12 = "MoveTo";
 		String e12 = "Spawn";
 		Function function1 = myFunctionFactory.createConstantFunction(0);
@@ -156,5 +156,5 @@ public class AffectorFactory {
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorLibrary;
 	}
-	
+
 }

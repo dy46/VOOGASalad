@@ -3,6 +3,8 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.UnitProperties;
 
@@ -21,6 +23,10 @@ public class Unit extends GameElement {
     private UnitProperties myProperties;
     private List<AffectorTimeline> myTimelines;
     private List<AffectorTimeline> myTimeslinesToApply;
+    
+    private List<Affector> myAffectors;
+    private List<Affector> myAffectorsToApply;
+    
     private int TTL;
     private boolean setToDeath;
     private boolean hasCollided;
@@ -29,7 +35,7 @@ public class Unit extends GameElement {
     private int elapsedTime;
     private int numFrames;
     private List<Double> numberList;
-    private List<Unit> children;
+    private List<Unit> myChildren;
 
     public Unit (String name, List<AffectorTimeline> timelines, int numFrames) {
         super(name);
@@ -38,9 +44,20 @@ public class Unit extends GameElement {
         elapsedTime = 0;
         this.numFrames = numFrames;
         addTimelines(timelines);
-        children = new ArrayList<>();
+        myChildren = new ArrayList<>();
         parents = new ArrayList<>();
     }
+    
+    public Unit(String name, UnitProperties unitProperties) {
+    	super(name);
+    	initialize();
+		myProperties = unitProperties;
+		elapsedTime = 0;
+        this.numFrames = numFrames;
+        myAffectors = new ArrayList<>();
+        myAffectorsToApply = new ArrayList<>();
+        this.myChildren = new ArrayList<>();
+	}
     
     public Unit copyUnit() {
         Unit copy = this.copyShallowUnit();
@@ -71,18 +88,18 @@ public class Unit extends GameElement {
         myProperties = new UnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
-        children = new ArrayList<>();
+        myChildren = new ArrayList<>();
         parents = new ArrayList<>();
     }
-    
-    private void initialize () {
+
+	private void initialize () {
         myTimelines = new ArrayList<>();
         myTimeslinesToApply = new ArrayList<>();
         this.setHasCollided(false);
     }
 
     public void update () {
-        children.stream().forEach(p -> p.incrementElapsedTime(1));
+        myChildren.stream().forEach(p -> p.incrementElapsedTime(1));
         if (isVisible()) {
             elapsedTime++;
             myTimelines.removeIf(t -> t.getAffectors().size() == 0);
@@ -210,15 +227,15 @@ public class Unit extends GameElement {
     }
     
     public List<Unit> getChildren() {
-        return children;
+        return myChildren;
     }
     
     public void setChildren(List<Unit> children) {
-        this.children = children;
+        this.myChildren = children;
     }
     
     public void addChild(Unit child) {
-        this.children.add(child);
+        this.myChildren.add(child);
     }
     
     public List<Unit> getParents() {
@@ -232,5 +249,17 @@ public class Unit extends GameElement {
     public void setParents(List<Unit> parents) {
         this.parents = parents;
     }
+
+	public void addChildren(List<Unit> children) {
+		this.myChildren.addAll(children);
+	}
+
+	public void addAffectors(List<Affector> affectors) {
+		this.myAffectors.addAll(affectors);
+	}
+	
+	public void addAffectorsToApply(List<Affector> affectorsToApply){
+		this.myAffectorsToApply.addAll(affectorsToApply);
+	}
 
 }
