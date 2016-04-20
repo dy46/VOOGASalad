@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
-import game_engine.CollisionDetector;
 import game_engine.games.GameEngineInterface;
+import game_engine.physics.CollisionDetector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
