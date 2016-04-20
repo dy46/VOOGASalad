@@ -10,6 +10,7 @@ import game_engine.CollisionDetector;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -94,7 +95,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         myLevels.add(myCurrentLevel);
         myGoals = myCurrentLevel.getGoals();
         myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));  
-        
+        this.makeDummyUpgrades();
     }
 
     private List<Unit> makeDummyTowers () {
@@ -107,8 +108,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
                 myTowerFactory.createTackTower("TackTower", myProjectiles,
                                                Collections.unmodifiableList(myTowers),
                                                position2);
-        myStore.addBuyableTower(t, 100, 1);
-        myStore.addBuyableTower(t2, 300, 1);
+//        myStore.addBuyableTower(t, 100, 1);
+//        myStore.addBuyableTower(t2, 300, 1);
         return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
     }
 
@@ -158,8 +159,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         //              l.addWave(w2);
         //              return l;
 
-        Level l = new Level("Dummy level", 3);
-
+        Level l = new Level("Dummy level", 3, this);
+        List<Unit> list = makeDummyTowers();
+        l.addUnlockedTowerType(list.get(0), 100);
+        l.addUnlockedTowerType(list.get(1), 300);
         Branch b1 = new Branch("DirtNew");
         b1.addPosition(new Position(0, 30));
         b1.addPosition(new Position(200, 30));
@@ -257,7 +260,19 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         l.addWave(w2);
         return l;
     }
-
+    private void makeDummyUpgrades(){
+    	Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
+    	
+    	affector.setTTL(Integer.MAX_VALUE);
+    	List<Affector> affList = new ArrayList<Affector>();
+    	affList.add(affector);
+    	AffectorTimeline t = new AffectorTimeline(affList);
+    	List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
+    	init.add(t);
+    	Unit u = new Unit("Interesting", init, 1);
+    	u.setTimelinesToApply(init);
+    	myStore.addItem(u, 10);
+    }
     private List<Unit> makeDummyTerrains () {
         List<Unit> ice = makeDummyIceTerrain();
         Unit spike = makeDummySpike();
@@ -497,6 +512,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
     @Override
     public void update () {
+    	myStore.addBuyableTower(myCurrentLevel.getNewUnits());
         nextWaveTimer++;
         boolean gameOver = myLives <= 0;
         if (!pause && !gameOver) {
@@ -512,6 +528,9 @@ public class TestingEngineWorkspace implements GameEngineInterface{
                 pause = true;
                 nextWaveTimer = 0;
             }
+            
+            myStore.applyItem("Interesting", this.myEnemys);
+            
         }
         else if (myCurrentLevel.getNextWave() != null &&
                 myCurrentLevel.getNextWave().getTimeBeforeWave() <= nextWaveTimer) {
