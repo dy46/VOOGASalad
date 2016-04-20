@@ -45,7 +45,7 @@ public class PathGraph {
 	}
 
 	public PathNode getPathByPos(Position pos){
-		Optional<PathNode> path = myPaths.stream().filter(g -> g.getBranchByEdgePosition(pos) != null).findFirst();
+		Optional<PathNode> path = myPaths.stream().filter(g -> g.getBranchesByEdgePosition(pos) != null).findFirst();
 		return path.isPresent() ? path.get() : null;
 	}
 

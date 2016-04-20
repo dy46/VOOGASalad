@@ -102,7 +102,7 @@ public class Position extends Property {
 	public Position getPosition () {
 		return copyPosition();
 	}
-	
+
 	@Override
 	public int hashCode(){
 		return 15;
