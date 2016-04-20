@@ -21,7 +21,6 @@ public class GlobalGameTabModel implements IGlobalGameTabModel {
 	// TODO: are type arguments necessary? 
 	private AuthSerializer writer = new AuthSerializer();
 
-	
 	public GlobalGameTabModel(IAuthInterface auth) {
 		this.myAuthData = auth;  
 	}
