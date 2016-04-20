@@ -1,7 +1,6 @@
 package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.backend.SampleAuthData;
 import game_engine.IAuthInterface;
 
 /**

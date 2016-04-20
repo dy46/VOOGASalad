@@ -1,4 +1,4 @@
-package auth_environment.backend;
+package auth_environment.Models;
 
 import java.util.List;
 
