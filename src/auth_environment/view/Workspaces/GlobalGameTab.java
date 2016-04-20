@@ -3,9 +3,11 @@ package auth_environment.view.Workspaces;
 import java.io.File;
 import java.util.ResourceBundle;
 
+import auth_environment.Models.GlobalGameTabModel;
+import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-
+import game_engine.IAuthInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -32,14 +34,16 @@ public class GlobalGameTab implements IWorkspace {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
-	// TODO: replace with EngineWorkspace class
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TextField myGameNameField;
 	
-	public GlobalGameTab() {
+	private IGlobalGameTabModel myModel;
+	
+	public GlobalGameTab(IAuthInterface auth) {
 		this.setupBorderPane();
+		this.myModel = new GlobalGameTabModel(auth); 
 	}
 
 	private void setupBorderPane() {
