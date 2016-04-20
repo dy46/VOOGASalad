@@ -39,6 +39,12 @@ public class EnemyFactory {
         e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
         return e;
     }
+    
+    public Unit createRandomEnemy(String name, Branch startingBranch){
+		Unit e = createSpecifiedEnemy(name, "RandomPath", "Follow");
+		e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
+		return e;
+	}
 
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);

@@ -183,12 +183,17 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Branch b4 = new Branch(3);
 		b4.addPosition(new Position(400, 200));
 		b4.addPosition(new Position(400, 525));
+		
+		Branch b5 = new Branch(4);
+		b5.addPosition(new Position(100, 30));
+		b5.addPosition(new Position(100, 200));
 
 		PathGraphFactory pgf = new PathGraphFactory();
 		pgf.insertBranch(b1.getPositions());
 		pgf.insertBranch(b2.getPositions());
 		pgf.insertBranch(b3.getPositions());
 		pgf.insertBranch(b4.getPositions());
+		pgf.insertBranch(b5.getPositions());
 
 		myBranches.addAll(pgf.getBranches());
 		
@@ -196,6 +201,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Branch pb2 = myBranches.get(1);
 		Branch pb3 = myBranches.get(2);
 		Branch pb4 = myBranches.get(3);
+		Branch pb5 = myBranches.get(4);
+		System.out.println("Branch 5:  \n" + "Neighbors: " + pb5.getNeighbors());
 		
 		List<Branch> branches1 = Arrays.asList(pb1, pb2, pb4);
 		List<Branch> branches2 = Arrays.asList(pb1, pb3, pb4);
@@ -204,6 +211,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		p.addBranch(pb2);
 		p.addBranch(pb3);
 		p.addBranch(pb4);
+		p.addBranch(pb5);
 		l.addPath(p);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
@@ -215,6 +223,11 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Unit e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
 		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
+		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
 		e3.getProperties().setHealth(50);
@@ -223,6 +236,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		AI2.getProperties().setHealth(50);
 		AI3.getProperties().setHealth(50);
 		AI4.getProperties().setHealth(50);
+		rand1.getProperties().setHealth(50);
+		rand2.getProperties().setHealth(50);
+		rand3.getProperties().setHealth(50);
+		rand4.getProperties().setHealth(50);
 		w.addEnemy(e1, 0);
 		w.addEnemy(e2, 60);
 		w.addEnemy(e3, 60);
@@ -231,6 +248,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		w.addEnemy(AI2, 60);
 		w.addEnemy(AI3, 60);
 		w.addEnemy(AI4, 60);
+		w.addEnemy(rand1, 0);
+		w.addEnemy(rand2, 60);
+		w.addEnemy(rand3, 60);
+		w.addEnemy(rand4, 60);
 		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
