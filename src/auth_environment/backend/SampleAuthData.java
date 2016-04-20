@@ -7,7 +7,7 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
-public class SampleAuthEngineWorkspace implements IAuthInterface {
+public class SampleAuthData implements IAuthInterface {
 	
 	private String myName;
 	private String mySplashFileName;
@@ -19,7 +19,7 @@ public class SampleAuthEngineWorkspace implements IAuthInterface {
 	private List<Affector> myAffectors; 
 	private List<Unit> myPlacedUnits; 
 	
-	public SampleAuthEngineWorkspace() {
+	public SampleAuthData() {
 		
 	}
 

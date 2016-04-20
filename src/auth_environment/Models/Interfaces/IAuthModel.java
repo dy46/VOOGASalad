@@ -1,6 +1,6 @@
 package auth_environment.Models.Interfaces;
 
-import game_engine.IEngineWorkspace;
+import game_engine.IAuthInterface;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -16,10 +16,8 @@ import game_engine.IEngineWorkspace;
 
 public interface IAuthModel {
 	
-	// Pass the IEngineWorkspace instance to GlobalGameTab to be saved
-	public IEngineWorkspace getEngineWorkspace(); 
+	public IAuthInterface getAuthInterface(); 
 	
-	// Receive an IEngineWorkspace instance from GlobalGameTab after loading
-	public void setEngineWorkspace(IEngineWorkspace engineWorkspace); 
+	public void setAuthInterface(IAuthInterface auth); 
 	
 }

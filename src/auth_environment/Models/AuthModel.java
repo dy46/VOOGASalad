@@ -1,9 +1,8 @@
 package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IAuthModel;
-import game_engine.EngineWorkspace;
+import auth_environment.backend.SampleAuthData;
 import game_engine.IAuthInterface;
-import game_engine.IEngineWorkspace;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -21,19 +20,17 @@ public class AuthModel implements IAuthModel {
 	
 	public AuthModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
-		authInterface = new EngineWorkspace(); 
+		authInterface = new SampleAuthData(); 
 	}
 
 	@Override
-	// Only called by Brian's GlobalGameTab
-	public IEngineWorkspace getEngineWorkspace() {
-		return (IEngineWorkspace) this.authInterface;
+	public IAuthInterface getAuthInterface() {
+		return this.authInterface;
 	}
 
 	@Override
-	// Only called by Brian's GlobalGameTab
-	public void setEngineWorkspace(IEngineWorkspace engineWorkspace) {
-		this.authInterface = engineWorkspace; 
+	public void setAuthInterface(IAuthInterface auth) {
+		this.authInterface = auth;
 	}
-	
+
 }

@@ -14,6 +14,10 @@ public interface IGlobalGameTabModel {
 	
 	public String getGameName(); 
 	
+	public void setSplashFile(String name);
+	
+	public String getSplashFile(); 
+	
 	// Saves IAuthViewModel's instance of IEngineWorkspace
 	public void saveToFile(); 
 	

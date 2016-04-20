@@ -2,7 +2,7 @@ package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import game_data.AuthSerializer;
-import game_engine.IEngineWorkspace;
+import game_engine.IAuthInterface;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -16,36 +16,44 @@ import game_engine.IEngineWorkspace;
 
 public class GlobalGameTabModel implements IGlobalGameTabModel {
 	
-	private IEngineWorkspace myEngineWorkspace; 
+	private IAuthInterface myAuthData;  
 	
 	// TODO: are type arguments necessary? 
-	private AuthSerializer<IEngineWorkspace> writer = new AuthSerializer<IEngineWorkspace>();
+	private AuthSerializer writer = new AuthSerializer();
 
 	
-	public GlobalGameTabModel(IEngineWorkspace engineWorkspace) {
-		this.myEngineWorkspace = engineWorkspace; 
+	public GlobalGameTabModel(IAuthInterface auth) {
+		this.myAuthData = auth;  
 	}
 
 	@Override
 	public void saveToFile() {
-		writer.saveElement(this.myEngineWorkspace); 
+		writer.saveElement(this.myAuthData); 
 	}
 
 	@Override
 	public void loadFromFile() {
 		// TODO: add error checking
-		this.myEngineWorkspace = (IEngineWorkspace) writer.loadElement();
+		this.myAuthData = (IAuthInterface) writer.loadElement();
 	}
 
 	@Override
 	public void setGameName(String name) {
-		
+		this.myAuthData.setGameName(name);
 	}
 
 	@Override
 	public String getGameName() {
-		return null;
+		return this.myAuthData.getGameName();
 	}
-	
-	
+
+	@Override
+	public void setSplashFile(String name) {
+		this.myAuthData.setSplashScreen(name);
+	}
+
+	@Override
+	public String getSplashFile() {
+		return this.myAuthData.getSplashScreen();
+	}
 }
