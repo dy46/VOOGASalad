@@ -115,6 +115,9 @@ public class Store {
 		}
 		return unlocked;
 	}
+	public int getMoney(){
+		return myMoney;
+	}
 	
 	
 }
