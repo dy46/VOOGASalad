@@ -11,6 +11,7 @@ import game_engine.IAuthInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -80,10 +81,15 @@ public class GlobalGameTab implements IWorkspace {
 		return hb;
 	}
 	
+	// TODO: set spacing/padding 
+	// TODO: resize ImageView 
 	private HBox buildSplashChooser() {
+		ImageView splashView = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"));
 		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
 		splashButton.setOnAction(e -> this.buildSplashChooser());
-		return myNodeFactory.centerNode(splashButton);
+		HBox hb = myNodeFactory.centerNode(splashView);
+		hb.getChildren().add(splashButton); 
+		return hb; 
 	}
 
 	//	public void writeToGameData() {
@@ -107,6 +113,7 @@ public class GlobalGameTab implements IWorkspace {
 		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
 		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
 		// TODO: display the image in an ImageView
+		
 		
 		// TODO: store the image name
 		System.out.println(splash.getName());
