@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import auth_environment.paths.PathNode;
-import game_data.GameData;
 import game_engine.CollisionDetector;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
@@ -63,7 +62,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     
     public TestingEngineWorkspace() {};
     
-    public void setUpEngine (GameData gameData) {
+    public void setUpEngine (Double test) {
         myLives = 3;
         myLevels = new ArrayList<>();
         myPaths = new ArrayList<>();

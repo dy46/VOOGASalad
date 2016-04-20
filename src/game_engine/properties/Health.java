@@ -1,33 +1,43 @@
 package game_engine.properties;
 
-public class Health {
+import java.util.Arrays;
+import java.util.List;
 
-	private double myHealth;
-	private double initialHealth;
-	
-	public Health(double health){
-	        this.initialHealth = health;
-		this.myHealth = health;
-	}
-	
-	public double getValue(){
-		return myHealth;
-	}
-	
-	public void setValue(double health){
-		myHealth = health;
-	}
-	
-	public void decrementValue(double health) {
-	    this.myHealth -= health;
-	}
-	
-	public double getInitialValue() {
-	    return initialHealth;
-	}
-	
-	public Health copyHealth() {
-	    return new Health(this.getValue());
-	}
-	
+
+public class Health extends Property {
+
+    private double myHealth;
+    private double initialHealth;
+
+    public Health (double health) {
+        this.initialHealth = health;
+        this.myHealth = health;
+    }
+
+    public double getValue () {
+        return myHealth;
+    }
+
+    public void setValue (double health) {
+        myHealth = health;
+    }
+
+    public double getInitialValue () {
+        return initialHealth;
+    }
+
+    public Health copyHealth () {
+        return new Health(this.getValue());
+    }
+
+    @Override
+    public List<Double> getValues () {
+        return Arrays.asList(myHealth);
+    }
+    
+    @Override
+    public void setValues (List<Double> values) {
+        myHealth = values.get(0);
+    }
+
 }

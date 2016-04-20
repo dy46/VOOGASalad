@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import auth_environment.buildingBlocks.BuildingBlock;
-import auth_environment.buildingBlocks.TerrainBuildingBlock;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Branch;
@@ -25,18 +23,6 @@ public class TerrainFactory {
 		myTerrainLibrary = new TerrainLibrary();
 		setupDefaultTerrains();
 	}
-	
-	public Unit defineTerrainModel(BuildingBlock block){
-		TerrainBuildingBlock terBlock = (TerrainBuildingBlock) block;
-		List<Affector> affectors = new ArrayList<>();
-		Affector speedUp = myAffectorLibrary.getAffector(terBlock.getMyProperty(), terBlock.getMyEffect());
-		speedUp.setTTL(1);
-		affectors.add(speedUp);
-		Unit ter = new Unit(terBlock.getMyName(), new ArrayList<>(), 2);
-	        ter.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
-		myTerrainLibrary.addTerrain(ter);
-		return ter;
-	}
 
 	private void setupDefaultTerrains(){
 		List<Affector> affectors = new ArrayList<>();
@@ -47,13 +33,13 @@ public class TerrainFactory {
 	        ice.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors)));
 		myTerrainLibrary.addTerrain(ice);
 
-		List<Affector> affectors2 = new ArrayList<>();
-		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
-		expIncrDamage.setTTL(Integer.MAX_VALUE);
-		affectors2.add(expIncrDamage);
-		Unit poisonSpike = new Unit("PoisonSpikesTerrain", new ArrayList<>(), 2);
-                poisonSpike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors2)));
-		myTerrainLibrary.addTerrain(poisonSpike);
+//		List<Affector> affectors2 = new ArrayList<>();
+//		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
+//		expIncrDamage.setTTL(Integer.MAX_VALUE);
+//		affectors2.add(expIncrDamage);
+//		Unit poisonSpike = new Unit("PoisonSpikesTerrain", new ArrayList<>(), 2);
+//                poisonSpike.setTimelinesToApply(Arrays.asList(new AffectorTimeline(affectors2)));
+//		myTerrainLibrary.addTerrain(poisonSpike);
 
 		List<Affector> affectors3 = new ArrayList<>();
 		Affector constantDamage = myAffectorLibrary.getAffector("Constant", "HealthDamage");

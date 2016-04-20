@@ -2,12 +2,8 @@ package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import auth_environment.buildingBlocks.BuildingBlock;
-import auth_environment.buildingBlocks.TowerBuildingBlock;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorData;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.game_elements.Branch;
@@ -67,7 +63,7 @@ public class TowerFactory {
         l1.add(new Position(30, 30));
         l1.add(new Position(0, 30));
         Bounds b = new Bounds(l1);
-        State st = new State("Moving");
+        State st = new State(2);
         Branch p2 = new Branch("MyBranch");
         Health h = new Health(30);
         List<Position> l2 = new ArrayList<>();
@@ -80,7 +76,7 @@ public class TowerFactory {
         p2.addPosition(startingPosition.copyPosition());
         p2.addPosition(new Position(startingPosition.getX() + 636, startingPosition.getY() - 636));
         UnitProperties properties =
-                new UnitProperties(h, null, null, velocity, b, range,
+                new UnitProperties(h, null, velocity, b, range,
                                    startingPosition.copyPosition(), null, st,
                                    new Movement(Arrays.asList(p2)));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
@@ -201,7 +197,7 @@ public class TowerFactory {
         l1.add(new Position(30, 30));
         l1.add(new Position(0, 30));
         Bounds b = new Bounds(l1);
-        State st = new State("Moving");
+        State st = new State(2);
         Branch p2 = new Branch("Something here");
         p2.addPosition(startingPosition.copyPosition());
         p2.addPosition(new Position(startingPosition.getX(), startingPosition.getY() - 900));
@@ -212,7 +208,7 @@ public class TowerFactory {
         l2.add(new Position(100, -100));
         Bounds range = new Bounds(l2);
         UnitProperties properties =
-                new UnitProperties(new Health(1), null, null, velocity, b, range,
+                new UnitProperties(new Health(1), null, velocity, b, range,
                                    startingPosition.copyPosition(), null, st,
                                    new Movement(Arrays.asList(p2)));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
@@ -232,9 +228,6 @@ public class TowerFactory {
                                        List<Unit> myProjectiles) {
         List<Affector> affectors = new ArrayList<>();
         affectors.add(myAffectorLibrary.getAffector("Firing", "Children"));
-        AffectorData data = new AffectorData();
-        data.setBaseNumbers(Arrays.asList(new Double[]{new Double(30)}));
-        affectors.get(0).setData(data);
         affectors.get(0).setTTL(Integer.MAX_VALUE);
         Unit t = new Unit(name, 2);
         t.setTimelines(Arrays.asList(new AffectorTimeline(affectors)));
@@ -249,10 +242,10 @@ public class TowerFactory {
         Health health2 = new Health(50);
         Position position2 = new Position(200, 300);
         Velocity velocity2 = new Velocity(0, 180);
-        State st = new State("Stationary");
+        State st = new State(0);
         Movement p2 = new Movement(Arrays.asList(new Branch("Something here")));
         UnitProperties properties2 =
-                new UnitProperties(health2, null, null, velocity2, b, null, position2, null, st,
+                new UnitProperties(health2, null, velocity2, b, null, position2, null, st,
                                    p2);
         t.setProperties(properties2);
         t.setTTL(1000000);

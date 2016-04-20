@@ -2,7 +2,6 @@ package game_engine.games;
 
 import java.util.List;
 
-import game_data.GameData;
 import game_engine.game_elements.Level;
 import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
@@ -46,7 +45,7 @@ public interface GameEngineInterface {
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
 
     //sets up the engine with a list of files
-    void setUpEngine(GameData gameData);
+    void setUpEngine(Double test);
 
     public List<Unit> getEnemies();
 

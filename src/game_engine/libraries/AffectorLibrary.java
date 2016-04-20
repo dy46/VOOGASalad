@@ -26,7 +26,7 @@ public class AffectorLibrary {
 	public void addAffector(String property, String effect, Affector affector){
 		myAffectors.put(getIdentifier(property, effect), affector);
 	}
-	
+
 	private List<String> getIdentifier(String property, String effect){
 		return Arrays.asList(property, effect);
 	}
