@@ -1,6 +1,7 @@
 package auth_environment.paths;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
@@ -91,10 +92,7 @@ public class PathGraphFactory {
 		List<Branch> branchesToSplit = myPath.getBranchesByMidPosition(pos);
 		branchesToSplit.stream().filter(b -> b.equals(newBranch));
 		for(Branch b : branchesToSplit){
-			System.out.println("SPLITTING: " + b+" AT POS: " + pos);
 			List<Position> cutoffPositions = b.cutoffByPosition(pos);
-			System.out.println("CUTOFF POSITIONS: " + cutoffPositions);
-			System.out.println("ORIGINAL BRANCH POSITIONS: " + b);
 			Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
 			Branch newSplitBranch = new Branch(getNextBranchID());
 			newSplitBranch.addPositions(cutoffPositions);
@@ -104,11 +102,9 @@ public class PathGraphFactory {
 			b.addNeighbor(newBranch);
 			List<Branch> cutoffConnectedBranches = myPath.getBranchesByEdgePosition(lastCutoff);
 			for(Branch br : cutoffConnectedBranches){
-				System.out.println("Cutoff connected branch: " + b);
-				if(br.getPositions().contains(pos))
-					newSplitBranch.addNeighbors(b.removeNeighbors(br.getNeighbors()));
+				newSplitBranch.addNeighbors(b.removeNeighbors(br.getNeighbors()));
 			}
-			//newBranch.addNeighbor(b);
+			newBranch.addNeighbor(b);
 			newBranch.addNeighbor(newSplitBranch);
 			myPath.addBranch(newSplitBranch);
 		}

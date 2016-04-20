@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import auth_environment.paths.PathGraphFactory;
+import auth_environment.paths.PathHandler;
 import auth_environment.paths.PathNode;
 import game_engine.CollisionDetector;
 import game_engine.IDFactory;
@@ -166,35 +167,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		l.addUnlockedTowerType(list.get(0), 100);
 		l.addUnlockedTowerType(list.get(1), 300);
 
-		Branch b1 = new Branch(0);
-		b1.addPosition(new Position(0, 30));
-		b1.addPosition(new Position(100, 30));
-		b1.addPosition(new Position(200, 30));
-
-		Branch b2 = new Branch(1);
-		b2.addPosition(new Position(200, 30));
-		b2.addPosition(new Position(400, 30));
-		b2.addPosition(new Position(400, 200));
-
-		Branch b3 = new Branch(2);
-		b3.addPosition(new Position(200, 30));
-		b3.addPosition(new Position(200, 200));
-		b3.addPosition(new Position(400, 200));
-
-		Branch b4 = new Branch(3);
-		b4.addPosition(new Position(400, 200));
-		b4.addPosition(new Position(400, 525));
-		
-		Branch b5 = new Branch(4);
-		b5.addPosition(new Position(100, 30));
-		b5.addPosition(new Position(100, 200));
-
-		PathGraphFactory pgf = new PathGraphFactory();
-		pgf.insertBranch(b1.getPositions());
-		pgf.insertBranch(b2.getPositions());
-		pgf.insertBranch(b3.getPositions());
-		pgf.insertBranch(b4.getPositions());
-		pgf.insertBranch(b5.getPositions());
+		PathHandler ph = new PathHandler();
+		PathGraphFactory pgf = ph.getPGF();
 
 		myBranches.addAll(pgf.getBranches());
 		

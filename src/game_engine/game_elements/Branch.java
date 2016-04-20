@@ -177,7 +177,9 @@ public class Branch {
 	}
 
 	public void addPositions(List<Position> positions){
-		this.myPositions.addAll(positions);
+		for(Position pos : positions){
+			addPosition(pos);
+		}
 	}
 
 	public List<Position> getPositions(){
@@ -220,7 +222,8 @@ public class Branch {
 	}
 
 	public String toString(){
-		return "Branch ID: " + myID+ " positions: " + myPositions;
+//		return "Branch ID: " + myID+ " positions: " + myPositions;
+		return "Branch ID: " + myID;
 	}
 
 	public int getLength(){
