@@ -1,5 +1,6 @@
 package auth_environment.backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.IAuthInterface;
@@ -12,7 +13,7 @@ public class SampleAuthData implements IAuthInterface {
 	private String myName;
 	private String mySplashFileName;
 	private List<Level> myLevels;
-	private List<Unit> myTowers;
+	private List<Unit> myTowers = new ArrayList<Unit>();
 	private List<Unit> myEnemies;
 	private List<Unit> myTerrains;
 	private List<Unit> myProjectiles; 

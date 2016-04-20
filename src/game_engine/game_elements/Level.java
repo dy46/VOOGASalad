@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
+import game_engine.TestingEngineWorkspace;
 import game_engine.games.Timer;
 import game_engine.properties.Position;
+import game_engine.store_elements.Pair;
 
 
 /*
@@ -21,8 +23,10 @@ public class Level extends GameElement {
     private List<Wave> myWaves;
     private Timer myWaveTimer;
     private List<PathNode> myPaths;
+    private TestingEngineWorkspace myWorkspace;
+    private List<Pair<Unit, Integer>> unlockedTowerTypes;
 
-    public Level (String name, int myLives) {
+    public Level (String name, int myLives, TestingEngineWorkspace workspace) {
         super(name);
         // setID(getWorkspace().getIDFactory().createID(this));
         myWaves = new ArrayList<>();
@@ -30,6 +34,8 @@ public class Level extends GameElement {
         this.startingLives = myLives;
         myWaveTimer = new Timer();
         myPaths = new ArrayList<>();
+        this.myWorkspace = workspace;
+        this.unlockedTowerTypes = new ArrayList<Pair<Unit, Integer>>();
     }
 
     /*
@@ -46,6 +52,9 @@ public class Level extends GameElement {
             myCurrentWave = nextWave;
         }
     }
+    public List<Pair<Unit, Integer>> getNewUnits(){
+    	return unlockedTowerTypes;
+    }
 
     public Wave getCurrentWave () {
         return myCurrentWave;
@@ -55,7 +64,9 @@ public class Level extends GameElement {
         checkCurrentWaveFinished();
         myCurrentWave = myWaves.get(wave);
     }
-
+    public void addUnlockedTowerType(Unit u, int cost){
+    	this.unlockedTowerTypes.add(new Pair<Unit, Integer>(u, cost));
+    }
     private void checkCurrentWaveFinished () {
         if (!myCurrentWave.isFinished()) {
             // TODO: Throw exception "Current wave not finished"
@@ -91,7 +102,7 @@ public class Level extends GameElement {
         }
     }
 
-    public Enemy update () {
+    public Unit update () {
         return myCurrentWave.tryToSpawnEnemy();
     }
 

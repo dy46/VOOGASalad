@@ -11,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class PlayerGUI{
 	private static final double TABS_OFFSET = 0;
-	private static final double NEWTAB_OFFSET = 35;
+	private static final double NEWTAB_OFFSET = 33;
 	private static final String GUI_RESOURCE = "GUI";
 	private int windowWidth;
 	private int windowHeight;
@@ -40,9 +40,10 @@ public class PlayerGUI{
 		createNewTab();
 		
 		AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
-//		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
+		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
+		AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
 		
-		myRoot.getChildren().addAll(myTabs);
+		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
 		myScene.getStylesheets().add("game_player/view/PlayerTheme1.css");
 		myRoot.getStyleClass().add("background");
@@ -60,7 +61,7 @@ public class PlayerGUI{
 	
 	private void createNewTab() {    
 	    
-                gameEngine = new TestingEngineWorkspace();
+        gameEngine = new TestingEngineWorkspace();
 		gameEngine.setUpEngine(null);
 		
 		

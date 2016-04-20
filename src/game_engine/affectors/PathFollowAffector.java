@@ -1,12 +1,12 @@
 package game_engine.affectors;
 
 import java.util.List;
-
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
+import game_engine.properties.Property;
 
 public abstract class PathFollowAffector extends Affector{
 
@@ -14,19 +14,17 @@ public abstract class PathFollowAffector extends Affector{
 		super(data);
 	}
 	
-	public void apply (Unit u) {
-		super.apply(u);
-		pathFollow(u);
-	}
-	
+	 public void apply (List<Function> functions, Property property, Unit u) {
+             pathFollow(u);
+	 }
+	 
 	public void pathFollow(Unit u) {
 	    if (this.getElapsedTime() <= this.getTTL()) {
                 double speed = u.getProperties().getVelocity().getSpeed();
-                Movement move = u.getProperties().getMovement();
                 for (int i = 0; i < speed; i++) {
                         Position next = getNextPosition(u);
                         if(next == null){
-                                u.kill();
+                                u.setElapsedTimeToDeath();
                                 setElapsedTimeToDeath();
                                 return;
                         }
@@ -35,7 +33,7 @@ public abstract class PathFollowAffector extends Affector{
                         u.getProperties().getVelocity().setDirection(getNextDirection(u));
                 }
                 this.updateElapsedTime();
-        }
+            }
 	}
 	
 	public abstract Position getNextPosition(Unit u);
@@ -44,7 +42,7 @@ public abstract class PathFollowAffector extends Affector{
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			// END OF PATH
+			//this is the end of the path
 			return u.getProperties().getVelocity().getDirection();
 		}
 		return move.getCurrentBranch().getNextDirection(currentPosition);

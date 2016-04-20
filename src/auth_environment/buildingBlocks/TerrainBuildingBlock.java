@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package auth_environment.buildingBlocks;
 
 public class TerrainBuildingBlock extends BuildingBlock{
@@ -30,3 +31,39 @@ public class TerrainBuildingBlock extends BuildingBlock{
 	
 	
 }
+=======
+//package auth_environment.buildingBlocks;
+//
+//public class TerrainBuildingBlock extends BuildingBlock{
+//	
+//	private String myProperty;
+//	private String myEffect; 
+//	
+//	
+//	public TerrainBuildingBlock(){
+//	}
+//	
+//	public String getMyProperty() {
+//		return myProperty;
+//	}
+//
+//
+//	public void setMyProperty(String myProperty) {
+//		System.out.println(myProperty);
+//		this.myProperty = myProperty;
+//	}
+//
+//
+//	public String getMyEffect() {
+//		return myEffect;
+//	}
+//
+//
+//	public void setMyEffect(String myEffect) {
+//		System.out.println(myEffect);
+//		this.myEffect = myEffect;
+//	}
+//	
+//	
+//}
+>>>>>>> origin/master

@@ -41,7 +41,7 @@ public class HighScoreDisplay implements IGUIObject {
 	
 	private void updateText() {
 		highScoreLabel.setText(myResources.getString("HighScore") 
-				+ myEngine.getGameStatus());
+				+ myGameData.getDoubleValue(HIGH_SCORE));
 	}
 
 }

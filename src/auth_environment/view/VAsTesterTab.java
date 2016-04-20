@@ -3,7 +3,6 @@ package auth_environment.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import auth_environment.view.tabs.ElementTab;
 import auth_environment.view.tabs.TowerTab;
 import game_engine.IAuthInterface;

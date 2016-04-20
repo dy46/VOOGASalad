@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 import game_engine.games.GameEngineInterface;
 import game_engine.properties.Bounds;
@@ -33,9 +34,10 @@ public class CollisionDetector {
 		for (int i = 0; i < myProjectiles.size(); i++) {
 			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
 				if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
-					unit.addAffectors(myProjectiles.get(i)
-							.getAffectorsToApply());
-					myProjectiles.get(i).setHasCollided(true);
+					List<AffectorTimeline> affectorsToApply = myProjectiles.get(i).getTimelinesToApply()
+							.stream().map(p -> p.copyTimeline()).collect(Collectors.toList());                     
+					unit.addTimelines(affectorsToApply);
+					myProjectiles.get(i).setHasCollided(true);        
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
 			}
@@ -47,10 +49,10 @@ public class CollisionDetector {
 			if (!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) ||
 					(!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
 				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
-					List<Affector> newAffectorsToApply =
-							terrains.get(i).getAffectorsToApply().stream()
-							.map(a -> a.copyAffector()).collect(Collectors.toList());
-					unit.addAffectors(newAffectorsToApply);
+					List<AffectorTimeline> newTimelinesToApply =
+							terrains.get(i).getTimelinesToApply().stream()
+							.map(t -> t.copyTimeline()).collect(Collectors.toList());
+					unit.addTimelines(newTimelinesToApply);
 				}
 			}
 		}
@@ -107,11 +109,6 @@ public class CollisionDetector {
 				outer.getProperties().getBounds().getPositions());
 	}
 
-	private boolean encapsulatesBounds(Unit inner, Bounds outer){
-		return encapsulates(inner.getProperties().getBounds().getPositions(),
-				outer.getPositions());
-	}
-
 	private boolean collides (Unit a, Unit b) {
 		List<Position> aPos = getUseableBounds(a.getProperties().getBounds(),
 				a.getProperties().getPosition());
@@ -156,6 +153,12 @@ public class CollisionDetector {
 		return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
 	}
 
+	private boolean encapsulatesBounds(Unit inner, Bounds outer){
+		return encapsulates(inner.getProperties().getBounds().getPositions(),
+				outer.getPositions());
+	}
+
+
 	public List<Unit> getUnitsInRange(Bounds range){
 		List<Unit> units = myEngine.getAllUnits();
 		List<Unit> inRange = new ArrayList<>();
@@ -166,5 +169,5 @@ public class CollisionDetector {
 		}
 		return inRange;
 	}
-	
+
 }

@@ -6,6 +6,6 @@ public abstract class Property {
 
 	public abstract List<Double> getValues();
 
-	public abstract void changeValues(List<Double> values);
+	public abstract void setValues(List<Double> values);
 	
 }

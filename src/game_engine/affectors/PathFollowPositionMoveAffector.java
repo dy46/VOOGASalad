@@ -1,11 +1,7 @@
 package game_engine.affectors;
 
-import java.util.List;
-import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Bounds;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
 

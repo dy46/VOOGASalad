@@ -2,8 +2,10 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
-import game_engine.properties.Position;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.UnitProperties;
 
 
@@ -15,173 +17,198 @@ import game_engine.properties.UnitProperties;
  * @author adamtache
  *
  */
-public abstract class Unit extends GameElement {
+public class Unit extends GameElement {
 
-	private UnitProperties myProperties;
-	private List<Affector> myAffectors;
-	private List<Affector> myAffectorsToApply;
-	private int TTL;
-	private boolean setToDeath;
-	private boolean hasCollided;
-	private boolean isEncapsulated;
-	private int deathDelay;
-	private int elapsedTime;
-	private int numFrames;
-	private List<Double> numberList;
+    private List<Unit> parents;
+    private UnitProperties myProperties;
+    private List<AffectorTimeline> myTimelines;
+    private List<AffectorTimeline> myTimeslinesToApply;
+    
+    private List<Affector> myAffectors;
+    private List<Affector> myAffectorsToApply;
+    
+    private int TTL;
+    private boolean setToDeath;
+    private boolean hasCollided;
+    private boolean isEncapsulated;
+    private int deathDelay;
+    private int elapsedTime;
+    private int numFrames;
+    private List<Double> numberList;
+    private List<Unit> myChildren;
 
-	public Unit (String name, List<Affector> affectors, int numFrames) {
-		super(name);
-		initialize();
-		myProperties = new UnitProperties();
+    public Unit (String name, List<AffectorTimeline> timelines, int numFrames) {
+        super(name);
+        initialize();
+        myProperties = new UnitProperties();
+        elapsedTime = 0;
+        this.numFrames = numFrames;
+        addTimelines(timelines);
+        myChildren = new ArrayList<>();
+        myAffectors = new ArrayList<>();
+        parents = new ArrayList<>();
+    }
+    
+    public Unit(String name, UnitProperties unitProperties) {
+    	super(name);
+    	initialize();
+		myProperties = unitProperties;
 		elapsedTime = 0;
-		this.numFrames = numFrames;
-		addAffectors(affectors);
+        this.numFrames = numFrames;
+        myAffectors = new ArrayList<>();
+        myAffectorsToApply = new ArrayList<>();
+        this.myChildren = new ArrayList<>();
 	}
-	
-	public Unit (String name, int numFrames) {
-		super(name);
-		initialize();
-		myProperties = new UnitProperties();
-		
-		elapsedTime = 0;
-		this.numFrames = numFrames;
-	}
+    
+    public Unit copyUnit() {
+        Unit copy = this.copyShallowUnit();
+        List<Unit> copiedChildren = this.getChildren().stream().map(u -> u.copyUnit()).collect(Collectors.toList());
+        copy.setChildren(copiedChildren);
+        return copy;
+    }
+    
+    public Unit copyShallowUnit() {
+        Unit copy = new Unit(this.toString(), this.getNumFrames());
+        List<AffectorTimeline> copyApplyTimelines = this.getTimelinesToApply().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
+        copy.setTimelinesToApply(copyApplyTimelines);
+        List<AffectorTimeline> copyTimelines = this.getTimelines().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
+        copy.setTimelines(copyTimelines);
+        copy.setProperties(this.getProperties().copyUnitProperties());
+        copy.setDeathDelay(this.getDeathDelay());
+        copy.setNumberList(this.getNumberList());
+        copy.setTTL(this.getTTL());
+        copy.setHasCollided(this.hasCollided);
+        copy.setEncapsulated(this.isEncapsulated);
+        copy.elapsedTime = 0;
+        return copy;
+    }
 
-	public Unit (String ID, UnitProperties properties) {
-		super(ID);
-		initialize();
-		this.myProperties = properties;
-		this.setToDeath = false;
-	}
-
-	public Unit(String name){
-		super(name);
-		initialize();
-		this.myProperties = new UnitProperties();
-		elapsedTime = 0;
-	}
-	
-	public Unit(){
-		super("");
-	}
+    public Unit (String name, int numFrames) {
+        super(name);
+        initialize();
+        myProperties = new UnitProperties();
+        elapsedTime = 0;
+        this.numFrames = numFrames;
+        myChildren = new ArrayList<>();
+        parents = new ArrayList<>();
+    }
 
 	private void initialize () {
-		myAffectors = new ArrayList<>();
-		myAffectorsToApply = new ArrayList<>();
-		this.setHasCollided(false);
-	}
+        myTimelines = new ArrayList<>();
+        myTimeslinesToApply = new ArrayList<>();
+        this.setHasCollided(false);
+    }
 
-	public void update () {
-		if(isVisible()) {
-			elapsedTime++;
-			myAffectors.removeIf(a -> a.getTTL() < a.getElapsedTime());
-			myAffectors.forEach(a -> a.apply(this));
-		}
-		if (!isAlive()) {
-			setElapsedTimeToDeath();
-			setToDeath = true;
-		}
-	}
+    public void update () {
+        myChildren.stream().forEach(p -> p.incrementElapsedTime(1));
+        if (isVisible()) {
+            elapsedTime++;
+            myTimelines.removeIf(t -> t.getAffectors().size() == 0);
+//            System.out.println("Hello");
+//            myTimelines.forEach(t -> System.out.println(t));
+            myTimelines.forEach(t -> t.apply(this));
+        }
+        if (!isAlive()) {
+            setElapsedTimeToDeath();
+            setToDeath = true;
+        }
+    }
 
-	public boolean isAlive () {
-		if(myProperties.getHealth() == null)
-			return false;
-		return myProperties.getHealth().getValue() > 0;
-	}
+    public boolean isAlive () {
+        if (myProperties.getHealth() == null)
+            return false;
+        return myProperties.getHealth().getValue() > 0;
+    }
 
-	public void setInvisible(){
-		this.setElapsedTime(this.getTTL());
-	}
+    public void setInvisible () {
+        this.setElapsedTime(this.getTTL());
+    }
 
-	public UnitProperties getProperties () {
-		return myProperties;
-	}
+    public UnitProperties getProperties () {
+        return myProperties;
+    }
 
-	public void setProperties (UnitProperties properties) {
-		this.myProperties = properties;
-	}
+    public void setProperties (UnitProperties properties) {
+        this.myProperties = properties;
+    }
 
-	public List<Affector> getAffectors () {
-		return myAffectors;
-	}
+    public List<AffectorTimeline> getTimelines () {
+        return myTimelines;
+    }
 
-	public void setAffectors (List<Affector> affectors) {
-		this.myAffectors = affectors;
-	}
+    public void setTimelines (List<AffectorTimeline> timelines) {
+        this.myTimelines = timelines;
+    }
 
-	public List<Affector> getAffectorsToApply() {
-		return myAffectorsToApply;
-	}
-	
-	public void setAffectorsToApply(List<Affector> affectorsToApply) {
-		this.myAffectorsToApply = affectorsToApply;
-	}
+    public List<AffectorTimeline> getTimelinesToApply () {
+        return myTimeslinesToApply;
+    }
 
-	public int getTTL () {
-		return TTL;
-	}
+    public void setTimelinesToApply (List<AffectorTimeline> timelinesToApply) {
+        this.myTimeslinesToApply = timelinesToApply;
+    }
 
-	public int getElapsedTime () {
-		return elapsedTime;
-	}
+    public int getTTL () {
+        return TTL;
+    }
 
-	public void setTTL (int TTL) {
-		this.TTL = TTL;
-	}
+    public int getElapsedTime () {
+        return elapsedTime;
+    }
 
-	public void setDeathDelay(int deathDelay) {
-		this.deathDelay = deathDelay;
-	}
+    public void setTTL (int TTL) {
+        this.TTL = TTL;
+    }
 
-	public int getDeathDelay() {
-		return deathDelay;
-	}
+    public void setDeathDelay (int deathDelay) {
+        this.deathDelay = deathDelay;
+    }
 
-	public void incrementTTL(int increment) {
-		this.TTL += increment;
-	}
+    public int getDeathDelay () {
+        return deathDelay;
+    }
 
-	public void setElapsedTimeToDeath() {
-		if(!setToDeath) {
-			this.setElapsedTime(this.getTTL() - deathDelay);
-			this.getProperties().getState().changeState(5);
-			setToDeath = true;
-		}
-	}
+    public void incrementTTL (int increment) {
+        this.TTL += increment;
+    }
 
-	public boolean isVisible() {
-		return this.getTTL() >= this.getElapsedTime();
-	}
+    public void setElapsedTimeToDeath () {
+        if (!setToDeath) {
+            this.setElapsedTime(this.getTTL() - deathDelay);
+            this.getProperties().getState().changeState(5);
+            setToDeath = true;
+        }
+    }
 
-	public void incrementElapsedTime(int i) {
-		this.elapsedTime += 1;
-	}
+    public boolean isVisible () {
+        return this.getTTL() >= this.getElapsedTime();
+    }
 
-	public void setElapsedTime(int newTime){
-		elapsedTime = newTime;
-	}
+    public void incrementElapsedTime (int i) {
+        this.elapsedTime += 1;
+    }
 
-	public boolean hasCollided () {
-		return hasCollided;
-	}
+    public void setElapsedTime (int newTime) {
+        elapsedTime = newTime;
+    }
 
-	public void setHasCollided (boolean hasCollided) {
-		this.hasCollided = hasCollided;
-	}
+    public boolean hasCollided () {
+        return hasCollided;
+    }
 
-	public int getNumFrames() {
-		return numFrames;
-	}
+    public void setHasCollided (boolean hasCollided) {
+        this.hasCollided = hasCollided;
+    }
 
-	public double getSellPrice(){
-		return getProperties().getPrice().getValue();
-	}
+    public int getNumFrames () {
+        return numFrames;
+    }
 
-//	public void sell(Unit unit){
-//		getWorkspace().addBalance(getSellPrice());
-//		getWorkspace().remove(unit);
-//	}
-	
+    public double getSellPrice () {
+        return getProperties().getPrice().getValue();
+    }
+
+  
 	public List<Double> getNumberList () {
         return numberList;
     }
@@ -190,21 +217,52 @@ public abstract class Unit extends GameElement {
         this.numberList = numberList;
     }
 
-	public void addAffectors(List<Affector> affectors) {
-		myAffectors.addAll(affectors);
+    public void addTimelines (List<AffectorTimeline> timelines) {
+        myTimelines.addAll(timelines);
+    }
+
+    public boolean isEncapsulated () {
+        return isEncapsulated;
+    }
+
+    public void setEncapsulated (boolean encapsulated) {
+        this.isEncapsulated = encapsulated;
+    }
+    
+    public List<Unit> getChildren() {
+        return myChildren;
+    }
+    
+    public void setChildren(List<Unit> children) {
+        this.myChildren = children;
+    }
+    
+    public void addChild(Unit child) {
+        this.myChildren.add(child);
+    }
+    
+    public List<Unit> getParents() {
+        return parents;
+    }
+    
+    public void addParent(Unit parent) {
+        this.parents.add(parent);
+    }
+    
+    public void setParents(List<Unit> parents) {
+        this.parents = parents;
+    }
+
+	public void addChildren(List<Unit> children) {
+		this.myChildren.addAll(children);
 	}
 
-	public boolean isEncapsulated() {
-		return isEncapsulated;
+	public void addAffectors(List<Affector> affectors) {
+		this.myAffectors.addAll(affectors);
 	}
 	
-	public void setEncapsulated(boolean encapsulated){
-		this.isEncapsulated = encapsulated;
-	}
-
-	public void kill() {
-		setElapsedTimeToDeath();
-		setInvisible();
+	public void addAffectorsToApply(List<Affector> affectorsToApply){
+		this.myAffectorsToApply.addAll(affectorsToApply);
 	}
 
 }

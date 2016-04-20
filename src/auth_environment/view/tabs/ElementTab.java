@@ -1,9 +1,13 @@
 package auth_environment.view.tabs;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import game_engine.IAuthInterface;
-import game_engine.game_elements.Tower;
+import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,6 +29,8 @@ import javafx.scene.text.Text;
 public class ElementTab extends Tab{
 	 
 	private IAuthInterface myInterface;
+	Map<String, TextField> strTextMap = new HashMap<String, TextField>();
+	
 	public ElementTab(String name, IAuthInterface myInterface){
 		super(name);
 		this.myInterface = myInterface;
@@ -83,17 +89,18 @@ public class ElementTab extends Tab{
 		newTableInfo.add(new Text(name), 1, index);
 		TextField myTextField = new TextField();
 		newTableInfo.add(myTextField, 2, index);
+		strTextMap.put(name, myTextField);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String damage = "Attack: ";
-		newTableInfo.add(new Text(damage), 1, index);
+		String damage = "Attack";
+		newTableInfo.add(new Text(damage+":"), 1, index);
 		myTextField = new TextField();
 		newTableInfo.add(myTextField, 2, index);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String affectors = "Affector(s): ";
+		String affectors = "Affector(s) ";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox = new ComboBox<String>();
 		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
@@ -122,8 +129,27 @@ public class ElementTab extends Tab{
 	}
 
 	private void createNewUnit() {
-		Unit tower = new Unit();
-		myInterface.addTower(tower);
+		UnitFactory unitFactory = new UnitFactory();
+    	Class<?> c = unitFactory.getClass();
+    	for(String str: strTextMap.keySet()){
+    		Method[] allMethods = c.getMethods();
+    		
+    		for(Method m: allMethods){;
+//    			String[] mString = m.getName().split(".");
+//    			System.out.println(m.getName());
+//    			System.out.println("setMy" + str);
+    			if(m.getName().startsWith("setMy" + str)){
+					try {
+						m.invoke(unitFactory,strTextMap.get(str).getText());
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+
+    			}
+    		}	
+    	}
 	}
 
 	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
