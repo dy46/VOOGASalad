@@ -45,6 +45,7 @@ public class Unit extends GameElement {
         this.numFrames = numFrames;
         addTimelines(timelines);
         myChildren = new ArrayList<>();
+        myAffectors = new ArrayList<>();
         parents = new ArrayList<>();
     }
     
@@ -103,6 +104,8 @@ public class Unit extends GameElement {
         if (isVisible()) {
             elapsedTime++;
             myTimelines.removeIf(t -> t.getAffectors().size() == 0);
+//            System.out.println("Hello");
+//            myTimelines.forEach(t -> System.out.println(t));
             myTimelines.forEach(t -> t.apply(this));
         }
         if (!isAlive()) {

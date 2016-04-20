@@ -1,10 +1,14 @@
 package game_engine.store_elements;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import game_engine.affectors.Affector;
+import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 public class Store {
 	private int myMoney;
@@ -12,7 +16,7 @@ public class Store {
 	private Map<Unit, List<Pair<Unit, Integer>>> upgrades;
 	private Map<Unit, Integer> items;
 	private Map<Unit, Integer> levelUnlock;
-	
+
 	public Store(int startMoney){
 		myMoney = startMoney;
 		buyableUnits = new HashMap<Unit, Integer>();
@@ -23,6 +27,24 @@ public class Store {
 	public void addBuyableTower(Unit t, Integer cost, Integer level){
 		buyableUnits.put(t, cost);
 		levelUnlock.put(t, level);
+	}
+	public void addBuyableTower(Collection<Pair<Unit, Integer>> listOfNewUnits){
+		for(Pair<Unit, Integer> p : listOfNewUnits){
+			Unit newUnit = p.getLeft();
+			int cost = p.getRight();
+			boolean contained = false;
+			for(Unit u : buyableUnits.keySet()){
+				if(u.toString().equals(newUnit.toString())){
+					this.buyableUnits.put(u, cost);
+					contained = true;
+					break;
+				}
+			}
+			if(contained){
+				continue;
+			}
+			buyableUnits.put(newUnit, cost);
+		}
 	}
 	public boolean canAfford(int cost){
 		return myMoney >= cost;
@@ -45,7 +67,13 @@ public class Store {
 	public void applyItem(String name, List<Unit> applied){
 		for(Unit u : items.keySet()){
 			if(u.toString().equals(name) && myMoney >= items.get(u)){
-				applied.forEach(t -> t.addAffectors(u.getTimelines().get(0).getAffectors()));
+				// apply shit here
+				for(Unit app : applied){
+					System.out.println(applied.size());
+					List<AffectorTimeline> affectorsToApply = u.getTimelinesToApply()
+							.stream().map(p -> p.copyTimeline()).collect(Collectors.toList());  
+					app.addTimelines(affectorsToApply);
+				}
 				myMoney -= items.get(u);
 			}
 		}
@@ -63,7 +91,7 @@ public class Store {
 		for(Unit t : buyableUnits.keySet()){
 			ret.add(t);
 		}
-		
+
 		return ret;
 	}
 	public void addMoney(int amount){
@@ -117,6 +145,19 @@ public class Store {
 	public int getMoney(){
 		return myMoney;
 	}
-	
-	
+	public void addItem(Unit u, int cost){
+		boolean contains = false;
+		for(Unit s : items.keySet()){
+			if(s.toString().equals(u.toString())){
+				items.put(s, cost);
+				contains = false; 
+				break;
+			}
+		}
+		if(!contains){
+			items.put(u, cost);
+		}
+	}
+
+
 }
