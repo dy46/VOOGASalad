@@ -29,7 +29,8 @@ import javafx.scene.layout.VBox;
  * Created by BrianLin on 3/31/16.
  * Team member responsible: Brian
  *
- * This class represents a single tab (ie Level) within our View.
+ * This Tab is for customizing Global Game settings + Saving/Loading. Will need the entire IEngineWorkspace passed
+ * in so that it can be saved/loaded. 
  */
 
 public class GlobalGameTab implements IWorkspace {
@@ -44,22 +45,17 @@ public class GlobalGameTab implements IWorkspace {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	// TODO: replace with EngineWorkspace class
-	private GameData gameData; // This originates here via XML 
-//	private GameDataController myGameDataController; // TODO: find this
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TextField myGameNameField;
 	
 	public GlobalGameTab() {
-		this.gameData = new GameData();
-//		myPicker = new ElementPicker();
-//		this.myGameDataController = new GameDataController(gameData, myPicker, myDisplay.getGrid().getPathGraphFactory());
 		this.setupBorderPane();
 	}
 
 	private void setupBorderPane() {
-		
+
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		
