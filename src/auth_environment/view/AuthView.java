@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import auth_environment.Models.AuthModel;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
 import auth_environment.view.Workspaces.GlobalGameTab;
@@ -32,18 +34,18 @@ public class AuthView {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private GlobalGameTab globalGameTab; 
-    private GameSettings mySettings = new GameSettings(); 
+    private IAuthModel authModel;
 
     public AuthView (Stage stage) {
         myStage = stage;
+        this.authModel = new AuthModel(); 
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	globalGameTab = new GlobalGameTab(); 
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel.getAuthInterface()); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
@@ -60,9 +62,4 @@ public class AuthView {
     public void display() {
     	this.myStage.show();
     }
-    
-    public ISettings getSettings() {
-    	return this.mySettings;
-    }
-
 }
