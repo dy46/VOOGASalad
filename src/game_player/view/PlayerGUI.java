@@ -45,9 +45,6 @@ public class PlayerGUI{
 		
 		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
-		myScene.getStylesheets().add("game_player/view/PlayerTheme1.css");
-		myRoot.getStyleClass().add("background");
-		
 		return myScene;
 	}
 	
