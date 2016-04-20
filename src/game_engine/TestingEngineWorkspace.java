@@ -27,6 +27,7 @@ import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
+import game_engine.store_elements.Store;
 
 public class TestingEngineWorkspace implements GameEngineInterface{
     
@@ -40,11 +41,11 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     private List<Unit> myProjectiles;
 
     private CollisionDetector myCollider;
-    private List<Unit> myTowerTypes;
     private Level myCurrentLevel;
     private IDFactory myIDFactory;
     private double myBalance;
     private int myLives;
+    private Store myStore;
 
     private FunctionFactory myFunctionFactory;
     private AffectorFactory myAffectorFactory;
@@ -73,7 +74,6 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         p2.addPosition(new Position(400, 200));
         p2.addPosition(new Position(400, 525));
         myPaths.add(p2);
-        myTowerTypes = new ArrayList<>();
         myIDFactory = new IDFactory();
         myProjectiles = new ArrayList<>();
         // projectiles must be intialized before towers
@@ -84,7 +84,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         myEnemys = new ArrayList<>();
         myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
         myTowers = new ArrayList<>();
-        myTowerTypes = makeDummyTowers();
+        myStore = new Store(500);
+        makeDummyTowers();
         myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
         myTerrains = makeDummyTerrains();
         myCollider = new CollisionDetector(this);
@@ -93,7 +94,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         myCurrentLevel = makeDummyLevel();
         myLevels.add(myCurrentLevel);
         myGoals = myCurrentLevel.getGoals();
-        myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));   
+        myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));  
+        
     }
 
     private List<Unit> makeDummyTowers () {
@@ -106,6 +108,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
                 myTowerFactory.createTackTower("TackTower", myProjectiles,
                                                Collections.unmodifiableList(myTowers),
                                                position2);
+        myStore.addBuyableTower(t, 100, 1);
+        myStore.addBuyableTower(t2, 300, 1);
         return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
     }
 
@@ -373,21 +377,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     public void modifyTower (int activeTowerIndex, UnitProperties newProperties) {
         // towerBoundsCheck(activeTowerIndex);
         // myTowers.get(activeTowerIndex).setProperties(newProperties);
-        // myTowerTypes.set(activeTowerIndex, newProperties);
         //
     }
 
-    private void towerBoundsCheck (int index) {
-        if (index < 0 || index > myTowers.size()) {
-            throw new IndexOutOfBoundsException();
-        }
-    }
-
-    private void towerTypeBoundsCheck (int index) {
-        if (index < 0 || index > myTowerTypes.size()) {
-            throw new IndexOutOfBoundsException();
-        }
-    }
+   
 
     // Getters
 
@@ -474,21 +467,29 @@ public class TestingEngineWorkspace implements GameEngineInterface{
         myCurrentLevel.playNextWave();
         pause = false;
     }
-
+    // change this
     @Override
-    public void addTower (String name, double x, double y) {
-        for(int i = 0; i < myTowerTypes.size(); i++) {
-            if(myTowerTypes.get(i).toString().equals(name)) {
-                Unit newTower = myTowerTypes.get(i).copyUnit();
-                newTower.getProperties().setPosition(x, y);
-                myTowers.add(newTower);
-            }
-        }
+    public boolean addTower (String name, double x, double y) {
+//        for(int i = 0; i < myStore.getTowerList().size(); i++) {
+//            if(myStore.getTowerList().get(i).toString().equals(name)) {
+//                Unit newTower = myStore.getTowerList().get(i).copyUnit();
+//                newTower.getProperties().setPosition(x, y);
+//                myTowers.add(newTower);
+//            }
+//        }
+    	Unit purchased = myStore.purchaseUnit(name);
+    	if(purchased != null){
+    		Unit copy = purchased.copyUnit();
+    		copy.getProperties().setPosition(x,y);
+    		myTowers.add(copy);
+    		return true;
+    	}
+    	return false;
     }
 
     @Override
     public List<Unit> getTowerTypes () {
-        return myTowerTypes;
+        return myStore.getTowerList();
     }
 
     public List<Affector> getAffectors(){
@@ -558,7 +559,6 @@ public class TestingEngineWorkspace implements GameEngineInterface{
     public List<Position> getGoals () {
         return myGoals;
     }
-
 
 	public List<Unit> getAllUnits(){
 		List<Unit> units = new ArrayList<>();

@@ -1,4 +1,4 @@
-package auth_environment.view;
+package auth_environment.view.Workspaces;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,9 @@ import auth_environment.backend.GameDataController;
 import auth_environment.backend.ISelector;
 import auth_environment.backend.SelectorModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
-import auth_environment.view.Menus.MenuToolBar;
+import auth_environment.view.ElementPicker;
+import auth_environment.view.MapDisplay;
+//import auth_environment.view.Menus.MenuToolBar;
 import game_data.GameData;
 import game_engine.game_elements.Tower;
 
@@ -24,7 +26,7 @@ import javafx.scene.layout.BorderPane;
  * This class represents a single tab (ie Level) within our View.
  */
 
-public class Workspace {
+public class GameWorkspace implements IWorkspace {
 
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -39,7 +41,7 @@ public class Workspace {
 	private GameData gameData;
 	private GameDataController myGameDataController;
 
-	public Workspace(TabPane tabPane, ISettings settings) {
+	public GameWorkspace(TabPane tabPane, ISettings settings) {
 		this.myTabPane = tabPane; 
 		this.mySettings = settings;
 		this.gameData = new GameData();
@@ -53,7 +55,7 @@ public class Workspace {
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings, myGameDataController));
+//		this.myBorderPane.setTop(new MenuToolBar(this.myTabPane, this.myPicker, this.mySettings, myGameDataController));
 		//		this.myBorderPane.setLeft(hello);
 		myPicker.setPrefSize(400,400);
 		this.myBorderPane.setRight(myPicker);
@@ -68,6 +70,7 @@ public class Workspace {
 	//		gameData.setPaths(myDisplay.getGrid().getPathGraphFactory().getPaths());
 	//	}
 
+	@Override
 	public Node getRoot() {
 		return this.myBorderPane; 
 	}
