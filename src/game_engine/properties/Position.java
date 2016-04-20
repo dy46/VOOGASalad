@@ -78,13 +78,13 @@ public class Position extends Property {
 		return (o instanceof Position &&
 				(Math.abs(((Position) o).myX - this.myX)) < 0.0000001 &&
 				(Math.abs(((Position) o).myY - this.myY)) < 0.0000001 &&
-				(Math.abs(((Position) o).myY - this.myY)) < 0.0000001) ||
+				(Math.abs(((Position) o).myZ - this.myZ)) < 0.0000001) ||
 				(this == o);
 	}
 
 	@Override
 	public String toString () {
-		return Double.toString(this.myX) + ", " + Double.toString(this.myY);
+		return "("+Double.toString(this.myX) + ", " + Double.toString(this.myY) + ", " + Double.toString(this.myZ)+")";
 	}
 
 	@Override
@@ -101,6 +101,11 @@ public class Position extends Property {
 
 	public Position getPosition () {
 		return copyPosition();
+	}
+
+	@Override
+	public int hashCode(){
+		return 15;
 	}
 
 
