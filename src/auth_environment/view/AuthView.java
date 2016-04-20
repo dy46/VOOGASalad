@@ -6,14 +6,12 @@ import java.util.ResourceBundle;
 
 import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.backend.GameSettings;
-import auth_environment.backend.ISettings;
+import auth_environment.view.Interfaces.IAuthView;
 import auth_environment.view.Workspaces.GlobalGameTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +21,7 @@ import javafx.stage.Stage;
  * This is the most general frontend/view class and contains a reference to the main Stage and tabs. 
  */
 
-public class AuthView {
+public class AuthView implements IAuthView {
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
