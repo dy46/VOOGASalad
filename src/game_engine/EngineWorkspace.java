@@ -43,16 +43,16 @@ public class EngineWorkspace implements IPlayerEngineInterface, IEngineWorkspace
 	private List<Affector> myAffectors;
 
 	public void setUpEngine (GameData gameData) {
-		myLives = 3;
-		myLevels = gameData.getLevels();
-		myPaths = gameData.getPaths();
-		System.out.println("My paths: " + myPaths);
-		myEnemys = gameData.getEnemies();
-		myProjectiles = gameData.getProjectiles();
-		myTowers = gameData.getTowers();
-		myTowerTypes = gameData.getTowerTypes();
-		myAffectors = gameData.getAffectors();
-		myTerrains = gameData.getTerrains();
+//		myLives = 3;
+//		myLevels = gameData.getLevels();
+//		myPaths = gameData.getPaths();
+//		System.out.println("My paths: " + myPaths);
+//		myEnemys = gameData.getEnemies();
+//		myProjectiles = gameData.getProjectiles();
+//		myTowers = gameData.getTowers();
+//		myTowerTypes = gameData.getTowerTypes();
+//		myAffectors = gameData.getAffectors();
+//		myTerrains = gameData.getTerrains();
 		myCollider = new CollisionDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;

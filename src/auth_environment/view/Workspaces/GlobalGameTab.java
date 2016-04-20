@@ -106,7 +106,7 @@ public class GlobalGameTab implements IWorkspace {
 	// TODO: exctract these methods to the GlobalGameModel class
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
-			this.gameData.getSettings().setName(input.getText());
+//			this.gameData.getSettings().setName(input.getText());
 			input.clear();
 		}
 	}
