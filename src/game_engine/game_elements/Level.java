@@ -176,9 +176,9 @@ public class Level extends GameElement {
 		this.myGoals.add(goal);
 	}
 	
-//	public List<Position> getGoals(){
-//		return myGoals;
-//	}
+	public List<Position> getGoals(){
+		return myGoals;
+	}
 	
 	public void addGoals(List<Position> goals){
 		this.myGoals.addAll(goals);
@@ -194,20 +194,6 @@ public class Level extends GameElement {
 
 	public void addWaves(List<Wave> waves) {
 		this.myWaves.addAll(waves);
-	}
-
-	public List<Position> getGoals() {
-		List<Position> goals = new ArrayList<>();
-		for(PathNode p : myPaths){
-			List<Branch> branches = p.getBranches();
-			for(Branch b : branches){
-				Position lastPos = b.getLastPosition();
-				List<Branch> forwardNeighbors = b.getForwardNeighbors();
-				if(forwardNeighbors.size() == 0)
-					goals.add(lastPos);
-			}
-		}
-		return goals;
 	}
 
 }

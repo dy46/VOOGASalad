@@ -93,4 +93,6 @@ public interface GameEngineInterface {
 
 	public FunctionFactory getFunctionFactory();
 
+	public List<Branch> getGridBranches();
+
 }

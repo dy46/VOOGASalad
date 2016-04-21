@@ -14,6 +14,10 @@ public class WaveFactory {
 		myWaveLibrary = new WaveLibrary();
 	}
 	
+	public WaveFactory(WaveLibrary waveLibrary){
+		myWaveLibrary = waveLibrary;
+	}
+	
 	public void createWave(String name, List<Unit> enemies, List<Integer> spawnTimes){
 		myWaveLibrary.addWave(new Wave(name, enemies, spawnTimes));
 	}
