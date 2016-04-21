@@ -1,5 +1,6 @@
 package main;
 
+import exceptions.WompException;
 import game_player.view.PlayerGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -14,7 +15,7 @@ public class Main extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws WompException {
 		//		myView = new GameView(primaryStage);
 		//		myEngineController = new EngineController();
 		//		myEngineController.initialize();
@@ -42,6 +43,7 @@ public class Main extends Application {
 		myView = new PlayerGUI(645, 614);
 		primaryStage.setScene(myView.createPlayerScene());
 		primaryStage.show();
+		throw new WompException("Test");
 	}
 
 }

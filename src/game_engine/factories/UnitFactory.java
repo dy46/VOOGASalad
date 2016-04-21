@@ -3,6 +3,7 @@ package game_engine.factories;
 import java.util.Arrays;
 import java.util.List;
 
+import exceptions.WompException;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -22,6 +23,28 @@ public class UnitFactory {
 
 	public Unit createUnit(String name, UnitProperties unitProperties){
 		return new Unit(name, unitProperties);
+	}
+	
+	public void setUnitMode(Unit unit, String mode){
+		if(mode.equals("Artificial Intelligence")){
+			List<Branch> branches = unit.getProperties().getMovement().getBranches();
+			if(branches.size() > 1){
+				unit.getProperties().getMovement().setBranches(Arrays.asList(branches.get(0)));
+			}
+			else{
+				try {
+					throw new WompException("AI unit needs a spawn");
+				} catch (WompException e) {
+					
+				}
+			}
+		}
+		else if(mode.equals("Path Following")){
+			
+		}
+		else if (mode.equals("Random Branching")){
+			
+		}
 	}
 	
 	public void addChildrenToUnit(String name, List<Unit> children){
