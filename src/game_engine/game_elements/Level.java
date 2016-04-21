@@ -103,6 +103,8 @@ public class Level extends GameElement {
     }
 
     public Unit update () {
+    	if(myCurrentWave == null)
+    		return null;
         return myCurrentWave.tryToSpawnEnemy();
     }
 
@@ -138,6 +140,10 @@ public class Level extends GameElement {
 
 	public void addPath(PathNode path) {
 		myPaths.add(path);
+	}
+	
+	public void addAllPaths(List<PathNode> paths) {
+		myPaths.addAll(paths);
 	}
 
 	public List<PathNode> getPaths() {

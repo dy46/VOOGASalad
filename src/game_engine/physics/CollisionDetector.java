@@ -1,10 +1,9 @@
-package game_engine;
+package game_engine.physics;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 import game_engine.games.GameEngineInterface;
@@ -22,11 +21,6 @@ public class CollisionDetector {
 
 	public void resolveEnemyCollisions (List<Unit> myProjectiles, List<Unit> myTerrains) {
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, myProjectiles));
-		myEngine.getEnemies().forEach(t -> terrainHandling(t, myTerrains));
-	}
-
-	public void resolveTowerCollisions (List<Unit> terrains) {
-		myEngine.getTowers().forEach(t -> terrainHandling(t, terrains));
 	}
 
 	// returns which Unit from the list collided with the target unit
@@ -44,20 +38,6 @@ public class CollisionDetector {
 		}
 	}
 
-	private void terrainHandling (Unit unit, List<Unit> terrains) {
-		for (int i = 0; i < terrains.size(); i++) {
-			if (!(unit == terrains.get(i)) && collides(unit, terrains.get(i)) ||
-					(!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
-				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
-					List<AffectorTimeline> newTimelinesToApply =
-							terrains.get(i).getTimelinesToApply().stream()
-							.map(t -> t.copyTimeline()).collect(Collectors.toList());
-					unit.addTimelines(newTimelinesToApply);
-				}
-			}
-		}
-	}
-
 	public static List<Position> getUseableBounds (Bounds bounds, Position pos) {
 		List<Position> newBounds = new ArrayList<Position>();
 		for (Position p : bounds.getPositions()) {
@@ -67,47 +47,7 @@ public class CollisionDetector {
 		return newBounds;
 	}
 
-	private static boolean insidePolygon (List<Position> bounds, Position p) {
-		int counter = 0;
-		double xinters;
-		Position p1 = bounds.get(0);
-		int numPos = bounds.size();
-		for (int i = 1; i <= numPos; i++) {
-			Position p2 = bounds.get(i % numPos);
-			if (p.getY() > Math.min(p1.getY(), p2.getY())) {
-				if (p.getY() <= Math.max(p1.getY(), p2.getY())) {
-					if (p.getX() <= Math.max(p1.getX(), p2.getX())) {
-						if (p1.getY() != p2.getY()) {
-							xinters =
-									(p.getY() - p1.getY()) * (p2.getX() - p1.getX()) /
-									(p2.getY() - p1.getY()) + p1.getX();
-							if (p1.getX() == p2.getX() || p.getX() <= xinters)
-								counter++;
-						}
-					}
-				}
-			}
-			p1 = new Position(p2.getX(), p2.getY());
-		}
-		if (counter % 2 == 0)
-			return (false);
-		else
-			return (true);
-	}
-
-	public static boolean encapsulates(List<Position> inner, List<Position> outer) {
-		for (Position pos : inner) {
-			if (!insidePolygon(outer, pos)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private boolean encapsulates (Unit inner, Unit outer) {
-		return encapsulates(inner.getProperties().getBounds().getPositions(),
-				outer.getProperties().getBounds().getPositions());
-	}
+	
 
 	private boolean collides (Unit a, Unit b) {
 		List<Position> aPos = getUseableBounds(a.getProperties().getBounds(),
@@ -151,23 +91,6 @@ public class CollisionDetector {
 				(q.getY() - p.getY()) * (r.getX() - q.getX()) -
 				(q.getX() - p.getX()) * (r.getY() - q.getY());
 		return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
-	}
-
-	private boolean encapsulatesBounds(Unit inner, Bounds outer){
-		return encapsulates(inner.getProperties().getBounds().getPositions(),
-				outer.getPositions());
-	}
-
-
-	public List<Unit> getUnitsInRange(Bounds range){
-		List<Unit> units = myEngine.getAllUnits();
-		List<Unit> inRange = new ArrayList<>();
-		for(Unit u : units){
-			if(encapsulatesBounds(u, range)){
-				inRange.add(u);
-			}
-		}
-		return inRange;
 	}
 
 }

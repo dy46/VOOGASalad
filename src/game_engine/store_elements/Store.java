@@ -69,7 +69,7 @@ public class Store {
 			if(u.toString().equals(name) && myMoney >= items.get(u)){
 				// apply shit here
 				for(Unit app : applied){
-					System.out.println(applied.size());
+					//System.out.println(applied.size());
 					List<AffectorTimeline> affectorsToApply = u.getTimelinesToApply()
 							.stream().map(p -> p.copyTimeline()).collect(Collectors.toList());  
 					app.addTimelines(affectorsToApply);

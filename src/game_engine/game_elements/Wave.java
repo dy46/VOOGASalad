@@ -17,6 +17,14 @@ public class Wave extends GameElement{
 		timeBeforeWave = time;
 		initialize();
 	}
+	
+	public Wave(String name, List<Unit> enemies, List<Integer> spawnTimes){
+		super(name);
+		myEnemies = enemies;
+		mySpawnTimes = spawnTimes;
+		myCurrentEnemy = 0;
+		timeSinceLastSpawn = 0;
+	}
 
 	private void initialize(){
 		myEnemies = new ArrayList<>();

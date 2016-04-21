@@ -264,5 +264,30 @@ public class Unit extends GameElement {
 	public void addAffectorsToApply(List<Affector> affectorsToApply){
 		this.myAffectorsToApply.addAll(affectorsToApply);
 	}
+	
+	public void addAffector(Affector affector){
+		this.myAffectors.add(affector);
+	}
+	
+	public void addAffectorToApply(Affector affectorToApply){
+		this.myAffectorsToApply.add(affectorToApply);
+	}
+	
+	public List<Affector> getAffectors(){
+		return myAffectors;
+	}
+	
+	public List<Affector> getAffectorsToApply(){
+		return myAffectorsToApply;
+	}
+	
+	public void removeAffectorsByName(String name){
+		for(int x=0; x<myAffectors.size(); x++){
+			if(myAffectors.get(x).getClass().equals(name)){
+				myAffectors.remove(x);
+				x--;
+			}
+		}
+	}
 
 }
