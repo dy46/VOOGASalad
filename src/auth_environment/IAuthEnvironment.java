@@ -3,6 +3,7 @@ package auth_environment;
 import java.util.List;
 
 import game_engine.affectors.Affector;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
@@ -23,6 +24,16 @@ public interface IAuthEnvironment {
 	public void setSplashScreen(String fileName); 
 	
 	public String getSplashScreen(); 
+	
+	// Path Tab - Brian
+	
+	public List<Branch> getPathBranches();
+	
+	public void setPathBranches(List<Branch> branches); 
+	
+	public List<Branch> getGridBranches();
+	
+	public void setGridBranches(List<Branch> branches); 
 	
 	// All Levels Tab - Austin
 	

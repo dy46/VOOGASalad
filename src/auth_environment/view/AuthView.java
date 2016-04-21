@@ -8,6 +8,7 @@ import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
 import auth_environment.view.Workspaces.GlobalGameTab;
+import auth_environment.view.Workspaces.PathTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -44,7 +45,9 @@ public class AuthView implements IAuthView {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
     	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel.getAuthInterface()); 
+    	PathTab pathTab = new PathTab(this.authModel.getAuthInterface()); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
+    	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }

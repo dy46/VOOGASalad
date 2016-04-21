@@ -68,7 +68,6 @@ public class Welcome {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
 
-
 	private HBox buildSelectionButtons() {
 		
 		// TODO: refactor this 

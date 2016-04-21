@@ -7,7 +7,7 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
-public class GameData implements IAuthEnvironment {
+public class GameData {
 	
 	private String myName;
 	private String mySplashFileName;
