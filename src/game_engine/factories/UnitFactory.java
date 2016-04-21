@@ -21,13 +21,16 @@ import game_engine.properties.State;
 import game_engine.properties.Team;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
+import javafx.scene.image.Image;
 
 public class UnitFactory {
 
 	private UnitLibrary myUnitLibrary;
+	private BoundsFactory myBoundsFactory;
 
 	public UnitFactory(){
 		myUnitLibrary = new UnitLibrary();
+		myBoundsFactory = new BoundsFactory();
 	}
 
 	public Unit createUnit(String name, UnitProperties unitProperties){
@@ -44,6 +47,10 @@ public class UnitFactory {
 		unitProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
 		unitProperties.setStateProp(getUnitState(inputs.get("State")));
 		return createUnit(name, unitProperties);
+	}
+	
+	public void addUnitBounds(Unit unit, Image image){
+		unit.getProperties().setBounds(myBoundsFactory.createImageBounds(image));
 	}
 	
 	private String getUnitName(String str){
