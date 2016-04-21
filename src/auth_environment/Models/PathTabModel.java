@@ -28,7 +28,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myAuthData = auth; 
 	}
 
-	// TODO: should all Paths have the same width? 
+	// TODO: should all Paths have the same width? Where to set this? 
 	@Override
 	public void setPathWidth(double width) {
 		this.myPathWidth = width; 
@@ -42,6 +42,11 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public void addPosition(double x, double y) {
 		this.myCurrentPositions.add(new Position(x, y)); 
+	}
+	
+	@Override
+	public void submitBranch() {
+		this.myPathHandler.processStraightLine(this.myCurrentPositions);
 	}
 	
 	public void printCurrentPositions() {
