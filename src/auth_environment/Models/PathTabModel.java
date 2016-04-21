@@ -63,7 +63,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void loadBranches() {
-		this.myBranches = this.myPathHandler.getPGF().getBranches();
+		this.myBranches = this.myPathHandler.getPGF().getPathLibrary().getBranches();
 	}
 	
 	@Override
