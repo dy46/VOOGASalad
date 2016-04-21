@@ -43,7 +43,6 @@ public class UnitFactory {
 		unitProperties.setMassProp(getUnitMass(inputs.get("Mass")));
 		unitProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
 		unitProperties.setStateProp(getUnitState(inputs.get("State")));
-//		unitProperties.setPositionProp(getUnitPosition(inputs.get("Position")));
 		return createUnit(name, unitProperties);
 	}
 	

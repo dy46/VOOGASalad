@@ -31,7 +31,25 @@ public class CorrectableException extends Exception{
 		dialog.setContentText("Please enter new argument.");
 		Optional<String> unresolved = dialog.showAndWait();
 		if(unresolved.isPresent()){
-			//			boolean in = unresolved.get()
+			String result = unresolved.get();
+			if(type instanceof Double){
+				try{
+					Double.parseDouble(result);
+					return result;
+				}
+				catch(Exception e){
+					correctMessage(message, type);
+				}
+			}
+			if(type instanceof Integer){
+				try{
+					Integer.parseInt(result);
+					return result;
+				}
+				catch(Exception e){
+					correctMessage(message, type);
+				}
+			}
 		}
 		return null;
 	}
