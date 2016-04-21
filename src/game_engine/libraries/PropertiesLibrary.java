@@ -3,7 +3,6 @@ package game_engine.libraries;
 import java.util.HashMap;
 
 import exceptions.WompException;
-import exceptions.ExceptionHandler;
 import game_engine.properties.UnitProperties;
 
 public class PropertiesLibrary {
@@ -20,9 +19,9 @@ public class PropertiesLibrary {
 	
 	public void addPropertiesByType(String type, UnitProperties properties){
 		if(myProperties.keySet().contains(type)){
-			if(new ExceptionHandler().getYesOrNo()){
-				this.myProperties.put(type, properties);
-			}
+//			if(new ExceptionHandler().getYesOrNo()){
+//				this.myProperties.put(type, properties);
+//			}
 		}
 	}
 	

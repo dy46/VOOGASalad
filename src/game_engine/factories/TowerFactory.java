@@ -10,6 +10,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
+import game_engine.properties.Mass;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.State;
@@ -78,7 +79,7 @@ public class TowerFactory {
         UnitProperties properties =
                 new UnitProperties(h, null, velocity, b, range,
                                    startingPosition.copyPosition(), null, st,
-                                   new Movement(Arrays.asList(p2)));
+                                   new Movement(Arrays.asList(p2)), new Mass(1));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
         Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
@@ -210,7 +211,7 @@ public class TowerFactory {
         UnitProperties properties =
                 new UnitProperties(new Health(1), null, velocity, b, range,
                                    startingPosition.copyPosition(), null, st,
-                                   new Movement(Arrays.asList(p2)));
+                                   new Movement(Arrays.asList(p2)), new Mass(1));
         Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
         damage.setTTL(1);
         Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
@@ -246,7 +247,7 @@ public class TowerFactory {
         Movement p2 = new Movement(Arrays.asList(new Branch(9)));
         UnitProperties properties2 =
                 new UnitProperties(health2, null, velocity2, b, null, position2, null, st,
-                                   p2);
+                                   p2, new Mass(1));
         t.setProperties(properties2);
         t.setTTL(1000000);
         t.setDeathDelay(100);

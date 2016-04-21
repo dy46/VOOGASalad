@@ -14,7 +14,9 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
+import game_engine.properties.Mass;
 import game_engine.properties.Position;
+import game_engine.properties.Price;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
 
@@ -32,16 +34,58 @@ public class UnitFactory {
 	
 	// Pass field inputs here
 	public Unit createUnit(HashMap<String, String> inputs){
-		UnitProperties up = new UnitProperties();
+		UnitProperties unitProperties = new UnitProperties();
+		String name = getUnitName(inputs.get("Name"));
+		unitProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
+		unitProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+		unitProperties.setMassProp(getUnitMass(inputs.get("Mass")));
+//		unitProperties.setPositionProp(getUnitPosition(inputs.get("Position")));
+		return createUnit(name, unitProperties);
+	}
+	
+	private String getUnitName(String str){
+		String name = str;
+		if(name == null){
+			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
+			name = we.getResult();
+		}
+		return name;
+	}
+	
+	private Health getUnitHealth(String str){
 		double health = 0;
 		try{
-			Double.parseDouble(inputs.get("Health"));
+			Double.parseDouble(str);
 		}
 		catch(Exception e){
-			CorrectableException we = new CorrectableException("Invalid health value. Please enter a decimal");
+			CorrectableException we = new CorrectableException("Invalid health value. Please enter a decimal", Double.class);
+			health = Double.parseDouble(we.getResult());
 		}
-		Health healthProperty = new Health(Double.parseDouble(inputs.get("Health")));
-		return null;
+		return new Health(health);
+	}
+	
+	private Price getUnitPrice(String str){
+		double price = 0;
+		try{
+			Double.parseDouble(str);
+		}
+		catch(Exception e){
+			CorrectableException we = new CorrectableException("Invalid price value. Please enter a decimal", Double.class);
+			price = Double.parseDouble(we.getResult());
+		}
+		return new Price(price);
+	}
+	
+	private Mass getUnitMass(String str){
+		double mass = 0;
+		try{
+			Double.parseDouble(str);
+		}
+		catch(Exception e){
+			CorrectableException we = new CorrectableException("Invalid price value. Please enter a decimal", Double.class);
+			mass = Double.parseDouble(we.getResult());
+		}
+		return new Mass(mass);
 	}
 
 	public void setUnitType(Unit unit, String type) throws WompException{

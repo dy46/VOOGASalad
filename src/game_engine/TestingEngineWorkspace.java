@@ -207,7 +207,6 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
 		e3.getProperties().setHealth(50);

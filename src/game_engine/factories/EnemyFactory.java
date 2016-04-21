@@ -11,6 +11,7 @@ import game_engine.libraries.TimelineLibrary;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
+import game_engine.properties.Mass;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.State;
@@ -71,7 +72,7 @@ public class EnemyFactory {
         Movement movement = new Movement(Arrays.asList(p2));
         UnitProperties properties =
                 new UnitProperties(health, null, velocity, b, null, new Position(0, 30), null,
-                                   st, movement);
+                                   st, movement, new Mass(1));
         e1.setProperties(properties);
         e1.setTTL(1000000);
         e1.setDeathDelay(3);
