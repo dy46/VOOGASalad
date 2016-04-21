@@ -35,6 +35,8 @@ public class Unit extends GameElement {
     private List<Unit> myChildren;
     private String type;
     
+    private String imgName;
+    
     public Unit (String name, List<Affector> affectors, int numFrames) {
 		super(name);
 		initialize();
@@ -285,6 +287,15 @@ public class Unit extends GameElement {
 			}
 		}
 	}
+	
+	public String getImgName(){
+		return imgName;
+	}
+	
+	public void setImgName(String img){
+		this.imgName = img;
+	}
+	
 	public String getType(){
 		return type;
 	}

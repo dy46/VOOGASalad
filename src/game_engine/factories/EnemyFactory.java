@@ -21,11 +21,9 @@ import game_engine.properties.Velocity;
 public class EnemyFactory {
 
     private AffectorLibrary myAffectorLibrary;
-    private TimelineLibrary myTimelineLibrary;
 
-    public EnemyFactory (AffectorLibrary affectorLibrary, TimelineLibrary timelineLibrary) {
+    public EnemyFactory (AffectorLibrary affectorLibrary) {
         this.myAffectorLibrary = affectorLibrary;
-        this.myTimelineLibrary = timelineLibrary;
     }
     
     public Unit createPathFollowPositionMoveEnemy (String name, List<Branch> branches) {

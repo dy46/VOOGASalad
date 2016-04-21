@@ -20,6 +20,13 @@ public class FunctionFactory {
 		setupDefaultStrengths(0.0001, 0.00005, 0.000005);
 		setupDefaultTypes();
 	}
+	
+	public FunctionFactory(FunctionLibrary functionLibrary){
+		myFunctionLibrary = functionLibrary;
+		setupSpecialConstants();
+		setupDefaultStrengths(0.0001, 0.00005, 0.000005);
+		setupDefaultTypes();
+	}
 
 	public void createFunction(String equation){
 
