@@ -61,8 +61,10 @@ public class GlobalGameTab implements IWorkspace {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildWompImage(),
-				myNodeFactory.centerNode(this.buildTextInput()),
-				myNodeFactory.centerNode(this.buildSplashChooser()));
+				this.buildTextInput(),
+				this.buildSplashChooser(),
+				this.buildSaveButton(),
+				this.buildLoadButton());
 		return center; 
 	}
 	
