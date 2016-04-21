@@ -15,8 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 public class PathTab implements IWorkspace {
 	
@@ -87,10 +89,19 @@ public class PathTab implements IWorkspace {
 	}
 	
 	private Node buildMainCanvas() {
+		Pane canvasPane = new Pane(); 
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
-        canvas.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
-        return canvas; 
+    	Circle circle1 = new Circle(50);
+        circle1.setStroke(Color.BLACK);
+        circle1.setFill(Color.GREEN.deriveColor(1, 1, 1, 0.7));
+        
+        canvas.setOnMouseClicked(e -> {
+        	System.out.println(e.getX() + " " + e.getY());
+            circle1.relocate(e.getX(), e.getY());
+        });
+        canvasPane.getChildren().addAll(canvas, circle1); 
+        return canvasPane; 
 	}
 	
 	@Override
