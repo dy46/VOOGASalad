@@ -525,6 +525,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 			myTowers.forEach(t -> t.update());
 			myEnemys.forEach(e -> e.update());
 			myCollider.resolveEnemyCollisions(myProjectiles);
+			myCollider.handleCustomCollisions(this.getAllUnits());
 			myEncapsulator.resolveEncapsulations(myTerrains);
 			Unit newE = myCurrentLevel.update();
 			if (newE != null) {

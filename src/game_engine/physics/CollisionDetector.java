@@ -69,7 +69,7 @@ public class CollisionDetector {
 		}
 		return false;
 	}
-	private void handleCustomCollisions(List<Unit> allUnits){
+	public void handleCustomCollisions(List<Unit> allUnits){
 		for(Unit u1 : allUnits){
 			for(Unit u2: allUnits){
 				String cast = u1.getType() + u2.getType();
@@ -77,8 +77,8 @@ public class CollisionDetector {
 					String affector = myResources.getString(cast);
 					String[] sep = affector.split(",");
 					Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
-					u1.addAffector(newEffect);
-					u2.addAffector(newEffect);
+					u1.addAffector(newEffect.copyAffector());
+					u2.addAffector(newEffect.copyAffector());
 				}
 			}
 		}
