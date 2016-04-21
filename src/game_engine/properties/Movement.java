@@ -1,5 +1,6 @@
 package game_engine.properties;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,11 +11,9 @@ public class Movement {
 
 	private List<Branch> myBranches;
 	private Branch myCurrentBranch;
-	private Position mySpawn;
 
 	public Movement(List<Branch> branches, Position spawn){
 		this.myBranches = branches;
-		this.mySpawn = spawn;
 		if(branches.size() > 0)
 			myCurrentBranch = myBranches.get(0);
 	}
@@ -23,11 +22,11 @@ public class Movement {
 		this.myBranches = branches;
 		if(branches.size() > 0){
 			myCurrentBranch = myBranches.get(0);
-			if(myCurrentBranch.getPositions().size() > 0)
-				mySpawn = myCurrentBranch.getFirstPosition();
-			else
-				mySpawn = new Position(0,0);
 		}
+	}
+	
+	public Movement(Position spawn){
+		this.myBranches = new ArrayList<>();
 	}
 
 	public List<Branch> getBranches(){
@@ -43,7 +42,7 @@ public class Movement {
 	}
 
 	public Movement copyMovement(){
-		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()), mySpawn.copyPosition());
+		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
 	}
 
 	public Branch getCurrentBranch(){
@@ -66,14 +65,6 @@ public class Movement {
 
 	public void setCurrentBranch(Branch branch) {
 		myCurrentBranch = branch;
-	}
-
-	public Position getSpawn(){
-		return mySpawn;
-	}
-
-	public void setSpawn(Position spawn){
-		this.mySpawn = spawn;
 	}
 
 }

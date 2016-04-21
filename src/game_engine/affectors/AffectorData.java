@@ -1,5 +1,6 @@
 package game_engine.affectors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.functions.Function;
@@ -7,20 +8,26 @@ import game_engine.functions.Function;
 public class AffectorData {
 
 	private List<List<Function>> myFunctions;
-	private List<List<String>> myUnitProperties;
-	private List<Integer> myAffectTypes;
+	private List<String> myUnitProperties;
 	
-	public AffectorData(List<List<Function>> functions, List<List<String>> unitProperies, List<Integer> types){
+	//constructor for affector that doesn't target a unit property
+	public AffectorData() {
+	    myFunctions = new ArrayList<>();
+	    myUnitProperties = new ArrayList<>();
+	    myFunctions.add(null);
+	    myUnitProperties.add(null);
+	};
+	
+	public AffectorData(List<List<Function>> functions, List<String> unitProperies){
 		myFunctions = functions;
 		myUnitProperties = unitProperies;
-		myAffectTypes = types;
 	}
 	
 	public List<List<Function>> getFunctions(){
 		return myFunctions;
 	}
 	
-	public List<List<String>> getUnitProperties(){
+	public List<String> getUnitProperties(){
 		return myUnitProperties;
 	}
 	
@@ -28,12 +35,12 @@ public class AffectorData {
 		this.myFunctions = functions;
 	}
 	
-	public void setUnitProperties(List<List<String>> unitProperties){
+	public void setUnitProperties(List<String> unitProperties){
 		this.myUnitProperties = unitProperties;
 	}
 	
-	public List<Integer> getTypes(){
-		return myAffectTypes;
+	public int getNumPairs() {
+	    return myFunctions.size();
 	}
 	
 }

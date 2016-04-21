@@ -22,5 +22,9 @@ public abstract class GameElement {
 		return myName;
 	}
 	
+	public String getName(){
+		return myName;
+	}
+	
 	
 }

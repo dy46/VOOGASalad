@@ -2,18 +2,17 @@ package game_engine.games;
 
 import java.util.List;
 
-import game_data.GameData;
+import exceptions.WompException;
 import game_engine.game_elements.Level;
-import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Enemy;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.games.Timer;
+import game_engine.physics.CollisionDetector;
+import game_engine.physics.EncapsulationDetector;
 
 /**
  * This interface is the external API for the game player module. It facilitates 
@@ -42,13 +41,13 @@ public interface GameEngineInterface {
     String getGameStatus();
 
     //tells engine to add tower to its active tower list given a tower index
-    void addTower(String name, double x, double y);
+    boolean addTower(String name, double x, double y);
 
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
 
     //sets up the engine with a list of files
-    void setUpEngine(GameData gameData);
+    void setUpEngine(Double test);
 
     public List<Unit> getEnemies();
 
@@ -64,9 +63,9 @@ public interface GameEngineInterface {
 
     public void clearProjectiles();
 
-    public List<Tower> getTowerTypes();
+    public List<Unit> getTowerTypes();
     
-    public List<Branch> getPaths();
+    public List<Branch> getBranches();
 
     public boolean isPaused();
 
@@ -75,8 +74,10 @@ public interface GameEngineInterface {
     public default CollisionDetector getCollisionDetector(){
         return new CollisionDetector(this);
     }
-
-    public void addEnemy(Enemy e);
+    
+    public default EncapsulationDetector getEncapsulationDetector(){
+    	return new EncapsulationDetector(this);
+    }
 
     public boolean isGameOver();
 

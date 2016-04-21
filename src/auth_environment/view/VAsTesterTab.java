@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.backend.ISelector;
-import auth_environment.view.Menus.ElementMenu;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
