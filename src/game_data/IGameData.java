@@ -16,18 +16,9 @@ public interface IGameData extends IAuthEnvironment {
 	
 	public void setLevels(List<Level> levels);
 	public void addLevel(Level levelToAdd);
-
-	public void setTowerTypes(List<Tower> towerTypes);
-	public void addTowerType(Tower towerTypeToAdd);
-	
 	public void setEnemies(List<Unit> enemies);
 	public void setTerrains(List<Unit> terrains);
-
 	public void setProjectiles(List<Unit> projectiles);
-	
-//	public void setPaths(List<Path> paths);
-//	public void addPath(Path pathToAdd);
-
 	public void addPositions(List<Position> list); 
 
 	public List<List<Position>> getPositions();
@@ -38,7 +29,6 @@ public interface IGameData extends IAuthEnvironment {
 	public List<Level> getLevels();
 	public List<Tower> getTowerTypes();
 	public List<Branch> getPaths();
-	public ISettings getSettings();
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();
 	public List<Unit> getProjectiles();
