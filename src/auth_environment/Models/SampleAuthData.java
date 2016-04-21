@@ -4,6 +4,7 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import game_engine.affectors.Affector;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
@@ -11,6 +12,8 @@ public class SampleAuthData implements IAuthEnvironment {
 	
 	private String myName;
 	private String mySplashFileName;
+	private List<Branch> myGridBranches;
+	private List<Branch> myPathBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers;
 	private List<Unit> myEnemies;
@@ -116,5 +119,25 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setAffectors(List<Affector> affectors) {
 		this.myAffectors = affectors; 
+	}
+
+	@Override
+	public List<Branch> getPathBranches() {
+		return this.myPathBranches;
+	}
+
+	@Override
+	public void setPathBranches(List<Branch> branches) {
+		this.myPathBranches = branches; 
+	}
+
+	@Override
+	public List<Branch> getGridBranches() {
+		return this.myGridBranches;
+	}
+
+	@Override
+	public void setGridBranches(List<Branch> branches) {
+		this.myGridBranches = branches; 
 	}
 }
