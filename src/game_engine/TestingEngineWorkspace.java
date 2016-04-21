@@ -39,6 +39,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myBranches;
+	private List<Branch> myGridBranches;
 
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
@@ -73,6 +74,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myLives = 3;
 		myLevels = new ArrayList<>();
 		myBranches = new ArrayList<>();
+		myGridBranches = new ArrayList<>();
 		//		Branch p2 = new Branch("DirtNew");
 		//		p2.addPosition(new Position(0, 30));
 		//		p2.addPosition(new Position(200, 30));
@@ -101,6 +103,9 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myCurrentLevel = makeDummyLevel();
 		myLevels.add(myCurrentLevel);
 		myGoals = myCurrentLevel.getGoals();
+		if(myGoals == null){
+			myGoals = new ArrayList<>();
+		}
 		myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));  
 		this.makeDummyUpgrades();
 	}
@@ -174,10 +179,12 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
 		PathNode grid = ph.getPGF().getGraph().getPathGrid();
-
+		//System.out.println(grid.getBranches());
+		myGridBranches.addAll(grid.getBranches());
+		
 		myBranches.addAll(pgf.getBranches());
 		List<PathNode> paths = pgf.getPaths();
-		l.addAllPaths(paths);
+//		l.addAllPaths(paths);
 		l.addPath(grid);
 
 		// For testing branching
@@ -595,6 +602,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		units.addAll(myProjectiles);
 		units.addAll(myTerrains);
 		return units;
+	}
+	
+	public List<Branch> getGridBranches(){
+		return myGridBranches;
 	}
 
 }

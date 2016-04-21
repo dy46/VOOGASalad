@@ -23,9 +23,6 @@ public class PathGraph {
 	}
 	
 	public void setPathGrid(PathNode pathGrid){
-		if(myPaths.contains(myPathGrid)){
-			myPaths.remove(myPathGrid);
-		}
 		this.myPathGrid = pathGrid;
 	}
 

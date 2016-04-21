@@ -27,6 +27,7 @@ public class PathGraphFactory {
 			for(int y=0; y<grid[x].length; y++){
 				List<Position> pos = Arrays.asList(new Position(centerX, centerY));
 				Branch branch = new Branch(getNextBranchID(), pos);
+				pathGrid.addBranch(branch);
 				grid[x][y] = branch;
 				centerX += sideLength;
 				if(centerX > width-sideLength/2){
@@ -187,12 +188,10 @@ public class PathGraphFactory {
 	}
 
 	public List<PathNode> getPaths(){
-		processGraph();
 		return myPathGraph.getPaths();
 	}
 
 	public List<Branch> getBranches(){
-		processGraph();
 		return myPathGraph.getBranches();
 	}
 
@@ -202,7 +201,7 @@ public class PathGraphFactory {
 	}
 
 	private void processGraph(){
-
+		
 	}
 
 }
