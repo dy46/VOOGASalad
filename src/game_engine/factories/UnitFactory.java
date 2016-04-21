@@ -17,6 +17,8 @@ import game_engine.properties.Health;
 import game_engine.properties.Mass;
 import game_engine.properties.Position;
 import game_engine.properties.Price;
+import game_engine.properties.State;
+import game_engine.properties.Team;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
 
@@ -39,6 +41,8 @@ public class UnitFactory {
 		unitProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
 		unitProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
 		unitProperties.setMassProp(getUnitMass(inputs.get("Mass")));
+		unitProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
+		unitProperties.setStateProp(getUnitState(inputs.get("State")));
 //		unitProperties.setPositionProp(getUnitPosition(inputs.get("Position")));
 		return createUnit(name, unitProperties);
 	}
@@ -58,7 +62,7 @@ public class UnitFactory {
 			Double.parseDouble(str);
 		}
 		catch(Exception e){
-			CorrectableException we = new CorrectableException("Invalid health value. Please enter a decimal", Double.class);
+			CorrectableException we = new CorrectableException("Invalid health value. Please enter a number", Double.class);
 			health = Double.parseDouble(we.getResult());
 		}
 		return new Health(health);
@@ -70,7 +74,7 @@ public class UnitFactory {
 			Double.parseDouble(str);
 		}
 		catch(Exception e){
-			CorrectableException we = new CorrectableException("Invalid price value. Please enter a decimal", Double.class);
+			CorrectableException we = new CorrectableException("Invalid price value. Please enter a number", Double.class);
 			price = Double.parseDouble(we.getResult());
 		}
 		return new Price(price);
@@ -82,10 +86,34 @@ public class UnitFactory {
 			Double.parseDouble(str);
 		}
 		catch(Exception e){
-			CorrectableException we = new CorrectableException("Invalid price value. Please enter a decimal", Double.class);
+			CorrectableException we = new CorrectableException("Invalid mass value. Please enter a number", Double.class);
 			mass = Double.parseDouble(we.getResult());
 		}
 		return new Mass(mass);
+	}
+	
+	private Team getUnitTeam(String str){
+		double team = 0;
+		try{
+			Double.parseDouble(str);
+		}
+		catch(Exception e){
+			CorrectableException we = new CorrectableException("Invalid team value. Please enter a number", Double.class);
+			team = Double.parseDouble(we.getResult());
+		}
+		return new Team(team);
+	}
+	
+	private State getUnitState(String str){
+		double state = 0;
+		try{
+			Double.parseDouble(str);
+		}
+		catch(Exception e){
+			CorrectableException we = new CorrectableException("Invalid team value. Please enter a number", Double.class);
+			state = Double.parseDouble(we.getResult());
+		}
+		return new State(state);
 	}
 
 	public void setUnitType(Unit unit, String type) throws WompException{
