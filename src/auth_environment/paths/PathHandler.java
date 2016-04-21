@@ -76,10 +76,10 @@ public class PathHandler {
 		HashMap<Position, Position> nextPositions = fillPositionGaps(positions, cycle);
 		if(!positions.isEmpty()){
 			Position start = positions.get(0);
-			newList.add(new Position(start.getX(), start.getY(), start.getZ()));
+			newList.add(new Position(start.getX(), start.getY()));
 			Position curr = nextPositions.get(start);
 			while(curr != null && !curr.equals(start) && !curr.equals(positions.get(0))){
-				newList.add(new Position(curr.getX(), curr.getY(), curr.getZ()));
+				newList.add(new Position(curr.getX(), curr.getY()));
 				curr = nextPositions.get(curr);
 			}
 		}
@@ -93,29 +93,23 @@ public class PathHandler {
 		}
 		double x = positions.get(0).getX();
 		double y = positions.get(0).getY();
-		double z = positions.get(0).getZ();
 		for(int i = 0;i < size;i++){
 			Position p1 = positions.get(i);
 			Position p2 = positions.get((i+1)%positions.size());
 			double vx = p2.getX() - p1.getX();
 			double vy = p2.getY() - p1.getY();
-			double vz = p2.getZ() - p1.getZ();
-			double mag = Math.sqrt(vx*vx + vy*vy + vz*vz);
+			double mag = Math.sqrt(vx*vx + vy*vy);
 			vx /= mag;
 			vy /= mag;
-			vz /= mag;
-			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0) 
-					&& (vz == 0 || (p2.getZ() - z)/vz > 0)){
-				Position newPosition = new Position(x + vx, y + vy, z + vz);
-				nextPositions.put(new Position(x, y, z), newPosition);
+			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0) ){
+				Position newPosition = new Position(x + vx, y + vy);
+				nextPositions.put(new Position(x, y), newPosition);
 				x += vx;
 				y += vy;
-				z += vz;
 			}
-			nextPositions.put(new Position(x - vx, y - vy, z - vz), p2);
+			nextPositions.put(new Position(x - vx, y - vy), p2);
 			x = p2.getX();
 			y = p2.getY();
-			z = p2.getZ();
 		}
 		return nextPositions;
 	}

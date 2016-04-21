@@ -13,7 +13,6 @@ import exceptions.WompException;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -29,6 +28,7 @@ import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
+import game_engine.physics.EncapsulationDetector;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.store_elements.Store;
@@ -45,6 +45,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private List<Unit> myProjectiles;
 
 	private CollisionDetector myCollider;
+	private EncapsulationDetector myEncapsulator;
+	
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
@@ -93,6 +95,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
+		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
@@ -220,15 +223,15 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		rand2.getProperties().setHealth(50);
 		rand3.getProperties().setHealth(50);
 		rand4.getProperties().setHealth(50);
-		w.addEnemy(e1, 0);
+		w.addEnemy(e1, 60);
 		w.addEnemy(e2, 60);
 		w.addEnemy(e3, 60);
 		w.addEnemy(e4, 60);
-		w.addEnemy(AI1, 0);
+		w.addEnemy(AI1, 60);
 		w.addEnemy(AI2, 60);
 		w.addEnemy(AI3, 60);
 		w.addEnemy(AI4, 60);
-		w.addEnemy(rand1, 0);
+		w.addEnemy(rand1, 60);
 		w.addEnemy(rand2, 60);
 		w.addEnemy(rand3, 60);
 		w.addEnemy(rand4, 60);
@@ -266,15 +269,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 	private void makeDummyUpgrades(){
 		Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
-
 		affector.setTTL(Integer.MAX_VALUE);
-		List<Affector> affList = new ArrayList<Affector>();
-		affList.add(affector);
-		AffectorTimeline t = new AffectorTimeline(affList);
-		List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
-		init.add(t);
-		Unit u = new Unit("Interesting", init, 1);
-		u.setTimelinesToApply(init);
+//		List<Affector> affList = new ArrayList<Affector>();
+//		affList.add(affector);
+//		Affector t = new Affector(affList);
+//		List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
+//		init.add(t);
+		Unit u = new Unit("Interesting", Arrays.asList(affector), 1);
+		u.addAffectorToApply(affector);
 		myStore.addItem(u, 10);
 	}
 	private List<Unit> makeDummyTerrains () {
@@ -481,7 +483,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
-	public void continueWaves () throws WompException {
+	public void continueWaves () {
 		myCurrentLevel.playNextWave();
 		pause = false;
 	}
@@ -515,14 +517,15 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public void update () throws WompException {
+	public void update (){
 		myStore.addBuyableTower(myCurrentLevel.getNewUnits());
 		nextWaveTimer++;
 		boolean gameOver = myLives <= 0;
 		if (!pause && !gameOver) {
 			myTowers.forEach(t -> t.update());
 			myEnemys.forEach(e -> e.update());
-			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
+			myCollider.resolveEnemyCollisions(myProjectiles);
+			myEncapsulator.resolveEncapsulations(myTerrains);
 			Unit newE = myCurrentLevel.update();
 			if (newE != null) {
 				myEnemys.add(newE);

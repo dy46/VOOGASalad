@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
-import exceptions.WompException;
 import game_engine.TestingEngineWorkspace;
 import game_engine.games.Timer;
 import game_engine.properties.Position;
@@ -45,9 +44,9 @@ public class Level extends GameElement {
      * This API will allow the player to start a new wave. Returns true if next started, false if
      * not.
      */
-    public void playNextWave () throws WompException {
+    public void playNextWave () {
         if (!myCurrentWave.isFinished()) {
-            throw new WompException("Cannot skip this wave.");
+            return; // TODO: should probably fix this to tell player that you cannot skip this wave
         }
         checkCurrentWaveFinished();
         Wave nextWave = getNextWave();
@@ -177,9 +176,9 @@ public class Level extends GameElement {
 		this.myGoals.add(goal);
 	}
 	
-	public List<Position> getGoals(){
-		return myGoals;
-	}
+//	public List<Position> getGoals(){
+//		return myGoals;
+//	}
 	
 	public void addGoals(List<Position> goals){
 		this.myGoals.addAll(goals);
@@ -197,18 +196,18 @@ public class Level extends GameElement {
 		this.myWaves.addAll(waves);
 	}
 
-//	public List<Position> getGoals() {
-//		List<Position> goals = new ArrayList<>();
-//		for(PathNode p : myPaths){
-//			List<Branch> branches = p.getBranches();
-//			for(Branch b : branches){
-//				Position lastPos = b.getLastPosition();
-//				List<Branch> forwardNeighbors = b.getForwardNeighbors();
-//				if(forwardNeighbors.size() == 0)
-//					goals.add(lastPos);
-//			}
-//		}
-//		return goals;
-//	}
+	public List<Position> getGoals() {
+		List<Position> goals = new ArrayList<>();
+		for(PathNode p : myPaths){
+			List<Branch> branches = p.getBranches();
+			for(Branch b : branches){
+				Position lastPos = b.getLastPosition();
+				List<Branch> forwardNeighbors = b.getForwardNeighbors();
+				if(forwardNeighbors.size() == 0)
+					goals.add(lastPos);
+			}
+		}
+		return goals;
+	}
 
 }

@@ -116,9 +116,6 @@ public class UnitFactory {
 	}
 
 	public void setUnitType(Unit unit, String type) throws WompException{
-		if(unit.getProperties().getMovement().getSpawn() == null){
-			throw new WompException("Unit needs a spawn.");
-		}
 		Affector a = getPathFollowingAffector(type);
 		a.setTTL(Integer.MAX_VALUE);
 		setupPathFollowingType(unit, type);
@@ -156,10 +153,6 @@ public class UnitFactory {
 
 	public void addAffectorsToApplyToUnit(String name, List<Affector> affectorsToApply){
 		myUnitLibrary.getUnitByName(name).addAffectorsToApply(affectorsToApply);
-	}
-
-	public void setSpawnForUnit(String name, Position spawn){
-		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setSpawn(spawn);
 	}
 
 	public void addBranchesToUnit(String name, List<Branch> branches){

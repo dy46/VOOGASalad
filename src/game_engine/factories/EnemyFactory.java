@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.TimelineLibrary;
@@ -50,9 +49,8 @@ public class EnemyFactory {
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
         moveAffector.setTTL(Integer.MAX_VALUE);
-        AffectorTimeline timeline1 = new AffectorTimeline(moveAffector);
         // Field[] fields = Unit.class.getDeclaredFields();
-        Unit e1 = new Unit(name, Arrays.asList(timeline1), 3);
+        Unit e1 = new Unit(name, Arrays.asList(moveAffector), 3);
         // forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
         Health health = new Health(50);
         Velocity velocity = new Velocity(0.5, 90);
