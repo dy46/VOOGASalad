@@ -64,6 +64,7 @@ public class Store {
 		return buyableUnits.size();
 	}
 	public void applyItem(String name, List<Unit> applied){
+		
 		for(Unit u : items.keySet()){
 			if(u.toString().equals(name) && myMoney >= items.get(u)){
 				// apply shit here

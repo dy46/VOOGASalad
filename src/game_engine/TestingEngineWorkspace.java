@@ -88,7 +88,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
-		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary(), myTimelineFactory.getTimelineLibrary());
+		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();
@@ -178,17 +178,21 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
-		PathNode grid = ph.getPGF().getGraph().getPathGrid();
+		PathNode grid = ph.getPGF().getPathLibrary().getPathGrid();
 		//System.out.println(grid.getBranches());
 		myGridBranches.addAll(grid.getBranches());
 		
-		myBranches.addAll(pgf.getBranches());
-		List<PathNode> paths = pgf.getPaths();
+		myBranches.addAll(pgf.getPathLibrary().getBranches());
+		List<PathNode> paths = pgf.getPathLibrary().getPaths();
 		l.addAllPaths(paths);
 		l.addPath(grid);
 
 		// For testing branching
-		myBranches.addAll(pgf.getBranches());
+		myBranches.addAll(pgf.getPathLibrary().getBranches());
+		//System.out.println("NUM BRANCHES: " + myBranches.size());
+//		for(Branch b : myBranches){
+//			System.out.println("Branch: " + b.getID()+" Starting Point: " + b.getFirstPosition()+" Ending: "+b.getLastPosition());
+//		}
 		Branch pb1 = myBranches.get(0);
 //		Branch pb2 = myBranches.get(1);
 //		Branch pb3 = myBranches.get(2);
@@ -558,6 +562,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 			myTowers.forEach(t -> t.update());
 			myEnemys.forEach(e -> e.update());
 			myCollider.resolveEnemyCollisions(myProjectiles);
+			myCollider.handleCustomCollisions(this.getAllUnits());
 			myEncapsulator.resolveEncapsulations(myTerrains);
 			Unit newE = myCurrentLevel.update();
 			if (newE != null) {
@@ -570,7 +575,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 					nextWaveTimer = 0;
 				}
 			}
-			myStore.applyItem("Interesting", this.myEnemys);
+//			myStore.applyItem("Interesting", this.myEnemys);
 
 		}
 		else if (myCurrentLevel.getNextWave() != null &&
