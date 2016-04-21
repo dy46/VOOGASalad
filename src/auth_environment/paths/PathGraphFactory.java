@@ -111,7 +111,6 @@ public class PathGraphFactory {
 		if(!startPos.equals(endPos)){
 			configureMidBranchSplits(newPathNode, myPath, endPos);
 		}
-		configureNewSplits(newPathNode, myPath);
 	}
 
 	private void configureBranchesWithEdgePos(Branch newBranch, PathNode myPath, Position pos){
@@ -150,28 +149,6 @@ public class PathGraphFactory {
 			newBranch.addNeighbor(newSplitBranch);
 			myPath.addBranch(newSplitBranch);
 		}
-	}
-
-	private void configureNewSplits(Branch myBranch, PathNode myPath){
-		List<Position> intersects = getIntersections(myBranch, myPath);
-		for(Position pos : intersects){
-			configureMidBranchSplits(myBranch, myPath, pos);
-		}
-	}
-
-	private List<Position> getIntersections(Branch myBranch, PathNode myPath){
-		List<Position> intersects = new ArrayList<>();
-		for(Position pos : myBranch.getPositions()){
-			List<Branch> branches = myPath.getBranchesByMidPosition(pos);
-			for(Branch b : branches){
-				if(!b.equals(myBranch)){
-					if(!intersects.contains(pos)){
-						intersects.add(pos);
-					}
-				}
-			}
-		}
-		return intersects;
 	}
 
 	private void processGraph(){

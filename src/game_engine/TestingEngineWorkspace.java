@@ -189,8 +189,12 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		// For testing branching
 		myBranches.addAll(pgf.getBranches());
+		System.out.println("NUM BRANCHES: " + myBranches.size());
+		for(Branch b : myBranches){
+			System.out.println("Branch: " + b.getID()+" Starting Point: " + b.getFirstPosition()+" Ending: "+b.getLastPosition());
+		}
 		Branch pb1 = myBranches.get(0);
-//		Branch pb2 = myBranches.get(1);
+		Branch pb2 = myBranches.get(1);
 //		Branch pb3 = myBranches.get(2);
 //		Branch pb4 = myBranches.get(3);
 //		Branch pb5 = myBranches.get(4);
@@ -210,19 +214,19 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
 		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
+		Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", pb2);
 		Unit rand8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit rand9 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit rand10 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
