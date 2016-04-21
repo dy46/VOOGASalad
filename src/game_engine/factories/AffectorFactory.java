@@ -8,6 +8,7 @@ import game_engine.affectors.AffectorData;
 import game_engine.affectors.BasicDecrementAffector;
 import game_engine.affectors.BasicSetAffector;
 import game_engine.functions.Function;
+import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 
 public class AffectorFactory {
@@ -44,28 +45,28 @@ public class AffectorFactory {
 		Affector basic = new BasicDecrementAffector(d1);
 		myAffectorLibrary.addAffector(pr1, e1, basic);
 
-//		String pr2 = "ExpIncr";
-//		String e2 = "HealthDamage";
-//		List<List<Function>> f2 = Arrays.asList(Arrays.asList(myFunctionFactory.createExpIncrFunction("Moderate")));
-//		List<List<String>> p2 = new ArrayList<>();
-//		AffectorData d2 = new AffectorData(f2, p2);
-//		constructAffector(pr2, e2, d2);
+		//		String pr2 = "ExpIncr";
+		//		String e2 = "HealthDamage";
+		//		List<List<Function>> f2 = Arrays.asList(Arrays.asList(myFunctionFactory.createExpIncrFunction("Moderate")));
+		//		List<List<String>> p2 = new ArrayList<>();
+		//		AffectorData d2 = new AffectorData(f2, p2);
+		//		constructAffector(pr2, e2, d2);
 
-//		String pr3 = "RandomPoison";
-//		String e3 = "HealthDamage";
-//		List<List<Function>> f3 = Arrays.asList(Arrays.asList(myFunctionFactory.createExpIncrFunction("Weak")));
-//		List<List<String>> p3 = new ArrayList<>();
-//		AffectorData d3 = new AffectorData(f3, p3);
-//		constructAffector(pr3, e3, d3);
+		//		String pr3 = "RandomPoison";
+		//		String e3 = "HealthDamage";
+		//		List<List<Function>> f3 = Arrays.asList(Arrays.asList(myFunctionFactory.createExpIncrFunction("Weak")));
+		//		List<List<String>> p3 = new ArrayList<>();
+		//		AffectorData d3 = new AffectorData(f3, p3);
+		//		constructAffector(pr3, e3, d3);
 
 		String pr4 = "State";
 		String e4 = "Change";
 		List<List<Function>> f4 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(4)));
 		List<String> p4 = Arrays.asList("State");
 		AffectorData d4 = new AffectorData(f4, p4);
-	        Affector basic2 = new BasicSetAffector(d4);
-	        myAffectorLibrary.addAffector(pr4, e4, basic2);
-		
+		Affector basic2 = new BasicSetAffector(d4);
+		myAffectorLibrary.addAffector(pr4, e4, basic2);
+
 		String pr5 = "RangePathFollow";
 		String e5 = "PositionMove";
 		List<List<Function>> f5 = new ArrayList<>();
@@ -97,10 +98,10 @@ public class AffectorFactory {
 		String pr9 = "Death";
 		String e9 = "Activation";
 		List<List<Function>> deathfunction = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(0)));
-                List<String> deathproperty = Arrays.asList("Health");
-                AffectorData deathdata = new AffectorData(deathfunction, deathproperty);
-                Affector deathbasic = new BasicSetAffector(deathdata);
-                myAffectorLibrary.addAffector(pr9, e9, deathbasic);
+		List<String> deathproperty = Arrays.asList("Health");
+		AffectorData deathdata = new AffectorData(deathfunction, deathproperty);
+		Affector deathbasic = new BasicSetAffector(deathdata);
+		myAffectorLibrary.addAffector(pr9, e9, deathbasic);
 
 		String pr10 = "RandomPath";
 		String e10 = "Follow";
@@ -109,49 +110,73 @@ public class AffectorFactory {
 		AffectorData d10 = new AffectorData();
 		constructAffector(pr10, e10, d10);
 
-//		String pr11 = "Explosion";
-//		String e11 = "Radius";
-//		List<List<Function>> f11 = new ArrayList<>();
-//		List<List<String>> p11 = Arrays.asList(Arrays.asList("Damage"));
-//		AffectorData d11 = new AffectorData(f11, p11);
-//		constructAffector(pr11, e11, d11);
+		//		String pr11 = "Explosion";
+		//		String e11 = "Radius";
+		//		List<List<Function>> f11 = new ArrayList<>();
+		//		List<List<String>> p11 = Arrays.asList(Arrays.asList("Damage"));
+		//		AffectorData d11 = new AffectorData(f11, p11);
+		//		constructAffector(pr11, e11, d11);
 
 		String property12 = "Position";
 		String effect12 = "Move";
-	        List<List<Function>> f12 = new ArrayList<>();
-	        List<List<String>> p12 = new ArrayList<>();
-	        AffectorData d12 = new AffectorData();
+		List<List<Function>> f12 = new ArrayList<>();
+		List<List<String>> p12 = new ArrayList<>();
+		AffectorData d12 = new AffectorData();
 		constructAffector(property12, effect12, d12);
-		
+
 		String property13 = "RangeConstantPosition";
-                String effect13 = "Move";
-                List<List<Function>> f13 = new ArrayList<>();
-                List<List<String>> p13 = new ArrayList<>();
-                AffectorData d13 = new AffectorData();
-                constructAffector(property13, effect13, d13);
+		String effect13 = "Move";
+		List<List<Function>> f13 = new ArrayList<>();
+		List<List<String>> p13 = new ArrayList<>();
+		AffectorData d13 = new AffectorData();
+		constructAffector(property13, effect13, d13);
 
 
 		String property14 = "Firing";
 		String effect14 = "Children";
 		Function function14 = myFunctionFactory.createConstantFunction(30);
-	        List<List<Function>> f14 = Arrays.asList(Arrays.asList(function14));
-	        List<String> p14 = new ArrayList<>();
-	        p14.add(null);
-	        AffectorData d14 = new AffectorData(f14, p14);
+		List<List<Function>> f14 = Arrays.asList(Arrays.asList(function14));
+		List<String> p14 = new ArrayList<>();
+		p14.add(null);
+		AffectorData d14 = new AffectorData(f14, p14);
 		constructAffector(property14, effect14, d14);
 
-//		String pr15 = "MoveTo";
-//		String e15 = "Spawn";
-//		Function function1 = myFunctionFactory.createConstantFunction(0);
-//		Function function2 = myFunctionFactory.createConstantFunction(0);
-//		List<List<Function>> f15 = Arrays.asList(Arrays.asList(function1, function2));
-//		List<List<String>> p15 = Arrays.asList(Arrays.asList("Position"));
-//		AffectorData d15 = new AffectorData(f15, p15);
-//		constructAffector(pr15, e15, d15);
+		//		String pr15 = "MoveTo";
+		//		String e15 = "Spawn";
+		//		Function function1 = myFunctionFactory.createConstantFunction(0);
+		//		Function function2 = myFunctionFactory.createConstantFunction(0);
+		//		List<List<Function>> f15 = Arrays.asList(Arrays.asList(function1, function2));
+		//		List<List<String>> p15 = Arrays.asList(Arrays.asList("Position"));
+		//		AffectorData d15 = new AffectorData(f15, p15);
+		//		constructAffector(pr15, e15, d15);
+//		
+//		String property15 = "Velocity";
+//		String effect15 = "Stop";
+//		Function function15 = myFunctionFactory.createConstantFunction(0);
+//		AffectorData d15 = new AffectorData();
+		
+		String pr15 = "Velocity";
+		String e15 = "Stop";
+		List<List<Function>> f15 = new ArrayList<List<Function>>();
+		List<Function> functions = new ArrayList<Function>();
+		functions.add(myFunctionFactory.createConstantFunction(0));
+		functions.add(myFunctionFactory.createConstantFunction(0));
+		f15.add(functions);
+		List<String> p15 = Arrays.asList("Velocity");
+		AffectorData d15 = new AffectorData(f15, p15);
+		Affector basic3 = new BasicSetAffector(d15);
+		myAffectorLibrary.addAffector(pr15, e15, basic3);
+		Unit u = new Unit("String", new ArrayList<>(), 6);
+//		System.out.println(u);
+//		System.out.println(u.getProperties().getVelocity().getValues());
+		basic3.apply(u);
+//		System.out.println("this should be different");
+//		System.out.println(u.getProperties().getVelocity().getValues());
 	}
 
 	public AffectorLibrary getAffectorLibrary(){
 		return myAffectorLibrary;
 	}
+	
 
 }
