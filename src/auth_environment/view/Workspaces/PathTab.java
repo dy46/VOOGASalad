@@ -37,6 +37,8 @@ public class PathTab implements IWorkspace {
 	
 	private TextField myPathWidthField;
 	
+	private Pane canvasPane = new Pane(); 
+	
 	private IPathTabModel myModel;
 	
 	public PathTab(IAuthEnvironment auth) {
@@ -89,19 +91,27 @@ public class PathTab implements IWorkspace {
 	}
 	
 	private Node buildMainCanvas() {
-		Pane canvasPane = new Pane(); 
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
-        canvas.setOnMouseClicked(e -> {
-        	this.printPoint(e.getX(), e.getY());
-        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
-        });
-        canvasPane.getChildren().add(canvas); 
+        this.addClickHandlers(canvas);
+        this.canvasPane.getChildren().add(canvas); 
         return canvasPane; 
+	}
+	
+	private void addClickHandlers(Canvas canvas) {
+		 canvas.setOnMouseClicked(e -> {
+	        	this.myModel.addPosition(e.getX(), e.getY());
+	        	this.printCurrentPoints();
+	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
+	        });
 	}
 	
 	private void printPoint(double x, double y) {
     	System.out.println(x + " " + y);
+	}
+	
+	private void printCurrentPoints() {
+		this.myModel.printCurrentPositions();
 	}
 	
 	// This is Auth frontend ONLY

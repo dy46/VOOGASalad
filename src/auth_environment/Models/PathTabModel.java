@@ -49,8 +49,9 @@ public class PathTabModel implements IPathTabModel {
 		this.myPathHandler.processStraightLine(this.myCurrentPositions);
 	}
 	
+	@Override
 	public void printCurrentPositions() {
-		this.myCurrentPositions.stream().forEach(s -> System.out.println(s.toString()));
+		this.myCurrentPositions.stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
 	}
 	
 }

@@ -11,4 +11,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public void submitBranch(); 
 	
+	public void printCurrentPositions(); 
+	
 }
