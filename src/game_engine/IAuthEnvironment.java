@@ -46,7 +46,7 @@ public interface IAuthEnvironment {
 	
 	public List<Unit> getTowers(); 
 	
-	public void setTerrains(List<Unit> terrain); 
+	public void setTerrains(List<Unit> terrains); 
 	
 	public List<Unit> getTerrains(); 
 	
