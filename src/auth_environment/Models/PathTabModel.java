@@ -1,5 +1,8 @@
 package auth_environment.Models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import auth_environment.IAuthEnvironment;
 
 /**
@@ -10,11 +13,15 @@ import auth_environment.IAuthEnvironment;
  */
 
 import auth_environment.Models.Interfaces.IPathTabModel;
+import auth_environment.paths.PathHandler;
+import game_engine.properties.Position;
 
 public class PathTabModel implements IPathTabModel {
 	
 	private IAuthEnvironment myAuthData;  
+	private PathHandler myPathHandler = new PathHandler(); 
 	
+	private List<Position> myCurrentPositions = new ArrayList<Position>(); 
 	private double myPathWidth; 
 	
 	public PathTabModel(IAuthEnvironment auth) {
@@ -31,6 +38,14 @@ public class PathTabModel implements IPathTabModel {
 	public double getPathWidth() {
 		return this.myPathWidth;
 	}
+
+	@Override
+	public void addPosition(double x, double y) {
+		this.myCurrentPositions.add(new Position(x, y)); 
+	}
 	
+	public void printCurrentPositions() {
+		this.myCurrentPositions.stream().forEach(s -> System.out.println(s.toString()));
+	}
 	
 }
