@@ -2,7 +2,7 @@ package auth_environment.Models;
 
 import java.util.List;
 
-import game_engine.IAuthEnvironment;
+import auth_environment.IAuthEnvironment;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;

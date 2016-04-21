@@ -1,7 +1,7 @@
 package auth_environment.Models;
 
+import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
-import game_engine.IAuthEnvironment;
 
 /**
  * Created by BrianLin on 4/19/16

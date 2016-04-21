@@ -3,11 +3,11 @@ package auth_environment.view.Workspaces;
 import java.io.File;
 import java.util.ResourceBundle;
 
+import auth_environment.IAuthEnvironment;
 import auth_environment.Models.GlobalGameTabModel;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import game_engine.IAuthEnvironment;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

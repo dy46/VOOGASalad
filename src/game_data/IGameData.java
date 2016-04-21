@@ -2,8 +2,8 @@ package game_data;
 
 import java.util.List;
 
+import auth_environment.IAuthEnvironment;
 import game_engine.game_elements.Level;
-import game_engine.IAuthEnvironment;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;

@@ -21,7 +21,9 @@ import game_engine.properties.UnitProperties;
  *
  */
 
-public class EngineWorkspace implements IPlayerEngineInterface, IAuthEnvironment {
+// TODO: deprecate (Brian will handle) 
+
+public class EngineWorkspace implements IPlayerEngineInterface {
 
 	private int nextWaveTimer;
 	private boolean pause;
