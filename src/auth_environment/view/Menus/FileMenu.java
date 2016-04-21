@@ -60,15 +60,15 @@ public class FileMenu extends Menu {
 //		myGameDataController.getGameData().setTerrains(myGameDataController.getPicker().getTerrains());
 //		myGameDataController.getGameData().setTowerTypes(myGameDataController.getPicker().getTowers());
 //		myGameDataController.getGameData().setPaths(myGameDataController.getPathGraphFactory().getPaths());
-		TestingEngineWorkspace test = new TestingEngineWorkspace();
-		myGameDataController.getGameData().setPaths(test.getPaths());
-		myGameDataController.getGameData().setEnemies(test.getEnemies());
-		myGameDataController.getGameData().setTerrains(test.getTerrains());
-		myGameDataController.getGameData().setTowerTypes(test.getTowerTypes());
-		myGameDataController.getGameData().setTowers(test.getTowers());
-		myGameDataController.getGameData().setProjectiles(test.getProjectiles());
-		myGameDataController.getGameData().setLevels(test.getLevels());
-		myGameDataController.getGameData().setAffectors(test.getAffectors());
+//		TestingEngineWorkspace test = new TestingEngineWorkspace();
+//		myGameDataController.getGameData().setPaths(test.getPaths());
+//		myGameDataController.getGameData().setEnemies(test.getEnemies());
+//		myGameDataController.getGameData().setTerrains(test.getTerrains());
+//		myGameDataController.getGameData().setTowerTypes(test.getTowerTypes());
+//		myGameDataController.getGameData().setTowers(test.getTowers());
+//		myGameDataController.getGameData().setProjectiles(test.getProjectiles());
+//		myGameDataController.getGameData().setLevels(test.getLevels());
+//		myGameDataController.getGameData().setAffectors(test.getAffectors());
 	}
 
 	private void load() {

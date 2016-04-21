@@ -1,8 +1,7 @@
 package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.backend.SampleAuthData;
-import game_engine.IAuthInterface;
+import game_engine.IAuthEnvironment;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -16,7 +15,7 @@ import game_engine.IAuthInterface;
 
 public class AuthModel implements IAuthModel {
 	
-	private IAuthInterface authInterface; 
+	private IAuthEnvironment authInterface; 
 	
 	public AuthModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
@@ -24,12 +23,12 @@ public class AuthModel implements IAuthModel {
 	}
 
 	@Override
-	public IAuthInterface getAuthInterface() {
+	public IAuthEnvironment getAuthInterface() {
 		return this.authInterface;
 	}
 
 	@Override
-	public void setAuthInterface(IAuthInterface auth) {
+	public void setAuthInterface(IAuthEnvironment auth) {
 		this.authInterface = auth;
 	}
 

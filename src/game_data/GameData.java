@@ -1,155 +1,141 @@
 package game_data;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import auth_environment.backend.GameSettings;
-import auth_environment.backend.ISettings;
-import game_engine.EngineWorkspace;
-import game_engine.IPlayerEngineInterface;
+import game_engine.IAuthEnvironment;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
-import game_engine.game_elements.Branch;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Position;
 
-public class GameData implements IGameData {
+public class GameData implements IAuthEnvironment {
+	
+	private String myName;
+	private String mySplashFileName;
 	private List<Level> myLevels;
-	private List<Tower> myTowerTypes;
 	private List<Unit> myTowers;
-	private List<Branch> myPaths;
-	private List<Unit> myTerrains;
 	private List<Unit> myEnemies;
-	private List<Unit> myProjectiles;
-	private List<Affector> myAffectors;
-	private ISettings mySettings;
-	//	private List<Unit> myTerrains;
-	private IDataConverter<IPlayerEngineInterface> mySerializer;
-	private List<List<Position>> myPositionLists;
-
-	public GameData(){
-		myAffectors = new ArrayList<>();
-		myLevels = new ArrayList<>();
-		myTowerTypes = new ArrayList<>();
-		myPaths = new ArrayList<>();
-		myTerrains = new ArrayList<>();
-		myProjectiles = new ArrayList<>();
-		mySettings = new GameSettings();
-		mySerializer = new AuthSerializer<IPlayerEngineInterface>();
+	private List<Unit> myTerrains;
+	private List<Unit> myProjectiles; 
+	private List<Affector> myAffectors; 
+	private List<Unit> myPlacedUnits; 
+	
+	public GameData() {
+		
 	}
 
 	@Override
-	public void setLevels(List<Level> levels) {
-		myLevels = levels;
-	}
-	@Override
-	public void addLevel(Level levelToAdd) {
-		myLevels.add(levelToAdd);
+	public void setGameName(String name) {
+		this.myName = name; 
 	}
 
 	@Override
-	public void setTowerTypes(List<Tower> towerTypes) {
-		myTowerTypes = towerTypes;
+	public String getGameName() {
+		return this.myName; 
 	}
+
 	@Override
-	public void addTowerType(Tower towerTypeToAdd) {
-		myTowerTypes.add(towerTypeToAdd);
+	public void setSplashScreen(String fileName) {
+		this.mySplashFileName = fileName;
 	}
 
-	//	@Override
-	//	public void setPaths(List<Path> paths) {
-	//		myPaths = paths;
-	//	}
-	//	@Override
-	//	public void addPath(Path pathToAdd) {
-	//		myPaths.add(pathToAdd);
-	//	}
 	@Override
-	public void addGameSettings(ISettings settings) {
-		mySettings = settings;
+	public String getSplashScreen() {
+		return this.mySplashFileName;
 	}
 
-	//	@Override
-	//	public void setTerrains(List<Unit> terrains) {
-	//		myTerrains = terrains;
-	//	}
-
-	// Getters
 	@Override
 	public List<Level> getLevels() {
-		return myLevels;
-	}
-	@Override
-	public List<Tower> getTowerTypes() {
-		return myTowerTypes;
-	}
-	@Override
-	public List<Branch> getPaths() {
-		return myPaths;
-	}
-	@Override
-	public ISettings getSettings() {
-		return mySettings;
+		return this.myLevels;
 	}
 
 	@Override
-	public void saveGameData() {
-		IPlayerEngineInterface workspace = new EngineWorkspace();
-		workspace.setUpEngine(this);
-		mySerializer.saveElement(workspace);
+	public void addLevel(Level level) {
+		this.myLevels.add(level); 
 	}
 
-	public void addPositions(List<Position> list) {
-		myPositionLists.add(list);
+	@Override
+	public List<Unit> getPlacedUnits() {
+		return this.myPlacedUnits;
 	}
 
-	public List<List<Position>> getPositions() {
-		return myPositionLists;
-	}
-	
-	public void setEnemies(List<Unit> enemies) {
-		this.myEnemies = enemies;
-	}
-	
-	public void setTerrains(List<Unit> terrains) {
-		this.myTerrains = terrains;
-	}
-	
-	public List<Unit> getEnemies() {
-		return myEnemies;
-	}
-	
-	public List<Unit> getTerrains() {
-		return myTerrains;
+	@Override
+	public void placeUnit(Unit unit) {
+		this.myPlacedUnits.add(unit); 
 	}
 
+	@Override
+	public void addTower(Unit tower) {
+		this.myTowers.add(tower); 
+	}
+
+	@Override
 	public List<Unit> getTowers() {
-		return myTowers;
-	}
-	
-	public void setTowers(List<Unit> towers){
-		this.myTowers = towers;
+		return this.myTowers;
 	}
 
+	@Override
+	public void clearTowers() {
+		this.myTowers.clear();
+	}
+
+	@Override
+	public void addTerrain(Unit terrain) {
+		this.myTerrains.add(terrain);
+	}
+
+	@Override
+	public List<Unit> getTerrains() {
+		return this.getTerrains();
+	}
+
+	@Override
+	public void clearTerrains() {
+		this.myTerrains.clear();
+	}
+
+	@Override
+	public void addEnemy(Unit enemy) {
+		this.myEnemies.add(enemy);
+	}
+
+	@Override
+	public List<Unit> getEnemies() {
+		return this.myEnemies;
+	}
+
+	@Override
+	public void clearEnemies() {
+		this.myEnemies.clear();
+	}
+
+	@Override
+	public void addProjectile(Unit projectile) {
+		this.myProjectiles.add(projectile); 
+	}
+
+	@Override
 	public List<Unit> getProjectiles() {
-		return myProjectiles;
-	}
-	
-	public void setProjectiles(List<Unit> projectiles){
-		this.myProjectiles = projectiles;
+		return this.myProjectiles;
 	}
 
-	public void setPaths(List<Branch> paths) {
-		this.myPaths = paths;
-	}
-	
-	public void setAffectors(List<Affector> affectors){
-		this.myAffectors = affectors;
+	@Override
+	public void clearProjectiles() {
+		this.myProjectiles.clear();
 	}
 
+	@Override
+	public void addAffector(Affector affector) {
+		this.myAffectors.add(affector);
+	}
+
+	@Override
 	public List<Affector> getAffectors() {
-		return myAffectors;
+		return this.myAffectors;
 	}
 
+	@Override
+	public void clearAffectors() {
+		this.myAffectors.clear();
+	}
+	
 }
