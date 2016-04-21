@@ -178,17 +178,17 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
-		PathNode grid = ph.getPGF().getGraph().getPathGrid();
+		PathNode grid = ph.getPGF().getPathLibrary().getGraph().getPathGrid();
 		//System.out.println(grid.getBranches());
 		myGridBranches.addAll(grid.getBranches());
 		
-		myBranches.addAll(pgf.getBranches());
-		List<PathNode> paths = pgf.getPaths();
+		myBranches.addAll(pgf.getPathLibrary().getBranches());
+		List<PathNode> paths = pgf.getPathLibrary().getPaths();
 		l.addAllPaths(paths);
 		l.addPath(grid);
 
 		// For testing branching
-		myBranches.addAll(pgf.getBranches());
+		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		System.out.println("NUM BRANCHES: " + myBranches.size());
 		for(Branch b : myBranches){
 			System.out.println("Branch: " + b.getID()+" Starting Point: " + b.getFirstPosition()+" Ending: "+b.getLastPosition());

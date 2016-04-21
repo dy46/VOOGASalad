@@ -49,7 +49,7 @@ public class UnitFactory {
 		return createUnit(name, unitProperties);
 	}
 	
-	public void addUnitBounds(Unit unit, Image image){
+	public void setUnitBounds(Unit unit, Image image){
 		unit.getProperties().setBounds(myBoundsFactory.createImageBounds(image));
 	}
 	

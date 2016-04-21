@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import game_engine.game_elements.Branch;
+import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
 
 public class PathGraphFactory {
 
-	private PathGraph myPathGraph;
+	private PathLibrary myPathLibrary;
 	private int currentPathID;
 	private int currentBranchID;
 
 	public PathGraphFactory(){
-		this.myPathGraph = new PathGraph();
+		myPathLibrary = new PathLibrary();
 		currentPathID = -1;
 		currentPathID = -1;
 	}
@@ -37,7 +38,7 @@ public class PathGraphFactory {
 			}
 		}
 		configureGridNeighbors(grid);
-		myPathGraph.setPathGrid(pathGrid);
+		myPathLibrary.setPathGrid(pathGrid);
 	}
 
 	private void configureGridNeighbors(Branch[][] grid){
@@ -70,15 +71,15 @@ public class PathGraphFactory {
 		if(branchPos.size() == 0)
 			return;
 		Branch newBranch = new Branch(getNextBranchID(), branchPos);
-		PathNode currentPath = myPathGraph.getPathByPos(branchPos.get(0));
+		PathNode currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(0));
 		if(currentPath != null){
 			configureBranchInPath(newBranch, currentPath);
 		}
-		currentPath = myPathGraph.getPathByPos(branchPos.get(branchPos.size()-1));
+		currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(branchPos.size()-1));
 		if(currentPath != null){
 			configureBranchInPath(newBranch, currentPath);
 		}
-		if(myPathGraph.getBranchByID(newBranch.getID()) == null){
+		if(myPathLibrary.getPathGraph().getBranchByID(newBranch.getID()) == null){
 			if(branchPos.size() > 0){
 				createNewPath(newBranch);
 			}
@@ -86,8 +87,8 @@ public class PathGraphFactory {
 	}
 
 	private PathNode createNewPath(Branch branch){
-		myPathGraph.addPath(new PathNode(getNextPathID(), branch));
-		return myPathGraph.getLastPath();
+		myPathLibrary.getPathGraph().addPath(new PathNode(getNextPathID(), branch));
+		return myPathLibrary.getPathGraph().getLastPath();
 	}
 
 	private int getNextPathID(){
@@ -151,45 +152,8 @@ public class PathGraphFactory {
 		}
 	}
 
-	private void processGraph(){
-
-	}
-
-	public void addSpawn(Position spawn){
-		this.myPathGraph.addSpawn(spawn);
-	}
-
-	public void addGoal(Position goal){
-		this.myPathGraph.addGoal(goal);
-	}
-
-	public void addSpawns(List<Position> spawns){
-		this.myPathGraph.addSpawns(spawns);
-	}
-
-	public void addGoals(List<Position> goals){
-		this.myPathGraph.addGoals(goals);
-	}
-
-	public void setSpawns(List<Position> spawns){
-		this.myPathGraph.setSpawns(spawns);
-	}
-
-	public void setGoals(List<Position> goals){
-		this.myPathGraph.setGoals(goals);
-	}
-
-	public List<PathNode> getPaths(){
-		return myPathGraph.getPaths();
-	}
-
-	public List<Branch> getBranches(){
-		return myPathGraph.getBranches();
-	}
-
-	public PathGraph getGraph(){
-		processGraph();
-		return myPathGraph;
+	public PathLibrary getPathLibrary() {
+		return myPathLibrary;
 	}
 
 }
