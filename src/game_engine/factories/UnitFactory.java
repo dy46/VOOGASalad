@@ -25,6 +25,12 @@ public class UnitFactory {
 	public Unit createUnit(String name, UnitProperties unitProperties){
 		return new Unit(name, unitProperties);
 	}
+	
+	// Pass field inputs here
+	public Unit createUnit(List<String> inputs){
+		// TODO
+		return null;
+	}
 
 	public void setUnitType(Unit unit, String type) throws WompException{
 		if(unit.getProperties().getMovement().getSpawn() == null){
@@ -124,6 +130,10 @@ public class UnitFactory {
 
 	public void addNewAffectorToApplyForUnit(String name, Affector affectorToApply){
 		myUnitLibrary.getUnitByName(name).addAffectorsToApply(Arrays.asList(affectorToApply));
+	}
+	
+	public List<String> getFields(){
+		return Arrays.asList("Unit type", "Unit Properties");
 	}
 
 }
