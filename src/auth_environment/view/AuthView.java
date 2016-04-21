@@ -7,13 +7,17 @@ import java.util.ResourceBundle;
 
 import auth_environment.backend.GameSettings;
 import auth_environment.backend.ISettings;
-import auth_environment.backend.SampleAuthData;
+import auth_environment.Models.AuthModel;
+import auth_environment.Models.SampleAuthData;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.view.Interfaces.IAuthView;
+
 import auth_environment.view.Workspaces.GlobalGameTab;
+import auth_environment.view.Workspaces.PathTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -23,7 +27,7 @@ import javafx.stage.Stage;
  * This is the most general frontend/view class and contains a reference to the main Stage and tabs. 
  */
 
-public class AuthView {
+public class AuthView implements IAuthView {
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
@@ -34,21 +38,22 @@ public class AuthView {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private GlobalGameTab globalGameTab; 
-    private GameSettings mySettings = new GameSettings(); 
+    private IAuthModel authModel;
 
     public AuthView (Stage stage) {
         myStage = stage;
+        this.authModel = new AuthModel(); 
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	globalGameTab = new GlobalGameTab(); 
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel.getAuthInterface()); 
+    	PathTab pathTab = new PathTab(this.authModel.getAuthInterface()); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
-    	//implementing this here but need to move vvv
     	tabs.add(new VAsTesterTab("WOOOO", new SampleAuthData()));
+    	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
@@ -64,9 +69,4 @@ public class AuthView {
     public void display() {
     	this.myStage.show();
     }
-    
-    public ISettings getSettings() {
-    	return this.mySettings;
-    }
-
 }

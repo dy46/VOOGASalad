@@ -1,6 +1,6 @@
 package auth_environment.Models.Interfaces;
 
-import game_engine.IAuthInterface;
+import auth_environment.IAuthEnvironment;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -16,8 +16,8 @@ import game_engine.IAuthInterface;
 
 public interface IAuthModel {
 	
-	public IAuthInterface getAuthInterface(); 
+	public IAuthEnvironment getAuthInterface(); 
 	
-	public void setAuthInterface(IAuthInterface auth); 
+	public void setAuthInterface(IAuthEnvironment auth); 
 	
 }

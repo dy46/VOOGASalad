@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import game_engine.IAuthInterface;
+import auth_environment.IAuthEnvironment;
+import game_engine.factories.PropertiesFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.Button;
@@ -29,12 +30,12 @@ import javafx.scene.text.Text;
 
 public class ElementTab extends Tab{
 	 
-	private IAuthInterface myInterface;
+	private IAuthEnvironment myInterface;
 	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	private UnitFactory myUnitFactory  = new UnitFactory();
 	private PropertiesFactory myPropertyFactory = new PropertiesFactory();
 	
-	public ElementTab(String name, IAuthInterface myInterface){
+	public ElementTab(String name, IAuthEnvironment myInterface){
 		super(name);
 		this.myInterface = myInterface;
 		init();
@@ -136,6 +137,18 @@ public class ElementTab extends Tab{
 	private void addTextFields(GridPane newTableInfo) {
 		List<String> myFields = myUnitFactory.getFields();
 		int index = 1;
+		for(String s: myFields){
+			newTableInfo.getRowConstraints().add(new RowConstraints(30));
+			newTableInfo.add(new Text(s), 1, index);
+			TextField myTextField = new TextField();
+			newTableInfo.add(myTextField, 2, index);
+			strTextMap.put(s, myTextField);
+			index++;
+		}
+		
+		
+		//reminder to v: refactor this part
+		myFields = myPropertyFactory.getFields();
 		for(String s: myFields){
 			newTableInfo.getRowConstraints().add(new RowConstraints(30));
 			newTableInfo.add(new Text(s), 1, index);

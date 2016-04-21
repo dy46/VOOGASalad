@@ -1,8 +1,8 @@
 package auth_environment.Models;
 
+import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import game_data.AuthSerializer;
-import game_engine.IAuthInterface;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -16,12 +16,12 @@ import game_engine.IAuthInterface;
 
 public class GlobalGameTabModel implements IGlobalGameTabModel {
 	
-	private IAuthInterface myAuthData;  
+	private IAuthEnvironment myAuthData;  
 	
 	// TODO: are type arguments necessary? 
 	private AuthSerializer writer = new AuthSerializer();
 
-	public GlobalGameTabModel(IAuthInterface auth) {
+	public GlobalGameTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;  
 	}
 
@@ -33,7 +33,7 @@ public class GlobalGameTabModel implements IGlobalGameTabModel {
 	@Override
 	public void loadFromFile() {
 		// TODO: add error checking
-		this.myAuthData = (IAuthInterface) writer.loadElement();
+		this.myAuthData = (IAuthEnvironment) writer.loadElement();
 	}
 
 	@Override

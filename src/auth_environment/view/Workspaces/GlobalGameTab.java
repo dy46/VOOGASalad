@@ -3,13 +3,15 @@ package auth_environment.view.Workspaces;
 import java.io.File;
 import java.util.ResourceBundle;
 
+import auth_environment.IAuthEnvironment;
+import auth_environment.Models.GlobalGameTabModel;
+import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-
-
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,14 +35,17 @@ public class GlobalGameTab implements IWorkspace {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
-	// TODO: replace with EngineWorkspace class
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
+	private ImageView mySplashPreview; 
 	private TextField myGameNameField;
 	
-	public GlobalGameTab() {
+	private IGlobalGameTabModel myModel;
+	
+	public GlobalGameTab(IAuthEnvironment auth) {
 		this.setupBorderPane();
+		this.myModel = new GlobalGameTabModel(auth); 
 	}
 
 	private void setupBorderPane() {
@@ -56,8 +61,10 @@ public class GlobalGameTab implements IWorkspace {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildWompImage(),
-				myNodeFactory.centerNode(this.buildTextInput()),
-				myNodeFactory.centerNode(this.buildSplashChooser()));
+				this.buildTextInput(),
+				this.buildSplashChooser(),
+				this.buildSaveButton(),
+				this.buildLoadButton());
 		return center; 
 	}
 	
@@ -72,15 +79,34 @@ public class GlobalGameTab implements IWorkspace {
 		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
 		submitNameButton.setOnAction(e -> this.submitButtonPressed(this.myGameNameField));
 		
-		HBox hb = myNodeFactory.centerNode(this.myGameNameField);
-		hb.getChildren().add(submitNameButton);
-		return hb;
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		hb.getChildren().addAll(this.myGameNameField, submitNameButton);
+		return this.myNodeFactory.centerNode(hb); 
 	}
 	
 	private HBox buildSplashChooser() {
+		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
+				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
+				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
 		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
-		splashButton.setOnAction(e -> this.buildSplashChooser());
-		return myNodeFactory.centerNode(splashButton);
+		splashButton.setOnAction(e -> this.chooseSplash());
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		hb.getChildren().addAll(mySplashPreview, splashButton); 
+		return myNodeFactory.centerNode(hb); 
+	}
+	
+	private HBox buildSaveButton() {
+		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
+		save.setOnAction(e -> this.myModel.saveToFile());
+		return myNodeFactory.centerNode(save); 
+	}
+	
+	private HBox buildLoadButton() {
+		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
+		load.setOnAction(e -> this.myModel.loadFromFile());
+		return myNodeFactory.centerNode(load); 
 	}
 
 	//	public void writeToGameData() {
@@ -91,19 +117,18 @@ public class GlobalGameTab implements IWorkspace {
 	//		gameData.setPaths(myDisplay.getGrid().getPathGraphFactory().getPaths());
 	//	}
 	
-	// TODO: exctract these methods to the GlobalGameModel class
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
-//			this.gameData.getSettings().setName(input.getText());
+			this.myModel.setGameName(input.getText());
 			input.clear();
 		}
 	}
 	
-	// TODO: put in Model
 	private void chooseSplash() {
 		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
 		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
-		// TODO: store File
+		this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
+		this.myModel.setSplashFile(splash.getName());
 	}
 	
 	private boolean checkValidInput(TextField input) {

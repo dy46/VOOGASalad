@@ -1,17 +1,20 @@
-package auth_environment.backend;
+package auth_environment.Models;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import game_engine.IAuthInterface;
+import auth_environment.IAuthEnvironment;
 import game_engine.affectors.Affector;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
-public class SampleAuthData implements IAuthInterface {
+public class SampleAuthData implements IAuthEnvironment {
 	
 	private String myName;
 	private String mySplashFileName;
+	private List<Branch> myGridBranches;
+	private List<Branch> myPathBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers = new ArrayList<Unit>();
 	private List<Unit> myEnemies;
@@ -65,38 +68,13 @@ public class SampleAuthData implements IAuthInterface {
 	}
 
 	@Override
-	public void addTower(Unit tower) {
-		this.myTowers.add(tower); 
-	}
-
-	@Override
 	public List<Unit> getTowers() {
 		return this.myTowers;
 	}
 
 	@Override
-	public void clearTowers() {
-		this.myTowers.clear();
-	}
-
-	@Override
-	public void addTerrain(Unit terrain) {
-		this.myTerrains.add(terrain);
-	}
-
-	@Override
 	public List<Unit> getTerrains() {
-		return this.getTerrains();
-	}
-
-	@Override
-	public void clearTerrains() {
-		this.myTerrains.clear();
-	}
-
-	@Override
-	public void addEnemy(Unit enemy) {
-		this.myEnemies.add(enemy);
+		return this.myTerrains;
 	}
 
 	@Override
@@ -105,28 +83,8 @@ public class SampleAuthData implements IAuthInterface {
 	}
 
 	@Override
-	public void clearEnemies() {
-		this.myEnemies.clear();
-	}
-
-	@Override
-	public void addProjectile(Unit projectile) {
-		this.myProjectiles.add(projectile); 
-	}
-
-	@Override
 	public List<Unit> getProjectiles() {
 		return this.myProjectiles;
-	}
-
-	@Override
-	public void clearProjectiles() {
-		this.myProjectiles.clear();
-	}
-
-	@Override
-	public void addAffector(Affector affector) {
-		this.myAffectors.add(affector);
 	}
 
 	@Override
@@ -135,8 +93,52 @@ public class SampleAuthData implements IAuthInterface {
 	}
 
 	@Override
-	public void clearAffectors() {
-		this.myAffectors.clear();
+	public void setPlacedUnits(List<Unit> units) {
+		this.myPlacedUnits = units; 
 	}
 
+	@Override
+	public void setTowers(List<Unit> towers) {
+		this.myTowers = towers; 
+	}
+
+	@Override
+	public void setTerrains(List<Unit> terrains) {
+		this.myTerrains = terrains;
+	}
+
+	@Override
+	public void setEnemies(List<Unit> enemies) {
+		this.myEnemies = enemies; 
+	}
+
+	@Override
+	public void setProjectiles(List<Unit> projectiles) {
+		this.myProjectiles = projectiles; 
+	}
+
+	@Override
+	public void setAffectors(List<Affector> affectors) {
+		this.myAffectors = affectors; 
+	}
+
+	@Override
+	public List<Branch> getPathBranches() {
+		return this.myPathBranches;
+	}
+
+	@Override
+	public void setPathBranches(List<Branch> branches) {
+		this.myPathBranches = branches; 
+	}
+
+	@Override
+	public List<Branch> getGridBranches() {
+		return this.myGridBranches;
+	}
+
+	@Override
+	public void setGridBranches(List<Branch> branches) {
+		this.myGridBranches = branches; 
+	}
 }

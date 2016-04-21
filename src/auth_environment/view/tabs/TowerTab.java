@@ -1,10 +1,10 @@
 package auth_environment.view.tabs;
 
-import game_engine.IAuthInterface;
+import auth_environment.IAuthEnvironment;
 
 public class TowerTab extends ElementTab{
 	
-	public TowerTab(IAuthInterface myInterface) {
+	public TowerTab(IAuthEnvironment myInterface) {
 		super("Tower", myInterface);
 	}
 

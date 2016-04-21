@@ -37,6 +37,13 @@ public class NodeFactory {
 		
 	}
 	
+	public HBox buildHBox(double spacing, double padding) {
+		HBox hbox = new HBox();
+		hbox.setSpacing(spacing);
+		hbox.setPadding(new Insets(padding));
+		return hbox;
+	}
+	
 	public void setupVBox(VBox vbox, String titleText, Font font, double spacing, double padding) {
 		vbox = this.buildVBox(titleText, font, spacing, padding);
 	}
@@ -94,6 +101,14 @@ public class NodeFactory {
 	
 	public ImageView buildImageView(String imageName) {
 		return new ImageView(this.buildImage(imageName));
+	}
+	
+	public ImageView buildImageView(String imageName, double width, double height) {
+		ImageView imageView = this.buildImageView(imageName); 
+		imageView.setFitWidth(width);
+		imageView.setFitHeight(height);
+		imageView.setPreserveRatio(true);
+		return imageView; 
 	}
 	
 	public Image buildImage(String imageName) {

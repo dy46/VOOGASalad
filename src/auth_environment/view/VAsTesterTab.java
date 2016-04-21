@@ -3,9 +3,10 @@ package auth_environment.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import auth_environment.view.tabs.ElementTab;
 import auth_environment.view.tabs.TowerTab;
-import game_engine.IAuthInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -18,12 +19,12 @@ import javafx.scene.layout.VBox;
 
 public class VAsTesterTab extends Tab{
 
-	public VAsTesterTab(String name, IAuthInterface myInterface){
+	public VAsTesterTab(String name, IAuthEnvironment myInterface){
 		super(name);
 		booyah(myInterface);
 	}
 	
-	private void booyah(IAuthInterface myInterface){
+	private void booyah(IAuthEnvironment myInterface){
 		TabPane myTabs = new TabPane();
 		myTabs.getTabs().addAll(new ElementTab("Projectiles", myInterface));
 				//, new ElementTab("Affectors"), new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));

@@ -21,38 +21,80 @@ import game_engine.properties.State;
 import game_engine.properties.Team;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
+import javafx.scene.image.Image;
 
 public class UnitFactory {
 
 	private UnitLibrary myUnitLibrary;
+	private BoundsFactory myBoundsFactory;
 
 	public UnitFactory(){
-		myUnitLibrary = new UnitLibrary();
+		this.myUnitLibrary = new UnitLibrary();
+		this.myBoundsFactory = new BoundsFactory();
 	}
-
-	public Unit createUnit(String name, UnitProperties unitProperties){
-		return new Unit(name, unitProperties);
+	
+	public UnitFactory(UnitLibrary unitLibrary){
+		this.myUnitLibrary = unitLibrary;
+		this.myBoundsFactory = new BoundsFactory();
 	}
 	
 	// Pass field inputs here
 	public Unit createUnit(HashMap<String, String> inputs){
 		UnitProperties unitProperties = new UnitProperties();
-		String name = getUnitName(inputs.get("Name"));
+		String name = getName(inputs.get("Name"));
+		String type = getType(inputs.get("Type"));
+		String img = getImage(inputs.get("Image"));
+		String unitType = getUnitType(inputs.get("Unit Type"));
 		unitProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
 		unitProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
 		unitProperties.setMassProp(getUnitMass(inputs.get("Mass")));
 		unitProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
 		unitProperties.setStateProp(getUnitState(inputs.get("State")));
-		return createUnit(name, unitProperties);
+		return createUnit(name, type, img, unitType, unitProperties);
 	}
 	
-	private String getUnitName(String str){
+	private Unit createUnit(String name, String type, String imageName, String unitType, UnitProperties unitProperties){
+		return new Unit(name, unitProperties);
+	}
+	
+	public void setUnitBounds(Unit unit, Image image){
+		unit.getProperties().setBounds(myBoundsFactory.createImageBounds(image));
+	}
+	
+	private String getName(String str){
 		String name = str;
 		if(name == null){
 			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
 			name = we.getResult();
 		}
 		return name;
+	}
+	
+	private String getImage(String str){
+		String img = str;
+		if(img == null){
+			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
+			img = we.getResult();
+		}
+		return img;
+	}
+	
+	private String getUnitType(String str){
+		String type = str;
+		if(type == null){
+			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
+			type = we.getResult();
+		}
+		return type;
+	}
+	
+	private String getType(String str){
+		String type = str;
+		if(type == null){
+			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
+			type = we.getResult();
+		}
+		return type;
 	}
 	
 	private Health getUnitHealth(String str){
