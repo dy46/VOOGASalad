@@ -68,11 +68,6 @@ public class Welcome {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
 
-//	private TextField buildTextInput() {
-//		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-//		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
-//		return this.gameNameInput; 
-//	}
 
 	private HBox buildSelectionButtons() {
 		

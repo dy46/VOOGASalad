@@ -1,17 +1,11 @@
 package game_engine.properties;
 
-import game_engine.EngineWorkspace;
+import java.util.List;
 
 public abstract class Property {
 
-	private EngineWorkspace myWorkspace;
-	
-	public void setWorkspace(EngineWorkspace workspace){
-		this.myWorkspace = workspace;
-	}
-	
-	public EngineWorkspace getWorkspace(){
-		return myWorkspace;
-	}
+	public abstract List<Double> getValues();
+
+	public abstract void setValues(List<Double> values);
 	
 }

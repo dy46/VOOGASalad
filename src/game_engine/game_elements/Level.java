@@ -3,6 +3,12 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.paths.PathNode;
+import game_engine.TestingEngineWorkspace;
+import game_engine.games.Timer;
+import game_engine.properties.Position;
+import game_engine.store_elements.Pair;
+
 
 /*
  * Internal API that is used in order to represent levels within a game. More specifically,
@@ -15,18 +21,23 @@ public class Level extends GameElement {
     private int startingLives;
     private Wave myCurrentWave;
     private List<Wave> myWaves;
+    private Timer myWaveTimer;
+    private List<PathNode> myPaths;
+    private TestingEngineWorkspace myWorkspace;
+    private List<Pair<Unit, Integer>> unlockedTowerTypes;
+    private List<Position> myGoals;
+    private List<Position> mySpawns;
 
-    public Level (String name, Wave first, int myLives) {
+    public Level (String name, int myLives, TestingEngineWorkspace workspace) {
         super(name);
         // setID(getWorkspace().getIDFactory().createID(this));
-        initialize();
-        myCurrentWave = first;
+        myWaves = new ArrayList<>();
         this.myLives = myLives;
         this.startingLives = myLives;
-    }
-
-    private void initialize () {
-        myWaves = new ArrayList<>();
+        myWaveTimer = new Timer();
+        myPaths = new ArrayList<>();
+        this.myWorkspace = workspace;
+        this.unlockedTowerTypes = new ArrayList<Pair<Unit, Integer>>();
     }
 
     /*
@@ -43,6 +54,9 @@ public class Level extends GameElement {
             myCurrentWave = nextWave;
         }
     }
+    public List<Pair<Unit, Integer>> getNewUnits(){
+    	return unlockedTowerTypes;
+    }
 
     public Wave getCurrentWave () {
         return myCurrentWave;
@@ -52,7 +66,9 @@ public class Level extends GameElement {
         checkCurrentWaveFinished();
         myCurrentWave = myWaves.get(wave);
     }
-
+    public void addUnlockedTowerType(Unit u, int cost){
+    	this.unlockedTowerTypes.add(new Pair<Unit, Integer>(u, cost));
+    }
     private void checkCurrentWaveFinished () {
         if (!myCurrentWave.isFinished()) {
             // TODO: Throw exception "Current wave not finished"
@@ -83,9 +99,14 @@ public class Level extends GameElement {
      */
     public void addWave (Wave newWave) {
         myWaves.add(newWave);
+        if(myWaves.size () == 1){
+        	myCurrentWave = newWave;
+        }
     }
 
-    public Enemy update () {
+    public Unit update () {
+    	if(myCurrentWave == null)
+    		return null;
         return myCurrentWave.tryToSpawnEnemy();
     }
 
@@ -114,5 +135,65 @@ public class Level extends GameElement {
     public int getStartingLives () {
         return startingLives;
     }
+
+	public Timer getWaveTimer() {
+		return myWaveTimer;
+	}
+
+	public void addPath(PathNode path) {
+		myPaths.add(path);
+	}
+	
+	public void addAllPaths(List<PathNode> paths) {
+		myPaths.addAll(paths);
+	}
+
+	public List<PathNode> getPaths() {
+		return myPaths;
+	}
+
+	public void decrementLife() {
+		myLives--;
+	}
+	
+	public List<Wave> getWaves(){
+		return myWaves;
+	}
+	
+	public void setGoals(List<Position> goals){
+		this.myGoals = goals;
+	}
+	
+	public void setSpawns(List<Position> spawns){
+		this.mySpawns = spawns;
+	}
+	
+	public void addSpawn(Position spawn){
+		this.mySpawns.add(spawn);
+	}
+	
+	public void addGoal(Position goal){
+		this.myGoals.add(goal);
+	}
+	
+	public List<Position> getGoals(){
+		return myGoals;
+	}
+	
+	public void addGoals(List<Position> goals){
+		this.myGoals.addAll(goals);
+	}
+	
+	public void addSpawns(List<Position> spawns){
+		this.mySpawns.addAll(spawns);
+	}
+	
+	public List<Position> getSpawns(){
+		return mySpawns;
+	}
+
+	public void addWaves(List<Wave> waves) {
+		this.myWaves.addAll(waves);
+	}
 
 }

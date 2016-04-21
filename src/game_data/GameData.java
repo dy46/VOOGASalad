@@ -117,5 +117,4 @@ public class GameData implements IAuthEnvironment {
 	public void setAffectors(List<Affector> affectors) {
 		this.myAffectors = affectors; 
 	}
-	
 }
