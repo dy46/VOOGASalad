@@ -25,6 +25,8 @@ public class Level extends GameElement {
     private List<PathNode> myPaths;
     private TestingEngineWorkspace myWorkspace;
     private List<Pair<Unit, Integer>> unlockedTowerTypes;
+    private List<Position> myGoals;
+    private List<Position> mySpawns;
 
     public Level (String name, int myLives, TestingEngineWorkspace workspace) {
         super(name);
@@ -141,6 +143,10 @@ public class Level extends GameElement {
 	public void addPath(PathNode path) {
 		myPaths.add(path);
 	}
+	
+	public void addAllPaths(List<PathNode> paths) {
+		myPaths.addAll(paths);
+	}
 
 	public List<PathNode> getPaths() {
 		return myPaths;
@@ -152,6 +158,42 @@ public class Level extends GameElement {
 	
 	public List<Wave> getWaves(){
 		return myWaves;
+	}
+	
+	public void setGoals(List<Position> goals){
+		this.myGoals = goals;
+	}
+	
+	public void setSpawns(List<Position> spawns){
+		this.mySpawns = spawns;
+	}
+	
+	public void addSpawn(Position spawn){
+		this.mySpawns.add(spawn);
+	}
+	
+	public void addGoal(Position goal){
+		this.myGoals.add(goal);
+	}
+	
+//	public List<Position> getGoals(){
+//		return myGoals;
+//	}
+	
+	public void addGoals(List<Position> goals){
+		this.myGoals.addAll(goals);
+	}
+	
+	public void addSpawns(List<Position> spawns){
+		this.mySpawns.addAll(spawns);
+	}
+	
+	public List<Position> getSpawns(){
+		return mySpawns;
+	}
+
+	public void addWaves(List<Wave> waves) {
+		this.myWaves.addAll(waves);
 	}
 
 	public List<Position> getGoals() {

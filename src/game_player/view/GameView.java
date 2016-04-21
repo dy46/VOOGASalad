@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
-import game_engine.CollisionDetector;
+import exceptions.WompException;
 import game_engine.games.GameEngineInterface;
+import game_engine.physics.CollisionDetector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -119,7 +120,7 @@ public class GameView implements IGameView{
                 //restart Game
         }
 
-        private void updateEngine() {
+        private void updateEngine(){
                 for (int i = 1; i <= myUpdateSpeed; i++) {
                         playerEngineInterface.update();
                 }

@@ -31,6 +31,10 @@ public class State extends Property{
     public void setStates(String[] states) {
         this.states = states;
     }
+    
+    public void setState(double state){
+    	this.state = state;
+    }
 
     @Override
     public List<Double> getValues () {
