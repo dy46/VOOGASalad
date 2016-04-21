@@ -2,7 +2,6 @@ package game_data;
 
 import java.util.List;
 
-import auth_environment.backend.ISettings;
 import game_engine.game_elements.Level;
 import game_engine.IAuthEnvironment;
 import game_engine.game_elements.Branch;
@@ -23,8 +22,6 @@ public interface IGameData extends IAuthEnvironment {
 
 	public List<List<Position>> getPositions();
 
-	public void addGameSettings(ISettings settings);
-
 	//Getters
 	public List<Level> getLevels();
 	public List<Tower> getTowerTypes();
@@ -32,7 +29,4 @@ public interface IGameData extends IAuthEnvironment {
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();
 	public List<Unit> getProjectiles();
-
-	public void saveGameData();
-
 }
