@@ -1,5 +1,6 @@
 package game_engine.properties;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,11 @@ public class Movement {
 			else
 				mySpawn = new Position(0,0);
 		}
+	}
+	
+	public Movement(Position spawn){
+		this.mySpawn = spawn;
+		this.myBranches = new ArrayList<>();
 	}
 
 	public List<Branch> getBranches(){

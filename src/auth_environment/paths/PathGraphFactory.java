@@ -17,24 +17,31 @@ public class PathGraphFactory {
 		currentPathID = -1;
 		currentPathID = -1;
 	}
+	
+	public PathGraphFactory(double windowWidth, double windowLength, double sideLength){
+		this.myPathGraph = new PathGraph();
+		currentPathID = -1;
+		currentPathID = -1;
+		PathNode pathGrid = createUnlimitedPathGraph(windowWidth, windowLength, sideLength);
+		myPathGraph.setPathGrid(pathGrid);
+	}
 
-	public PathGraph createUnlimitedPathGraph(double width, double length, double sideLength){
+	public PathNode createUnlimitedPathGraph(double width, double length, double sideLength){
 		double centerX = sideLength/2;
 		double centerY = sideLength/2;
 		int numCells = (int) Math.floor((width*length)/sideLength);
-		PathNode path = new PathNode(getNextPathID());
+		PathNode pathGrid = new PathNode(getNextPathID());
 		for(int x=0; x<numCells; x++){
 			List<Position> pos = Arrays.asList(new Position(centerX, centerY, 0));
 			Branch branch = new Branch(getNextBranchID(), pos);
-			path.addBranch(branch);
+			pathGrid.addBranch(branch);
 			centerX += sideLength;
 			if(centerX >= width){
 				centerX = sideLength/2;
 				centerY += sideLength;
 			}
 		}
-		myPathGraph.addPath(path);
-		return myPathGraph;
+		return pathGrid;
 	}
 
 	/**
@@ -138,17 +145,48 @@ public class PathGraphFactory {
 			}
 		}
 	}
-
-	public PathGraph getGraph(){
-		return myPathGraph;
+	
+	public void addSpawn(Position spawn){
+		this.myPathGraph.addSpawn(spawn);
+	}
+	
+	public void addGoal(Position goal){
+		this.myPathGraph.addGoal(goal);
+	}
+	
+	public void addSpawns(List<Position> spawns){
+		this.myPathGraph.addSpawns(spawns);
+	}
+	
+	public void addGoals(List<Position> goals){
+		this.myPathGraph.addGoals(goals);
+	}
+	
+	public void setSpawns(List<Position> spawns){
+		this.myPathGraph.setSpawns(spawns);
+	}
+	
+	public void setGoals(List<Position> goals){
+		this.myPathGraph.setGoals(goals);
 	}
 
 	public List<PathNode> getPaths(){
+		processGraph();
 		return myPathGraph.getPaths();
 	}
 
 	public List<Branch> getBranches(){
+		processGraph();
 		return myPathGraph.getBranches();
+	}
+	
+	public PathGraph getGraph(){
+		processGraph();
+		return myPathGraph;
+	}
+	
+	private void processGraph(){
+		
 	}
 
 }
