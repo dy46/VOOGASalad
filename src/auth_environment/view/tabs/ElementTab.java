@@ -2,6 +2,7 @@ package auth_environment.view.tabs;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,9 @@ import javafx.scene.text.Text;
 public class ElementTab extends Tab{
 	 
 	private IAuthInterface myInterface;
-	Map<String, TextField> strTextMap = new HashMap<String, TextField>();
+	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
+	private UnitFactory myUnitFactory  = new UnitFactory();
+	private PropertiesFactory myPropertyFactory = new PropertiesFactory();
 	
 	public ElementTab(String name, IAuthInterface myInterface){
 		super(name);
@@ -82,36 +85,38 @@ public class ElementTab extends Tab{
         propertiesTitle.setFont(new Font(20));
         newTableInfo.add(propertiesTitle, 0, 0);
         
+        addTextFields(newTableInfo);
+        
         //labels stuff
-        int index = 1;
-		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String name = "Name";
-		newTableInfo.add(new Text(name), 1, index);
-		TextField myTextField = new TextField();
-		newTableInfo.add(myTextField, 2, index);
-		strTextMap.put(name, myTextField);
-		index++;
-		
-		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String damage = "Attack";
-		newTableInfo.add(new Text(damage+":"), 1, index);
-		myTextField = new TextField();
-		newTableInfo.add(myTextField, 2, index);
-		index++;
-		
-		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String affectors = "Affector(s) ";
-		newTableInfo.add(new Text(affectors), 1, index);
-		ComboBox<String> cbox = new ComboBox<String>();
-		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
-		newTableInfo.add(cbox, 2, index);
-		index++;
+//      int index = 1;
+//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+//		String name = "Name";
+//		newTableInfo.add(new Text(name), 1, index);
+//		TextField myTextField = new TextField();
+//		newTableInfo.add(myTextField, 2, index);
+//		strTextMap.put(name, myTextField);
+//		index++;
+//		
+//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+//		String damage = "Attack";
+//		newTableInfo.add(new Text(damage+":"), 1, index);
+//		myTextField = new TextField();
+//		newTableInfo.add(myTextField, 2, index);
+//		index++;
+//		
+//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+//		String affectors = "Affector(s) ";
+//		newTableInfo.add(new Text(affectors), 1, index);
+//		ComboBox<String> cbox = new ComboBox<String>();
+//		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+//		newTableInfo.add(cbox, 2, index);
+//		index++;
 		//labels stuff
 		
-		Button newAffectorButton = new Button("+ Add New Affector");
-		int num = index;
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, cbox));
-		newTableInfo.add(newAffectorButton, 2, index);
+//		Button newAffectorButton = new Button("+ Add New Affector");
+//		int num = index;
+//		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, cbox));
+//		newTableInfo.add(newAffectorButton, 2, index);
 		
 		editPane.setPrefSize(200.0, 800.0);
 		editScrollPane.setContent(editInfo);
@@ -128,30 +133,31 @@ public class ElementTab extends Tab{
 		this.setContent(myPane);
 	}
 
-	private void createNewUnit() {
-		UnitFactory unitFactory = new UnitFactory();
-    	Class<?> c = unitFactory.getClass();
-    	for(String str: strTextMap.keySet()){
-    		Method[] allMethods = c.getMethods();
-    		
-    		for(Method m: allMethods){
-//    			String[] mString = m.getName().split(".");
-//    			System.out.println(m.getName());
-//    			System.out.println("setMy" + str);
-    			if(m.getName().startsWith("setNew" + str+ "ForUnit")){
-					try {
-						m.invoke(unitFactory,strTextMap.get(str).getText());
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
+	private void addTextFields(GridPane newTableInfo) {
+		List<String> myFields = myUnitFactory.getFields();
+		int index = 1;
+		for(String s: myFields){
+			newTableInfo.getRowConstraints().add(new RowConstraints(30));
+			newTableInfo.add(new Text(s), 1, index);
+			TextField myTextField = new TextField();
+			newTableInfo.add(myTextField, 2, index);
+			strTextMap.put(s, myTextField);
+			index++;
+		}
+		
+		
+	}
 
-    			}
-    		}	
+	private void createNewUnit() {
+		
+		//change to Mapvv
+		HashMap<String, String> strToStrMap = new HashMap<String, String>();
+		String name;
+    	for(String str: strTextMap.keySet()){
+    			strToStrMap.put(str, strTextMap.get(str).getText());
     	}
     	
-//    	unitFactory.createUnit(name, unitProperties)
+    	myUnitFactory.createUnit(strToStrMap);
 	}
 
 	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {

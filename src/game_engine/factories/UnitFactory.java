@@ -2,7 +2,10 @@ package game_engine.factories;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import exceptions.CorrectableException;
 import exceptions.WompException;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
@@ -10,6 +13,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Bounds;
+import game_engine.properties.Health;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
@@ -27,8 +31,16 @@ public class UnitFactory {
 	}
 	
 	// Pass field inputs here
-	public Unit createUnit(List<String> inputs){
-		// TODO
+	public Unit createUnit(HashMap<String, String> inputs){
+		UnitProperties up = new UnitProperties();
+		double health = 0;
+		try{
+			Double.parseDouble(inputs.get("Health"));
+		}
+		catch(Exception e){
+			CorrectableException we = new CorrectableException("Invalid health value. Please enter a decimal");
+		}
+		Health healthProperty = new Health(Double.parseDouble(inputs.get("Health")));
 		return null;
 	}
 
