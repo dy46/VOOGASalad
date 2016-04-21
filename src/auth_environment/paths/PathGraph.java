@@ -27,7 +27,6 @@ public class PathGraph {
 			myPaths.remove(myPathGrid);
 		}
 		this.myPathGrid = pathGrid;
-		myPaths.add(myPathGrid);
 	}
 
 	public void addPath(PathNode graph){
@@ -71,8 +70,6 @@ public class PathGraph {
 	}
 	
 	public List<PathNode> getPaths(){
-		if(myPathGrid != null && !myPaths.contains(myPathGrid))
-			myPaths.add(myPathGrid);
 		return myPaths;
 	}
 

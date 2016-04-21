@@ -14,7 +14,7 @@ public class PathHandler {
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
 		insertTestBranches();
-//		insertGrid();
+		insertGrid();
 	}
 	
 	public void processStraightLine(List<Position> positions){

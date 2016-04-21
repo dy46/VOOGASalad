@@ -46,7 +46,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 	private CollisionDetector myCollider;
 	private EncapsulationDetector myEncapsulator;
-	
+
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
@@ -173,10 +173,12 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
+		PathNode grid = ph.getPGF().getGraph().getPathGrid();
 
-		//		myBranches.addAll(pgf.getBranches());
-		//		List<PathNode> paths = pgf.getPaths();
-		//		l.addAllPaths(paths);
+		myBranches.addAll(pgf.getBranches());
+		List<PathNode> paths = pgf.getPaths();
+		l.addAllPaths(paths);
+		l.addPath(grid);
 
 		// For testing branching
 		myBranches.addAll(pgf.getBranches());
@@ -270,11 +272,11 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private void makeDummyUpgrades(){
 		Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
 		affector.setTTL(Integer.MAX_VALUE);
-//		List<Affector> affList = new ArrayList<Affector>();
-//		affList.add(affector);
-//		Affector t = new Affector(affList);
-//		List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
-//		init.add(t);
+		//		List<Affector> affList = new ArrayList<Affector>();
+		//		affList.add(affector);
+		//		Affector t = new Affector(affList);
+		//		List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
+		//		init.add(t);
 		Unit u = new Unit("Interesting", Arrays.asList(affector), 1);
 		u.addAffectorToApply(affector);
 		myStore.addItem(u, 10);
