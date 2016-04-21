@@ -9,6 +9,7 @@ import java.util.List;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathHandler;
 import auth_environment.paths.PathNode;
+import exceptions.WompException;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
@@ -480,7 +481,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
-	public void continueWaves () {
+	public void continueWaves () throws WompException {
 		myCurrentLevel.playNextWave();
 		pause = false;
 	}
@@ -514,7 +515,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public void update () {
+	public void update () throws WompException {
 		myStore.addBuyableTower(myCurrentLevel.getNewUnits());
 		nextWaveTimer++;
 		boolean gameOver = myLives <= 0;

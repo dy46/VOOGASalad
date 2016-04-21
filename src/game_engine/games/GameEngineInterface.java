@@ -2,6 +2,7 @@ package game_engine.games;
 
 import java.util.List;
 
+import exceptions.WompException;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
@@ -33,7 +34,7 @@ public interface GameEngineInterface {
     void playWave(int waveNumber);
 
     //tells engine to update elements a single time unit 
-    void update();
+    void update() throws WompException;
 
     //asks engine about the game status
     String getGameStatus();
