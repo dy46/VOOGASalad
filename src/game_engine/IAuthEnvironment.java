@@ -12,7 +12,7 @@ import game_engine.game_elements.Unit;
  *
  */
 
-public interface IAuthInterface {
+public interface IAuthEnvironment {
 	
 	// GlobalGameTab - Brian
 	

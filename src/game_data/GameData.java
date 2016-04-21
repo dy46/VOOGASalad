@@ -2,12 +2,12 @@ package game_data;
 
 import java.util.List;
 
-import game_engine.IAuthInterface;
+import game_engine.IAuthEnvironment;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
-public class GameData implements IAuthInterface {
+public class GameData implements IAuthEnvironment {
 	
 	private String myName;
 	private String mySplashFileName;

@@ -7,7 +7,7 @@ import auth_environment.Models.GlobalGameTabModel;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import game_engine.IAuthInterface;
+import game_engine.IAuthEnvironment;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -43,7 +43,7 @@ public class GlobalGameTab implements IWorkspace {
 	
 	private IGlobalGameTabModel myModel;
 	
-	public GlobalGameTab(IAuthInterface auth) {
+	public GlobalGameTab(IAuthEnvironment auth) {
 		this.setupBorderPane();
 		this.myModel = new GlobalGameTabModel(auth); 
 	}
