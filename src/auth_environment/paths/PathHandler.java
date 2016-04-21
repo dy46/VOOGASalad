@@ -33,9 +33,8 @@ public class PathHandler {
 	
 	private void insertTestBranches(){
 		Position p1 = new Position(0, 30);
-		Position p2 = new Position(100, 30);
 		Position p3 = new Position(200, 30);
-		List<Position> b1 = Arrays.asList(p1, p2, p3);
+		List<Position> b1 = Arrays.asList(p1, p3);
 		processStraightLine(b1);
 		
 		Position p4 = new Position(200, 30);
@@ -59,6 +58,11 @@ public class PathHandler {
 		Position p13 = new Position(100, 200);
 		List<Position> b5 = Arrays.asList(p12, p13);
 		processStraightLine(b5);
+		
+		Position p14 = new Position(300, 0);
+		Position p15 = new Position(300, 500);
+		List<Position> b6 = Arrays.asList(p14, p15);
+		processStraightLine(b6);
 	}
 	
 	private List<Position> getSplinedPoints(List<Position> positions){

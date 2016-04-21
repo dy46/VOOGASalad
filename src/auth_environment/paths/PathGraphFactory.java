@@ -153,14 +153,29 @@ public class PathGraphFactory {
 	}
 
 	private void configureNewSplits(Branch myBranch, PathNode myPath){
+		List<Position> intersects = getIntersections(myBranch, myPath);
+		for(Position pos : intersects){
+			configureMidBranchSplits(myBranch, myPath, pos);
+		}
+	}
+
+	private List<Position> getIntersections(Branch myBranch, PathNode myPath){
+		List<Position> intersects = new ArrayList<>();
 		for(Position pos : myBranch.getPositions()){
 			List<Branch> branches = myPath.getBranchesByMidPosition(pos);
 			for(Branch b : branches){
 				if(!b.equals(myBranch)){
-
+					if(!intersects.contains(pos)){
+						intersects.add(pos);
+					}
 				}
 			}
 		}
+		return intersects;
+	}
+
+	private void processGraph(){
+
 	}
 
 	public void addSpawn(Position spawn){
@@ -198,10 +213,6 @@ public class PathGraphFactory {
 	public PathGraph getGraph(){
 		processGraph();
 		return myPathGraph;
-	}
-
-	private void processGraph(){
-		
 	}
 
 }

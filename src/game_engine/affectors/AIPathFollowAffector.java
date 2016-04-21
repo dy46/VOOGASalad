@@ -37,7 +37,6 @@ public class AIPathFollowAffector extends PathFollowAffector {
 			if (currentBranch == null) {
 				List<Branch> gridBranches = getWS().getGridBranches();
 				currentBranch = pickClosestBranch(currentPosition, gridBranches);
-				System.out.println("NEW BRANCH: " + currentBranch);
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch);
 			next = currentBranch.getFirstPosition();
