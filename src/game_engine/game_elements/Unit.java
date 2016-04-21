@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
 import game_engine.properties.UnitProperties;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 
 /**
@@ -291,5 +295,22 @@ public class Unit extends GameElement {
 	public void setImgName(String img){
 		this.imgName = img;
 	}
+	
+	public ImageView buildImageView(String imageName) {
+		return new ImageView(this.buildImage(imageName));
+	}
+	
+	public ImageView buildImageView(String imageName, double width, double height) {
+		ImageView imageView = this.buildImageView(imageName); 
+		imageView.setFitWidth(width);
+		imageView.setFitHeight(height);
+		imageView.setPreserveRatio(true);
+		return imageView; 
+	}
+	
+	public Image buildImage(String imageName) {
+		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
+	}
+	
 
 }
