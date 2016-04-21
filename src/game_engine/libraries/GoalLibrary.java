@@ -12,6 +12,10 @@ public class GoalLibrary {
 	public GoalLibrary(){
 		this.myGoals = new ArrayList<>();
 	}
+	
+	public GoalLibrary(List<Position> goals){
+		myGoals = goals;
+	}
 
 	public void addGoal(Position goal){
 		this.myGoals.add(goal);
@@ -23,6 +27,10 @@ public class GoalLibrary {
 
 	public void setGoals(List<Position> goals){
 		this.myGoals = goals;
+	}
+
+	public void removeGoal(Position goal) {
+		this.myGoals.remove(goal);
 	}
 	
 	public List<Position> getGoals(){

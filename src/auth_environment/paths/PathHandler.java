@@ -16,6 +16,13 @@ public class PathHandler {
 		insertGrid();
 	}
 	
+	public PathHandler(PathGraphFactory pgf){
+		myPGF = pgf;
+		myPH = new PositionHandler();
+		insertTestBranches();
+		insertGrid();
+	}
+	
 	public void processStraightLine(List<Position> positions){
 		List<Position> interpolatedPositions = myPH.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);

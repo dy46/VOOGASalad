@@ -88,7 +88,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myFunctionFactory = new FunctionFactory();
 		myAffectorFactory = new AffectorFactory(myFunctionFactory);
 		myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
-		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary(), myTimelineFactory.getTimelineLibrary());
+		myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();
