@@ -93,18 +93,26 @@ public class PathTab implements IWorkspace {
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
         canvas.setOnMouseClicked(e -> {
-        	System.out.println(e.getX() + " " + e.getY());
-        	canvasPane.getChildren().add(this.makePoint(e.getX(), e.getY()));
+        	this.printPoint(e.getX(), e.getY());
+        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
         });
-        canvasPane.getChildren().addAll(canvas); 
+        canvasPane.getChildren().add(canvas); 
         return canvasPane; 
 	}
 	
-	private Circle makePoint(double x, double y) {
+	private void printPoint(double x, double y) {
+    	System.out.println(x + " " + y);
+	}
+	
+	// This is Auth frontend ONLY
+	private Circle displayPoint(double x, double y) {
 		Circle circle = new Circle(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
+        
+        // TODO: store point in Model 
+        
         return circle; 
 	}
 	
