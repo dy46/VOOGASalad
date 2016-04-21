@@ -72,13 +72,17 @@ public class PathTab implements IWorkspace {
 		Button clear = this.myNodeFactory.buildButton("Clear"); 
 		clear.setOnAction(a -> this.clearCanvas());
 		
+		Button draw = this.myNodeFactory.buildButton("Draw");
+		draw.setOnAction(a -> this.drawBranches(this.myModel.getBranches()));
+		
 		HBox hb = this.myNodeFactory.buildHBox(10, 10);
-		hb.getChildren().addAll(button, clear);
+		hb.getChildren().addAll(button, clear, draw);
 		return this.myNodeFactory.centerNode(hb); 
 	}
 	
 	private void clearCanvas() {
 		this.canvasPane.getChildren().clear();
+		this.buildMainCanvas();
 	}
 	
 	
@@ -112,8 +116,8 @@ public class PathTab implements IWorkspace {
 	private void drawBranch(Branch branch) {
 		this.displayPoint(branch.getFirstPosition().getX(), 
 				branch.getFirstPosition().getY());
-		this.displayPoint(branch.getSecondPosition().getX(),
-				branch.getSecondPosition().getY());
+		this.displayPoint(branch.getLastPosition().getX(),
+				branch.getLastPosition().getY());
 	}
 	
 	private void drawBranches(List<Branch> branches) {
@@ -132,7 +136,6 @@ public class PathTab implements IWorkspace {
 		 canvas.setOnMouseClicked(e -> {
 	        	this.myModel.addPosition(e.getX(), e.getY());
 	        	this.checkPoint(e.getX(), e.getY());
-	        	this.drawBranches(this.myModel.getBranches());
 //	        	this.printCurrentPoints();
 //	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
 	        });

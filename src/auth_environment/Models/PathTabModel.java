@@ -52,6 +52,7 @@ public class PathTabModel implements IPathTabModel {
 	
 	@Override
 	public void submitBranch() {
+		this.printCurrentPositions();
 		this.myPathHandler.processStraightLine(this.myCurrentPositions);
 		this.myCurrentPositions.clear();
 	}
@@ -64,7 +65,7 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public void loadBranches() {
 		this.myBranches = this.myPathHandler.getPGF().getBranches();
-		System.out.println(this.myBranches.size());
+		this.myBranches.stream().forEach(b -> System.out.println(b.toString()));
 	}
 	
 	@Override
