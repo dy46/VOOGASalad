@@ -28,7 +28,7 @@ public class PropertiesFactory {
 	}
 	
 	public List<String> getFields(){
-		return Arrays.asList("Health", "Team", "Velocity", "Range", "Position", "Price", "State");
+		return Arrays.asList("Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
 	}
 
 }

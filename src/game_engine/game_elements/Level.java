@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
+import exceptions.WompException;
 import game_engine.TestingEngineWorkspace;
 import game_engine.games.Timer;
 import game_engine.properties.Position;
@@ -25,6 +26,8 @@ public class Level extends GameElement {
     private List<PathNode> myPaths;
     private TestingEngineWorkspace myWorkspace;
     private List<Pair<Unit, Integer>> unlockedTowerTypes;
+    private List<Position> myGoals;
+    private List<Position> mySpawns;
 
     public Level (String name, int myLives, TestingEngineWorkspace workspace) {
         super(name);
@@ -42,9 +45,9 @@ public class Level extends GameElement {
      * This API will allow the player to start a new wave. Returns true if next started, false if
      * not.
      */
-    public void playNextWave () {
+    public void playNextWave () throws WompException {
         if (!myCurrentWave.isFinished()) {
-            return; // TODO: should probably fix this to tell player that you cannot skip this wave
+            throw new WompException("Cannot skip this wave.");
         }
         checkCurrentWaveFinished();
         Wave nextWave = getNextWave();
@@ -157,19 +160,55 @@ public class Level extends GameElement {
 	public List<Wave> getWaves(){
 		return myWaves;
 	}
-
-	public List<Position> getGoals() {
-		List<Position> goals = new ArrayList<>();
-		for(PathNode p : myPaths){
-			List<Branch> branches = p.getBranches();
-			for(Branch b : branches){
-				Position lastPos = b.getLastPosition();
-				List<Branch> forwardNeighbors = b.getForwardNeighbors();
-				if(forwardNeighbors.size() == 0)
-					goals.add(lastPos);
-			}
-		}
-		return goals;
+	
+	public void setGoals(List<Position> goals){
+		this.myGoals = goals;
 	}
+	
+	public void setSpawns(List<Position> spawns){
+		this.mySpawns = spawns;
+	}
+	
+	public void addSpawn(Position spawn){
+		this.mySpawns.add(spawn);
+	}
+	
+	public void addGoal(Position goal){
+		this.myGoals.add(goal);
+	}
+	
+	public List<Position> getGoals(){
+		return myGoals;
+	}
+	
+	public void addGoals(List<Position> goals){
+		this.myGoals.addAll(goals);
+	}
+	
+	public void addSpawns(List<Position> spawns){
+		this.mySpawns.addAll(spawns);
+	}
+	
+	public List<Position> getSpawns(){
+		return mySpawns;
+	}
+
+	public void addWaves(List<Wave> waves) {
+		this.myWaves.addAll(waves);
+	}
+
+//	public List<Position> getGoals() {
+//		List<Position> goals = new ArrayList<>();
+//		for(PathNode p : myPaths){
+//			List<Branch> branches = p.getBranches();
+//			for(Branch b : branches){
+//				Position lastPos = b.getLastPosition();
+//				List<Branch> forwardNeighbors = b.getForwardNeighbors();
+//				if(forwardNeighbors.size() == 0)
+//					goals.add(lastPos);
+//			}
+//		}
+//		return goals;
+//	}
 
 }

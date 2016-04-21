@@ -1,7 +1,5 @@
 package exceptions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,36 +7,55 @@ import javafx.scene.control.TextInputDialog;
 
 public class CorrectableException extends Exception{
 
-	private HashMap<CorrectableException, String> myResults;
+	private String myResult;
 
-	public CorrectableException(String topMessage, String message, Object requiredInputType){
-		myResults = new HashMap<>();
-		myResults.put(this, correctMessage(message, requiredInputType));
+	public CorrectableException(String message, Object inputType){
+		myResult = correctMessage(message, inputType);
 	}
 
-	public CorrectableException(String message){
-		myResults = new HashMap<>();
+	public CorrectableException(List<String> options){
 		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setTitle(message);
-		dialog.setHeaderText("Yes or No?");
-		dialog.setContentText("Yes or no?");
-		// create two buttons YES or NO
+		dialog.setTitle("WOMP EXCEPTION");
+		dialog.setHeaderText("Choose an option.");
+		String opts = "Options: ";
+		for(String o : options){
+			opts += o+" ";
+		}
+		dialog.setContentText(opts);
 	}
 
 	private String correctMessage(String message, Object type){
 		TextInputDialog dialog = new TextInputDialog("");
-		dialog.setTitle(message);
+		dialog.setTitle("WOMP EXCEPTION");
 		dialog.setHeaderText(message);
 		dialog.setContentText("Please enter new argument.");
 		Optional<String> unresolved = dialog.showAndWait();
 		if(unresolved.isPresent()){
-			//			boolean in = unresolved.get()
+			String result = unresolved.get();
+			if(type instanceof Double){
+				try{
+					Double.parseDouble(result);
+					return result;
+				}
+				catch(Exception e){
+					correctMessage(message, type);
+				}
+			}
+			if(type instanceof Integer){
+				try{
+					Integer.parseInt(result);
+					return result;
+				}
+				catch(Exception e){
+					correctMessage(message, type);
+				}
+			}
 		}
 		return null;
 	}
 
-	public String getResult(CorrectableException w){
-		return myResults.get(w);
+	public String getResult(){
+		return myResult;
 	}
 
 }
