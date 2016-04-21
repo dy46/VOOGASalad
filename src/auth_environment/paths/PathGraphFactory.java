@@ -32,7 +32,7 @@ public class PathGraphFactory {
 		int numCells = (int) Math.floor((width*length)/sideLength);
 		PathNode pathGrid = new PathNode(getNextPathID());
 		for(int x=0; x<numCells; x++){
-			List<Position> pos = Arrays.asList(new Position(centerX, centerY, 0));
+			List<Position> pos = Arrays.asList(new Position(centerX, centerY));
 			Branch branch = new Branch(getNextBranchID(), pos);
 			pathGrid.addBranch(branch);
 			centerX += sideLength;

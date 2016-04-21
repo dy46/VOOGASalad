@@ -168,12 +168,6 @@ public class UnitProperties {
         myPosition.setX(x);
         myPosition.setY(y);
     }
-    
-    public void setPosition(double x, double y, double z){
-    	myPosition.setX(x);
-        myPosition.setY(y);
-        myPosition.setZ(z);
-    }
 
     public void setPositionProp (Position pos) {
         myPosition = pos;
