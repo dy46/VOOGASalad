@@ -46,7 +46,7 @@ public class MapDisplay extends Pane {
 			for(int i=0; i<myGrid.clickedList().size(); i++){
 				newPathPositions.add(myGrid.clickedList().get(i));
 			}
-			myGrid.getPathGraphFactory().insertPath(newPathPositions); // Insert path into path graph
+			myGrid.getPathGraphFactory().insertBranch(newPathPositions); // Insert path into path graph
 		});
 		temp.setTranslateY(myGrid.mapHeight);
 		this.getChildren().add(temp);

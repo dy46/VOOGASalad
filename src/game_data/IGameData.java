@@ -5,7 +5,6 @@ import java.util.List;
 import auth_environment.IAuthEnvironment;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
@@ -24,9 +23,10 @@ public interface IGameData extends IAuthEnvironment {
 
 	//Getters
 	public List<Level> getLevels();
-	public List<Tower> getTowerTypes();
+	public List<Unit> getTowerTypes();
 	public List<Branch> getPaths();
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();
 	public List<Unit> getProjectiles();
+	
 }

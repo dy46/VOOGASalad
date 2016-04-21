@@ -12,7 +12,6 @@ import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.RecTile;
-import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Unit;
 import javafx.geometry.Insets;
 import javafx.scene.Node;

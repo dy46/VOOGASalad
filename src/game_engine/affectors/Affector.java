@@ -1,108 +1,105 @@
 package game_engine.affectors;
 
+import java.lang.reflect.Method;
 import java.util.List;
-import game_engine.IPlayerEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
-import game_engine.properties.UnitProperties;
+import game_engine.properties.Property;
+import game_engine.games.GameEngineInterface;
 
-public class Affector {
 
-	private List<Double> baseNumbers;
-	// this specifies how many ticks the affector applies its effect (it's "time to live")
-	private int TTL;
-	private int elapsedTime;
-	private List<Function> myFunctions;
-	private IPlayerEngineInterface engineWorkspace;
+public abstract class Affector {
 
-	/**
-	 * Applies an effect to a unit by altering the 
-	 * UnitProperties of a GameElement object. The effect is determined
-	 * by the implementation of the method (this could involve)
-	 * decrementing health, increasing/decreasing speed, etc.
-	 * The overall effect is dependent on which properties are changed
-	 *
-	 * @param  properties  A UnitProperties object that represents the current state of the GameElement 
-	 *
-	 *
-	 */
+    private int TTL;
+    private int elapsedTime;
+    private GameEngineInterface engineWorkspace;
+    private AffectorData myData;
+    private List<Unit> unitList;
 
-	public Affector(List<Function> functions){
-		this.myFunctions = functions;
-		this.elapsedTime = 0;
-	}
-	
-	public void setWorkspace(IPlayerEngineInterface workspace){
-		this.engineWorkspace = workspace;
-	}
+    public Affector (AffectorData data) {
+        this.myData = data;
+        this.elapsedTime = 0;
+    }
 
-	public Affector(){
-		this.elapsedTime = 0;
-	}
+    public Affector copyAffector () {
+        // may need to copy functions too
+        Affector copy = null;
+        try {
+            copy = (Affector) Class.forName(this.getClass().getName())
+                    .getConstructor(AffectorData.class)
+                    .newInstance(myData);
+            copy.setWorkspace(this.getWS());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        copy.setTTL(this.getTTL());
+        return copy;
+    }
 
-	public Affector copyAffector() {
-		//may need to copy functions too
-		Affector copy = null;
-		try {
-			copy = (Affector) Class.forName(this.getClass().getName())
-					.getConstructor(List.class)
-					.newInstance(this.getFunctions());
-			copy.setWorkspace(this.getEngineWorkspace());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		copy.setBaseNumbers(this.getBaseNumbers());
-		copy.setTTL(this.getTTL());
-		return copy;
-	}
+    public void apply (Unit u) {
+        for (int i = 0; i < myData.getUnitProperties().size(); i++) {
+            apply(myData.getFunctions().get(i),
+                  getProperty(u, myData.getUnitProperties().get(i)), u);
+        }
+        updateElapsedTime();
+    }
 
-	public void apply(Unit u) {
-		updateElapsedTime();
-	}
+    public abstract void apply (List<Function> functions, Property property, Unit u);
 
-	public int getElapsedTime(){
-		return elapsedTime;
-	}
+    private Property getProperty (Unit u, String property) {
+        Property p = null;
+        if (property == null) {
+            return p;
+        }
+        try {
+            Method method = Class.forName("game_engine.properties.UnitProperties")
+                    .getDeclaredMethod("get" + property);
+            p = ((Property) method.invoke(u.getProperties()));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return p;
+    }
 
-	public void updateElapsedTime(){
-		elapsedTime++;
-	}
+    public int getElapsedTime () {
+        return elapsedTime;
+    }
 
-	public void setElapsedTime(int elapsedTime) {
-		this.elapsedTime = elapsedTime;
-	}
+    public void updateElapsedTime () {
+        elapsedTime++;
+    }
 
-	public List<Double> getBaseNumbers () {
-		return baseNumbers;
-	}
+    public void setElapsedTime (int elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
 
-	public void setBaseNumbers (List<Double> baseNumbers) {
-		this.baseNumbers = baseNumbers;
-	}
+    public int getTTL () {
+        return TTL;
+    }
 
-	public int getTTL () {
-		return TTL;
-	}
+    public void setElapsedTimeToDeath () {
+        this.setElapsedTime(this.getTTL());
+    }
 
-	public void setElapsedTimeToDeath() {
-		this.setElapsedTime(this.getTTL());
-	}
+    public void setTTL (int TTL) {
+        this.TTL = TTL;
+    }
 
-	public void setTTL(int TTL) {
-		this.TTL = TTL;
-	}
+    public GameEngineInterface getWS () {
+        return engineWorkspace;
+    }
 
-	public List<Function> getFunctions(){
-		return myFunctions;
-	}
+    public void setWorkspace (GameEngineInterface workspace) {
+        this.engineWorkspace = workspace;
+    }
 
-	public IPlayerEngineInterface getEngineWorkspace() {
-		return engineWorkspace;
-	}
+    public List<Unit> getUnitList () {
+        return unitList;
+    }
 
-	public void setEngineWorkspace(IPlayerEngineInterface engineWorkspace) {
-		this.engineWorkspace = engineWorkspace;
-	}
-
+    public void setUnitList (List<Unit> unitList) {
+        this.unitList = unitList;
+    }
 }

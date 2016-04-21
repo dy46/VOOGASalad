@@ -3,6 +3,7 @@ package auth_environment.delegatesAndFactories;
 import auth_environment.view.Tile;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -17,28 +18,28 @@ public class MapDragDelegate {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void setupSource(Unit source) {
-		ImageView sourceImage = myNodeFactory.buildImageView(source.toString());
-		myNodeFactory.buildImageView(source.toString()).setOnDragDetected(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent event) {
-				Dragboard db = .startDragAndDrop(TransferMode.ANY);
-				ClipboardContent content = new ClipboardContent();
-//				content.put(DragDelegate.gameElementFormat, source.getElement());
-				content.putString(source.getName());
-				db.setContent(content);
-				event.consume();
-			}
-		});
-		
-		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println(source.getName()); 
-				}
-				event.consume();
-			}
-		});
-	}
+//	public void setupSource(Unit source) {
+//		ImageView sourceImage = myNodeFactory.buildImageView(source.toString());
+//		myNodeFactory.buildImageView(source.toString()).setOnDragDetected(new EventHandler<MouseEvent>() {
+//			public void handle(MouseEvent event) {
+//				Dragboard db = .startDragAndDrop(TransferMode.ANY);
+//				ClipboardContent content = new ClipboardContent();
+////				content.put(DragDelegate.gameElementFormat, source.getElement());
+//				content.putString(source.getName());
+//				db.setContent(content);
+//				event.consume();
+//			}
+//		});
+//		
+//		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
+//			public void handle(DragEvent event) {
+//				if (event.getTransferMode() == TransferMode.MOVE) {
+//					System.out.println(source.getName()); 
+//				}
+//				event.consume();
+//			}
+//		});
+//	}
 	
 	public void setupTarget(Tile target) {
 		target.getShape().setOnDragOver(new EventHandler<DragEvent>() {

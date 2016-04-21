@@ -4,67 +4,59 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.List;
+
 import game_engine.properties.Position;
+
+import java.util.List;
 
 /*
  * Internal API that will be used in order to represent paths 
  * for enemy movements.
  */
-public class Branch extends Unit{
+
+public class Branch {
 
 	private List<Position> myPositions;
 	private Map<Position, Position> nextPositions;
 	private boolean cycle;
 	private List<Branch> myNeighbors;
 	private int myID;
-	
-	public Branch(List<Position> positions, int ID){
-		super(ID+"");
+
+	public Branch(int ID, List<Position> positions){
 		this.myID = ID;
 		myPositions = positions;
 		myNeighbors = new ArrayList<>();
+		initialize();
 	}
 
 	public Branch(int ID) {
-		super(ID+"");
 		this.myPositions = new ArrayList<>();
 		this.myNeighbors = new ArrayList<>();
-	}
-
-	public Branch(String name){
-		super(name);
-		//		setID(getWorkspace().getIDFactory().createID(this));
-		cycle = false;
 		initialize();
 	}
-	
-	public Branch(String name, List<Position> positions){
-		super(name);
-		cycle = false;
-		initialize(positions, new ArrayList<>());
-	}
 
-	public Branch(String name, List<Position> positions, List<Branch> neighbors) {
-		super(name);
+	public Branch(int id, List<Position> positions, List<Branch> neighbors) {
 		cycle = false;
 		initialize(positions, neighbors);
 	}
 
 	public void initialize(){
-		myPositions = new ArrayList<>();
-		nextPositions = new HashMap<Position, Position>();
-		myNeighbors = new ArrayList<>();
+		if(myPositions == null)
+			myPositions = new ArrayList<>();
+		if(nextPositions == null)
+			nextPositions = new HashMap<Position, Position>();
+		if(myNeighbors == null)
+			myNeighbors = new ArrayList<>();
 		setNextPositions();
 	}
 
 	public void initialize(List<Position> list, List<Branch> neighbors){
 		myPositions = list;
-		nextPositions = new HashMap<Position, Position>();
 		myNeighbors = neighbors;
+		nextPositions = new HashMap<Position, Position>();
 		setNextPositions();
 	}
-	
+
 	public void setCycle(boolean state){
 		cycle = state;
 		setNextPositions();
@@ -89,7 +81,9 @@ public class Branch extends Unit{
 			vx /= mag;
 			vy /= mag;
 			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0)){
-				nextPositions.put(new Position(x, y), new Position(x + vx, y + vy));
+				Position newPosition = new Position(x + vx, y + vy);
+				//myPositions.add(newPosition);
+				nextPositions.put(new Position(x, y), newPosition);
 				x += vx;
 				y += vy;
 			}
@@ -126,9 +120,9 @@ public class Branch extends Unit{
 			return nextPositions.get(closest);
 		}
 	}
-	
+
 	public Branch copyBranch(){
-		Branch newPath = new Branch("");
+		Branch newPath = new Branch(myID);
 		this.myPositions.forEach(t -> {
 			newPath.addPosition(t.copyPosition());
 		});
@@ -155,22 +149,27 @@ public class Branch extends Unit{
 	public Position getFirstPosition() {
 		return myPositions.get(0);
 	}
-	
+
 	public Double getNextDirection (Position currentPosition) {
-        Position nextPosition = getNextPosition(currentPosition);
-        if(nextPosition == null){
-        	return null;
-        }
-        double dx = 
-                nextPosition.getX() - currentPosition.getX();
-        double dy = nextPosition.getY() - currentPosition.getY();
-        double newDir = Math.atan((dy) / (dx));
-        double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
-        return degreesDir;
-    }
+		Position nextPosition = getNextPosition(currentPosition);
+		if(nextPosition == null){
+			nextPosition = currentPosition;
+		}
+		double dx = nextPosition.getX() - currentPosition.getX();
+		double dy = nextPosition.getY() - currentPosition.getY();
+		double newDir = Math.atan((dy) / (dx));
+		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
+		return degreesDir;
+	}
 
 	public Position getLastPosition() {
 		return myPositions.get(myPositions.size()-1);
+	}
+
+	public Position getSecondPosition(){
+		if(getAllPositions().size() <= 1)
+			return null;
+		return getAllPositions().get(1);
 	}
 
 	public void addNeighbor(Branch neighbor){
@@ -178,7 +177,9 @@ public class Branch extends Unit{
 	}
 
 	public void addPositions(List<Position> positions){
-		this.myPositions.addAll(positions);
+		for(Position pos : positions){
+			addPosition(pos);
+		}
 	}
 
 	public List<Position> getPositions(){
@@ -194,8 +195,14 @@ public class Branch extends Unit{
 	}
 
 	public List<Position> cutoffByPosition(Position pos){
-		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
-		cutoff.clear();
+		List<Position> cutoff = new ArrayList<>();
+		for(int x=myPositions.indexOf(pos); x<myPositions.size(); x++){
+			cutoff.add(myPositions.get(x));
+			if(x != myPositions.indexOf(pos)){
+				myPositions.remove(x);
+				x--;
+			}
+		}
 		return cutoff;
 	}
 
@@ -212,6 +219,38 @@ public class Branch extends Unit{
 			}
 		}
 		return removed;
+	}
+
+	public String toString(){
+//		return "Branch ID: " + myID+ " positions: " + myPositions;
+		return "Branch ID: " + myID;
+	}
+
+	public int getLength(){
+		return getAllPositions().size();
+	}
+
+	public List<Branch> getForwardNeighbors(){
+		List<Branch> forwards = new ArrayList<>();
+		for(Branch b : myNeighbors){
+			if(b.getFirstPosition().equals(getLastPosition())){
+				forwards.add(b);
+			}
+		}
+		return forwards;
+	}
+
+	public boolean isAccessible(Position p){
+		for(Branch b : getForwardNeighbors()){
+			if(b.getPositions().contains(p)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean equals(Branch branch){
+		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
 	}
 
 }
