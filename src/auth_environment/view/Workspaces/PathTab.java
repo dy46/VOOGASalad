@@ -7,13 +7,10 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -139,14 +136,6 @@ public class PathTab implements IWorkspace {
 //	        	this.printCurrentPoints();
 //	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
 	        });
-	}
-	
-	private void printPoint(double x, double y) {
-    	System.out.println(x + " " + y);
-	}
-	
-	private void printCurrentPoints() {
-		this.myModel.printCurrentPositions();
 	}
 	
 	// This is Auth frontend ONLY
