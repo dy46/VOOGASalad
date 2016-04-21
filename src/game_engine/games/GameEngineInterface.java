@@ -12,6 +12,7 @@ import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.games.Timer;
 import game_engine.physics.CollisionDetector;
+import game_engine.physics.EncapsulationDetector;
 
 /**
  * This interface is the external API for the game player module. It facilitates 
@@ -72,6 +73,10 @@ public interface GameEngineInterface {
 
     public default CollisionDetector getCollisionDetector(){
         return new CollisionDetector(this);
+    }
+    
+    public default EncapsulationDetector getEncapsulationDetector(){
+    	return new EncapsulationDetector(this);
     }
 
     public boolean isGameOver();

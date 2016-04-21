@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import game_engine.affectors.AffectorTimeline;
+import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import game_engine.games.GameEngineInterface;
 import game_engine.properties.Bounds;
@@ -19,7 +19,7 @@ public class CollisionDetector {
 		myEngine = engine;
 	}
 
-	public void resolveEnemyCollisions (List<Unit> myProjectiles, List<Unit> myTerrains) {
+	public void resolveEnemyCollisions (List<Unit> myProjectiles) {
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, myProjectiles));
 	}
 
@@ -28,9 +28,9 @@ public class CollisionDetector {
 		for (int i = 0; i < myProjectiles.size(); i++) {
 			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
 				if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
-					List<AffectorTimeline> affectorsToApply = myProjectiles.get(i).getTimelinesToApply()
-							.stream().map(p -> p.copyTimeline()).collect(Collectors.toList());                     
-					unit.addTimelines(affectorsToApply);
+					List<Affector> affectorsToApply = myProjectiles.get(i).getAffectorsToApply()
+							.stream().map(a -> a.copyAffector()).collect(Collectors.toList());                     
+					unit.addAffectors(affectorsToApply);
 					myProjectiles.get(i).setHasCollided(true);        
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
@@ -46,8 +46,6 @@ public class CollisionDetector {
 		}
 		return newBounds;
 	}
-
-	
 
 	private boolean collides (Unit a, Unit b) {
 		List<Position> aPos = getUseableBounds(a.getProperties().getBounds(),

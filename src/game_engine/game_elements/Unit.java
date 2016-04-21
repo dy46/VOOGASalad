@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.properties.UnitProperties;
 
 
@@ -21,8 +20,6 @@ public class Unit extends GameElement {
 
     private List<Unit> parents;
     private UnitProperties myProperties;
-    private List<AffectorTimeline> myTimelines;
-    private List<AffectorTimeline> myTimeslinesToApply;
     
     private List<Affector> myAffectors;
     private List<Affector> myAffectorsToApply;
@@ -36,18 +33,17 @@ public class Unit extends GameElement {
     private int numFrames;
     private List<Double> numberList;
     private List<Unit> myChildren;
-
-    public Unit (String name, List<AffectorTimeline> timelines, int numFrames) {
-        super(name);
-        initialize();
-        myProperties = new UnitProperties();
-        elapsedTime = 0;
-        this.numFrames = numFrames;
-        addTimelines(timelines);
-        myChildren = new ArrayList<>();
-        myAffectors = new ArrayList<>();
-        parents = new ArrayList<>();
-    }
+    
+    public Unit (String name, List<Affector> affectors, int numFrames) {
+		super(name);
+		initialize();
+		myProperties = new UnitProperties();
+		elapsedTime = 0;
+		this.numFrames = numFrames;
+		addAffectors(affectors);
+		myChildren = new ArrayList<>();
+		parents = new ArrayList<>();
+	}
     
     public Unit(String name, UnitProperties unitProperties) {
     	super(name);
@@ -55,10 +51,18 @@ public class Unit extends GameElement {
 		myProperties = unitProperties;
 		elapsedTime = 0;
         this.numFrames = numFrames;
-        myAffectors = new ArrayList<>();
-        myAffectorsToApply = new ArrayList<>();
         this.myChildren = new ArrayList<>();
 	}
+    
+    public Unit (String name, int numFrames) {
+        super(name);
+        initialize();
+        myProperties = new UnitProperties();
+        elapsedTime = 0;
+        this.numFrames = numFrames;
+        myChildren = new ArrayList<>();
+        parents = new ArrayList<>();
+    }
     
     public Unit copyUnit() {
         Unit copy = this.copyShallowUnit();
@@ -69,44 +73,37 @@ public class Unit extends GameElement {
     
     public Unit copyShallowUnit() {
         Unit copy = new Unit(this.toString(), this.getNumFrames());
-        List<AffectorTimeline> copyApplyTimelines = this.getTimelinesToApply().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
-        copy.setTimelinesToApply(copyApplyTimelines);
-        List<AffectorTimeline> copyTimelines = this.getTimelines().stream().map(t -> t.copyTimeline()).collect(Collectors.toList());
-        copy.setTimelines(copyTimelines);
+        List<Affector> copyApplyAffectors = this.getAffectorsToApply().stream().map(a -> a.copyAffector()).collect(Collectors.toList());
+        copy.setAffectorsToApply(copyApplyAffectors);
+        List<Affector> copyAffectors = this.getAffectors().stream().map(a -> a.copyAffector()).collect(Collectors.toList());
+        copy.setAffectors(copyAffectors);
         copy.setProperties(this.getProperties().copyUnitProperties());
         copy.setDeathDelay(this.getDeathDelay());
         copy.setNumberList(this.getNumberList());
         copy.setTTL(this.getTTL());
         copy.setHasCollided(this.hasCollided);
-        copy.setEncapsulated(this.isEncapsulated);
         copy.elapsedTime = 0;
         return copy;
     }
 
-    public Unit (String name, int numFrames) {
-        super(name);
-        initialize();
-        myProperties = new UnitProperties();
-        elapsedTime = 0;
-        this.numFrames = numFrames;
-        myChildren = new ArrayList<>();
-        parents = new ArrayList<>();
-    }
-
 	private void initialize () {
-        myTimelines = new ArrayList<>();
-        myTimeslinesToApply = new ArrayList<>();
         this.setHasCollided(false);
+        if(myAffectors == null){
+        	myAffectors = new ArrayList<>();
+        }
+        if(myAffectorsToApply == null){
+        	myAffectorsToApply = new ArrayList<>();
+        }
     }
 
     public void update () {
         myChildren.stream().forEach(p -> p.incrementElapsedTime(1));
         if (isVisible()) {
             elapsedTime++;
-            myTimelines.removeIf(t -> t.getAffectors().size() == 0);
+            myAffectors.removeIf(a -> a.getTTL() <= a.getElapsedTime());
 //            System.out.println("Hello");
 //            myTimelines.forEach(t -> System.out.println(t));
-            myTimelines.forEach(t -> t.apply(this));
+            myAffectors.forEach(a -> a.apply(this));
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();
@@ -132,21 +129,21 @@ public class Unit extends GameElement {
         this.myProperties = properties;
     }
 
-    public List<AffectorTimeline> getTimelines () {
-        return myTimelines;
-    }
-
-    public void setTimelines (List<AffectorTimeline> timelines) {
-        this.myTimelines = timelines;
-    }
-
-    public List<AffectorTimeline> getTimelinesToApply () {
-        return myTimeslinesToApply;
-    }
-
-    public void setTimelinesToApply (List<AffectorTimeline> timelinesToApply) {
-        this.myTimeslinesToApply = timelinesToApply;
-    }
+//    public List<AffectorTimeline> getTimelines () {
+//        return myTimelines;
+//    }
+//
+//    public void setTimelines (List<AffectorTimeline> timelines) {
+//        this.myTimelines = timelines;
+//    }
+//
+//    public List<AffectorTimeline> getTimelinesToApply () {
+//        return myTimeslinesToApply;
+//    }
+//
+//    public void setTimelinesToApply (List<AffectorTimeline> timelinesToApply) {
+//        this.myTimeslinesToApply = timelinesToApply;
+//    }
 
     public int getTTL () {
         return TTL;
@@ -207,7 +204,6 @@ public class Unit extends GameElement {
     public double getSellPrice () {
         return getProperties().getPrice().getValue();
     }
-
   
 	public List<Double> getNumberList () {
         return numberList;
@@ -215,18 +211,6 @@ public class Unit extends GameElement {
 
     public void setNumberList (List<Double> numberList) {
         this.numberList = numberList;
-    }
-
-    public void addTimelines (List<AffectorTimeline> timelines) {
-        myTimelines.addAll(timelines);
-    }
-
-    public boolean isEncapsulated () {
-        return isEncapsulated;
-    }
-
-    public void setEncapsulated (boolean encapsulated) {
-        this.isEncapsulated = encapsulated;
     }
     
     public List<Unit> getChildren() {
@@ -279,6 +263,14 @@ public class Unit extends GameElement {
 	
 	public List<Affector> getAffectorsToApply(){
 		return myAffectorsToApply;
+	}
+	
+	public void setAffectors(List<Affector> affectors) {
+		myAffectors = affectors;
+	}
+
+	public void setAffectorsToApply(List<Affector> affectorsToApply) {
+		myAffectorsToApply = affectorsToApply;
 	}
 	
 	public void removeAffectorsByName(String name){

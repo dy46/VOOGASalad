@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import game_engine.affectors.AffectorTimeline;
+import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import game_engine.games.GameEngineInterface;
 import game_engine.properties.Bounds;
@@ -22,9 +22,10 @@ public class EncapsulationDetector {
 		return encapsulates(inner.getProperties().getBounds().getPositions(),
 				outer.getProperties().getBounds().getPositions());
 	}
-	
-	public void resolveEnemyCollisions (List<Unit> myProjectiles, List<Unit> myTerrains) {
-		myEngine.getEnemies().forEach(t -> terrainHandling(t, myProjectiles));
+
+	public void resolveEncapsulations(List<Unit> terrains) {
+		myEngine.getEnemies().forEach(t -> terrainHandling(t, terrains));
+		myEngine.getTowers().forEach(t -> terrainHandling(t, terrains));
 	}
 
 	public List<Unit> getUnitsInRange(Bounds range){
@@ -47,14 +48,14 @@ public class EncapsulationDetector {
 		return true;
 	}
 
-	private void terrainHandling (Unit unit, List<Unit> terrains) {
+	private void terrainHandling (Unit unit, List<Unit> terrains){
 		for (int i = 0; i < terrains.size(); i++) {
 			if ((!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
-				if (!terrains.get(i).hasCollided() && unit.isVisible()) {
-					List<AffectorTimeline> newTimelinesToApply =
-							terrains.get(i).getTimelinesToApply().stream()
-							.map(t -> t.copyTimeline()).collect(Collectors.toList());
-					unit.addTimelines(newTimelinesToApply);
+				if (unit.isVisible()) {
+					List<Affector> newAffectorsToApply =
+							terrains.get(i).getAffectorsToApply().stream()
+							.map(a -> a.copyAffector()).collect(Collectors.toList());
+					unit.addAffectors(newAffectorsToApply);
 				}
 			}
 		}
