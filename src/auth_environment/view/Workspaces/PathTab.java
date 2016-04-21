@@ -10,8 +10,11 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -29,6 +32,8 @@ public class PathTab implements IWorkspace {
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
+	
+	private TextField myPathWidthField;
 	
 	private IPathTabModel myModel;
 	
@@ -49,19 +54,42 @@ public class PathTab implements IWorkspace {
 	private Node buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		center.getChildren().addAll(this.buildMainCanvas()); 
+		center.getChildren().addAll(this.buildTextInput(),
+				this.buildMainCanvas()); 
 		return center; 
 	}
 	
+	private HBox buildTextInput() {
+		// TODO: duplicate code with GlobalGameTab
+		this.myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
+		this.myPathWidthField.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
+		
+		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
+		submitNameButton.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
+		
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		hb.getChildren().addAll(this.myPathWidthField, submitNameButton);
+		return this.myNodeFactory.centerNode(hb); 
+	}
+	
+	// TODO: make this protected in an abstract class 
+	private void submitPathWidth(TextField input) {
+		if (checkValidInput(input)) {
+			this.myModel.setPathWidth(Double.parseDouble(input.getText()));
+			input.clear();
+		}
+	}
+	
+	// TODO: make this protected in an abstract class 
+	private boolean checkValidInput(TextField input) {
+		return input.getText().length() > 0; 
+	}
+	
 	private Node buildMainCanvas() {
-        Canvas canvas = new Canvas(600, 400); 
-        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, 
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent t) {      
-                    	System.out.println(t.getX() + " " + t.getY());
-                    }
-                });
+        Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
+        canvas.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
         return canvas; 
 	}
 	
