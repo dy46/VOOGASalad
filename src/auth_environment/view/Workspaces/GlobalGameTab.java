@@ -77,9 +77,10 @@ public class GlobalGameTab implements IWorkspace {
 		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
 		submitNameButton.setOnAction(e -> this.submitButtonPressed(this.myGameNameField));
 		
-		HBox hb = myNodeFactory.centerNode(this.myGameNameField);
-		hb.getChildren().add(submitNameButton);
-		return hb;
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		hb.getChildren().addAll(this.myGameNameField, submitNameButton);
+		return this.myNodeFactory.centerNode(hb); 
 	}
 	
 	// TODO: set spacing/padding 
@@ -94,6 +95,18 @@ public class GlobalGameTab implements IWorkspace {
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(mySplashPreview, splashButton); 
 		return myNodeFactory.centerNode(hb); 
+	}
+	
+	private HBox buildSaveButton() {
+		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
+		save.setOnAction(e -> this.myModel.saveToFile());
+		return myNodeFactory.centerNode(save); 
+	}
+	
+	private HBox buildLoadButton() {
+		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
+		load.setOnAction(e -> this.myModel.loadFromFile());
+		return myNodeFactory.centerNode(load); 
 	}
 
 	//	public void writeToGameData() {
