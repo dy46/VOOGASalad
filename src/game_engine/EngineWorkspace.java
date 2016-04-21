@@ -33,54 +33,31 @@ import game_engine.properties.UnitProperties;
  */
 
 public class EngineWorkspace implements IPlayerEngineInterface {
+	private List<Level> myLevels = new ArrayList<Level>();
+	private List<Branch> myPaths = new ArrayList<Branch>();
+	private List<Unit> myTowers = new ArrayList<Unit>();
+	private List<Tower> myTowerTypes = new ArrayList<Tower>();
+	private List<Unit> myProjectiles = new ArrayList<Unit>();
+	private List<Unit> myEnemys = new ArrayList<Unit>();
+	private List<Affector> myAffectors = new ArrayList<Affector>();
+	private List<Unit> myTerrains = new ArrayList<Unit>();
 
-	private int nextWaveTimer;
-	private boolean pause;
-	private List<Level> myLevels;
-	private List<Branch> myPaths;
-
-	private List<Unit> myTowers;
-	private List<Unit> myEnemys;
-	private List<Unit> myProjectiles;
-
-	private CollisionDetector myCollider;
-	private List<Tower> myTowerTypes;
+	private CollisionDetector myCollider = new CollisionDetector(this);
 	private Level myCurrentLevel;
-	//	private IDFactory myIDFactory;
-	private double myBalance;
-	private int myLives;
-
-	private List<Unit> myTerrains;
-	private List<Affector> myAffectors;
-
-	public void setUpEngine (GameData gameData) {
-		myLives = 3;
-		myLevels = gameData.getLevels();
-		myPaths = gameData.getPaths();
-		System.out.println("My paths: " + myPaths);
-		myEnemys = gameData.getEnemies();
-		myProjectiles = gameData.getProjectiles();
-		myTowers = gameData.getTowers();
-		myTowerTypes = gameData.getTowerTypes();
-		myAffectors = gameData.getAffectors();
-		myTerrains = gameData.getTerrains();
-		myCollider = new CollisionDetector(this);
-		myBalance = 0;
-		nextWaveTimer = 0;
+	private double myBalance = 0;
+	private int myLives = 3;
+	private int nextWaveTimer = 0;
+	private boolean pause;
+	
+//	private IDFactory myIDFactory;
+	
+	public void setUpEngine () {
 		initialize();
 	}
 
 	private void initialize(){
-		if(myLevels == null)	myLevels = new ArrayList<>();
 		myAffectors.stream().forEach(a -> a.setWorkspace(this));
 		myCurrentLevel = myLevels.get(0);
-		if(myPaths == null)		myPaths = new ArrayList<>();
-		if(myEnemys == null)	myEnemys = new ArrayList<>();
-		if(myProjectiles == null)	myProjectiles = new ArrayList<>();
-		if(myTowers == null)	myTowers = new ArrayList<>();
-		if(myTowerTypes == null)	myTowerTypes = new ArrayList<>();
-		if(myTerrains == null)	myTerrains = new ArrayList<>();
-		if(myAffectors == null)	myAffectors = new ArrayList<>();
 		if(myLevels.size() == 0){
 			Wave w = new Wave("temp", 0);
 			Level l = new Level("temp2", w, 3);

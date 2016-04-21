@@ -3,7 +3,7 @@ package game_player.view;
 import game_player.GameDataSource;
 import java.util.ResourceBundle;
 
-import game_data.AuthSerializer;
+import game_data.Serializer;
 import game_data.GameData;
 import game_data.IDataConverter;
 import game_engine.EngineWorkspace;
@@ -57,20 +57,15 @@ public class PlayerGUI{
 	}
 	
 	private IPlayerEngineInterface readData() {
-		IDataConverter<IPlayerEngineInterface> dataConverter = new AuthSerializer<IPlayerEngineInterface>();
-		GameData gameData = (GameData) dataConverter.loadElement();
-		gameEngine = new EngineWorkspace();
-		gameEngine.setUpEngine(gameData);
-		return gameEngine;
+		IDataConverter<IPlayerEngineInterface> dataConverter = new Serializer<IPlayerEngineInterface>();
+		return dataConverter.loadElement();
 	}
 	
 	private void createNewTab() {
-//		gameEngine = new EngineWorkspace();
-//		gameEngine = readData();
-//		
+		gameEngine = readData();
 		
-		gameEngine = new TestingEngineWorkspace();
-		gameEngine.setUpEngine(null);
+//		gameEngine = new TestingEngineWorkspace();
+//		gameEngine.setUpEngine(null);
 		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();

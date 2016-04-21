@@ -42,8 +42,8 @@ public interface IPlayerEngineInterface {
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
     
-    //sets up the engine with a list of files
-    void setUpEngine(GameData gameData);
+    //sets up the engine
+    void setUpEngine();
     
     public List<Unit> getEnemies();
     

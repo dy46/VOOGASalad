@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import auth_environment.backend.GameDataController;
 import auth_environment.backend.ISettings;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
-import game_data.AuthSerializer;
+import game_data.Serializer;
 import game_data.GameData;
 import game_engine.IPlayerEngineInterface;
 import game_engine.TestingEngineWorkspace;
@@ -49,7 +49,7 @@ public class FileMenu extends Menu {
 
 	// TODO: should pass ONE object to XStream. (We need to decide how to store that) 
 	private void save() {
-		AuthSerializer writer = new AuthSerializer();
+		Serializer writer = new Serializer();
 		writeToGameData();
 		writer.saveElement(myGameDataController.getGameData());
 	}

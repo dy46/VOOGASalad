@@ -36,7 +36,7 @@ public class GameData implements IGameData {
 		myTerrains = new ArrayList<>();
 		myProjectiles = new ArrayList<>();
 		mySettings = new GameSettings();
-		mySerializer = new AuthSerializer<IPlayerEngineInterface>();
+		mySerializer = new Serializer<IPlayerEngineInterface>();
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class GameData implements IGameData {
 	@Override
 	public void saveGameData() {
 		IPlayerEngineInterface workspace = new EngineWorkspace();
-		workspace.setUpEngine(this);
+		workspace.setUpEngine();
 		mySerializer.saveElement(workspace);
 	}
 

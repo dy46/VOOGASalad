@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class AuthSerializer<T> implements IDataConverter<T> {
+public class Serializer<T> implements IDataConverter<T> {
 	
 	private FileChooserDelegate chooser = new FileChooserDelegate(); 
 	
