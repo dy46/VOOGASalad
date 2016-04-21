@@ -1,18 +1,17 @@
 package main;
 
+<<<<<<< HEAD
 import auth_environment.view.View;
 import game_data.Serializer;
 import game_engine.EngineController;
 import game_player.view.GameView;
 import game_player.view.PlayerGUI;
+=======
+>>>>>>> auth-environment
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-	private View authView; 
-	private PlayerGUI myView;
-	private EngineController myEngineController;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -20,6 +19,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+<<<<<<< HEAD
 		//		myView = new GameView(primaryStage);
 		//		myEngineController = new EngineController();
 		//		myEngineController.initialize();
@@ -46,6 +46,9 @@ public class Main extends Application {
 //		myEngineController.initialize();
 //		primaryStage.setScene(myView.createPlayerScene());
 //		primaryStage.show();
+=======
+		MainView mainView = new MainView(primaryStage); 
+>>>>>>> auth-environment
 	}
 
 }

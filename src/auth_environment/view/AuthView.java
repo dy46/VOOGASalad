@@ -1,15 +1,17 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import auth_environment.backend.GameSettings;
-import auth_environment.backend.ISettings;
-import auth_environment.view.Workspaces.GameWorkspace;
+import auth_environment.Models.AuthModel;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.view.Interfaces.IAuthView;
+import auth_environment.view.Workspaces.GlobalGameTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -19,7 +21,7 @@ import javafx.stage.Stage;
  * This is the most general frontend/view class and contains a reference to the main Stage and tabs. 
  */
 
-public class View {
+public class AuthView implements IAuthView {
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
@@ -30,37 +32,32 @@ public class View {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private GameWorkspace mainWorkspace;
-    private GameSettings mySettings = new GameSettings(); 
+    private IAuthModel authModel;
 
-    public View (Stage stage) {
+    public AuthView (Stage stage) {
         myStage = stage;
-        
-        Welcome welcome = new Welcome(this);
-        setupWorkspace();
+        this.authModel = new AuthModel(); 
+        setupApperance();
+    }
+    
+    private List<Tab> defaultTabs() {
+    	List<Tab> tabs = new ArrayList<Tab>(); 
+    	// TODO: cleanup
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel.getAuthInterface()); 
+    	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
+    	tabs.stream().forEach(s -> s.setClosable(false));
+    	return tabs; 
     }
 
-
-	private void setupWorkspace() {
-		myScene = new Scene(myTabs, Color.web("292929")); 
+	private void setupApperance() {
+		myScene = new Scene(myTabs); 
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		mainWorkspace = new GameWorkspace(myTabs, this.mySettings);
-		Tab mainTab = new Tab(myNamesBundle.getString("mainTabTitle"), mainWorkspace.getRoot());
-		mainTab.setClosable(false);
-		myTabs.getTabs().add(mainTab);
-		
-		
-		//VAsTesterTab vtest = new VAsTesterTab(myTabs);
+		myTabs.getTabs().addAll(this.defaultTabs());
     }
 
     public void display() {
     	this.myStage.show();
     }
-    
-    public ISettings getSettings() {
-    	return this.mySettings;
-    }
-
 }

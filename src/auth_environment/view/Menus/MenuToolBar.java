@@ -8,17 +8,14 @@ import auth_environment.backend.ISettings;
 import auth_environment.view.ElementPicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.TabPane;
 
 public class MenuToolBar extends MenuBar {
 	
-	private TabPane myTabPane; 
 	private ISettings mySettings;
 	private GameDataController myGameDataController;
 	
-	public MenuToolBar(TabPane tabPane, ElementPicker myPicker, ISettings settings, GameDataController gameDataController) {
+	public MenuToolBar(ElementPicker myPicker, ISettings settings, GameDataController gameDataController) {
 		this.mySettings = settings;
-		this.myTabPane = tabPane; 
 		this.myGameDataController = gameDataController;
 		this.init(myPicker);
 	}
@@ -28,8 +25,7 @@ public class MenuToolBar extends MenuBar {
 				new FileMenu(this.mySettings, myGameDataController), 
 				new SettingsMenu(),
 				new ElementMenu(myPicker),
-				new HelpMenu(),
-				new TabMenu(this.myTabPane, this.mySettings)
+				new HelpMenu()
 				);
 		return myMenus; 
 	}

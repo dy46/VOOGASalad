@@ -2,27 +2,16 @@ package game_engine;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import game_data.GameData;
 import game_engine.affectors.Affector;
-import game_engine.factories.AffectorFactory;
-import game_engine.factories.EnemyFactory;
-import game_engine.factories.FunctionFactory;
-import game_engine.factories.TerrainFactory;
-import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.libraries.AffectorLibrary;
-import game_engine.libraries.FunctionLibrary;
 import game_engine.game_elements.Wave;
-import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
@@ -31,6 +20,8 @@ import game_engine.properties.UnitProperties;
  * This workspace holds game instance specific data.
  *
  */
+
+// TODO: deprecate (Brian will handle) 
 
 public class EngineWorkspace implements IPlayerEngineInterface {
 	private List<Level> myLevels = new ArrayList<Level>();
@@ -44,14 +35,25 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 
 	private CollisionDetector myCollider = new CollisionDetector(this);
 	private Level myCurrentLevel;
-	private double myBalance = 0;
-	private int myLives = 3;
-	private int nextWaveTimer = 0;
-	private boolean pause;
-	
-//	private IDFactory myIDFactory;
-	
-	public void setUpEngine () {
+	//	private IDFactory myIDFactory;
+	private double myBalance;
+	private int myLives;
+
+
+	public void setUpEngine (GameData gameData) {
+//		myLives = 3;
+//		myLevels = gameData.getLevels();
+//		myPaths = gameData.getPaths();
+//		System.out.println("My paths: " + myPaths);
+//		myEnemys = gameData.getEnemies();
+//		myProjectiles = gameData.getProjectiles();
+//		myTowers = gameData.getTowers();
+//		myTowerTypes = gameData.getTowerTypes();
+//		myAffectors = gameData.getAffectors();
+//		myTerrains = gameData.getTerrains();
+		myCollider = new CollisionDetector(this);
+		myBalance = 0;
+		nextWaveTimer = 0;
 		initialize();
 	}
 
@@ -216,6 +218,102 @@ public class EngineWorkspace implements IPlayerEngineInterface {
 				myTowers.add(newTower);
 			}
 		}
+	}
+
+	@Override
+	public void setGameName(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getGameName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSplashScreen(String fileName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getSplashScreen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Unit> getPlacedUnits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void placeUnit(Unit unit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTower(Unit tower) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearTowers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTerrain(Unit terrain) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearTerrains() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addEnemy(Unit enemy) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearEnemies() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addProjectile(Unit projectile) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addAffector(Affector affector) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Affector> getAffectors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void clearAffectors() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

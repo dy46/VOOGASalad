@@ -1,4 +1,4 @@
-package game_data;
+package auth_environment.Models;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 
-public class GameData implements IAuthEnvironment {
+public class SampleAuthData implements IAuthEnvironment {
 	
 	private String myName;
 	private String mySplashFileName;
@@ -19,7 +19,7 @@ public class GameData implements IAuthEnvironment {
 	private List<Affector> myAffectors; 
 	private List<Unit> myPlacedUnits; 
 	
-	public GameData() {
+	public SampleAuthData() {
 		
 	}
 
@@ -117,5 +117,4 @@ public class GameData implements IAuthEnvironment {
 	public void setAffectors(List<Affector> affectors) {
 		this.myAffectors = affectors; 
 	}
-	
 }
