@@ -85,14 +85,12 @@ public class GlobalGameTab implements IWorkspace {
 		return this.myNodeFactory.centerNode(hb); 
 	}
 	
-	// TODO: set spacing/padding 
-	// TODO: resize ImageView 
 	private HBox buildSplashChooser() {
 		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
 		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
-		splashButton.setOnAction(e -> this.buildSplashChooser());
+		splashButton.setOnAction(e -> this.chooseSplash());
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(mySplashPreview, splashButton); 
@@ -119,7 +117,6 @@ public class GlobalGameTab implements IWorkspace {
 	//		gameData.setPaths(myDisplay.getGrid().getPathGraphFactory().getPaths());
 	//	}
 	
-	// TODO: exctract these methods to the GlobalGameModel class
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
 			this.myModel.setGameName(input.getText());
@@ -127,19 +124,11 @@ public class GlobalGameTab implements IWorkspace {
 		}
 	}
 	
-	// TODO: put in Model
 	private void chooseSplash() {
 		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
 		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
-		// TODO: display the image in an ImageView
-		
-		
-		// TODO: store the image name
-		System.out.println(splash.getName());
+		this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
 		this.myModel.setSplashFile(splash.getName());
-		
-		// TODO: save the file to Game_Images (ask Virginia) 
-		
 	}
 	
 	private boolean checkValidInput(TextField input) {
