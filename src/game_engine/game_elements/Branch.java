@@ -177,7 +177,9 @@ public class Branch {
 	}
 
 	public void addPositions(List<Position> positions){
-		this.myPositions.addAll(positions);
+		for(Position pos : positions){
+			addPosition(pos);
+		}
 	}
 
 	public List<Position> getPositions(){
@@ -193,8 +195,14 @@ public class Branch {
 	}
 
 	public List<Position> cutoffByPosition(Position pos){
-		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
-		cutoff.clear();
+		List<Position> cutoff = new ArrayList<>();
+		for(int x=myPositions.indexOf(pos); x<myPositions.size(); x++){
+			cutoff.add(myPositions.get(x));
+			if(x != myPositions.indexOf(pos)){
+				myPositions.remove(x);
+				x--;
+			}
+		}
 		return cutoff;
 	}
 
@@ -214,7 +222,8 @@ public class Branch {
 	}
 
 	public String toString(){
-		return "Branch ID: " + myID+ " positions: " + myPositions;
+//		return "Branch ID: " + myID+ " positions: " + myPositions;
+		return "Branch ID: " + myID;
 	}
 
 	public int getLength(){

@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-// PathForest is a set of disjoint PathNodes (or simply paths) that represent all the paths for an instance of a game
 public class PathGraph {
 
 	private List<PathNode> myPaths;
+	private List<Position> mySpawns;
+	private List<Position> myGoals;
+	private PathNode myPathGrid;
 
 	public PathGraph(List<PathNode> paths){
 		this.myPaths = paths;
@@ -20,9 +21,25 @@ public class PathGraph {
 	public PathGraph() {
 		myPaths = new ArrayList<>();
 	}
+	
+	public void setPathGrid(PathNode pathGrid){
+		if(myPaths.contains(myPathGrid)){
+			myPaths.remove(myPathGrid);
+		}
+		this.myPathGrid = pathGrid;
+		myPaths.add(myPathGrid);
+	}
 
 	public void addPath(PathNode graph){
 		myPaths.add(graph);
+	}
+	
+	public void addSpawn(Position spawn){
+		mySpawns.add(spawn);
+	}
+	
+	public void addGoal(Position goal){
+		myGoals.add(goal);
 	}
 
 	public List<Branch> getBranches(){
@@ -45,7 +62,7 @@ public class PathGraph {
 	}
 
 	public PathNode getPathByPos(Position pos){
-		Optional<PathNode> path = myPaths.stream().filter(g -> g.getBranchByEdgePosition(pos) != null).findFirst();
+		Optional<PathNode> path = myPaths.stream().filter(g -> g.getBranchesByEdgePosition(pos) != null).findFirst();
 		return path.isPresent() ? path.get() : null;
 	}
 
@@ -54,7 +71,29 @@ public class PathGraph {
 	}
 	
 	public List<PathNode> getPaths(){
+		if(myPathGrid != null && !myPaths.contains(myPathGrid))
+			myPaths.add(myPathGrid);
 		return myPaths;
+	}
+
+	public void addSpawns(List<Position> spawns) {
+		this.mySpawns.addAll(spawns);
+	}
+	
+	public void addGoals(List<Position> goals){
+		this.myGoals.addAll(goals);
+	}
+	
+	public void setSpawns(List<Position> spawns){
+		this.mySpawns = spawns;
+	}
+	
+	public void setGoals(List<Position> goals){
+		this.myGoals = goals;
+	}
+	
+	public PathNode getPathGrid(){
+		return myPathGrid;
 	}
 	
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.game_elements.Unit;
 public class Store {
 	private int myMoney;
@@ -71,9 +70,9 @@ public class Store {
 				// apply shit here
 				for(Unit app : applied){
 					//System.out.println(applied.size());
-					List<AffectorTimeline> affectorsToApply = u.getTimelinesToApply()
-							.stream().map(p -> p.copyTimeline()).collect(Collectors.toList());  
-					app.addTimelines(affectorsToApply);
+					List<Affector> affectorsToApply = u.getAffectorsToApply()
+							.stream().map(p -> p.copyAffector()).collect(Collectors.toList());  
+					app.addAffectorsToApply(affectorsToApply);
 				}
 				myMoney -= items.get(u);
 			}
@@ -130,7 +129,7 @@ public class Store {
 		for(Pair<Unit, Integer> p : upgrades.get(found)){
 			if(p.getLeft().toString().equals(upgradeType.toString()) && myMoney >= p.getRight()){
 				myMoney -= p.getRight();
-				upgradedUnit.addAffectors(p.getLeft().getTimelinesToApply().get(0).getAffectors());
+				upgradedUnit.addAffectors(p.getLeft().getAffectorsToApply());
 			}
 		}
 	}
