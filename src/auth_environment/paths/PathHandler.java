@@ -13,8 +13,8 @@ public class PathHandler {
 	
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
-		insertTestBranches();
-		insertGrid();
+//		insertTestBranches();
+//		insertGrid();
 	}
 	
 	public void processStraightLine(List<Position> positions){

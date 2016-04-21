@@ -2,8 +2,11 @@ package auth_environment.Models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.Interfaces.IPathTabModel;
+import auth_environment.paths.PathHandler;
+import game_engine.game_elements.Branch;
+import game_engine.properties.Position;
 
 /**
  * Created by BrianLin on 4/20/16
@@ -12,17 +15,19 @@ import auth_environment.IAuthEnvironment;
  * This Tab is for placing Paths on the Map 
  */
 
-import auth_environment.Models.Interfaces.IPathTabModel;
-import auth_environment.paths.PathHandler;
-import game_engine.game_elements.Branch;
-import game_engine.properties.Position;
-
 public class PathTabModel implements IPathTabModel {
 	
+	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
+	
 	private PathHandler myPathHandler = new PathHandler(); 
 	
+	// This is what populates the frontend list of Positions 
+	private List<Branch> myBranches = new ArrayList<Branch>(); 
+	
+	// What's currently selected, will add to Branches
 	private List<Position> myCurrentPositions = new ArrayList<Position>(); 
+	
 	private double myPathWidth; 
 	
 	public PathTabModel(IAuthEnvironment auth) {
@@ -57,20 +62,14 @@ public class PathTabModel implements IPathTabModel {
 	}
 
 	@Override
-	public void load() {
-		List<Branch> branches = this.myPathHandler.getPGF().getBranches();
-		branches.stream().forEach(b -> this.loadBranch(b));
+	public void loadBranches() {
+		this.myBranches = this.myPathHandler.getPGF().getBranches();
+		System.out.println(this.myBranches.size());
 	}
-
+	
 	@Override
-	public void loadBranch(Branch branch) {
-		Position firstPos = branch.getFirstPosition();
-		Position lastPos = branch.getLastPosition();
-		double firstX = firstPos.getX();
-		double firstY = firstPos.getY();
-		double lastX = lastPos.getX();
-		double lastY = lastPos.getY();
+	public List<Branch> getBranches() {
+		this.loadBranches();
+		return this.myBranches;
 	}
-	
-	
 }

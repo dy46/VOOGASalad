@@ -1,7 +1,8 @@
 package auth_environment.view.Workspaces;
 
+import java.util.List;
 import java.util.ResourceBundle;
-
+import game_engine.game_elements.Branch;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
@@ -59,9 +60,27 @@ public class PathTab implements IWorkspace {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildTextInput(),
+				this.buildSubmitBranchButton(),
 				this.buildMainCanvas()); 
 		return center; 
 	}
+	
+	private HBox buildSubmitBranchButton() {
+		Button button = this.myNodeFactory.buildButton("Submit Branch"); 
+		button.setOnAction(a -> this.myModel.submitBranch());
+		
+		Button clear = this.myNodeFactory.buildButton("Clear"); 
+		clear.setOnAction(a -> this.clearCanvas());
+		
+		HBox hb = this.myNodeFactory.buildHBox(10, 10);
+		hb.getChildren().addAll(button, clear);
+		return this.myNodeFactory.centerNode(hb); 
+	}
+	
+	private void clearCanvas() {
+		this.canvasPane.getChildren().clear();
+	}
+	
 	
 	private HBox buildTextInput() {
 		// TODO: duplicate code with GlobalGameTab
@@ -90,6 +109,17 @@ public class PathTab implements IWorkspace {
 		return input.getText().length() > 0; 
 	}
 	
+	private void drawBranch(Branch branch) {
+		this.displayPoint(branch.getFirstPosition().getX(), 
+				branch.getFirstPosition().getY());
+		this.displayPoint(branch.getSecondPosition().getX(),
+				branch.getSecondPosition().getY());
+	}
+	
+	private void drawBranches(List<Branch> branches) {
+		branches.stream().forEach(b -> this.drawBranch(b));
+	}
+	
 	private Node buildMainCanvas() {
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
@@ -101,8 +131,10 @@ public class PathTab implements IWorkspace {
 	private void addClickHandlers(Canvas canvas) {
 		 canvas.setOnMouseClicked(e -> {
 	        	this.myModel.addPosition(e.getX(), e.getY());
-	        	this.printCurrentPoints();
-	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
+	        	this.checkPoint(e.getX(), e.getY());
+	        	this.drawBranches(this.myModel.getBranches());
+//	        	this.printCurrentPoints();
+//	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
 	        });
 	}
 	
@@ -115,12 +147,20 @@ public class PathTab implements IWorkspace {
 	}
 	
 	// This is Auth frontend ONLY
-	private Circle displayPoint(double x, double y) {
+	private void displayPoint(double x, double y) {
 		Circle circle = new Circle(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
-        return circle; 
+        this.canvasPane.getChildren().add(circle); 
+	}
+	
+	private void checkPoint(double x, double y) {
+		Circle circle = new Circle(5);
+        circle.setStroke(Color.BLACK);
+        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.7));
+        circle.relocate(x, y);
+        this.canvasPane.getChildren().add(circle); 
 	}
 	
 	@Override
