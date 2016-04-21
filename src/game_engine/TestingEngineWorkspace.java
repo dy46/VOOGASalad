@@ -562,6 +562,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 			myTowers.forEach(t -> t.update());
 			myEnemys.forEach(e -> e.update());
 			myCollider.resolveEnemyCollisions(myProjectiles);
+			myCollider.handleCustomCollisions(this.getAllUnits());
 			myEncapsulator.resolveEncapsulations(myTerrains);
 			Unit newE = myCurrentLevel.update();
 			if (newE != null) {
@@ -574,7 +575,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 					nextWaveTimer = 0;
 				}
 			}
-			myStore.applyItem("Interesting", this.myEnemys);
+//			myStore.applyItem("Interesting", this.myEnemys);
 
 		}
 		else if (myCurrentLevel.getNextWave() != null &&

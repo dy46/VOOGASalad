@@ -33,6 +33,7 @@ public class Unit extends GameElement {
     private int numFrames;
     private List<Double> numberList;
     private List<Unit> myChildren;
+    private String type;
     
     private String imgName;
     
@@ -71,6 +72,9 @@ public class Unit extends GameElement {
         List<Unit> copiedChildren = this.getChildren().stream().map(u -> u.copyUnit()).collect(Collectors.toList());
         copy.setChildren(copiedChildren);
         return copy;
+    }
+    public void setType(String newType){
+    	this.type = newType;
     }
     
     public Unit copyShallowUnit() {
@@ -290,6 +294,10 @@ public class Unit extends GameElement {
 	
 	public void setImgName(String img){
 		this.imgName = img;
+	}
+	
+	public String getType(){
+		return type;
 	}
 
 }
