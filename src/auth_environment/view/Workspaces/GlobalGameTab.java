@@ -90,9 +90,10 @@ public class GlobalGameTab implements IWorkspace {
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
 		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
 		splashButton.setOnAction(e -> this.buildSplashChooser());
-		HBox hb = myNodeFactory.centerNode(mySplashPreview);
-		hb.getChildren().add(splashButton); 
-		return hb; 
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		hb.getChildren().addAll(mySplashPreview, splashButton); 
+		return myNodeFactory.centerNode(hb); 
 	}
 
 	//	public void writeToGameData() {
