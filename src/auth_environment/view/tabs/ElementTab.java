@@ -134,11 +134,11 @@ public class ElementTab extends Tab{
     	for(String str: strTextMap.keySet()){
     		Method[] allMethods = c.getMethods();
     		
-    		for(Method m: allMethods){;
+    		for(Method m: allMethods){
 //    			String[] mString = m.getName().split(".");
 //    			System.out.println(m.getName());
 //    			System.out.println("setMy" + str);
-    			if(m.getName().startsWith("setMy" + str)){
+    			if(m.getName().startsWith("setNew" + str+ "ForUnit")){
 					try {
 						m.invoke(unitFactory,strTextMap.get(str).getText());
 					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -150,6 +150,8 @@ public class ElementTab extends Tab{
     			}
     		}	
     	}
+    	
+//    	unitFactory.createUnit(name, unitProperties)
 	}
 
 	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
