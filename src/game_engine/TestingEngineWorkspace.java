@@ -481,7 +481,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myCurrentLevel.setCurrentWave(waveNumber);
 	}
 
-	public void continueWaves () throws WompException {
+	public void continueWaves () {
 		myCurrentLevel.playNextWave();
 		pause = false;
 	}
@@ -515,7 +515,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public void update () throws WompException {
+	public void update (){
 		myStore.addBuyableTower(myCurrentLevel.getNewUnits());
 		nextWaveTimer++;
 		boolean gameOver = myLives <= 0;

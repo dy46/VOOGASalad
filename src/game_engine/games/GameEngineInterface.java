@@ -34,7 +34,7 @@ public interface GameEngineInterface {
     void playWave(int waveNumber);
 
     //tells engine to update elements a single time unit 
-    void update() throws WompException;
+    void update();
 
     //asks engine about the game status
     String getGameStatus();

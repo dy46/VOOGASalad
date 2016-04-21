@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
-import exceptions.WompException;
 import game_engine.TestingEngineWorkspace;
 import game_engine.games.Timer;
 import game_engine.properties.Position;
@@ -45,9 +44,9 @@ public class Level extends GameElement {
      * This API will allow the player to start a new wave. Returns true if next started, false if
      * not.
      */
-    public void playNextWave () throws WompException {
+    public void playNextWave () {
         if (!myCurrentWave.isFinished()) {
-            throw new WompException("Cannot skip this wave.");
+            return; // TODO: should probably fix this to tell player that you cannot skip this wave
         }
         checkCurrentWaveFinished();
         Wave nextWave = getNextWave();
