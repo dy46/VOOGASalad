@@ -2,6 +2,7 @@ package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import game_data.AuthSerializer;
+import game_data.GameData;
 import game_engine.IAuthInterface;
 
 /**
@@ -27,7 +28,7 @@ public class GlobalGameTabModel implements IGlobalGameTabModel {
 
 	@Override
 	public void saveToFile() {
-		writer.saveElement(this.myAuthData); 
+		writer.saveElement( (GameData) this.myAuthData); 
 	}
 
 	@Override

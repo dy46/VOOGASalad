@@ -3,15 +3,17 @@ package game_data;
 import java.util.List;
 
 import auth_environment.backend.ISettings;
-import game_engine.game_elements.Enemy;
 import game_engine.game_elements.Level;
+import game_engine.IAuthInterface;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Terrain;
 import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
-public interface IGameData {
+// TODO: make this also extend the Game Player's interface
+
+public interface IGameData extends IAuthInterface {
+	
 	public void setLevels(List<Level> levels);
 	public void addLevel(Level levelToAdd);
 
