@@ -14,6 +14,7 @@ import auth_environment.IAuthEnvironment;
 
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.PathHandler;
+import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PathTabModel implements IPathTabModel {
@@ -47,11 +48,29 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public void submitBranch() {
 		this.myPathHandler.processStraightLine(this.myCurrentPositions);
+		this.myCurrentPositions.clear();
 	}
 	
 	@Override
 	public void printCurrentPositions() {
 		this.myCurrentPositions.stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
 	}
+
+	@Override
+	public void load() {
+		List<Branch> branches = this.myPathHandler.getPGF().getBranches();
+		branches.stream().forEach(b -> this.loadBranch(b));
+	}
+
+	@Override
+	public void loadBranch(Branch branch) {
+		Position firstPos = branch.getFirstPosition();
+		Position lastPos = branch.getLastPosition();
+		double firstX = firstPos.getX();
+		double firstY = firstPos.getY();
+		double lastX = lastPos.getX();
+		double lastY = lastPos.getY();
+	}
+	
 	
 }

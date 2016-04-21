@@ -120,9 +120,6 @@ public class PathTab implements IWorkspace {
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
-        
-        // TODO: store point in Model 
-        
         return circle; 
 	}
 	

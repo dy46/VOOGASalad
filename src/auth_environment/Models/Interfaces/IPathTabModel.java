@@ -1,5 +1,7 @@
 package auth_environment.Models.Interfaces;
 
+import game_engine.game_elements.Branch;
+
 public interface IPathTabModel extends IWorkspaceModel {
 	
 	public void setPathWidth(double width);
@@ -12,5 +14,9 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public void submitBranch(); 
 	
 	public void printCurrentPositions(); 
+	
+	public void load(); 
+	
+	public void loadBranch(Branch branch); 
 	
 }
