@@ -1,9 +1,11 @@
 package game_engine.affectors;
 
 import java.util.List;
-import game_engine.CollisionDetector;
+
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
+import game_engine.physics.CollisionDetector;
+import game_engine.physics.EncapsulationDetector;
 import game_engine.properties.Position;
 import game_engine.properties.Property;
 import game_engine.properties.UnitProperties;
@@ -61,7 +63,7 @@ public abstract class SingleTrackRangeAffector extends Affector {
         if (closestEnemy == null) {
             return null;
         }
-        return CollisionDetector.encapsulates(CollisionDetector
+        return EncapsulationDetector.encapsulates(CollisionDetector
                 .getUseableBounds(closestEnemy.getProperties().getBounds(),
                                   closestEnemy.getProperties().getPosition()),
                                               CollisionDetector

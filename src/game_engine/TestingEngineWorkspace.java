@@ -7,12 +7,12 @@ import java.util.Collections;
 import java.util.List;
 
 import auth_environment.paths.PathGraphFactory;
+import auth_environment.paths.PathHandler;
 import auth_environment.paths.PathNode;
-import game_engine.CollisionDetector;
+import exceptions.WompException;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
-import game_engine.affectors.AffectorTimeline;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -27,6 +27,8 @@ import game_engine.games.GameEngineInterface;
 import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
+import game_engine.physics.CollisionDetector;
+import game_engine.physics.EncapsulationDetector;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.store_elements.Store;
@@ -43,6 +45,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private List<Unit> myProjectiles;
 
 	private CollisionDetector myCollider;
+	private EncapsulationDetector myEncapsulator;
+	
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
 	private double myBalance;
@@ -91,6 +95,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
+		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
@@ -163,47 +168,34 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		Level l = new Level("Dummy level", 3, this);
 		List<Unit> list = makeDummyTowers();
-		l.addUnlockedTowerType(list.get(0), 100);
-		l.addUnlockedTowerType(list.get(1), 300);
+		l.addUnlockedTowerType(list.get(0), 0);
+		l.addUnlockedTowerType(list.get(1), 0);
 
-		Branch b1 = new Branch(0);
-		b1.addPosition(new Position(0, 30));
-		b1.addPosition(new Position(200, 30));
+		PathHandler ph = new PathHandler();
+		PathGraphFactory pgf = ph.getPGF();
 
-		Branch b2 = new Branch(1);
-		b2.addPosition(new Position(200, 30));
-		b2.addPosition(new Position(400, 30));
-		b2.addPosition(new Position(400, 200));
+		//		myBranches.addAll(pgf.getBranches());
+		//		List<PathNode> paths = pgf.getPaths();
+		//		l.addAllPaths(paths);
 
-		Branch b3 = new Branch(2);
-		b3.addPosition(new Position(200, 30));
-		b3.addPosition(new Position(200, 200));
-		b3.addPosition(new Position(400, 200));
-
-		Branch b4 = new Branch(3);
-		b4.addPosition(new Position(400, 200));
-		b4.addPosition(new Position(400, 525));
-
-		PathGraphFactory pgf = new PathGraphFactory();
-		pgf.insertBranch(b1.getPositions());
-		pgf.insertBranch(b2.getPositions());
-		pgf.insertBranch(b3.getPositions());
-		pgf.insertBranch(b4.getPositions());
-
+		// For testing branching
 		myBranches.addAll(pgf.getBranches());
-		
 		Branch pb1 = myBranches.get(0);
 		Branch pb2 = myBranches.get(1);
 		Branch pb3 = myBranches.get(2);
 		Branch pb4 = myBranches.get(3);
-		
-		List<Branch> branches1 = Arrays.asList(pb1, pb2, pb4);
-		List<Branch> branches2 = Arrays.asList(pb1, pb3, pb4);
+		Branch pb5 = myBranches.get(4);
+		Branch pb6 = myBranches.get(5);
+		List<Branch> branches1 = Arrays.asList(pb1, pb6, pb2, pb4);
+		List<Branch> branches2 = Arrays.asList(pb1, pb6, pb3, pb4);
 		PathNode p = new PathNode(0);
 		p.addBranch(pb1);
 		p.addBranch(pb2);
 		p.addBranch(pb3);
 		p.addBranch(pb4);
+		p.addBranch(pb5);
+		p.addBranch(pb6);
+
 		l.addPath(p);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
@@ -215,6 +207,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		Unit e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
 		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
+		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
 		e3.getProperties().setHealth(50);
@@ -223,14 +219,22 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		AI2.getProperties().setHealth(50);
 		AI3.getProperties().setHealth(50);
 		AI4.getProperties().setHealth(50);
-		w.addEnemy(e1, 0);
+		rand1.getProperties().setHealth(50);
+		rand2.getProperties().setHealth(50);
+		rand3.getProperties().setHealth(50);
+		rand4.getProperties().setHealth(50);
+		w.addEnemy(e1, 60);
 		w.addEnemy(e2, 60);
 		w.addEnemy(e3, 60);
 		w.addEnemy(e4, 60);
-		w.addEnemy(AI1, 0);
+		w.addEnemy(AI1, 60);
 		w.addEnemy(AI2, 60);
 		w.addEnemy(AI3, 60);
 		w.addEnemy(AI4, 60);
+		w.addEnemy(rand1, 60);
+		w.addEnemy(rand2, 60);
+		w.addEnemy(rand3, 60);
+		w.addEnemy(rand4, 60);
 		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
@@ -265,15 +269,14 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 	private void makeDummyUpgrades(){
 		Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
-
 		affector.setTTL(Integer.MAX_VALUE);
-		List<Affector> affList = new ArrayList<Affector>();
-		affList.add(affector);
-		AffectorTimeline t = new AffectorTimeline(affList);
-		List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
-		init.add(t);
-		Unit u = new Unit("Interesting", init, 1);
-		u.setTimelinesToApply(init);
+//		List<Affector> affList = new ArrayList<Affector>();
+//		affList.add(affector);
+//		Affector t = new Affector(affList);
+//		List<AffectorTimeline> init = new ArrayList<AffectorTimeline>();
+//		init.add(t);
+		Unit u = new Unit("Interesting", Arrays.asList(affector), 1);
+		u.addAffectorToApply(affector);
 		myStore.addItem(u, 10);
 	}
 	private List<Unit> makeDummyTerrains () {
@@ -514,14 +517,16 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public void update () {
+	public void update (){
 		myStore.addBuyableTower(myCurrentLevel.getNewUnits());
 		nextWaveTimer++;
 		boolean gameOver = myLives <= 0;
 		if (!pause && !gameOver) {
 			myTowers.forEach(t -> t.update());
 			myEnemys.forEach(e -> e.update());
-			myCollider.resolveEnemyCollisions(myProjectiles, myTerrains);
+			myCollider.resolveEnemyCollisions(myProjectiles);
+			myCollider.handleCustomCollisions(this.getAllUnits());
+			myEncapsulator.resolveEncapsulations(myTerrains);
 			Unit newE = myCurrentLevel.update();
 			if (newE != null) {
 				myEnemys.add(newE);
@@ -533,7 +538,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 					nextWaveTimer = 0;
 				}
 			}
-			myStore.applyItem("Interesting", this.myEnemys);
+//			myStore.applyItem("Interesting", this.myEnemys);
 
 		}
 		else if (myCurrentLevel.getNextWave() != null &&

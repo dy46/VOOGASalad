@@ -47,17 +47,15 @@ public class PathNode {
 		return myID;
 	}
 
-	public List<Branch> getBranchByEdgePosition(Position pos){
+	public List<Branch> getBranchesByEdgePosition(Position pos){
 		return myBranches.stream().filter(
 				n -> n.getPositions().size() > 0 && (n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos)))
 				.collect(Collectors.toList());
 	}
 
-	public Branch getBranchByMidPosition(Position pos){
-		Optional<Branch> graph = myBranches.stream().filter(
-				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos))
-				.findFirst();
-		return graph.isPresent() ? graph.get() : null;
+	public List<Branch> getBranchesByMidPosition(Position pos){
+		return myBranches.stream().filter(
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos)).collect(Collectors.toList());
 	}
 
 	public List<Branch> getBranches(){
