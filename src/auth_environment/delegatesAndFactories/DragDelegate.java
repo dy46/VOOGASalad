@@ -1,5 +1,7 @@
 package auth_environment.delegatesAndFactories;
 
+import auth_environment.Models.UnitView;
+import auth_environment.Models.Interfaces.IUnitView;
 import auth_environment.view.Tile;
 import game_engine.game_elements.GameElement;
 import game_engine.game_elements.Unit;
@@ -20,32 +22,28 @@ import javafx.scene.input.TransferMode;
 
 public class DragDelegate {
 	
-//	private static final DataFormat gameElementFormat = new DataFormat("Game Element"); // need help extracting  
+	private static final DataFormat unitViewFormat = new DataFormat("UnitView"); // need help extracting  
 			
 	public DragDelegate() {
 		
 	}
 
-	public void addUnitSource(Unit source) {
-		
-	}
-	
-	public void setupSource(Tile source) {
-		source.getShape().setOnDragDetected(new EventHandler<MouseEvent>() {
+	public void addUnitViewSource(UnitView source) {
+		source.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				Dragboard db = source.getShape().startDragAndDrop(TransferMode.ANY);
+				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-//				content.put(DragDelegate.gameElementFormat, source.getElement());
-				content.putString(source.getName());
+				content.put(DragDelegate.unitViewFormat, source.getUnit());
+//				content.putString(source.getUnit().getImgName());
 				db.setContent(content);
 				event.consume();
 			}
 		});
-		
-		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
+	
+		source.setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println(source.getName()); 
+					System.out.println("Drag completed for source"); 
 				}
 				event.consume();
 			}

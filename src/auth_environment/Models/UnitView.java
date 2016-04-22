@@ -1,6 +1,7 @@
 package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IUnitView;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,7 +19,20 @@ import javafx.scene.image.ImageView;
 
 public class UnitView extends ImageView implements IUnitView {
 	
+	private NodeFactory myNodeFactory = new NodeFactory(); 
 	private Unit myUnit;
+	
+	public UnitView() {
+		super();
+	}
+	
+	public UnitView(Image image) {
+		super(image); 
+	}
+	
+	public UnitView(String imageName) {
+		this.setImage(this.myNodeFactory.buildImage(imageName));
+	}
 	
 	public UnitView(Unit unit) {
 		super();
@@ -28,6 +42,11 @@ public class UnitView extends ImageView implements IUnitView {
 	public UnitView(Unit unit, Image image) {
 		super(image); 
 		this.myUnit = unit; 
+	}
+	
+	public UnitView(Unit unit, String imageName) {
+		this.myUnit = unit;
+		this.setImage(this.myNodeFactory.buildImage(imageName));
 	}
 	
 	@Override
