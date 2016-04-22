@@ -184,6 +184,7 @@ public class PathTab implements IWorkspace {
 				));
 	}
 	
+	// Source: http://stackoverflow.com/questions/19748744/javafx-how-to-connect-two-nodes-by-a-line
 	class BoundLine extends Line {
 	    BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
 	      startXProperty().bind(startX);
