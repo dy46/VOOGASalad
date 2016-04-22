@@ -30,17 +30,14 @@ public class UnitView extends ImageView implements IUnitView {
 		this.myUnit = unit; 
 	}
 	
-
 	@Override
 	public void setUnit(Unit unit) {
-		// TODO Auto-generated method stub
-		
+		this.myUnit = unit; 
 	}
 
 	@Override
 	public Unit getUnit() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.myUnit;
 	}
 
 }
