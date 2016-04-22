@@ -247,4 +247,9 @@ public class Branch {
 		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
 	}
 
+	public void setPositions(List<Position> positions){
+		this.myPositions = positions;
+		setNextPositions();
+	}
+
 }

@@ -8,22 +8,22 @@ import game_engine.properties.Position;
 public class PathHandler {
 	
 	private PathGraphFactory myPGF;
-	private PositionHandler myPH;
+	private PositionHandler myPositionHandler;
 	
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
-		myPH = new PositionHandler();
+		myPositionHandler = new PositionHandler();
 		initializeGrid();
 		insertTestBranches();
 	}
 	
 	public PathHandler(PathGraphFactory pgf){
 		myPGF = pgf;
-		myPH = new PositionHandler();
+		myPositionHandler = new PositionHandler();
 	}
 	
 	public void processStraightLine(List<Position> positions){
-		List<Position> interpolatedPositions = myPH.getInterpolatedPositions(positions, false);
+		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);
 	}
 	
