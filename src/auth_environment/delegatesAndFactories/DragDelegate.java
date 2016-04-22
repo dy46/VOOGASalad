@@ -2,6 +2,7 @@ package auth_environment.delegatesAndFactories;
 
 import auth_environment.view.Tile;
 import game_engine.game_elements.GameElement;
+import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
@@ -21,7 +22,13 @@ public class DragDelegate {
 	
 //	private static final DataFormat gameElementFormat = new DataFormat("Game Element"); // need help extracting  
 			
-	public DragDelegate() {}
+	public DragDelegate() {
+		
+	}
+
+	public void addUnitSource(Unit source) {
+		
+	}
 	
 	public void setupSource(Tile source) {
 		source.getShape().setOnDragDetected(new EventHandler<MouseEvent>() {
