@@ -79,18 +79,8 @@ public class CollisionDetector {
 					String affector = myResources.getString(cast);
 					String[] sep = affector.split(",");
 					Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
-//					System.out.println(u1.toString()+" "+u1.getAffectors());
 					u1.addAffector(newEffect.copyAffector());
-//					System.out.println(u1.getAffectors().size());
-//					System.out.println(u1.toString()+ " "+u1.getAffectors());
-//					System.out.println(u1.getProperties().getVelocity().getValues());
 					u2.addAffector(newEffect.copyAffector());
-//					System.out.println(u1+" "+this.getUseableBounds(u1.getProperties().getBounds(), u1.getProperties().getPosition()));
-//					System.out.println(u2+" "+this.getUseableBounds(u2.getProperties().getBounds(), u2.getProperties().getPosition()));
-//					System.out.println("Do Somehting:");
-//					System.out.println(u1+" "+u1.getProperties().getPosition().getValues());
-//					System.out.println(u2+" "+u2.getProperties().getPosition().getValues());
-
 				}
 			}
 		}
