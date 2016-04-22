@@ -4,10 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Position;
+
+/**
+ * Created by BrianLin on 4/19/16
+ * Team member responsible: Brian
+ *
+ * This class holds the highest level of Auth Environment backend data. Most important is a single instance
+ * of IEngineWorkspace.java (all of our data). 
+ * 
+ * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
+ */
 
 /**
  * Created by BrianLin on 4/19/16
@@ -20,19 +32,21 @@ import game_engine.game_elements.Unit;
  */
 
 public class SampleAuthData implements IAuthEnvironment {
-	
+
 	private String myName;
 	private String mySplashFileName;
 	private List<Branch> myGridBranches;
 	private List<Branch> myPathBranches; 
 	private List<Level> myLevels;
-	private List<Unit> myTowers;
+	private List<Unit> myTowers; 
 	private List<Unit> myEnemies;
 	private List<Unit> myTerrains;
 	private List<Unit> myProjectiles; 
 	private List<Affector> myAffectors; // Will eventually be replaced with a Library
 	private List<Unit> myPlacedUnits; 
-	
+	private List<Position> mySpawns;
+	private List<Position> myGoals; 
+
 	public SampleAuthData() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
@@ -45,6 +59,23 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myProjectiles = new ArrayList<Unit>();
 		this.myAffectors = new ArrayList<Affector>(); 
 		this.myPlacedUnits = new ArrayList<Unit>(); 
+		this.mySpawns = new ArrayList<Position>();
+		this.myGoals = new ArrayList<Position>(); 
+//		this.setupDummyValues();
+	}
+
+	private void setupDummyValues() {
+		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		test.setUpEngine(1.0);
+		this.setTerrains(test.getTerrains());
+		this.setTowers(test.getTowers());
+		this.setLevels(test.getLevels());
+		this.setEnemies(test.getEnemies());
+		this.setProjectiles(test.getProjectiles());
+		this.setAffectors(test.getAffectors());
+		this.myGoals.add(new Position(450, 450));
+//		Unit tower = test.getTerrains().get(0); 
+//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
 
 	@Override
@@ -149,6 +180,8 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public void setPathBranches(List<Branch> branches) {
+		Branch b = branches.get(0);
+		this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
 		this.myPathBranches = branches; 
 	}
 
@@ -160,5 +193,30 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setGridBranches(List<Branch> branches) {
 		this.myGridBranches = branches; 
+	}
+
+	@Override
+	public List<Position> getGoals() {
+		return this.myGoals;
+	}
+
+	@Override
+	public void setGoals(List<Position> goals) {
+		this.myGoals = goals; 
+	}
+
+	@Override
+	public List<Position> getSpawns() {
+		return this.mySpawns;
+	}
+
+	@Override
+	public void setSpawns(List<Position> spawns) {
+		this.mySpawns = spawns; 
+	}
+
+	@Override
+	public void setLevels(List<Level> levels) {
+		this.myLevels = levels; 
 	}
 }

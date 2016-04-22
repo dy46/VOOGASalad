@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.paths.PathNode;
-import game_engine.TestingEngineWorkspace;
+import game_engine.EngineWorkspace;
+import game_engine.GameEngineInterface;
 import game_engine.games.Timer;
 import game_engine.properties.Position;
 import game_engine.store_elements.Pair;
@@ -23,12 +24,12 @@ public class Level extends GameElement {
 	private List<Wave> myWaves;
 	private Timer myWaveTimer;
 	private List<PathNode> myPaths;
-	private TestingEngineWorkspace myWorkspace;
+	private GameEngineInterface myWorkspace;
 	private List<Pair<Unit, Integer>> unlockedTowerTypes;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
 
-	public Level (String name, int myLives, TestingEngineWorkspace workspace) {
+	public Level (String name, int myLives, GameEngineInterface workspace) {
 		super(name);
 		// setID(getWorkspace().getIDFactory().createID(this));
 		myWaves = new ArrayList<>();

@@ -50,7 +50,7 @@ public class PathHandler {
 	}
 	
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/12500;
+		return screenWidth*screenHeight/62500;
 	}
 	
 	private void insertTestBranches(){

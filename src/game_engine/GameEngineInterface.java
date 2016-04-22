@@ -2,6 +2,7 @@ package game_engine;
 
 import java.util.List;
 
+import auth_environment.IAuthEnvironment;
 import auth_environment.paths.PathNode;
 import exceptions.WompException;
 import game_engine.game_elements.Level;
@@ -47,8 +48,7 @@ public interface GameEngineInterface {
     //tells engine to modify tower given an activeTower index and list of changes
     void modifyTower(int activeTowerIndex, UnitProperties newProperties);
 
-    //sets up the engine with a list of files
-    void setUpEngine(Double test);
+    void setUpEngine(IAuthEnvironment data);
 
     public List<Unit> getEnemies();
 
@@ -72,14 +72,6 @@ public interface GameEngineInterface {
 
     public void setPaused();
 
-    public default CollisionDetector getCollisionDetector(){
-        return new CollisionDetector(this);
-    }
-    
-    public default EncapsulationDetector getEncapsulationDetector(){
-    	return new EncapsulationDetector(this);
-    }
-
     public boolean isGameOver();
 
     public Timer getTimer();
@@ -87,8 +79,6 @@ public interface GameEngineInterface {
     public Level getCurrentLevel();
 
     public void decrementLives();
-
-    public List<Position> getGoals();
 
 	public List<Unit> getAllUnits();
 
