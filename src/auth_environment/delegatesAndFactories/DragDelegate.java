@@ -1,18 +1,17 @@
 package auth_environment.delegatesAndFactories;
 
 import auth_environment.Models.UnitView;
-import auth_environment.Models.Interfaces.IUnitView;
-import auth_environment.view.Tile;
-import game_engine.game_elements.GameElement;
-import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 /**
  * Created by BrianLin on 4/11/2016
@@ -36,7 +35,8 @@ public class DragDelegate {
 				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
 //				content.put(DragDelegate.unitViewFormat, source.getUnit());
-				content.putString(source.getUnit().getImgName());
+//				content.putString(source.getUnit().getImgName());
+				content.putString("test");
 				db.setContent(content);
 				event.consume();
 			}
@@ -50,6 +50,15 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
+	}
+	
+	public void setupPaneTarget(Pane target) {
+		target.setOnDragOver(e -> System.out.println("drag over"));
+	}
+	
+	public void setupCanvasTarget(Canvas target) {
+//		target.setOnDragDetected(e -> System.out.println("hello"));
+		target.setOnDragOver(e -> System.out.println("drag over"));
 	}
 	
 	public void setupNodeTarget(Node target) {
@@ -97,6 +106,51 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
+	}
+	
+	public void setupTarget(Shape target) {
+		
+		target.setOnDragOver(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				if (event.getGestureSource() != target &&
+						event.getDragboard().hasString()) {
+					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+				}
+				event.consume();
+			}
+		});
+
+		target.setOnDragEntered(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				if (event.getGestureSource() != target &&
+						event.getDragboard().hasString()) {
+//					target.showCurrentElement();
+				}
+				event.consume();
+			}
+		});
+
+		target.setOnDragExited(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				/* mouse moved away, remove the graphical cues */
+				event.consume();
+			}
+		});
+
+		target.setOnDragDropped(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if (db.hasString()) {
+					System.out.println("Name: " + db.getString());
+					success = true;
+				}
+				event.setDropCompleted(success);
+				event.consume();
+			}
+		});
+		
+		
 	}
 	
 }

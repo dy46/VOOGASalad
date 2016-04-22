@@ -34,18 +34,24 @@ public class PathTab implements IWorkspace {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
-	private NodeFactory myNodeFactory = new NodeFactory(); 
+	private NodeFactory myNodeFactory;
+	private DragDelegate myDragDelegate; 
 	
-	private BorderPane myBorderPane = new BorderPane(); 
+	private BorderPane myBorderPane;
 	
 	private TextField myPathWidthField;
 	
-	private Pane canvasPane = new Pane(); 
+	private Pane canvasPane;
 	
 	private IPathTabModel myModel;
 	
 	public PathTab(IAuthEnvironment auth) {
 		this.myModel = new PathTabModel(auth); 
+		this.myBorderPane = new BorderPane(); 
+		this.myNodeFactory = new NodeFactory(); 
+		this.canvasPane = new Pane(); 
+		this.myDragDelegate = new DragDelegate(); 
+		this.myDragDelegate.setupPaneTarget(this.canvasPane);
 		this.setupBorderPane();
 	}
 	
@@ -63,7 +69,7 @@ public class PathTab implements IWorkspace {
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildTextInput(),
 				this.buildSubmitBranchButton(),
-				this.myNodeFactory.centerNode(this.buildTestUnitView()),
+				this.buildTestUnitView(),
 				this.buildMainCanvas()); 
 		return center; 
 	}
@@ -73,9 +79,8 @@ public class PathTab implements IWorkspace {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
 		test.setUpEngine(1.0);
 		Unit tower = test.getTerrains().get(0); 
-		DragDelegate drag = new DragDelegate(); 
 		UnitView uv = new UnitView(tower, "smackCat.gif"); 
-		drag.addUnitViewSource(uv);
+		this.myDragDelegate.addUnitViewSource(uv);
 		return uv; 
 	}
 	
@@ -89,8 +94,13 @@ public class PathTab implements IWorkspace {
 		Button draw = this.myNodeFactory.buildButton("Draw");
 		draw.setOnAction(a -> this.drawBranches(this.myModel.getBranches()));
 		
+		Circle circle = new Circle(20);
+        circle.setStroke(Color.BLACK);
+        circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
+        this.myDragDelegate.setupTarget(circle);
+		
 		HBox hb = this.myNodeFactory.buildHBox(10, 10);
-		hb.getChildren().addAll(button, clear, draw);
+		hb.getChildren().addAll(button, clear, draw, circle);
 		return this.myNodeFactory.centerNode(hb); 
 	}
 	
@@ -142,8 +152,7 @@ public class PathTab implements IWorkspace {
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
         this.addClickHandlers(canvas);
-        DragDelegate drag = new DragDelegate(); 
-        drag.setupNodeTarget(canvas);
+        this.myDragDelegate.setupCanvasTarget(canvas);
         this.canvasPane.getChildren().add(canvas); 
         return canvasPane; 
 	}
