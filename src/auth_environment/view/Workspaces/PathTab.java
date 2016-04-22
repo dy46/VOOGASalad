@@ -6,6 +6,7 @@ import game_engine.game_elements.Branch;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -126,6 +127,8 @@ public class PathTab implements IWorkspace {
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
         this.addClickHandlers(canvas);
         this.canvasPane.getChildren().add(canvas); 
+        DragDelegate drag = new DragDelegate(); 
+        drag.setupNodeTarget(canvas);
         return canvasPane; 
 	}
 	
@@ -133,8 +136,6 @@ public class PathTab implements IWorkspace {
 		 canvas.setOnMouseClicked(e -> {
 	        	this.myModel.addPosition(e.getX(), e.getY());
 	        	this.checkPoint(e.getX(), e.getY());
-//	        	this.printCurrentPoints();
-//	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
 	        });
 	}
 	

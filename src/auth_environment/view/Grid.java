@@ -56,7 +56,7 @@ public class Grid{
 				myTile.getShape().setFill(Color.WHITE);
 				myModel.addElement(myTile, i, j);
 				DragDelegate drag = new DragDelegate(); 
-				drag.setupTarget(myTile);
+//				drag.setupTarget(myTile);
 				myTiles.add(myTile);
 				myPane.getChildren().add(myTile.getShape());
 			}
