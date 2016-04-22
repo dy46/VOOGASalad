@@ -20,6 +20,16 @@ import game_engine.properties.Position;
  * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
  */
 
+/**
+ * Created by BrianLin on 4/19/16
+ * Team member responsible: Brian
+ *
+ * This class holds the highest level of Auth Environment backend data. Most important is a single instance
+ * of IEngineWorkspace.java (all of our data). 
+ * 
+ * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
+ */
+
 public class SampleAuthData implements IAuthEnvironment {
 	
 	private String myName;

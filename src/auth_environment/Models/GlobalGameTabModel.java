@@ -1,6 +1,7 @@
 package auth_environment.Models;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import game_data.AuthSerializer;
 
@@ -16,43 +17,43 @@ import game_data.AuthSerializer;
 
 public class GlobalGameTabModel implements IGlobalGameTabModel {
 	
-	private IAuthEnvironment myAuthData;  
+	private IAuthModel myAuthModel;
 	
 	// TODO: are type arguments necessary? 
 	private AuthSerializer writer = new AuthSerializer();
 
-	public GlobalGameTabModel(IAuthEnvironment auth) {
-		this.myAuthData = auth;  
+	public GlobalGameTabModel(IAuthModel authModel) {
+		this.myAuthModel = authModel;
 	}
 
 	@Override
 	public void saveToFile() {
-		writer.saveElement(this.myAuthData); 
+		writer.saveElement(this.myAuthModel.getIAuthEnvironment()); 
 	}
 
 	@Override
 	public void loadFromFile() {
 		// TODO: add error checking
-		this.myAuthData = (IAuthEnvironment) writer.loadElement();
+		this.myAuthModel.setIAuthEnvironment((IAuthEnvironment) writer.loadElement());
 	}
 
 	@Override
 	public void setGameName(String name) {
-		this.myAuthData.setGameName(name);
+		this.myAuthModel.getIAuthEnvironment().setGameName(name);
 	}
 
 	@Override
 	public String getGameName() {
-		return this.myAuthData.getGameName();
+		return this.myAuthModel.getIAuthEnvironment().getGameName();
 	}
 
 	@Override
 	public void setSplashFile(String name) {
-		this.myAuthData.setSplashScreen(name);
+		this.myAuthModel.getIAuthEnvironment().setSplashScreen(name);
 	}
 
 	@Override
 	public String getSplashFile() {
-		return this.myAuthData.getSplashScreen();
+		return this.myAuthModel.getIAuthEnvironment().getSplashScreen();
 	}
 }

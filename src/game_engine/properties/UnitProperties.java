@@ -118,6 +118,14 @@ public class UnitProperties {
     public Position getPosition () {
         return myPosition;
     }
+    
+    public void setPosition(Position pos){
+    	if(myPosition == null){
+    		myPosition = new Position(pos.getX(), pos.getY());
+    	}
+    	myPosition.setX(pos.getX());
+    	myPosition.setY(pos.getY());
+    }
 
     public Price getPrice () {
         return myPrice;

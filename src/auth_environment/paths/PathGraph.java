@@ -24,32 +24,17 @@ public class PathGraph {
 	public void addPath(PathNode graph){
 		myPaths.add(graph);
 	}
-	
+
 	public void addSpawn(Position spawn){
 		mySpawns.add(spawn);
 	}
-	
+
 	public void addGoal(Position goal){
 		myGoals.add(goal);
 	}
 
 	public List<Branch> getBranches(){
 		return myPaths.stream().map(p -> p.getBranches()).collect(Collectors.toList()).stream().flatMap(List<Branch>::stream).collect(Collectors.toList());
-	}
-
-	public PathNode getPathByID(int ID){
-		Optional<PathNode> graph = myPaths.stream().filter(g -> g.getID() == (ID)).findFirst();
-		return graph.isPresent() ? graph.get() : null;
-	}
-
-	public Branch getBranchByID(int ID){
-		for(PathNode path : myPaths){
-			Branch branch = path.getBranchByID(ID);
-			if(branch != null){
-				return branch;
-			}
-		}
-		return null;
 	}
 
 	public PathNode getPathByPos(Position pos){
@@ -60,7 +45,7 @@ public class PathGraph {
 	public PathNode getLastPath(){
 		return myPaths.get(myPaths.size()-1);
 	}
-	
+
 	public List<PathNode> getPaths(){
 		return myPaths;
 	}
@@ -68,17 +53,37 @@ public class PathGraph {
 	public void addSpawns(List<Position> spawns) {
 		this.mySpawns.addAll(spawns);
 	}
-	
+
 	public void addGoals(List<Position> goals){
 		this.myGoals.addAll(goals);
 	}
-	
+
 	public void setSpawns(List<Position> spawns){
 		this.mySpawns = spawns;
 	}
-	
+
 	public void setGoals(List<Position> goals){
 		this.myGoals = goals;
 	}
-	
+
+	public Branch getBranch(Branch newBranch) {
+		for(PathNode p : myPaths){
+			for(Branch b : p.getBranches()){
+				if(b.equals(newBranch)){
+					return b;
+				}
+			}
+		}
+		return null;
+	}
+
+	public PathNode getPath(PathNode path) {
+		for(PathNode p : myPaths){
+			if(p.equals(path)){
+				return p;
+			}
+		}
+		return null;
+	}
+
 }
