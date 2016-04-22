@@ -41,7 +41,7 @@ public class GameStatusDisplay implements IGUIObject {
 	
 	private void updateText() {
 		highScoreLabel.setText(myResources.getString("GameStatus") 
-				+ myEngine.getGameStatus());
+				+ myEngine.getGameStatus() + " " + myEngine.getScore());
 	}
 
 }

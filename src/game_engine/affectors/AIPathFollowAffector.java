@@ -57,7 +57,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
     private double branchingHeuristic (Branch b) {
         int pathLength = b.getLength();
         List<Position> branchPositions = b.getAllPositions();
-        List<Unit> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getEnemies();
+        List<Unit> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getSpawningUnits();
         int numEnemiesOnBranch = 0;
         for (Unit e : currentEnemies) {
             if (e.isAlive()) {
