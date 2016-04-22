@@ -43,6 +43,7 @@ public class AffectorFactory {
 		List<String> p1 = Arrays.asList("Health");
 		AffectorData d1 = new AffectorData(f1, p1);
 		Affector basic = new BasicDecrementAffector(d1);
+		basic.setTTL(150);
 		myAffectorLibrary.addAffector(pr1, e1, basic);
 
 		//		String pr2 = "ExpIncr";
@@ -160,11 +161,12 @@ public class AffectorFactory {
 		List<List<Function>> f15 = new ArrayList<List<Function>>();
 		List<Function> functions = new ArrayList<Function>();
 		functions.add(myFunctionFactory.createConstantFunction(0));
-		functions.add(myFunctionFactory.createConstantFunction(0));
+		functions.add(myFunctionFactory.createConstantFunction(0)); // change this later
 		f15.add(functions);
 		List<String> p15 = Arrays.asList("Velocity");
 		AffectorData d15 = new AffectorData(f15, p15);
 		Affector basic3 = new BasicSetAffector(d15);
+		basic3.setTTL(Integer.MAX_VALUE);
 		myAffectorLibrary.addAffector(pr15, e15, basic3);
 		Unit u = new Unit("String", new ArrayList<>(), 6);
 //		System.out.println(u);
