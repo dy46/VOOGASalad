@@ -39,7 +39,6 @@ public class PathGraphFactory {
 		Branch newBranch = new Branch(getNextBranchID(), branchPos);
 		PathNode currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(0));
 		if(currentPath != null){
-			//System.out.println("CONFIGURING " + branchPos.get(0)+" "+branchPos.get(branchPos.size()-1));
 			configureBranchInPath(newBranch, currentPath);
 		}
 		else{
@@ -49,7 +48,6 @@ public class PathGraphFactory {
 			}
 		}
 		if(myPathLibrary.getPathGraph().getBranchByID(newBranch.getID()) == null){
-			//System.out.println("CREATING NEW PATH " + branchPos.get(0)+" "+branchPos.get(branchPos.size()-1));
 			if(branchPos.size() > 0){
 				createNewPath(newBranch);
 			}
@@ -61,7 +59,6 @@ public class PathGraphFactory {
 		Position[][] positionGrid = createPosGrid(width, length, sideLength);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
-			//System.out.println("Branching position list: " + branchPos);
 			insertBranch(branchPos);
 		}
 	}
@@ -99,11 +96,27 @@ public class PathGraphFactory {
 	}
 
 	private Position[][] createPosGrid(double width, double length, double sideLength){
-		Position[][] posGrid = new Position[(int)Math.floor(width/sideLength)][(int)Math.floor(length/sideLength)];
-		for(int x=0; x<posGrid.length; x++){
-			for(int y=0; y<posGrid[x].length; y++){
+		int numSquareCols = (int)Math.floor(width/sideLength);
+		int numSquareRows = (int)Math.floor(width/sideLength);
+		int numExtraCols = 0;
+		int numExtraRows = 0;
+		if(width/sideLength > numSquareCols){
+			numExtraCols++;
+		}
+		if(length/sideLength > numSquareRows){
+			numExtraRows++;
+		}
+		Position[][] posGrid = new Position[numSquareCols + numExtraCols][numSquareRows + numExtraRows];
+		for(int x=0; x<numSquareCols; x++){
+			for(int y=0; y<numSquareRows; y++){
 				posGrid[x][y] = new Position(x*sideLength, y*sideLength);
 			}
+		}
+		for(int x=0; x<numSquareCols; x++){
+			posGrid[x][numSquareRows-1] = new Position(x*sideLength, numSquareRows*sideLength);
+		}
+		for(int y=0; y<numSquareCols; y++){
+			posGrid[numSquareCols-1][y] = new Position(numSquareCols*sideLength, y*sideLength);
 		}
 		return posGrid;
 	}
