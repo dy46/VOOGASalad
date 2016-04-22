@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.UnitView;
+import auth_environment.view.UnitPicker;
+import game_engine.TestingEngineWorkspace;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.Button;
@@ -39,14 +42,21 @@ public class ElementTab extends Tab{
 	private void init(){
 		BorderPane myPane = new BorderPane();
 		TitledPane newPane = new TitledPane();
-		TitledPane editPane = new TitledPane();
+//		TitledPane editPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
-		ScrollPane editScrollPane = new ScrollPane();
+//		ScrollPane editScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
 		GridPane newAnimationInfo = new GridPane();					//*****	
-		FlowPane editInfo = new FlowPane();							//*****	
+//		FlowPane editInfo = new FlowPane();							//*****	
 		myPane.setLeft(newPane);
-		myPane.setRight(editPane);
+		
+		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		test.setUpEngine(1.0);
+		Unit tower = test.getTerrains().get(0); 
+		UnitView uv = new UnitView(tower, "smackCat.gif"); 
+	    UnitPicker up = new UnitPicker(test.getTerrains());
+	    
+	    myPane.setRight(up.getRoot());
 		
 		newPane.setText("New");
 		newPane.setContent(newScrollPane);
@@ -114,18 +124,20 @@ public class ElementTab extends Tab{
 //		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, cbox));
 //		newTableInfo.add(newAffectorButton, 2, index);
 		
-		editPane.setPrefSize(200.0, 800.0);
-		editScrollPane.setContent(editInfo);
-		editScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-		editScrollPane.setFitToWidth(true);
-		
-		editPane.setText("Edit");
-		editPane.setContent(editScrollPane);
-		editPane.setCollapsible(false);
-		List<Unit> myList = myInterface.getTowers();
-		for(Unit unit: myList){
-			editInfo.getChildren().addAll(new ImageView(new Image(unit.toString())));
-		}
+        
+        
+//		editPane.setPrefSize(200.0, 800.0);
+//		editScrollPane.setContent(editInfo);
+//		editScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+//		editScrollPane.setFitToWidth(true);
+//		
+//		editPane.setText("Edit");
+//		editPane.setContent(editScrollPane);
+//		editPane.setCollapsible(false);
+//		List<Unit> myList = myInterface.getTowers();
+//		for(Unit unit: myList){
+//			editInfo.getChildren().addAll(new ImageView(new Image(unit.toString())));
+//		}
 		this.setContent(myPane);
 	}
 

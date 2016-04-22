@@ -10,32 +10,37 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.FlowPane;
 
-public class UnitPicker {
+public class UnitPicker{
 
 	private UnitPickerModel myUnitPickerModel;
-	public UnitPicker(){
-		myUnitPickerModel = new UnitPickerModel();
-	}
+	private TitledPane myEditPane;
 	
 	public UnitPicker(List<Unit> units){
+		myUnitPickerModel = new UnitPickerModel();
+		myEditPane = new TitledPane();
 		init(myUnitPickerModel.setUnits(units));
 	}
 	
 	public void init(List<UnitView> units){
-		TitledPane editPane = new TitledPane();
 		ScrollPane editScrollPane = new ScrollPane();
 		FlowPane editInfo = new FlowPane();
 		
-		editPane.setPrefSize(200.0, 800.0);
+		myEditPane.setPrefSize(200.0, 800.0);
 		editScrollPane.setContent(editInfo);
 		editScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		editScrollPane.setFitToWidth(true);
 		
-		editPane.setText("Edit");
-		editPane.setContent(editScrollPane);
-		editPane.setCollapsible(false);
+		myEditPane.setText("Edit");
+		myEditPane.setContent(editScrollPane);
+		myEditPane.setCollapsible(false);
 		for(UnitView uv: units){
 			editInfo.getChildren().addAll(uv);
 		}
+		
+		
+	}
+	
+	public TitledPane getRoot(){
+		return myEditPane;
 	}
 }
