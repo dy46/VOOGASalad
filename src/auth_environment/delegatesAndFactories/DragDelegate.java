@@ -53,6 +53,7 @@ public class DragDelegate {
 	}
 	
 	public void setupNodeTarget(Node target) {
+		
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				System.out.println("Dragging over Node...");

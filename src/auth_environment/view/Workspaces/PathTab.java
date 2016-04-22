@@ -142,9 +142,9 @@ public class PathTab implements IWorkspace {
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
         this.addClickHandlers(canvas);
-        this.canvasPane.getChildren().add(canvas); 
         DragDelegate drag = new DragDelegate(); 
         drag.setupNodeTarget(canvas);
+        this.canvasPane.getChildren().add(canvas); 
         return canvasPane; 
 	}
 	
