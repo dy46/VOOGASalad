@@ -1,6 +1,7 @@
 package game_engine.affectors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -26,29 +27,12 @@ public class AIPathFollowAffector extends PathFollowAffector {
 			}
 			Branch currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
-				currentBranch = pickGridBranch(currentPosition);
-//				System.out.println("CURRENT BRANCH: " + currentBranch);
+				return currentPosition;
 			}
-			u.getProperties().getMovement().setCurrentBranch(currentBranch);
+			u.getProperties().getMovement().setBranches(Arrays.asList(currentBranch));
 			next = currentBranch.getFirstPosition();
-//			System.out.println("NEXT: " + next);
-//			System.out.println(u.isVisible()+" "+u.isAlive());
 		}
 		return next;
-	}
-
-	private Branch pickGridBranch(Position curr){
-		List<Branch> gridBranches = getWS().getGridBranches();
-		double minDist = Integer.MAX_VALUE;
-		Branch closest = null;
-		for(Branch b : gridBranches){
-			Position pos = b.getFirstPosition();
-			if(pos.distanceTo(curr) < minDist){
-				minDist = pos.distanceTo(curr);
-				closest = b;
-			}
-		}
-		return closest;
 	}
 
 	private Branch pickBestBranch (Unit u) {
@@ -69,21 +53,27 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	}
 
 	private double branchingHeuristic (Branch b) {
-		int pathLength = b.getLength();
-		List<Position> branchPositions = b.getAllPositions();
+		return pathLengthHeuristic(b) + enemiesOnBranchHeuristic(b) + goalDistanceHeuristic(b) + nearbyTowersHeuristic(b);
+	}
+	
+	private double enemiesOnBranchHeuristic(Branch b){
 		List<Unit> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getEnemies();
 		int numEnemiesOnBranch = 0;
 		for (Unit e : currentEnemies) {
 			if (e.isAlive()) {
 				Position ePosition = e.getProperties().getPosition();
-				if (branchPositions.contains(ePosition)) {
+				if (b.getAllPositions().contains(ePosition)) {
 					numEnemiesOnBranch++;
 				}
 			}
 		}
+		return 0.1 * numEnemiesOnBranch;
+	}
+	
+	private double nearbyTowersHeuristic(Branch b){
 		List<Unit> currentTowers = getWS().getTowers();
 		List<Unit> nearbyTowers = new ArrayList<>();
-		for (Position p : branchPositions) {
+		for (Position p : b.getAllPositions()) {
 			for (Unit t : currentTowers) {
 				if (t.isAlive()) {
 					Position tPosition = t.getProperties().getPosition();
@@ -93,6 +83,15 @@ public class AIPathFollowAffector extends PathFollowAffector {
 				}
 			}
 		}
+		double nearbyTowersValue = 0;
+		if (nearbyTowers.size() == 0)
+			nearbyTowersValue = 100000;
+		else
+			nearbyTowersValue = 100000 / nearbyTowers.size();
+		return nearbyTowersValue;
+	}
+	
+	private double goalDistanceHeuristic(Branch b){
 		double minDistanceToGoal = Integer.MAX_VALUE;
 		Position lastPos = b.getLastPosition();
 		if(getWS().getGoals() != null){
@@ -105,19 +104,16 @@ public class AIPathFollowAffector extends PathFollowAffector {
 				}
 			}
 		}
-		double goalValue, pathValue, enemiesOnBranchValue, nearbyTowersValue;
-		pathValue = 5000 / pathLength;
-		enemiesOnBranchValue = 0.1 * numEnemiesOnBranch;
-		if (nearbyTowers.size() == 0)
-			nearbyTowersValue = 100000;
-		else
-			nearbyTowersValue = 100000 / nearbyTowers.size();
-		if (minDistanceToGoal == Integer.MAX_VALUE)
-			goalValue = 0;
-		else
+		double goalValue = 0;
+		if(!(minDistanceToGoal == Integer.MAX_VALUE))
 			goalValue = 10 / minDistanceToGoal;
-		double heuristic = pathValue + enemiesOnBranchValue + goalValue + nearbyTowersValue;
-		return heuristic;
+		return goalValue;
+	}
+	
+	private double pathLengthHeuristic(Branch b){
+		if(b.getLength() == 0)
+			return 0;
+		return 5000 / b.getLength();
 	}
 
 }

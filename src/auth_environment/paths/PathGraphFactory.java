@@ -51,7 +51,7 @@ public class PathGraphFactory {
 						int neighborY = c+y;
 						if(neighborX >= 0 && neighborX < grid.length){
 							if(neighborY >= 0 && neighborY < grid[r].length){
-								if(x!=0 && y!=0){
+								if(!(x==0 && y==0)){
 									b.addNeighbor(grid[neighborX][neighborY]);
 								}
 							}
