@@ -202,7 +202,7 @@ public class PathTab implements IWorkspace {
 	private void addClickHandlers(Canvas canvas) {
 		 canvas.setOnMouseClicked(e -> {
 	        	this.setPoint(e.getX(), e.getY());
-	        	if (!this.isFirstClick) {
+	        	if (e.isShiftDown() && !this.isFirstClick) {
 	        		this.addBoundLine(this.firstX, this.firstY, e.getX(), e.getY());
 	        		this.myModel.submitBranch();
 	        	}
