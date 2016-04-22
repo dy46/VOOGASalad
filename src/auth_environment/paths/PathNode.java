@@ -55,13 +55,13 @@ public class PathNode {
 
 	public List<Branch> getBranchesByEdgePosition(Position pos){
 		return myBranches.stream().filter(
-				n -> n.getPositions().size() > 0 && (n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos)))
+				n -> n.getPositions().size() > 0 && (n.getPositions().get(0).roughlyEquals(pos) || n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)))
 				.collect(Collectors.toList());
 	}
 
 	public List<Branch> getBranchesByMidPosition(Position pos){
 		return myBranches.stream().filter(
-				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos)).collect(Collectors.toList());
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).roughlyEquals(pos) && !n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)).collect(Collectors.toList());
 	}
 
 	public List<Branch> getBranches(){

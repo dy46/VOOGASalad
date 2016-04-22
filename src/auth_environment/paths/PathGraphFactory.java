@@ -27,7 +27,7 @@ public class PathGraphFactory {
 		currentBranchID = myPathLibrary.getLastBranchID();
 		myPositionHandler = new PositionHandler();
 	}
-	
+
 	/**
 	 * @param newPath
 	 * @param GraphID
@@ -53,41 +53,21 @@ public class PathGraphFactory {
 	}
 
 	public void createUnlimitedPathGraph(double width, double length, double sideLength){
-		double centerX = sideLength/2;
-		double centerY = sideLength/2;
-		PathNode pathGrid = new PathNode(getNextPathID());
-		Branch[][] myBranchGrid = new Branch[(int)Math.floor(width/sideLength)][(int)Math.floor(length/sideLength)];
-		for(int x=0; x<myBranchGrid.length; x++){
-			for(int y=0; y<myBranchGrid[x].length; y++){
-				List<Position> pos = Arrays.asList(new Position(centerX, centerY));
-				Branch branch = new Branch(getNextBranchID(), pos);
-				pathGrid.addBranch(branch);
-				myBranchGrid[x][y] = branch;
-				centerX += sideLength;
-				if(centerX > width-sideLength/2){
-					centerX = sideLength/2;
-					centerY += sideLength;
-				}
-			}
+		currentPathID = -2;
+		Position[][] positionGrid = createPosGrid(width, length, sideLength);
+		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
+		for(List<Position> branchPos : branchPosLists){
+			insertBranch(branchPos);
 		}
-		configureGridNeighbors(myBranchGrid);
-		createGridPath(branchGridToList(myBranchGrid));
-	}
-	
-	private List<Branch> branchGridToList(Branch[][] grid){
-		List<Branch> branchList = new ArrayList<>();
-		for(Branch[] bArr : grid){
-			for(Branch b : bArr){
-				branchList.add(b);
-			}
-		}
-		return branchList;
 	}
 
-	private void configureGridNeighbors(Branch[][] grid){
+	private List<List<Position>> createBranchPosLists(Position[][] grid){
+		List<List<Position>> branchPosLists = new ArrayList<>();
+		List<Position> pastPos = new ArrayList<>();
 		for(int r=0; r<grid.length; r++){
 			for(int c=0; c<grid[r].length; c++){
-				Branch b = grid[r][c];
+				Position pos = grid[r][c];
+				//System.out.println("R: " +r +" C: "+c);
 				for(int x=-1; x<2; x++){
 					for(int y=-1; y<2; y++){
 						int neighborX = r+x;
@@ -95,13 +75,12 @@ public class PathGraphFactory {
 						if(neighborX >= 0 && neighborX < grid.length){
 							if(neighborY >= 0 && neighborY < grid[r].length){
 								if(!(x==0 && y==0)){
-									Branch neighbor = grid[neighborX][neighborY];
-									if(!b.getNeighbors().contains(neighbor)){
-										b.addNeighbor(neighbor);
-										if(!neighbor.getNeighbors().contains(b)){
-											List<Position> bothCellPositions = Arrays.asList(b.getFirstPosition(), neighbor.getFirstPosition());
-											List<Position> interpolated = myPositionHandler.getInterpolatedPositions(bothCellPositions, false);
-											b.setPositions(interpolated);
+									Position neighbor = grid[neighborX][neighborY];
+									List<Position> toInterpolate = Arrays.asList(pos, neighbor);
+									if(!pastPos.contains(pos) && !pastPos.contains(neighbor)){
+										List<Position> interpolated = myPositionHandler.getInterpolatedPositions(toInterpolate, false);
+										if(!branchPosLists.contains(interpolated)){
+											branchPosLists.add(interpolated);
 										}
 									}
 								}
@@ -109,17 +88,31 @@ public class PathGraphFactory {
 						}
 					}
 				}
+				pastPos.add(pos);
 			}
 		}
+		return branchPosLists;
+	}
+
+	private Position[][] createPosGrid(double width, double length, double sideLength){
+		double centerX = sideLength/2;
+		double centerY = sideLength/2;
+		Position[][] posGrid = new Position[(int)Math.floor(width/sideLength)][(int)Math.floor(length/sideLength)];
+		for(int x=0; x<posGrid.length; x++){
+			for(int y=0; y<posGrid[x].length; y++){
+				posGrid[x][y] = new Position(centerX, centerY);
+				centerX += sideLength;
+				if(centerX > width-sideLength/2){
+					centerX = sideLength/2;
+					centerY += sideLength;
+				}
+			}
+		}
+		return posGrid;
 	}
 
 	private PathNode createNewPath(Branch branch){
 		myPathLibrary.getPathGraph().addPath(new PathNode(getNextPathID(), branch));
-		return myPathLibrary.getPathGraph().getLastPath();
-	}
-	
-	private PathNode createGridPath(List<Branch> branches){
-		myPathLibrary.getPathGraph().addPath(new PathNode(-1, branches));
 		return myPathLibrary.getPathGraph().getLastPath();
 	}
 

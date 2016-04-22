@@ -40,12 +40,12 @@ public class PathHandler {
 			// Change this
 			double screenWidth = 500;
 			double screenHeight = 500;
-			myPGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
+			myPGF.createUnlimitedPathGraph(screenWidth, screenHeight, 100);
 		}
 	}
 	
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/62500;
+		return screenWidth*screenHeight/12500;
 	}
 	
 	private void insertTestBranches(){
