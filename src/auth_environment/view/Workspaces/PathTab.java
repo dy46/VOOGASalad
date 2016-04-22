@@ -194,6 +194,7 @@ public class PathTab implements IWorkspace {
 	        	this.firstX = e.getX();
 	        	this.firstY = e.getY();
 	        	this.isFirstClick = false; 
+	        	this.drawBranches(this.myModel.getBranches());
 	        });
 	}
 	
