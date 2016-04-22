@@ -2,10 +2,15 @@ package auth_environment.view.Workspaces;
 
 import java.util.List;
 import java.util.ResourceBundle;
+
+import game_engine.TestingEngineWorkspace;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
+import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IPathTabModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -29,18 +34,23 @@ public class PathTab implements IWorkspace {
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
-	private NodeFactory myNodeFactory = new NodeFactory(); 
+	private NodeFactory myNodeFactory;
+	private DragDelegate myDragDelegate; 
 	
-	private BorderPane myBorderPane = new BorderPane(); 
+	private BorderPane myBorderPane;
 	
 	private TextField myPathWidthField;
 	
-	private Pane canvasPane = new Pane(); 
+	private Pane canvasPane;
 	
 	private IPathTabModel myModel;
 	
 	public PathTab(IAuthEnvironment auth) {
 		this.myModel = new PathTabModel(auth); 
+		this.myBorderPane = new BorderPane(); 
+		this.myNodeFactory = new NodeFactory(); 
+		this.canvasPane = new Pane(); 
+		this.myDragDelegate = new DragDelegate(); 
 		this.setupBorderPane();
 	}
 	
@@ -58,10 +68,22 @@ public class PathTab implements IWorkspace {
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildTextInput(),
 				this.buildSubmitBranchButton(),
+				this.buildTestUnitView(),
 				this.buildMainCanvas()); 
 		return center; 
 	}
 	
+	// TODO: remove after testing
+	private UnitView buildTestUnitView() {
+		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		test.setUpEngine(1.0);
+		Unit tower = test.getTerrains().get(0); 
+		UnitView uv = new UnitView(tower, "smackCat.gif"); 
+		this.myDragDelegate.addUnitViewSource(uv);
+		return uv; 
+	}
+	
+	// TODO: remove after testing
 	private HBox buildSubmitBranchButton() {
 		Button button = this.myNodeFactory.buildButton("Submit Branch"); 
 		button.setOnAction(a -> this.myModel.submitBranch());
@@ -125,6 +147,7 @@ public class PathTab implements IWorkspace {
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
         this.addClickHandlers(canvas);
+        this.myDragDelegate.setupCanvasTarget(canvas);
         this.canvasPane.getChildren().add(canvas); 
         return canvasPane; 
 	}
@@ -133,8 +156,6 @@ public class PathTab implements IWorkspace {
 		 canvas.setOnMouseClicked(e -> {
 	        	this.myModel.addPosition(e.getX(), e.getY());
 	        	this.checkPoint(e.getX(), e.getY());
-//	        	this.printCurrentPoints();
-//	        	canvasPane.getChildren().add(this.displayPoint(e.getX(), e.getY()));
 	        });
 	}
 	

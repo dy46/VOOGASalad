@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
-import game_engine.factories.PropertiesFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.Button;
@@ -30,7 +29,6 @@ public class ElementTab extends Tab{
 	private IAuthEnvironment myInterface;
 	private Map<String, TextField> strTextMap = new HashMap<String, TextField>();
 	private UnitFactory myUnitFactory  = new UnitFactory();
-	private PropertiesFactory myPropertyFactory = new PropertiesFactory();
 	
 	public ElementTab(String name, IAuthEnvironment myInterface){
 		super(name);
@@ -145,7 +143,7 @@ public class ElementTab extends Tab{
 		
 		
 		//reminder to v: refactor this part ^ v
-		myFields = myPropertyFactory.getFields();
+		myFields = myUnitFactory.getFields();
 		for(String s: myFields){
 			newTableInfo.getRowConstraints().add(new RowConstraints(30));
 			newTableInfo.add(new Text(s), 1, index);
