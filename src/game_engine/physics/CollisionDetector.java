@@ -38,6 +38,7 @@ public class CollisionDetector {
 					List<Affector> affectorsToApply = myProjectiles.get(i).getAffectorsToApply()
 							.stream().map(a -> a.copyAffector()).collect(Collectors.toList());                     
 					unit.addAffectors(affectorsToApply);
+					unit.addAffector(myAffectorFactory.getAffectorLibrary().getAffector("Velocity", "Stop"));
 					myProjectiles.get(i).setHasCollided(true);        
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
@@ -73,7 +74,8 @@ public class CollisionDetector {
 		for(Unit u1 : allUnits){
 			for(Unit u2: allUnits){
 				String cast = u1.getType() + u2.getType();
-				if(u1 != u2 && myResources.containsKey(cast)){
+				System.out.println(cast);
+				if(u1 != u2 && myResources.containsKey(cast) && collides(u1, u2)){
 					String affector = myResources.getString(cast);
 					String[] sep = affector.split(",");
 					Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
