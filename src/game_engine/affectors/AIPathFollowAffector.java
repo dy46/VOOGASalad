@@ -19,35 +19,27 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		return values;
 	}
 
-	public Position getNextPosition (Unit u) {
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		Branch currentBranch = move.getCurrentBranch();
-		if (currentBranch == null) {
-			getWS().decrementLives();
-			return null;
-		}
-		Position next = currentBranch.getNextPosition(currentPosition);
+	public Position respondToPosition(Unit u, Position next) {
 		if (next == null) {
-			if(getWS().getGoals().contains(currentPosition)){
-				getWS().decrementLives();
+			Position currentPosition = getCurrentPosition(u);
+			if(getWS().getCurrentLevel().isGoal(currentPosition)){
 				return null;
 			}
-			currentBranch = pickBestBranch(u);
+			Branch currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
-				List<Branch> gridBranches = getWS().getGridBranches();
-				currentBranch = pickClosestBranch(currentPosition, gridBranches);
+				currentBranch = pickGridBranch(currentPosition);
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch);
 			next = currentBranch.getFirstPosition();
 		}
 		return next;
 	}
-	
-	private Branch pickClosestBranch(Position curr, List<Branch> branches){
+
+	private Branch pickGridBranch(Position curr){
+		List<Branch> gridBranches = getWS().getGridBranches();
 		double minDist = Integer.MAX_VALUE;
 		Branch closest = null;
-		for(Branch b : branches){
+		for(Branch b : gridBranches){
 			Position pos = b.getFirstPosition();
 			if(pos.distanceTo(curr) < minDist){
 				minDist = pos.distanceTo(curr);
@@ -58,7 +50,10 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	}
 
 	private Branch pickBestBranch (Unit u) {
-		List<Branch> branchChoices = getBranchChoices(u);
+		List<Branch> branchChoices = getBranchChoicesOnPath(u);
+		if(branchChoices.size() == 0){
+			return null;
+		}
 		Branch bestBranch = null;
 		double bestHeuristic = Integer.MIN_VALUE;
 		for (Branch b : branchChoices) {

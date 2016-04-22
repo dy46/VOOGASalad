@@ -22,7 +22,8 @@ public abstract class PathFollowAffector extends Affector{
 		if (this.getElapsedTime() <= this.getTTL()) {
 			double speed = u.getProperties().getVelocity().getSpeed();
 			for (int i = 0; i < speed; i++) {
-				Position next = getNextPosition(u);
+				Position next = getNextPosOnBranch(u);
+				next = respondToPosition(u, next);
 				if(next == null){
 					setElapsedTimeToDeath();
 					return;
@@ -34,8 +35,18 @@ public abstract class PathFollowAffector extends Affector{
 			this.updateElapsedTime();
 		}
 	}
+	
+	public abstract Position respondToPosition(Unit u, Position next);
 
-	public abstract Position getNextPosition(Unit u);
+	public Position getNextPosOnBranch(Unit u){
+		Movement move = u.getProperties().getMovement();
+		Branch currentBranch = move.getCurrentBranch();
+		if (currentBranch == null) {
+			return null;
+		}
+		Position currentPosition = u.getProperties().getPosition();
+		return currentBranch.getNextPosition(currentPosition);
+	}
 
 	public Double getNextDirection(Unit u){
 		Position currentPosition = u.getProperties().getPosition();
@@ -47,8 +58,12 @@ public abstract class PathFollowAffector extends Affector{
 		return move.getCurrentBranch().getNextDirection(currentPosition);
 	}
 
-	public List<Branch> getBranchChoices(Unit u){
+	public List<Branch> getBranchChoicesOnPath(Unit u){
 		return u.getProperties().getMovement().getCurrentBranch().getForwardNeighbors();
+	}
+	
+	public Position getCurrentPosition(Unit u){
+		return u.getProperties().getPosition();
 	}
 
 }

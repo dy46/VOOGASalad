@@ -3,7 +3,6 @@ package game_engine.affectors;
 import java.util.List;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Movement;
 import game_engine.properties.Position;
 
 public class RandomPathFollowAffector extends PathFollowAffector{
@@ -12,20 +11,11 @@ public class RandomPathFollowAffector extends PathFollowAffector{
 		super(data);
 	}
 
-	public Position getNextPosition(Unit u) {
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		Branch currentBranch = move.getCurrentBranch();
-		if(currentBranch == null){
-			getWS().decrementLives();
-			return null;
-		}
-		Position next = currentBranch.getNextPosition(currentPosition);
+	public Position respondToPosition(Unit u, Position next) {
 		if(next == null){
-			currentBranch = pickRandomBranch(u);
+			Branch currentBranch = pickRandomBranch(u);
 			if(currentBranch == null){
-				getWS().decrementLives();
-				return null;
+				return getCurrentPosition(u);
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch);
 			next = currentBranch.getFirstPosition();
@@ -34,7 +24,7 @@ public class RandomPathFollowAffector extends PathFollowAffector{
 	}
 
 	private Branch pickRandomBranch(Unit u) {
-		List<Branch> choices = getBranchChoices(u);
+		List<Branch> choices = getBranchChoicesOnPath(u);
 		if(choices.size() == 0)
 			return null;
 		int random = (int) (Math.random()*choices.size());

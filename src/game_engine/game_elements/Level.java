@@ -204,5 +204,9 @@ public class Level extends GameElement {
 	public void addWaves(List<Wave> waves) {
 		this.myWaves.addAll(waves);
 	}
+	
+	public boolean isGoal(Position goal){
+		return myGoals.contains(goal);
+	}
 
 }
