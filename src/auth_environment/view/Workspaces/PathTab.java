@@ -42,7 +42,10 @@ public class PathTab implements IWorkspace {
 	
 	private IPathTabModel myModel;
 	
+	private IAuthEnvironment myAuth;
+	
 	public PathTab(IAuthEnvironment auth) {
+		this.myAuth = auth;
 		this.myModel = new PathTabModel(auth); 
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
@@ -50,8 +53,16 @@ public class PathTab implements IWorkspace {
 		this.isFirstClick = true;
 		this.setupBorderPane();
 	}
+
 	
 	private void setupBorderPane() {
+		
+		this.myBorderPane.setOnMouseEntered(e -> {
+			System.out.println(this.myAuth.getGameName());
+//			System.out.println("hello");
+//			this.initModel();
+//			this.drawBranches(this.myModel.getBranches());
+		});
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
