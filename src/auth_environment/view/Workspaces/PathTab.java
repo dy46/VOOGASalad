@@ -35,11 +35,7 @@ public class PathTab implements IWorkspace {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
 	private NodeFactory myNodeFactory;
-	private DragDelegate myDragDelegate; 
 	
 	private BorderPane myBorderPane;
 	
@@ -47,8 +43,6 @@ public class PathTab implements IWorkspace {
 	
 	private Pane canvasPane;
 	private boolean isFirstClick; 
-	private double firstX;
-	private double firstY;
 	
 	private IPathTabModel myModel;
 	
@@ -57,7 +51,6 @@ public class PathTab implements IWorkspace {
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
-		this.myDragDelegate = new DragDelegate(); 
 		this.isFirstClick = true;
 		this.setupBorderPane();
 	}
@@ -75,43 +68,18 @@ public class PathTab implements IWorkspace {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildTextInput(),
-				this.buildSubmitBranchButton(),
-				this.buildTestUnitView(),
 				this.buildMainCanvas()); 
 		return center; 
 	}
 	
 	// TODO: remove after testing
-	private UnitView buildTestUnitView() {
-		TestingEngineWorkspace test = new TestingEngineWorkspace();
-		test.setUpEngine(1.0);
-		Unit tower = test.getTerrains().get(0); 
-		UnitView uv = new UnitView(tower, "smackCat.gif"); 
-		this.myDragDelegate.addUnitViewSource(uv);
-		return uv; 
-	}
-	
-	// TODO: remove after testing
-	private HBox buildSubmitBranchButton() {
-		Button button = this.myNodeFactory.buildButton("Submit Branch"); 
-		button.setOnAction(a -> this.myModel.submitBranch());
-		
-		Button clear = this.myNodeFactory.buildButton("Clear"); 
-		clear.setOnAction(a -> this.clearCanvas());
-		
-		Button draw = this.myNodeFactory.buildButton("Draw");
-		draw.setOnAction(a -> this.drawBranches(this.myModel.getBranches()));
-		
-		HBox hb = this.myNodeFactory.buildHBox(10, 10);
-		hb.getChildren().addAll(button, clear, draw);
-		return this.myNodeFactory.centerNode(hb); 
-	}
-	
-	private void clearCanvas() {
-		this.canvasPane.getChildren().clear();
-		this.buildMainCanvas();
-	}
-	
+//	private UnitView buildTestUnitView() {
+//		TestingEngineWorkspace test = new TestingEngineWorkspace();
+//		test.setUpEngine(1.0);
+//		Unit tower = test.getTerrains().get(0); 
+//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
+//		return uv; 
+//	}
 	
 	private HBox buildTextInput() {
 		// TODO: duplicate code with GlobalGameTab
@@ -189,28 +157,27 @@ public class PathTab implements IWorkspace {
 	private void addClickHandlers(Canvas canvas) {
 		 canvas.setOnMouseClicked(e -> {
 	        	if (e.isShiftDown() && !this.isFirstClick) {
-	        		this.continuePoint(e.getX(), e.getY());
+	        		this.continueBranch(e.getX(), e.getY());
 	        	}
 	        	else {
-	        		this.startPoint(e.getX(), e.getY());
+	        		this.beginBranch(e.getX(), e.getY());
 	        	}
-	        	this.firstX = e.getX();
-	        	this.firstY = e.getY();
 	        	this.isFirstClick = false; 
 	        	this.drawBranches(this.myModel.getBranches());
 	        });
 	}
 	
-	private void startPoint(double x, double y) {
+	private void beginBranch(double x, double y) {
 		this.myModel.addNewPosition(x, y);
 	}
 	
-	private void continuePoint(double x, double y) {
+	private void continueBranch(double x, double y) {
 		this.myModel.continueFromLastPosition(x, y);
 	}
 	
+	// TODO: extract constants
 	private void displayPoint(double x, double y) {
-		Circle circle = new Circle(10);
+		Circle circle = new Circle(this.myModel.getPathWidth());
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);

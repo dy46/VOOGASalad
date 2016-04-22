@@ -2,6 +2,8 @@ package auth_environment.Models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.PathHandler;
@@ -16,6 +18,9 @@ import game_engine.properties.Position;
  */
 
 public class PathTabModel implements IPathTabModel {
+	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
 	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
@@ -36,6 +41,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myPathHandler = new PathHandler();
 		this.myBranches = new ArrayList<Branch>(); 
 		this.myCurrentPositions = new ArrayList<Position>(); 
+		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 		this.myBranches = auth.getPathBranches();
 	}
 
