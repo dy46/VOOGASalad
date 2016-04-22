@@ -17,6 +17,14 @@ public class Wave extends GameElement{
 		timeBeforeWave = time;
 		initialize();
 	}
+	
+	public Wave(String name, List<Unit> enemies, List<Integer> spawnTimes){
+		super(name);
+		myEnemies = enemies;
+		mySpawnTimes = spawnTimes;
+		myCurrentEnemy = 0;
+		timeSinceLastSpawn = 0;
+	}
 
 	private void initialize(){
 		myEnemies = new ArrayList<>();
@@ -30,19 +38,20 @@ public class Wave extends GameElement{
 	/*
 	 * Returns the number of enemies left in this wave
 	 */
-	public int getEnemiesLeft(){
-		int numEnemies = 0;
+	public List<Unit> getEnemiesLeft(){
+		List<Unit> enemiesLeft = new ArrayList<>();
 		for(Unit e: myEnemies){
 			if(e.isVisible()){
-				numEnemies++;
+				enemiesLeft.add(e);
 			}
 		}
-		return numEnemies;
+		return enemiesLeft;
 	}
 
 	public boolean isFinished(){
-		return getEnemiesLeft() == 0;
+		return getEnemiesLeft().size() == 0;
 	}
+	
 	public void addEnemy(Unit e, int spawnTime){
 		myEnemies.add(e);
 		mySpawnTimes.add(spawnTime);
@@ -51,7 +60,7 @@ public class Wave extends GameElement{
 	 * Spawns an enemy at the spawn location of the level
 	 */
 
-	public Unit tryToSpawnEnemy(){
+	public Unit update(){
 		timeSinceLastSpawn++;
 		if(myCurrentEnemy < myEnemies.size() && timeSinceLastSpawn >= mySpawnTimes.get(myCurrentEnemy)){
 			Unit enemy = myEnemies.get(myCurrentEnemy++);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import game_engine.game_elements.Unit;
-import game_engine.games.GameEngineInterface;
+import game_engine.GameEngineInterface;
 import game_player.GameDataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

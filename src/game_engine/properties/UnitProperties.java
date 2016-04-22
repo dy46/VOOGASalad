@@ -17,6 +17,7 @@ public class UnitProperties {
     private Price myPrice;
     private State myState;
     private Movement myMovement;
+    private Mass myMass;
     private List<Unit> myChildren;
 
     private static double DEFAULT_STATE = 0;
@@ -28,6 +29,7 @@ public class UnitProperties {
     private static double DEFAULT_X_POS = 0;
     private static double DEFAULT_Y_POS = 0;
     private static double DEFAULT_PRICE = 0;
+    private static double DEFAULT_MASS = 1;
     private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
 
     public UnitProperties (Health health,
@@ -38,7 +40,7 @@ public class UnitProperties {
                            Position position,
                            Price price,
                            State state,
-                           Movement movement) {
+                           Movement movement, Mass mass) {
         this.myHealth = health;
         this.myTeam = team;
         this.myVelocity = velocity;
@@ -48,6 +50,7 @@ public class UnitProperties {
         this.myState = state;
         this.myMovement = movement;
         this.myRange = range;
+        this.myMass = mass;
     }
 
     public UnitProperties copyUnitProperties() {
@@ -77,6 +80,9 @@ public class UnitProperties {
 		if(this.getPrice() != null) {
 		    this.myPrice = this.getPrice().copyPrice();
 		}
+		if(this.getMass() != null){
+			this.myMass = this.getMass().copyMass();
+		}
 		return newProperties;
 	}
 
@@ -90,6 +96,7 @@ public class UnitProperties {
         myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
         myPrice = new Price(DEFAULT_PRICE);
         myMovement = new Movement(DEFAULT_PATHS);
+        myMass = new Mass(DEFAULT_MASS);
     }
 
     public Health getHealth () {
@@ -111,22 +118,50 @@ public class UnitProperties {
     public Position getPosition () {
         return myPosition;
     }
+    
+    public void setPosition(Position pos){
+    	if(myPosition == null){
+    		myPosition = new Position(pos.getX(), pos.getY());
+    	}
+    	myPosition.setX(pos.getX());
+    	myPosition.setY(pos.getY());
+    }
 
     public Price getPrice () {
         return myPrice;
+    }
+    
+    public void setPrice(double price){
+    	this.myPrice.setPrice(price);
+    }
+    
+    public void setPriceProp(Price price){
+    	this.myPrice = price;
     }
 
     public void setHealth (double health) {
         myHealth.setValue(health);
     }
+    
+    public void setHealthProp(Health health) {
+        myHealth = health;
+    }
 
     public void setTeam (double team) {
-        myTeam.setTeam(team);
+    	this.myTeam.setTeam(team);
+    }
+    
+    public void setTeamProp (Team team) {
+    	this.myTeam = team;
     }
 
     public void setVelocity (double speed, double direction) {
         myVelocity.setSpeed(speed);
         myVelocity.setDirection(direction);
+    }
+    
+    public void setVelocityProp (Velocity velocity) {
+        this.myVelocity = velocity;
     }
 
     public void setBounds (List<Position> positions) {
@@ -142,12 +177,16 @@ public class UnitProperties {
         myPosition.setY(y);
     }
 
-    public void setPosition (Position pos) {
+    public void setPositionProp (Position pos) {
         myPosition = pos;
     }
 
-    public void setState (State state) {
+    public void setStateProp (State state) {
         this.myState = state;
+    }
+    
+    public void setState(double state){
+    	this.myState.setState(state);
     }
 
     public State getState () {
@@ -174,5 +213,16 @@ public class UnitProperties {
         return myChildren;
     }
 
-}
+	public void setMass(double mass) {
+		this.myMass.setMass(mass);
+	}
+	
+	public void setMassProp(Mass mass){
+		this.myMass = mass;
+	}
+	
+	public Mass getMass(){
+		return myMass;
+	}
 
+}

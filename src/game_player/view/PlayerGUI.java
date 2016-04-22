@@ -1,8 +1,9 @@
 package game_player.view;
 
 import java.util.ResourceBundle;
+
+import game_engine.GameEngineInterface;
 import game_engine.TestingEngineWorkspace;
-import game_engine.games.GameEngineInterface;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;

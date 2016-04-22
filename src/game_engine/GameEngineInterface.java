@@ -1,9 +1,10 @@
-package game_engine.games;
+package game_engine;
 
 import java.util.List;
 
+import auth_environment.paths.PathNode;
+import exceptions.WompException;
 import game_engine.game_elements.Level;
-import game_engine.CollisionDetector;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -11,6 +12,8 @@ import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.games.Timer;
+import game_engine.physics.CollisionDetector;
+import game_engine.physics.EncapsulationDetector;
 
 /**
  * This interface is the external API for the game player module. It facilitates 
@@ -63,7 +66,7 @@ public interface GameEngineInterface {
 
     public List<Unit> getTowerTypes();
     
-    public List<Branch> getPaths();
+    public List<Branch> getBranches();
 
     public boolean isPaused();
 
@@ -71,6 +74,10 @@ public interface GameEngineInterface {
 
     public default CollisionDetector getCollisionDetector(){
         return new CollisionDetector(this);
+    }
+    
+    public default EncapsulationDetector getEncapsulationDetector(){
+    	return new EncapsulationDetector(this);
     }
 
     public boolean isGameOver();
@@ -86,5 +93,9 @@ public interface GameEngineInterface {
 	public List<Unit> getAllUnits();
 
 	public FunctionFactory getFunctionFactory();
+
+	public List<PathNode> getPaths();
+
+	public List<Branch> getGridBranches();
 
 }

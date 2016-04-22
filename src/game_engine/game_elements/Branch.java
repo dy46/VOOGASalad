@@ -22,44 +22,37 @@ public class Branch {
 	private List<Branch> myNeighbors;
 	private int myID;
 
-	public Branch(List<Position> positions, int ID){
-		this.myID = ID;
+	public Branch(List<Position> positions){
 		myPositions = positions;
 		myNeighbors = new ArrayList<>();
-	}
-
-	public Branch(int ID) {
-		this.myPositions = new ArrayList<>();
-		this.myNeighbors = new ArrayList<>();
-	}
-
-	public Branch(String name){
-		//		setID(getWorkspace().getIDFactory().createID(this));
-		cycle = false;
 		initialize();
 	}
 
-	public Branch(String name, List<Position> positions){
-		cycle = false;
-		initialize(positions, new ArrayList<>());
+	public Branch() {
+		this.myPositions = new ArrayList<>();
+		this.myNeighbors = new ArrayList<>();
+		initialize();
 	}
 
-	public Branch(String name, List<Position> positions, List<Branch> neighbors) {
+	public Branch(List<Position> positions, List<Branch> neighbors) {
 		cycle = false;
 		initialize(positions, neighbors);
 	}
 
 	public void initialize(){
-		myPositions = new ArrayList<>();
-		nextPositions = new HashMap<Position, Position>();
-		myNeighbors = new ArrayList<>();
+		if(myPositions == null)
+			myPositions = new ArrayList<>();
+		if(nextPositions == null)
+			nextPositions = new HashMap<Position, Position>();
+		if(myNeighbors == null)
+			myNeighbors = new ArrayList<>();
 		setNextPositions();
 	}
 
 	public void initialize(List<Position> list, List<Branch> neighbors){
 		myPositions = list;
-		nextPositions = new HashMap<Position, Position>();
 		myNeighbors = neighbors;
+		nextPositions = new HashMap<Position, Position>();
 		setNextPositions();
 	}
 
@@ -128,7 +121,7 @@ public class Branch {
 	}
 
 	public Branch copyBranch(){
-		Branch newPath = new Branch("");
+		Branch newPath = new Branch();
 		this.myPositions.forEach(t -> {
 			newPath.addPosition(t.copyPosition());
 		});
@@ -171,7 +164,7 @@ public class Branch {
 	public Position getLastPosition() {
 		return myPositions.get(myPositions.size()-1);
 	}
-	
+
 	public Position getSecondPosition(){
 		if(getAllPositions().size() <= 1)
 			return null;
@@ -183,7 +176,9 @@ public class Branch {
 	}
 
 	public void addPositions(List<Position> positions){
-		this.myPositions.addAll(positions);
+		for(Position pos : positions){
+			addPosition(pos);
+		}
 	}
 
 	public List<Position> getPositions(){
@@ -199,8 +194,14 @@ public class Branch {
 	}
 
 	public List<Position> cutoffByPosition(Position pos){
-		List<Position> cutoff = myPositions.subList(myPositions.indexOf(pos), myPositions.size());
-		cutoff.clear();
+		List<Position> cutoff = new ArrayList<>();
+		for(int x=myPositions.indexOf(pos); x<myPositions.size(); x++){
+			cutoff.add(myPositions.get(x));
+			if(x != myPositions.indexOf(pos)){
+				myPositions.remove(x);
+				x--;
+			}
+		}
 		return cutoff;
 	}
 
@@ -220,7 +221,8 @@ public class Branch {
 	}
 
 	public String toString(){
-		return "Branch positions: " + myPositions;
+//		return "Branch ID: " + myID+ " positions: " + myPositions;
+		return "Branch ID: " + myID;
 	}
 
 	public int getLength(){
@@ -244,6 +246,10 @@ public class Branch {
 			}
 		}
 		return false;
+	}
+
+	public boolean equals(Branch branch){
+		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
 	}
 
 }
