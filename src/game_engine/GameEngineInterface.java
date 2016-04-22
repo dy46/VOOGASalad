@@ -14,7 +14,6 @@ import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.games.Timer;
 import game_engine.physics.CollisionDetector;
-import game_engine.physics.EncapsulationDetector;
 
 /**
  * This interface is the external API for the game player module. It facilitates 

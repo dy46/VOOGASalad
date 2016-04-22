@@ -28,7 +28,7 @@ import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
-import game_engine.physics.EncapsulationDetector;
+import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.store_elements.Store;
@@ -50,7 +50,7 @@ public class EngineWorkspace implements GameEngineInterface{
 	private boolean pause;
 	private double myLives;
 	private CollisionDetector myCollider;
-	private EncapsulationDetector myEncapsulator;
+	private EncapsulationController myEncapsulator;
 	private double myBalance;
 	private Timer myTimer;
 	private FunctionFactory myFunctionFactory;
@@ -78,7 +78,7 @@ public class EngineWorkspace implements GameEngineInterface{
 	private void initialize(){
 		myTimer = new Timer();
 		myCollider = new CollisionDetector(this);
-		myEncapsulator = new EncapsulationDetector(this);
+		myEncapsulator = new EncapsulationController(this);
 		if(myGridBranches == null)	this.myGridBranches = new ArrayList<Branch>();
 		if(myPathBranches == null)	this.myPathBranches = new ArrayList<Branch>();
 		if(myLevels == null)	this.myLevels = new ArrayList<Level>();
@@ -145,9 +145,16 @@ public class EngineWorkspace implements GameEngineInterface{
 		pause = false;
 	}
 	
+	private void initializeStore(){
+		if(myStore == null){
+			myStore = new Store(500);
+		}
+	}
+	
 	// change this
 	@Override
 	public boolean addTower (String name, double x, double y) {
+		initializeStore(); // TODO: remove this
 		Unit purchased = myStore.purchaseUnit(name);
 		if(purchased != null){
 			Unit copy = purchased.copyUnit();

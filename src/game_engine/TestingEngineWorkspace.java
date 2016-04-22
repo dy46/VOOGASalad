@@ -29,7 +29,7 @@ import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
-import game_engine.physics.EncapsulationDetector;
+import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.store_elements.Store;
@@ -47,7 +47,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private List<Unit> myProjectiles;
 
 	private CollisionDetector myCollider;
-	private EncapsulationDetector myEncapsulator;
+	private EncapsulationController myEncapsulator;
 
 	private Level myCurrentLevel;
 	private IDFactory myIDFactory;
@@ -102,7 +102,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
-		myEncapsulator = new EncapsulationDetector(this);
+		myEncapsulator = new EncapsulationController(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
