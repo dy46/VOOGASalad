@@ -159,11 +159,6 @@ public class GameView implements IGameView{
 		List<Position> allPositions = new ArrayList<>();
 		List<Branch> currBranches = new ArrayList<>();
 		for(PathNode p : currPaths){
-			// 			Use this to hide path graph
-			//			if(p.getID() != -1){
-			//				currBranches.addAll(p.getBranches());
-			//			}
-
 			currBranches.addAll(p.getBranches());
 		}
 		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));

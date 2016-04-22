@@ -2,7 +2,6 @@ package auth_environment.paths;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import game_engine.game_elements.Branch;
@@ -11,32 +10,23 @@ import game_engine.properties.Position;
 public class PathNode {
 
 	private List<Branch> myBranches;
-	private int myID;
 
-	public PathNode(int pathID){
-		this.myID = pathID;
+	public PathNode(){
 		myBranches = new ArrayList<>();
 	}
 
-	public PathNode(int pathID, Branch branch) {
-		myID = pathID;
+	public PathNode(Branch branch) {
 		myBranches = new ArrayList<>();
 		addBranch(branch);
 	}
 
-	public PathNode(int pathID, List<Branch> branches) {
-		myID = pathID;
+	public PathNode(List<Branch> branches) {
 		myBranches = new ArrayList<>();
 		myBranches.addAll(branches);
 	}
 
 	public void addBranch(Branch branch){
 		myBranches.add(branch);
-	}
-
-	public Branch getBranchByID(int ID){
-		Optional<Branch> branch = myBranches.stream().filter(b -> b.getID() == ID).findFirst();
-		return branch.isPresent() ? branch.get() : null;
 	}
 
 	public List<Branch> getBranchNodes(Branch branch){
@@ -46,11 +36,7 @@ public class PathNode {
 	}
 
 	public List<Branch> copyBranches(){
-		return myBranches.stream().map(p -> new Branch(p.getID(), p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
-	}
-
-	public int getID(){
-		return myID;
+		return myBranches.stream().map(p -> new Branch(p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
 	}
 
 	public List<Branch> getBranchesByEdgePosition(Position pos){

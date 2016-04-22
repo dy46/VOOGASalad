@@ -55,7 +55,11 @@ public abstract class PathFollowAffector extends Affector{
 		return move.getCurrentBranch().getNextDirection(currentPosition);
 	}
 
-	public List<Branch> getBranchChoicesOnPath(Unit u){
+	public List<Branch> getBranchChoices(Unit u){
+		return u.getProperties().getMovement().getCurrentBranch().getNeighbors();
+	}
+	
+	public List<Branch> getForwardChoices(Unit u){
 		return u.getProperties().getMovement().getCurrentBranch().getForwardNeighbors();
 	}
 	

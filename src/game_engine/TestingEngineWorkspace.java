@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import auth_environment.paths.GridFactory;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathHandler;
 import auth_environment.paths.PathNode;
@@ -66,6 +67,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private List<Position> myGoals;
 
 	private TimelineFactory myTimelineFactory;
+	
+	private GridFactory myGF;
 
 	public TestingEngineWorkspace() {};
 
@@ -178,17 +181,18 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
 		List<PathNode> paths = pgf.getPathLibrary().getPaths();
-		
+		myGF = ph.getGF();
+		PathNode grid = myGF.getGrid();
 		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		l.addAllPaths(paths);
 		myDrawablePaths.addAll(paths);
 
 		// For testing branching
-		System.out.println("NUM BRANCHES: " + myBranches.size());
-		for(int x=0; x<myBranches.size(); x++){
-			System.out.println(myBranches.get(x)+" Starting pos: " + myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
-		}
-		Branch pb1 = myBranches.get(0);
+//		System.out.println("NUM BRANCHES: " + myBranches.size());
+//		for(int x=0; x<myBranches.size(); x++){
+//			System.out.println(myBranches.get(x)+" Starting pos: " + myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
+//		}
+		Branch pb1 = grid.getBranches().get(0);
 //		Branch pb5 = myBranches.get(4);
 //		Branch pb6 = myBranches.get(5);
 
@@ -238,21 +242,21 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 //		w.addEnemy(e3, 60);
 //		w.addEnemy(e4, 60);
 		w.addEnemy(AI1, 60);
-//		w.addEnemy(AI2, 60);
-//		w.addEnemy(AI3, 60);
-//		w.addEnemy(AI4, 60);
-		w.addEnemy(rand1, 60);
-		w.addEnemy(rand2, 60);
-		w.addEnemy(rand3, 60);
-		w.addEnemy(rand4, 60);
-		w.addEnemy(rand5, 60);
-		w.addEnemy(rand6, 60);
-		w.addEnemy(rand7, 60);
-		w.addEnemy(rand8, 60);
-		w.addEnemy(rand9, 60);
-		w.addEnemy(rand10, 60);
-		w.addEnemy(rand11, 60);
-		w.addEnemy(rand12, 60);
+		w.addEnemy(AI2, 60);
+		w.addEnemy(AI3, 60);
+		w.addEnemy(AI4, 60);
+//		w.addEnemy(rand1, 60);
+//		w.addEnemy(rand2, 60);
+//		w.addEnemy(rand3, 60);
+//		w.addEnemy(rand4, 60);
+//		w.addEnemy(rand5, 60);
+//		w.addEnemy(rand6, 60);
+//		w.addEnemy(rand7, 60);
+//		w.addEnemy(rand8, 60);
+//		w.addEnemy(rand9, 60);
+//		w.addEnemy(rand10, 60);
+//		w.addEnemy(rand11, 60);
+//		w.addEnemy(rand12, 60);
 		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);

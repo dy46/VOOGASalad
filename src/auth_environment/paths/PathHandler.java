@@ -8,17 +8,20 @@ import game_engine.properties.Position;
 public class PathHandler {
 	
 	private PathGraphFactory myPGF;
+	private GridFactory myGF;
 	private PositionHandler myPositionHandler;
 	
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
+		myGF = new GridFactory();
 		myPositionHandler = new PositionHandler();
 		initializeGrid();
 		//insertTestBranches2();
 	}
 	
-	public PathHandler(PathGraphFactory pgf){
+	public PathHandler(PathGraphFactory pgf, GridFactory gf){
 		myPGF = pgf;
+		myGF = gf;
 		myPositionHandler = new PositionHandler();
 	}
 	
@@ -40,7 +43,7 @@ public class PathHandler {
 			// Change this
 			double screenWidth = 500;
 			double screenHeight = 500;
-			myPGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
+			myGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
 		}
 	}
 	
@@ -95,6 +98,10 @@ public class PathHandler {
 	
 	public PathGraphFactory getPGF(){
 		return myPGF;
+	}
+
+	public GridFactory getGF(){
+		return myGF;
 	}
 	
 }

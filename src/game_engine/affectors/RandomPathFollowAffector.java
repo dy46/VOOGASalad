@@ -24,7 +24,7 @@ public class RandomPathFollowAffector extends PathFollowAffector{
 	}
 
 	private Branch pickRandomBranch(Unit u) {
-		List<Branch> choices = getBranchChoicesOnPath(u);
+		List<Branch> choices = getBranchChoices(u);
 		if(choices.size() == 0)
 			return null;
 		int random = (int) (Math.random()*choices.size());

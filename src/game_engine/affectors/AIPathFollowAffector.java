@@ -36,7 +36,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	}
 
 	private Branch pickBestBranch (Unit u) {
-		List<Branch> branchChoices = getBranchChoicesOnPath(u);
+		List<Branch> branchChoices = getBranchChoices(u);
 		if(branchChoices.size() == 0){
 			return null;
 		}
@@ -44,7 +44,8 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		double bestHeuristic = Integer.MIN_VALUE;
 		for (Branch b : branchChoices) {
 			double branchHeuristic = branchingHeuristic(b);
-			if (branchHeuristic <= bestHeuristic) {
+			//System.out.println("BRANCH b: " + b+" HEURISTIC: " + branchHeuristic);
+			if (branchHeuristic >= bestHeuristic) {
 				bestHeuristic = branchHeuristic;
 				bestBranch = b;
 			}
