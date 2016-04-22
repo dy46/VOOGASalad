@@ -16,8 +16,8 @@ import auth_environment.IAuthEnvironment;
 
 public interface IAuthModel {
 	
-	public IAuthEnvironment getAuthInterface(); 
+	public IAuthEnvironment getIAuthEnvironment(); 
 	
-	public void setAuthInterface(IAuthEnvironment auth); 
+	public void setIAuthEnvironment(IAuthEnvironment auth); 
 	
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
@@ -57,7 +56,7 @@ public class Grid{
 				myTile.getShape().setFill(Color.WHITE);
 				myModel.addElement(myTile, i, j);
 				DragDelegate drag = new DragDelegate(); 
-				drag.setupTarget(myTile);
+//				drag.setupTarget(myTile);
 				myTiles.add(myTile);
 				myPane.getChildren().add(myTile.getShape());
 			}

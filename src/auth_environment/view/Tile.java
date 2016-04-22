@@ -2,8 +2,6 @@ package auth_environment.view;
 
 import java.util.ResourceBundle;
 
-import auth_environment.backend.IElementHolder;
-import auth_environment.backend.ISelector;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.factories.TerrainFactory;
 import game_engine.game_elements.GameElement;
@@ -23,7 +21,7 @@ import javafx.scene.shape.Shape;
  * If this is a Map tile, this can be clicked on to set Path (or some other feature). 
  */
 
-public abstract class Tile implements IElementHolder {
+public abstract class Tile {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	private boolean hasElement; 
@@ -38,7 +36,6 @@ public abstract class Tile implements IElementHolder {
 	
 	protected abstract void addListener();
 	
-	@Override
 	public void updateElement(GameElement element) {
 		this.hasElement = true;
 		this.myElement = element; 
@@ -47,7 +44,6 @@ public abstract class Tile implements IElementHolder {
 		showCurrentElement();
 	}
 
-	@Override
 	public GameElement getElement() {
 		return this.myElement;
 	}

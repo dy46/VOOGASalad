@@ -2,6 +2,8 @@ package auth_environment.Models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.PathHandler;
@@ -17,22 +19,27 @@ import game_engine.properties.Position;
 
 public class PathTabModel implements IPathTabModel {
 	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+	
 	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
 	
-	private PathHandler myPathHandler = new PathHandler(); 
+	private PathHandler myPathHandler; 
 	
-	// This is what populates the frontend list of Positions 
-	private List<Branch> myBranches = new ArrayList<Branch>(); 
+	private List<Branch> myBranches; 
 	
-	// What's currently selected, will add to Branches
-	private List<Position> myCurrentPositions = new ArrayList<Position>(); 
+	// What's currently selected, will add to Branches.
+	// For now, should only contain TWO positions
+	private List<Position> myCurrentPositions;
 	
 	private double myPathWidth; 
 	
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
-		this.myBranches = auth.getPathBranches();
+		this.myPathHandler = new PathHandler();
+		this.myCurrentPositions = new ArrayList<Position>(); 
+		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 
@@ -47,14 +54,9 @@ public class PathTabModel implements IPathTabModel {
 	}
 
 	@Override
-	public void addPosition(double x, double y) {
-		this.myCurrentPositions.add(new Position(x, y)); 
-	}
-	
-	@Override
 	public void submitBranch() {
 		this.myPathHandler.processStraightLine(this.myCurrentPositions);
-		this.myCurrentPositions.clear();
+		this.loadBranches();
 	}
 	
 	@Override
@@ -64,12 +66,26 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void loadBranches() {
-		this.myBranches = this.myPathHandler.getPGF().getPathLibrary().getBranches();
+		this.myAuthData.setPathBranches(this.myPathHandler.getPGF().getPathLibrary().getBranches());
 	}
 	
 	@Override
 	public List<Branch> getBranches() {
-		this.loadBranches();
-		return this.myBranches;
+		return this.myAuthData.getPathBranches();
+	}
+
+	@Override
+	public void addNewPosition(double x, double y) {
+		this.myCurrentPositions.clear();
+		this.myCurrentPositions.add(new Position(x, y)); 
+	}
+
+	@Override
+	public void continueFromLastPosition(double x, double y) {
+		if (this.myCurrentPositions.size() > 1) {
+			this.myCurrentPositions.remove(0);
+		}
+		this.myCurrentPositions.add(new Position(x, y));
+		this.submitBranch();
 	}
 }

@@ -17,12 +17,14 @@ public class PathHandler {
 		myPositionHandler = new PositionHandler();
 		insertTestBranches();
 		initializeGrid();
+//		insertTestBranches();
 	}
 	
 	public PathHandler(PathGraphFactory pgf, GridFactory gf){
 		myPGF = pgf;
 		myGF = gf;
 		myPositionHandler = new PositionHandler();
+//		insertTestBranches();
 	}
 	
 	public void processStraightLine(List<Position> positions){

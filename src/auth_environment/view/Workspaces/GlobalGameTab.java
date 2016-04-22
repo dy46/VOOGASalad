@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.GlobalGameTabModel;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
@@ -43,9 +44,9 @@ public class GlobalGameTab implements IWorkspace {
 	
 	private IGlobalGameTabModel myModel;
 	
-	public GlobalGameTab(IAuthEnvironment auth) {
+	public GlobalGameTab(IAuthModel authModel) {
 		this.setupBorderPane();
-		this.myModel = new GlobalGameTabModel(auth); 
+		this.myModel = new GlobalGameTabModel(authModel); 
 	}
 
 	private void setupBorderPane() {
