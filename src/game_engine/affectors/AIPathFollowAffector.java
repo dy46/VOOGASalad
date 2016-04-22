@@ -29,7 +29,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		}
 		Position next = currentBranch.getNextPosition(currentPosition);
 		if (next == null) {
-			if(getWS().getGoals().contains(currentPosition)){
+			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				getWS().decrementLives();
 				return null;
 			}
@@ -113,8 +113,8 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	private double goalDistanceHeuristic(Branch b){
 		double minDistanceToGoal = Integer.MAX_VALUE;
 		Position lastPos = b.getLastPosition();
-		if(getWS().getGoals() != null){
-			for (Position goal : getWS().getGoals()) {
+		if(getWS().getCurrentLevel().getGoals() != null){
+			for (Position goal : getWS().getCurrentLevel().getGoals()) {
 				if (b.isAccessible(goal)) {
 					double distanceToGoal = lastPos.distanceTo(goal);
 					if (distanceToGoal < minDistanceToGoal) {
