@@ -15,8 +15,8 @@ public class PathHandler {
 		myPGF = new PathGraphFactory();
 		myGF = new GridFactory();
 		myPositionHandler = new PositionHandler();
+		insertTestBranches();
 		initializeGrid();
-		//insertTestBranches2();
 	}
 	
 	public PathHandler(PathGraphFactory pgf, GridFactory gf){

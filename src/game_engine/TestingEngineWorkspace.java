@@ -68,6 +68,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 	private TimelineFactory myTimelineFactory;
 	
+	private List<Branch> myGridBranches;
 	private GridFactory myGF;
 
 	public TestingEngineWorkspace() {};
@@ -84,6 +85,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		//		p2.addPosition(new Position(400, 525));
 		//		myPaths.add(p2);
 		myDrawablePaths = new ArrayList<>();
+		myGridBranches = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
 		// projectiles must be intialized before towers
@@ -183,6 +185,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		List<PathNode> paths = pgf.getPathLibrary().getPaths();
 		myGF = ph.getGF();
 		PathNode grid = myGF.getGrid();
+		myGridBranches = grid.getBranches();
 		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		l.addAllPaths(paths);
 		myDrawablePaths.addAll(paths);
@@ -192,7 +195,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 //		for(int x=0; x<myBranches.size(); x++){
 //			System.out.println(myBranches.get(x)+" Starting pos: " + myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
 //		}
-		Branch pb1 = grid.getBranches().get(0);
+		Branch pb1 = myBranches.get(0);
 //		Branch pb5 = myBranches.get(4);
 //		Branch pb6 = myBranches.get(5);
 
@@ -242,10 +245,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 //		w.addEnemy(e3, 60);
 //		w.addEnemy(e4, 60);
 		w.addEnemy(AI1, 60);
-		w.addEnemy(AI2, 60);
-		w.addEnemy(AI3, 60);
-		w.addEnemy(AI4, 60);
-//		w.addEnemy(rand1, 60);
+//		w.addEnemy(AI2, 60);
+//		w.addEnemy(AI3, 60);
+//		w.addEnemy(AI4, 60);
+		w.addEnemy(rand1, 60);
 //		w.addEnemy(rand2, 60);
 //		w.addEnemy(rand3, 60);
 //		w.addEnemy(rand4, 60);
@@ -620,6 +623,11 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 	public List<PathNode> getPaths() {
 		return myDrawablePaths;
+	}
+
+	@Override
+	public List<Branch> getGridBranches() {
+		return myGridBranches;
 	}
 
 }

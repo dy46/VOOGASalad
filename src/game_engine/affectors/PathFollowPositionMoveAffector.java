@@ -25,10 +25,19 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 		super.apply(u);
 	}
 	           
-	public Position respondToPosition(Unit u, Position next){
+	public Position getNextPosition(Unit u){
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		Branch currentBranch = move.getCurrentBranch();
+		if(currentBranch == null){
+			getWS().decrementLives();
+			return null;
+		}
+		Position next = currentBranch.getNextPosition(currentPosition);
 		if(next == null){
-			Branch currentBranch = u.getProperties().getMovement().getNextBranch();
-			if(currentBranch == null){
+			currentBranch = move.getNextBranch();
+			if(currentBranch == null) {
+				getWS().decrementLives();
 				return null;
 			}
 			next = currentBranch.getFirstPosition();

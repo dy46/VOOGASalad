@@ -96,4 +96,6 @@ public interface GameEngineInterface {
 
 	public List<PathNode> getPaths();
 
+	public List<Branch> getGridBranches();
+
 }

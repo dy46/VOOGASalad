@@ -161,6 +161,8 @@ public class GameView implements IGameView{
 		for(PathNode p : currPaths){
 			currBranches.addAll(p.getBranches());
 		}
+		// Comment this out to hide path grid
+//				currBranches.addAll(playerEngineInterface.getGridBranches());
 		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {
 			Image img = new Image("DirtNew.png");
