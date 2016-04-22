@@ -21,7 +21,7 @@ public class PropertiesLibrary {
 
 	public void addPropertiesByType(String type, UnitProperties properties){
 		if(myProperties.keySet().contains(type)){
-			if(new AskChangeException().getResult()){
+			if(new AskChangeException("Override old UnitProperties for "+type+" units?").getResult()){
 				this.myProperties.put(type, properties);
 			}
 		}

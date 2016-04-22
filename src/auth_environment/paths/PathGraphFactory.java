@@ -3,6 +3,8 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import auth_environment.dialogs.ConfirmationDialog;
 import game_engine.game_elements.Branch;
 import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
@@ -17,6 +19,19 @@ public class PathGraphFactory {
 		myPathLibrary = new PathLibrary();
 		currentPathID = -1;
 		currentBranchID = -1;
+		initializeGrid();
+	}
+	
+	private void initializeGrid(){
+		String gridHeaderText = "You have the option to have a default grid drawn that won't limit other path creation.";
+		String gridContextText = "Do you want this?";
+		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		if(confirmation){
+			// Change this
+			double screenWidth = 500;
+			double screenHeight = 500;
+			createUnlimitedPathGraph(500, 500, getGridSquareSize(screenWidth, screenHeight));
+		}
 	}
 	
 	public PathGraphFactory(PathLibrary pathLibrary){
@@ -45,6 +60,10 @@ public class PathGraphFactory {
 		}
 		configureGridNeighbors(grid);
 		myPathLibrary.setPathGrid(pathGrid);
+	}
+	
+	private double getGridSquareSize(double screenWidth, double screenHeight){
+		return screenWidth*screenHeight/25;
 	}
 
 	private void configureGridNeighbors(Branch[][] grid){
