@@ -11,15 +11,16 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public double getPathWidth(); 
 	
-	// Adds a Position to the current Branch (before submitting to Path Handler) 
-	public void addPosition(double x, double y); 
-	
 	public void submitBranch(); 
 	
 	public void printCurrentPositions(); 
 	
 	public void loadBranches(); 
 	
-	public List<Branch> getBranches(); 
+	public List<Branch> getBranches();
+	
+	public void addNewPosition(double x, double y);
+	
+	public void continueFromLastPosition(double x, double y); 
 	
 }

@@ -159,23 +159,6 @@ public class PathTab implements IWorkspace {
         return canvasPane; 
 	}
 	
-	private void addDragHandlers(Canvas canvas) {
-		canvas.setOnDragDetected(e -> {
-			this.setPoint(e.getX(), e.getY());
-		});
-		canvas.setOnDragOver(e -> System.out.println("drag entered"));
-		canvas.setOnDragDropped(e -> {
-			System.out.println("dropped");
-			this.setPoint(e.getX(), e.getY());
-			this.addBoundLine(this.firstX, this.firstY, e.getX(), e.getY());
-		});
-	}
-	
-	private void setPoint(double x, double y) {
-		this.myModel.addPosition(x, y);
-		this.checkPoint(x, y);
-	}
-	
 	private void addBoundLine(double startX, double startY, double endX, double endY) {
 		this.canvasPane.getChildren().add(new BoundLine(new SimpleDoubleProperty(startX),
 				new SimpleDoubleProperty(startY),
@@ -201,15 +184,32 @@ public class PathTab implements IWorkspace {
 	
 	private void addClickHandlers(Canvas canvas) {
 		 canvas.setOnMouseClicked(e -> {
-	        	this.setPoint(e.getX(), e.getY());
 	        	if (e.isShiftDown() && !this.isFirstClick) {
-	        		this.addBoundLine(this.firstX, this.firstY, e.getX(), e.getY());
-	        		this.myModel.submitBranch();
+	        		this.continuePoint(e.getX(), e.getY());
+	        		this.setBranch(e.getX(), e.getY());
+	        	}
+	        	else {
+	        		this.startPoint(e.getX(), e.getY());
 	        	}
 	        	this.firstX = e.getX();
 	        	this.firstY = e.getY();
 	        	this.isFirstClick = false; 
 	        });
+	}
+	
+	private void startPoint(double x, double y) {
+		this.myModel.addNewPosition(x, y);
+		this.checkPoint(x, y);
+	}
+	
+	private void continuePoint(double x, double y) {
+		this.myModel.continueFromLastPosition(x, y);
+		this.checkPoint(x, y);
+	}
+	
+	private void setBranch(double endX, double endY) {
+		this.addBoundLine(this.firstX, this.firstY, endX, endY);
+		this.myModel.submitBranch();
 	}
 	
 	// This is Auth frontend ONLY

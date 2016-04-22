@@ -20,18 +20,22 @@ public class PathTabModel implements IPathTabModel {
 	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
 	
-	private PathHandler myPathHandler = new PathHandler(); 
+	private PathHandler myPathHandler; 
 	
 	// This is what populates the frontend list of Positions 
-	private List<Branch> myBranches = new ArrayList<Branch>(); 
+	private List<Branch> myBranches; 
 	
-	// What's currently selected, will add to Branches
-	private List<Position> myCurrentPositions = new ArrayList<Position>(); 
+	// What's currently selected, will add to Branches.
+	// For now, should only contain TWO positions
+	private List<Position> myCurrentPositions;
 	
 	private double myPathWidth; 
 	
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
+		this.myPathHandler = new PathHandler();
+		this.myBranches = new ArrayList<Branch>(); 
+		this.myCurrentPositions = new ArrayList<Position>(); 
 		this.myBranches = auth.getPathBranches();
 	}
 
@@ -46,11 +50,6 @@ public class PathTabModel implements IPathTabModel {
 		return this.myPathWidth;
 	}
 
-	@Override
-	public void addPosition(double x, double y) {
-		this.myCurrentPositions.add(new Position(x, y)); 
-	}
-	
 	@Override
 	public void submitBranch() {
 		this.myPathHandler.processStraightLine(this.myCurrentPositions);
@@ -71,5 +70,16 @@ public class PathTabModel implements IPathTabModel {
 	public List<Branch> getBranches() {
 		this.loadBranches();
 		return this.myBranches;
+	}
+
+	@Override
+	public void addNewPosition(double x, double y) {
+		this.myCurrentPositions.add(new Position(x, y)); 
+	}
+
+	@Override
+	public void continueFromLastPosition(double x, double y) {
+		this.myCurrentPositions.remove(0);
+		this.addNewPosition(x, y);
 	}
 }
