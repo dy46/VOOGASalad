@@ -40,43 +40,28 @@ public class UnitFactory {
 	
 	// Pass field inputs here
 	public Unit createUnit(HashMap<String, String> inputs){
-		UnitProperties unitProperties = new UnitProperties();
-		String name = getName(inputs.get("Name"));
 		String type = getType(inputs.get("Type"));
-		String img = getImage(inputs.get("Image"));
 		String unitType = getUnitType(inputs.get("Unit Type"));
-		unitProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
-		unitProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
-		unitProperties.setMassProp(getUnitMass(inputs.get("Mass")));
-		unitProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
-		unitProperties.setStateProp(getUnitState(inputs.get("State")));
-		return createUnit(name, type, img, unitType, unitProperties);
+		UnitProperties newProperties = new UnitProperties();
+		newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
+		newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+		newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
+		newProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
+		newProperties.setStateProp(getUnitState(inputs.get("State")));
+		UnitProperties unitProperties = createPropertiesByType(type, newProperties);
+		return createUnit(getName(type, unitType), unitProperties);
 	}
 	
-	private Unit createUnit(String name, String type, String imageName, String unitType, UnitProperties unitProperties){
+	private String getName(String type, String unitType){
+		return type+unitType;
+	}
+	
+	private Unit createUnit(String name, UnitProperties unitProperties){
 		return new Unit(name, unitProperties);
 	}
 	
 	public void setUnitBounds(Unit unit, Image image){
 		unit.getProperties().setBounds(myBoundsFactory.createImageBounds(image));
-	}
-	
-	private String getName(String str){
-		String name = str;
-		if(name == null){
-			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
-			name = we.getResult();
-		}
-		return name;
-	}
-	
-	private String getImage(String str){
-		String img = str;
-		if(img == null){
-			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
-			img = we.getResult();
-		}
-		return img;
 	}
 	
 	private String getUnitType(String str){
@@ -250,8 +235,24 @@ public class UnitFactory {
 		myUnitLibrary.getUnitByName(name).addAffectorsToApply(Arrays.asList(affectorToApply));
 	}
 	
-	public List<String> getFields(){
-		return Arrays.asList("Unit type", "Unit Properties");
+	public UnitProperties createPropertiesByType(String type, UnitProperties properties){
+		return myUnitLibrary.addPropertiesByType(type, properties);
 	}
-
+	
+	public void changePropertiesByType(String type, UnitProperties newProperties) throws WompException{
+		this.myUnitLibrary.changePropertiesType(type, newProperties);
+	}
+	
+	public UnitProperties createProperties(String type){
+		UnitProperties libraryProp = myUnitLibrary.getPropertyByType(type);
+		if(libraryProp == null){
+			return new UnitProperties();
+		}
+		return libraryProp;
+	}
+	
+	public List<String> getFields(){
+		return Arrays.asList("Unit Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
+	}
+	
 }

@@ -1,8 +1,5 @@
 package auth_environment.view.tabs;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,7 +144,7 @@ public class ElementTab extends Tab{
 		}
 		
 		
-		//reminder to v: refactor this part
+		//reminder to v: refactor this part ^ v
 		myFields = myPropertyFactory.getFields();
 		for(String s: myFields){
 			newTableInfo.getRowConstraints().add(new RowConstraints(30));
