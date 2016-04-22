@@ -152,6 +152,17 @@ public class PathTab implements IWorkspace {
         return canvasPane; 
 	}
 	
+	private void addDragHandlers(Canvas canvas) {
+		canvas.setOnDragDetected(e -> {
+			this.myModel.addPosition(e.getX(), e.getY());
+			this.checkPoint(e.getX(), e.getY());
+		});
+		canvas.setOnDragDropped(e -> {
+			this.myModel.addPosition(e.getX(), e.getY());
+			this.checkPoint(e.getX(), e.getY());
+		});
+	}
+	
 	private void addClickHandlers(Canvas canvas) {
 		 canvas.setOnMouseClicked(e -> {
 	        	this.myModel.addPosition(e.getX(), e.getY());
