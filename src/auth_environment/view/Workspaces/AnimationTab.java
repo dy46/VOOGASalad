@@ -49,8 +49,8 @@ public class AnimationTab implements IWorkspace{
 	private void setupBorderPane(){
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		
 		this.myBorderPane.setCenter(buildImageWindow());
+		
 	}
 	
 	private Node buildImageWindow(){
