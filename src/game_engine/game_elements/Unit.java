@@ -286,6 +286,10 @@ public class Unit extends GameElement {
 		myAffectorsToApply = affectorsToApply;
 	}
 	
+	public void kill(){
+		this.setElapsedTimeToDeath();
+	}
+	
 	public void removeAffectorsByName(String name){
 		for(int x=0; x<myAffectors.size(); x++){
 			if(myAffectors.get(x).getClass().equals(name)){

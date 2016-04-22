@@ -13,31 +13,30 @@ public abstract class PathFollowAffector extends Affector{
 	public PathFollowAffector(AffectorData data){
 		super(data);
 	}
-	
-	 public void apply (List<Function> functions, Property property, Unit u) {
-             pathFollow(u);
-	 }
-	 
-	public void pathFollow(Unit u) {
-	    if (this.getElapsedTime() <= this.getTTL()) {
-                double speed = u.getProperties().getVelocity().getSpeed();
-                for (int i = 0; i < speed; i++) {
-                        Position next = getNextPosition(u);
-                        if(next == null){
-                                u.setElapsedTimeToDeath();
-                                setElapsedTimeToDeath();
-                                return;
-                        }
-                        u.getProperties().getPosition().setX(next.getX());
-                        u.getProperties().getPosition().setY(next.getY());
-                        u.getProperties().getVelocity().setDirection(getNextDirection(u));
-                }
-                this.updateElapsedTime();
-            }
+
+	public void apply (List<Function> functions, Property property, Unit u) {
+		pathFollow(u);
 	}
-	
+
+	public void pathFollow(Unit u) {
+		if (this.getElapsedTime() <= this.getTTL()) {
+			double speed = u.getProperties().getVelocity().getSpeed();
+			for (int i = 0; i < speed; i++) {
+				Position next = getNextPosition(u);
+				if(next == null){
+					setElapsedTimeToDeath();
+					return;
+				}
+				u.getProperties().getPosition().setX(next.getX());
+				u.getProperties().getPosition().setY(next.getY());
+				u.getProperties().getVelocity().setDirection(getNextDirection(u));
+			}
+			this.updateElapsedTime();
+		}
+	}
+
 	public abstract Position getNextPosition(Unit u);
-	
+
 	public Double getNextDirection(Unit u){
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
@@ -47,9 +46,9 @@ public abstract class PathFollowAffector extends Affector{
 		}
 		return move.getCurrentBranch().getNextDirection(currentPosition);
 	}
-	
+
 	public List<Branch> getBranchChoices(Unit u){
 		return u.getProperties().getMovement().getCurrentBranch().getForwardNeighbors();
 	}
-	
+
 }
