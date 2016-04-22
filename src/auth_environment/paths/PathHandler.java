@@ -14,7 +14,7 @@ public class PathHandler {
 		myPGF = new PathGraphFactory();
 		myPositionHandler = new PositionHandler();
 		initializeGrid();
-		//insertTestBranches();
+		//insertTestBranches2();
 	}
 	
 	public PathHandler(PathGraphFactory pgf){
@@ -40,7 +40,7 @@ public class PathHandler {
 			// Change this
 			double screenWidth = 500;
 			double screenHeight = 500;
-			myPGF.createUnlimitedPathGraph(screenWidth, screenHeight, 100);
+			myPGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
 		}
 	}
 	
@@ -75,6 +75,18 @@ public class PathHandler {
 		Position p13 = new Position(100, 200);
 		List<Position> b5 = Arrays.asList(p12, p13);
 		processStraightLine(b5);
+	}
+	
+	public void insertTestBranches2(){
+		Position p1 = new Position(0, 30);
+		Position p2 = new Position(200, 30);
+		List<Position> b1 = Arrays.asList(p1, p2);
+		processStraightLine(b1);
+		
+		Position p3 = new Position(200, 30);
+		Position p4 = new Position(200, 100);
+		List<Position> b2 = Arrays.asList(p3, p4);
+		processStraightLine(b2);
 	}
 	
 	private List<Position> getSplinedPoints(List<Position> positions){

@@ -166,7 +166,7 @@ public class GameView implements IGameView{
 
 			currBranches.addAll(p.getBranches());
 		}
-		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getAllPositions()));
+		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {
 			Image img = new Image("DirtNew.png");
 			ImageView imgView = new ImageView(img);

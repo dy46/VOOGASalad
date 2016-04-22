@@ -27,8 +27,7 @@ public abstract class PathFollowAffector extends Affector{
 				if(next == null){
 					return;
 				}
-				u.getProperties().getPosition().setX(next.getX());
-				u.getProperties().getPosition().setY(next.getY());
+				u.getProperties().setPosition(next);
 				u.getProperties().getVelocity().setDirection(getNextDirection(u));
 			}
 			this.updateElapsedTime();

@@ -184,18 +184,18 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myDrawablePaths.addAll(paths);
 
 		// For testing branching
-		//System.out.println("NUM BRANCHES: " + myBranches.size());
-		for(int x=0; x<10; x++){
+		System.out.println("NUM BRANCHES: " + myBranches.size());
+		for(int x=0; x<myBranches.size(); x++){
 			System.out.println(myBranches.get(x)+" Starting pos: " + myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
 		}
 		Branch pb1 = myBranches.get(0);
-		Branch pb5 = myBranches.get(4);
-		Branch pb6 = myBranches.get(5);
+//		Branch pb5 = myBranches.get(4);
+//		Branch pb6 = myBranches.get(5);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
-		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb5);
+		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb5);
+		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
