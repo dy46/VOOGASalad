@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -31,7 +32,7 @@ import game_engine.properties.Position;
  */
 
 public class SampleAuthData implements IAuthEnvironment {
-	
+
 	private String myName;
 	private String mySplashFileName;
 	private List<Branch> myGridBranches;
@@ -45,7 +46,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; 
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
-	
+
 	public SampleAuthData() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
@@ -60,6 +61,16 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlacedUnits = new ArrayList<Unit>(); 
 		this.mySpawns = new ArrayList<Position>();
 		this.myGoals = new ArrayList<Position>(); 
+
+
+	}
+
+	private void setupDummyValues() {
+		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		test.setUpEngine(1.0);
+		this.setTerrains(test.getTerrains());
+		Unit tower = test.getTerrains().get(0); 
+		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
 
 	@Override
