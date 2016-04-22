@@ -1,6 +1,5 @@
 package main;
 
-import exceptions.WompException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

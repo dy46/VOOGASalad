@@ -1,5 +1,6 @@
 package auth_environment.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
@@ -15,7 +16,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Branch> myGridBranches;
 	private List<Branch> myPathBranches; 
 	private List<Level> myLevels;
-	private List<Unit> myTowers;
+	private List<Unit> myTowers = new ArrayList<Unit>();
 	private List<Unit> myEnemies;
 	private List<Unit> myTerrains;
 	private List<Unit> myProjectiles; 
