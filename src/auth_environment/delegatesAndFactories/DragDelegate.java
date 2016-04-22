@@ -32,10 +32,11 @@ public class DragDelegate {
 	public void addUnitViewSource(UnitView source) {
 		source.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
+				System.out.println("Drag detected..."); 
 				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-				content.put(DragDelegate.unitViewFormat, source.getUnit());
-//				content.putString(source.getUnit().getImgName());
+//				content.put(DragDelegate.unitViewFormat, source.getUnit());
+				content.putString(source.getUnit().getImgName());
 				db.setContent(content);
 				event.consume();
 			}
@@ -90,7 +91,6 @@ public class DragDelegate {
 //					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) );
 					System.out.println("Name: " + db.getString());
 					success = true;
-					System.out.println("hi");
 				}
 				event.setDropCompleted(success);
 				event.consume();

@@ -2,9 +2,13 @@ package auth_environment.view.Workspaces;
 
 import java.util.List;
 import java.util.ResourceBundle;
+
+import game_engine.TestingEngineWorkspace;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
+import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
@@ -59,8 +63,20 @@ public class PathTab implements IWorkspace {
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 		center.getChildren().addAll(this.buildTextInput(),
 				this.buildSubmitBranchButton(),
+				this.myNodeFactory.centerNode(this.buildTestUnitView()),
 				this.buildMainCanvas()); 
 		return center; 
+	}
+	
+	// TODO: remove
+	private UnitView buildTestUnitView() {
+		TestingEngineWorkspace test = new TestingEngineWorkspace();
+		test.setUpEngine(1.0);
+		Unit tower = test.getTerrains().get(0); 
+		DragDelegate drag = new DragDelegate(); 
+		UnitView uv = new UnitView(tower, "smackCat.gif"); 
+		drag.addUnitViewSource(uv);
+		return uv; 
 	}
 	
 	private HBox buildSubmitBranchButton() {
