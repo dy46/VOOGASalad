@@ -2,6 +2,7 @@ package auth_environment.paths;
 import java.util.Arrays;
 import java.util.List;
 
+import auth_environment.dialogs.ConfirmationDialog;
 import game_engine.properties.Position;
 
 public class PathHandler {
@@ -12,15 +13,13 @@ public class PathHandler {
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
 		myPH = new PositionHandler();
+		initializeGrid();
 		insertTestBranches();
-		insertGrid();
 	}
 	
 	public PathHandler(PathGraphFactory pgf){
 		myPGF = pgf;
 		myPH = new PositionHandler();
-		insertTestBranches();
-		insertGrid();
 	}
 	
 	public void processStraightLine(List<Position> positions){
@@ -33,8 +32,20 @@ public class PathHandler {
 		myPGF.insertBranch(splinedPoints);
 	}
 	
-	private void insertGrid(){
-		myPGF.createUnlimitedPathGraph(500, 500, 2);
+	private void initializeGrid(){
+		String gridHeaderText = "You have the option to have a default grid drawn that won't limit other path creation.";
+		String gridContextText = "Do you want this?";
+		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		if(confirmation){
+			// Change this
+			double screenWidth = 500;
+			double screenHeight = 500;
+			myPGF.createUnlimitedPathGraph(500, 500, getGridSquareSize(screenWidth, screenHeight));
+		}
+	}
+	
+	private double getGridSquareSize(double screenWidth, double screenHeight){
+		return screenWidth*screenHeight/25;
 	}
 	
 	private void insertTestBranches(){
