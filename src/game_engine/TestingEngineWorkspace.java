@@ -104,7 +104,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
-//		myCurrentLevel = makeDummyLevel();
+		myCurrentLevel = makeDummyLevel();
 //		myLevels.add(myCurrentLevel);
 //		myGoals = myCurrentLevel.getGoals();
 		if(myGoals == null){

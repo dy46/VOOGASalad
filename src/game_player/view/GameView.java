@@ -107,7 +107,7 @@ public class GameView implements IGameView{
 					placeUnits(playerEngineInterface.getTerrains(), terrains);
 					placeUnits(playerEngineInterface.getProjectiles(), projectiles);
 					placeUnits(playerEngineInterface.getEnemies(), enemies);
-					makeTowerPicker();
+//					makeTowerPicker();
 				}
 			}
 		};
@@ -249,6 +249,11 @@ public class GameView implements IGameView{
 	@Override
 	public GameEngineInterface getGameEngine() {
 		return playerEngineInterface;
+	}
+
+	@Override
+	public void changeClickedTower(String name) {
+		clickedTower = name;
 	}
 
 

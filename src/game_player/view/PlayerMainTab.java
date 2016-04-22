@@ -43,6 +43,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private VBox gamePanel;
+	private VBox towerPanel;
 	
 	private GameEngineInterface gameEngine;
 	
@@ -112,6 +113,7 @@ public class PlayerMainTab implements IPlayerTab{
 		configurationPanel = new VBox(PANEL_PADDING);
 		gameMenu = new VBox(PANEL_PADDING);
 		gamePanel = new VBox(PANEL_PADDING);
+		towerPanel = new VBox(PANEL_PADDING);
 		this.configurePanels();
 	}
 	
@@ -120,6 +122,7 @@ public class PlayerMainTab implements IPlayerTab{
 		myRoot.setRight(configurationPanel);
 		myRoot.setTop(gameMenu);
 		myRoot.setBottom(gamePanel);
+		myRoot.setLeft(towerPanel);
 	}
 	
 	private void configurePanels() {
@@ -138,6 +141,10 @@ public class PlayerMainTab implements IPlayerTab{
 		for (IGUIObject object: gameElements) {
 			object.updateNode();
 		}
+	}
+	
+	protected void addToTowerPanel(Node element) {
+		towerPanel.getChildren().add(element);
 	}
 	
 	protected void addToTop(Node element) {

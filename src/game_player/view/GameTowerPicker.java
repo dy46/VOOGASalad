@@ -9,9 +9,13 @@ import game_player.GameDataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 public class GameTowerPicker implements IGUIObject {
 	
@@ -19,8 +23,7 @@ public class GameTowerPicker implements IGUIObject {
 	private GameDataSource myData;
 	private IGameView myView;
 	private GameEngineInterface myEngine;
-	private List<ImageView> towerTypes;
-	private ListView<TowerCell> myListView;
+	private ListView<Unit> myListView;
 	private ObservableList<Unit> myTowers;
 	
 	public GameTowerPicker(ResourceBundle r, GameDataSource data, IGameView view) {
@@ -33,24 +36,35 @@ public class GameTowerPicker implements IGUIObject {
 
 	@Override
 	public Node createNode() {
+		updateTowerList();
+		VBox box = new VBox();
 		myListView = new ListView<>();
-		return null;
+		
+		Callback<ListView<Unit>, ListCell<Unit>> cellFactory = (e -> {
+			return new TowerCell();
+		});
+		
+		myListView.setItems(myTowers);
+		myListView.setCellFactory(cellFactory);
+		myListView.setOnMouseClicked(e -> {
+			myView.changeClickedTower(myListView.getSelectionModel().getSelectedItem().toString());
+		});
+		
+		box.getChildren().add(myListView);
+		VBox.setVgrow(myListView, Priority.ALWAYS);
+		
+		return box;
 	}
 
 	@Override
 	public void updateNode() {
-		// TODO Auto-generated method stub
-
+		updateTowerList();
 	}
 	
 	private void updateTowerList() {
 		List<Unit> allTowerTypes = myEngine.getTowerTypes();
-		for (int i = towerTypes.size(); i < allTowerTypes.size(); i++) {
-			String name = allTowerTypes.get(i).toString();
-			Image img = new Image(name + ".png");
-			ImageView imgView = new ImageView(img);
-			imgView.setRotate(transformDirection(allTowerTypes.get(i)));
-			towerTypes.add(imgView);
+		for (int i = myTowers.size(); i < allTowerTypes.size(); i++) {
+			myTowers.add(allTowerTypes.get(i));
 		}
 	}
 	
