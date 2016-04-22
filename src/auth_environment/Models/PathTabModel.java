@@ -27,6 +27,8 @@ public class PathTabModel implements IPathTabModel {
 	
 	private PathHandler myPathHandler; 
 	
+	private List<Branch> myBranches; 
+	
 	// What's currently selected, will add to Branches.
 	// For now, should only contain TWO positions
 	private List<Position> myCurrentPositions;
@@ -54,6 +56,7 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public void submitBranch() {
 		this.myPathHandler.processStraightLine(this.myCurrentPositions);
+		this.loadBranches();
 	}
 	
 	@Override
@@ -68,7 +71,6 @@ public class PathTabModel implements IPathTabModel {
 	
 	@Override
 	public List<Branch> getBranches() {
-		this.loadBranches();
 		return this.myAuthData.getPathBranches();
 	}
 

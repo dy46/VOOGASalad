@@ -45,7 +45,7 @@ public class AuthView implements IAuthView {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
     	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel); 
-    	PathTab pathTab = new PathTab(this.authModel.getIAuthEnvironment()); 
+    	PathTab pathTab = new PathTab(this.authModel); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
     	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
@@ -54,9 +54,6 @@ public class AuthView implements IAuthView {
 
 	private void setupApperance() {
 		myScene = new Scene(myTabs);
-		myScene.setOnKeyPressed(e -> {
-			System.out.println(this.authModel.getIAuthEnvironment().getGameName());
-		});
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import game_engine.game_elements.Branch;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.beans.property.DoubleProperty;
@@ -44,9 +45,12 @@ public class PathTab implements IWorkspace {
 	
 	private IAuthEnvironment myAuth;
 	
-	public PathTab(IAuthEnvironment auth) {
-		this.myAuth = auth;
-		this.myModel = new PathTabModel(auth); 
+	private IAuthModel temp;
+	
+	public PathTab(IAuthModel auth) {
+		this.temp = auth;
+		this.myAuth = auth.getIAuthEnvironment();
+		this.myModel = new PathTabModel(auth.getIAuthEnvironment()); 
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
@@ -58,10 +62,11 @@ public class PathTab implements IWorkspace {
 	private void setupBorderPane() {
 		
 		this.myBorderPane.setOnMouseEntered(e -> {
-			System.out.println(this.myAuth.getGameName());
-//			System.out.println("hello");
-//			this.initModel();
-//			this.drawBranches(this.myModel.getBranches());
+			this.myAuth = temp.getIAuthEnvironment();
+			this.myModel = new PathTabModel(temp.getIAuthEnvironment()); 
+			if (!this.myModel.getBranches().isEmpty()) {
+				this.drawBranches(this.myModel.getBranches());
+			}
 		});
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
