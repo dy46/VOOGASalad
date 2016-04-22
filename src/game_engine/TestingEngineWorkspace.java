@@ -186,7 +186,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		List<PathNode> paths = pgf.getPathLibrary().getPaths();
 		myGF = ph.getGF();
 		PathNode grid = myGF.getGrid();
-		myGridBranches = grid.getBranches();
+//		myGridBranches = grid.getBranches();
 		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		l.addAllPaths(paths);
 		myDrawablePaths.addAll(paths);

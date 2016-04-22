@@ -61,7 +61,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlacedUnits = new ArrayList<Unit>(); 
 		this.mySpawns = new ArrayList<Position>();
 		this.myGoals = new ArrayList<Position>(); 
-		this.setupDummyValues();
+//		this.setupDummyValues();
 	}
 
 	private void setupDummyValues() {
