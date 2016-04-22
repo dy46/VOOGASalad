@@ -64,9 +64,9 @@ public class PathTab implements IWorkspace {
 		this.myBorderPane.setOnMouseEntered(e -> {
 			this.myAuth = temp.getIAuthEnvironment();
 			this.myModel = new PathTabModel(temp.getIAuthEnvironment()); 
-			if (!this.myModel.getBranches().isEmpty()) {
-				this.drawBranches(this.myModel.getBranches());
-			}
+//			if (!this.myAuth.getPathBranches().isEmpty()) {
+//				this.drawBranches(this.myModel.getBranches());
+//			}
 		});
 
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
