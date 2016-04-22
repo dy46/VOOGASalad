@@ -52,6 +52,10 @@ public class UnitFactory {
 		return createUnit(getName(type, unitType), unitProperties);
 	}
 	
+	public UnitLibrary getUnitLibrary(){
+		return myUnitLibrary;
+	}
+	
 	private String getName(String type, String unitType){
 		return type+unitType;
 	}
@@ -252,7 +256,9 @@ public class UnitFactory {
 	}
 	
 	public List<String> getFields(){
-		return Arrays.asList("Unit Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
+		//return Arrays.asList("Unit Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
+		return Arrays.asList("Unit Type", "Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State", "Mass");
+		//return Arrays.asList("Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
 	}
 	
 }
