@@ -12,6 +12,8 @@ import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -22,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
 
 public class PathTab implements IWorkspace {
 	
@@ -42,6 +46,9 @@ public class PathTab implements IWorkspace {
 	private TextField myPathWidthField;
 	
 	private Pane canvasPane;
+	private boolean isFirstClick; 
+	private double firstX;
+	private double firstY;
 	
 	private IPathTabModel myModel;
 	
@@ -51,6 +58,7 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.myDragDelegate = new DragDelegate(); 
+		this.isFirstClick = true;
 		this.setupBorderPane();
 	}
 	
@@ -145,28 +153,61 @@ public class PathTab implements IWorkspace {
 	
 	private Node buildMainCanvas() {
         Canvas canvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
-        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight"))); 
+        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         this.addClickHandlers(canvas);
-        this.myDragDelegate.setupCanvasTarget(canvas);
         this.canvasPane.getChildren().add(canvas); 
         return canvasPane; 
 	}
 	
 	private void addDragHandlers(Canvas canvas) {
 		canvas.setOnDragDetected(e -> {
-			this.myModel.addPosition(e.getX(), e.getY());
-			this.checkPoint(e.getX(), e.getY());
+			this.setPoint(e.getX(), e.getY());
 		});
+		canvas.setOnDragOver(e -> System.out.println("drag entered"));
 		canvas.setOnDragDropped(e -> {
-			this.myModel.addPosition(e.getX(), e.getY());
-			this.checkPoint(e.getX(), e.getY());
+			System.out.println("dropped");
+			this.setPoint(e.getX(), e.getY());
+			this.addBoundLine(this.firstX, this.firstY, e.getX(), e.getY());
 		});
+	}
+	
+	private void setPoint(double x, double y) {
+		this.myModel.addPosition(x, y);
+		this.checkPoint(x, y);
+	}
+	
+	private void addBoundLine(double startX, double startY, double endX, double endY) {
+		this.canvasPane.getChildren().add(new BoundLine(new SimpleDoubleProperty(startX),
+				new SimpleDoubleProperty(startY),
+				new SimpleDoubleProperty(endX),
+				new SimpleDoubleProperty(endY)
+				));
+	}
+	
+	class BoundLine extends Line {
+	    BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
+	      startXProperty().bind(startX);
+	      startYProperty().bind(startY);
+	      endXProperty().bind(endX);
+	      endYProperty().bind(endY);
+	      setStrokeWidth(2);
+	      setStroke(Color.GRAY.deriveColor(0, 1, 1, 0.5));
+	      setStrokeLineCap(StrokeLineCap.BUTT);
+	      getStrokeDashArray().setAll(10.0, 5.0);
+	      setMouseTransparent(true);
+	    }
 	}
 	
 	private void addClickHandlers(Canvas canvas) {
 		 canvas.setOnMouseClicked(e -> {
-	        	this.myModel.addPosition(e.getX(), e.getY());
-	        	this.checkPoint(e.getX(), e.getY());
+	        	this.setPoint(e.getX(), e.getY());
+	        	if (!this.isFirstClick) {
+	        		this.addBoundLine(this.firstX, this.firstY, e.getX(), e.getY());
+	        		this.myModel.submitBranch();
+	        	}
+	        	this.firstX = e.getX();
+	        	this.firstY = e.getY();
+	        	this.isFirstClick = false; 
 	        });
 	}
 	
