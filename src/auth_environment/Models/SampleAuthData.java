@@ -61,16 +61,21 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlacedUnits = new ArrayList<Unit>(); 
 		this.mySpawns = new ArrayList<Position>();
 		this.myGoals = new ArrayList<Position>(); 
-
-
+		this.setupDummyValues();
 	}
 
 	private void setupDummyValues() {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
 		test.setUpEngine(1.0);
 		this.setTerrains(test.getTerrains());
-		Unit tower = test.getTerrains().get(0); 
-		UnitView uv = new UnitView(tower, "smackCat.gif"); 
+		this.setTowers(test.getTowers());
+		this.setLevels(test.getLevels());
+		this.setEnemies(test.getEnemies());
+		this.setProjectiles(test.getProjectiles());
+		this.setAffectors(test.getAffectors());
+		this.myGoals.add(new Position(450, 450));
+//		Unit tower = test.getTerrains().get(0); 
+//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
 
 	@Override
@@ -175,6 +180,8 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public void setPathBranches(List<Branch> branches) {
+		Branch b = branches.get(0);
+		this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
 		this.myPathBranches = branches; 
 	}
 
@@ -206,5 +213,10 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setSpawns(List<Position> spawns) {
 		this.mySpawns = spawns; 
+	}
+
+	@Override
+	public void setLevels(List<Level> levels) {
+		this.myLevels = levels; 
 	}
 }

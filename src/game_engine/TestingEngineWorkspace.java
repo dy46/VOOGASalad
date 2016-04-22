@@ -202,45 +202,45 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
+//		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
+//		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
+//		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand9 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand10 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand11 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand12 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		e1.getProperties().setHealth(50);
-		e2.getProperties().setHealth(50);
-		e3.getProperties().setHealth(50);
-		e4.getProperties().setHealth(50);
-		AI1.getProperties().setHealth(50);
-		AI2.getProperties().setHealth(50);
-		AI3.getProperties().setHealth(50);
-		AI4.getProperties().setHealth(50);
-		rand1.getProperties().setHealth(50);
-		rand2.getProperties().setHealth(50);
-		rand3.getProperties().setHealth(50);
-		rand4.getProperties().setHealth(50);
-		rand5.getProperties().setHealth(50);
-		rand6.getProperties().setHealth(50);
-		rand7.getProperties().setHealth(50);
-		rand8.getProperties().setHealth(50);
-		rand9.getProperties().setHealth(50);
-		rand10.getProperties().setHealth(50);
-		rand11.getProperties().setHealth(50);
-		rand12.getProperties().setHealth(50);
+//		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand9 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand10 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand11 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		Unit rand12 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+//		e1.getProperties().setHealth(50);
+//		e2.getProperties().setHealth(50);
+//		e3.getProperties().setHealth(50);
+//		e4.getProperties().setHealth(50);
+//		AI1.getProperties().setHealth(50);
+//		AI2.getProperties().setHealth(50);
+//		AI3.getProperties().setHealth(50);
+//		AI4.getProperties().setHealth(50);
+//		rand1.getProperties().setHealth(50);
+//		rand2.getProperties().setHealth(50);
+//		rand3.getProperties().setHealth(50);
+//		rand4.getProperties().setHealth(50);
+//		rand5.getProperties().setHealth(50);
+//		rand6.getProperties().setHealth(50);
+//		rand7.getProperties().setHealth(50);
+//		rand8.getProperties().setHealth(50);
+//		rand9.getProperties().setHealth(50);
+//		rand10.getProperties().setHealth(50);
+//		rand11.getProperties().setHealth(50);
+//		rand12.getProperties().setHealth(50);
 //		w.addEnemy(e1, 60);
 //		w.addEnemy(e2, 60);
 //		w.addEnemy(e3, 60);
@@ -608,8 +608,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 	}
 
-	@Override
-	public List<Position> getGoals () {
+	public List<Position> getGoals() {
 		return myGoals;
 	}
 

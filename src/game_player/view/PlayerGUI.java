@@ -54,17 +54,17 @@ public class PlayerGUI{
 		return myScene;
 	}
 	
-	private GameEngineInterface readData() {
+	private IAuthEnvironment readData() {
 		AuthSerializer writer = new AuthSerializer();
 		IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
-		gameEngine = new EngineWorkspace();
-		gameEngine.setUpEngine(gameData);
-		return gameEngine;
+//		gameEngine = new EngineWorkspace();
+//		gameEngine.setUpEngine(gameData);
+		return gameData;
 	}
 	
 	private void createNewTab() { 
         gameEngine = new EngineWorkspace();
-		gameEngine.setUpEngine(null);
+		gameEngine.setUpEngine(this.readData());
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
         myTabs.getTabs().add(tab);

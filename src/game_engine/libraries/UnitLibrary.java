@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import exceptions.AskChangeException;
+import auth_environment.dialogs.ConfirmationDialog;
 import exceptions.WompException;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
@@ -46,7 +46,7 @@ public class UnitLibrary {
 
 	public UnitProperties addPropertiesByType(String type, UnitProperties properties){
 		if(myProperties.keySet().contains(type)){
-			if(new AskChangeException().getResult()){
+			if(new ConfirmationDialog().getConfirmation("Please confirm.", "Override old UnitProperties for "+type+" units?")){
 				this.myProperties.put(type, properties);
 				for(Unit unit : myUnits){
 					if(unit.getName().equals(type)){

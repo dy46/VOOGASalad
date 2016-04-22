@@ -75,7 +75,6 @@ public class CollisionDetector {
 	public void handleCustomCollisions(List<Unit> allUnits){
 		for(Unit u1 : allUnits){
 			for(Unit u2: allUnits){
-<<<<<<< HEAD
 				String cast = u1.getType() + u2.getType();
 				System.out.println(cast);
 				if(u1 != u2 && myResources.containsKey(cast) && collides(u1, u2)){
@@ -85,9 +84,7 @@ public class CollisionDetector {
 					u1.addAffector(newEffect.copyAffector());
 					u2.addAffector(newEffect.copyAffector());
 				}
-=======
 				handleCustomCollision(u1, u2);
->>>>>>> Adam
 			}
 		}
 	}

@@ -46,6 +46,8 @@ public interface IAuthEnvironment {
 	
 	// All Levels Tab - Austin
 	
+	public void setLevels(List<Level> levels); 
+	
 	public List<Level> getLevels();
 	
 	public void addLevel(Level level); 
