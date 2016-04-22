@@ -16,7 +16,13 @@ public class PathGraphFactory {
 	public PathGraphFactory(){
 		myPathLibrary = new PathLibrary();
 		currentPathID = -1;
-		currentPathID = -1;
+		currentBranchID = -1;
+	}
+	
+	public PathGraphFactory(PathLibrary pathLibrary){
+		this.myPathLibrary = pathLibrary;
+		currentPathID = myPathLibrary.getLastPathID();
+		currentBranchID = myPathLibrary.getLastBranchID();
 	}
 
 	public void createUnlimitedPathGraph(double width, double length, double sideLength){

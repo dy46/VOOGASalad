@@ -43,5 +43,27 @@ public class PathLibrary {
 	public PathGraph getGraph(){
 		return myPathGraph;
 	}
+
+	public int getLastPathID() {
+		int maxPathID = Integer.MIN_VALUE;
+		for(PathNode n : myPathGraph.getPaths()){
+			int currID = n.getID();
+			if(currID > maxPathID){
+				maxPathID = currID;
+			}
+		}
+		return maxPathID;
+	}
+	
+	public int getLastBranchID() {
+		int maxBranchID = Integer.MIN_VALUE;
+		for(Branch b : myPathGraph.getBranches()){
+			int currID = b.getID();
+			if(currID > maxBranchID){
+				maxBranchID = currID;
+			}
+		}
+		return maxBranchID;
+	}
 	
 }
