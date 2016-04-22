@@ -2,6 +2,7 @@ package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IUnitView;
 import game_engine.game_elements.Unit;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -9,12 +10,26 @@ import javafx.scene.image.ImageView;
  * Team member responsible: Brian
  *
  * The Auth Environment's way of displaying a Unit. 
- * Contains both the Unit and an ImageView to be displayed. 
+ * Contains both the Unit and an ImageView to be displayed.
  * 
- * A class that implements this should extend ImageView.
+ *  DO NOT write this to XML
+ * 
  */
 
 public class UnitView extends ImageView implements IUnitView {
+	
+	private Unit myUnit;
+	
+	public UnitView(Unit unit) {
+		super();
+		this.myUnit = unit;
+	}
+	
+	public UnitView(Unit unit, Image image) {
+		super(image); 
+		this.myUnit = unit; 
+	}
+	
 
 	@Override
 	public void setUnit(Unit unit) {
