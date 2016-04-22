@@ -6,6 +6,7 @@ import auth_environment.view.Tile;
 import game_engine.game_elements.GameElement;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
@@ -50,9 +51,10 @@ public class DragDelegate {
 		});
 	}
 	
-	public void setupTarget(Tile target) {
-		target.getShape().setOnDragOver(new EventHandler<DragEvent>() {
+	public void setupNodeTarget(Node target) {
+		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
+				System.out.println("Dragging over Node...");
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -60,36 +62,33 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
-
-		target.getShape().setOnDragEntered(new EventHandler<DragEvent>() {
+		
+		target.setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
+				System.out.println("Drag entered...");
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
-//					target.showCurrentElement();
 				}
 				event.consume();
 			}
 		});
-
-		target.getShape().setOnDragExited(new EventHandler<DragEvent>() {
+		
+		target.setOnDragExited(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* mouse moved away, remove the graphical cues */
-				if(!target.hasElement()){
-						target.clear();
-				}
+				System.out.println("Drag exited...");
 				event.consume();
 			}
 		});
-
-		target.getShape().setOnDragDropped(new EventHandler<DragEvent>() {
+		
+		target.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
+				System.out.println("Drag dropped...");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
 //					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) );
 					System.out.println("Name: " + db.getString());
-					target.setName(db.getString());
-					target.placeCurrentElement(); 
 					success = true;
 					System.out.println("hi");
 				}
@@ -97,7 +96,6 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
-		
-		
 	}
+	
 }
