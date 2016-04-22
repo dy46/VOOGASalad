@@ -155,18 +155,18 @@ public class GameView implements IGameView{
 
 
 	public void placePath () {
-		List<Branch> currBranches = playerEngineInterface.getBranches();
-		List<Position> allPositions = new ArrayList<>();
-		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getAllPositions()));
-		for(int i = paths.size(); i < allPositions.size(); i++) {
-			Image img = new Image("DirtNew.png");
-			ImageView imgView = new ImageView(img);
-			imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
-			imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
-			root.getChildren().add(imgView);
-			imgView.toFront();
-			paths.add(imgView);
-		}
+//		List<Branch> currBranches = playerEngineInterface.getBranches();
+//		List<Position> allPositions = new ArrayList<>();
+//		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getAllPositions()));
+//		for(int i = paths.size(); i < allPositions.size(); i++) {
+//			Image img = new Image("DirtNew.png");
+//			ImageView imgView = new ImageView(img);
+//			imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
+//			imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
+//			root.getChildren().add(imgView);
+//			imgView.toFront();
+//			paths.add(imgView);
+//		}
 	}
 
 	public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {

@@ -86,5 +86,9 @@ public class Position extends Property {
 		return 15;
 	}
 
+	public void setPosition(Position pos) {
+		this.myX = pos.getX();
+		this.myY = pos.getY();
+	}
 
 }

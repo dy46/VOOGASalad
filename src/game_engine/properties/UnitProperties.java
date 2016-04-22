@@ -118,6 +118,10 @@ public class UnitProperties {
     public Position getPosition () {
         return myPosition;
     }
+    
+    public void setPosition(Position pos){
+    	this.myPosition = pos;
+    }
 
     public Price getPrice () {
         return myPrice;

@@ -197,8 +197,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 //		Branch pb2 = myBranches.get(1);
 //		Branch pb3 = myBranches.get(2);
 //		Branch pb4 = myBranches.get(3);
-//		Branch pb5 = myBranches.get(4);
-//		Branch pb6 = myBranches.get(5);
+		Branch pb5 = myBranches.get(4);
+		Branch pb6 = myBranches.get(5);
 //		List<Branch> branches1 = Arrays.asList(pb1, pb6, pb2, pb4);
 //		List<Branch> branches2 = Arrays.asList(pb1, pb6, pb3, pb4);
 //		PathNode p = new PathNode(0);
@@ -212,9 +212,9 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 //		l.addPath(p);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
-		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
+		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb5);
 		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb5);
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
 		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
@@ -256,11 +256,11 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 //		w.addEnemy(e2, 60);
 //		w.addEnemy(e3, 60);
 //		w.addEnemy(e4, 60);
-//		w.addEnemy(AI1, 60);
+		w.addEnemy(AI1, 60);
 //		w.addEnemy(AI2, 60);
 //		w.addEnemy(AI3, 60);
 //		w.addEnemy(AI4, 60);
-		w.addEnemy(rand1, 60);
+//		w.addEnemy(rand1, 60);
 //		w.addEnemy(rand2, 60);
 //		w.addEnemy(rand3, 60);
 //		w.addEnemy(rand4, 60);
@@ -283,10 +283,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		e6.getProperties().setHealth(50);
 		e7.getProperties().setHealth(50);
 		e8.getProperties().setHealth(50);
-		w2.addEnemy(e5, 0);
-		w2.addEnemy(e6, 60);
-		w2.addEnemy(e7, 60);
-		w2.addEnemy(e8, 60);
+//		w2.addEnemy(e5, 0);
+//		w2.addEnemy(e6, 60);
+//		w2.addEnemy(e7, 60);
+//		w2.addEnemy(e8, 60);
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e9 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit e10 = myEnemyFactory.createAIEnemy("Moab", pb1);
@@ -296,10 +296,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		e10.getProperties().setHealth(50);
 		e11.getProperties().setHealth(50);
 		e12.getProperties().setHealth(50);
-		w3.addEnemy(e9, 60);
-		w3.addEnemy(e10, 60);
-		w3.addEnemy(e11, 60);
-		w3.addEnemy(e12, 60);
+//		w3.addEnemy(e9, 60);
+//		w3.addEnemy(e10, 60);
+//		w3.addEnemy(e11, 60);
+//		w3.addEnemy(e12, 60);
 		l.addWave(w3);
 		l.addWave(w2);
 		return l;

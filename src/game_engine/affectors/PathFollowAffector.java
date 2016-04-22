@@ -51,10 +51,11 @@ public abstract class PathFollowAffector extends Affector{
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			//this is the end of the path
-			return u.getProperties().getVelocity().getDirection();
+			return u.getProperties().getVelocity().getDirection();	
 		}
-		return move.getCurrentBranch().getNextDirection(currentPosition);
+		double nextDir = move.getCurrentBranch().getNextDirection(currentPosition);
+		System.out.println(nextDir);
+		return nextDir;
 	}
 
 	public List<Branch> getBranchChoicesOnPath(Unit u){

@@ -151,7 +151,7 @@ public class Branch {
 		}
 		double dx = nextPosition.getX() - currentPosition.getX();
 		double dy = nextPosition.getY() - currentPosition.getY();
-		double newDir = Math.atan((dy) / (dx));
+		double newDir = Math.atan2((dy) , (dx));
 		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
 		return degreesDir;
 	}

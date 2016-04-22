@@ -64,11 +64,6 @@ public class PathHandler {
 		Position p13 = new Position(100, 200);
 		List<Position> b5 = Arrays.asList(p12, p13);
 		processStraightLine(b5);
-		
-		Position p14 = new Position(300, 30);
-		Position p15 = new Position(300, 500);
-		List<Position> b6 = Arrays.asList(p14, p15);
-		processStraightLine(b6);
 	}
 	
 	private List<Position> getSplinedPoints(List<Position> positions){

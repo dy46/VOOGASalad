@@ -27,9 +27,12 @@ public class AIPathFollowAffector extends PathFollowAffector {
 			Branch currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
 				currentBranch = pickGridBranch(currentPosition);
+//				System.out.println("CURRENT BRANCH: " + currentBranch);
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch);
 			next = currentBranch.getFirstPosition();
+//			System.out.println("NEXT: " + next);
+//			System.out.println(u.isVisible()+" "+u.isAlive());
 		}
 		return next;
 	}
