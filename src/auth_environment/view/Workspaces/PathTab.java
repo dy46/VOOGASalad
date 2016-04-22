@@ -73,7 +73,7 @@ public class PathTab implements IWorkspace {
 		return center; 
 	}
 	
-	// TODO: remove
+	// TODO: remove after testing
 	private UnitView buildTestUnitView() {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
 		test.setUpEngine(1.0);
@@ -83,6 +83,7 @@ public class PathTab implements IWorkspace {
 		return uv; 
 	}
 	
+	// TODO: remove after testing
 	private HBox buildSubmitBranchButton() {
 		Button button = this.myNodeFactory.buildButton("Submit Branch"); 
 		button.setOnAction(a -> this.myModel.submitBranch());
@@ -93,13 +94,8 @@ public class PathTab implements IWorkspace {
 		Button draw = this.myNodeFactory.buildButton("Draw");
 		draw.setOnAction(a -> this.drawBranches(this.myModel.getBranches()));
 		
-		Circle circle = new Circle(20);
-        circle.setStroke(Color.BLACK);
-        circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
-        this.myDragDelegate.setupNodeTarget(circle);
-		
 		HBox hb = this.myNodeFactory.buildHBox(10, 10);
-		hb.getChildren().addAll(button, clear, draw, circle);
+		hb.getChildren().addAll(button, clear, draw);
 		return this.myNodeFactory.centerNode(hb); 
 	}
 	
