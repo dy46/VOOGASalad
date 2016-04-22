@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
