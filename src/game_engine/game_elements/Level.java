@@ -111,6 +111,7 @@ public class Level extends GameElement {
 			for(Position goal : myGoals){
 				for(Unit enemy : myCurrentWave.getEnemiesLeft()){
 					if(enemy.getProperties().getPosition().equals(goal)){
+						System.out.println("Killing enemy at goal.");
 						enemy.kill();
 					}
 				}
@@ -206,6 +207,8 @@ public class Level extends GameElement {
 	}
 	
 	public boolean isGoal(Position goal){
+		if(myGoals == null)
+			return false;
 		return myGoals.contains(goal);
 	}
 

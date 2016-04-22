@@ -25,7 +25,6 @@ public abstract class PathFollowAffector extends Affector{
 				Position next = getNextPosOnBranch(u);
 				next = respondToPosition(u, next);
 				if(next == null){
-					setElapsedTimeToDeath();
 					return;
 				}
 				u.getProperties().getPosition().setX(next.getX());

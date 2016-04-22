@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.Property;
 

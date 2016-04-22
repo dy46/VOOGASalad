@@ -136,12 +136,6 @@ public class Branch {
 		return allPositions;
 	}
 
-	public boolean isUnitAtLastPosition(Unit u) {
-		Position lastPos = myPositions.get(myPositions.size()-1);
-		return u.getProperties().getPosition().getX() == lastPos.getX() &&
-				u.getProperties().getPosition().getY() == lastPos.getY();
-	}
-
 	public List<Position> getMyPositions() {
 		return myPositions;
 	}
