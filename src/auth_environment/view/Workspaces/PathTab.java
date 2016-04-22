@@ -51,7 +51,6 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.myDragDelegate = new DragDelegate(); 
-		this.myDragDelegate.setupPaneTarget(this.canvasPane);
 		this.setupBorderPane();
 	}
 	
@@ -97,7 +96,7 @@ public class PathTab implements IWorkspace {
 		Circle circle = new Circle(20);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
-        this.myDragDelegate.setupTarget(circle);
+        this.myDragDelegate.setupNodeTarget(circle);
 		
 		HBox hb = this.myNodeFactory.buildHBox(10, 10);
 		hb.getChildren().addAll(button, clear, draw, circle);

@@ -34,9 +34,7 @@ public class DragDelegate {
 				System.out.println("Drag detected..."); 
 				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-//				content.put(DragDelegate.unitViewFormat, source.getUnit());
-//				content.putString(source.getUnit().getImgName());
-				content.putString("test");
+				content.putString(Integer.toString(source.getUnit().hashCode())); 
 				db.setContent(content);
 				event.consume();
 			}
@@ -57,7 +55,6 @@ public class DragDelegate {
 	}
 	
 	public void setupCanvasTarget(Canvas target) {
-//		target.setOnDragDetected(e -> System.out.println("hello"));
 		target.setOnDragOver(e -> System.out.println("drag over"));
 	}
 	
@@ -98,7 +95,6 @@ public class DragDelegate {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) );
 					System.out.println("Name: " + db.getString());
 					success = true;
 				}
@@ -106,51 +102,6 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
-	}
-	
-	public void setupTarget(Shape target) {
-		
-		target.setOnDragOver(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				if (event.getGestureSource() != target &&
-						event.getDragboard().hasString()) {
-					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-				}
-				event.consume();
-			}
-		});
-
-		target.setOnDragEntered(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				if (event.getGestureSource() != target &&
-						event.getDragboard().hasString()) {
-//					target.showCurrentElement();
-				}
-				event.consume();
-			}
-		});
-
-		target.setOnDragExited(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				/* mouse moved away, remove the graphical cues */
-				event.consume();
-			}
-		});
-
-		target.setOnDragDropped(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				boolean success = false;
-				if (db.hasString()) {
-					System.out.println("Name: " + db.getString());
-					success = true;
-				}
-				event.setDropCompleted(success);
-				event.consume();
-			}
-		});
-		
-		
 	}
 	
 }
