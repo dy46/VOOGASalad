@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import auth_environment.paths.GridFactory;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathHandler;
 import auth_environment.paths.PathNode;
@@ -23,7 +24,6 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
-import game_engine.games.GameEngineInterface;
 import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
@@ -39,7 +39,7 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myBranches;
-	private List<Branch> myGridBranches;
+	private List<PathNode> myDrawablePaths;
 
 	private List<Unit> myTowers;
 	private List<Unit> myEnemys;
@@ -67,6 +67,9 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 	private List<Position> myGoals;
 
 	private TimelineFactory myTimelineFactory;
+	
+	private List<Branch> myGridBranches;
+	private GridFactory myGF;
 
 	public TestingEngineWorkspace() {};
 
@@ -74,7 +77,6 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		myLives = 3;
 		myLevels = new ArrayList<>();
 		myBranches = new ArrayList<>();
-		myGridBranches = new ArrayList<>();
 		//		Branch p2 = new Branch("DirtNew");
 		//		p2.addPosition(new Position(0, 30));
 		//		p2.addPosition(new Position(200, 30));
@@ -82,6 +84,8 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		//		p2.addPosition(new Position(400, 200));
 		//		p2.addPosition(new Position(400, 525));
 		//		myPaths.add(p2);
+		myDrawablePaths = new ArrayList<>();
+		myGridBranches = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
 		// projectiles must be intialized before towers
@@ -178,38 +182,22 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 
 		PathHandler ph = new PathHandler();
 		PathGraphFactory pgf = ph.getPGF();
-		PathNode grid = ph.getPGF().getPathLibrary().getPathGrid();
-		//System.out.println(grid.getBranches());
-		myGridBranches.addAll(grid.getBranches());
-		
-		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		List<PathNode> paths = pgf.getPathLibrary().getPaths();
+		myGF = ph.getGF();
+		PathNode grid = myGF.getGrid();
+		myGridBranches = grid.getBranches();
+		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		l.addAllPaths(paths);
-		l.addPath(grid);
+		myDrawablePaths.addAll(paths);
 
 		// For testing branching
-		myBranches.addAll(pgf.getPathLibrary().getBranches());
-		//System.out.println("NUM BRANCHES: " + myBranches.size());
-//		for(Branch b : myBranches){
-//			System.out.println("Branch: " + b.getID()+" Starting Point: " + b.getFirstPosition()+" Ending: "+b.getLastPosition());
+//		System.out.println("NUM BRANCHES: " + myBranches.size());
+//		for(int x=0; x<myBranches.size(); x++){
+//			System.out.println(myBranches.get(x)+" Starting pos: " + myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
 //		}
 		Branch pb1 = myBranches.get(0);
-//		Branch pb2 = myBranches.get(1);
-//		Branch pb3 = myBranches.get(2);
-//		Branch pb4 = myBranches.get(3);
 //		Branch pb5 = myBranches.get(4);
 //		Branch pb6 = myBranches.get(5);
-//		List<Branch> branches1 = Arrays.asList(pb1, pb6, pb2, pb4);
-//		List<Branch> branches2 = Arrays.asList(pb1, pb6, pb3, pb4);
-//		PathNode p = new PathNode(0);
-//		p.addBranch(pb1);
-//		p.addBranch(pb2);
-//		p.addBranch(pb3);
-//		p.addBranch(pb4);
-//		p.addBranch(pb5);
-//		p.addBranch(pb6);
-
-//		l.addPath(p);
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
@@ -252,26 +240,26 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		rand10.getProperties().setHealth(50);
 		rand11.getProperties().setHealth(50);
 		rand12.getProperties().setHealth(50);
-		w.addEnemy(e1, 60);
-		w.addEnemy(e2, 60);
-		w.addEnemy(e3, 60);
-		w.addEnemy(e4, 60);
+//		w.addEnemy(e1, 60);
+//		w.addEnemy(e2, 60);
+//		w.addEnemy(e3, 60);
+//		w.addEnemy(e4, 60);
 		w.addEnemy(AI1, 60);
-		w.addEnemy(AI2, 60);
-		w.addEnemy(AI3, 60);
-		w.addEnemy(AI4, 60);
+//		w.addEnemy(AI2, 60);
+//		w.addEnemy(AI3, 60);
+//		w.addEnemy(AI4, 60);
 		w.addEnemy(rand1, 60);
-		w.addEnemy(rand2, 60);
-		w.addEnemy(rand3, 60);
-		w.addEnemy(rand4, 60);
-		w.addEnemy(rand5, 60);
-		w.addEnemy(rand6, 60);
-		w.addEnemy(rand7, 60);
-		w.addEnemy(rand8, 60);
-		w.addEnemy(rand9, 60);
-		w.addEnemy(rand10, 60);
-		w.addEnemy(rand11, 60);
-		w.addEnemy(rand12, 60);
+//		w.addEnemy(rand2, 60);
+//		w.addEnemy(rand3, 60);
+//		w.addEnemy(rand4, 60);
+//		w.addEnemy(rand5, 60);
+//		w.addEnemy(rand6, 60);
+//		w.addEnemy(rand7, 60);
+//		w.addEnemy(rand8, 60);
+//		w.addEnemy(rand9, 60);
+//		w.addEnemy(rand10, 60);
+//		w.addEnemy(rand11, 60);
+//		w.addEnemy(rand12, 60);
 		l.setMyLives(5);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
@@ -283,10 +271,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		e6.getProperties().setHealth(50);
 		e7.getProperties().setHealth(50);
 		e8.getProperties().setHealth(50);
-		w2.addEnemy(e5, 0);
-		w2.addEnemy(e6, 60);
-		w2.addEnemy(e7, 60);
-		w2.addEnemy(e8, 60);
+//		w2.addEnemy(e5, 0);
+//		w2.addEnemy(e6, 60);
+//		w2.addEnemy(e7, 60);
+//		w2.addEnemy(e8, 60);
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e9 = myEnemyFactory.createAIEnemy("Moab", pb1);
 		Unit e10 = myEnemyFactory.createAIEnemy("Moab", pb1);
@@ -296,10 +284,10 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		e10.getProperties().setHealth(50);
 		e11.getProperties().setHealth(50);
 		e12.getProperties().setHealth(50);
-		w3.addEnemy(e9, 60);
-		w3.addEnemy(e10, 60);
-		w3.addEnemy(e11, 60);
-		w3.addEnemy(e12, 60);
+//		w3.addEnemy(e9, 60);
+//		w3.addEnemy(e10, 60);
+//		w3.addEnemy(e11, 60);
+//		w3.addEnemy(e12, 60);
 		l.addWave(w3);
 		l.addWave(w2);
 		return l;
@@ -632,8 +620,13 @@ public class TestingEngineWorkspace implements GameEngineInterface{
 		units.addAll(myTerrains);
 		return units;
 	}
-	
-	public List<Branch> getGridBranches(){
+
+	public List<PathNode> getPaths() {
+		return myDrawablePaths;
+	}
+
+	@Override
+	public List<Branch> getGridBranches() {
 		return myGridBranches;
 	}
 

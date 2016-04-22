@@ -2,8 +2,8 @@ package game_engine.games;
 
 import java.util.List;
 
+import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
-import game_engine.games.GameEngineInterface;
 import game_engine.timelines.Timeline;
 
 /*

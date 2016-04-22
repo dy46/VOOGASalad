@@ -2,29 +2,33 @@ package auth_environment.paths;
 import java.util.Arrays;
 import java.util.List;
 
+import auth_environment.dialogs.ConfirmationDialog;
 import game_engine.properties.Position;
 
 public class PathHandler {
 	
 	private PathGraphFactory myPGF;
-	private PositionHandler myPH;
+	private GridFactory myGF;
+	private PositionHandler myPositionHandler;
 	
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
-		myPH = new PositionHandler();
+		myGF = new GridFactory();
+		myPositionHandler = new PositionHandler();
+		insertTestBranches();
+		initializeGrid();
 //		insertTestBranches();
-		insertGrid();
 	}
 	
-	public PathHandler(PathGraphFactory pgf){
+	public PathHandler(PathGraphFactory pgf, GridFactory gf){
 		myPGF = pgf;
-		myPH = new PositionHandler();
+		myGF = gf;
+		myPositionHandler = new PositionHandler();
 //		insertTestBranches();
-		insertGrid();
 	}
 	
 	public void processStraightLine(List<Position> positions){
-		List<Position> interpolatedPositions = myPH.getInterpolatedPositions(positions, false);
+		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);
 	}
 	
@@ -33,8 +37,20 @@ public class PathHandler {
 		myPGF.insertBranch(splinedPoints);
 	}
 	
-	private void insertGrid(){
-		myPGF.createUnlimitedPathGraph(500, 500, 2);
+	private void initializeGrid(){
+		String gridHeaderText = "You have the option to have a default grid drawn that won't limit other path creation.";
+		String gridContextText = "Do you want this?";
+		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		if(confirmation){
+			// Change this
+			double screenWidth = 500;
+			double screenHeight = 500;
+			myGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
+		}
+	}
+	
+	private double getGridSquareSize(double screenWidth, double screenHeight){
+		return screenWidth*screenHeight/12500;
 	}
 	
 	private void insertTestBranches(){
@@ -64,11 +80,18 @@ public class PathHandler {
 		Position p13 = new Position(100, 200);
 		List<Position> b5 = Arrays.asList(p12, p13);
 		processStraightLine(b5);
+	}
+	
+	public void insertTestBranches2(){
+		Position p1 = new Position(0, 30);
+		Position p2 = new Position(200, 30);
+		List<Position> b1 = Arrays.asList(p1, p2);
+		processStraightLine(b1);
 		
-		Position p14 = new Position(300, 30);
-		Position p15 = new Position(300, 500);
-		List<Position> b6 = Arrays.asList(p14, p15);
-		processStraightLine(b6);
+		Position p3 = new Position(200, 30);
+		Position p4 = new Position(200, 100);
+		List<Position> b2 = Arrays.asList(p3, p4);
+		processStraightLine(b2);
 	}
 	
 	private List<Position> getSplinedPoints(List<Position> positions){
@@ -77,6 +100,10 @@ public class PathHandler {
 	
 	public PathGraphFactory getPGF(){
 		return myPGF;
+	}
+
+	public GridFactory getGF(){
+		return myGF;
 	}
 	
 }

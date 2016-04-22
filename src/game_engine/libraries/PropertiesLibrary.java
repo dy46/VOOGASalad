@@ -2,9 +2,8 @@ package game_engine.libraries;
 
 import java.util.HashMap;
 
-import exceptions.CorrectableException;
+import auth_environment.dialogs.ConfirmationDialog;
 import exceptions.WompException;
-import exceptions.AskChangeException;
 import game_engine.properties.UnitProperties;
 
 public class PropertiesLibrary {
@@ -21,7 +20,7 @@ public class PropertiesLibrary {
 
 	public void addPropertiesByType(String type, UnitProperties properties){
 		if(myProperties.keySet().contains(type)){
-			if(new AskChangeException().getResult()){
+			if(new ConfirmationDialog().getConfirmation("Please confirm.", "Override old UnitProperties for "+type+" units?")){
 				this.myProperties.put(type, properties);
 			}
 		}
