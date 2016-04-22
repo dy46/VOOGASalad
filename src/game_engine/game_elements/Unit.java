@@ -46,6 +46,7 @@ public class Unit extends GameElement {
 		addAffectors(affectors);
 		myChildren = new ArrayList<>();
 		parents = new ArrayList<>();
+		this.type = name;
 	}
     
     public Unit(String name, UnitProperties unitProperties) {
@@ -55,6 +56,7 @@ public class Unit extends GameElement {
 		elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
+        this.type = name;
 	}
     
     public Unit (String name, int numFrames) {
@@ -65,6 +67,7 @@ public class Unit extends GameElement {
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
+        this.type = name;
     }
     
     public Unit copyUnit() {
@@ -110,6 +113,8 @@ public class Unit extends GameElement {
 //            System.out.println("Hello");
 //            myTimelines.forEach(t -> System.out.println(t));
             myAffectors.forEach(a -> a.apply(this));
+//            System.out.println(myAffectors);
+//            System.out.println(myAffectors.size());
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();
@@ -256,7 +261,9 @@ public class Unit extends GameElement {
 	}
 	
 	public void addAffector(Affector affector){
+//		System.out.println(affector.getTTL());
 		this.myAffectors.add(affector);
+//		System.out.println(this.myAffectors);
 	}
 	
 	public void addAffectorToApply(Affector affectorToApply){

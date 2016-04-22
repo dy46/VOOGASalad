@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import auth_environment.paths.PositionHandler;
 import game_engine.properties.Bounds;
 import game_engine.properties.Position;
@@ -19,43 +20,73 @@ public class BoundsFactory {
 	}
 
 	public Bounds createImageBounds(Image image){
-		boolean[][] transparencyData = getTransparencyData(image);
-		int leftMostFilledPixel = Integer.MAX_VALUE;
-		int rightMostFilledPixel = Integer.MIN_VALUE;
-		int topMostFilledPixel = Integer.MAX_VALUE;
-		int bottomMostFilledPixel = Integer.MIN_VALUE;
-		for(int x=0; x<transparencyData.length; x++){
-			for(int y=0; y<transparencyData[x].length; y++){
-				if(transparencyData[x][y]){
-					if(x > rightMostFilledPixel){
-						rightMostFilledPixel = x;
-					}
-					if(x < leftMostFilledPixel){
-						leftMostFilledPixel = x;
-					}
-					if(y > bottomMostFilledPixel){
-						bottomMostFilledPixel = y;
-					}
-					if(y < topMostFilledPixel){
-						topMostFilledPixel = y;
-					}
-				}
-			}
+		boolean[][] transparency = getTransparencyData(image);
+		List<Integer> maxYs = getMaxTransparentYs(transparency);
+		List<Integer> minYs = getMinTransparentYs(transparency);
+		return createJaggedBounds(maxYs, minYs, getTransparencyCellWidth(image, transparency));
+	}
+	
+	public Bounds createJaggedBounds(List<Integer> maxYs, List<Integer> minYs, double cellWidth){
+		List<Position> jaggedBounds = new ArrayList<>();
+		double currX = 0;
+		for(Integer y : maxYs){
+			jaggedBounds.add(new Position(cellWidth, y));
+			currX += cellWidth;
 		}
-		return createDiamondBounds(topMostFilledPixel, bottomMostFilledPixel, rightMostFilledPixel, leftMostFilledPixel);
+		for(int i=minYs.size() -1; i>=0; i--){
+			jaggedBounds.add(new Position(currX, minYs.get(i)));
+			currX -= cellWidth;
+		}
+		jaggedBounds.add(new Position(0, maxYs.get(0)));
+		return new Bounds(myPH.getInterpolatedPositions(jaggedBounds, true));
 	}
 	
 	public Bounds createDiamondBounds(double top, double bottom, double right, double left){
 		double centerX = (left+right)/2;
 		double centerY = (bottom+top)/2;
-		List<Position> edgePositions = new ArrayList<>();
+		List<Position> edgePos = new ArrayList<>();
 		Position topPos = new Position(centerX, centerY - top);
 		Position bottomPos = new Position(centerX, bottom);
 		Position leftPos = new Position(left, centerY);
 		Position rightPos = new Position(right, centerY);
-		edgePositions = Arrays.asList(topPos, rightPos, bottomPos, leftPos);
-		List<Position> diamond = myPH.getInterpolatedPositions(edgePositions, true);
-		return new Bounds(diamond);
+		edgePos = Arrays.asList(topPos, rightPos, bottomPos, leftPos);
+		return createInterpolatedBounds(edgePos, true);
+	}
+	
+	private List<Integer> getMaxTransparentYs(boolean[][] grid){
+		List<Integer> maxYs = new ArrayList<>();
+		for(int x=0; x<grid.length; x++){
+			int maxY = Integer.MIN_VALUE;
+			for(int y=0; y<grid[x].length; y++){
+				if(grid[x][y]){
+					if(y > maxY){
+						maxY = y;
+					}
+				}
+			}
+			maxYs.add(maxY);
+		}
+		return maxYs;
+	}
+	
+	private List<Integer> getMinTransparentYs(boolean[][] grid){
+		List<Integer> minYs = new ArrayList<>();
+		for(int x=0; x<grid.length; x++){
+			int minY = Integer.MAX_VALUE;
+			for(int y=0; y<grid[x].length; y++){
+				if(grid[x][y]){
+					if(y < minY){
+						minY = y;
+					}
+				}
+			}
+			minYs.add(minY);
+		}
+		return minYs;
+	}
+	
+	private Bounds createInterpolatedBounds(List<Position> pos, boolean cycle){
+		return new Bounds(myPH.getInterpolatedPositions(pos, cycle));
 	}
 
 	private boolean[][] getTransparencyData(Image image){
@@ -70,6 +101,10 @@ public class BoundsFactory {
 			}
 		}
 		return transparency;
+	}
+	
+	private double getTransparencyCellWidth(Image image, boolean[][] grid){
+		return image.getWidth()/grid.length;
 	}
 
 	private BufferedImage imageToBufferedImage(Image image){
@@ -100,8 +135,6 @@ public class BoundsFactory {
 				(argb >>  8) & 0xff, //green
 				(argb      ) & 0xff  //blue
 		};
-
-		System.out.println("rgb: " + rgb[0] + " " + rgb[1] + " " + rgb[2]);
 		return rgb;
 	}
 
