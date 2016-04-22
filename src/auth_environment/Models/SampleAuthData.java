@@ -8,6 +8,17 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Position;
+
+/**
+ * Created by BrianLin on 4/19/16
+ * Team member responsible: Brian
+ *
+ * This class holds the highest level of Auth Environment backend data. Most important is a single instance
+ * of IEngineWorkspace.java (all of our data). 
+ * 
+ * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
+ */
 
 public class SampleAuthData implements IAuthEnvironment {
 	
@@ -16,15 +27,29 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Branch> myGridBranches;
 	private List<Branch> myPathBranches; 
 	private List<Level> myLevels;
-	private List<Unit> myTowers = new ArrayList<Unit>();
+	private List<Unit> myTowers; 
 	private List<Unit> myEnemies;
 	private List<Unit> myTerrains;
 	private List<Unit> myProjectiles; 
-	private List<Affector> myAffectors; 
+	private List<Affector> myAffectors; // Will eventually be replaced with a Library
 	private List<Unit> myPlacedUnits; 
+	private List<Position> mySpawns;
+	private List<Position> myGoals; 
 	
 	public SampleAuthData() {
-		
+		this.myName = "sampleGame";
+		this.mySplashFileName = "smackCat.gif";
+		this.myGridBranches = new ArrayList<Branch>();
+		this.myPathBranches = new ArrayList<Branch>();
+		this.myLevels = new ArrayList<Level>();
+		this.myTowers = new ArrayList<Unit>();
+		this.myEnemies = new ArrayList<Unit>();
+		this.myTerrains = new ArrayList<Unit>();
+		this.myProjectiles = new ArrayList<Unit>();
+		this.myAffectors = new ArrayList<Affector>(); 
+		this.myPlacedUnits = new ArrayList<Unit>(); 
+		this.mySpawns = new ArrayList<Position>();
+		this.myGoals = new ArrayList<Position>(); 
 	}
 
 	@Override
@@ -140,5 +165,25 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setGridBranches(List<Branch> branches) {
 		this.myGridBranches = branches; 
+	}
+
+	@Override
+	public List<Position> getGoals() {
+		return this.myGoals;
+	}
+
+	@Override
+	public void setGoals(List<Position> goals) {
+		this.myGoals = goals; 
+	}
+
+	@Override
+	public List<Position> getSpawns() {
+		return this.mySpawns;
+	}
+
+	@Override
+	public void setSpawns(List<Position> spawns) {
+		this.mySpawns = spawns; 
 	}
 }

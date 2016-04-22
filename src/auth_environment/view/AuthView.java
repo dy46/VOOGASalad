@@ -47,8 +47,8 @@ public class AuthView implements IAuthView {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel.getAuthInterface()); 
-    	PathTab pathTab = new PathTab(this.authModel.getAuthInterface()); 
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel); 
+    	PathTab pathTab = new PathTab(this.authModel); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
     	tabs.add(new VAsTesterTab("WOOOO", new SampleAuthData()));
     	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
@@ -57,7 +57,7 @@ public class AuthView implements IAuthView {
     }
 
 	private void setupApperance() {
-		myScene = new Scene(myTabs); 
+		myScene = new Scene(myTabs);
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));

@@ -6,6 +6,7 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.properties.Position;
 
 /**
  * This interface is the external API for the Auth Environment (excluding Factory calls). 
@@ -34,6 +35,14 @@ public interface IAuthEnvironment {
 	public List<Branch> getGridBranches();
 	
 	public void setGridBranches(List<Branch> branches); 
+	
+	public List<Position> getGoals();
+	
+	public void setGoals(List<Position> goals);
+	
+	public List<Position> getSpawns();
+	
+	public void setSpawns(List<Position> spawns); 
 	
 	// All Levels Tab - Austin
 	
