@@ -71,7 +71,17 @@ public class PathGraphFactory {
 			}
 		}
 		configureGridNeighbors(myBranchGrid);
-		myPathLibrary.getPathGraph().addPath(pathGrid);
+		createGridPath(branchGridToList(myBranchGrid));
+	}
+	
+	private List<Branch> branchGridToList(Branch[][] grid){
+		List<Branch> branchList = new ArrayList<>();
+		for(Branch[] bArr : grid){
+			for(Branch b : bArr){
+				branchList.add(b);
+			}
+		}
+		return branchList;
 	}
 
 	private void configureGridNeighbors(Branch[][] grid){
@@ -105,6 +115,11 @@ public class PathGraphFactory {
 
 	private PathNode createNewPath(Branch branch){
 		myPathLibrary.getPathGraph().addPath(new PathNode(getNextPathID(), branch));
+		return myPathLibrary.getPathGraph().getLastPath();
+	}
+	
+	private PathNode createGridPath(List<Branch> branches){
+		myPathLibrary.getPathGraph().addPath(new PathNode(-1, branches));
 		return myPathLibrary.getPathGraph().getLastPath();
 	}
 

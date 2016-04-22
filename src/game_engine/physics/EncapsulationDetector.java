@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
-import game_engine.games.GameEngineInterface;
 import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 

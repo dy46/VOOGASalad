@@ -24,6 +24,12 @@ public class PathNode {
 		addBranch(branch);
 	}
 
+	public PathNode(int pathID, List<Branch> branches) {
+		myID = pathID;
+		myBranches = new ArrayList<>();
+		myBranches.addAll(branches);
+	}
+
 	public void addBranch(Branch branch){
 		myBranches.add(branch);
 	}

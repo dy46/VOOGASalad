@@ -6,8 +6,8 @@ import java.util.List;
 
 import auth_environment.paths.PathNode;
 import exceptions.WompException;
-import game_engine.games.GameEngineInterface;
 import game_engine.physics.CollisionDetector;
+import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -155,18 +155,24 @@ public class GameView implements IGameView{
 
 
 	public void placePath () {
-//		List<Branch> currBranches = playerEngineInterface.getBranches();
-//		List<Position> allPositions = new ArrayList<>();
-//		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getAllPositions()));
-//		for(int i = paths.size(); i < allPositions.size(); i++) {
-//			Image img = new Image("DirtNew.png");
-//			ImageView imgView = new ImageView(img);
-//			imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
-//			imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
-//			root.getChildren().add(imgView);
-//			imgView.toFront();
-//			paths.add(imgView);
-//		}
+		List<PathNode> currPaths = playerEngineInterface.getPaths();
+		List<Position> allPositions = new ArrayList<>();
+		List<Branch> currBranches = new ArrayList<>();
+		for(PathNode p : currPaths){
+			if(p.getID() != -1){
+				currBranches.addAll(p.getBranches());
+			}
+		}
+		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getAllPositions()));
+		for(int i = paths.size(); i < allPositions.size(); i++) {
+			Image img = new Image("DirtNew.png");
+			ImageView imgView = new ImageView(img);
+			imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
+			imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
+			root.getChildren().add(imgView);
+			imgView.toFront();
+			paths.add(imgView);
+		}
 	}
 
 	public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {

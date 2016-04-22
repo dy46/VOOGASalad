@@ -1,7 +1,8 @@
-package game_engine.games;
+package game_engine;
 
 import java.util.List;
 
+import auth_environment.paths.PathNode;
 import exceptions.WompException;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
@@ -93,6 +94,6 @@ public interface GameEngineInterface {
 
 	public FunctionFactory getFunctionFactory();
 
-	public List<Branch> getGridBranches();
+	public List<PathNode> getPaths();
 
 }

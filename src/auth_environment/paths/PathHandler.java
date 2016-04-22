@@ -14,7 +14,7 @@ public class PathHandler {
 		myPGF = new PathGraphFactory();
 		myPositionHandler = new PositionHandler();
 		initializeGrid();
-		insertTestBranches();
+		//insertTestBranches();
 	}
 	
 	public PathHandler(PathGraphFactory pgf){
@@ -40,12 +40,12 @@ public class PathHandler {
 			// Change this
 			double screenWidth = 500;
 			double screenHeight = 500;
-			myPGF.createUnlimitedPathGraph(500, 500, getGridSquareSize(screenWidth, screenHeight));
+			myPGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
 		}
 	}
 	
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/25;
+		return screenWidth*screenHeight/62500;
 	}
 	
 	private void insertTestBranches(){
