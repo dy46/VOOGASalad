@@ -145,6 +145,10 @@ public class PathTab implements IWorkspace {
 				branch.getFirstPosition().getY());
 		this.displayPoint(branch.getLastPosition().getX(),
 				branch.getLastPosition().getY());
+		this.addBoundLine(branch.getFirstPosition().getX(), 
+				branch.getFirstPosition().getY(), 
+				branch.getLastPosition().getX(), 
+				branch.getLastPosition().getY());
 	}
 	
 	private void drawBranches(List<Branch> branches) {
@@ -186,7 +190,6 @@ public class PathTab implements IWorkspace {
 		 canvas.setOnMouseClicked(e -> {
 	        	if (e.isShiftDown() && !this.isFirstClick) {
 	        		this.continuePoint(e.getX(), e.getY());
-	        		this.setBranch(e.getX(), e.getY());
 	        	}
 	        	else {
 	        		this.startPoint(e.getX(), e.getY());
@@ -200,32 +203,16 @@ public class PathTab implements IWorkspace {
 	
 	private void startPoint(double x, double y) {
 		this.myModel.addNewPosition(x, y);
-		this.checkPoint(x, y);
 	}
 	
 	private void continuePoint(double x, double y) {
 		this.myModel.continueFromLastPosition(x, y);
-		this.checkPoint(x, y);
 	}
 	
-	private void setBranch(double endX, double endY) {
-		this.addBoundLine(this.firstX, this.firstY, endX, endY);
-		this.myModel.submitBranch();
-	}
-	
-	// This is Auth frontend ONLY
 	private void displayPoint(double x, double y) {
 		Circle circle = new Circle(10);
         circle.setStroke(Color.BLACK);
         circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
-        circle.relocate(x, y);
-        this.canvasPane.getChildren().add(circle); 
-	}
-	
-	private void checkPoint(double x, double y) {
-		Circle circle = new Circle(5);
-        circle.setStroke(Color.BLACK);
-        circle.setFill(Color.BLUE.deriveColor(1, 1, 1, 0.7));
         circle.relocate(x, y);
         this.canvasPane.getChildren().add(circle); 
 	}

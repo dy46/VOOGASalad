@@ -73,9 +73,9 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void addNewPosition(double x, double y) {
-		if (this.myCurrentPositions.size() > 0) {
-			this.submitBranch();
-		}
+//		if (this.myCurrentPositions.size() > 0) {
+//			this.submitBranch();
+//		}
 		this.myCurrentPositions.clear();
 		this.myCurrentPositions.add(new Position(x, y)); 
 	}
@@ -85,7 +85,7 @@ public class PathTabModel implements IPathTabModel {
 		if (this.myCurrentPositions.size() > 1) {
 			this.myCurrentPositions.remove(0);
 		}
-		this.addNewPosition(x, y);
+		this.myCurrentPositions.add(new Position(x, y));
 		this.submitBranch();
 	}
 }
