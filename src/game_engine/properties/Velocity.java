@@ -45,5 +45,10 @@ public class Velocity extends Property {
         myDirection = values.get(1);
     }
 
+	public void setVelocity(Velocity velocity) {
+		this.mySpeed = velocity.getSpeed();
+		this.myDirection = velocity.getDirection();
+	}
+
 
 }
