@@ -32,6 +32,7 @@ public class PathTabModel implements IPathTabModel {
 	
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
+		this.myBranches = auth.getPathBranches();
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 
@@ -63,7 +64,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void loadBranches() {
-		this.myBranches = this.myPathHandler.getPGF().getBranches();
+		this.myBranches = this.myPathHandler.getPGF().getPathLibrary().getBranches();
 	}
 	
 	@Override
