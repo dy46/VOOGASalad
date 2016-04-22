@@ -3,7 +3,6 @@ package auth_environment.Models.Interfaces;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
-import game_engine.properties.Position;
 
 public interface IPathTabModel extends IWorkspaceModel {
 	

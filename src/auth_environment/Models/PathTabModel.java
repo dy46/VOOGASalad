@@ -27,9 +27,6 @@ public class PathTabModel implements IPathTabModel {
 	
 	private PathHandler myPathHandler; 
 	
-	// This is what populates the frontend list of Positions 
-	private List<Branch> myBranches; 
-	
 	// What's currently selected, will add to Branches.
 	// For now, should only contain TWO positions
 	private List<Position> myCurrentPositions;
@@ -39,10 +36,8 @@ public class PathTabModel implements IPathTabModel {
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
 		this.myPathHandler = new PathHandler();
-		this.myBranches = new ArrayList<Branch>(); 
 		this.myCurrentPositions = new ArrayList<Position>(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
-		this.myBranches = auth.getPathBranches();
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 
@@ -68,13 +63,13 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void loadBranches() {
-		this.myBranches = this.myPathHandler.getPGF().getPathLibrary().getBranches();
+		this.myAuthData.setPathBranches(this.myPathHandler.getPGF().getPathLibrary().getBranches());
 	}
 	
 	@Override
 	public List<Branch> getBranches() {
 		this.loadBranches();
-		return this.myBranches;
+		return this.myAuthData.getPathBranches();
 	}
 
 	@Override
