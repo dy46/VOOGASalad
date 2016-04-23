@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="src/game_data/xstream-1.4.9.jar"/>
 	<classpathentry kind="lib" path="/Users/paulcruz/Downloads/minimal-json-0.9.1.jar"/>
 	<classpathentry kind="lib" path="/Users/paulcruz/Downloads/box-java-sdk-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/paulcruz/Downloads/twilio-java-sdk-beta-5.2.1-jar-with-dependencies.jar"/>
 	<classpathentry kind="output" path="game_engine/bin"/>
 </classpath>
