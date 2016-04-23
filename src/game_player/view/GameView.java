@@ -76,10 +76,11 @@ public class GameView implements IGameView{
 	private void setEventHandlers() {
 		this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
 		this.root.setOnMouseClicked(e -> {
-			if (escape) {
-				myHUD.whenNothingSelected();
-			} else {
+			System.out.println(clickedTower);
+			if (clickedTower != null) {
 				playerEngineInterface.addTower(clickedTower, e.getX(), e.getY());
+			} else if (escape){
+				myHUD.whenNothingSelected();
 			}
 			escape = true;
 		});
@@ -89,8 +90,10 @@ public class GameView implements IGameView{
 		switch (code) {
 		case SPACE:
 			toggleGame();
+			break;
 		case ESCAPE:
 			clickedTower = null;
+			break;
 		default:
 			//do nothing
 		}
