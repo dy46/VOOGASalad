@@ -3,74 +3,76 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wave extends GameElement{
 
-	private List<Unit> myEnemies;
-	private List<Integer> mySpawnTimes;
-	private int myCurrentEnemy;
-	private int timeSinceLastSpawn;
-	private int timeBeforeWave;
+public class Wave extends GameElement {
 
-	public Wave(String name, int time){
-		super(name);
-//		setID(getWorkspace().getIDFactory().createID(this));
-		timeBeforeWave = time;
-		initialize();
-	}
-	
-	public Wave(String name, List<Unit> enemies, List<Integer> spawnTimes){
-		super(name);
-		myEnemies = enemies;
-		mySpawnTimes = spawnTimes;
-		myCurrentEnemy = 0;
-		timeSinceLastSpawn = 0;
-	}
+    private List<Unit> mySpawningUnits;
+    private List<Unit> myPlacingUnits;
+    private List<Integer> mySpawnTimes;
+    private int myCurrentUnit;
+    private int timeSinceLastSpawn;
+    private int timeBeforeWave;
 
-	private void initialize(){
-		myEnemies = new ArrayList<>();
-		mySpawnTimes = new ArrayList<>();
-		myCurrentEnemy = 0;
-		timeSinceLastSpawn = 0;
-	}
-	public int getTimeBeforeWave(){
-		return timeBeforeWave;
-	}
-	/*
-	 * Returns the number of enemies left in this wave
-	 */
-	public List<Unit> getEnemiesLeft(){
-		List<Unit> enemiesLeft = new ArrayList<>();
-		for(Unit e: myEnemies){
-			if(e.isVisible()){
-				enemiesLeft.add(e);
-			}
-		}
-		return enemiesLeft;
-	}
 
-	public boolean isFinished(){
-		return getEnemiesLeft().size() == 0;
-	}
-	
-	public void addEnemy(Unit e, int spawnTime){
-		myEnemies.add(e);
-		mySpawnTimes.add(spawnTime);
-	}
-	/*
-	 * Spawns an enemy at the spawn location of the level
-	 */
+    public Wave (String name, int time) {
+        super(name);
+        timeBeforeWave = time;
+        mySpawningUnits = new ArrayList<>();
+        myPlacingUnits = new ArrayList<>();
+        mySpawnTimes = new ArrayList<>();
+        myCurrentUnit = 0;
+        timeSinceLastSpawn = 0;
+    }
 
-	public Unit update(){
-		timeSinceLastSpawn++;
-		if(myCurrentEnemy < myEnemies.size() && timeSinceLastSpawn >= mySpawnTimes.get(myCurrentEnemy)){
-			Unit enemy = myEnemies.get(myCurrentEnemy++);
-			timeSinceLastSpawn = 0;
-			return enemy;
-		}
-		return null;
-	}
+    public Wave (String name, List<Unit> spawning, List<Unit> placing, List<Integer> spawnTimes) {
+        super(name);
+        mySpawningUnits = spawning;
+        myPlacingUnits = placing;
+        mySpawnTimes = spawnTimes;
+        myCurrentUnit = 0;
+        timeSinceLastSpawn = 0;
+    }
 
-	public List<Unit> getEnemies(){
-		return myEnemies;
-	}
+    public int getTimeBeforeWave () {
+        return timeBeforeWave;
+    }
+
+    public List<Unit> getSpawningUnitsLeft () {
+        List<Unit> unitsLeft = new ArrayList<>();
+        for (Unit e : mySpawningUnits) {
+            if (e.isVisible()) {
+                unitsLeft.add(e);
+            }
+        }
+        return unitsLeft;
+    }
+
+    public void addSpawningUnit (Unit e, int spawnTime) {
+        mySpawningUnits.add(e);
+        mySpawnTimes.add(spawnTime);
+    }
+
+    public void addPlacingUnit (Unit e, int spawnTime) {
+        myPlacingUnits.add(e);
+    }
+
+    public List<Unit> getSpawningUnits () {
+        return mySpawningUnits;
+    }
+
+    public List<Unit> getPlacingUnits () {
+        return myPlacingUnits;
+    }
+    
+    public Unit tryToSpawnUnit () {
+        timeSinceLastSpawn++;
+        if (myCurrentUnit < mySpawningUnits.size() &&
+            timeSinceLastSpawn >= mySpawnTimes.get(myCurrentUnit)) {
+            Unit unit = mySpawningUnits.get(myCurrentUnit++);
+            timeSinceLastSpawn = 0;
+            return unit;
+        }
+        return null;
+    }
+    
 }

@@ -39,7 +39,7 @@ public class CollisionDetector {
 					List<Affector> affectorsToApply = myProjectiles.get(i).getAffectorsToApply()
 							.stream().map(a -> a.copyAffector()).collect(Collectors.toList());                     
 					unit.addAffectors(affectorsToApply);
-					unit.addAffector(myAffectorFactory.getAffectorLibrary().getAffector("Velocity", "Stop"));
+//					unit.addAffector(myAffectorFactory.getAffectorLibrary().getAffector("Velocity", "Stop"));
 					myProjectiles.get(i).setHasCollided(true);        
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}

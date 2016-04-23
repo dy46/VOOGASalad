@@ -50,7 +50,10 @@ public class EncapsulationDetector {
 
 	private void terrainHandling (Unit unit, List<Unit> terrains){
 		for (int i = 0; i < terrains.size(); i++) {
-			if ((!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
+			if ((!(unit == terrains.get(i)) && encapsulates(CollisionDetector.getUseableBounds(unit.getProperties().getBounds(), 
+			                                                                                   unit.getProperties().getPosition()), 
+			                                                CollisionDetector.getUseableBounds(terrains.get(i).getProperties().getBounds(),
+			                                                                                   terrains.get(i).getProperties().getPosition())))) {
 				if (unit.isVisible()) {
 					List<Affector> newAffectorsToApply =
 							terrains.get(i).getAffectorsToApply().stream()
