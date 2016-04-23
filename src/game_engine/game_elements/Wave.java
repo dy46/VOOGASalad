@@ -13,6 +13,7 @@ public class Wave extends GameElement {
     private int timeSinceLastSpawn;
     private int timeBeforeWave;
 
+
     public Wave (String name, int time) {
         super(name);
         timeBeforeWave = time;
@@ -36,14 +37,14 @@ public class Wave extends GameElement {
         return timeBeforeWave;
     }
 
-    public int getSpawningUnitsLeft () {
-        int numUnits = 0;
+    public List<Unit> getSpawningUnitsLeft () {
+        List<Unit> unitsLeft = new ArrayList<>();
         for (Unit e : mySpawningUnits) {
             if (e.isVisible()) {
-                numUnits++;
+                unitsLeft.add(e);
             }
         }
-        return numUnits;
+        return unitsLeft;
     }
 
     public void addSpawningUnit (Unit e, int spawnTime) {

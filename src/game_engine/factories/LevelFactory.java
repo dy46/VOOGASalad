@@ -13,6 +13,10 @@ public class LevelFactory {
 		myLevelLibrary = new LevelLibrary();
 	}
 	
+	public LevelFactory(LevelLibrary levelLibrary){
+		myLevelLibrary = levelLibrary;
+	}
+	
 	public LevelLibrary getLevelLibrary(){
 		return myLevelLibrary;
 	}

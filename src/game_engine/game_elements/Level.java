@@ -5,6 +5,7 @@ import java.util.List;
 import auth_environment.paths.PathNode;
 import game_engine.properties.Position;
 
+
 /*
  * Internal API that is used in order to represent levels within a game. More specifically,
  * this API will be responsible for dealing with transitions in between waves of enemies, as well as
@@ -68,6 +69,7 @@ public class Level extends GameElement {
     public Unit update () {
         if (myCurrentWave == null)
             return null;
+//        System.out.println(myWaves.indexOf(myCurrentWave));
         return myCurrentWave.tryToSpawnUnit();
     }
 
@@ -112,6 +114,10 @@ public class Level extends GameElement {
     public void decrementLife () {
         myLives--;
     }
+    
+    public void decrementLives(int lives) {
+        myLives -= lives;
+    }
 
     public List<Wave> getWaves () {
         return myWaves;
@@ -124,7 +130,7 @@ public class Level extends GameElement {
     public void setSpawns (List<Position> spawns) {
         this.mySpawns = spawns;
     }
-    
+
     public void addSpawns (List<Position> spawns) {
         this.mySpawns.addAll(spawns);
     }
@@ -136,7 +142,7 @@ public class Level extends GameElement {
     public void addGoal (Position goal) {
         this.myGoals.add(goal);
     }
-    
+
     public List<Position> getSpawns () {
         return mySpawns;
     }
@@ -144,7 +150,7 @@ public class Level extends GameElement {
     public void addGoals (List<Position> goals) {
         this.myGoals.addAll(goals);
     }
-    
+
     public void addWaves (List<Wave> waves) {
         this.myWaves.addAll(waves);
     }
@@ -163,4 +169,9 @@ public class Level extends GameElement {
         return goals;
     }
 
+    public boolean isGoal (Position goal) {
+        if (myGoals == null)
+            return false;
+        return myGoals.contains(goal);
+    }
 }

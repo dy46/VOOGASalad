@@ -12,7 +12,6 @@ public class PathGraph {
 	private List<PathNode> myPaths;
 	private List<Position> mySpawns;
 	private List<Position> myGoals;
-	private PathNode myPathGrid;
 
 	public PathGraph(List<PathNode> paths){
 		this.myPaths = paths;
@@ -21,44 +20,21 @@ public class PathGraph {
 	public PathGraph() {
 		myPaths = new ArrayList<>();
 	}
-	
-	public void setPathGrid(PathNode pathGrid){
-		if(myPaths.contains(myPathGrid)){
-			myPaths.remove(myPathGrid);
-		}
-		this.myPathGrid = pathGrid;
-		myPaths.add(myPathGrid);
-	}
 
 	public void addPath(PathNode graph){
 		myPaths.add(graph);
 	}
-	
+
 	public void addSpawn(Position spawn){
 		mySpawns.add(spawn);
 	}
-	
+
 	public void addGoal(Position goal){
 		myGoals.add(goal);
 	}
 
 	public List<Branch> getBranches(){
 		return myPaths.stream().map(p -> p.getBranches()).collect(Collectors.toList()).stream().flatMap(List<Branch>::stream).collect(Collectors.toList());
-	}
-
-	public PathNode getPathByID(int ID){
-		Optional<PathNode> graph = myPaths.stream().filter(g -> g.getID() == (ID)).findFirst();
-		return graph.isPresent() ? graph.get() : null;
-	}
-
-	public Branch getBranchByID(int ID){
-		for(PathNode path : myPaths){
-			Branch branch = path.getBranchByID(ID);
-			if(branch != null){
-				return branch;
-			}
-		}
-		return null;
 	}
 
 	public PathNode getPathByPos(Position pos){
@@ -69,31 +45,45 @@ public class PathGraph {
 	public PathNode getLastPath(){
 		return myPaths.get(myPaths.size()-1);
 	}
-	
+
 	public List<PathNode> getPaths(){
-		if(myPathGrid != null && !myPaths.contains(myPathGrid))
-			myPaths.add(myPathGrid);
 		return myPaths;
 	}
 
 	public void addSpawns(List<Position> spawns) {
 		this.mySpawns.addAll(spawns);
 	}
-	
+
 	public void addGoals(List<Position> goals){
 		this.myGoals.addAll(goals);
 	}
-	
+
 	public void setSpawns(List<Position> spawns){
 		this.mySpawns = spawns;
 	}
-	
+
 	public void setGoals(List<Position> goals){
 		this.myGoals = goals;
 	}
-	
-	public PathNode getPathGrid(){
-		return myPathGrid;
+
+	public Branch getBranch(Branch newBranch) {
+		for(PathNode p : myPaths){
+			for(Branch b : p.getBranches()){
+				if(b.equals(newBranch)){
+					return b;
+				}
+			}
+		}
+		return null;
 	}
-	
+
+	public PathNode getPath(PathNode path) {
+		for(PathNode p : myPaths){
+			if(p.equals(path)){
+				return p;
+			}
+		}
+		return null;
+	}
+
 }

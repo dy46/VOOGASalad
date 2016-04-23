@@ -2,10 +2,11 @@ package game_engine.affectors;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import game_engine.GameEngineInterface;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Property;
-import game_engine.games.GameEngineInterface;
 
 
 public abstract class Affector {

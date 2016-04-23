@@ -3,8 +3,10 @@ package game_player.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import game_engine.games.GameEngineInterface;
+import auth_environment.paths.PathNode;
+import exceptions.WompException;
 import game_engine.physics.CollisionDetector;
+import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -20,6 +22,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 public class GameView implements IGameView{
+
         
         public final String[] seeRangeElements = {"Tower"};
         private int timer;
@@ -262,6 +265,7 @@ public class GameView implements IGameView{
         public GameEngineInterface getGameEngine() {
                 return playerEngineInterface;
         }
+
 
 
 }

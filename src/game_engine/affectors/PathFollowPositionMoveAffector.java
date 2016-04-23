@@ -30,14 +30,12 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
 		if(currentBranch == null){
-			getWS().decrementLives();
 			return null;
 		}
 		Position next = currentBranch.getNextPosition(currentPosition);
 		if(next == null){
 			currentBranch = move.getNextBranch();
 			if(currentBranch == null) {
-				getWS().decrementLives();
 				return null;
 			}
 			next = currentBranch.getFirstPosition();

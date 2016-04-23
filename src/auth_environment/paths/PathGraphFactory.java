@@ -1,47 +1,23 @@
 package auth_environment.paths;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import game_engine.game_elements.Branch;
+import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
 
 public class PathGraphFactory {
 
-	private PathGraph myPathGraph;
-	private int currentPathID;
-	private int currentBranchID;
+	private PathLibrary myPathLibrary;
+	private BranchHandler myBranchHandler;
 
 	public PathGraphFactory(){
-		this.myPathGraph = new PathGraph();
-		currentPathID = -1;
-		currentPathID = -1;
-	}
-	
-	public PathGraphFactory(double windowWidth, double windowLength, double sideLength){
-		this.myPathGraph = new PathGraph();
-		currentPathID = -1;
-		currentPathID = -1;
-		PathNode pathGrid = createUnlimitedPathGraph(windowWidth, windowLength, sideLength);
-		myPathGraph.setPathGrid(pathGrid);
+		myPathLibrary = new PathLibrary();
+		myBranchHandler = new BranchHandler();
 	}
 
-	public PathNode createUnlimitedPathGraph(double width, double length, double sideLength){
-		double centerX = sideLength/2;
-		double centerY = sideLength/2;
-		int numCells = (int) Math.floor((width*length)/sideLength);
-		PathNode pathGrid = new PathNode(getNextPathID());
-		for(int x=0; x<numCells; x++){
-			List<Position> pos = Arrays.asList(new Position(centerX, centerY));
-			Branch branch = new Branch(getNextBranchID(), pos);
-			pathGrid.addBranch(branch);
-			centerX += sideLength;
-			if(centerX >= width){
-				centerX = sideLength/2;
-				centerY += sideLength;
-			}
-		}
-		return pathGrid;
+	public PathGraphFactory(PathLibrary pathLibrary){
+		this.myPathLibrary = pathLibrary;
+		myBranchHandler = new BranchHandler();
 	}
 
 	/**
@@ -52,16 +28,18 @@ public class PathGraphFactory {
 	public void insertBranch(List<Position> branchPos){
 		if(branchPos.size() == 0)
 			return;
-		Branch newBranch = new Branch(getNextBranchID(), branchPos);
-		PathNode currentPath = myPathGraph.getPathByPos(branchPos.get(0));
+		Branch newBranch = new Branch(branchPos);
+		PathNode currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(0));
 		if(currentPath != null){
-			configureBranchInPath(newBranch, currentPath);
+			myBranchHandler.configureBranchInPath(newBranch, currentPath);
 		}
-		currentPath = myPathGraph.getPathByPos(branchPos.get(branchPos.size()-1));
-		if(currentPath != null){
-			configureBranchInPath(newBranch, currentPath);
+		else{
+			currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(branchPos.size()-1));
+			if(currentPath != null){
+				myBranchHandler.configureBranchInPath(newBranch, currentPath);
+			}
 		}
-		if(myPathGraph.getBranchByID(newBranch.getID()) == null){
+		if(myPathLibrary.getPathGraph().getBranch(newBranch) == null){
 			if(branchPos.size() > 0){
 				createNewPath(newBranch);
 			}
@@ -69,124 +47,12 @@ public class PathGraphFactory {
 	}
 
 	private PathNode createNewPath(Branch branch){
-		myPathGraph.addPath(new PathNode(getNextPathID(), branch));
-		return myPathGraph.getLastPath();
+		myPathLibrary.getPathGraph().addPath(new PathNode(branch));
+		return myPathLibrary.getPathGraph().getLastPath();
 	}
 
-	private int getNextPathID(){
-		currentPathID++;
-		return currentPathID;
-	}
-
-	private int getNextBranchID(){
-		currentBranchID++;
-		return currentBranchID;
-	}
-
-	private void configureBranchInPath(Branch newPathNode, PathNode myPath){
-		Position startPos = newPathNode.getFirstPosition();
-		Position endPos = newPathNode.getLastPosition();
-		configureBranchesWithEdgePos(newPathNode, myPath, startPos);
-		if(!startPos.equals(endPos)){
-			configureBranchesWithEdgePos(newPathNode, myPath, endPos);
-		}
-		configureMidBranchSplits(newPathNode, myPath, startPos);
-		if(!startPos.equals(endPos)){
-			configureMidBranchSplits(newPathNode, myPath, endPos);
-		}
-		configureNewSplits(newPathNode, myPath);
-	}
-
-	private void configureBranchesWithEdgePos(Branch newBranch, PathNode myPath, Position pos){
-		List<Branch> branchesAtPos = myPath.getBranchesByEdgePosition(pos);
-		List<Branch> branchesChecked = new ArrayList<>();
-		for(Branch branch : branchesAtPos){
-			if(!branchesChecked.contains(branch)){
-				branchesChecked.add(branch);
-				if(!branch.equals(newBranch)){
-					newBranch.addNeighbor(branch);
-					branch.addNeighbor(newBranch);
-				}
-			}
-		}
-		if(!myPath.getBranches().contains(newBranch))
-			myPath.addBranch(newBranch);
-	}
-
-	private void configureMidBranchSplits(Branch newBranch, PathNode myPath, Position pos){
-		List<Branch> branchesToSplit = myPath.getBranchesByMidPosition(pos);
-		branchesToSplit.stream().filter(b -> b.equals(newBranch));
-		for(Branch b : branchesToSplit){
-			List<Position> cutoffPositions = b.cutoffByPosition(pos);
-			Position lastCutoff = cutoffPositions.get(cutoffPositions.size()-1);
-			Branch newSplitBranch = new Branch(getNextBranchID());
-			newSplitBranch.addPositions(cutoffPositions);
-			newSplitBranch.addNeighbor(b);
-			newSplitBranch.addNeighbor(newBranch);
-			b.addNeighbor(newSplitBranch);
-			b.addNeighbor(newBranch);
-			List<Branch> cutoffConnectedBranches = myPath.getBranchesByEdgePosition(lastCutoff);
-			for(Branch br : cutoffConnectedBranches){
-				newSplitBranch.addNeighbors(b.removeNeighbors(br.getNeighbors()));
-			}
-			newBranch.addNeighbor(b);
-			newBranch.addNeighbor(newSplitBranch);
-			myPath.addBranch(newSplitBranch);
-		}
-	}
-
-	private void configureNewSplits(Branch myBranch, PathNode myPath){
-		for(Position pos : myBranch.getPositions()){
-			List<Branch> branches = myPath.getBranchesByMidPosition(pos);
-			for(Branch b : branches){
-				if(!b.equals(myBranch)){
-
-				}
-			}
-		}
-	}
-	
-	public void addSpawn(Position spawn){
-		this.myPathGraph.addSpawn(spawn);
-	}
-	
-	public void addGoal(Position goal){
-		this.myPathGraph.addGoal(goal);
-	}
-	
-	public void addSpawns(List<Position> spawns){
-		this.myPathGraph.addSpawns(spawns);
-	}
-	
-	public void addGoals(List<Position> goals){
-		this.myPathGraph.addGoals(goals);
-	}
-	
-	public void setSpawns(List<Position> spawns){
-		this.myPathGraph.setSpawns(spawns);
-	}
-	
-	public void setGoals(List<Position> goals){
-		this.myPathGraph.setGoals(goals);
-	}
-
-	public List<PathNode> getPaths(){
-		processGraph();
-		return myPathGraph.getPaths();
-	}
-
-	public List<Branch> getBranches(){
-		processGraph();
-		return myPathGraph.getBranches();
-	}
-	
-	public PathGraph getGraph(){
-		processGraph();
-		return myPathGraph;
-	}
-	
-	private void processGraph(){
-		
+	public PathLibrary getPathLibrary() {
+		return myPathLibrary;
 	}
 
 }

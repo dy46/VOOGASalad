@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
-import game_engine.games.GameEngineInterface;
+import game_engine.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

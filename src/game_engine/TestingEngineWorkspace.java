@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import auth_environment.paths.GridFactory;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathHandler;
 import auth_environment.paths.PathNode;
@@ -21,7 +22,6 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
-import game_engine.games.GameEngineInterface;
 import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
@@ -43,10 +43,11 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private boolean pause;
     private List<Level> myLevels;
     private List<Branch> myBranches;
-    private double score;
+    private List<PathNode> myDrawablePaths;
 
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
+
     private List<Unit> myTowers;
     private List<Unit> myEnemys;
     private List<Unit> myProjectiles;
@@ -57,8 +58,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private Level myCurrentLevel;
     private IDFactory myIDFactory;
     private double myBalance;
-    private int myLives;
     private Store myStore;
+    private double score;
 
     private FunctionFactory myFunctionFactory;
     private AffectorFactory myAffectorFactory;
@@ -74,13 +75,16 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
     private TimelineFactory myTimelineFactory;
 
-    public TestingEngineWorkspace () {};
+    private List<Branch> myGridBranches;
+    private GridFactory myGF;
+
+    public TestingEngineWorkspace () {
+    };
 
     public void setUpEngine (Double test) {
         score = 0;
         waveGoal = new EnemyNumberWaveGoal();
         scoreUpdate = new EnemyDeathScoreUpdate();
-        myLives = 3;
         myLevels = new ArrayList<>();
         myBranches = new ArrayList<>();
         // Branch p2 = new Branch("DirtNew");
@@ -90,15 +94,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // p2.addPosition(new Position(400, 200));
         // p2.addPosition(new Position(400, 525));
         // myPaths.add(p2);
+        myDrawablePaths = new ArrayList<>();
+        myGridBranches = new ArrayList<>();
         myIDFactory = new IDFactory();
         myProjectiles = new ArrayList<>();
         // projectiles must be intialized before towers
         myFunctionFactory = new FunctionFactory();
         myAffectorFactory = new AffectorFactory(myFunctionFactory);
         myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
-        myEnemyFactory =
-                new EnemyFactory(myAffectorFactory.getAffectorLibrary(),
-                                 myTimelineFactory.getTimelineLibrary());
+        myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
         myEnemys = new ArrayList<>();
         myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
         myTowers = new ArrayList<>();
@@ -110,9 +114,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myEncapsulator = new EncapsulationDetector(this);
         myBalance = 0;
         nextWaveTimer = 0;
-        myCurrentLevel = makeDummyLevel();
-        myLevels.add(myCurrentLevel);
-        myGoals = myCurrentLevel.getGoals();
+         myCurrentLevel = makeDummyLevel();
+        // myLevels.add(myCurrentLevel);
+        // myGoals = myCurrentLevel.getGoals();
+        if (myGoals == null) {
+            myGoals = new ArrayList<>();
+        }
         myAffectorFactory.getAffectorLibrary().getAffectors().stream()
                 .forEach(a -> a.setWorkspace(this));
         this.makeDummyUpgrades();
@@ -134,47 +141,94 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     }
 
     private Level makeDummyLevel () {
+        // Wave w = new Wave("I'm not quite sure what goes here", 0);
+        // Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // e1.getProperties().setHealth(50);
+        // e2.getProperties().setHealth(50);
+        // e3.getProperties().setHealth(50);
+        // e4.getProperties().setHealth(50);
+        // w.addEnemy(e1, 0);
+        // w.addEnemy(e2, 60);
+        // w.addEnemy(e3, 60);
+        // w.addEnemy(e4, 60);
+        // Level l = new Level("still not sure", w, 3);
+        // l.addWave(w);
+        // Wave w2 = new Wave("I'm not quite sure what goes here", 240);
+        // Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+        // e5.getProperties().setHealth(50);
+        // e6.getProperties().setHealth(50);
+        // e7.getProperties().setHealth(50);
+        // e8.getProperties().setHealth(50);
+        // w2.addEnemy(e5, 0);
+        // w2.addEnemy(e6, 60);
+        // w2.addEnemy(e7, 60);
+        // w2.addEnemy(e8, 60);
+        // Wave w3 = new Wave("I'm not quite sure what goes here", 240);
+        // Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+        // Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+        // Enemy e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+        // Enemy e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+        // e9.getProperties().setHealth(50);
+        // e10.getProperties().setHealth(50);
+        // e11.getProperties().setHealth(50);
+        // e12.getProperties().setHealth(50);
+        // w3.addEnemy(e9, 0);
+        // w3.addEnemy(e10, 60);
+        // w3.addEnemy(e11, 60);
+        // w3.addEnemy(e12, 60);
+        // l.addWave(w3);
+        // l.addWave(w2);
+        // return l;
+
         Level l = new Level("Dummy level", 3);
+
         PathHandler ph = new PathHandler();
         PathGraphFactory pgf = ph.getPGF();
-
-        // myBranches.addAll(pgf.getBranches());
-        // List<PathNode> paths = pgf.getPaths();
-        // l.addAllPaths(paths);
+        List<PathNode> paths = pgf.getPathLibrary().getPaths();
+        myGF = ph.getGF();
+        PathNode grid = myGF.getGrid();
+        myGridBranches = grid.getBranches();
+        myBranches.addAll(pgf.getPathLibrary().getBranches());
+        l.addAllPaths(paths);
+        myDrawablePaths.addAll(paths);
 
         // For testing branching
-        myBranches.addAll(pgf.getBranches());
+        // System.out.println("NUM BRANCHES: " + myBranches.size());
+        // for(int x=0; x<myBranches.size(); x++){
+        // System.out.println(myBranches.get(x)+" Starting pos: " +
+        // myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
+        // }
         Branch pb1 = myBranches.get(0);
-        Branch pb2 = myBranches.get(1);
-        Branch pb3 = myBranches.get(2);
-        Branch pb4 = myBranches.get(3);
-        Branch pb5 = myBranches.get(4);
-        Branch pb6 = myBranches.get(5);
-        List<Branch> branches1 = Arrays.asList(pb1, pb6, pb2, pb4);
-        List<Branch> branches2 = Arrays.asList(pb1, pb6, pb3, pb4);
-        PathNode p = new PathNode(0);
-        p.addBranch(pb1);
-        p.addBranch(pb2);
-        p.addBranch(pb3);
-        p.addBranch(pb4);
-        p.addBranch(pb5);
-        p.addBranch(pb6);
-
-        l.addPath(p);
+        // Branch pb5 = myBranches.get(4);
+        // Branch pb6 = myBranches.get(5);
 
         Wave w = new Wave("I'm not quite sure what goes here", 0);
         Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
         Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
-        Unit e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Unit e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
-        Unit e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Unit e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+        Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
         Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
         Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
         Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
         Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
         Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
         Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand9 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand10 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand11 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit rand12 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
         e1.getProperties().setHealth(50);
         e2.getProperties().setHealth(50);
         e3.getProperties().setHealth(50);
@@ -187,28 +241,44 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         rand2.getProperties().setHealth(50);
         rand3.getProperties().setHealth(50);
         rand4.getProperties().setHealth(50);
-        w.addSpawningUnit(e1, 0);
-        w.addSpawningUnit(e2, 60);
-        w.addSpawningUnit(e3, 60);
-        w.addSpawningUnit(e4, 60);
+        rand5.getProperties().setHealth(50);
+        rand6.getProperties().setHealth(50);
+        rand7.getProperties().setHealth(50);
+        rand8.getProperties().setHealth(50);
+        rand9.getProperties().setHealth(50);
+        rand10.getProperties().setHealth(50);
+        rand11.getProperties().setHealth(50);
+        rand12.getProperties().setHealth(50);
+         w.addSpawningUnit(e1, 0);
+         w.addSpawningUnit(e2, 60);
+         w.addSpawningUnit(e3, 60);
+         w.addSpawningUnit(e4, 60);
         w.addSpawningUnit(AI1, 60);
-        w.addSpawningUnit(AI2, 60);
-        w.addSpawningUnit(AI3, 60);
-        w.addSpawningUnit(AI4, 60);
+         w.addSpawningUnit(AI2, 60);
+         w.addSpawningUnit(AI3, 60);
+         w.addSpawningUnit(AI4, 60);
         w.addSpawningUnit(rand1, 60);
-        w.addSpawningUnit(rand2, 60);
-        w.addSpawningUnit(rand3, 60);
-        w.addSpawningUnit(rand4, 60);
-        List<Unit> list = makeDummyTowers();
-        w.addPlacingUnit(list.get(0), 0);
-        w.addPlacingUnit(list.get(1), 0);
+         w.addSpawningUnit(rand2, 60);
+         w.addSpawningUnit(rand3, 60);
+         w.addSpawningUnit(rand4, 60);
+         w.addSpawningUnit(rand5, 60);
+         w.addSpawningUnit(rand6, 60);
+         w.addSpawningUnit(rand7, 60);
+         w.addSpawningUnit(rand8, 60);
+         w.addSpawningUnit(rand9, 60);
+         w.addSpawningUnit(rand10, 60);
+         w.addSpawningUnit(rand11, 60);
+         w.addSpawningUnit(rand12, 60);
+         List<Unit> list = makeDummyTowers();
+         w.addPlacingUnit(list.get(0), 0);
+         w.addPlacingUnit(list.get(1), 0);
         l.setMyLives(5);
         l.addWave(w);
-        Wave w2 = new Wave("I'm not quite sure what goes here", 1600);
-        Unit e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Unit e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
-        Unit e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches1);
-        Unit e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy", branches2);
+        Wave w2 = new Wave("I'm not quite sure what goes here", 240);
+        Unit e5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit e6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit e7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+        Unit e8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
         e5.getProperties().setHealth(50);
         e6.getProperties().setHealth(50);
         e7.getProperties().setHealth(50);
@@ -217,13 +287,13 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         w2.addSpawningUnit(e6, 60);
         w2.addSpawningUnit(e7, 60);
         w2.addSpawningUnit(e8, 60);
-        List<Unit> list1 = makeDummyTowers();
-        w2.addPlacingUnit(list1.get(0), 0);
-        Wave w3 = new Wave("I'm not quite sure what goes here", 1600);
-        Unit e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
-        Unit e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
-        Unit e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches1);
-        Unit e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab", branches2);
+        List<Unit> list2 = makeDummyTowers();
+        w2.addPlacingUnit(list2.get(0), 0);
+        Wave w3 = new Wave("I'm not quite sure what goes here", 240);
+        Unit e9 = myEnemyFactory.createAIEnemy("Moab", pb1);
+        Unit e10 = myEnemyFactory.createAIEnemy("Moab", pb1);
+        Unit e11 = myEnemyFactory.createAIEnemy("Moab", pb1);
+        Unit e12 = myEnemyFactory.createAIEnemy("Moab", pb1);
         e9.getProperties().setHealth(50);
         e10.getProperties().setHealth(50);
         e11.getProperties().setHealth(50);
@@ -232,8 +302,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         w3.addSpawningUnit(e10, 60);
         w3.addSpawningUnit(e11, 60);
         w3.addSpawningUnit(e12, 60);
-        List<Unit> list2 = makeDummyTowers();
-        w3.addPlacingUnit(list2.get(1), 0);
+        List<Unit> list3 = makeDummyTowers();
+        w3.addPlacingUnit(list3.get(1), 0);
         l.addWave(w3);
         l.addWave(w2);
         return l;
@@ -250,15 +320,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // init.add(t);
         Unit u = new Unit("Interesting", Arrays.asList(affector), 1);
         u.addAffectorToApply(affector);
-        myStore.addItem(u, 10);
+//        myStore.addItem(u, 10);
     }
 
     private List<Unit> makeDummyTerrains () {
         List<Unit> ice = makeDummyIceTerrain();
-        Unit spike = makeDummySpike();
+//        Unit spike = makeDummySpike();
         List<Unit> terrains = new ArrayList<>();
         terrains.addAll(ice);
-        terrains.add(spike);
+//        terrains.add(spike);
         return terrains;
     }
 
@@ -291,6 +361,20 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         return new ArrayList<>(Arrays.asList(new Unit[] { ice1, ice2, ice3, ice4 }));
     }
 
+    // private Terrain makeDummyPoisonSpike () {
+    // Terrain poisonSpike =
+    // myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikesTerrain");
+    // List<Position> pos = new ArrayList<>();
+    // pos.add(new Position(95, -25));
+    // pos.add(new Position(275, -25));
+    // pos.add(new Position(275, 150));
+    // pos.add(new Position(95, 150));
+    // poisonSpike.getProperties().setPosition(185, 62.5);
+    // poisonSpike.getProperties().setBounds(pos);
+    // poisonSpike.setTTL(Integer.MAX_VALUE);
+    // return poisonSpike;
+    // }
+
     private Unit makeDummySpike () {
         Unit spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("SpikesTerrain");
         List<Position> pos = new ArrayList<>();
@@ -303,6 +387,17 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         spike.setTTL(Integer.MAX_VALUE);
         return spike;
     }
+
+    // public void updateLives () {
+    // int livesToSubtract = 0;
+    // for (int i = 0; i < myEnemys.size(); i++) {
+    // if (myEnemys.get(i).getProperties().getMovement().isUnitAtLastPosition(myEnemys.get(i))) {
+    // livesToSubtract++;
+    // myEnemys.get(i).setElapsedTimeToDeath();
+    // }
+    // }
+    // myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() - livesToSubtract);
+    // }
 
     public String getGameStatus () {
         if (myCurrentLevel.getMyLives() <= 0) {
@@ -445,7 +540,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // myTowers.add(newTower);
         // }
         // }
-        System.out.println(name);
         Unit purchased = myStore.purchaseUnit(name);
         if (purchased != null) {
             Unit copy = purchased.copyUnit();
@@ -471,7 +565,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myStore.clearBuyableUnits();
         placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
         nextWaveTimer++;
-        boolean gameOver = myLives <= 0;
+        boolean gameOver = myCurrentLevel.getMyLives() <= 0;
         if (!pause && !gameOver) {
             myTowers.forEach(t -> t.update());
             myEnemys.forEach(e -> e.update());
@@ -481,11 +575,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
             if (newE != null) {
                 myEnemys.add(newE);
             }// tries to spawn new enemies using Waves
-//            myStore.applyItem("Interesting", this.myEnemys);
+            // myStore.applyItem("Interesting", this.myEnemys);
 
         }
         if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
             nextWaveTimer = 0;
+            System.out.println("NEXT WAVE");
             continueWaves();
         }
         if (myEnemys.size() == 0) {
@@ -524,9 +619,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     }
 
     @Override
-    public void decrementLives () {
-        // TODO Auto-generated method stub
-
+    public void decrementLives (int lives) {
+        myCurrentLevel.decrementLives(lives);
     }
 
     @Override
@@ -543,17 +637,27 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         return units;
     }
 
-    public int getNextWaveTimer () {
-        return nextWaveTimer;
+    public List<PathNode> getPaths () {
+        return myDrawablePaths;
+    }
+
+    @Override
+    public List<Branch> getGridBranches () {
+        return myGridBranches;
     }
 
     @Override
     public double getScore () {
         return score;
     }
-    
+
     public void setScore (double score) {
         this.score = score;
     }
-    
+
+    @Override
+    public int getNextWaveTimer () {
+        return nextWaveTimer;
+    }
+
 }

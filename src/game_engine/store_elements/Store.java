@@ -11,6 +11,7 @@ import game_engine.game_elements.Unit;
 
 
 public class Store {
+
     private int myMoney;
     private Map<Unit, Integer> buyableUnits;
     private Map<Unit, List<Pair<Unit, Integer>>> upgrades;
@@ -147,20 +148,6 @@ public class Store {
 
     public int getMoney () {
         return myMoney;
-    }
-
-    public void addItem (Unit u, int cost) {
-        boolean contains = false;
-        for (Unit s : items.keySet()) {
-            if (s.toString().equals(u.toString())) {
-                items.put(s, cost);
-                contains = false;
-                break;
-            }
-        }
-        if (!contains) {
-            items.put(u, cost);
-        }
     }
 
 }

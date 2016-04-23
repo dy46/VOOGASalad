@@ -1,6 +1,8 @@
-package game_engine.games;
+package game_engine;
 
 import java.util.List;
+import auth_environment.paths.PathNode;
+import exceptions.WompException;
 import game_engine.game_elements.Level;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -84,7 +86,7 @@ public interface GameEngineInterface {
 
     public Level getCurrentLevel ();
 
-    public void decrementLives ();
+    public void decrementLives (int lives);
 
     public List<Position> getGoals ();
 
@@ -98,4 +100,9 @@ public interface GameEngineInterface {
     
     public void setScore(double score);
 
+	public List<PathNode> getPaths();
+
+	public List<Branch> getGridBranches();
+
 }
+
