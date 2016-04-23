@@ -38,6 +38,7 @@ public class PositionHandler {
 		}
 		double x = positions.get(0).getX();
 		double y = positions.get(0).getY();
+		System.out.println("POSITIONS: " + positions);
 		for(int i = 0;i < size;i++){
 			Position p1 = positions.get(i);
 			Position p2 = positions.get((i+1)%positions.size());

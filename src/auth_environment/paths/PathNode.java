@@ -54,4 +54,10 @@ public class PathNode {
 		return myBranches;
 	}
 
+	public void removeBranch(Branch b) {
+		if(myBranches.contains(b)){
+			myBranches.remove(b);
+		}
+	}
+
 }
