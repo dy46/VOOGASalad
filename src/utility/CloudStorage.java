@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import com.box.sdk.BoxAPIConnection;
+import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
 import com.box.sdk.BoxUser;
@@ -98,6 +99,13 @@ public class CloudStorage {
 		else{
 			current.uploadFile(new FileInputStream(folder), folder.getName());
 		}
+	}
+	public void deleteFile(String name){
+		BoxFolder current = rootFolder;
+		// TODO: finish deleteFile
+	}
+	public void deleteFolder(String name){
+		// TODO: complete deleteFolder
 	}
 	
 	
