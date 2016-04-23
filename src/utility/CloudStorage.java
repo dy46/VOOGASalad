@@ -8,10 +8,13 @@ import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
 import com.box.sdk.BoxUser;
+import com.twilio.sdk.TwilioRestException;
 public class CloudStorage {
+	private static final String RESOURCE_PATH = "utility/recvlist";
 	private String devToken;
 	private BoxFolder rootFolder;
 	private BoxFolder currentFolder;
+	private TextBot tb;
 	public CloudStorage(String dt) throws FileNotFoundException{
 		this.devToken = dt;
 		BoxAPIConnection api = new BoxAPIConnection(devToken);
@@ -19,6 +22,7 @@ public class CloudStorage {
 		System.out.format("Welcome, %s <%s>!\n\n", userInfo.getName(), userInfo.getLogin());
 		this.rootFolder = BoxFolder.getRootFolder(api);
 		this.currentFolder = this.rootFolder;
+		tb = new TextBot(RESOURCE_PATH);
 	}
 	public void listFolders(){
 		listFolder(this.currentFolder, 0);
@@ -79,9 +83,10 @@ public class CloudStorage {
 		}
 		this.currentFolder = f;
 	}
-	public void uploadFolder(String folder) throws FileNotFoundException{
+	public void uploadFolder(String folder) throws FileNotFoundException, TwilioRestException{
 		File f = new File(folder);
 		uploadFolder(this.currentFolder, f);
+		tb.sendTextToAll("A new folder has been uploaded to box!!!");
 	}
 	private void uploadFolder(BoxFolder current, File folder) throws FileNotFoundException{
 		if(folder.isDirectory()){

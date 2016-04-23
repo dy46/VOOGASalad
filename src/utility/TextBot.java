@@ -12,6 +12,7 @@ import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.factory.MessageFactory;
 import com.twilio.sdk.resource.instance.Message;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class TextBot {
 	private static final String MY_NUMBER = "+12056600267";
@@ -35,6 +36,14 @@ public class TextBot {
 			Message sms = messageFactory.create(params);
 			System.out.println(sms.getSid());
 		}
+	}
+	public void sendTextToAll(String message) throws TwilioRestException{
+		Enumeration<String> names = myResources.getKeys();
+		List<String> list = new ArrayList<String>();
+		while(names.hasMoreElements()){
+			list.add(names.nextElement());
+		}
+		sendText(message, list);
 	}
 	public static void main(String[] args) throws TwilioRestException{
 		TextBot t = new TextBot("utility/recvlist");
