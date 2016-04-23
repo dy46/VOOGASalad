@@ -3,7 +3,7 @@ package auth_environment.Models;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
-import game_data.AuthSerializer;
+import game_data.Serializer;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -13,14 +13,11 @@ import game_data.AuthSerializer;
  * in so that it can be saved/loaded. 
  */
 
-// TODO: check that loading GameData is reflected at AuthViewModel level (one level above this Model) 
-
 public class GlobalGameTabModel implements IGlobalGameTabModel {
 	
 	private IAuthModel myAuthModel;
 	
-	// TODO: are type arguments necessary? 
-	private AuthSerializer writer = new AuthSerializer();
+	private Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
 
 	public GlobalGameTabModel(IAuthModel authModel) {
 		this.myAuthModel = authModel;

@@ -17,7 +17,7 @@ public class Serializer<T> implements IDataConverter<T> {
 	
 	// TODO: force write as XML
 	
-	public void saveElement(T o) {
+	public void saveElement(Object o) {
 		
 		File f = this.chooser.save("Choose a file to save game data to");
 //		File f = pickFile(true);
