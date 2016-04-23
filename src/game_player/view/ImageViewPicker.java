@@ -1,24 +1,18 @@
 package game_player.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import game_engine.CollisionDetector;
-import game_engine.game_elements.Tower;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Position;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Polygon;
 
 public class ImageViewPicker {
     
     public static String EXTENSION = ".png";
     public final String[] leftCornerElements = {"Terrain"};
-    public final String[] needsHealth = {"Enemy"};
-    public final String[] seeRangeElements = {"Tower"};
+    public final String[] needsHealth = {"Enemy", "Moab"};
     private ResourceBundle myBundle;
+    private Unit myUnit;
     private String name;
     private String currState;
     private int numFrames;
@@ -27,72 +21,49 @@ public class ImageViewPicker {
     private Pane root;
     private ImageView health;
     private Image healthImage;
-    private Polygon range;
-    private boolean rangeStart;
     
-    
-    public ImageViewPicker(String name, int numFrames, String startingState, Pane root) {
+    public ImageViewPicker(Unit u, Pane root) {
         this.root = root;
-        this.name = name;
-        this.numFrames = numFrames;
+        this.name = u.toString();
+        this.numFrames = u.getNumFrames();
         this.currFrame = 0;
-        this.currState = startingState;
+        this.myUnit = u;
+        this.currState = u.getProperties().getState().getString();
         this.imageView = new ImageView();
         this.healthImage = new Image("health_red.png");
         this.health = new ImageView(healthImage);
-        this.range = new Polygon();
-        this.rangeStart = true;
-        root.getChildren().add(range);
         root.getChildren().add(health);
+        health.toBack();
         root.getChildren().add(imageView);
         myBundle = ResourceBundle.getBundle("game_engine/animation_rates/animation");
     }
     
-    public void selectNextImageView(Unit u, int timer) {
-        String state = u.getProperties().getState().getValue();
+    public void selectNextImageView(int timer) {
+        String state = myUnit.getProperties().getState().getString();
         if(timer % Integer.parseInt(myBundle.getString(name + state)) == 0) {
             currState = state;
             currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
-            imageView.setImage(new Image(name + u.getProperties().getState().getValue() 
-                                          + currFrame + EXTENSION));      
-            boolean isCornerElement = Arrays.asList(leftCornerElements).contains(u.getClass().getSimpleName());
+            imageView.setImage(new Image(name + state + currFrame + EXTENSION));      
+            boolean isCornerElement = myUnit.toString().contains(leftCornerElements[0]);
             double offsetX = isCornerElement ? 0 : -imageView.getImage().getWidth()/2;
             double offsetY = isCornerElement ? 0 : -imageView.getImage().getHeight()/2;
-            imageView.setX(u.getProperties().getPosition().getX() + offsetX);
-            imageView.setY(u.getProperties().getPosition().getY() + offsetY);
-            boolean isHealth = Arrays.asList(needsHealth).contains(u.getClass().getSimpleName());   
-            health.setFitWidth(u.getProperties().getHealth().getValue()/u.getProperties().getHealth().getInitialValue()*
+            imageView.setX(myUnit.getProperties().getPosition().getX() + offsetX);
+            imageView.setY(myUnit.getProperties().getPosition().getY() + offsetY);
+            boolean isHealth = myUnit.toString().contains(needsHealth[0]) ||  myUnit.toString().contains(needsHealth[1]);
+            health.setFitWidth(myUnit.getProperties().getHealth().getValue()/myUnit.getProperties().getHealth().getInitialValue()*
                                healthImage.getWidth());
             double xpos = isHealth ? imageView.getX() : Integer.MAX_VALUE;
             double ypos = isHealth ? imageView.getY() - 5 : Integer.MAX_VALUE;
-            boolean seeRange = Arrays.asList(seeRangeElements).contains(u.getClass().getSimpleName());
-            if(seeRange && (timer % 60 == 0 || rangeStart)) {
-                fillPolygonWithPoints(range, CollisionDetector.getUseableBounds(((Tower) u)
-                                                                          .getMyProjectiles().get(0).getTimelines()
-                                                                          .get(0).getAffectors().get(0).getRange(), 
-                                                                           u.getProperties().getPosition()));
-                range.setOpacity(0.1);
-                range.toFront();
-                rangeStart = false;
-                
-            }
             health.setX(xpos);
             health.setY(ypos);
             health.toFront();
-            imageView.setRotate(transformDirection(u));
-            if(!u.isVisible()) {
-                root.getChildren().remove(range);
-                root.getChildren().remove(imageView);
-                root.getChildren().remove(health);
-            }
+            imageView.setRotate(transformDirection(myUnit));
         }
     }
     
-    public Polygon fillPolygonWithPoints(Polygon polygon, List<Position> points) {
-        for(Position p : points) {
-            polygon.getPoints().addAll(new Double[]{p.getX(), p.getY()});
-        }
-        return polygon;
+    public void removeElementsFromRoot() {
+        root.getChildren().remove(imageView);
+        root.getChildren().remove(health);
     }
     
     public double transformDirection(Unit u) {
@@ -101,6 +72,10 @@ public class ImageViewPicker {
     
     public ImageView getImageView() {
         return imageView;
+    }
+    
+    public Unit getUnit() {
+        return myUnit;
     }
     
 }

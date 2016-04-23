@@ -1,17 +1,14 @@
 package game_engine.affectors;
 
-import java.util.List;
-import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
 public class HomingMoveAffector extends SingleTrackRangeAffector {
 
-    public HomingMoveAffector(List<Function> functions, Bounds range){
-	      super(functions, range);
+	public HomingMoveAffector(AffectorData data){
+		super(data);
 	}
     
     public void futureApply(Unit u, Unit tracked) {
@@ -19,21 +16,34 @@ public class HomingMoveAffector extends SingleTrackRangeAffector {
         double speed = properties.getVelocity().getSpeed();
         Position trackedPos = tracked.getProperties().getPosition();
         Position currPos = properties.getPosition();
-        double currX = currPos.getX();
-        double currY = currPos.getY();
-        double dx = trackedPos.getX() - currX;
-        double dy = trackedPos.getY() - currY;
-        double newDir = Math.atan((dy) / (dx));
+        double dx = getdx(currPos, trackedPos);
+        double dy = getdy(currPos, trackedPos);
         double num = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
-        properties.getVelocity().setDirection(degreesDir);
-        properties.getPosition().addToXY(speed*dx/num, speed*dy/num);
+        properties.getVelocity().setDirection(getDirection(currPos, trackedPos));
+        properties.getPosition().addToXY(speed*dx/num, 
+                                         speed*dy/num);
+        if(!tracked.isVisible()) {
+           u.setElapsedTimeToDeath();
+        }
+    }
+    
+    public double getDirection(Position currPos, Position trackedPos) {
+        double newDir = Math.atan((getdy(currPos, trackedPos)) / (getdx(currPos, trackedPos)));
+        return getdx(currPos, trackedPos) < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir); 
+    }
+    
+    public double getdx(Position currPos, Position trackedPos) {
+        return trackedPos.getX() - currPos.getX();
+    }
+    
+    public double getdy(Position currPos, Position trackedPos) {
+        return trackedPos.getY() - currPos.getY();
     }
     
     public void firstApply(Unit u, Unit tracked) {
         futureApply(u, tracked);
-        Unit tower = getEngineWorkspace().getTowers().get((u.getNumberList().get(0)).intValue());
-        tower.getProperties().getVelocity().setDirection(u.getProperties().getVelocity().getDirection());
+        u.getParents().get(0).getProperties().getVelocity().setDirection(getDirection(u.getProperties().getPosition(),
+                                                                                     tracked.getProperties().getPosition()));
     }
 
 }

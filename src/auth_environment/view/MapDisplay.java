@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import auth_environment.backend.ISelector;
 import auth_environment.backend.MapDisplayModel;
-import auth_environment.backend.SelectorModel;
 import game_engine.game_elements.GameElement;
 import game_engine.properties.Position;
 import javafx.scene.control.Button;
@@ -46,7 +44,7 @@ public class MapDisplay extends Pane {
 			for(int i=0; i<myGrid.clickedList().size(); i++){
 				newPathPositions.add(myGrid.clickedList().get(i));
 			}
-			myGrid.getPathGraphFactory().insertPath(newPathPositions); // Insert path into path graph
+			myGrid.getPathGraphFactory().insertBranch(newPathPositions); // Insert path into path graph
 		});
 		temp.setTranslateY(myGrid.mapHeight);
 		this.getChildren().add(temp);

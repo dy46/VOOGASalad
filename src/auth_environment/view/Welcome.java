@@ -1,3 +1,4 @@
+
 package auth_environment.view;
 
 import java.util.ResourceBundle;
@@ -67,12 +68,6 @@ public class Welcome {
 	private HBox buildWompImage() {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
-
-//	private TextField buildTextInput() {
-//		this.gameNameInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-//		this.gameNameInput.setOnAction(e -> this.submitButtonPressed());
-//		return this.gameNameInput; 
-//	}
 
 	private HBox buildSelectionButtons() {
 		

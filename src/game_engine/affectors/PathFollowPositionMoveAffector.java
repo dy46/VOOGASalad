@@ -1,15 +1,9 @@
 package game_engine.affectors;
 
-import java.util.List;
-import game_engine.IPlayerEngineInterface;
-import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Projectile;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Bounds;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
-import game_engine.properties.UnitProperties;
 
 
 /*
@@ -20,31 +14,44 @@ import game_engine.properties.UnitProperties;
  * based on a sampled version of the path that has been drawn out for them.
  * 
  */
-public class PathFollowPositionMoveAffector extends Affector {
+public class PathFollowPositionMoveAffector extends PathFollowAffector {
 
-	public PathFollowPositionMoveAffector(List<Function> functions, Bounds range){
-		super(functions, range);
+	public PathFollowPositionMoveAffector(AffectorData data){
+		super(data);
 	}
 
 	@Override
 	public void apply (Unit u) {
 		super.apply(u);
-		pathFollow(u);
 	}
-	
-	public void pathFollow(Unit u) {
-	           if (this.getElapsedTime() <= this.getTTL()) {
-                       double speed = u.getProperties().getVelocity().getSpeed();
-                       Movement move = u.getProperties().getMovement();
-                       for (int i = 0; i < speed; i++) {
-                               Position next = move.getNextPosition(u.getProperties().getPosition());
-                               u.getProperties().getPosition().setX(next.getX());
-                               u.getProperties().getPosition().setY(next.getY());
-                               u.getProperties().getVelocity()
-                                                .setDirection(move.getNextDirection(u.getProperties().getPosition(),
-                                                                                   u.getProperties().getVelocity().getDirection()));
-                       }
-               }
+	           
+	public Position getNextPosition(Unit u){
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		Branch currentBranch = move.getCurrentBranch();
+		if(currentBranch == null){
+			getWS().decrementLives();
+			return null;
+		}
+		Position next = currentBranch.getNextPosition(currentPosition);
+		if(next == null){
+			currentBranch = move.getNextBranch();
+			if(currentBranch == null) {
+				getWS().decrementLives();
+				return null;
+			}
+			next = currentBranch.getFirstPosition();
+		}
+		return next;
 	}
 
+	public Double getNextDirection(Unit u){
+		Position currentPosition = u.getProperties().getPosition();
+		Movement move = u.getProperties().getMovement();
+		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
+			// END OF PATH
+			return u.getProperties().getVelocity().getDirection();
+		}
+		return move.getCurrentBranch().getNextDirection(currentPosition);
+	}
 }

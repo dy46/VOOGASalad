@@ -1,14 +1,8 @@
 package game_player.view;
 
-import game_player.GameDataSource;
 import java.util.ResourceBundle;
-
-import game_data.Serializer;
-import game_data.GameData;
-import game_data.IDataConverter;
-import game_engine.EngineWorkspace;
-import game_engine.IPlayerEngineInterface;
 import game_engine.TestingEngineWorkspace;
+import game_engine.games.GameEngineInterface;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -17,7 +11,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class PlayerGUI{
 	private static final double TABS_OFFSET = 0;
-	private static final double NEWTAB_OFFSET = 35;
+	private static final double NEWTAB_OFFSET = 33;
 	private static final String GUI_RESOURCE = "GUI";
 	private int windowWidth;
 	private int windowHeight;
@@ -25,7 +19,7 @@ public class PlayerGUI{
 	private AnchorPane myRoot;
 	private TabPane myTabs;
 	private ResourceBundle myResources;
-	private IPlayerEngineInterface gameEngine;
+	private GameEngineInterface gameEngine;
 	
 	public PlayerGUI(int windowWidth, int windowHeight) {
 		this.windowWidth = windowWidth;
@@ -46,9 +40,10 @@ public class PlayerGUI{
 		createNewTab();
 		
 		AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
-//		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
+		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
+		AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
 		
-		myRoot.getChildren().addAll(myTabs);
+		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
 		myScene.getStylesheets().add("game_player/view/PlayerTheme1.css");
 		myRoot.getStyleClass().add("background");
@@ -56,16 +51,19 @@ public class PlayerGUI{
 		return myScene;
 	}
 	
-	private IPlayerEngineInterface readData() {
-		IDataConverter<IPlayerEngineInterface> dataConverter = new Serializer<IPlayerEngineInterface>();
-		return dataConverter.loadElement();
-	}
+//	private GameEngineInterface readData() {
+//		IDataConverter<GameEngineInterface> dataConverter = new AuthSerializer<GameEngineInterface>();
+//		GameData gameData = (GameData) dataConverter.loadElement();
+//		gameEngine = new TDGame();
+//		gameEngine.setUpEngine(gameData);
+//		return gameEngine;
+//	}
 	
-	private void createNewTab() {
-		gameEngine = readData();
+	private void createNewTab() {    
+	    
+        gameEngine = new TestingEngineWorkspace();
+		gameEngine.setUpEngine(null);
 		
-//		gameEngine = new TestingEngineWorkspace();
-//		gameEngine.setUpEngine(null);
 		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
