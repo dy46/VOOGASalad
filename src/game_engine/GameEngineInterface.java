@@ -93,8 +93,6 @@ public interface GameEngineInterface {
     public void setScore (double score);
 
     public List<PathNode> getPaths ();
-
-    public List<Branch> getGridBranches ();
     
     public List<Affector> getUpgrades(Unit name);
     

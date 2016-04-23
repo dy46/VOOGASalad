@@ -40,8 +40,7 @@ import game_engine.wave_goals.WaveGoal;
 public class EngineWorkspace implements GameEngineInterface{
 
 	private int nextWaveTimer;
-	private List<Branch> myGridBranches;
-	private List<Branch> myPathBranches; 
+	private List<Branch> myBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers;
 	private List<Unit> myEnemies;
@@ -66,8 +65,7 @@ public class EngineWorkspace implements GameEngineInterface{
 	public void setUpEngine (IAuthEnvironment data) {
 		waveGoal = new EnemyNumberWaveGoal();
         scoreUpdate = new EnemyDeathScoreUpdate();
-		myGridBranches = data.getGridBranches();
-		myPathBranches = data.getPathBranches();
+        myBranches = data.getBranches();
 		myLevels = data.getLevels();
 		myTowers = data.getTowers();
 		myEnemies = data.getEnemies();
@@ -89,8 +87,7 @@ public class EngineWorkspace implements GameEngineInterface{
 		myTimer = new Timer();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationController(this);
-		if(myGridBranches == null)	this.myGridBranches = new ArrayList<Branch>();
-		if(myPathBranches == null)	this.myPathBranches = new ArrayList<Branch>();
+		if(myBranches == null)	this.myBranches = new ArrayList<Branch>();
 		if(myLevels == null)	this.myLevels = new ArrayList<Level>();
 		if(myTowers == null)	this.myTowers = new ArrayList<Unit>();
 		if(myEnemies == null)	this.myEnemies = new ArrayList<Unit>();
@@ -232,11 +229,6 @@ public class EngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public List<Branch> getGridBranches() {
-		return myGridBranches;
-	}
-
-	@Override
 	public void modifyTower(int activeTowerIndex, UnitProperties newProperties) {
 		// TODO Auto-generated method stub
 		
@@ -263,7 +255,7 @@ public class EngineWorkspace implements GameEngineInterface{
 
 	@Override
 	public List<Branch> getBranches() {
-		return myPathBranches;
+		return myBranches;
 	}
 
 	@Override

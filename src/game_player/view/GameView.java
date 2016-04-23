@@ -176,14 +176,10 @@ public class GameView implements IGameView{
 
 
 	public void placePath () {
-		List<PathNode> currPaths = playerEngineInterface.getPaths();
-		List<Position> allPositions = new ArrayList<>();
 		List<Branch> currBranches = new ArrayList<>();
-		for(PathNode p : currPaths){
-			currBranches.addAll(p.getBranches());
-		}
 		// Comment this out to hide path grid
-		currBranches.addAll(playerEngineInterface.getGridBranches());
+		currBranches.addAll(playerEngineInterface.getBranches());
+		List<Position> allPositions = new ArrayList<>();
 		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {
 			Image img = new Image("DirtNew.png");

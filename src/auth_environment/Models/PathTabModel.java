@@ -36,7 +36,7 @@ public class PathTabModel implements IPathTabModel {
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
 		this.myPathHandler = new PathHandler();
-		this.myBranches = new ArrayList<>(); 
+		this.myBranches = auth.getGridBranches();
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 	}
 
@@ -68,12 +68,12 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void loadBranches() {
-		this.myAuthData.setPathBranches(this.myPathHandler.getPGF().getPathLibrary().getBranches());
+		this.myAuthData.setBranches(this.myPathHandler.getPGF().getPathLibrary().getBranches());
 	}
 
 	@Override
 	public List<Branch> getBranches() {
-		return this.myAuthData.getPathBranches();
+		return this.myAuthData.getBranches();
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myBranches;
-	private List<PathNode> myDrawablePaths;
+	private List<PathNode> myPaths;
 
 	private WaveGoal waveGoal;
 	private ScoreUpdate scoreUpdate;
@@ -89,7 +89,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
 		myBranches = new ArrayList<>();
-		myDrawablePaths = new ArrayList<>();
+		myPaths = new ArrayList<>();
 		myGridBranches = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
@@ -191,7 +191,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		myGridBranches = grid.getBranches();
 		myBranches.addAll(pgf.getPathLibrary().getBranches());
 		l.addAllPaths(paths);
-		myDrawablePaths.addAll(paths);
+		myPaths.addAll(paths);
 
 		// For testing branching
 		// System.out.println("NUM BRANCHES: " + myBranches.size());
@@ -637,12 +637,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	}
 
 	public List<PathNode> getPaths () {
-		return myDrawablePaths;
-	}
-
-	@Override
-	public List<Branch> getGridBranches () {
-		return myGridBranches;
+		return myPaths;
 	}
 
 	@Override

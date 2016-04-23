@@ -30,6 +30,10 @@ public class PathHandler {
 //		insertTestBranches();
 	}
 	
+	public void createGrid(){
+		
+	}
+	
 	public void processStraightLine(List<Position> positions){
 		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);

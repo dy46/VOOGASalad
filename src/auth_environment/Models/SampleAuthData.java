@@ -36,7 +36,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private String myName;
 	private String mySplashFileName;
 	private List<Branch> myGridBranches;
-	private List<Branch> myPathBranches; 
+	private List<Branch> myBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers; 
 	private List<Unit> myEnemies;
@@ -51,7 +51,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
 		this.myGridBranches = new ArrayList<Branch>();
-		this.myPathBranches = new ArrayList<Branch>();
+		this.myBranches = new ArrayList<Branch>();
 		this.myLevels = new ArrayList<Level>();
 		this.myTowers = new ArrayList<Unit>();
 		this.myEnemies = new ArrayList<Unit>();
@@ -174,15 +174,15 @@ public class SampleAuthData implements IAuthEnvironment {
 	}
 
 	@Override
-	public List<Branch> getPathBranches() {
-		return this.myPathBranches;
+	public List<Branch> getBranches() {
+		return this.myBranches;
 	}
 
 	@Override
-	public void setPathBranches(List<Branch> branches) {
+	public void setBranches(List<Branch> branches) {
 		Branch b = branches.get(0);
 		this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
-		this.myPathBranches = branches; 
+		this.myBranches = branches; 
 	}
 
 	@Override

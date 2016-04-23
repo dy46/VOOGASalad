@@ -9,6 +9,7 @@ import auth_environment.Models.PathTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import auth_environment.dialogs.ConfirmationDialog;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
@@ -52,12 +53,18 @@ public class PathTab implements IWorkspace {
 		this.canvasPane = new Pane(); 
 		this.isFirstClick = true;
 		this.setupBorderPane();
+		String gridHeaderText = "You have the option to have a default grid drawn that won't limit other path creation.";
+		String gridContextText = "Do you want this?";
+		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		if(confirmation){
+			
+		}
 	}
 	
 	private void refresh() {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myModel = new PathTabModel(myAuthModel.getIAuthEnvironment()); 
-		if (!this.myAuth.getPathBranches().isEmpty()) {
+		if (!this.myAuth.getBranches().isEmpty()) {
 			this.drawBranches(this.myModel.getBranches());
 		}
 	}

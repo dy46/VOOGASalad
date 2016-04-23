@@ -28,9 +28,9 @@ public interface IAuthEnvironment {
 	
 	// Path Tab - Brian
 	
-	public List<Branch> getPathBranches();
+	public void setBranches(List<Branch> branches); 
 	
-	public void setPathBranches(List<Branch> branches); 
+	public List<Branch> getBranches();
 	
 	public List<Branch> getGridBranches();
 	
