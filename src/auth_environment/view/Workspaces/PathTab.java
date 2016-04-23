@@ -173,7 +173,7 @@ public class PathTab implements IWorkspace {
 	}
 	
 	private void beginBranch(double x, double y) {
-		this.myModel.addNewPosition(x, y);
+		this.myModel.addNewBranch(x, y);
 	}
 	
 	private void continueBranch(double x, double y) {

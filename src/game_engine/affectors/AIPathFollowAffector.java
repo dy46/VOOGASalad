@@ -26,7 +26,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		if (currentBranch == null) {
 			return null;
 		}
-		Position next = currentBranch.getNextPosition(currentPosition);
+		Position next = move.getNextPosition();
 		if (next == null) {
 			if(getWS().getGoals().contains(currentPosition)){
 				return null;
@@ -79,7 +79,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		for (Unit e : currentEnemies) {
 			if (e.isAlive()) {
 				Position ePosition = e.getProperties().getPosition();
-				if (b.getAllPositions().contains(ePosition)) {
+				if (b.getPositions().contains(ePosition)) {
 					numEnemiesOnBranch++;
 				}
 			}
@@ -90,7 +90,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	private double nearbyTowersHeuristic(Branch b){
 		List<Unit> currentTowers = getWS().getTowers();
 		List<Unit> nearbyTowers = new ArrayList<>();
-		for (Position p : b.getAllPositions()) {
+		for (Position p : b.getPositions()) {
 			for (Unit t : currentTowers) {
 				if (t.isAlive()) {
 					Position tPosition = t.getProperties().getPosition();

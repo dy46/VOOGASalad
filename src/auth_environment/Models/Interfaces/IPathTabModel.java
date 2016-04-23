@@ -18,8 +18,8 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<Branch> getBranches();
 	
-	public void addNewPosition(double x, double y);
+	public void addNewBranch(double x, double y);
 	
-	public void continueFromLastPosition(double x, double y); 
+	public void continueFromLastPosition(double x, double y);
 	
 }

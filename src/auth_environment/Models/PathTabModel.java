@@ -18,27 +18,25 @@ import game_engine.properties.Position;
  */
 
 public class PathTabModel implements IPathTabModel {
-	
+
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
+
 	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
-	
+
 	private PathHandler myPathHandler; 
-	
-	private List<Branch> myBranches; 
-	
+
 	// What's currently selected, will add to Branches.
 	// For now, should only contain TWO positions
-	private List<Position> myCurrentPositions;
-	
+	private List<Branch> myBranches;
+
 	private double myPathWidth; 
-	
+
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
 		this.myPathHandler = new PathHandler();
-		this.myCurrentPositions = new ArrayList<Position>(); 
+		this.myBranches = new ArrayList<>(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 	}
 
@@ -55,37 +53,45 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void submitBranch() {
-		this.myPathHandler.processStraightLine(this.myCurrentPositions);
+		for(Branch b : myBranches){
+			this.myPathHandler.processStraightLine(b.getPositions());
+		}
 		this.loadBranches();
 	}
-	
+
 	@Override
 	public void printCurrentPositions() {
-		this.myCurrentPositions.stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
+		for(Branch b : myBranches){
+			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
+		}
 	}
 
 	@Override
 	public void loadBranches() {
 		this.myAuthData.setPathBranches(this.myPathHandler.getPGF().getPathLibrary().getBranches());
 	}
-	
+
 	@Override
 	public List<Branch> getBranches() {
 		return this.myAuthData.getPathBranches();
 	}
 
 	@Override
-	public void addNewPosition(double x, double y) {
-		this.myCurrentPositions.clear();
-		this.myCurrentPositions.add(new Position(x, y)); 
+	public void addNewBranch(double x, double y) {
+		Branch b = new Branch();
+		b.addPosition(new Position(x, y));
+		this.myBranches.add(b); 
 	}
 
 	@Override
 	public void continueFromLastPosition(double x, double y) {
-		if (this.myCurrentPositions.size() > 1) {
-			this.myCurrentPositions.remove(0);
-		}
-		this.myCurrentPositions.add(new Position(x, y));
+//		if (this.myCurrentPositions.size() > 1) {
+//			this.myCurrentPositions.remove(0);
+//		}
+//		this.myCurrentPositions.add(new Position(x, y));
+		
+		// TODO: find corresponding branch
+		addNewBranch(x,y);
 		this.submitBranch();
 	}
 }

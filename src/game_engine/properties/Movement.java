@@ -11,6 +11,7 @@ public class Movement {
 
 	private List<Branch> myBranches;
 	private Branch myCurrentBranch;
+	private Position currentPosition;
 
 	public Movement(List<Branch> branches, Position spawn){
 		this.myBranches = branches;
@@ -61,6 +62,22 @@ public class Movement {
 
 	public void setCurrentBranch(Branch branch) {
 		myCurrentBranch = branch;
+	}
+	
+	public Double getNextDirection () {
+		Position nextPosition = getNextPosition();
+		if(nextPosition == null){
+			nextPosition = currentPosition;
+		}
+		double dx = nextPosition.getX() - currentPosition.getX();
+		double dy = nextPosition.getY() - currentPosition.getY();
+		double newDir = Math.atan2((dy), (dx));
+		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
+		return degreesDir;
+	}
+	
+	public Position getNextPosition(){
+		return null;
 	}
 
 }

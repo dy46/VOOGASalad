@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.dialogs.ConfirmationDialog;
+import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PathHandler {
@@ -10,6 +11,7 @@ public class PathHandler {
 	private PathGraphFactory myPGF;
 	private GridFactory myGF;
 	private PositionHandler myPositionHandler;
+	private List<Branch> myBranches;
 	
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
@@ -20,9 +22,10 @@ public class PathHandler {
 //		insertTestBranches();
 	}
 	
-	public PathHandler(PathGraphFactory pgf, GridFactory gf){
-		myPGF = pgf;
-		myGF = gf;
+	public PathHandler(List<Branch> branches){
+		myPGF = new PathGraphFactory();
+		myGF = new GridFactory();
+		myBranches = branches;
 		myPositionHandler = new PositionHandler();
 //		insertTestBranches();
 	}

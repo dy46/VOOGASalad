@@ -45,7 +45,7 @@ public class VisibilityGraphFilter {
 		Set<Branch> removalList = new HashSet<>();
 		for(Unit obstacle : obstacles){
 			for(Branch b : path.getBranches()){
-				for(Position pos : b.getAllPositions()){
+				for(Position pos : b.getPositions()){
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), obstacle.getProperties().getBounds())){
 						removalList.add(b);
 					}
