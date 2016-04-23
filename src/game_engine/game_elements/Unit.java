@@ -116,7 +116,6 @@ public class Unit extends GameElement {
 			//            System.out.println(myAffectors.size());
 		}
 		if (!isAlive()) {
-			System.out.println("DYING");
 			setElapsedTimeToDeath();
 			setToDeath = true;
 		}

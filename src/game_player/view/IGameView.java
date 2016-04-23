@@ -24,4 +24,6 @@ public interface IGameView {
     void changeGameSpeed (double gameSpeed); 
     
     GameEngineInterface getGameEngine();
+    
+    void changeClickedTower (String name);
 }

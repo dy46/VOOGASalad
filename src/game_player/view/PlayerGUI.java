@@ -44,10 +44,10 @@ public class PlayerGUI{
 		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
 		AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
 		
-		myRoot.getChildren().addAll(myTabs, newTabButton);
-		
 		myScene.getStylesheets().add("game_player/view/PlayerTheme1.css");
 		myRoot.getStyleClass().add("background");
+		
+		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
 		return myScene;
 	}

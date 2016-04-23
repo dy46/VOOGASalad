@@ -41,7 +41,6 @@ public class GameColorTheme implements IGUIObject {
 	}
 	
 	public void configureComboBox() {
-		comboBox.getStyleClass().add("combobox");
 		comboBox.setVisibleRowCount(VISIBLE_ROW_COUNT);
 		comboBox.setPrefWidth(COMBOBOX_WIDTH);
 		comboBox.setPromptText(myResources.getString("ThemeLabel"));

@@ -126,7 +126,7 @@
 18. After creating a "template" enemy, the user determines how many enemies to add to a wave.
   * `ElementPicker` class: Calls `createEnemy(Enemy e, Wave w)` method in the `EnemyFactory` class.
   * `EnemyFactory` class: The above method takes in the Enemy template that the user has already identified as well as a Wave object associated to the wave that the enemy will spawn on. The void method will then add that enemy to the wave. 
-  
+
 ### Game Player Use Cases
 
 1. Integrate Save
