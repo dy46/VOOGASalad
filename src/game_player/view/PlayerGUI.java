@@ -6,6 +6,7 @@ import auth_environment.IAuthEnvironment;
 import game_data.AuthSerializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
+import game_engine.TestingEngineWorkspace;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -63,8 +64,8 @@ public class PlayerGUI{
 	}
 	
 	private void createNewTab() { 
-        gameEngine = new EngineWorkspace();
-		gameEngine.setUpEngine(this.readData());
+        gameEngine = new TestingEngineWorkspace();
+		gameEngine.setUpEngine(null);
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
         myTabs.getTabs().add(tab);
