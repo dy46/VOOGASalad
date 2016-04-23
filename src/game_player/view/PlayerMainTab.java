@@ -3,22 +3,17 @@ package game_player.view;
 import game_player.GameDataSource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import game_engine.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 public class PlayerMainTab implements IPlayerTab{
 	private static final int TOP_PADDING = 5;
@@ -155,6 +150,10 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	protected void addToConfigurationPanel(Node element) {
 		configurationPanel.getChildren().add(element);
+	}
+	
+	public void removeFromConfigurationPanel(Node element) {
+	    configurationPanel.getChildren().remove(element);
 	}
 	
 	protected void addToGamePanel(Node element) {

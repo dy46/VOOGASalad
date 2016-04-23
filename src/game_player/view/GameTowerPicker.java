@@ -67,11 +67,27 @@ public class GameTowerPicker implements IGUIObject {
 	private void updateTowerList() {
 		List<Unit> allTowerTypes = myEngine.getTowerTypes();
 		for (int i = myTowers.size(); i < allTowerTypes.size(); i++) {
-			myTowers.add(allTowerTypes.get(i));
+			if(!hasUnitImageView(allTowerTypes.get(i), myTowers)) {
+				myTowers.add(allTowerTypes.get(i));
+			}
 		}
+		for(int i = 0; i < myTowers.size(); i++) {
+            if(!allTowerTypes.contains(myTowers.get(i))) {
+                myTowers.remove(i);
+            }
+        }
 	}
 	
 	public double transformDirection(Unit u) {
 		return -u.getProperties().getVelocity().getDirection() + 90;
 	}
+	
+	 public boolean hasUnitImageView(Unit u, List<Unit> imageViews) {
+         for(int i = 0; i < imageViews.size(); i++) {
+             if(imageViews.get(i) == u) {
+                 return true;
+             }
+         }
+         return false;
+     }
 }

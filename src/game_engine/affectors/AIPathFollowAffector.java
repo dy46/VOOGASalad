@@ -24,13 +24,11 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
 		if (currentBranch == null) {
-			getWS().decrementLives();
 			return null;
 		}
 		Position next = currentBranch.getNextPosition(currentPosition);
 		if (next == null) {
 			if(getWS().getGoals().contains(currentPosition)){
-				getWS().decrementLives();
 				return null;
 			}
 			currentBranch = pickBestBranch(u);
@@ -76,7 +74,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	}
 
 	private double enemiesOnBranchHeuristic(Branch b){
-		List<Unit> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getEnemies();
+		List<Unit> currentEnemies = getWS().getCurrentLevel().getCurrentWave().getSpawningUnits();
 		int numEnemiesOnBranch = 0;
 		for (Unit e : currentEnemies) {
 			if (e.isAlive()) {

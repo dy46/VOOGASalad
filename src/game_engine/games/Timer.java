@@ -1,11 +1,5 @@
 package game_engine.games;
 
-import java.util.List;
-
-import game_engine.GameEngineInterface;
-import game_engine.affectors.Affector;
-import game_engine.timelines.Timeline;
-
 /*
  * External API interface that will be available to the authoring environment for extension and creation
  * of XML files for use in games. API specifies some basic functionality of timers and which methods need to 

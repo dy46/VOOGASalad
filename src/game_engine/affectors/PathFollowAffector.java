@@ -23,14 +23,11 @@ public abstract class PathFollowAffector extends Affector{
                 double speed = u.getProperties().getVelocity().getSpeed();
                 for (int i = 0; i < speed; i++) {
                         Position next = getNextPosition(u);
-                        if(next == null){
-                                u.setElapsedTimeToDeath();
-                                setElapsedTimeToDeath();
-                                return;
+                        if(next != null) {
+                            u.getProperties().getPosition().setX(next.getX());
+                            u.getProperties().getPosition().setY(next.getY());
+                            u.getProperties().getVelocity().setDirection(getNextDirection(u));
                         }
-                        u.getProperties().getPosition().setX(next.getX());
-                        u.getProperties().getPosition().setY(next.getY());
-                        u.getProperties().getVelocity().setDirection(getNextDirection(u));
                 }
                 this.updateElapsedTime();
             }

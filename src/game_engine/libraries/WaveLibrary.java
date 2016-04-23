@@ -25,7 +25,7 @@ public class WaveLibrary {
 	public void addUnitToWave(String waveName, Unit enemy, int spawnTime) {
 		for(Wave w : myWaves){
 			if(w.getName().equals(waveName)){
-				w.addEnemy(enemy, spawnTime);
+				w.addSpawningUnit(enemy, spawnTime);
 			}
 		}
 	}
