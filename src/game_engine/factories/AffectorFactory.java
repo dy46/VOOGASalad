@@ -96,13 +96,13 @@ public class AffectorFactory {
 		AffectorData d8 = new AffectorData();
 		constructAffector(pr8, e8, d8);
 
-		String pr9 = "Death";
-		String e9 = "Activation";
-		List<List<Function>> deathfunction = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(0)));
-		List<String> deathproperty = Arrays.asList("Health");
-		AffectorData deathdata = new AffectorData(deathfunction, deathproperty);
-		Affector deathbasic = new BasicSetAffector(deathdata);
-		myAffectorLibrary.addAffector(pr9, e9, deathbasic);
+//		String pr9 = "Death";
+//		String e9 = "Activation";
+//		List<List<Function>> deathfunction = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(0)));
+//		List<String> deathproperty = Arrays.asList("Health");
+//		AffectorData deathdata = new AffectorData(deathfunction, deathproperty);
+//		Affector deathbasic = new BasicSetAffector(deathdata);
+//		myAffectorLibrary.addAffector(pr9, e9, deathbasic);
 
 		String pr10 = "RandomPath";
 		String e10 = "Follow";

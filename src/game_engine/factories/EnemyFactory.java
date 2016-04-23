@@ -6,13 +6,13 @@ import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
-import game_engine.libraries.TimelineLibrary;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Bounds;
 import game_engine.properties.Health;
 import game_engine.properties.Mass;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
+import game_engine.properties.Price;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
@@ -29,18 +29,21 @@ public class EnemyFactory {
     public Unit createPathFollowPositionMoveEnemy (String name, List<Branch> branches) {
         Unit e = createSpecifiedEnemy(name, "PathFollow", "PositionMove");
         e.getProperties().setMovement(new Movement(branches));
+        e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
         return e;
     }
 
     public Unit createAIEnemy (String name, Branch startingBranch) {
         Unit e = createSpecifiedEnemy(name, "AIPath", "Follow");
         e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
+        e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
         return e;
     }
     
     public Unit createRandomEnemy(String name, Branch startingBranch){
 		Unit e = createSpecifiedEnemy(name, "RandomPath", "Follow");
 		e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
+        e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
 		return e;
 	}
 
@@ -54,21 +57,15 @@ public class EnemyFactory {
         Velocity velocity = new Velocity(0.5, 90);
         List<Position> l1 = new ArrayList<>();
         l1.add(new Position(0, 0));
-        l1.add(new Position(30, 0));
-        l1.add(new Position(30, 30));
-        l1.add(new Position(0, 30));
+        l1.add(new Position(15, 0));
+        l1.add(new Position(15, 15));
+        l1.add(new Position(0, 15));
         Bounds b = new Bounds(l1);
         State st = new State(2);
-        Branch p2 = new Branch(0);
-        p2.addPosition(new Position(0, 30));
-        p2.addPosition(new Position(200, 30));
-        p2.addPosition(new Position(200, 200));
-        p2.addPosition(new Position(400, 200));
-        p2.addPosition(new Position(400, 525));
-        Movement movement = new Movement(Arrays.asList(p2));
+        Price price = new Price(30);
         UnitProperties properties =
-                new UnitProperties(health, null, velocity, b, null, new Position(0, 30), null,
-                                   st, movement, new Mass(1));
+                new UnitProperties(health, null, velocity, b, null, new Position(0, 30), price,
+                                   st, null, new Mass(1));
         e1.setProperties(properties);
         e1.setTTL(1000000);
         e1.setDeathDelay(3);

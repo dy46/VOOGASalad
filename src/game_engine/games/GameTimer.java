@@ -1,6 +1,6 @@
 package game_engine.games;
 
-import game_engine.games.GameEngineInterface;
+import game_engine.GameEngineInterface;
 
 public abstract class GameTimer extends Timer{
 

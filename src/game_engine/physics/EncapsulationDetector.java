@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
-import game_engine.games.GameEngineInterface;
 import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 
@@ -50,7 +50,10 @@ public class EncapsulationDetector {
 
 	private void terrainHandling (Unit unit, List<Unit> terrains){
 		for (int i = 0; i < terrains.size(); i++) {
-			if ((!(unit == terrains.get(i)) && encapsulates(unit, terrains.get(i)))) {
+			if ((!(unit == terrains.get(i)) && encapsulates(CollisionDetector.getUseableBounds(unit.getProperties().getBounds(), 
+			                                                                                   unit.getProperties().getPosition()), 
+			                                                CollisionDetector.getUseableBounds(terrains.get(i).getProperties().getBounds(),
+			                                                                                   terrains.get(i).getProperties().getPosition())))) {
 				if (unit.isVisible()) {
 					List<Affector> newAffectorsToApply =
 							terrains.get(i).getAffectorsToApply().stream()

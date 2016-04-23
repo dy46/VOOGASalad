@@ -37,12 +37,12 @@ public class TimelineFactory {
 	}
 	
 	private void setDefaultTimelines(){
-		String name1 = "PathFollowCollideDie";
-		Affector forward = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
-		Affector die = myAffectorLibrary.getAffector("Death", "Activation");
-		die.setTTL(1);
-		List<List<Affector>> affectors = Arrays.asList(Arrays.asList(forward), Arrays.asList(die));
-		constructTimeline(name1, affectors);
+//		String name1 = "PathFollowCollideDie";
+//		Affector forward = myAffectorLibrary.getAffector("PathFollow", "PositionMove");
+//		Affector die = myAffectorLibrary.getAffector("Death", "Activation");
+//		die.setTTL(1);
+//		List<List<Affector>> affectors = Arrays.asList(Arrays.asList(forward), Arrays.asList(die));
+//		constructTimeline(name1, affectors);
 	}
 
 	public TimelineLibrary getTimelineLibrary() {

@@ -1,13 +1,12 @@
 package game_player.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import auth_environment.paths.PathNode;
 import exceptions.WompException;
-import game_engine.games.GameEngineInterface;
 import game_engine.physics.CollisionDetector;
+import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -23,6 +22,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
 public class GameView implements IGameView{
+
         
         public final String[] seeRangeElements = {"Tower"};
         private int timer;
@@ -44,7 +44,7 @@ public class GameView implements IGameView{
         private List<ImageView> paths;
         private List<ImageViewPicker> terrains;
         private PlayerMainTab myTab;
-        private List<ImageView> towerTypes;
+        private List<UnitImageView> towerTypes;
         private String clickedTower;
 
         public GameView(GameEngineInterface engine, GameCanvas canvas, Scene scene, PlayerMainTab tab) {
@@ -140,18 +140,25 @@ public class GameView implements IGameView{
 
         public void makeTowerPicker() {
                 List<Unit> allTowerTypes = playerEngineInterface.getTowerTypes();
-                for(int i = towerTypes.size(); i < allTowerTypes.size(); i++) {
+                for(int i = 0; i < allTowerTypes.size(); i++) {
+                    if(!hasUnitImageView(allTowerTypes.get(i), towerTypes)) {
                         String name = allTowerTypes.get(i).toString();
-                        Image img = new Image(name + ".png");
-                        ImageView imgView = new ImageView(img);
-                        imgView.setX(100*i);
-                        imgView.setY(0);
-                        imgView.setRotate(transformDirection(allTowerTypes.get(i)));
-                        towerTypes.add(imgView);
-                        myTab.addToConfigurationPanel(imgView);
-                        imgView.setOnMouseClicked(e -> clickedTower = name);
+                        UnitImageView view = new UnitImageView(allTowerTypes.get(i), name + ".PNG");
+                        towerTypes.add(view);
+                        view.getImageView().setX(100*i);
+                        view.getImageView().setY(0);
+                        view.getImageView().setRotate(transformDirection(allTowerTypes.get(i)));
+                        myTab.addToConfigurationPanel(view.getImageView());
+                        view.getImageView().setOnMouseClicked(e -> clickedTower = name);   
+                    }
+                }  
+                for(int i = 0; i < towerTypes.size(); i++) {
+                    if(!allTowerTypes.contains(towerTypes.get(i).getUnit())) {
+                        myTab.removeFromConfigurationPanel(towerTypes.get(i).getImageView());
+                        towerTypes.remove(i);
+                    }
                 }
-        }
+            }  
 
 
         public void placePath () {
@@ -169,14 +176,15 @@ public class GameView implements IGameView{
                 }
         }
 
-        public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
+        public void placeUnits(List<Unit> totalList, List<ImageViewPicker> imageViews) {
+                List<Unit> list = filterVisible(totalList);
                 for(int i = 0; i < list.size(); i++) {
-                        if(!hasImageView(list.get(i), imageViews)) {
+                        if(!hasImageViewPicker(list.get(i), imageViews)) {
                             imageViews.add(new ImageViewPicker(list.get(i), root));
                         }
                 }
                 for(int i = 0; i < imageViews.size(); i++) {
-                    if(imageViews.get(i).getUnit().isVisible()) {
+                    if(list.contains(imageViews.get(i).getUnit())) {
                          imageViews.get(i).selectNextImageView(timer);
                     }
                     else {
@@ -185,6 +193,10 @@ public class GameView implements IGameView{
                     }
                 }  
                 displayRange(imageViews);
+        }
+        
+        public List<Unit> filterVisible(List<Unit> list) {
+            return list.stream().filter(u -> u.isVisible()).collect(Collectors.toList());
         }
         
         public void displayRange(List<ImageViewPicker> imageViews) {
@@ -227,7 +239,16 @@ public class GameView implements IGameView{
             return polygon;
         }
         
-        public boolean hasImageView(Unit u, List<ImageViewPicker> imageViews) {
+        public boolean hasImageViewPicker(Unit u, List<ImageViewPicker> imageViews) {
+            for(int i = 0; i < imageViews.size(); i++) {
+                if(imageViews.get(i).getUnit() == u) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        public boolean hasUnitImageView(Unit u, List<UnitImageView> imageViews) {
             for(int i = 0; i < imageViews.size(); i++) {
                 if(imageViews.get(i).getUnit() == u) {
                     return true;
@@ -244,6 +265,7 @@ public class GameView implements IGameView{
         public GameEngineInterface getGameEngine() {
                 return playerEngineInterface;
         }
+
 
 
 }
