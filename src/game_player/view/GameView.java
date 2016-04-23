@@ -48,7 +48,7 @@ public class GameView implements IGameView{
 	private PlayerMainTab myTab;
 	private List<ImageView> towerTypes;
 	private String clickedTower;
-	private boolean escape;
+	private boolean canPlaceTower;
 	private GameHUD myHUD;
 
 	public GameView(GameEngineInterface engine, GameCanvas canvas, GameHUD hud, Scene scene, PlayerMainTab tab) {
@@ -57,7 +57,7 @@ public class GameView implements IGameView{
 		this.playerEngineInterface = engine;    
 		gameData = new GameDataSource();
 		isPlaying = true;
-		escape = false;
+		canPlaceTower = false;
 		this.towers = new ArrayList<>();
 		this.enemies = new ArrayList<>();
 		this.projectiles = new ArrayList<>();
@@ -79,10 +79,10 @@ public class GameView implements IGameView{
 			System.out.println(clickedTower);
 			if (clickedTower != null) {
 				playerEngineInterface.addTower(clickedTower, e.getX(), e.getY());
-			} else if (escape){
+			} else if (canPlaceTower){
 				myHUD.whenNothingSelected();
 			}
-			escape = true;
+			canPlaceTower = true;
 		});
 	}
 
@@ -218,7 +218,7 @@ public class GameView implements IGameView{
 	
 	public void updateHUD(ImageViewPicker imager) {
 		myHUD.whenTowerSelected(imager.getUnit());
-		escape = false;
+		canPlaceTower = false;
 	}
 
 	public void displayRange(List<ImageViewPicker> imageViews) {
