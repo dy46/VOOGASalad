@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import auth_environment.paths.GridFactory;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathHandler;
@@ -26,7 +28,7 @@ import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
-import game_engine.physics.EncapsulationDetector;
+import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
@@ -53,7 +55,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private List<Unit> myProjectiles;
 
     private CollisionDetector myCollider;
-    private EncapsulationDetector myEncapsulator;
+    private EncapsulationController myEncapsulator;
 
     private Level myCurrentLevel;
     private IDFactory myIDFactory;
@@ -81,7 +83,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     public TestingEngineWorkspace () {
     };
 
-    public void setUpEngine (Double test) {
+    public void setUpEngine (IAuthEnvironment test) {
         score = 0;
         waveGoal = new EnemyNumberWaveGoal();
         scoreUpdate = new EnemyDeathScoreUpdate();
@@ -103,7 +105,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
         myTerrains = makeDummyTerrains();
         myCollider = new CollisionDetector(this);
-        myEncapsulator = new EncapsulationDetector(this);
+        myEncapsulator = new EncapsulationController(this);
         myBalance = 0;
         nextWaveTimer = 0;
          myCurrentLevel = makeDummyLevel();
