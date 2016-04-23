@@ -13,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 public class PlayerGUI{
 	private static final double TABS_OFFSET = 0;
 	private static final double NEWTAB_OFFSET = 33;
-	private static final String GUI_RESOURCE = "GUI";
+	private static final String GUI_RESOURCE = "game_player/resources/GUI";
 	private int windowWidth;
 	private int windowHeight;
 	private Scene myScene;

@@ -20,7 +20,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private static final int RIGHT_PADDING = 10;
 	private static final int BOTTOM_PADDING = 5;
 	private static final int LEFT_PADDING = 10;
-	private static final String GUI_ELEMENTS = "GUIElements";
+	private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
 	private static final String PACKAGE_NAME = "game_player.view.";
 	private static final int PANEL_PADDING = 10;
 	private Tab myTab;
