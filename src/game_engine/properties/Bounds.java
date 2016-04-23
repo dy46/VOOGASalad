@@ -47,7 +47,7 @@ public class Bounds extends Property {
     @Override
     public void setValues (List<Double> values) {
        for(int i = 0; i < myPositions.size(); i++) {
-           myPositions.get(i).setValues(Arrays.asList(values.get(i), values.get(i+1)));
+           myPositions.get(i).setValues(Arrays.asList(values.get(2*i), values.get(2*i+1)));
        }
     }
 

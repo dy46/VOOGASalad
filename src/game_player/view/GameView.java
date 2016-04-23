@@ -70,6 +70,7 @@ public class GameView implements IGameView{
 		this.paths = new ArrayList<>();
 		this.myTab = tab;
 		this.myHUD = hud;
+		myHUD.setEngine(engine);
 		setEventHandlers();
 	}
 	

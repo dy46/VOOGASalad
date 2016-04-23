@@ -4,6 +4,7 @@ import java.util.List;
 import auth_environment.paths.PathNode;
 import exceptions.WompException;
 import game_engine.game_elements.Level;
+import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -95,14 +96,17 @@ public interface GameEngineInterface {
     public List<Unit> getAllUnits ();
 
     public FunctionFactory getFunctionFactory ();
-    
-    public double getScore();
-    
-    public void setScore(double score);
 
-	public List<PathNode> getPaths();
+    public double getScore ();
 
-	public List<Branch> getGridBranches();
+    public void setScore (double score);
+
+    public List<PathNode> getPaths ();
+
+    public List<Branch> getGridBranches ();
+    
+    public List<Affector> getUpgrades(Unit name);
+    
+    public void applyUpgrade(Unit name, Affector affector);
 
 }
-
