@@ -36,6 +36,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private List<IGUIObject> gameElements;
 	private IGameView gameView;
 	private GameCanvas myCanvas;
+	private GameHUD myHUD;
 	private Scene myScene;
 	private String tabName;
 	
@@ -75,8 +76,9 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private void initializeCanvas() {
 		myCanvas = new GameCanvas(myResources);
-		gameSection.getChildren().add(myCanvas.createCanvas());
-		gameView = new GameView(gameEngine, myCanvas, myScene, this);
+		myHUD = new GameHUD(myResources);
+		gameSection.getChildren().addAll(myCanvas.createCanvas(), myHUD.createNode());
+		gameView = new GameView(gameEngine, myCanvas, myHUD, myScene, this);
 		gameView.playGame(0);
 	}
 	

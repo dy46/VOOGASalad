@@ -19,6 +19,7 @@ import javafx.util.Callback;
 
 public class GameTowerPicker implements IGUIObject {
 	
+	private static final int LISTVIEW_WIDTH = 150;
 	private ResourceBundle myResources;
 	private GameDataSource myData;
 	private IGameView myView;
@@ -49,6 +50,8 @@ public class GameTowerPicker implements IGUIObject {
 		myListView.setOnMouseClicked(e -> {
 			myView.changeClickedTower(myListView.getSelectionModel().getSelectedItem().toString());
 		});
+		
+		myListView.setPrefWidth(LISTVIEW_WIDTH);
 		
 		box.getChildren().add(myListView);
 		VBox.setVgrow(myListView, Priority.ALWAYS);

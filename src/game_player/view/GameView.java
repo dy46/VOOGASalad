@@ -13,10 +13,12 @@ import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_player.GameDataSource;
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -32,6 +34,7 @@ public class GameView implements IGameView{
 	private boolean isPlaying;
 	private GameCanvas canvas;
 	private Pane root;
+	private Pane towerRoot;
 	private Shape unionRange;
 	private Scene myScene;
 	private GameEngineInterface playerEngineInterface;
@@ -46,13 +49,16 @@ public class GameView implements IGameView{
 	private PlayerMainTab myTab;
 	private List<ImageView> towerTypes;
 	private String clickedTower;
+	private boolean escape;
+	private GameHUD myHUD;
 
-	public GameView(GameEngineInterface engine, GameCanvas canvas, Scene scene, PlayerMainTab tab) {
+	public GameView(GameEngineInterface engine, GameCanvas canvas, GameHUD hud, Scene scene, PlayerMainTab tab) {
 		this.root = canvas.getRoot();
 		this.myScene = scene;
 		this.playerEngineInterface = engine;    
 		gameData = new GameDataSource();
 		isPlaying = true;
+		escape = false;
 		this.towers = new ArrayList<>();
 		this.enemies = new ArrayList<>();
 		this.projectiles = new ArrayList<>();
@@ -63,17 +69,29 @@ public class GameView implements IGameView{
 		this.myUpdateSpeed = DEFAULT_UPDATE_SPEED;
 		this.currentSpeed = DEFAULT_UPDATE_SPEED;
 		this.paths = new ArrayList<>();
+		this.myTab = tab;
+		this.myHUD = hud;
+		setEventHandlers();
+	}
+	
+	private void setEventHandlers() {
 		this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
 		this.root.setOnMouseClicked(e -> {
-			playerEngineInterface.addTower(clickedTower, e.getX(), e.getY());
+			if (escape) {
+				myHUD.whenNothingSelected();
+			} else {
+				playerEngineInterface.addTower(clickedTower, e.getX(), e.getY());
+			}
+			escape = true;
 		});
-		this.myTab = tab;
 	}
 
 	public void setUpKeyPressed(KeyCode code) {
 		switch (code) {
 		case SPACE:
 			toggleGame();
+		case ESCAPE:
+			clickedTower = null;
 		default:
 			//do nothing
 		}
@@ -162,7 +180,7 @@ public class GameView implements IGameView{
 			currBranches.addAll(p.getBranches());
 		}
 		// Comment this out to hide path grid
-//				currBranches.addAll(playerEngineInterface.getGridBranches());
+//		currBranches.addAll(playerEngineInterface.getGridBranches());
 		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {
 			Image img = new Image("DirtNew.png");
@@ -178,36 +196,49 @@ public class GameView implements IGameView{
 	public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
 		for(int i = 0; i < list.size(); i++) {
 			if(!hasImageView(list.get(i), imageViews)) {
-				imageViews.add(new ImageViewPicker(list.get(i), root));
+				ImageViewPicker picker = new ImageViewPicker(list.get(i), root);
+				picker.getImageView().setOnMouseClicked(e -> updateHUD(picker));
+				imageViews.add(picker);
 			}
 		}
 		for(int i = 0; i < imageViews.size(); i++) {
+			ImageViewPicker picker = imageViews.get(i);
 			if(imageViews.get(i).getUnit().isVisible()) {
-				imageViews.get(i).selectNextImageView(timer);
+				picker.selectNextImageView(timer);
 			}
 			else {
-				imageViews.get(i).removeElementsFromRoot();
+				picker.removeElementsFromRoot();
 				imageViews.remove(i);
 			}
 		}  
 		displayRange(imageViews);
 	}
+	
+	public void updateHUD(ImageViewPicker imager) {
+		myHUD.whenTowerSelected(imager.getUnit());
+		escape = false;
+	}
 
 	public void displayRange(List<ImageViewPicker> imageViews) {
 		List<Polygon> ranges = new ArrayList<>();
+		List<Polygon> rangesToSubtract = new ArrayList<>();
 		for(int i = 0; i < imageViews.size(); i++) {
 			boolean seeRange = imageViews.get(i).getUnit().toString().contains(seeRangeElements[0]);
 			if(seeRange) {
 				Unit myUnit = imageViews.get(i).getUnit();
+				List<Position> bounds = CollisionDetector.getUseableBounds(myUnit.getChildren().get(0).getProperties().getBounds(),
+																		  myUnit.getProperties().getPosition());
 				List<Position> range = CollisionDetector.getUseableBounds(myUnit.getChildren().get(0)
 						.getProperties().getRange(), 
 						myUnit.getProperties().getPosition());
+				rangesToSubtract.add(fillPolygonWithPoints(new Polygon(), bounds));
 				ranges.add(fillPolygonWithPoints(new Polygon(), range));
 			}
 		}
 		if(ranges.size() > 0) {
 			root.getChildren().remove(unionRange);
 			unionRange = generateUnion(ranges);
+			unionRange = subtractBounds(unionRange, rangesToSubtract);
 			unionRange.setFill(Color.BLACK);
 			unionRange.toFront();
 			unionRange.setOpacity(0.1);
@@ -222,6 +253,13 @@ public class GameView implements IGameView{
 		}
 		for(int i = 1; i < polygons.size(); i++) {
 			first = Shape.union(first, polygons.get(i));
+		}
+		return first;
+	}
+	
+	public Shape subtractBounds(Shape first, List<Polygon> bounds) {
+		for(int i = 0; i < bounds.size(); i++) {
+			first = Shape.subtract(first, bounds.get(i));
 		}
 		return first;
 	}
