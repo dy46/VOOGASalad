@@ -15,6 +15,7 @@ import game_engine.properties.Position;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
+import game_engine.store_elements.Store;
 
 
 public class TowerFactory {
@@ -48,7 +49,8 @@ public class TowerFactory {
 	public Unit createTackTower (String name,
 			List<Unit> allProjectiles,
 			List<Unit> myTowers,
-			Position startingPosition) {
+			Position startingPosition,
+			Store myStore) {
 		List<Unit> myProjectiles = new ArrayList<>();
 		Affector move = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
 		move.setTTL(Integer.MAX_VALUE);
@@ -180,13 +182,17 @@ public class TowerFactory {
 	public Unit createHomingTower (String name,
 			List<Unit> myProjectiles2,
 			List<Unit> myTowers,
-			Position startingPosition) {
+			Position startingPosition,
+			Store myStore) {
 		List<Unit> myProjectiles = new ArrayList<>();
 		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		move.setTTL(Integer.MAX_VALUE);
 		Unit p =
 				new Unit("Projectile",
 						Arrays.asList(move), 3);
+		Affector increase = myAffectorLibrary.getAffector("Increase", "Range");
+                myStore.addUpgrade(p, increase, 100);
+                System.out.println("hi");
 		p.setDeathDelay(15);
 		p.setTTL(1000000);
 		Velocity velocity = new Velocity(2, 90);

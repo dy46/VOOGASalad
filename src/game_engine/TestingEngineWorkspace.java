@@ -87,13 +87,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         scoreUpdate = new EnemyDeathScoreUpdate();
         myLevels = new ArrayList<>();
         myBranches = new ArrayList<>();
-        // Branch p2 = new Branch("DirtNew");
-        // p2.addPosition(new Position(0, 30));
-        // p2.addPosition(new Position(200, 30));
-        // p2.addPosition(new Position(200, 200));
-        // p2.addPosition(new Position(400, 200));
-        // p2.addPosition(new Position(400, 525));
-        // myPaths.add(p2);
         myDrawablePaths = new ArrayList<>();
         myGridBranches = new ArrayList<>();
         myIDFactory = new IDFactory();
@@ -107,7 +100,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
         myTowers = new ArrayList<>();
         myStore = new Store(500);
-        makeDummyTowers();
         myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
         myTerrains = makeDummyTerrains();
         myCollider = new CollisionDetector(this);
@@ -130,11 +122,11 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         Unit t =
                 myTowerFactory.createHomingTower("Tower", myProjectiles,
                                                  Collections.unmodifiableList(myTowers),
-                                                 position2);
+                                                 position2, myStore);
         Unit t2 =
                 myTowerFactory.createTackTower("TackTower", myProjectiles,
                                                Collections.unmodifiableList(myTowers),
-                                               position2);
+                                               position2, myStore);
         // myStore.addBuyableTower(t, 100, 1);
         // myStore.addBuyableTower(t2, 300, 1);
         return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
@@ -287,8 +279,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         w2.addSpawningUnit(e6, 60);
         w2.addSpawningUnit(e7, 60);
         w2.addSpawningUnit(e8, 60);
-        List<Unit> list2 = makeDummyTowers();
-        w2.addPlacingUnit(list2.get(0), 0);
+        w2.addPlacingUnit(list.get(0), 0);
         Wave w3 = new Wave("I'm not quite sure what goes here", 240);
         Unit e9 = myEnemyFactory.createAIEnemy("Moab", pb1);
         Unit e10 = myEnemyFactory.createAIEnemy("Moab", pb1);
@@ -302,10 +293,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         w3.addSpawningUnit(e10, 60);
         w3.addSpawningUnit(e11, 60);
         w3.addSpawningUnit(e12, 60);
-        List<Unit> list3 = makeDummyTowers();
-        w3.addPlacingUnit(list3.get(1), 0);
+        w3.addPlacingUnit(list.get(1), 0);
         l.addWave(w3);
         l.addWave(w2);
+        Affector affector =
+                this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
+        myStore.addUpgrade(list.get(1), affector, 100);
+        Affector affector2 =
+                this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
+        myStore.addUpgrade(list.get(0), affector2, 100);
         return l;
     }
 
@@ -658,6 +654,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     @Override
     public int getNextWaveTimer () {
         return nextWaveTimer;
+    }
+    
+    public List<Affector> getUpgrades(Unit unitToUpgrade) {
+        return myStore.getUpgrades(unitToUpgrade);
+    }
+    
+    public void applyUpgrade(Unit unitToUpgrade, Affector affector) {
+        myStore.buyUpgrade(unitToUpgrade, affector);
     }
 
 }
