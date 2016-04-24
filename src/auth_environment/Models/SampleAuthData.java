@@ -7,6 +7,8 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -49,7 +51,11 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; 
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
+	
+	// TODO: Factory class variables... remove eventually
 	private UnitFactory myUnitFactory; 
+	private FunctionFactory myFunctionFactory; 
+	private AffectorFactory myAffectorFactory;
 
 	public SampleAuthData() {
 		this.myName = "sampleGame";
@@ -66,6 +72,9 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlacedUnits = new ArrayList<>(); 
 		this.mySpawns = new ArrayList<>();
 		this.myGoals = new ArrayList<>(); 
+		this.myUnitFactory = new UnitFactory();
+		this.myFunctionFactory = new FunctionFactory(); 
+		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
 		this.setupDummyValues();
 	}
 
@@ -189,10 +198,6 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public void setEngineBranches(List<Branch> branches) {
-		if(branches.size() > 0){
-			Branch b = branches.get(0);
-			this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
-		}
 		this.myEngineBranches = branches; 
 	}
 
@@ -249,6 +254,26 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setUnitFactory(UnitFactory factory) {
 		this.myUnitFactory = factory; 
+	}
+
+	@Override
+	public FunctionFactory getFunctionFactory() {
+		return this.myFunctionFactory;
+	}
+
+	@Override
+	public void setFunctionFactory(FunctionFactory factory) {
+		this.myFunctionFactory = factory; 
+	}
+
+	@Override
+	public AffectorFactory getAffectorFactory() {
+		return this.myAffectorFactory; 
+	}
+
+	@Override
+	public void setAffectorFactory(AffectorFactory factory) {
+		this.myAffectorFactory = factory; 
 	}
 	
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.AuthModel;
-import auth_environment.Models.SampleAuthData;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
 
