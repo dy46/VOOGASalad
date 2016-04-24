@@ -1,5 +1,6 @@
 package auth_environment.view.Workspaces;
 
+import java.awt.MouseInfo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.RecTile;
 import auth_environment.view.UnitPicker;
 import game_engine.game_elements.Unit;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -25,11 +28,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineBuilder;
+import javafx.scene.shape.Rectangle;
 
 public class MapEditorTab implements IWorkspace{	
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
@@ -46,11 +57,11 @@ public class MapEditorTab implements IWorkspace{
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
 	private Canvas myCanvas;
+	private Pane myCanvasPane;
 	private UnitPicker myPicker;
 
 	private MapEditorTabModel myModel;
 	private List<Unit> myTerrains;
-	private List<UnitView> myUnitViewList;
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myAuth;
 	
@@ -58,7 +69,7 @@ public class MapEditorTab implements IWorkspace{
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
 		this.myModel = new MapEditorTabModel(myAuth); 
-		
+		this.myTerrains = myModel.getTerrains();
 		this.buildTerrainChooser();
 		this.buildMapPane();
 		this.setupBorderPane();
@@ -72,6 +83,7 @@ public class MapEditorTab implements IWorkspace{
 		
 		this.myBorderPane.setRight(myPicker.getRoot());
 		this.myBorderPane.setLeft(myMapPane);
+		this.myBorderPane.setBottom(buildClearButton());
 	}
 	
 	private void refresh(){
@@ -79,39 +91,107 @@ public class MapEditorTab implements IWorkspace{
 		this.myModel = new MapEditorTabModel(myAuthModel.getIAuthEnvironment());
 	}
 	
-	public void buildUnitViewList(){
-		myUnitViewList = new ArrayList<UnitView>();
-		for(Unit uv:myModel.getTerrains()){
-			myUnitViewList.add(new UnitView(uv));
-		}
-	}
-	
 	public void buildTerrainChooser(){
-		buildUnitViewList();
-		myPicker = new UnitPicker();
-		if(!myUnitViewList.equals(null)){
-			myPicker.init(myUnitViewList);
+		if(myTerrains.equals(null)){
+			myPicker = new UnitPicker("Terrains");
+			System.out.println("WIEOJROIEJTET");
 		}
-		myPicker.setTitle("Terrains");
+		else{
+			myPicker = new UnitPicker("Terrains", myTerrains);
+		}
 	}
 	
 	private void buildMapPane(){
 		myMapPane = new TitledPane();
-        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+//        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+//        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
+        myCanvasPane = new Pane();
+        myCanvasPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        this.addClickHandlers(myCanvas);
-        this.myMapPane.setContent(myCanvas); 
+//        myCanvasPane.setScaleX(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")));
+//        myCanvasPane.setScaleY(Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
+//        myCanvasPane.getChildren().add(myCanvas);
+        System.out.println(myCanvasPane);
+        setUpNodeTarget(myCanvasPane);
+        this.myMapPane.setContent(myCanvasPane); 
 	}
 	
-	private void addClickHandlers(Canvas canvas) {
-		 canvas.setOnMouseClicked(e -> {
-	        	
-	        });
-	}
+//To be refactor out
 	
-	private void convertView(){
+    public void setUpNodeTarget(Pane target) {
 		
+		target.setOnDragOver(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {
+				System.out.println("Dragging over Node...");
+//				if (event.getGestureSource() != target &&
+//						event.getDragboard().hasString()) {
+					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+					
+//				}
+				event.consume();
+			}
+		});
+		
+		target.setOnDragEntered(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				System.out.println("Drag entered...");
+				if (event.getGestureSource() != target &&
+						event.getDragboard().hasString()) {
+				}
+				event.consume();
+			}
+		});
+		
+		target.setOnDragExited(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				/* mouse moved away, remove the graphical cues */
+				System.out.println("Drag exited...");
+				event.consume();
+			}
+		});
+		
+		target.setOnDragDropped(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				event.acceptTransferModes(TransferMode.ANY);
+				System.out.println("Drag dropped...");
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if (db.hasImage()) {
+//					System.out.println("Name: " + db.getString());
+//					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
+					System.out.println(db.getImage());
+					ImageView imv= new ImageView(db.getImage());
+//					imv.setFitHeight(50);
+//					imv.setFitWidth(50);
+					imv.setX(event.getSceneX() - imv.getFitWidth());
+					imv.setY(event.getSceneY() - imv.getFitHeight() - 60);
+					System.out.println("X: " + event.getSceneX());
+					System.out.println("Y: " + event.getSceneY());
+					target.getChildren().add(imv);
+					imv.setOnMouseClicked(new EventHandler<MouseEvent>(){
+						@Override
+						public void handle(MouseEvent event) {
+							target.getChildren().remove(imv);
+						}
+					});
+//					UnitView uv = new UnitView(db.getImage());
+//					target.getChildren().addAll(uv);
+//					myModel.addTerrain(uv.getX(), uv.getY(), uv.getUnit());
+					success = true;
+				}
+				event.setDropCompleted(success);
+				event.consume();
+			}
+		});
 	}
+    
+    private Button buildClearButton() {
+		Button clear = new Button("Clear");
+		clear.setOnAction(e -> this.myCanvasPane.getChildren().clear());
+		return clear;
+	}
+    
 	@Override
 	public Node getRoot() {
 		// TODO Auto-generated method stub

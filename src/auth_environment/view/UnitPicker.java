@@ -19,11 +19,14 @@ public class UnitPicker{
 	
 	public UnitPicker(String name){
 		init(name);
+		System.out.println("No Units!");
 	}
+	
 	
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
 		addUnits(units);
+		System.out.println("Has Unit!");
 	}
 	
 	public void setName(String name){
@@ -47,6 +50,7 @@ public class UnitPicker{
 	
 
 	private void addUnits(List<Unit> units){
+		System.out.println(units);
 		myUnitPickerModel = new UnitPickerModel();
 		//for(UnitView uv: myUnitPickerModel.setUnits(units)){
 			myEditInfo.getChildren().addAll(myUnitPickerModel.setUnits(units));
@@ -58,6 +62,7 @@ public class UnitPicker{
 		myEditInfo.getChildren().add(uv);
 		uv.setOnMouseClicked(e -> elementTab.updateMenu(unit));
 	}
+	
 	
 	public TitledPane getRoot(){
 		return myEditPane;
