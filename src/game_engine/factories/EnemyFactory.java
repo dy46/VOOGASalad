@@ -33,22 +33,21 @@ public class EnemyFactory {
         return e;
     }
 
-    public Unit createAIEnemy (String name, Branch startingBranch) {
+    public Unit createAIEnemy (String name, Position spawn) {
         Unit e = createSpecifiedEnemy(name, "AIPath", "Follow");
-        e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
-        e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
+        e.getProperties().setMovement(new Movement(spawn));
+        e.getProperties().setPosition(spawn);
         return e;
     }
     
-    public Unit createRandomEnemy(String name, Branch startingBranch){
+    public Unit createRandomEnemy(String name, Position spawn){
 		Unit e = createSpecifiedEnemy(name, "RandomPath", "Follow");
-		e.getProperties().setMovement(new Movement(Arrays.asList(startingBranch)));
-        e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
+		e.getProperties().setMovement(new Movement(spawn));
+        e.getProperties().setPosition(spawn);
 		return e;
 	}
     
- 
-    
+
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
         moveAffector.setTTL(Integer.MAX_VALUE);

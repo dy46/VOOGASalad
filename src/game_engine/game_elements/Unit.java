@@ -26,7 +26,6 @@ public class Unit extends GameElement {
 	private int TTL;
 	private boolean setToDeath;
 	private boolean hasCollided;
-	private boolean isEncapsulated;
 	private int deathDelay;
 	private int elapsedTime;
 	private int numFrames;
