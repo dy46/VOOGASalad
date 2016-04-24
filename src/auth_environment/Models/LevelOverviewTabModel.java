@@ -22,6 +22,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
 		return (levelNum >= 0) && (levelNum < this.myCreatedLevels.size());
 	}
 	
+	@Override
 	public void changeEditedLevel(int editLevel){
 		if(!this.checkBounds(editLevel-1)){
 			// TODO: throw an exception for the front-end
@@ -29,33 +30,39 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
 		this.myCurrentLevelIndex = editLevel-1;
 	}
 	
+	@Override
 	public void addLevel(String name, int numLives){
 		this.myCreatedLevels.add(new Level(name, numLives));
 	}
 	
+	@Override
 	public void addLevels(String name, int numLives, int numLevelsToAdd){
 		for(int i = 1;i <= numLevelsToAdd;i++){
 			this.addLevel(name + i, numLives);
 		}
 	}
 	
+	@Override
 	public void addWaveToCurrentLevel(int waveIndex){
 		Wave w = this.myCreatedWaves.get(waveIndex);
 		this.myCreatedLevels.get(this.myCurrentLevelIndex).addWave(w);
 	}
 	
+	@Override
 	public List<String> getLevelNames(){
 		List<String> levelNames = new ArrayList<String>();
 		this.myCreatedLevels.forEach(l -> levelNames.add(l.getName()));
 		return levelNames;
 	}
 	
+	@Override
 	public List<String> getCurrentLevelWaveNames(){
 		List<String> names = new ArrayList<String>();
 		this.myCreatedLevels.get(this.myCurrentLevelIndex).getWaves().forEach(w -> names.add(w.getName()));
 		return names;
 	}
 	
+	@Override
 	public List<Level> getCreatedLevels(){
 		return new ArrayList<Level>(this.myCreatedLevels);
 	}
