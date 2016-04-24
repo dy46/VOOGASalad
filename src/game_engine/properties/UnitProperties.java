@@ -61,11 +61,14 @@ public class UnitProperties {
 			if(f.getName().matches("my[A-Za-z]*")){
 				String prop = f.getName().substring(2);
 				try {
-					f.set(n2, f.get(this).getClass().getMethod("copy"+f.get(this).getClass().getSimpleName(),
-							new Class[0]).invoke(f.get(this), new Object[0]));
+					if(f.get(this) != null){
+						f.set(n2, f.get(this).getClass().getMethod("copy"+f.get(this).getClass().getSimpleName(),
+								new Class[0]).invoke(f.get(this), new Object[0]));
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				} 
+
 			}
 		}
 		return n2;
@@ -194,7 +197,7 @@ public class UnitProperties {
 		return myRange;
 	}
 
-	
+
 
 	public void setMass(double mass) {
 		this.myMass.setMass(mass);

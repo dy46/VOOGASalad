@@ -1,4 +1,4 @@
-package auth_environment.Models;
+package game_data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,6 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
-import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
 /**
@@ -49,7 +48,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; 
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
-	private UnitLibrary myUnitLibrary; 
 
 	public SampleAuthData() {
 		this.myName = "sampleGame";
@@ -66,7 +64,6 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlacedUnits = new ArrayList<>(); 
 		this.mySpawns = new ArrayList<>();
 		this.myGoals = new ArrayList<>(); 
-		this.myUnitLibrary = new UnitLibrary(); 
 		this.setupDummyValues();
 	}
 
@@ -240,16 +237,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public List<Branch> getGridBranches() {
 		return myGridBranches;
-	}
-
-	@Override
-	public UnitLibrary getUnitLibrary() {
-		return this.myUnitLibrary;
-	}
-
-	@Override
-	public void setUnitLibrary(UnitLibrary library) {
-		this.myUnitLibrary = library; 
 	}
 	
 }

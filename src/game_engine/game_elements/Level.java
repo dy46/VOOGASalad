@@ -154,14 +154,7 @@ public class Level extends GameElement {
 	}
 
 	public List<Position> getGoals () {
-		List<Position> goals = new ArrayList<>();
-		for (Branch b : myBranches) {
-			Position lastPos = b.getLastPosition();
-			List<Branch> forwardNeighbors = b.getForwardNeighbors();
-			if (forwardNeighbors.size() == 0)
-				goals.add(lastPos);
-		}
-		return goals;
+		return myGoals;
 	}
 
 	public boolean isGoal (Position goal) {

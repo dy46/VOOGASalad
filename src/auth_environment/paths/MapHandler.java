@@ -94,10 +94,10 @@ public class MapHandler {
 		List<Position> b4 = Arrays.asList(p10, p11);
 		processPositions(b4);
 
-		Position p12 = new Position(100, 30);
-		Position p13 = new Position(100, 200);
-		List<Position> b5 = Arrays.asList(p12, p13);
-		processPositions(b5);
+//		Position p12 = new Position(100, 30);
+//		Position p13 = new Position(100, 200);
+//		List<Position> b5 = Arrays.asList(p12, p13);
+//		processPositions(b5);
 		
 		addGoal(p11);
 	}
