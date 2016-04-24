@@ -252,4 +252,8 @@ public class Branch {
 		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
 	}
 
+	public void removeNeighbor(Branch b) {
+		this.myNeighbors.remove(b);
+	}
+
 }

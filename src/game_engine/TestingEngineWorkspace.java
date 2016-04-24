@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import auth_environment.IAuthEnvironment;
 import auth_environment.paths.GridFactory;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.PathHandler;
@@ -26,7 +29,9 @@ import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
-import game_engine.physics.EncapsulationDetector;
+import game_engine.place_validations.EnemySpawnPointPlaceValidation;
+import game_engine.place_validations.PlaceValidation;
+import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
@@ -44,6 +49,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private List<Level> myLevels;
     private List<Branch> myBranches;
     private List<PathNode> myDrawablePaths;
+    private List<PlaceValidation> myPlaceValidations;
+    private List<Unit> unitsToRemove;
+    private Position cursorPos;
 
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
@@ -53,7 +61,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private List<Unit> myProjectiles;
 
     private CollisionDetector myCollider;
-    private EncapsulationDetector myEncapsulator;
+    private EncapsulationController myEncapsulator;
 
     private Level myCurrentLevel;
     private IDFactory myIDFactory;
@@ -73,27 +81,20 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
     private List<Position> myGoals;
 
-    private TimelineFactory myTimelineFactory;
-
     private List<Branch> myGridBranches;
     private GridFactory myGF;
 
-    public TestingEngineWorkspace () {
-    };
+    public TestingEngineWorkspace () {};
 
-    public void setUpEngine (Double test) {
+    public void setUpEngine (IAuthEnvironment test) {
         score = 0;
+        unitsToRemove = new ArrayList<>();
+        myPlaceValidations = new ArrayList<>();
+        myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
         waveGoal = new EnemyNumberWaveGoal();
         scoreUpdate = new EnemyDeathScoreUpdate();
         myLevels = new ArrayList<>();
         myBranches = new ArrayList<>();
-        // Branch p2 = new Branch("DirtNew");
-        // p2.addPosition(new Position(0, 30));
-        // p2.addPosition(new Position(200, 30));
-        // p2.addPosition(new Position(200, 200));
-        // p2.addPosition(new Position(400, 200));
-        // p2.addPosition(new Position(400, 525));
-        // myPaths.add(p2);
         myDrawablePaths = new ArrayList<>();
         myGridBranches = new ArrayList<>();
         myIDFactory = new IDFactory();
@@ -101,17 +102,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // projectiles must be intialized before towers
         myFunctionFactory = new FunctionFactory();
         myAffectorFactory = new AffectorFactory(myFunctionFactory);
-        myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
         myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
         myEnemys = new ArrayList<>();
         myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
         myTowers = new ArrayList<>();
         myStore = new Store(500);
-        makeDummyTowers();
         myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
         myTerrains = makeDummyTerrains();
         myCollider = new CollisionDetector(this);
-        myEncapsulator = new EncapsulationDetector(this);
+        myEncapsulator = new EncapsulationController(this);
         myBalance = 0;
         nextWaveTimer = 0;
          myCurrentLevel = makeDummyLevel();
@@ -130,11 +129,11 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         Unit t =
                 myTowerFactory.createHomingTower("Tower", myProjectiles,
                                                  Collections.unmodifiableList(myTowers),
-                                                 position2);
+                                                 position2, myStore);
         Unit t2 =
                 myTowerFactory.createTackTower("TackTower", myProjectiles,
                                                Collections.unmodifiableList(myTowers),
-                                               position2);
+                                               position2, myStore);
         // myStore.addBuyableTower(t, 100, 1);
         // myStore.addBuyableTower(t2, 300, 1);
         return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
@@ -186,7 +185,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // l.addWave(w2);
         // return l;
 
-        Level l = new Level("Dummy level", 3);
+        Level l = new Level("Dummy level", 20);
 
         PathHandler ph = new PathHandler();
         PathGraphFactory pgf = ph.getPGF();
@@ -272,7 +271,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
          List<Unit> list = makeDummyTowers();
          w.addPlacingUnit(list.get(0), 0);
          w.addPlacingUnit(list.get(1), 0);
-        l.setMyLives(5);
         l.addWave(w);
         Wave w2 = new Wave("I'm not quite sure what goes here", 240);
         Unit e5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
@@ -287,8 +285,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         w2.addSpawningUnit(e6, 60);
         w2.addSpawningUnit(e7, 60);
         w2.addSpawningUnit(e8, 60);
-        List<Unit> list2 = makeDummyTowers();
-        w2.addPlacingUnit(list2.get(0), 0);
+        w2.addPlacingUnit(list.get(0), 0);
         Wave w3 = new Wave("I'm not quite sure what goes here", 240);
         Unit e9 = myEnemyFactory.createAIEnemy("Moab", pb1);
         Unit e10 = myEnemyFactory.createAIEnemy("Moab", pb1);
@@ -302,10 +299,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         w3.addSpawningUnit(e10, 60);
         w3.addSpawningUnit(e11, 60);
         w3.addSpawningUnit(e12, 60);
-        List<Unit> list3 = makeDummyTowers();
-        w3.addPlacingUnit(list3.get(1), 0);
+        w3.addPlacingUnit(list.get(1), 0);
         l.addWave(w3);
         l.addWave(w2);
+        Affector affector =
+                this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
+        myStore.addUpgrade(list.get(1), affector, 100);
+        Affector affector2 =
+                this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
+        myStore.addUpgrade(list.get(0), affector2, 100);
         return l;
     }
 
@@ -530,24 +532,37 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         pause = false;
     }
 
-    // change this
     @Override
     public boolean addTower (String name, double x, double y) {
-        // for(int i = 0; i < myStore.getTowerList().size(); i++) {
-        // if(myStore.getTowerList().get(i).toString().equals(name)) {
-        // Unit newTower = myStore.getTowerList().get(i).copyUnit();
-        // newTower.getProperties().setPosition(x, y);
-        // myTowers.add(newTower);
-        // }
-        // }
         Unit purchased = myStore.purchaseUnit(name);
         if (purchased != null) {
-            Unit copy = purchased.copyUnit();
-            copy.getProperties().setPosition(x, y);
-            myTowers.add(copy);
-            return true;
+            boolean canPlace = false;
+            for(int i = 0; i < myPlaceValidations.size(); i++) {
+                canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
+            }
+            if(canPlace) {
+                Unit copy = purchased.copyUnit();
+                copy.getProperties().setPosition(x, y);
+                myTowers.add(copy);
+                return true;
+            }
+            else {
+                myStore.sellUnit(purchased);
+            }
         }
         return false;
+    }
+    
+    @Override
+    public void sellUnit(Unit u) {
+        List<String> namesOfChildren = new ArrayList<>();
+        u.getChildren().stream().forEach(c -> namesOfChildren.add(c.toString()));
+        unitsToRemove.addAll(getAllUnits().stream().filter(c -> namesOfChildren.contains(c.toString()))
+                .collect(Collectors.toList()));
+        u.setInvisible();
+        u.update();
+        unitsToRemove.add(u);
+        myStore.sellUnit(u);
     }
 
     @Override
@@ -576,7 +591,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
                 myEnemys.add(newE);
             }// tries to spawn new enemies using Waves
             // myStore.applyItem("Interesting", this.myEnemys);
-
         }
         if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
             nextWaveTimer = 0;
@@ -590,6 +604,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myProjectiles.removeIf(p -> !p.isVisible());
         myTerrains.forEach(t -> t.update());
         scoreUpdate.updateScore(this, myCurrentLevel);
+        unitsToRemove.stream().forEach(r -> r.setInvisible());
+        unitsToRemove.clear();
         // updateLives();
 
     }
@@ -659,5 +675,26 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     public int getNextWaveTimer () {
         return nextWaveTimer;
     }
+    
+    public List<Affector> getUpgrades(Unit unitToUpgrade) {
+        return myStore.getUpgrades(unitToUpgrade);
+    }
+    
+    public void applyUpgrade(Unit unitToUpgrade, Affector affector) {
+        myStore.buyUpgrade(unitToUpgrade, affector);
+    }
 
+    @Override
+    public void moveUnit (Unit unit, double x, double y) {
+        unit.getProperties().setPosition(new Position(x, y));
+    }
+
+    @Override
+    public void setCursorPosition (double x, double y) {
+        cursorPos = new Position(x, y);      
+    }
+    
+    public Position getCursorPosition() {
+        return cursorPos;
+    }
 }

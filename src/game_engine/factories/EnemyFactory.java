@@ -46,7 +46,11 @@ public class EnemyFactory {
         e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
 		return e;
 	}
-
+    
+    public Unit createMOABEnemy(String name, Branch startingBranch) {
+        createPathFollowPositionMoveEnemy(name, startingBranch);
+    }
+    
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
         moveAffector.setTTL(Integer.MAX_VALUE);
