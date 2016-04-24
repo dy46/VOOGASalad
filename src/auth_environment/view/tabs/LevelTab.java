@@ -6,6 +6,8 @@ import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.UnitPicker;
 import game_engine.TestingEngineWorkspace;
 import game_engine.factories.UnitFactory;
@@ -29,10 +31,24 @@ import javafx.scene.text.Text;
 
 public class LevelTab extends Tab{
 	private IAuthEnvironment myInterface;
+	private BorderPane myBorderPane;
+	private IAuthModel myAuthModel;
+	
+	private NodeFactory myNodeFactory;
 	
 	public LevelTab(String name, IAuthEnvironment myInterface){
 		super(name);
 		this.myInterface = myInterface;
-		
+		this.myNodeFactory = new NodeFactory();
+		init();
+	}
+	
+	private void init(){
+		System.out.println("test");
+		myBorderPane = new BorderPane();
+		TitledPane newPane = new TitledPane();
+		ScrollPane newScrollPane = new ScrollPane();
+		this.myBorderPane.getChildren().add(this.myNodeFactory.buildButton("hello"));
+		this.setContent(myBorderPane);
 	}
 }
