@@ -1,7 +1,8 @@
 package auth_environment.Models;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
+import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IWaveOverviewTabModel;
 
 import java.util.ArrayList;
@@ -14,9 +15,20 @@ public class WaveOverviewTabModel implements IWaveOverviewTabModel{
 	
 	private Wave myWave;
 	private UnitLibrary myLibrary;
-	public WaveOverviewTabModel(UnitLibrary lib, String name, int spawnTime){
+	private ILevelOverviewTabModel levelOverview;
+	
+	public WaveOverviewTabModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
 		this.myWave = new Wave(name, spawnTime);
 		this.myLibrary = lib;
+		this.levelOverview = levelOverview;
+	}
+	
+	public Wave createWave(List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
+	    return new Wave(unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes);
+	}
+	
+	public List<Unit> unitsFromNames(List<String> names) {
+	    return names.stream().map(n -> myLibrary.getUnitByName(u)).collect(Collectors.toList()));    
 	}
 	
 	@Override
