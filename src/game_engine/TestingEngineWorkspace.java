@@ -77,6 +77,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private TerrainFactory myTerrainFactory;
 
 	private List<Position> myGoals;
+	private List<Position> mySpawns;
 
 	public TestingEngineWorkspace () {};
 
@@ -673,4 +674,25 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	public Position getCursorPosition() {
 		return cursorPos;
 	}
+	
+	public void removeTower(Unit u) {
+		if(myTowers.contains(u)){
+			myTowers.remove(u);
+		}
+	}
+
+	@Override
+	public List<Position> getSpawns() {
+		return mySpawns;
+	}
+	
+	public Branch findBranchForSpawn(Position spawn) {
+		for(Branch b : myBranches){
+			if(b.getPositions().contains(spawn)){
+				return b;
+			}
+		}
+		return null;
+	}
+	
 }

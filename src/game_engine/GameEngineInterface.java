@@ -100,4 +100,10 @@ public interface GameEngineInterface {
     
     public Position getCursorPosition();
 
+	public void removeTower(Unit u);
+
+	public List<Position> getSpawns();
+
+	public Branch findBranchForSpawn(Position spawn);
+
 }

@@ -23,7 +23,7 @@ public class VisibilityGraph {
 		myEngine = engine;
 	}
 
-	public List<Branch> getVisibilityBranches(Unit u){
+	public List<Branch> getVisibilityBranches(){
 		List<Branch> branchesToFilter = getBranchesToFilter();
 		List<Branch> branches = myEngine.getBranches().stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		branches.removeAll(branchesToFilter);

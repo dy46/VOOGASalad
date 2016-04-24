@@ -44,6 +44,7 @@ public class EngineWorkspace implements GameEngineInterface{
 	private WaveGoal waveGoal;
 	private ScoreUpdate scoreUpdate;
 	private List<Position> myGoals;
+	private List<Position> mySpawns;
 	private List<PlaceValidation> myPlaceValidations;
 	private List<Unit> unitsToRemove;
 	private Position cursorPos;
@@ -62,17 +63,13 @@ public class EngineWorkspace implements GameEngineInterface{
 		myProjectiles = data.getProjectiles();
 		myAffectors = data.getAffectors();
 		myPlacedUnits = data.getPlacedUnits();
-		myFunctionFactory = new FunctionFactory();
+		mySpawns = data.getSpawns();
 		myGoals = data.getGoals();
-		if(myLevels.size() > 0){
-			myCurrentLevel = myLevels.get(0);
-			myCurrentLevel.setGoals(data.getGoals());
-			myCurrentLevel.setSpawns(data.getSpawns());
-		}
 		initialize();
 	}
 
 	private void initialize(){
+		myFunctionFactory = new FunctionFactory();
 		myTimer = new Timer();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationController(this);
@@ -85,8 +82,12 @@ public class EngineWorkspace implements GameEngineInterface{
 		if(myAffectors == null)	this.myAffectors = new ArrayList<Affector>();
 		if(myPlacedUnits == null)	this.myPlacedUnits = new ArrayList<Unit>();
 		if(myStore == null)		myStore = new Store(500);
+		if(mySpawns == null)	mySpawns = new ArrayList<>();
+		if(myGoals == null)		myGoals = new ArrayList<>();
 		if(myLevels.size() > 0){
 			myCurrentLevel = myLevels.get(0);
+			myCurrentLevel.setGoals(myGoals);
+			myCurrentLevel.setSpawns(mySpawns);
 		}
 	}
 
@@ -320,6 +321,25 @@ public class EngineWorkspace implements GameEngineInterface{
 
 	public Position getCursorPosition() {
 		return cursorPos;
+	}
+
+	public void removeTower(Unit u) {
+		if(myTowers.contains(u)){
+			myTowers.remove(u);
+		}
+	}
+
+	public List<Position> getSpawns() {
+		return mySpawns;
+	}
+
+	public Branch findBranchForSpawn(Position spawn) {
+		for(Branch b : myBranches){
+			if(b.getPositions().contains(spawn)){
+				return b;
+			}
+		}
+		return null;
 	}
 
 }
