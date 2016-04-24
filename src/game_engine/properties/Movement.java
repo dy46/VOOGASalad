@@ -36,8 +36,7 @@ public class Movement {
 	}
 
 	public Movement copyMovement(){
-		PathGraph cg = new PathGraph(myBranches);
-		return new Movement(cg.copyGraph().getBranches());
+		return new Movement(myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
 	}
 
 	public Branch getCurrentBranch(){

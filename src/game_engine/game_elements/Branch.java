@@ -1,5 +1,11 @@
 package game_engine.game_elements;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +20,7 @@ import java.util.List;
  * for enemy movements.
  */
 
-public class Branch {
+public class Branch implements Serializable{
 
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
@@ -127,20 +133,15 @@ public class Branch {
 		}
 	}
 
-//	public Branch copyBranch(){
-//		Branch newPath = new Branch();
-//		this.myPositions.forEach(t -> {
-//			newPath.addPosition(t.copyPosition());
-//		});
-//		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
-//		return newPath;
-//	}
+	//	public Branch copyBranch(){
+	//		Branch newPath = new Branch();
+	//		this.myPositions.forEach(t -> {
+	//			newPath.addPosition(t.copyPosition());
+	//		});
+	//		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
+	//		return newPath;
+	//	}
 
-	public List<Position> getAllPositions() {
-		List<Position> allPositions = new ArrayList<>();
-		allPositions.addAll(forwardPositions.keySet());
-		return allPositions;
-	}
 	/*
 	 * this should probably be deprecated because when units are moving along paths 
 	 * they already need to know which positions they want to get to.
@@ -175,11 +176,11 @@ public class Branch {
 		return myPositions.get(myPositions.size()-1);
 	}
 
-	public Position getSecondPosition(){
-		if(getAllPositions().size() <= 1)
-			return null;
-		return getAllPositions().get(1);
-	}
+	//	public Position getSecondPosition(){
+	//		if(getMyP().size() <= 1)
+	//			return null;
+	//		return getAllPositions().get(1);
+	//	}
 
 	public void addNeighbor(Branch neighbor){
 		this.myNeighbors.add(neighbor);
@@ -231,7 +232,7 @@ public class Branch {
 	}
 
 	public int getLength(){
-		return getAllPositions().size();
+		return getPositions().size();
 	}
 
 	public List<Branch> getForwardNeighbors(){
@@ -254,23 +255,51 @@ public class Branch {
 	}
 
 	public boolean equals(Branch branch){
-		return branch.getPositions().equals(this.getPositions());
+		for(int x=0; x<branch.getPositions().size(); x++){
+			if(!branch.getPositions().get(x).equals(this.getPositions().get(x))){
+				return false;
+			}
+		}
+		return true;
 	}
-	
+
 	public void removeNeighbor(Branch b) {
 		this.myNeighbors.remove(b);
 	}
-	
+
 	public Branch deepCopy(Map<Branch, Branch> isomorphism){
 		Branch copy = isomorphism.get(this);
-	    if (copy == null) {
-	        copy = new Branch();
-	        isomorphism.put(this, copy);
-	        for (Branch neighbor : this.myNeighbors) {
-	            copy.addNeighbor(neighbor.deepCopy(isomorphism));
-	        }
-	    }
-	    return copy;
+		if (copy == null) {
+			copy = new Branch(this.getMyPositions(), this.getNeighbors());
+			isomorphism.put(this, copy);
+			for (Branch neighbor : this.myNeighbors) {
+				copy.addNeighbor(neighbor.deepCopy(isomorphism));
+			}
+		}
+		return copy;
 	}
+	
+	public Branch copyBranch() {
+        Branch obj = null;
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(
+                new ByteArrayInputStream(bos.toByteArray()));
+            obj = (Branch) in.readObject();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        }
+//        System.out.println("BEFORE: " + this);
+//        System.out.println("SERIALIZED: " + obj);
+        return obj;
+    }
 
 }

@@ -1,14 +1,13 @@
 package auth_environment.paths;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-public class PathGraph {
+public class PathGraph implements Serializable{
 
 	private List<Branch> myBranches;
 
@@ -76,13 +75,7 @@ public class PathGraph {
 	}
 
 	public PathGraph copyGraph(){
-		PathGraph copy = new PathGraph();
-		List<Branch> branches = new ArrayList<>();
-		Map<Branch, Branch> isomorphism = new IdentityHashMap<>();
-		for (Branch b : this.getBranches()) { 
-			branches.add(b.deepCopy(isomorphism));
-		}
-		return copy;
+		return new PathGraph(myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
 	}
 
 }

@@ -61,8 +61,11 @@ public class EngineWorkspace implements GameEngineInterface{
 		myProjectiles = data.getProjectiles();
 		myAffectors = data.getAffectors();
 		myPlacedUnits = data.getPlacedUnits();
-		myCurrentLevel.setSpawns(data.getSpawns());
-		myCurrentLevel.setGoals(data.getGoals());
+		if(myLevels.size() > 0){
+			myCurrentLevel = myLevels.get(0);
+			myCurrentLevel.setSpawns(data.getSpawns());
+			myCurrentLevel.setGoals(data.getGoals());
+		}
 		initialize();
 	}
 
