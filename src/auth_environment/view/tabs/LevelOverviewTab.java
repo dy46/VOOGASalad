@@ -19,8 +19,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import auth_environment.view.UnitPicker;
 import auth_environment.view.Workspaces.GlobalGameTab;
 import game_engine.TestingEngineWorkspace;
@@ -46,13 +48,18 @@ import javafx.scene.text.Text;
 public class LevelOverviewTab extends Tab{
 	
 	private BorderPane myRoot;
-	private TabPane myTabs = new TabPane();
+	private TabPane myTabs;
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myInterface;
-	private Button addNewLevelButton = new Button("Add New Level");
+	private Button addNewLevelButton;
+	private ILevelOverviewTabModel overviewModel;
+	
 	public LevelOverviewTab(String name, IAuthModel authModel){
 		super(name);
+		this.myTabs = new TabPane();
+		this.addNewLevelButton = new Button("Add New Level");
 		this.myAuthModel = authModel;
+		this.overviewModel = new LevelOverviewTabModel();
 		this.myInterface = this.myAuthModel.getIAuthEnvironment(); 
 		init();
 	}
