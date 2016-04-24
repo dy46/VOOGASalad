@@ -43,30 +43,27 @@ public class AuthView implements IAuthView {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private IAuthModel authModel;
+    private IAuthModel globalAuthModel;
 
     public AuthView (Stage stage) {
         myStage = stage;
-        this.authModel = new AuthModel(); 
+        this.globalAuthModel = new AuthModel(); 
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel); 
-    	PathTab pathTab = new PathTab(this.authModel); 
-
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.globalAuthModel); 
+    	PathTab pathTab = new PathTab(this.globalAuthModel); 
     	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
-    	
-
 
 //    	LevelOverviewTab levelTab = new LevelOverviewTab(this.authModel);
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
-    	tabs.add(new VAsTesterTab("WOOOO", new SampleAuthData()));
+    	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
     	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
-    	tabs.add(new LevelOverviewTab("Level", this.authModel));
+    	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
