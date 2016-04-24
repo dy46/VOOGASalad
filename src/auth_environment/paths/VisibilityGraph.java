@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
@@ -60,7 +61,9 @@ public class VisibilityGraph {
 
 	public List<Branch> getShortestPath(Position current){
 		List<Position> goals = new ArrayList<>();
+		goals.addAll(myEngine.getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
+		System.out.println("GOALS: " + sortedGoals);
 		if(sortedGoals.size() == 0){
 			return null;
 		}
@@ -79,8 +82,10 @@ public class VisibilityGraph {
 			return null;
 		}
 		Branch startBranch = myEngine.findBranchForPos(start);
-		Branch goalBranch = myEngine.findBranchForPos(start);
+		Branch goalBranch = myEngine.findBranchForPos(goal);
 		List<Branch> bestPath = getShortestPath(startBranch, goalBranch);
+		bestPath.add(goalBranch);
+		System.out.println("BEST PATH: " + bestPath);
 		return bestPath;
 	}
 
@@ -123,7 +128,8 @@ public class VisibilityGraph {
 		List<Position> sorted = new ArrayList<>();
 		Iterator it = manhattanDistanceMap.entrySet().iterator();
 		while(it.hasNext()){
-			sorted.add((Position) it.next());
+			Entry<Double, Position> entry = (Entry<Double, Position>) it.next();
+			sorted.add(entry.getValue());
 		}
 		return sorted;
 	}
@@ -134,7 +140,7 @@ public class VisibilityGraph {
 
 	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
 		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
-		System.out.println("TO FILTER: " + branchesToFilter);
+//		System.out.println("TO FILTER: " + branchesToFilter);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();

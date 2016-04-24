@@ -110,6 +110,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 		myLevels.add(myCurrentLevel);
+		updateAIBranches();
 		myAffectorFactory.getAffectorLibrary().getAffectors().stream()
 		.forEach(a -> a.setWorkspace(this));
 		this.makeDummyUpgrades();
@@ -299,7 +300,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Affector affector2 =
 				this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
 		myStore.addUpgrade(list.get(0), affector2, 100);
-		updateAIBranches();
 		return l;
 	}
 
@@ -700,7 +700,17 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	
 	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
-		for(Unit e : myEnemys){
+		System.out.println("LEVEL: " + myCurrentLevel);
+		System.out.println("WAVE: " + myCurrentLevel.getCurrentWave());
+		System.out.println("SPAWNING: " + myCurrentLevel.getCurrentWave().getSpawningUnitsLeft());
+		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
+		for(Unit e : allEnemies){
+			if(e.isAlive() && !activeEnemies.contains(e)){
+				activeEnemies.add(e);
+			}
+		}
+		for(Unit e : activeEnemies){
 			for(Affector a : e.getAffectors()){
 				if(a instanceof AIPathFollowAffector){
 					AI.add(e);
@@ -713,8 +723,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	@Override
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
+		System.out.println("ACTIVE AI: " + activeAI);
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
 		for(Unit u : activeAI){
+			System.out.println("UPDATING");
 			u.getProperties().getMovement().setBranches(myVisibility.getShortestPath(u.getProperties().getPosition()));
 		}
 	}
