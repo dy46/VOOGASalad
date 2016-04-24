@@ -697,4 +697,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     public Position getCursorPosition() {
         return cursorPos;
     }
+    
+    public int getMoney() {
+    	return myStore.getMoney();
+    }
 }

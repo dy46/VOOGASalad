@@ -107,5 +107,7 @@ public interface GameEngineInterface {
     public void setCursorPosition(double x, double y);
     
     public Position getCursorPosition();
+    
+    public int getMoney();
 
 }

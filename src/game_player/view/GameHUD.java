@@ -64,7 +64,7 @@ public class GameHUD {
         sellButton = new Button();
         unitStuff.getChildren().addAll(unitType, unitImage, sellButton);
         HUDBox.getChildren().addAll(unitStuff, upgradesBox);
-        upgradesBox.setAlignment(Pos.CENTER);
+        upgradesBox.setAlignment(Pos.CENTER_RIGHT);
         HUDBox.setAlignment(Pos.CENTER_LEFT);
     }
 
@@ -115,7 +115,7 @@ public class GameHUD {
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
     	Rectangle rect = new Rectangle(500, 150);
-    	rect.setFill(Color.BLACK);
+    	rect.setFill(Color.DARKGRAY);
     	HUDBox.getChildren().add(rect);
         if(gameView != null) {
             gameView.setSpecificUnitIsClicked(null);

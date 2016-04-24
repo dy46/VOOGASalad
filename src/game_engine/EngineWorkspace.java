@@ -115,6 +115,10 @@ public class EngineWorkspace implements GameEngineInterface{
 	public void addBalance (double money) {
 		myBalance += money;
 	}
+	
+	public int getMoney() {
+		return myStore.getMoney();
+	}
 
 	public void addLevel (Level level) {
 		myLevels.add(level);

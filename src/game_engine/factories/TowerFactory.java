@@ -12,6 +12,7 @@ import game_engine.properties.Health;
 import game_engine.properties.Mass;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
+import game_engine.properties.Price;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
@@ -79,7 +80,7 @@ public class TowerFactory {
 		p2.addPosition(new Position(startingPosition.getX() + 636, startingPosition.getY() - 636));
 		UnitProperties properties =
 				new UnitProperties(h, null, velocity, b, range,
-						startingPosition.copyPosition(), null, st,
+						startingPosition.copyPosition(), new Price(100), st,
 						new Movement(Arrays.asList(p2)), new Mass(1));
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
@@ -215,7 +216,7 @@ public class TowerFactory {
 		Bounds range = new Bounds(l2);
 		UnitProperties properties =
 				new UnitProperties(new Health(1), null, velocity, b, range,
-						startingPosition.copyPosition(), null, st,
+						startingPosition.copyPosition(), new Price(100), st,
 						new Movement(Arrays.asList(p2)), new Mass(1));
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);

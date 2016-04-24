@@ -238,7 +238,7 @@ public class GameView implements IGameView {
         for (int i = 0; i < list.size(); i++) {
             if (!hasImageView(list.get(i), imageViews)) {
                 ImageViewPicker picker = new ImageViewPicker(list.get(i), root);
-                picker.getImageView().setOnMouseClicked(e -> updateHUD(picker));
+	            picker.getImageView().setOnMouseClicked(e -> updateHUD(picker));
                 imageViews.add(picker);
             }
         }

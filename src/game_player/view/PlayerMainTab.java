@@ -16,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class PlayerMainTab implements IPlayerTab{
-	private static final int TOP_PADDING = 5;
+	private static final int TOP_PADDING = 0;
 	private static final int RIGHT_PADDING = 10;
 	private static final int BOTTOM_PADDING = 5;
 	private static final int LEFT_PADDING = 10;
