@@ -63,12 +63,13 @@ public class PlayerGUI{
 		return gameData;
 	}
 	
-	private void createNewTab() { 
-        gameEngine = new TestingEngineWorkspace();
-		gameEngine.setUpEngine(null);
+	private void createNewTab() {
+        gameEngine = new EngineWorkspace();
+		gameEngine.setUpEngine(readData());
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
 	}
+	
 }

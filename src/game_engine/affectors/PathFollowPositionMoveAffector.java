@@ -32,7 +32,7 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 		if(currentBranch == null){
 			return null;
 		}
-		Position next = currentBranch.getNextPosition(currentPosition);
+		Position next = move.getNextPosition();
 		if(next == null){
 			currentBranch = move.getNextBranch();
 			if(currentBranch == null) {
@@ -50,6 +50,6 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 			// END OF PATH
 			return u.getProperties().getVelocity().getDirection();
 		}
-		return move.getCurrentBranch().getNextDirection(currentPosition);
+		return move.getNextDirection();
 	}
 }
