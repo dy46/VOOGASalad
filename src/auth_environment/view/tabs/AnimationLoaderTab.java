@@ -1,6 +1,5 @@
 package auth_environment.view.tabs;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.AnimationTabModel;
