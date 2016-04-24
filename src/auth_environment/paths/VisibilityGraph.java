@@ -57,14 +57,19 @@ public class VisibilityGraph {
 	}
 
 	public Branch bestDijkstrasBranch(Position current){
-		Branch best = null;
 		List<Position> goals = new ArrayList<>();
-		for(Position goal : myEngine.getCurrentLevel().getGoals()){
-			Branch pick = bestDijkstrasBranch(current, goal);
-			if(pick != null){
-
+		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
+		if(sortedGoals.size() == 0){
+			return null;
+		}
+		Position closestGoal = sortedGoals.remove(0);
+		while(closestGoal == null){
+			closestGoal = sortedGoals.remove(0);
+			if(closestGoal != null){
+				return bestDijkstrasBranch(current, closestGoal);
 			}
 		}
+		return bestDijkstrasBranch(current, closestGoal);
 	}
 
 	public Branch bestDijkstrasBranch(Position start, Position goal){
