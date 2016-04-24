@@ -33,6 +33,7 @@ public class MapHandler {
 		myEngineBranches = engineBranches;
 		myGridBranches = gridBranches;
 		myVisualBranches = visualBranches;
+		myGF = new GridFactory();
 		myPGF = new PathGraphFactory(engineBranches);
 		myPositionHandler = new PositionHandler();
 		//		insertTestBranches();

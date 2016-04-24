@@ -111,8 +111,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myBalance = 0;
         nextWaveTimer = 0;
          myCurrentLevel = makeDummyLevel();
-        // myLevels.add(myCurrentLevel);
-        // myGoals = myCurrentLevel.getGoals();
+        myLevels.add(myCurrentLevel);
+        myGoals = myCurrentLevel.getGoals();
         if (myGoals == null) {
             myGoals = new ArrayList<>();
         }
