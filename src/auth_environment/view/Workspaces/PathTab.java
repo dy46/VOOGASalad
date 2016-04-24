@@ -214,6 +214,7 @@ public class PathTab implements IWorkspace {
 					this.currentBranch.add(new Position(e.getX(), e.getY()));
 				}
 				else {
+					this.currentBranch.clear();
 					this.addPosition(e.getX(), e.getY());
 					this.currentBranch.add(new Position(e.getX(), e.getY()));
 				}
