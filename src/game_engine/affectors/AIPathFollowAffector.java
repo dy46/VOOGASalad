@@ -29,34 +29,17 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		Position next = move.getNextPosition(currentPosition);
 //		System.out.println("Choosing next");
 		if (next == null) {
-			System.out.println("Next is null");
 			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
 			}
 			currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
-				System.out.println("Current branch is null");
-				List<Branch> gridBranches = getWS().getBranches();
-				currentBranch = pickClosestBranch(currentPosition, gridBranches);
+				return null;
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
 			next = move.getNextPosition(currentPosition);
 		}
-//		System.out.println("Next: " + next);
 		return next;
-	}
-	
-	private Branch pickClosestBranch(Position curr, List<Branch> branches){
-		double minDist = Integer.MAX_VALUE;
-		Branch closest = null;
-		for(Branch b : branches){
-			Position pos = b.getFirstPosition();
-			if(pos.distanceTo(curr) < minDist){
-				minDist = pos.distanceTo(curr);
-				closest = b;
-			}
-		}
-		return closest;
 	}
 
 	private Branch pickBestBranch (Unit u) {

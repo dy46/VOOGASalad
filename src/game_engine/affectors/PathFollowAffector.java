@@ -1,6 +1,9 @@
 package game_engine.affectors;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import auth_environment.paths.VisibilityGraph;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -46,7 +49,18 @@ public abstract class PathFollowAffector extends Affector{
 	}
 	
 	public List<Branch> getBranchChoices(Unit u){
-		return u.getProperties().getMovement().getCurrentBranch().getForwardNeighbors();
+		List<Branch> choices = u.getProperties().getMovement().getCurrentBranch().getNeighbors();
+		VisibilityGraph vg = new VisibilityGraph(getWS());
+		List<Branch> visibleChoices = new ArrayList<>();
+		List<Branch> visibleBranches = vg.getVisibilityBranches();
+		for(Branch choice : choices){
+			for(Branch v : visibleBranches){
+				if(choice.equals(v)){
+					visibleChoices.add(choice);
+				}
+			}
+		}
+		return visibleChoices;
 	}
 	
 }

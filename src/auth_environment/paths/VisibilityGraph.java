@@ -22,17 +22,24 @@ public class VisibilityGraph {
 		myEncapsulator = new EncapsulationChecker();
 		myEngine = engine;
 	}
+	
+	public List<Branch> getVisibilityBranches() {
+		return getVisibilityBranches(myEngine.getTowers());
+	}
 
 	public List<Branch> getSimulatedPlacementBranches(Unit obstacle){
-		System.out.println("OBSTACLE: " + obstacle.getProperties().getPosition());
-		List<Branch> branchesToFilter = getBranchesToFilter(obstacle);
+		List<Unit> obstacles = new ArrayList<>();
+		obstacles.add(obstacle);
+		obstacles.addAll(myEngine.getTowers());
+		return getVisibilityBranches(obstacles);
+	}
+	
+	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
+		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
 		List<Branch> copyBranches = branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-		if(copyBranchesToFilter.size() > 0 ){
-			System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
-		}
 		for(int y=0; y<copyBranchesToFilter.size(); y++){
 			for(int x=0; x<copyBranches.size(); x++){
 				if(copyBranchesToFilter.get(y).equals(copyBranches.get(x))){
@@ -52,19 +59,16 @@ public class VisibilityGraph {
 		return copyBranches;
 	}
 
-	private List<Branch> getBranchesToFilter(Unit obstacle){
+	private List<Branch> getBranchesToFilter(List<Unit> obstacles){
 		Set<Branch> removalList = new HashSet<>();
 		List<Branch> copyBranches =  myEngine.getBranches().stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-		List<Unit> obstacleList = myEngine.getTowers();
+		List<Unit> obstacleList = obstacles;
 		List<Unit> copyObstacleList = obstacleList.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
-		copyObstacleList.add(obstacle);
 		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
-					System.out.println("POS: " + pos + " BOUNDS: " + o.getProperties().getBounds());
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), o.getProperties().getBounds())){
 						removalList.add(b);
-						System.out.println("ENCAPSULATED");
 					}
 				}
 			}
