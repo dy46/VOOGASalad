@@ -20,16 +20,16 @@ public class UnitProperties {
     private Mass myMass;
     private List<Unit> myChildren;
 
-    private static double DEFAULT_STATE = 0;
-    private static double DEFAULT_HEALTH = 1;
-    private static double DEFAULT_TEAM = 0;
-    private static double DEFAULT_SPEED = 1;
-    private static double DEFAULT_DIRECTION = 90;
+    private static final double DEFAULT_STATE = 0;
+    private static final double DEFAULT_HEALTH = 1;
+    private static final double DEFAULT_TEAM = 0;
+    private static final double DEFAULT_SPEED = 1;
+    private static final double DEFAULT_DIRECTION = 90;
     private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
-    private static double DEFAULT_X_POS = 0;
-    private static double DEFAULT_Y_POS = 0;
-    private static double DEFAULT_PRICE = 0;
-    private static double DEFAULT_MASS = 1;
+    private static final double DEFAULT_X_POS = 0;
+    private static final double DEFAULT_Y_POS = 0;
+    private static final double DEFAULT_PRICE = 0;
+    private static final double DEFAULT_MASS = 1;
     private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
 
     public UnitProperties (Health health,
@@ -55,6 +55,7 @@ public class UnitProperties {
 
     public UnitProperties copyUnitProperties() {
 		UnitProperties newProperties = new UnitProperties();
+		// TODO: look into reflection for this
 		if(this.getHealth() != null) {
 		   newProperties.myHealth = this.getHealth().copyHealth();
 		}

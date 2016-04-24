@@ -68,7 +68,6 @@ public class Store {
                 break;
             }
         }
-        // this should have a copy method
         return u;
     }
     
@@ -83,9 +82,7 @@ public class Store {
     public void applyItem (String name, List<Unit> applied) {
         for (Unit u : items.keySet()) {
             if (u.toString().equals(name) && myMoney >= items.get(u)) {
-                // apply shit here
                 for (Unit app : applied) {
-                    // System.out.println(applied.size());
                     List<Affector> affectorsToApply = u.getAffectorsToApply()
                             .stream().map(p -> p.copyAffector()).collect(Collectors.toList());
                     app.addAffectorsToApply(affectorsToApply);
@@ -135,7 +132,6 @@ public class Store {
         for (Pair<Affector, Integer> p : upgrades.get(found.toString())) {
             affectors.add(p.getLeft());
         }
-        System.out.println(affectors);
         return affectors;
     }
     
@@ -155,7 +151,6 @@ public class Store {
                 myMoney -= p.getRight();
                 System.out.println(p.getLeft());
                 p.getLeft().apply(upgradedUnit);
-//                System.out.println(upgradedUnit.getProperties().getRange());
             }
         }
     }

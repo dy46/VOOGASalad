@@ -109,11 +109,7 @@ public class Unit extends GameElement {
 		if (isVisible()) {
 			elapsedTime++;
 			myAffectors.removeIf(a -> a.getTTL() <= a.getElapsedTime());
-			//            System.out.println("Hello");
-			//            myTimelines.forEach(t -> System.out.println(t));
 			myAffectors.forEach(a -> a.apply(this));
-			//            System.out.println(myAffectors);
-			//            System.out.println(myAffectors.size());
 		}
 		if (!isAlive()) {
 			setElapsedTimeToDeath();
@@ -138,22 +134,6 @@ public class Unit extends GameElement {
 	public void setProperties (UnitProperties properties) {
 		this.myProperties = properties;
 	}
-
-	//    public List<AffectorTimeline> getTimelines () {
-	//        return myTimelines;
-	//    }
-	//
-	//    public void setTimelines (List<AffectorTimeline> timelines) {
-	//        this.myTimelines = timelines;
-	//    }
-	//
-	//    public List<AffectorTimeline> getTimelinesToApply () {
-	//        return myTimeslinesToApply;
-	//    }
-	//
-	//    public void setTimelinesToApply (List<AffectorTimeline> timelinesToApply) {
-	//        this.myTimeslinesToApply = timelinesToApply;
-	//    }
 
 	public int getTTL () {
 		return TTL;
@@ -260,9 +240,7 @@ public class Unit extends GameElement {
 	}
 
 	public void addAffector(Affector affector){
-		//		System.out.println(affector.getTTL());
 		this.myAffectors.add(affector);
-		//		System.out.println(this.myAffectors);
 	}
 
 	public void addAffectorToApply(Affector affectorToApply){

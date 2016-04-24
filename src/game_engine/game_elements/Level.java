@@ -68,7 +68,6 @@ public class Level extends GameElement {
 	public Unit update () {
 		if (myCurrentWave == null)
 			return null;
-		//        System.out.println(myWaves.indexOf(myCurrentWave));
 		return myCurrentWave.tryToSpawnUnit();
 	}
 

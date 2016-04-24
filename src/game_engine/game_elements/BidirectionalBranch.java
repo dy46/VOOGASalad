@@ -232,7 +232,6 @@ public class BidirectionalBranch {
 	}
 
 	public String toString(){
-//		return "Branch ID: " + myID+ " positions: " + myPositions;
 		return "Branch ID: " + myID;
 	}
 
