@@ -3,6 +3,8 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
 import game_engine.affectors.BasicDecrementAffector;
@@ -17,9 +19,11 @@ public class AffectorFactory {
 	private static final String PACKAGE = "game_engine.affectors.";
 	private static final String BASE = "Affector";
 	private AffectorLibrary myAffectorLibrary;
+	private FunctionFactory myFunctionFactory;
 
 	public AffectorFactory(FunctionFactory myFunctionFactory){
 		myAffectorLibrary = new AffectorLibrary();
+		this.myFunctionFactory = myFunctionFactory;
 		setDefaultAffectors(myFunctionFactory);
 	}
 
@@ -35,6 +39,32 @@ public class AffectorFactory {
 		}
 		myAffectorLibrary.addAffector(property, effect, affector);
 	}
+	
+	public Affector constructAffector(String name, String className, List<String> properties, List<List<Double>> functions) {
+	       List<List<Function>> doubleList = new ArrayList<>();
+	       for(int i = 0; i < functions.size(); i++) {
+	            List<Function> singleList = functions.get(i).stream()
+	                    .map(f -> myFunctionFactory.createConstantFunction(f))
+	                    .collect(Collectors.toList());
+	            doubleList.add(singleList);
+	       }
+	       AffectorData newData = new AffectorData(doubleList, properties);
+	       Affector newAffector = null;
+	       try {
+//	    	   System.out.println(className);
+//	    	   BasicDecrementAffector womp = new BasicDecrementAffector(newData);
+//				Class<?> c = womp.getClass();
+//				System.out.println(c.getName());
+	    	   
+	            newAffector =  (Affector) Class.forName(className).getConstructor(AffectorData.class)
+	                    .newInstance(newData);
+	       }
+	       catch (Exception e) {
+	           e.printStackTrace();
+	       }
+	       newAffector.setName(name);
+	       return newAffector;
+	    }
 
 	private void setDefaultAffectors(FunctionFactory myFunctionFactory){
 

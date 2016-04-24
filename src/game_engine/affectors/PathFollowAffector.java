@@ -42,7 +42,7 @@ public abstract class PathFollowAffector extends Affector{
 			//this is the end of the path
 			return u.getProperties().getVelocity().getDirection();
 		}
-		return move.getNextDirection();
+		return move.getNextDirection(currentPosition);
 	}
 	
 	public List<Branch> getBranchChoices(Unit u){

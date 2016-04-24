@@ -28,7 +28,6 @@ public class CollisionDetector {
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, myProjectiles));
 	}
 
-	// returns which Unit from the list collided with the target unit
 	private void updateEnemies (Unit unit, List<Unit> myProjectiles) {
 		for (int i = 0; i < myProjectiles.size(); i++) {
 			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
@@ -36,7 +35,6 @@ public class CollisionDetector {
 					List<Affector> affectorsToApply = myProjectiles.get(i).getAffectorsToApply()
 							.stream().map(a -> a.copyAffector()).collect(Collectors.toList());                     
 					unit.addAffectors(affectorsToApply);
-//					unit.addAffector(myAffectorFactory.getAffectorLibrary().getAffector("Velocity", "Stop"));
 					myProjectiles.get(i).setHasCollided(true);        
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
@@ -69,7 +67,6 @@ public class CollisionDetector {
 		return false;
 	}
 
-	// check if q is on segment defined by p and r
 	private boolean segmentOverlap (Position p, Position q, Position r) {
 		return (q.getX() <= Math.max(p.getX(), r.getX()) &&
 				q.getX() >= Math.min(p.getX(), r.getX()) &&
@@ -97,19 +94,6 @@ public class CollisionDetector {
 		return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
 	}
 	
-//	public static void main(String[] args){
-//		CollisionDetector test = new CollisionDetector(null);
-//		Unit u1 = new Unit("1", null);
-//		u1.setType("Type1");
-//		System.out.println(u1.getAffectors().size());
-//		Unit u2 = new Unit("2", null);
-//		u2.setType("Type2");
-//		List<Unit> testList = new ArrayList<Unit>();
-//		testList.add(u1);
-//		testList.add(u2);
-//		test.handleCustomCollisions(testList);
-//		System.out.println(u1.getAffectors().size());
-//		System.out.println(u1.getAffectors().get(0));
-//	}
+
 
 }

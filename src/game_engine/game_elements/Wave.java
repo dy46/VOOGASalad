@@ -52,8 +52,16 @@ public class Wave extends GameElement {
         mySpawnTimes.add(spawnTime);
     }
 
-    public void addPlacingUnit (Unit e, int spawnTime) {
+    public void addPlacingUnit (Unit e) {
         myPlacingUnits.add(e);
+    }
+    
+    public void removePlacingUnit(int index){
+    	myPlacingUnits.remove(index);
+    }
+    public void removeSpawningUnit(int index){
+    	mySpawningUnits.remove(index);
+    	mySpawnTimes.remove(index);
     }
 
     public List<Unit> getSpawningUnits () {
