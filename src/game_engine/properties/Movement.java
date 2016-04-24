@@ -4,28 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import auth_environment.paths.PathGraph;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Unit;
 
 public class Movement {
 
 	private List<Branch> myBranches;
 	private Branch myCurrentBranch;
-	private Position currentPosition;
-
-	public Movement(List<Branch> branches, Position spawn){
-		this.myBranches = branches;
-		if(branches.size() > 0)
-			myCurrentBranch = myBranches.get(0);
-	}
+	private Position movingTowards;
 
 	public Movement(List<Branch> branches){
 		this.myBranches = branches;
 		if(branches.size() > 0){
 			myCurrentBranch = myBranches.get(0);
+			if(myCurrentBranch.getPositions().size() > 0){
+				movingTowards = myCurrentBranch.getLastPosition();
+			}
 		}
 	}
-	
+
 	public Movement(Position spawn){
 		this.myBranches = new ArrayList<>();
 	}
@@ -39,7 +36,8 @@ public class Movement {
 	}
 
 	public Movement copyMovement(){
-		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
+		PathGraph cg = new PathGraph(myBranches);
+		return new Movement(cg.copyGraph().getBranches());
 	}
 
 	public Branch getCurrentBranch(){
@@ -60,12 +58,14 @@ public class Movement {
 		return myCurrentBranch;
 	}
 
-	public void setCurrentBranch(Branch branch) {
+	public void setCurrentBranch(Branch branch, Position currentPosition) {
 		myCurrentBranch = branch;
+		myBranches.add(myCurrentBranch);
+		initializeMovingTowards(currentPosition);
 	}
-	
-	public Double getNextDirection () {
-		Position nextPosition = getNextPosition();
+
+	public Double getNextDirection (Position currentPosition) {
+		Position nextPosition = getNextPosition(currentPosition);
 		if(nextPosition == null){
 			nextPosition = currentPosition;
 		}
@@ -75,9 +75,29 @@ public class Movement {
 		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
 		return degreesDir;
 	}
+
+	public Position getNextPosition(Position currentPosition){
+		Position next = myCurrentBranch.getNextPosition(currentPosition, movingTowards);
+		if(next == null){
+			if(myBranches.get(myBranches.size()-1).equals(myCurrentBranch)){
+				return null;
+			}
+			Branch nextBranch = myBranches.get(1 + myBranches.indexOf(myCurrentBranch));
+			if(nextBranch.getFirstPosition().equals(currentPosition)){
+				return nextBranch.getLastPosition();
+			}
+			else
+				return nextBranch.getFirstPosition();
+		}
+		return next;
+	}
 	
-	public Position getNextPosition(){
-		return null;
+	public void initializeMovingTowards(Position currentPosition){
+		if(currentPosition.equals(myCurrentBranch.getFirstPosition())){
+			movingTowards = myCurrentBranch.getLastPosition();
+		}
+		else
+			movingTowards = myCurrentBranch.getFirstPosition();
 	}
 
 }

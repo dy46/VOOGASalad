@@ -15,11 +15,13 @@ public class TowerPlaceValidation extends PlaceValidation{
 	public boolean validate(GameEngineInterface gameEngine, Unit unit, double posX, double posY) {
 		VisibilityGraph myVisibility = new VisibilityGraph(unit, gameEngine);
 		gameEngine.addTower(unit.getName(), posX, posY);
+		System.out.println("NORMAL BRANCHES: " + gameEngine.getBranches());
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
+		System.out.println("VISIBILITY BRANCHES: " + visibilityBranches);
 		gameEngine.removeTower(unit);
 		gameEngine.sellUnit(unit);
-		for(Position goal : gameEngine.getGoals()){
-			for(Position spawn : gameEngine.getSpawns()){
+		for(Position goal : gameEngine.getCurrentLevel().getGoals()){
+			for(Position spawn : gameEngine.getCurrentLevel().getSpawns()){
 				if(!DFSPossible(gameEngine, visibilityBranches, spawn, goal)){
 					return false;
 				}

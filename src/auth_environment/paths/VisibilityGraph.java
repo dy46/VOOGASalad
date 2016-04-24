@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -25,7 +23,9 @@ public class VisibilityGraph {
 
 	public List<Branch> getVisibilityBranches(){
 		List<Branch> branchesToFilter = getBranchesToFilter();
-		List<Branch> branches = myEngine.getBranches().stream().map(b -> b.copyBranch()).collect(Collectors.toList());
+		PathGraph pg = new PathGraph(myEngine.getBranches());
+		List<Branch> branches = pg.copyGraph().getBranches();
+		System.out.println("COPIED GRAPH BRANCHES: " + branches);
 		branches.removeAll(branchesToFilter);
 		return branches;
 	}

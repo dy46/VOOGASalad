@@ -16,11 +16,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		//MainView mainView = new MainView(primaryStage);
 		
-//		myView = new PlayerGUI(790, 614);
-//		primaryStage.setScene(myView.createPlayerScene());
-//		primaryStage.show();
+		myView = new PlayerGUI(790, 614);
+		primaryStage.setScene(myView.createPlayerScene());
+		primaryStage.show();
 		
-		MainView mainView = new MainView(primaryStage);
+//		MainView mainView = new MainView(primaryStage);
 	}
 
 }

@@ -29,6 +29,7 @@ import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
 import game_engine.place_validations.EnemySpawnPointPlaceValidation;
 import game_engine.place_validations.PlaceValidation;
+import game_engine.place_validations.TowerPlaceValidation;
 import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
@@ -76,16 +77,13 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
-	private List<Position> myGoals;
-	private List<Position> mySpawns;
-
 	public TestingEngineWorkspace () {};
 
 	public void setUpEngine (IAuthEnvironment test) {
 		score = 0;
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+		myPlaceValidations.add(new TowerPlaceValidation());
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
@@ -108,10 +106,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 		myLevels.add(myCurrentLevel);
-		myGoals = myCurrentLevel.getGoals();
-		if (myGoals == null) {
-			myGoals = new ArrayList<>();
-		}
 		myAffectorFactory.getAffectorLibrary().getAffectors().stream()
 		.forEach(a -> a.setWorkspace(this));
 		this.makeDummyUpgrades();
@@ -179,41 +173,42 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// return l;
 
 		Level l = new Level("Dummy level", 20);
-
 		MapHandler mh = new MapHandler();
-		myBranches.addAll(mh.getEngineBranches());
-
+		myBranches = mh.getEngineBranches();
+		l.setGoals(mh.getGoals());
+		l.setSpawns(mh.getSpawns());
 		// For testing branching
 		// System.out.println("NUM BRANCHES: " + myBranches.size());
 		// for(int x=0; x<myBranches.size(); x++){
 		// System.out.println(myBranches.get(x)+" Starting pos: " +
 		// myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
 		// }
-		Branch pb1 = myBranches.get(0);
 		// Branch pb5 = myBranches.get(4);
 		// Branch pb6 = myBranches.get(5);
-
+		System.out.println("SPAWN: " + l.getSpawns().get(0));
+		
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
-		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand9 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand10 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand11 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit rand12 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		AI1.getProperties().getMovement().setCurrentBranch(findBranchForSpawn(l.getSpawns().get(0)), l.getSpawns().get(0));
+		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand4 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand5 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand6 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand7 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand8 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand9 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand10 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand11 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
+		Unit rand12 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
 		e3.getProperties().setHealth(50);
@@ -234,35 +229,35 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		rand10.getProperties().setHealth(50);
 		rand11.getProperties().setHealth(50);
 		rand12.getProperties().setHealth(50);
-		w.addSpawningUnit(e1, 0);
-		w.addSpawningUnit(e2, 60);
-		w.addSpawningUnit(e3, 60);
-		w.addSpawningUnit(e4, 60);
+//		w.addSpawningUnit(e1, 0);
+//		w.addSpawningUnit(e2, 60);
+//		w.addSpawningUnit(e3, 60);
+//		w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-		w.addSpawningUnit(AI2, 60);
-		w.addSpawningUnit(AI3, 60);
-		w.addSpawningUnit(AI4, 60);
-		w.addSpawningUnit(rand1, 60);
-		w.addSpawningUnit(rand2, 60);
-		w.addSpawningUnit(rand3, 60);
-		w.addSpawningUnit(rand4, 60);
-		w.addSpawningUnit(rand5, 60);
-		w.addSpawningUnit(rand6, 60);
-		w.addSpawningUnit(rand7, 60);
-		w.addSpawningUnit(rand8, 60);
-		w.addSpawningUnit(rand9, 60);
-		w.addSpawningUnit(rand10, 60);
-		w.addSpawningUnit(rand11, 60);
-		w.addSpawningUnit(rand12, 60);
+//		w.addSpawningUnit(AI2, 60);
+//		w.addSpawningUnit(AI3, 60);
+//		w.addSpawningUnit(AI4, 60);
+//		w.addSpawningUnit(rand1, 60);
+//		w.addSpawningUnit(rand2, 60);
+//		w.addSpawningUnit(rand3, 60);
+//		w.addSpawningUnit(rand4, 60);
+//		w.addSpawningUnit(rand5, 60);
+//		w.addSpawningUnit(rand6, 60);
+//		w.addSpawningUnit(rand7, 60);
+//		w.addSpawningUnit(rand8, 60);
+//		w.addSpawningUnit(rand9, 60);
+//		w.addSpawningUnit(rand10, 60);
+//		w.addSpawningUnit(rand11, 60);
+//		w.addSpawningUnit(rand12, 60);
 		List<Unit> list = makeDummyTowers();
 		w.addPlacingUnit(list.get(0), 0);
 		w.addPlacingUnit(list.get(1), 0);
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
-		Unit e5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e6 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e7 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
-		Unit e8 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
+		Unit e5 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e6 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e7 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e8 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		e5.getProperties().setHealth(50);
 		e6.getProperties().setHealth(50);
 		e7.getProperties().setHealth(50);
@@ -273,10 +268,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		w2.addSpawningUnit(e8, 60);
 		w2.addPlacingUnit(list.get(0), 0);
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
-		Unit e9 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e10 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e11 = myEnemyFactory.createAIEnemy("Moab", pb1);
-		Unit e12 = myEnemyFactory.createAIEnemy("Moab", pb1);
+		Unit e9 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e10 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e11 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit e12 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		e9.getProperties().setHealth(50);
 		e10.getProperties().setHealth(50);
 		e11.getProperties().setHealth(50);
@@ -625,11 +620,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		myCurrentLevel.decrementLives(lives);
 	}
 
-	@Override
-	public List<Position> getGoals () {
-		return myGoals;
-	}
-
 	public List<Unit> getAllUnits () {
 		List<Unit> units = new ArrayList<>();
 		units.addAll(myTowers);
@@ -679,11 +669,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		if(myTowers.contains(u)){
 			myTowers.remove(u);
 		}
-	}
-
-	@Override
-	public List<Position> getSpawns() {
-		return mySpawns;
 	}
 	
 	public Branch findBranchForSpawn(Position spawn) {
