@@ -84,6 +84,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
 		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+		myPlaceValidations.add(new TowerPlaceValidation());
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
@@ -524,6 +525,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 				canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
 			}
 			if(canPlace) {
+				System.out.println("TEST");
 				Unit copy = purchased.copyUnit();
 				copy.getProperties().setPosition(x, y);
 				myTowers.add(copy);

@@ -19,7 +19,6 @@ public class TowerPlaceValidation extends PlaceValidation{
 
 	public boolean validate(GameEngineInterface gameEngine, Unit unit, double posX, double posY) {
 		Unit copy = unit.copyShallowUnit();
-		shiftBounds(copy, posX, posY);
 		VisibilityGraph myVisibility = new VisibilityGraph(gameEngine);
 		List<Branch> visibilityBranches = myVisibility.getSimulatedPlacementBranches(copy);
 		for(Position goal : gameEngine.getCurrentLevel().getGoals()){
@@ -80,18 +79,6 @@ public class TowerPlaceValidation extends PlaceValidation{
 			return null;
 		}
 		return visibleNeighbors.get(0);
-	}
-
-	private void shiftBounds(Unit u, double x, double y){
-		double newX = u.getProperties().getPosition().getX() - 200 + x;
-		double newY = u.getProperties().getPosition().getY() - 300 + y;
-		Position newPos = new Position(newX, newY);
-		u.getProperties().setPosition(newPos);
-		Position topLeftPos = new Position(newX - 50, newY - 50);
-		Position topRightPos = new Position(newX + 50, newY - 50);
-		Position botLeftPos = new Position(newX - 50, newY + 50);
-		Position botRightPos = new Position(newX + 50, newY + 50);
-		u.getProperties().setBounds(Arrays.asList(topLeftPos, topRightPos, botLeftPos, botRightPos));
 	}
 
 }
