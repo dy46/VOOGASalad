@@ -36,6 +36,14 @@ public class TowerPlaceValidation extends PlaceValidation{
 
 	private boolean BFSPossible(GameEngineInterface gameEngine, List<Branch> visibilityBranches, Position spawn, Position goal){
 		Branch start = gameEngine.findBranchForSpawn(spawn);
+		boolean contained = false;
+		for(Branch v : visibilityBranches){
+			if(v.equals(start)){
+				contained = true;
+			}
+		}
+		if(!contained)
+			return false;
 		Branch copyStart = start.copyBranch();
 		Queue<Branch> queue = new LinkedList<>();
 		List<Branch> visited = new ArrayList<>();
