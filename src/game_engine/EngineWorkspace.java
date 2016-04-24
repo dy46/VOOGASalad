@@ -359,7 +359,11 @@ public class EngineWorkspace implements GameEngineInterface{
 		List<Unit> activeAI = getActiveAIEnemies();
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
 		for(Unit u : activeAI){
-			u.getProperties().getMovement().setBranches(myVisibility.getShortestPath(u.getProperties().getPosition()));
+			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition());
+			if(shortestPath == null){
+				shortestPath = new ArrayList<>();
+			}
+			u.getProperties().getMovement().setBranches(shortestPath);
 		}
 	}
 
