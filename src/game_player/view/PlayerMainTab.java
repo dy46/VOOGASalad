@@ -106,7 +106,7 @@ public class PlayerMainTab implements IPlayerTab{
 	}
 	
 	private void createUISections() {
-		gameSection = new VBox(PANEL_PADDING);
+		gameSection = new VBox();
 		configurationPanel = new VBox(PANEL_PADDING);
 		gameMenu = new VBox(PANEL_PADDING);
 		gamePanel = new VBox(PANEL_PADDING);

@@ -47,9 +47,6 @@ public class EnemyFactory {
 		return e;
 	}
     
-    public Unit createMOABEnemy(String name, Branch startingBranch) {
-        createPathFollowPositionMoveEnemy(name, startingBranch);
-    }
     
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);

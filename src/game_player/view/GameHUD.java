@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 
 public class GameHUD {
@@ -30,6 +33,7 @@ public class GameHUD {
     public GameHUD (ResourceBundle r) {
         myResources = r;
         upgrades = new ArrayList<>();
+        children = new ArrayList<>();
 
     }
     
@@ -49,36 +53,35 @@ public class GameHUD {
     }
 
     public void addToHUD () {
+    	HUDBox.getChildren().clear();
         VBox unitStuff = new VBox();
+        unitStuff.setAlignment(Pos.CENTER);
         unitImage = new ImageView();
         unitType = new Label();
-        unitStuff.getChildren().addAll(unitImage, unitType);
+        unitStuff.getChildren().addAll(unitType, unitImage);
         sellButton = new Button();
         HUDBox.getChildren().addAll(unitStuff, sellButton);
-        this.children = new ArrayList<>();
+        HUDBox.setAlignment(Pos.CENTER_LEFT);
     }
 
     public void whenTowerSelected (Unit tower) {
+    	addToHUD();
         gameView.setSpecificUnitIsClicked(tower);
+        unitType.setText(tower.getName());
         unitImage.setImage(new Image(tower.toString() + ".png"));
-        for (int i = 0; i < upgrades.size(); i++) {
-            HUDBox.getChildren().remove(upgrades.get(i));
-        }
-        upgrades.clear();
+        removeUpgrades(upgrades);
         addUpgrades(tower);
-        for (int i = 0; i < children.size(); i++) {
-            HUDBox.getChildren().remove(children.get(i));
-        }
-        children.clear();
-        for (int i = 0; i < tower.getChildren().size(); i++) {
-            ImageView child =
-                    new ImageView(new Image(tower.getChildren().get(i).toString() + ".png"));
-            HUDBox.getChildren().add(child);
-            addUpgrades(tower.getChildren().get(i));
-            children.add(child);
-        }
+        removeUpgrades(children);
+        addChildrenUpgrades(tower);
         sellButton.setText(myResources.getString("HUDSellButton"));
         sellButton.setOnMouseClicked(e -> engine.sellUnit(tower));
+    }
+    
+    public <E> void removeUpgrades(List<E> upgradesList) {
+    	for (int i = 0; i < upgradesList.size(); i++) {
+            HUDBox.getChildren().remove(upgradesList.get(i));
+        }
+    	upgradesList.clear();
     }
 
     public void addUpgrades (Unit u) {
@@ -91,13 +94,27 @@ public class GameHUD {
             HUDBox.getChildren().add(upgradeButton);
         }
     }
+    
+    public void addChildrenUpgrades(Unit tower) {
+        for (int i = 0; i < tower.getChildren().size(); i++) {
+            ImageView child =
+                    new ImageView(new Image(tower.getChildren().get(i).toString() + ".png"));
+            HUDBox.getChildren().add(child);
+            addUpgrades(tower.getChildren().get(i));
+            children.add(child);
+        }
+    }
 
     public void whenNothingSelected () {
+    	HUDBox.getChildren().clear();
+    	Rectangle rect = new Rectangle(500, 100);
+    	rect.setFill(Color.DARKGRAY);
+    	HUDBox.getChildren().add(rect);
         if(gameView != null) {
             gameView.setSpecificUnitIsClicked(null);
         }
-        unitImage.setImage(new Image("health.png"));
-        unitType.setText("Testing");
-        sellButton.setText(myResources.getString("HUDSellButton"));
+//        unitImage.setImage(new Image("Tower.png"));
+//        unitType.setText("No Selection");
+//        sellButton.setText(myResources.getString("HUDSellButton"));
     }
 }
