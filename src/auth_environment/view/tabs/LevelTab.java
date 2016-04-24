@@ -1,24 +1,11 @@
 package auth_environment.view.tabs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
-import auth_environment.view.tabs.ElementTab;
-import auth_environment.view.tabs.TowerTab;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
-import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
 import game_engine.TestingEngineWorkspace;
 import game_engine.factories.UnitFactory;
@@ -41,26 +28,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class LevelTab extends Tab{
+	private IAuthEnvironment myInterface;
 	
-	private BorderPane myBorderPane;
-	private IAuthModel myAuthModel;
-	
-	
-	public LevelTab(IAuthModel authModel){
-		this.myAuthModel = authModel;
-		init();
-	}
-	
-	private void init(){
-		myBorderPane = new BorderPane();
-		TitledPane newPane = new TitledPane();
-		ScrollPane newScrollPane = new ScrollPane();
+	public LevelTab(String name, IAuthEnvironment myInterface){
+		super(name);
+		this.myInterface = myInterface;
 		
-		newPane.setText("New");
-		this.setContent(myBorderPane);
-	}
-	
-	public Node getRoot(){
-		return this.myBorderPane;
 	}
 }
