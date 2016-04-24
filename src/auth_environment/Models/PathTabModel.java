@@ -1,12 +1,11 @@
 package auth_environment.Models;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IPathTabModel;
-import auth_environment.paths.PathHandler;
+import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -24,20 +23,22 @@ public class PathTabModel implements IPathTabModel {
 
 	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
+	private MapHandler myMapHandler; 
+	private List<Branch> myVisualBranches;
+	private List<Position> myCurrentBranch;
+	private List<Position> myGoals;
+	private List<Position> mySpawns;
 
-	private PathHandler myPathHandler; 
-
-	// What's currently selected, will add to Branches.
-	// For now, should only contain TWO positions
-	private List<Branch> myBranches;
-
-	private double myPathWidth; 
+	private double myPathWidth;
 
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
-		this.myPathHandler = new PathHandler();
-		this.myBranches = auth.getGridBranches();
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myVisualBranches = auth.getVisualBranches();
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
+		this.myCurrentBranch = new ArrayList<>();
+		this.myGoals = auth.getGoals();
+		this.mySpawns = auth.getSpawns();
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 
@@ -53,45 +54,71 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void submitBranch() {
-		for(Branch b : myBranches){
-			this.myPathHandler.processStraightLine(b.getPositions());
-		}
+		this.myMapHandler.processPositions(myCurrentBranch);
+		myCurrentBranch.clear();
 		this.loadBranches();
 	}
 
 	@Override
 	public void printCurrentPositions() {
-		for(Branch b : myBranches){
-			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
-		}
+//		for(Branch b : myEngineBranches){
+//			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
+//		}
 	}
 
 	@Override
 	public void loadBranches() {
-		this.myAuthData.setBranches(this.myPathHandler.getPGF().getPathLibrary().getBranches());
+		this.myAuthData.setEngineBranches(this.myMapHandler.getEngineBranches());
+		this.myAuthData.setVisualBranches(this.myVisualBranches);
+		this.myAuthData.setGridBranches(this.myMapHandler.getGridBranches());
 	}
 
 	@Override
-	public List<Branch> getBranches() {
-		return this.myAuthData.getBranches();
+	public List<Branch> getEngineBranches() {
+		return this.myAuthData.getEngineBranches();
 	}
 
 	@Override
-	public void addNewBranch(double x, double y) {
-		Branch b = new Branch();
-		b.addPosition(new Position(x, y));
-		this.myBranches.add(b); 
+	public List<Branch> getVisualBranches() {
+		return this.myAuthData.getVisualBranches();
+	}
+
+	@Override
+	public void addNewPosition(double x, double y) {
+		if(myCurrentBranch.size() > 1){
+			submitBranch();
+		}
+		myCurrentBranch.add(new Position(x, y));
 	}
 
 	@Override
 	public void continueFromLastPosition(double x, double y) {
-//		if (this.myCurrentPositions.size() > 1) {
-//			this.myCurrentPositions.remove(0);
-//		}
-//		this.myCurrentPositions.add(new Position(x, y));
-		
-		// TODO: find corresponding branch
-		addNewBranch(x,y);
-		this.submitBranch();
+		myCurrentBranch.add(new Position(x, y));
 	}
+
+	@Override
+	public void createGrid() {
+		myMapHandler.createGrid();
+	}
+
+	@Override
+	public void addNewSpawn(double x, double y) {
+		this.mySpawns.add(new Position(x, y));
+	}
+
+	@Override
+	public void addNewGoal(double x, double y) {
+		this.myGoals.add(new Position(x, y));
+	}
+
+	@Override
+	public List<Position> getGoals() {
+		return myGoals;
+	}
+
+	@Override
+	public List<Position> getSpawns() {
+		return mySpawns;
+	}
+
 }

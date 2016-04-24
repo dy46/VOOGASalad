@@ -28,14 +28,6 @@ public interface IAuthEnvironment {
 	
 	// Path Tab - Brian
 	
-	public void setBranches(List<Branch> branches); 
-	
-	public List<Branch> getBranches();
-	
-	public List<Branch> getGridBranches();
-	
-	public void setGridBranches(List<Branch> branches); 
-	
 	public List<Position> getGoals();
 	
 	public void setGoals(List<Position> goals);
@@ -83,5 +75,17 @@ public interface IAuthEnvironment {
     public void setAffectors(List<Affector> affectors); 
     
     public List<Affector> getAffectors();
-    
+
+	public List<Branch> getEngineBranches();
+	
+	public void setEngineBranches(List<Branch> branches);
+
+	public void setVisualBranches(List<Branch> branches);
+
+	public List<Branch> getVisualBranches();
+
+	public void setGridBranches(List<Branch> gridBranches);
+	
+	public List<Branch> getGridBranches();
+
 }

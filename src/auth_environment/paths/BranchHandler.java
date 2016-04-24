@@ -7,12 +7,8 @@ import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class BranchHandler {
-
-	public BranchHandler(){
-		
-	}
 	
-	public void configureBranchInPath(Branch newPathNode, PathNode myPath){
+	public void configureBranch(Branch newPathNode, PathGraph myPath){
 		Position startPos = newPathNode.getFirstPosition();
 		Position endPos = newPathNode.getLastPosition();
 		configureBranchesWithEdgePos(newPathNode, myPath, startPos);
@@ -25,7 +21,7 @@ public class BranchHandler {
 		}
 	}
 
-	public void configureBranchesWithEdgePos(Branch newBranch, PathNode myPath, Position pos){
+	private void configureBranchesWithEdgePos(Branch newBranch, PathGraph myPath, Position pos){
 		List<Branch> branchesAtPos = myPath.getBranchesByEdgePosition(pos);
 		List<Branch> branchesChecked = new ArrayList<>();
 		for(Branch branch : branchesAtPos){
@@ -41,7 +37,7 @@ public class BranchHandler {
 			myPath.addBranch(newBranch);
 	}
 
-	public void configureMidBranchSplits(Branch newBranch, PathNode myPath, Position pos){
+	private void configureMidBranchSplits(Branch newBranch, PathGraph myPath, Position pos){
 		List<Branch> branchesToSplit = myPath.getBranchesByMidPosition(pos);
 		branchesToSplit.stream().filter(b -> b.equals(newBranch));
 		for(Branch b : branchesToSplit){

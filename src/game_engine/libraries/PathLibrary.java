@@ -3,7 +3,6 @@ package game_engine.libraries;
 import java.util.List;
 
 import auth_environment.paths.PathGraph;
-import auth_environment.paths.PathNode;
 import game_engine.game_elements.Branch;
 
 public class PathLibrary {
@@ -14,16 +13,12 @@ public class PathLibrary {
 		myPathGraph = new PathGraph();
 	}
 	
-	public PathLibrary(PathGraph pathGraph, PathNode pathGrid){
-		this.myPathGraph = pathGraph;
+	public PathLibrary(List<Branch> branches){
+		this.myPathGraph = new PathGraph(branches);
 	}
 	
 	public PathGraph getPathGraph(){
 		return myPathGraph;
-	}
-	
-	public List<PathNode> getPaths(){
-		return myPathGraph.getPaths();
 	}
 
 	public List<Branch> getBranches(){

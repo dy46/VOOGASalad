@@ -3,7 +3,6 @@ package game_player.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import auth_environment.paths.PathNode;
 import exceptions.WompException;
 import game_engine.physics.CollisionDetector;
 import game_engine.GameEngineInterface;

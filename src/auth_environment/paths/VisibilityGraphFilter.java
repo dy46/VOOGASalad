@@ -25,23 +25,7 @@ public class VisibilityGraphFilter {
 		}
 	}
 
-	public void filterObstacles(PathNode path, List<Unit> obstacles){
-		List<Branch> branchesToFilter = getBranchesToFilter(path, obstacles);
-		for(Branch b : branchesToFilter){
-			path.removeBranch(b);
-		}
-	}
-
-	public List<Branch> getBranchesToFilter(PathGraph graph, List<Unit> obstacles){
-		Set<Branch> removalList = new HashSet<>();
-		for(PathNode path : graph.getPaths()){
-			List<Branch> branches = getBranchesToFilter(path, obstacles);
-			removalList.addAll(branches);
-		}
-		return new ArrayList<Branch>(removalList);
-	}
-
-	public List<Branch> getBranchesToFilter(PathNode path, List<Unit> obstacles){
+	public List<Branch> getBranchesToFilter(PathGraph path, List<Unit> obstacles){
 		Set<Branch> removalList = new HashSet<>();
 		for(Unit obstacle : obstacles){
 			for(Branch b : path.getBranches()){

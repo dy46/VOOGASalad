@@ -9,8 +9,7 @@ import java.util.List;
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.GridFactory;
 import auth_environment.paths.PathGraphFactory;
-import auth_environment.paths.PathHandler;
-import auth_environment.paths.PathNode;
+import auth_environment.paths.MapHandler;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
@@ -45,7 +44,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myBranches;
-	private List<PathNode> myPaths;
 
 	private WaveGoal waveGoal;
 	private ScoreUpdate scoreUpdate;
@@ -89,7 +87,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
 		myBranches = new ArrayList<>();
-		myPaths = new ArrayList<>();
 		myGridBranches = new ArrayList<>();
 		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
@@ -183,15 +180,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 3);
 
-		PathHandler ph = new PathHandler();
-		PathGraphFactory pgf = ph.getPGF();
-		List<PathNode> paths = pgf.getPathLibrary().getPaths();
-		myGF = ph.getGF();
-		PathNode grid = myGF.getGrid();
-		myGridBranches = grid.getBranches();
-		myBranches.addAll(pgf.getPathLibrary().getBranches());
-		l.addAllPaths(paths);
-		myPaths.addAll(paths);
+		MapHandler mh = new MapHandler();
+		myBranches.addAll(mh.getEngineBranches());
 
 		// For testing branching
 		// System.out.println("NUM BRANCHES: " + myBranches.size());
@@ -634,10 +624,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		units.addAll(myProjectiles);
 		units.addAll(myTerrains);
 		return units;
-	}
-
-	public List<PathNode> getPaths () {
-		return myPaths;
 	}
 
 	@Override
