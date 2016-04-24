@@ -44,5 +44,19 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
 		this.myCreatedLevels.get(this.myCurrentLevelIndex).addWave(w);
 	}
 	
+	public List<String> getLevelNames(){
+		List<String> levelNames = new ArrayList<String>();
+		this.myCreatedLevels.forEach(l -> levelNames.add(l.getName()));
+		return levelNames;
+	}
 	
+	public List<String> getCurrentLevelWaveNames(){
+		List<String> names = new ArrayList<String>();
+		this.myCreatedLevels.get(this.myCurrentLevelIndex).getWaves().forEach(w -> names.add(w.getName()));
+		return names;
+	}
+	
+	public List<Level> getCreatedLevels(){
+		return new ArrayList<Level>(this.myCreatedLevels);
+	}
 }

@@ -1,5 +1,9 @@
 package auth_environment.Models.Interfaces;
 
+import java.util.List;
+
+import game_engine.game_elements.Level;
+
 public interface ILevelOverviewTabModel {
 	/*
 	 * Changes the specific level in the back-end that is being edited.
@@ -31,4 +35,23 @@ public interface ILevelOverviewTabModel {
 	 * 			to the level.
 	 */
 	void addWaveToCurrentLevel(int waveIndex);
+	/*
+	 * Method used in order to display the names of all levels the user has created thus far.
+	 * 
+	 * @return	List<String> return type is a list of all names for the levels
+	 */
+	List<String> getLevelNames();
+	/*
+	 * Returns a list of strings that directly correlate with the names of each of the waves 
+	 * created for a specific editable level.
+	 * 
+	 * @return	List<String> list of wave names for the current level
+	 */
+	List<String> getCurrentLevelWaveNames();
+	/*
+	 * creates a shallow copy of the created levels and returns that list
+	 * 
+	 * @return	List<Level> is the shallow copy of the list of levels created by the users.
+	 */
+	 List<Level> getCreatedLevels();
 }
