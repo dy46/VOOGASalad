@@ -1,9 +1,5 @@
 package auth_environment.view.tabs;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -68,6 +64,7 @@ public class LevelTab extends Tab{
 		newTableInfo.getChildren().remove(waveButton);
 		int waveNum = index + 1;
 		Button wave = new Button("Wave " + waveNum);
+		wave.setOnAction(e -> new WaveWindow("Leve 1", "Wave 1"));
 		newTableInfo.add(wave, 2, index);
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");
@@ -75,4 +72,5 @@ public class LevelTab extends Tab{
 		newWaveButton.setOnAction(e-> addNewWaveSpace(num, newTableInfo, newWaveButton));
 		newTableInfo.add(newWaveButton, 2, index);
 	}
+	
 }
