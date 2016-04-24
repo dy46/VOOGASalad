@@ -105,7 +105,11 @@ public class CloudStorage {
 		// TODO: finish deleteFile
 	}
 	public void deleteFolder(String name){
-		// TODO: complete deleteFolder
+		BoxFolder f = this.getFolder(name);
+		if(f == null){
+			throw new RuntimeException("This folder is not located in your box account");
+		}
+		f.delete(true);
 	}
 	
 	
