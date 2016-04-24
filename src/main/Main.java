@@ -18,7 +18,7 @@ public class Main extends Application {
 		
 		System.out.println("hello");
 		
-		myView = new PlayerGUI(790, 614);
+		myView = new PlayerGUI(790, 765);
 		primaryStage.setScene(myView.createPlayerScene());
 		primaryStage.show();
 		
