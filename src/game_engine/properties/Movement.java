@@ -3,8 +3,6 @@ package game_engine.properties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import auth_environment.paths.PathGraph;
 import game_engine.game_elements.Branch;
 
 public class Movement {
@@ -85,10 +83,15 @@ public class Movement {
 			}
 			Branch nextBranch = myBranches.get(1 + myBranches.indexOf(myCurrentBranch));
 			if(nextBranch.getFirstPosition().equals(currentPosition)){
+				movingTowards = nextBranch.getLastPosition();
+				myCurrentBranch = nextBranch;
+				return nextBranch.getFirstPosition();
+			}
+			else{
+				myCurrentBranch = nextBranch;
+				movingTowards = nextBranch.getFirstPosition();
 				return nextBranch.getLastPosition();
 			}
-			else
-				return nextBranch.getFirstPosition();
 		}
 		return next;
 	}

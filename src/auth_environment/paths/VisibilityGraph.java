@@ -46,7 +46,6 @@ public class VisibilityGraph {
 		for(Position goal : myEngine.getCurrentLevel().getGoals()){
 			for(Position spawn : myEngine.getCurrentLevel().getSpawns()){
 				if(!BFSPossible(visibilityBranches, spawn, goal)){
-					//					System.out.println("NOT VALIDATED");
 					return false;
 				}
 			}
@@ -63,7 +62,6 @@ public class VisibilityGraph {
 		List<Position> goals = new ArrayList<>();
 		goals.addAll(myEngine.getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
-		System.out.println("GOALS: " + sortedGoals);
 		if(sortedGoals.size() == 0){
 			return null;
 		}
@@ -85,7 +83,6 @@ public class VisibilityGraph {
 		Branch goalBranch = myEngine.findBranchForPos(goal);
 		List<Branch> bestPath = getShortestPath(startBranch, goalBranch);
 		bestPath.add(goalBranch);
-		System.out.println("BEST PATH: " + bestPath);
 		return bestPath;
 	}
 
@@ -140,7 +137,6 @@ public class VisibilityGraph {
 
 	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
 		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
-//		System.out.println("TO FILTER: " + branchesToFilter);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
@@ -172,9 +168,7 @@ public class VisibilityGraph {
 		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
-					//					System.out.println("POS: " + pos+" UNIT POS: " + o.getProperties().getPosition()+" BOUNDS: "+ CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()));
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
-						//						System.out.println("ENCAPSULATED");
 						removalList.add(b);
 					}
 				}
@@ -196,7 +190,6 @@ public class VisibilityGraph {
 
 	private boolean BFSPossible(List<Branch> visibilityBranches, Position spawn, Position goal){
 		List<Branch> visited = getBFSVisited(visibilityBranches, spawn, goal);
-		//		System.out.println("BFS VISITED: " + visited);
 		if(visited.size() == 0){
 			return false;
 		}
