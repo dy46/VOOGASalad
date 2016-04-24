@@ -271,7 +271,8 @@ public class ElementTab extends Tab{
     	}
     	
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-    	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
+    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
+//    	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
     	up.add(unit, this);
     	
