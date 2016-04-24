@@ -82,24 +82,24 @@ public class MapHandler {
 		Position p6 = new Position(400, 200);
 		List<Position> b2 = Arrays.asList(p4, p5, p6);
 		processPositions(b2);
-//
-//		Position p7 = new Position(200, 30);
-//		Position p8 = new Position(200, 200);
-//		Position p9 = new Position(400, 200);
-//		List<Position> b3 = Arrays.asList(p7, p8, p9);
-//		processPositions(b3);
-//
-//		Position p10 = new Position(400, 200);
-//		Position p11 = new Position(400, 525);
-//		List<Position> b4 = Arrays.asList(p10, p11);
-//		processPositions(b4);
-//
+
+		Position p7 = new Position(200, 30);
+		Position p8 = new Position(200, 200);
+		Position p9 = new Position(400, 200);
+		List<Position> b3 = Arrays.asList(p7, p8, p9);
+		processPositions(b3);
+
+		Position p10 = new Position(400, 200);
+		Position p11 = new Position(400, 525);
+		List<Position> b4 = Arrays.asList(p10, p11);
+		processPositions(b4);
+
 //		Position p12 = new Position(100, 30);
 //		Position p13 = new Position(100, 200);
 //		List<Position> b5 = Arrays.asList(p12, p13);
 //		processPositions(b5);
 		
-		addGoal(p6);
+		addGoal(p11);
 	}
 
 	private List<Position> getSplinedPoints(List<Position> positions){

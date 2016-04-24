@@ -1,6 +1,7 @@
 package game_engine.place_validations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,11 +21,7 @@ public class TowerPlaceValidation extends PlaceValidation{
 		Unit copy = unit.copyShallowUnit();
 		shiftBounds(copy, posX, posY);
 		VisibilityGraph myVisibility = new VisibilityGraph(gameEngine);
-		List<Branch> visibilityBranches = myVisibility.getSimulatedBranches(unit.copyShallowUnit());
-		for(Branch b : visibilityBranches){
-			System.out.println("BRANCH: " + b.getFirstPosition()+" "+b.getLastPosition());
-		}
-		System.out.println("STARTING BFS");
+		List<Branch> visibilityBranches = myVisibility.getSimulatedPlacementBranches(copy);
 		for(Position goal : gameEngine.getCurrentLevel().getGoals()){
 			for(Position spawn : gameEngine.getCurrentLevel().getSpawns()){
 				if(!BFSPossible(gameEngine, visibilityBranches, spawn, goal)){
@@ -33,7 +30,6 @@ public class TowerPlaceValidation extends PlaceValidation{
 				}
 			}
 		}
-		System.out.println("ENDED BFS");
 		System.out.println("VALIDATED");
 		return true;
 	}
@@ -53,7 +49,6 @@ public class TowerPlaceValidation extends PlaceValidation{
 			}
 		}
 		for(Branch b : visited){
-			System.out.println("VISITED: " + b.getFirstPosition()+" "+b.getLastPosition());
 			if(b.getPositions().contains(goal)){
 				return true;
 			}
@@ -80,23 +75,15 @@ public class TowerPlaceValidation extends PlaceValidation{
 	}
 
 	private void shiftBounds(Unit u, double x, double y){
-		double newX = u.getProperties().getPosition().getX() + x;
-		double newY = u.getProperties().getPosition().getY() + y;
-		u.getProperties().setPosition(new Position(newX, newY));
-		Bounds bounds = u.getProperties().getBounds();
-		for(Position p : bounds.getPositions()){
-			p.addToXY(x, y);
-		}
-	}
-
-	private void unshiftBounds(Unit u, double x, double y){
-		double newX = u.getProperties().getPosition().getX() - x;
-		double newY = u.getProperties().getPosition().getY() - y;
-		u.getProperties().setPosition(new Position(newX, newY));
-		Bounds bounds = u.getProperties().getBounds();
-		for(Position p : bounds.getPositions()){
-			p.addToXY(-1*x, -1*y);
-		}
+		double newX = u.getProperties().getPosition().getX() - 200 + x;
+		double newY = u.getProperties().getPosition().getY() - 300 + y;
+		Position newPos = new Position(newX, newY);
+		u.getProperties().setPosition(newPos);
+		Position topLeftPos = new Position(newX - 50, newY - 50);
+		Position topRightPos = new Position(newX + 50, newY - 50);
+		Position botLeftPos = new Position(newX - 50, newY + 50);
+		Position botRightPos = new Position(newX + 50, newY + 50);
+		u.getProperties().setBounds(Arrays.asList(topLeftPos, topRightPos, botLeftPos, botRightPos));
 	}
 
 }

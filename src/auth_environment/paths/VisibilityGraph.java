@@ -23,60 +23,48 @@ public class VisibilityGraph {
 		myEngine = engine;
 	}
 
-	public List<Branch> getVisibilityBranches(){
-		List<Unit> obstacles = myEngine.getTowers();
-		List<Unit> obstaclesCopy = obstacles.stream().map(b -> b.copyUnit()).collect(Collectors.toList());
-		List<Branch> branchesToFilter = getBranchesToFilter(obstaclesCopy);
-		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-		PathGraph pg = new PathGraph(myEngine.getBranches());
-		List<Branch> branches = pg.copyGraph().getBranches();
-//		System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
-		for(int y=0; y<copyBranchesToFilter.size(); y++){
-			for(int x=0; x<branches.size(); x++){
-				if(copyBranchesToFilter.get(y).equals(branches.get(x))){
-					branches.remove(x);
-					x--;
-				}
-			}	
-		}
-		return branches;
-	}
-
-	public List<Branch> getSimulatedBranches(Unit obstacle){
-		List<Unit> obstacles = myEngine.getTowers();
-		List<Unit> obstaclesCopy = obstacles.stream().map(b -> b.copyUnit()).collect(Collectors.toList());
-		obstaclesCopy.add(obstacle.copyShallowUnit());
-//		System.out.println("OBSTACLE: " + obstacle.getProperties().getPosition());
-		List<Branch> branchesToFilter = getBranchesToFilter(obstaclesCopy);
+	public List<Branch> getSimulatedPlacementBranches(Unit obstacle){
+		System.out.println("OBSTACLE: " + obstacle.getProperties().getPosition());
+		List<Branch> branchesToFilter = getBranchesToFilter(obstacle);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
 		List<Branch> copyBranches = branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		if(copyBranchesToFilter.size() > 0 ){
-//			System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
+			System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
 		}
 		for(int y=0; y<copyBranchesToFilter.size(); y++){
 			for(int x=0; x<copyBranches.size(); x++){
 				if(copyBranchesToFilter.get(y).equals(copyBranches.get(x))){
-					copyBranches.remove(x);
+					Branch removed = copyBranches.remove(x);
 					x--;
+					for(Branch b : copyBranches){
+						for(int z=0; z < b.getNeighbors().size(); z++){
+							if(b.getNeighbors().get(z).equals(removed)){
+								b.getNeighbors().remove(z);
+								z--;
+							}
+						}
+					}
 				}
 			}	
 		}
 		return copyBranches;
 	}
 
-	private List<Branch> getBranchesToFilter(List<Unit> obstacles){
+	private List<Branch> getBranchesToFilter(Unit obstacle){
 		Set<Branch> removalList = new HashSet<>();
-		if(obstacles.size() > 0 ){
-//			System.out.println("OBSTACLE: " + obstacles.get(obstacles.size()-1).getProperties().getPosition());
-		}
 		List<Branch> copyBranches =  myEngine.getBranches().stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-		for(Unit obstacle : obstacles){
+		List<Unit> obstacleList = myEngine.getTowers();
+		List<Unit> copyObstacleList = obstacleList.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
+		copyObstacleList.add(obstacle);
+		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
-					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), obstacle.getProperties().getBounds())){
+					System.out.println("POS: " + pos + " BOUNDS: " + o.getProperties().getBounds());
+					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), o.getProperties().getBounds())){
 						removalList.add(b);
+						System.out.println("ENCAPSULATED");
 					}
 				}
 			}
