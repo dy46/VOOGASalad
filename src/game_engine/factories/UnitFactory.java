@@ -46,7 +46,7 @@ public class UnitFactory {
 		newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
 		newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
 		newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
-		newProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
+//		newProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
 		newProperties.setStateProp(getUnitState(inputs.get("State")));
 		UnitProperties unitProperties = createPropertiesByType(type, newProperties);
 		return createUnit(getName(type, unitType), unitProperties);
@@ -89,7 +89,7 @@ public class UnitFactory {
 	private Health getUnitHealth(String str){
 		double health = 0;
 		try{
-			Double.parseDouble(str);
+			health = Double.parseDouble(str);
 		}
 		catch(Exception e){
 			CorrectableException we = new CorrectableException("Invalid health value. Please enter a number", Double.class);
@@ -101,7 +101,7 @@ public class UnitFactory {
 	private Price getUnitPrice(String str){
 		double price = 0;
 		try{
-			Double.parseDouble(str);
+			price = Double.parseDouble(str);
 		}
 		catch(Exception e){
 			CorrectableException we = new CorrectableException("Invalid price value. Please enter a number", Double.class);
@@ -113,7 +113,7 @@ public class UnitFactory {
 	private Mass getUnitMass(String str){
 		double mass = 0;
 		try{
-			Double.parseDouble(str);
+			mass = Double.parseDouble(str);
 		}
 		catch(Exception e){
 			CorrectableException we = new CorrectableException("Invalid mass value. Please enter a number", Double.class);
@@ -122,22 +122,22 @@ public class UnitFactory {
 		return new Mass(mass);
 	}
 	
-	private Team getUnitTeam(String str){
-		double team = 0;
-		try{
-			Double.parseDouble(str);
-		}
-		catch(Exception e){
-			CorrectableException we = new CorrectableException("Invalid team value. Please enter a number", Double.class);
-			team = Double.parseDouble(we.getResult());
-		}
-		return new Team(team);
-	}
+//	private Team getUnitTeam(String str){
+//		double team = 0;
+//		try{
+//			team = Double.parseDouble(str);
+//		}
+//		catch(Exception e){
+//			CorrectableException we = new CorrectableException("Invalid team value. Please enter a number", Double.class);
+//			team = Double.parseDouble(we.getResult());
+//		}
+//		return new Team(team);
+//	}
 	
 	private State getUnitState(String str){
 		double state = 0;
 		try{
-			Double.parseDouble(str);
+			state = Double.parseDouble(str);
 		}
 		catch(Exception e){
 			CorrectableException we = new CorrectableException("Invalid team value. Please enter a number", Double.class);
@@ -257,8 +257,12 @@ public class UnitFactory {
 	
 	public List<String> getFields(){
 		//return Arrays.asList("Unit Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
-		return Arrays.asList("Unit Type", "Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State", "Mass");
+		return Arrays.asList("UnitType", "Type", "Health", "Initial Speed", "Initial Direction", "Price", "State", "Mass");
 		//return Arrays.asList("Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
+	}
+	
+	public List<String> getUnitTypes(){
+		return Arrays.asList("Enemy", "Tower", "Projectile", "Terrain");
 	}
 	
 }

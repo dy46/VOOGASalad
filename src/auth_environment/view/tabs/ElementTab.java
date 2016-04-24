@@ -32,7 +32,7 @@ public class ElementTab extends Tab{
 	private UnitFactory myUnitFactory;
 	private List<ComboBox<String>> affectorsToUnit;
 	private List<ComboBox<String>> affectorsToApply;
-	
+	private List<Unit> Projectiles;
 	
 	public ElementTab(String name, IAuthEnvironment myInterface){
 		super(name);
@@ -41,6 +41,7 @@ public class ElementTab extends Tab{
 		affectorsToUnit = new ArrayList<ComboBox<String>>();
 		affectorsToApply = new ArrayList<ComboBox<String>>();
 		this.myInterface = myInterface;
+		Projectiles = new ArrayList<Unit>();
 		init();
 	}
 	
@@ -54,6 +55,8 @@ public class ElementTab extends Tab{
 		GridPane newAnimationInfo = new GridPane();					//*****	
 //		FlowPane editInfo = new FlowPane();							//*****	
 		myPane.setLeft(newPane);
+		
+		this.setClosable(false);
 		
 	    UnitPicker up = new UnitPicker("Edit");
 	    myPane.setRight(up.getRoot());
@@ -74,7 +77,7 @@ public class ElementTab extends Tab{
 		newAnimationInfo.add(animationButton, 1, 0); //col, row
 		
         GridPane newTableInfo = new GridPane();
-        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
+        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(100),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
         newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
         newTableInfo.setPrefSize(600, 200);
 		newBorderPane.setLeft(newTableInfo);
@@ -111,12 +114,21 @@ public class ElementTab extends Tab{
 //		newTableInfo.add(myTextField, 2, index);
 //		index++;
 //		
+        
+		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+		String wweorpawt  = "Projectiles";
+		newTableInfo.add(new Text(wweorpawt), 1, index);
+		ComboBox<String> cbox = new ComboBox<String>();
+		cbox.getItems().addAll("Hello", "its", "me");
+		newTableInfo.add(cbox, 2, index);
+		index++;
+		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String affectors = "Affector(s) For Unit";
 		newTableInfo.add(new Text(affectors), 1, index);
-		ComboBox<String> cbox = new ComboBox<String>();
+		ComboBox<String> cbox1 = new ComboBox<String>();
 		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
-		newTableInfo.add(cbox, 2, index);
+		newTableInfo.add(cbox1, 2, index);
 		index++;
 		//labels stuff
 		
@@ -130,10 +142,10 @@ public class ElementTab extends Tab{
 		////
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		affectors = "Affector(s) to Apply";
-		newTableInfo.add(new Text(affectors), 3, index);
+		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox2 = new ComboBox<String>();
 		cbox2.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
-		newTableInfo.add(cbox2, 4, index);
+		newTableInfo.add(cbox2, 2, index);
 		index++;
 		
 		//labels stuff
@@ -197,29 +209,29 @@ public class ElementTab extends Tab{
 	
 	// ^^^ can refaccotttryo vv
 	
-	private void setUnitType(String type, int index, GridPane newTableInfo){
-		List<String> myFields = myUnitFactory.getFields();
-		UnitProperties unitProp =myUnitFactory.getUnitLibrary().getPropertyByType(type);
-		for(String s: myFields){
-			newTableInfo.getRowConstraints().add(new RowConstraints(30));
-			newTableInfo.add(new Text(s), 1, index);
-			TextField myTextField = new TextField();
-			newTableInfo.add(myTextField, 2, index);
-			System.out.println("qq");
-			System.out.println(unitProp);
-			Class<?> c = unitProp.getClass();
-			Method[] allMethods = c.getMethods();
-			for(Method m: allMethods){
-				System.out.println(m.getName());
-			}
-				//if(m.getName().startsWith("set" + str)){
-			//}
-			myTextField.setText("1");
-			strTextMap.put(s, myTextField);
-			index++;
-		}
-		
-	}
+//	private void setUnitType(String type, int index, GridPane newTableInfo){
+//		List<String> myFields = myUnitFactory.getFields();
+//		UnitProperties unitProp =myUnitFactory.getUnitLibrary().getPropertyByType(type);
+//		for(String s: myFields){
+//			newTableInfo.getRowConstraints().add(new RowConstraints(30));
+//			newTableInfo.add(new Text(s), 1, index);
+//			TextField myTextField = new TextField();
+//			newTableInfo.add(myTextField, 2, index);
+//			System.out.println("qq");
+//			System.out.println(unitProp);
+//			Class<?> c = unitProp.getClass();
+//			Method[] allMethods = c.getMethods();
+//			for(Method m: allMethods){
+//				System.out.println(m.getName());
+//			}
+//				//if(m.getName().startsWith("set" + str)){
+//			//}
+//			myTextField.setText("1");
+//			strTextMap.put(s, myTextField);
+//			index++;
+//		}
+//		
+//	}
 
 	private void createNewUnit(UnitPicker up) {
 		
