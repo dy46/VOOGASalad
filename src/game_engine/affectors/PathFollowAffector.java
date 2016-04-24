@@ -43,7 +43,6 @@ public abstract class PathFollowAffector extends Affector{
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			//this is the end of the path
 			return u.getProperties().getVelocity().getDirection();
 		}
 		return move.getNextDirection(currentPosition);
@@ -62,6 +61,13 @@ public abstract class PathFollowAffector extends Affector{
 			}
 		}
 		return new ArrayList<>(visibleChoices);
+	}
+	
+	public boolean isAccessible(Branch b, Position p){
+		if(b.getPositions().contains(p)){
+			return true;
+		}
+		return new VisibilityGraph(getWS()).isAccessibleFrom(b, p);
 	}
 	
 }

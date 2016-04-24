@@ -59,4 +59,8 @@ public class EncapsulationChecker {
 			return (true);
 	}
 
+	public boolean encapsulatesBounds(List<Position> positions, List<Position> useableBounds) {
+		return encapsulates(positions, useableBounds);
+	}
+
 }

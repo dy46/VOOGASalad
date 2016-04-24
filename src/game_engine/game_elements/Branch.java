@@ -245,15 +245,6 @@ public class Branch implements Serializable{
 		return forwards;
 	}
 
-	public boolean isAccessible(Position p){
-		for(Branch b : getForwardNeighbors()){
-			if(b.getPositions().contains(p)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public boolean equals(Branch branch){
 		for(int x=0; x<branch.getPositions().size(); x++){
 			if(!branch.getPositions().get(x).equals(this.getPositions().get(x))){
@@ -297,8 +288,6 @@ public class Branch implements Serializable{
         catch(ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         }
-//        System.out.println("BEFORE: " + this);
-//        System.out.println("SERIALIZED: " + obj);
         return obj;
     }
 

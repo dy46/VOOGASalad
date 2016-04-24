@@ -27,7 +27,6 @@ public class AIPathFollowAffector extends PathFollowAffector {
 			return null;
 		}
 		Position next = move.getNextPosition(currentPosition);
-//		System.out.println("Choosing next");
 		if (next == null) {
 			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
@@ -45,10 +44,10 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	private Branch pickBestBranch (Unit u) {
 		List<Branch> branchChoices = getBranchChoices(u);
 		Branch bestBranch = null;
-		double bestHeuristic = Integer.MIN_VALUE;
+		double bestHeuristic = Integer.MAX_VALUE;
 		for (Branch b : branchChoices) {
 			double branchHeuristic = branchingHeuristic(b);
-			if (branchHeuristic >= bestHeuristic) {
+			if (branchHeuristic <= bestHeuristic) {
 				bestHeuristic = branchHeuristic;
 				bestBranch = b;
 			}
@@ -57,7 +56,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	}
 
 	private double branchingHeuristic (Branch b) {
-		return pathLengthHeuristic(b) + enemiesOnBranchHeuristic(b) + goalDistanceHeuristic(b) + nearbyTowersHeuristic(b);
+		return enemiesOnBranchHeuristic(b) + goalDistanceHeuristic(b) + nearbyTowersHeuristic(b);
 	}
 
 	private double enemiesOnBranchHeuristic(Branch b){
@@ -71,7 +70,9 @@ public class AIPathFollowAffector extends PathFollowAffector {
 				}
 			}
 		}
-		return 0.1 * numEnemiesOnBranch;
+		if(numEnemiesOnBranch == 0)
+			return 0;
+		return 1/numEnemiesOnBranch;
 	}
 
 	private double nearbyTowersHeuristic(Branch b){
@@ -87,12 +88,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 				}
 			}
 		}
-		double nearbyTowersValue = 0;
-		if (nearbyTowers.size() == 0)
-			nearbyTowersValue = 100000;
-		else
-			nearbyTowersValue = 100000 / nearbyTowers.size();
-		return nearbyTowersValue;
+		return nearbyTowers.size();
 	}
 
 	private double goalDistanceHeuristic(Branch b){
@@ -100,7 +96,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		Position lastPos = b.getLastPosition();
 		if(getWS().getCurrentLevel().getGoals() != null){
 			for (Position goal : getWS().getCurrentLevel().getGoals()) {
-				if (b.isAccessible(goal)) {
+				if (isAccessible(b, goal)) {
 					double distanceToGoal = lastPos.distanceTo(goal);
 					if (distanceToGoal < minDistanceToGoal) {
 						minDistanceToGoal = distanceToGoal;
@@ -108,16 +104,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 				}
 			}
 		}
-		double goalValue = 0;
-		if(!(minDistanceToGoal == Integer.MAX_VALUE))
-			goalValue = 10 / minDistanceToGoal;
-		return goalValue;
-	}
-
-	private double pathLengthHeuristic(Branch b){
-		if(b.getLength() == 0)
-			return 0;
-		return 5000 / b.getLength();
+		return minDistanceToGoal;
 	}
 
 }
