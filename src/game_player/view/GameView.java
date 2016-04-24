@@ -77,7 +77,6 @@ public class GameView implements IGameView{
 	private void setEventHandlers() {
 		this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
 		this.root.setOnMouseClicked(e -> {
-			System.out.println(clickedTower);
 			if (clickedTower != null) {
 				playerEngineInterface.addTower(clickedTower, e.getX(), e.getY());
 			} else if (canPlaceTower){
@@ -196,7 +195,8 @@ public class GameView implements IGameView{
 		}
 	}
 
-	public void placeUnits(List<Unit> list, List<ImageViewPicker> imageViews) {
+	public void placeUnits(List<Unit> totalList, List<ImageViewPicker> imageViews) {
+	    List<Unit> list = totalList.stream().filter(u -> u.isVisible()).collect(Collectors.toList());
 		for(int i = 0; i < list.size(); i++) {
 			if(!hasImageView(list.get(i), imageViews)) {
 				ImageViewPicker picker = new ImageViewPicker(list.get(i), root);
@@ -214,7 +214,7 @@ public class GameView implements IGameView{
 				imageViews.remove(i);
 			}
 		}  
-		displayRange(imageViews);
+		displayRange(towers);
 	}
 	
 	public void updateHUD(ImageViewPicker imager) {
@@ -238,8 +238,8 @@ public class GameView implements IGameView{
 				ranges.add(fillPolygonWithPoints(new Polygon(), range));
 			}
 		}
+                root.getChildren().remove(unionRange);
 		if(ranges.size() > 0) {
-			root.getChildren().remove(unionRange);
 			unionRange = generateUnion(ranges);
 			unionRange = subtractBounds(unionRange, rangesToSubtract);
 			unionRange.setFill(Color.BLACK);

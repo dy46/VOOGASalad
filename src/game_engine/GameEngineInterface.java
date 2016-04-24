@@ -108,5 +108,7 @@ public interface GameEngineInterface {
     public List<Affector> getUpgrades(Unit name);
     
     public void applyUpgrade(Unit name, Affector affector);
+    
+    public void sellUnit(Unit name);
 
 }
