@@ -6,6 +6,7 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
 /**
@@ -87,5 +88,11 @@ public interface IAuthEnvironment {
 	public void setGridBranches(List<Branch> gridBranches);
 	
 	public List<Branch> getGridBranches();
+	
+	// For UnitCreation integration, issue 190
+	
+	public UnitLibrary getUnitLibrary();
+	
+	public void setUnitLibrary(UnitLibrary library); 
 
 }
