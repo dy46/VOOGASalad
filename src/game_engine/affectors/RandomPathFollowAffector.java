@@ -17,14 +17,12 @@ public class RandomPathFollowAffector extends PathFollowAffector{
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
 		if(currentBranch == null){
-			getWS().decrementLives();
 			return null;
 		}
 		Position next = currentBranch.getNextPosition(currentPosition);
 		if(next == null){
 			currentBranch = pickRandomBranch(u);
 			if(currentBranch == null){
-				getWS().decrementLives();
 				return null;
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch);

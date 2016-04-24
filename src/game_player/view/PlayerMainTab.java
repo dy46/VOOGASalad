@@ -3,29 +3,24 @@ package game_player.view;
 import game_player.GameDataSource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import game_engine.games.GameEngineInterface;
+import game_engine.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 public class PlayerMainTab implements IPlayerTab{
 	private static final int TOP_PADDING = 5;
 	private static final int RIGHT_PADDING = 10;
 	private static final int BOTTOM_PADDING = 5;
 	private static final int LEFT_PADDING = 10;
-	private static final String GUI_ELEMENTS = "GUIElements";
+	private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
 	private static final String PACKAGE_NAME = "game_player.view.";
 	private static final int PANEL_PADDING = 10;
 	private Tab myTab;
@@ -36,6 +31,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private List<IGUIObject> gameElements;
 	private IGameView gameView;
 	private GameCanvas myCanvas;
+	private GameHUD myHUD;
 	private Scene myScene;
 	private String tabName;
 	
@@ -43,6 +39,7 @@ public class PlayerMainTab implements IPlayerTab{
 	private VBox configurationPanel;
 	private VBox gameMenu;
 	private VBox gamePanel;
+	private VBox towerPanel;
 	
 	private GameEngineInterface gameEngine;
 	
@@ -74,8 +71,9 @@ public class PlayerMainTab implements IPlayerTab{
 	
 	private void initializeCanvas() {
 		myCanvas = new GameCanvas(myResources);
-		gameSection.getChildren().add(myCanvas.createCanvas());
-		gameView = new GameView(gameEngine, myCanvas, myScene, this);
+		myHUD = new GameHUD(myResources);
+		gameSection.getChildren().addAll(myCanvas.createCanvas(), myHUD.createNode());
+		gameView = new GameView(gameEngine, myCanvas, myHUD, myScene, this);
 		gameView.playGame(0);
 	}
 	
@@ -112,6 +110,7 @@ public class PlayerMainTab implements IPlayerTab{
 		configurationPanel = new VBox(PANEL_PADDING);
 		gameMenu = new VBox(PANEL_PADDING);
 		gamePanel = new VBox(PANEL_PADDING);
+		towerPanel = new VBox(PANEL_PADDING);
 		this.configurePanels();
 	}
 	
@@ -120,6 +119,7 @@ public class PlayerMainTab implements IPlayerTab{
 		myRoot.setRight(configurationPanel);
 		myRoot.setTop(gameMenu);
 		myRoot.setBottom(gamePanel);
+		myRoot.setLeft(towerPanel);
 	}
 	
 	private void configurePanels() {
@@ -140,12 +140,20 @@ public class PlayerMainTab implements IPlayerTab{
 		}
 	}
 	
+	protected void addToTowerPanel(Node element) {
+		towerPanel.getChildren().add(element);
+	}
+	
 	protected void addToTop(Node element) {
 		gameMenu.getChildren().add(element);
 	}
 	
 	protected void addToConfigurationPanel(Node element) {
 		configurationPanel.getChildren().add(element);
+	}
+	
+	public void removeFromConfigurationPanel(Node element) {
+	    configurationPanel.getChildren().remove(element);
 	}
 	
 	protected void addToGamePanel(Node element) {

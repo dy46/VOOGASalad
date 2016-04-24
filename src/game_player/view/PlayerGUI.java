@@ -1,8 +1,12 @@
 package game_player.view;
 
 import java.util.ResourceBundle;
+
+import auth_environment.IAuthEnvironment;
+import game_data.AuthSerializer;
+import game_engine.EngineWorkspace;
+import game_engine.GameEngineInterface;
 import game_engine.TestingEngineWorkspace;
-import game_engine.games.GameEngineInterface;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -12,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 public class PlayerGUI{
 	private static final double TABS_OFFSET = 0;
 	private static final double NEWTAB_OFFSET = 33;
-	private static final String GUI_RESOURCE = "GUI";
+	private static final String GUI_RESOURCE = "game_player/resources/GUI";
 	private int windowWidth;
 	private int windowHeight;
 	private Scene myScene;
@@ -43,28 +47,25 @@ public class PlayerGUI{
 		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
 		AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
 		
-		myRoot.getChildren().addAll(myTabs, newTabButton);
-		
 		myScene.getStylesheets().add("game_player/view/PlayerTheme1.css");
 		myRoot.getStyleClass().add("background");
+		
+		myRoot.getChildren().addAll(myTabs, newTabButton);
 		
 		return myScene;
 	}
 	
-//	private GameEngineInterface readData() {
-//		IDataConverter<GameEngineInterface> dataConverter = new AuthSerializer<GameEngineInterface>();
-//		GameData gameData = (GameData) dataConverter.loadElement();
-//		gameEngine = new TDGame();
+	private IAuthEnvironment readData() {
+		AuthSerializer writer = new AuthSerializer();
+		IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
+//		gameEngine = new EngineWorkspace();
 //		gameEngine.setUpEngine(gameData);
-//		return gameEngine;
-//	}
+		return gameData;
+	}
 	
-	private void createNewTab() {    
-	    
+	private void createNewTab() { 
         gameEngine = new TestingEngineWorkspace();
 		gameEngine.setUpEngine(null);
-		
-		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
         myTabs.getTabs().add(tab);
