@@ -56,7 +56,7 @@ public class VisibilityGraph {
 		return BFSPossible(visibilityBranches, b.getFirstPosition(), p);
 	}
 
-	public Branch bestDijkstrasBranch(Position current){
+	public List<Branch> getShortestPath(Position current){
 		List<Position> goals = new ArrayList<>();
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
 		if(sortedGoals.size() == 0){
@@ -66,19 +66,19 @@ public class VisibilityGraph {
 		while(closestGoal == null){
 			closestGoal = sortedGoals.remove(0);
 			if(closestGoal != null){
-				return bestDijkstrasBranch(current, closestGoal);
+				return bestDijkstrasPath(current, closestGoal);
 			}
 		}
-		return bestDijkstrasBranch(current, closestGoal);
+		return bestDijkstrasPath(current, closestGoal);
 	}
 
-	public Branch bestDijkstrasBranch(Position start, Position goal){
+	public List<Branch> bestDijkstrasPath(Position start, Position goal){
 		if(!BFSPreCheck(getVisibilityBranches(), start)){
 			return null;
 		}
 		Branch startBranch = myEngine.findBranchForSpawn(start);
-		Branch best = null;
-		return best;
+		List<Branch> bestPath = null;
+		return bestPath;
 	}
 
 	private List<Position> manhattanDistanceSort(Position current, List<Position> goals){
@@ -132,14 +132,10 @@ public class VisibilityGraph {
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionDetector.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
-						//						System.out.println("POS: "+pos+" BOUNDS: " + CollisionDetector.getUseableBounds(o.getProperties().getBounds(), pos));
 						removalList.add(b);
 					}
 				}
 			}
-		}
-		for(Branch b: removalList){
-			//			System.out.println("Filtered out: " + b.getFirstPosition()+" "+b.getLastPosition());
 		}
 		return new ArrayList<Branch>(removalList);
 	}
@@ -196,6 +192,11 @@ public class VisibilityGraph {
 			return null;
 		}
 		return visibleNeighbors.get(0);
+	}
+
+	public boolean simulateEnemyCollisions(List<Branch> visibilityBranches) {
+		List<Unit> enemies = myEngine.getEnemies();
+		return false;
 	}
 
 }

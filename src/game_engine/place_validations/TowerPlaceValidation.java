@@ -13,8 +13,11 @@ public class TowerPlaceValidation extends PlaceValidation{
 		System.out.println("Simulating");
 		VisibilityGraph myVisibility = new VisibilityGraph(gameEngine);
 		List<Branch> visibilityBranches = myVisibility.getSimulatedPlacementBranches(copy);
-		System.out.println("Simulation done");
-		return myVisibility.isValidMap(visibilityBranches);
+		boolean validMap = myVisibility.isValidMap(visibilityBranches);
+		if(!validMap){
+			return false;
+		}
+		return myVisibility.simulateEnemyCollisions(visibilityBranches);
 	}
 
 }
