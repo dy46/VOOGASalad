@@ -23,12 +23,12 @@ public class AuthModel implements IAuthModel {
 	}
 
 	@Override
-	public IAuthEnvironment getAuthInterface() {
+	public IAuthEnvironment getIAuthEnvironment() {
 		return this.authInterface;
 	}
 
 	@Override
-	public void setAuthInterface(IAuthEnvironment auth) {
+	public void setIAuthEnvironment(IAuthEnvironment auth) {
 		this.authInterface = auth;
 	}
 

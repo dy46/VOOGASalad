@@ -12,7 +12,14 @@ public class PathHandler {
 	public PathHandler(){
 		myPGF = new PathGraphFactory();
 		myPH = new PositionHandler();
-		insertTestBranches();
+//		insertTestBranches();
+		insertGrid();
+	}
+	
+	public PathHandler(PathGraphFactory pgf){
+		myPGF = pgf;
+		myPH = new PositionHandler();
+//		insertTestBranches();
 		insertGrid();
 	}
 	

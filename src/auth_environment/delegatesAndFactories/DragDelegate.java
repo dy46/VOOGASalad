@@ -1,14 +1,17 @@
 package auth_environment.delegatesAndFactories;
 
-import auth_environment.view.Tile;
-import game_engine.game_elements.GameElement;
+import auth_environment.Models.UnitView;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 /**
  * Created by BrianLin on 4/11/2016
@@ -19,35 +22,47 @@ import javafx.scene.input.TransferMode;
 
 public class DragDelegate {
 	
-//	private static final DataFormat gameElementFormat = new DataFormat("Game Element"); // need help extracting  
+	private static final DataFormat unitViewFormat = new DataFormat("UnitView"); // need help extracting  
 			
-	public DragDelegate() {}
-	
-	public void setupSource(Tile source) {
-		source.getShape().setOnDragDetected(new EventHandler<MouseEvent>() {
+	public DragDelegate() {
+		
+	}
+
+	public void addUnitViewSource(UnitView source) {
+		source.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				Dragboard db = source.getShape().startDragAndDrop(TransferMode.ANY);
+				System.out.println("Drag detected..."); 
+				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-//				content.put(DragDelegate.gameElementFormat, source.getElement());
-				content.putString(source.getName());
+				content.putString(Integer.toString(source.getUnit().hashCode())); 
 				db.setContent(content);
 				event.consume();
 			}
 		});
-		
-		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
+	
+		source.setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println(source.getName()); 
+					System.out.println("Drag completed for source"); 
 				}
 				event.consume();
 			}
 		});
 	}
 	
-	public void setupTarget(Tile target) {
-		target.getShape().setOnDragOver(new EventHandler<DragEvent>() {
+	public void setupPaneTarget(Pane target) {
+		target.setOnDragOver(e -> System.out.println("drag over"));
+	}
+	
+	public void setupCanvasTarget(Canvas target) {
+		target.setOnDragOver(e -> System.out.println("drag over"));
+	}
+	
+	public void setupNodeTarget(Node target) {
+		
+		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
+				System.out.println("Dragging over Node...");
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -55,44 +70,38 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
-
-		target.getShape().setOnDragEntered(new EventHandler<DragEvent>() {
+		
+		target.setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
+				System.out.println("Drag entered...");
 				if (event.getGestureSource() != target &&
 						event.getDragboard().hasString()) {
-//					target.showCurrentElement();
 				}
 				event.consume();
 			}
 		});
-
-		target.getShape().setOnDragExited(new EventHandler<DragEvent>() {
+		
+		target.setOnDragExited(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* mouse moved away, remove the graphical cues */
-				if(!target.hasElement()){
-						target.clear();
-				}
+				System.out.println("Drag exited...");
 				event.consume();
 			}
 		});
-
-		target.getShape().setOnDragDropped(new EventHandler<DragEvent>() {
+		
+		target.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
+				System.out.println("Drag dropped...");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-//					target.updateElement( (GameElement) (db.getContent(DragDelegate.gameElementFormat)) );
 					System.out.println("Name: " + db.getString());
-					target.setName(db.getString());
-					target.placeCurrentElement(); 
 					success = true;
-					System.out.println("hi");
 				}
 				event.setDropCompleted(success);
 				event.consume();
 			}
 		});
-		
-		
 	}
+	
 }

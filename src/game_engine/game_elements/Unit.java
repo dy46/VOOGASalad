@@ -37,6 +37,7 @@ public class Unit extends GameElement {
     private int numFrames;
     private List<Double> numberList;
     private List<Unit> myChildren;
+    private String type;
     
     private String imgName;
     
@@ -49,6 +50,7 @@ public class Unit extends GameElement {
 		addAffectors(affectors);
 		myChildren = new ArrayList<>();
 		parents = new ArrayList<>();
+		this.type = name;
 	}
     
     public Unit(String name, UnitProperties unitProperties) {
@@ -58,6 +60,7 @@ public class Unit extends GameElement {
 		elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
+        this.type = name;
 	}
     
     public Unit (String name, int numFrames) {
@@ -68,6 +71,7 @@ public class Unit extends GameElement {
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
+        this.type = name;
     }
     
     public Unit copyUnit() {
@@ -75,6 +79,9 @@ public class Unit extends GameElement {
         List<Unit> copiedChildren = this.getChildren().stream().map(u -> u.copyUnit()).collect(Collectors.toList());
         copy.setChildren(copiedChildren);
         return copy;
+    }
+    public void setType(String newType){
+    	this.type = newType;
     }
     
     public Unit copyShallowUnit() {
@@ -110,6 +117,8 @@ public class Unit extends GameElement {
 //            System.out.println("Hello");
 //            myTimelines.forEach(t -> System.out.println(t));
             myAffectors.forEach(a -> a.apply(this));
+//            System.out.println(myAffectors);
+//            System.out.println(myAffectors.size());
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();
@@ -256,7 +265,9 @@ public class Unit extends GameElement {
 	}
 	
 	public void addAffector(Affector affector){
+//		System.out.println(affector.getTTL());
 		this.myAffectors.add(affector);
+//		System.out.println(this.myAffectors);
 	}
 	
 	public void addAffectorToApply(Affector affectorToApply){
@@ -296,6 +307,7 @@ public class Unit extends GameElement {
 		this.imgName = img;
 	}
 	
+<<<<<<< HEAD
 	public ImageView buildImageView(String imageName) {
 		return new ImageView(this.buildImage(imageName));
 	}
@@ -312,4 +324,10 @@ public class Unit extends GameElement {
 		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
 	
+=======
+	public String getType(){
+		return type;
+	}
+
+>>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3
 }

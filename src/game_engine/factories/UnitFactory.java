@@ -29,37 +29,57 @@ public class UnitFactory {
 	private BoundsFactory myBoundsFactory;
 
 	public UnitFactory(){
-		myUnitLibrary = new UnitLibrary();
-		myBoundsFactory = new BoundsFactory();
+		this.myUnitLibrary = new UnitLibrary();
+		this.myBoundsFactory = new BoundsFactory();
 	}
-
-	public Unit createUnit(String name, UnitProperties unitProperties){
-		return new Unit(name, unitProperties);
+	
+	public UnitFactory(UnitLibrary unitLibrary){
+		this.myUnitLibrary = unitLibrary;
+		this.myBoundsFactory = new BoundsFactory();
 	}
 	
 	// Pass field inputs here
 	public Unit createUnit(HashMap<String, String> inputs){
-		UnitProperties unitProperties = new UnitProperties();
-		String name = getUnitName(inputs.get("Name"));
-		unitProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
-		unitProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
-		unitProperties.setMassProp(getUnitMass(inputs.get("Mass")));
-		unitProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
-		unitProperties.setStateProp(getUnitState(inputs.get("State")));
-		return createUnit(name, unitProperties);
+		String type = getType(inputs.get("Type"));
+		String unitType = getUnitType(inputs.get("Unit Type"));
+		UnitProperties newProperties = new UnitProperties();
+		newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
+		newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+		newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
+		newProperties.setTeamProp(getUnitTeam(inputs.get("Team")));
+		newProperties.setStateProp(getUnitState(inputs.get("State")));
+		UnitProperties unitProperties = createPropertiesByType(type, newProperties);
+		return createUnit(getName(type, unitType), unitProperties);
+	}
+	
+	private String getName(String type, String unitType){
+		return type+unitType;
+	}
+	
+	private Unit createUnit(String name, UnitProperties unitProperties){
+		return new Unit(name, unitProperties);
 	}
 	
 	public void setUnitBounds(Unit unit, Image image){
 		unit.getProperties().setBounds(myBoundsFactory.createImageBounds(image));
 	}
 	
-	private String getUnitName(String str){
-		String name = str;
-		if(name == null){
+	private String getUnitType(String str){
+		String type = str;
+		if(type == null){
 			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
-			name = we.getResult();
+			type = we.getResult();
 		}
-		return name;
+		return type;
+	}
+	
+	private String getType(String str){
+		String type = str;
+		if(type == null){
+			CorrectableException we = new CorrectableException("Invalid name. Please enter a name.", String.class);
+			type = we.getResult();
+		}
+		return type;
 	}
 	
 	private Health getUnitHealth(String str){
@@ -215,8 +235,24 @@ public class UnitFactory {
 		myUnitLibrary.getUnitByName(name).addAffectorsToApply(Arrays.asList(affectorToApply));
 	}
 	
-	public List<String> getFields(){
-		return Arrays.asList("Unit type", "Unit Properties");
+	public UnitProperties createPropertiesByType(String type, UnitProperties properties){
+		return myUnitLibrary.addPropertiesByType(type, properties);
 	}
-
+	
+	public void changePropertiesByType(String type, UnitProperties newProperties) throws WompException{
+		this.myUnitLibrary.changePropertiesType(type, newProperties);
+	}
+	
+	public UnitProperties createProperties(String type){
+		UnitProperties libraryProp = myUnitLibrary.getPropertyByType(type);
+		if(libraryProp == null){
+			return new UnitProperties();
+		}
+		return libraryProp;
+	}
+	
+	public List<String> getFields(){
+		return Arrays.asList("Unit Type", "Health", "Team", "Initial Speed", "Initial Direction", "Price", "State");
+	}
+	
 }

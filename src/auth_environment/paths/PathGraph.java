@@ -12,7 +12,6 @@ public class PathGraph {
 	private List<PathNode> myPaths;
 	private List<Position> mySpawns;
 	private List<Position> myGoals;
-	private PathNode myPathGrid;
 
 	public PathGraph(List<PathNode> paths){
 		this.myPaths = paths;
@@ -20,10 +19,6 @@ public class PathGraph {
 
 	public PathGraph() {
 		myPaths = new ArrayList<>();
-	}
-	
-	public void setPathGrid(PathNode pathGrid){
-		this.myPathGrid = pathGrid;
 	}
 
 	public void addPath(PathNode graph){
@@ -84,10 +79,6 @@ public class PathGraph {
 	
 	public void setGoals(List<Position> goals){
 		this.myGoals = goals;
-	}
-	
-	public PathNode getPathGrid(){
-		return myPathGrid;
 	}
 	
 }

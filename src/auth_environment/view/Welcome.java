@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3
 package auth_environment.view;
 
 import java.util.ResourceBundle;
@@ -97,4 +101,8 @@ public class Welcome {
 		this.myStage.hide();
 		this.myView.displayPlayer();
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3

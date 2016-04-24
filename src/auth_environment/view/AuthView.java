@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3
 package auth_environment.view;
 
 import java.util.ArrayList;
@@ -5,9 +9,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.AuthModel;
+import auth_environment.Models.SampleAuthData;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
+
 import auth_environment.view.Workspaces.GlobalGameTab;
+import auth_environment.view.Workspaces.PathTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -43,14 +50,17 @@ public class AuthView implements IAuthView {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel.getAuthInterface()); 
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel); 
+    	PathTab pathTab = new PathTab(this.authModel); 
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
+    	tabs.add(new VAsTesterTab("WOOOO", new SampleAuthData()));
+    	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
 
 	private void setupApperance() {
-		myScene = new Scene(myTabs); 
+		myScene = new Scene(myTabs);
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));

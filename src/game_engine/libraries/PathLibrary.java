@@ -14,6 +14,11 @@ public class PathLibrary {
 	public PathLibrary(){
 		myPathGraph = new PathGraph();
 	}
+	
+	public PathLibrary(PathGraph pathGraph, PathNode pathGrid){
+		this.myPathGraph = pathGraph;
+		this.myPathGrid = pathGrid;
+	}
 
 	public void setPathGrid(PathNode pathGrid) {
 		this.myPathGrid = pathGrid;

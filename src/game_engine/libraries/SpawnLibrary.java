@@ -13,6 +13,10 @@ public class SpawnLibrary {
 		mySpawns = new ArrayList<>();
 	}
 	
+	public SpawnLibrary(List<Position> spawns){
+		mySpawns = spawns;
+	}
+	
 	public void addSpawn(Position spawn){
 		this.mySpawns.add(spawn);
 	}
@@ -23,6 +27,10 @@ public class SpawnLibrary {
 
 	public void setSpawns(List<Position> spawns){
 		this.mySpawns = spawns;
+	}
+	
+	public void removeSpawn(Position spawn) {
+		this.mySpawns.remove(spawn);
 	}
 	
 	public List<Position> getSpawns(){
