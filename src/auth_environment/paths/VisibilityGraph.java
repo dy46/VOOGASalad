@@ -102,7 +102,7 @@ public class VisibilityGraph {
 
 	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
 		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
-//		System.out.println("TO FILTER: " + branchesToFilter);
+		System.out.println("TO FILTER: " + branchesToFilter);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
@@ -134,7 +134,7 @@ public class VisibilityGraph {
 		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
-//					System.out.println("POS: " + pos+" BOUNDS: "+ CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()));
+//					System.out.println("POS: " + pos+" UNIT POS: " + o.getProperties().getPosition()+" BOUNDS: "+ CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()));
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
 //						System.out.println("ENCAPSULATED");
 						removalList.add(b);
