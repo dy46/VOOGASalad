@@ -22,14 +22,14 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	List<Unit> myTerrains;
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;
-		myTerrains = new ArrayList<Unit>();
+		myTerrains = auth.getTerrains();
 	}
 
 	@Override
 	public void saveToFile() {
 		writer.saveElement(this.myAuthData); 
 	}
-
+	
 	@Override
 	public void loadFromFile() {
 		// TODO: add error checking
@@ -52,6 +52,10 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	
 	public void updateTerrainList(List<Unit> update){
 		this.myTerrains = update;
+	}
+	
+	public List<Unit> getTerrains(){
+		return myTerrains;
 	}
 
 }

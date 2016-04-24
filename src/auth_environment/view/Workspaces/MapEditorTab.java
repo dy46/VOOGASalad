@@ -7,20 +7,27 @@ import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.GlobalGameTabModel;
 import auth_environment.Models.MapEditorTabModel;
+import auth_environment.Models.PathTabModel;
+import auth_environment.Models.UnitView;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGlobalGameTabModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.RecTile;
+import auth_environment.view.UnitPicker;
 import game_engine.game_elements.Unit;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class MapEditorTab implements IWorkspace{	
@@ -36,80 +43,62 @@ public class MapEditorTab implements IWorkspace{
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
-	private ImageView mySplashPreview; 
-	private TextField myGameNameField;
-	private FlowPane myTerrainPane;
-	
+	private TitledPane myMapPane;
+	private Canvas myCanvas;
+	private UnitPicker myPicker;
+
 	private MapEditorTabModel myModel;
 	private List<Unit> myTerrains;
-	public MapEditorTab(IAuthEnvironment auth) {
+	private List<UnitView> myUnitViewList;
+	private IAuthModel myAuthModel;
+	private IAuthEnvironment myAuth;
+	
+	public MapEditorTab(IAuthModel auth) {
+		this.myAuthModel = auth;
+		this.myAuth = auth.getIAuthEnvironment();
+		this.myModel = new MapEditorTabModel(myAuth); 
+		
+		this.buildTerrainChooser();
+		this.buildMapPane();
 		this.setupBorderPane();
-		this.myModel = new MapEditorTabModel(auth); 
-		this.checkMap(auth.getTerrains());
-		myTerrainPane = buildTerrainChooser();
+		
 	}
 
 	private void setupBorderPane() {
-
+		
+		this.myBorderPane.setOnMouseEntered(e-> this.refresh());
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		
-		this.myBorderPane.setCenter(this.buildCenter());
-		
+		this.myBorderPane.setRight(myPicker.getRoot());
+		this.myBorderPane.setLeft(myMapPane);
 	}
 	
-	private Node buildCenter() {
-		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
-				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		center.getChildren().addAll(this.buildWompImage(),
-				this.buildTextInput(),
-				this.buildSplashChooser(),
-				this.buildSaveButton(),
-				this.buildLoadButton());
-		return center; 
+	private void refresh(){
+		this.myAuth = myAuthModel.getIAuthEnvironment();
+		this.myModel = new MapEditorTabModel(myAuthModel.getIAuthEnvironment());
 	}
 	
-	private HBox buildWompImage() {
-		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
+	public void buildUnitViewList(){
+		myModel.getTerrains().stream().forEach(a->myUnitViewList.add(new UnitView(a)));
 	}
 	
-	private FlowPane buildTerrainChooser(){
-	    FlowPane flow = new FlowPane();
-	    flow.setPadding(new Insets(5, 0, 5, 0));
-	    flow.setVgap(4);
-	    flow.setHgap(4);
-	    for (Unit unit : myTerrains) {
-	        flow.getChildren().add(myNodeFactory.buildImageView(unit.toString()));
-	    }
-	    return flow;
+	public void buildTerrainChooser(){
+		myPicker.init(myUnitViewList);
 	}
 	
-	private void checkMap (List<Unit> tempList){
-		if (tempList.isEmpty()){
-//			this.myTerrains = defaultMap;
-		}else{
-			this.myTerrains = tempList;
-		}
-	}
-	public void updateTerrain(Unit t){
-		 myTerrains.add(t);
-		 DragDelegate drag = new DragDelegate();
-		 drag.setupSource(t);
-		 myTerrainPane.getChildren().add(tile.getShape());
+	private void buildMapPane(){
+        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
+        this.addClickHandlers(myCanvas);
+        this.myMapPane.setContent(myCanvas); 
 	}
 	
-	private HBox buildSaveButton() {
-		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> this.myModel.saveToFile());
-		return myNodeFactory.centerNode(save); 
+	private void addClickHandlers(Canvas canvas) {
+		 canvas.setOnMouseClicked(e -> {
+	        	
+	        });
 	}
-	
-	private HBox buildLoadButton() {
-		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
-		load.setOnAction(e -> this.myModel.loadFromFile());
-		return myNodeFactory.centerNode(load); 
-	}
-	
 	@Override
 	public Node getRoot() {
 		// TODO Auto-generated method stub
