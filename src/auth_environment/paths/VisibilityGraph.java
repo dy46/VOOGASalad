@@ -2,6 +2,7 @@ package auth_environment.paths;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -44,7 +45,7 @@ public class VisibilityGraph {
 		for(Position goal : myEngine.getCurrentLevel().getGoals()){
 			for(Position spawn : myEngine.getCurrentLevel().getSpawns()){
 				if(!BFSPossible(visibilityBranches, spawn, goal)){
-//					System.out.println("NOT VALIDATED");
+					//					System.out.println("NOT VALIDATED");
 					return false;
 				}
 			}
@@ -77,10 +78,41 @@ public class VisibilityGraph {
 		if(!BFSPreCheck(getVisibilityBranches(), start)){
 			return null;
 		}
-		Branch startBranch = myEngine.findBranchForSpawn(start);
-		List<Branch> bestPath = null;
-		
+		Branch startBranch = myEngine.findBranchForPos(start);
+		Branch goalBranch = myEngine.findBranchForPos(start);
+		List<Branch> bestPath = getShortestPath(startBranch, goalBranch);
 		return bestPath;
+	}
+
+	public List<Branch> getShortestPath(Branch start, Branch goal){
+		HashMap<Branch, Branch> nextNodeMap = new HashMap<>();
+		Branch currentNode = start;
+		Queue<Branch> queue = new LinkedList<>();
+		queue.add(currentNode);
+		Set<Branch> visitedNodes = new HashSet<>();
+		visitedNodes.add(currentNode);
+		while (!queue.isEmpty()) {
+			currentNode = queue.remove();
+			if (currentNode.equals(goal)) {
+				break;
+			} else {
+				for (Branch nextNode : currentNode.getNeighbors()) {
+					if (!visitedNodes.contains(nextNode)) {
+						queue.add(nextNode);
+						visitedNodes.add(nextNode);
+						nextNodeMap.put(currentNode, nextNode);
+					}
+				}
+			}
+		}
+		if (!currentNode.equals(goal)) {
+			return null;
+		}
+		List<Branch> shortestPath = new LinkedList<>();
+		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
+			shortestPath.add(node);
+		}
+		return shortestPath;
 	}
 
 	private List<Position> manhattanDistanceSort(Position current, List<Position> goals){
@@ -134,9 +166,9 @@ public class VisibilityGraph {
 		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
-//					System.out.println("POS: " + pos+" UNIT POS: " + o.getProperties().getPosition()+" BOUNDS: "+ CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()));
+					//					System.out.println("POS: " + pos+" UNIT POS: " + o.getProperties().getPosition()+" BOUNDS: "+ CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()));
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
-//						System.out.println("ENCAPSULATED");
+						//						System.out.println("ENCAPSULATED");
 						removalList.add(b);
 					}
 				}
@@ -146,7 +178,7 @@ public class VisibilityGraph {
 	}
 
 	private boolean BFSPreCheck(List<Branch> visibilityBranches, Position spawn){
-		Branch start = myEngine.findBranchForSpawn(spawn);
+		Branch start = myEngine.findBranchForPos(spawn);
 		boolean contained = false;
 		for(Branch v : visibilityBranches){
 			if(v.equals(start)){
@@ -158,7 +190,7 @@ public class VisibilityGraph {
 
 	private boolean BFSPossible(List<Branch> visibilityBranches, Position spawn, Position goal){
 		List<Branch> visited = getBFSVisited(visibilityBranches, spawn, goal);
-//		System.out.println("BFS VISITED: " + visited);
+		//		System.out.println("BFS VISITED: " + visited);
 		if(visited.size() == 0){
 			return false;
 		}
@@ -174,8 +206,7 @@ public class VisibilityGraph {
 		if(!BFSPreCheck(visibilityBranches, spawn)){
 			return new ArrayList<>();
 		}
-//		System.out.println("VISIBLE BRANCHES: " + visibilityBranches);
-		Branch start = myEngine.findBranchForSpawn(spawn);
+		Branch start = myEngine.findBranchForPos(spawn);
 		Branch copyStart = start.copyBranch();
 		Queue<Branch> queue = new LinkedList<>();
 		List<Branch> visited = new ArrayList<>();
@@ -222,7 +253,7 @@ public class VisibilityGraph {
 		}
 		return true;
 	}
-	
+
 	private boolean simulateEnemyBranchCollisions(Unit enemy, List<Branch> pathBranches, Unit obstacle){
 		List<Unit> obstacles = myEngine.getTowers();
 		List<Unit> obstaclesCopy = obstacles.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());

@@ -199,7 +199,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
-		AI1.getProperties().getMovement().setCurrentBranch(findBranchForSpawn(l.getSpawns().get(0)), l.getSpawns().get(0));
+		AI1.getProperties().getMovement().setCurrentBranch(findBranchForPos(l.getSpawns().get(0)), l.getSpawns().get(0));
 		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
@@ -299,6 +299,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Affector affector2 =
 				this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
 		myStore.addUpgrade(list.get(0), affector2, 100);
+		updateAIBranches();
 		return l;
 	}
 
@@ -681,10 +682,17 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 	}
 
-	public Branch findBranchForSpawn(Position spawn) {
+	public Branch findBranchForPos(Position pos) {
 		for(Branch b : myBranches){
-			if(b.getPositions().contains(spawn)){
+			if(b.getPositions().contains(pos)){
 				return b;
+			}
+		}
+		for(Branch b : myBranches){
+			for(Position p : b.getPositions()){
+				if(p.roughlyEquals(pos)){
+					return b;
+				}
 			}
 		}
 		return null;

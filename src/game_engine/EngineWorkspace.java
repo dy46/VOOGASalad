@@ -326,10 +326,17 @@ public class EngineWorkspace implements GameEngineInterface{
 		}
 	}
 
-	public Branch findBranchForSpawn(Position spawn) {
+	public Branch findBranchForPos(Position pos) {
 		for(Branch b : myBranches){
-			if(b.getPositions().contains(spawn)){
+			if(b.getPositions().contains(pos)){
 				return b;
+			}
+		}
+		for(Branch b : myBranches){
+			for(Position p : b.getPositions()){
+				if(p.roughlyEquals(pos)){
+					return b;
+				}
 			}
 		}
 		return null;

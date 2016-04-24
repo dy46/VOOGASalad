@@ -21,7 +21,6 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
-
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;

@@ -44,6 +44,8 @@ public class Movement {
 	}
 
 	public Branch getLastBranch(){
+		if(myBranches.size() == 0)
+			return null;
 		return myBranches.get(myBranches.size()-1);
 	}
 

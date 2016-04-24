@@ -21,6 +21,7 @@ public class TowerPlaceValidation extends PlaceValidation{
 		}
 		System.out.println("VALID MAP");
 		boolean simulationValid = myVisibility.simulateEnemyPathFollowing(visibilityBranches, unit);
+		System.out.println("SIMULATION VALIDITY: " + simulationValid);
 		if(simulationValid){
 			gameEngine.updateAIBranches();
 		}

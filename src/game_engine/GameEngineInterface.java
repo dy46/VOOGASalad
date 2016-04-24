@@ -100,7 +100,7 @@ public interface GameEngineInterface {
 
 	public void removeTower(Unit u);
 
-	public Branch findBranchForSpawn(Position spawn);
+	public Branch findBranchForPos(Position spawn);
 
 	public List<Unit> getActiveAIEnemies();
 
