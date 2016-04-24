@@ -187,9 +187,10 @@ public class ElementTab extends Tab{
 //		newTableInfo.add(typeButton, 3, index);
 //		index++;
 //		int iterationNum = index;
-		//typeButton.setOnAction(e -> setUnitType(myTextField.getText(), iterationNum, newTableInfo));
+		//typeButton.setOnAction(e -> setYnitType(myTextField.getText(), iterationNum, newTableInfo));
 		
 		List<String> myFields = new ArrayList<String>();
+		myFields.add("Unit Type");
 		myFields.add("Death Delay");
 		myFields.add("Type");
 		myFields.add("Name");

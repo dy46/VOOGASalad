@@ -6,7 +6,6 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.view.tabs.ElementTab;
-import auth_environment.view.tabs.TowerTab;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
