@@ -18,34 +18,19 @@ public class VisibilityGraphFilter {
 		myEncapsulator = new EncapsulationChecker();
 	}
 
-	public void filterObstacles(PathGraph graph, List<Unit> obstacles){
+	public PathGraph getVisibilityGraph(PathGraph graph, Unit u){
+		List<Unit> obstacles = u.getObstacles(); // TODO: replace with file check
 		List<Branch> branchesToFilter = getBranchesToFilter(graph, obstacles);
-		for(Branch b : branchesToFilter){
-			graph.removeBranch(b);
-		}
+		List<Branch> branches = graph.copyBranches();
+		branches.removeAll(branchesToFilter);
+		return new PathGraph(branches);
 	}
 
-	public void filterObstacles(PathNode path, List<Unit> obstacles){
-		List<Branch> branchesToFilter = getBranchesToFilter(path, obstacles);
-		for(Branch b : branchesToFilter){
-			path.removeBranch(b);
-		}
-	}
-
-	public List<Branch> getBranchesToFilter(PathGraph graph, List<Unit> obstacles){
-		Set<Branch> removalList = new HashSet<>();
-		for(PathNode path : graph.getPaths()){
-			List<Branch> branches = getBranchesToFilter(path, obstacles);
-			removalList.addAll(branches);
-		}
-		return new ArrayList<Branch>(removalList);
-	}
-
-	public List<Branch> getBranchesToFilter(PathNode path, List<Unit> obstacles){
+	public List<Branch> getBranchesToFilter(PathGraph path, List<Unit> obstacles){
 		Set<Branch> removalList = new HashSet<>();
 		for(Unit obstacle : obstacles){
 			for(Branch b : path.getBranches()){
-				for(Position pos : b.getAllPositions()){
+				for(Position pos : b.getPositions()){
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), obstacle.getProperties().getBounds())){
 						removalList.add(b);
 					}

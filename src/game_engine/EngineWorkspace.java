@@ -1,32 +1,14 @@
 package game_engine;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
 import auth_environment.IAuthEnvironment;
-import auth_environment.paths.GridFactory;
-import auth_environment.paths.PathGraphFactory;
-import auth_environment.paths.PathHandler;
-import auth_environment.paths.PathNode;
-import exceptions.WompException;
-import game_engine.IDFactory;
 import game_engine.affectors.Affector;
-import game_engine.factories.AffectorFactory;
-import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
-import game_engine.factories.TerrainFactory;
-import game_engine.factories.TimelineFactory;
-import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
-import game_engine.game_elements.Wave;
 import game_engine.games.Timer;
-import game_engine.libraries.AffectorLibrary;
-import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
@@ -40,8 +22,7 @@ import game_engine.wave_goals.WaveGoal;
 public class EngineWorkspace implements GameEngineInterface{
 
 	private int nextWaveTimer;
-	private List<Branch> myGridBranches;
-	private List<Branch> myPathBranches; 
+	private List<Branch> myBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers;
 	private List<Unit> myEnemies;
@@ -58,7 +39,6 @@ public class EngineWorkspace implements GameEngineInterface{
     private double score;
 	private Timer myTimer;
 	private FunctionFactory myFunctionFactory;
-	private List<PathNode> myPaths;
 	private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
     private List<Position> myGoals;
@@ -66,8 +46,7 @@ public class EngineWorkspace implements GameEngineInterface{
 	public void setUpEngine (IAuthEnvironment data) {
 		waveGoal = new EnemyNumberWaveGoal();
         scoreUpdate = new EnemyDeathScoreUpdate();
-		myGridBranches = data.getGridBranches();
-		myPathBranches = data.getPathBranches();
+        myBranches = data.getEngineBranches();
 		myLevels = data.getLevels();
 		myTowers = data.getTowers();
 		myEnemies = data.getEnemies();
@@ -89,8 +68,7 @@ public class EngineWorkspace implements GameEngineInterface{
 		myTimer = new Timer();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationController(this);
-		if(myGridBranches == null)	this.myGridBranches = new ArrayList<Branch>();
-		if(myPathBranches == null)	this.myPathBranches = new ArrayList<Branch>();
+		if(myBranches == null)	this.myBranches = new ArrayList<Branch>();
 		if(myLevels == null)	this.myLevels = new ArrayList<Level>();
 		if(myTowers == null)	this.myTowers = new ArrayList<Unit>();
 		if(myEnemies == null)	this.myEnemies = new ArrayList<Unit>();
@@ -232,11 +210,6 @@ public class EngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public List<Branch> getGridBranches() {
-		return myGridBranches;
-	}
-
-	@Override
 	public void modifyTower(int activeTowerIndex, UnitProperties newProperties) {
 		// TODO Auto-generated method stub
 		
@@ -263,7 +236,7 @@ public class EngineWorkspace implements GameEngineInterface{
 
 	@Override
 	public List<Branch> getBranches() {
-		return myPathBranches;
+		return myBranches;
 	}
 
 	@Override
@@ -294,10 +267,6 @@ public class EngineWorkspace implements GameEngineInterface{
 	@Override
 	public FunctionFactory getFunctionFactory() {
 		return myFunctionFactory;
-	}
-	
-	public List<PathNode> getPaths(){
-		return myPaths;
 	}
 	
 	@Override
@@ -335,6 +304,24 @@ public class EngineWorkspace implements GameEngineInterface{
     public void sellUnit (Unit name) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public void moveUnit (Unit unit, double x, double y) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setCursorPosition (double x, double y) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Position getCursorPosition () {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

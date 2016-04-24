@@ -19,7 +19,7 @@ public class RandomPathFollowAffector extends PathFollowAffector{
 		if(currentBranch == null){
 			return null;
 		}
-		Position next = currentBranch.getNextPosition(currentPosition);
+		Position next = move.getNextPosition();
 		if(next == null){
 			currentBranch = pickRandomBranch(u);
 			if(currentBranch == null){

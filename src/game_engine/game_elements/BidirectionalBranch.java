@@ -260,7 +260,7 @@ public class BidirectionalBranch {
 	}
 
 	public boolean equals(Branch branch){
-		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
+		return branch.getPositions().equals(this.getPositions()) && (branch.getID() == this.getID());
 	}
 
 }

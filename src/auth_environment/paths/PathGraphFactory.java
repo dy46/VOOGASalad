@@ -1,5 +1,6 @@
 package auth_environment.paths;
 
+import java.util.ArrayList;
 import java.util.List;
 import game_engine.game_elements.Branch;
 import game_engine.libraries.PathLibrary;
@@ -15,8 +16,8 @@ public class PathGraphFactory {
 		myBranchHandler = new BranchHandler();
 	}
 
-	public PathGraphFactory(PathLibrary pathLibrary){
-		this.myPathLibrary = pathLibrary;
+	public PathGraphFactory(List<Branch> branches){
+		this.myPathLibrary = new PathLibrary(branches);
 		myBranchHandler = new BranchHandler();
 	}
 
@@ -29,30 +30,33 @@ public class PathGraphFactory {
 		if(branchPos.size() == 0)
 			return;
 		Branch newBranch = new Branch(branchPos);
-		PathNode currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(0));
-		if(currentPath != null){
-			myBranchHandler.configureBranchInPath(newBranch, currentPath);
+		Branch currentBranch = myPathLibrary.getPathGraph().getBranchByPos(branchPos.get(0));
+		if(currentBranch != null){
+			myBranchHandler.configureBranch(newBranch, myPathLibrary.getPathGraph());
 		}
 		else{
-			currentPath = myPathLibrary.getPathGraph().getPathByPos(branchPos.get(branchPos.size()-1));
-			if(currentPath != null){
-				myBranchHandler.configureBranchInPath(newBranch, currentPath);
+			currentBranch = myPathLibrary.getPathGraph().getBranchByPos(branchPos.get(branchPos.size()-1));
+			if(currentBranch != null){
+				myBranchHandler.configureBranch(newBranch, myPathLibrary.getPathGraph());
 			}
 		}
 		if(myPathLibrary.getPathGraph().getBranch(newBranch) == null){
 			if(branchPos.size() > 0){
-				createNewPath(newBranch);
+				createNewBranch(newBranch);
 			}
 		}
 	}
 
-	private PathNode createNewPath(Branch branch){
-		myPathLibrary.getPathGraph().addPath(new PathNode(branch));
-		return myPathLibrary.getPathGraph().getLastPath();
+	private void createNewBranch(Branch branch){
+		myPathLibrary.getPathGraph().addBranch(branch);
 	}
 
 	public PathLibrary getPathLibrary() {
 		return myPathLibrary;
+	}
+	
+	public List<Branch> getBranches(){
+		return myPathLibrary.getBranches();
 	}
 
 }

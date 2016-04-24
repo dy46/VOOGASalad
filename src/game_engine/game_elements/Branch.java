@@ -17,7 +17,6 @@ import java.util.List;
 public class Branch {
 
 	private List<Position> myPositions;
-	private Map<Position, Position> nextPositions;
 	private boolean cycle;
 	private List<Branch> myNeighbors;
 	private int myID;
@@ -42,82 +41,21 @@ public class Branch {
 	public void initialize(){
 		if(myPositions == null)
 			myPositions = new ArrayList<>();
-		if(nextPositions == null)
-			nextPositions = new HashMap<Position, Position>();
 		if(myNeighbors == null)
 			myNeighbors = new ArrayList<>();
-		setNextPositions();
 	}
 
 	public void initialize(List<Position> list, List<Branch> neighbors){
 		myPositions = list;
 		myNeighbors = neighbors;
-		nextPositions = new HashMap<Position, Position>();
-		setNextPositions();
 	}
 
 	public void setCycle(boolean state){
 		cycle = state;
-		setNextPositions();
 	}
+	
 	public void addPosition(Position append){
 		myPositions.add(append);
-		setNextPositions();
-	}
-	private void setNextPositions(){
-		int size = cycle ? myPositions.size() : myPositions.size() - 1;
-		if(myPositions.size() < 1){
-			return;
-		}
-		double x = myPositions.get(0).getX();
-		double y = myPositions.get(0).getY();
-		for(int i = 0;i < size;i++){
-			Position p1 = myPositions.get(i);
-			Position p2 = myPositions.get((i+1)%myPositions.size());
-			double vx = p2.getX() - p1.getX();
-			double vy = p2.getY() - p1.getY();
-			double mag = Math.sqrt(vx*vx + vy*vy);
-			vx /= mag;
-			vy /= mag;
-			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0)){
-				Position newPosition = new Position(x + vx, y + vy);
-				//myPositions.add(newPosition);
-				nextPositions.put(new Position(x, y), newPosition);
-				x += vx;
-				y += vy;
-			}
-			nextPositions.put(new Position(x - vx, y - vy), p2);
-			x = p2.getX();
-			y = p2.getY();
-		}
-	}
-
-
-	/*
-	 * Gets the next position (point) in the path.
-	 * This will be used in order to determine which direction 
-	 * an Enemy needs to move in next.
-	 *
-	 * @return	The next Position in the list of Positions that represent the path being taken.
-	 */
-	public Position getNextPosition(Position currentPosition){
-		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
-			return null;
-		}
-		if(nextPositions.containsKey(currentPosition)){
-			return nextPositions.get(currentPosition);
-		}
-		else{
-			double minDist = Double.MAX_VALUE;
-			Position closest = null;
-			for(Position pos : nextPositions.keySet()){
-				if(pos.distanceTo(currentPosition) < minDist){
-					closest = pos;
-					minDist = pos.distanceTo(currentPosition);
-				}
-			}
-			return nextPositions.get(closest);
-		}
 	}
 
 	public Branch copyBranch(){
@@ -129,46 +67,18 @@ public class Branch {
 		return newPath;
 	}
 
-	public List<Position> getAllPositions() {
-		List<Position> allPositions = new ArrayList<>();
-		allPositions.addAll(nextPositions.keySet());
-		return allPositions;
-	}
-
 	public boolean isUnitAtLastPosition(Unit u) {
 		Position lastPos = myPositions.get(myPositions.size()-1);
 		return u.getProperties().getPosition().getX() == lastPos.getX() &&
 				u.getProperties().getPosition().getY() == lastPos.getY();
 	}
-
-	public List<Position> getMyPositions() {
-		return myPositions;
-	}
-
+	
 	public Position getFirstPosition() {
 		return myPositions.get(0);
 	}
 
-	public Double getNextDirection (Position currentPosition) {
-		Position nextPosition = getNextPosition(currentPosition);
-		if(nextPosition == null){
-			nextPosition = currentPosition;
-		}
-		double dx = nextPosition.getX() - currentPosition.getX();
-		double dy = nextPosition.getY() - currentPosition.getY();
-		double newDir = Math.atan2((dy), (dx));
-		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
-		return degreesDir;
-	}
-
 	public Position getLastPosition() {
 		return myPositions.get(myPositions.size()-1);
-	}
-
-	public Position getSecondPosition(){
-		if(getAllPositions().size() <= 1)
-			return null;
-		return getAllPositions().get(1);
 	}
 
 	public void addNeighbor(Branch neighbor){
@@ -226,7 +136,7 @@ public class Branch {
 	}
 
 	public int getLength(){
-		return getAllPositions().size();
+		return getPositions().size();
 	}
 
 	public List<Branch> getForwardNeighbors(){
@@ -249,7 +159,7 @@ public class Branch {
 	}
 
 	public boolean equals(Branch branch){
-		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
+		return branch.getPositions().equals(this.getPositions()) && (branch.getID() == this.getID());
 	}
 
 	public void removeNeighbor(Branch b) {
