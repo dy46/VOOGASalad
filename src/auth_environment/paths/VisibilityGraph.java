@@ -5,31 +5,36 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.physics.EncapsulationChecker;
 import game_engine.properties.Position;
 
-public class VisibilityGraphFilter {
+public class VisibilityGraph {
 
 	private EncapsulationChecker myEncapsulator;
-
-	public VisibilityGraphFilter(){
+	private GameEngineInterface myEngine;
+	
+	public VisibilityGraph(Unit u, GameEngineInterface engine){
 		myEncapsulator = new EncapsulationChecker();
+		myEngine = engine;
 	}
 
-	public PathGraph getVisibilityGraph(PathGraph graph, Unit u){
-		List<Unit> obstacles = u.getObstacles(); // TODO: replace with file check
-		List<Branch> branchesToFilter = getBranchesToFilter(graph, obstacles);
-		List<Branch> branches = graph.copyBranches();
+	public List<Branch> getVisibilityBranches(Unit u){
+		List<Branch> branchesToFilter = getBranchesToFilter();
+		List<Branch> branches = myEngine.getBranches().stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		branches.removeAll(branchesToFilter);
-		return new PathGraph(branches);
+		return branches;
 	}
 
-	public List<Branch> getBranchesToFilter(PathGraph path, List<Unit> obstacles){
+	public List<Branch> getBranchesToFilter(){
 		Set<Branch> removalList = new HashSet<>();
+		List<Unit> obstacles = myEngine.getTowers();
 		for(Unit obstacle : obstacles){
-			for(Branch b : path.getBranches()){
+			for(Branch b : myEngine.getBranches()){
 				for(Position pos : b.getPositions()){
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), obstacle.getProperties().getBounds())){
 						removalList.add(b);
