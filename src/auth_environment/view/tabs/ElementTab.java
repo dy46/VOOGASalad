@@ -58,9 +58,7 @@ public class ElementTab extends Tab{
 	}
 	
 	private void init(){
-		System.out.println("refresh");
 		this.myPane = new BorderPane(); 
-//		this.addRefresh();
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();

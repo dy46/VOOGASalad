@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
@@ -25,20 +26,35 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class AffectorTab extends Tab{
-	private IAuthEnvironment myInterface;
+	
 	private Map<String, TextField> strTextMap;
 	private Map<String, ComboBox<String>> strDropMap;
 	List<TextField> effects = new ArrayList<TextField>();
 	List<TextField> functions = new ArrayList<TextField>();
 	private int index = 1;
 	
-	public AffectorTab(String name, IAuthEnvironment myInterface){
+	private BorderPane myPane; 
+	
+	private IAuthEnvironment myInterface;
+	private IAuthModel myAuthModel; 
+	
+	public AffectorTab(String name, IAuthModel authModel){
 		super(name);
 		strTextMap = new HashMap<String, TextField>();
 		strDropMap = new HashMap<String, ComboBox<String>>();
-		this.myInterface = myInterface;
+		this.myAuthModel = authModel; 
+		this.myInterface = this.myAuthModel.getIAuthEnvironment();
+		this.addRefresh();
+		this.init();
+	}
+	
+	private void addRefresh() {
+		this.myPane.setOnMouseEntered(e -> this.init());
+	}
+	
+	private void init() {
 		// TODO Auto-generated constructor stub
-		BorderPane myPane = new BorderPane();
+		myPane = new BorderPane();
 		TitledPane newPane = new TitledPane();
 //		TitledPane editPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
@@ -123,11 +139,7 @@ public class AffectorTab extends Tab{
 //		newTableInfo.add(cbox1, 2, index);
 //		index++;
 //		//labels stuff
-		
-		
-	    
 		this.setContent(myPane);
-		
 	}
 	
 	private void createNewAffector(UnitPicker up) {
