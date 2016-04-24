@@ -51,6 +51,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private List<PathNode> myDrawablePaths;
     private List<PlaceValidation> myPlaceValidations;
     private List<Unit> unitsToRemove;
+    private Position cursorPos;
 
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
@@ -80,13 +81,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
     private List<Position> myGoals;
 
-    private TimelineFactory myTimelineFactory;
-
     private List<Branch> myGridBranches;
     private GridFactory myGF;
 
-    public TestingEngineWorkspace () {
-    };
+    public TestingEngineWorkspace () {};
 
     public void setUpEngine (IAuthEnvironment test) {
         score = 0;
@@ -104,7 +102,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // projectiles must be intialized before towers
         myFunctionFactory = new FunctionFactory();
         myAffectorFactory = new AffectorFactory(myFunctionFactory);
-        myTimelineFactory = new TimelineFactory(myAffectorFactory.getAffectorLibrary());
         myEnemyFactory = new EnemyFactory(myAffectorFactory.getAffectorLibrary());
         myEnemys = new ArrayList<>();
         myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
@@ -687,4 +684,17 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myStore.buyUpgrade(unitToUpgrade, affector);
     }
 
+    @Override
+    public void moveUnit (Unit unit, double x, double y) {
+        unit.getProperties().setPosition(new Position(x, y));
+    }
+
+    @Override
+    public void setCursorPosition (double x, double y) {
+        cursorPos = new Position(x, y);      
+    }
+    
+    public Position getCursorPosition() {
+        return cursorPos;
+    }
 }
