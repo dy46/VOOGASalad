@@ -1,7 +1,9 @@
 package auth_environment.paths;
 
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
@@ -72,5 +74,15 @@ public class PathGraph {
 		return myBranches.stream().filter(
 				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).roughlyEquals(pos) && !n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)).collect(Collectors.toList());
 	}
-	
+
+	public PathGraph copyGraph(){
+		PathGraph copy = new PathGraph();
+		List<Branch> branches = new ArrayList<>();
+		Map<Branch, Branch> isomorphism = new IdentityHashMap<>();
+		for (Branch b : this.getBranches()) { 
+			branches.add(b.deepCopy(isomorphism));
+		}
+		return copy;
+	}
+
 }
