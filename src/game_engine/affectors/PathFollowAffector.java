@@ -48,8 +48,8 @@ public abstract class PathFollowAffector extends Affector{
 		return move.getNextDirection(currentPosition);
 	}
 	
-	public List<Branch> getBranchChoices(Unit u){
-		List<Branch> choices = u.getProperties().getMovement().getCurrentBranch().getNeighbors();
+	public List<Branch> getValidBranchChoices(Unit u){
+		List<Branch> choices = getAllBranchChoices(u);
 		VisibilityGraph vg = new VisibilityGraph(getWS());
 		HashSet<Branch> visibleChoices = new HashSet<>();
 		List<Branch> visibleBranches = vg.getVisibilityBranches();
@@ -61,6 +61,10 @@ public abstract class PathFollowAffector extends Affector{
 			}
 		}
 		return new ArrayList<>(visibleChoices);
+	}
+	
+	public List<Branch> getAllBranchChoices(Unit u){
+		return u.getProperties().getMovement().getCurrentBranch().getNeighbors();
 	}
 	
 	public boolean isAccessible(Branch b, Position p){

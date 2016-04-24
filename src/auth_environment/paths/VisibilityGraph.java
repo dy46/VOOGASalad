@@ -94,6 +94,9 @@ public class VisibilityGraph {
 				}
 			}
 		}
+		for(Branch b: removalList){
+//			System.out.println("Filtered out: " + b.getFirstPosition()+" "+b.getLastPosition());
+		}
 		return new ArrayList<Branch>(removalList);
 	}
 

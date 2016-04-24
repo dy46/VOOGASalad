@@ -81,7 +81,7 @@ public abstract class Affector {
     }
 
     public void setElapsedTimeToDeath () {
-        this.setElapsedTime(this.getTTL());
+        this.setElapsedTime(this.TTL);
     }
 
     public void setTTL (int TTL) {

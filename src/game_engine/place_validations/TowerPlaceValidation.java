@@ -10,8 +10,10 @@ public class TowerPlaceValidation extends PlaceValidation{
 
 	public boolean validate(GameEngineInterface gameEngine, Unit unit, double posX, double posY) {
 		Unit copy = unit.copyShallowUnit();
+		System.out.println("Simulating");
 		VisibilityGraph myVisibility = new VisibilityGraph(gameEngine);
 		List<Branch> visibilityBranches = myVisibility.getSimulatedPlacementBranches(copy);
+		System.out.println("Simulation done");
 		return myVisibility.isValidMap(visibilityBranches);
 	}
 

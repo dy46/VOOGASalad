@@ -31,8 +31,11 @@ public class AIPathFollowAffector extends PathFollowAffector {
 			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
 			}
+			System.out.println("HERE");
 			currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
+				this.setElapsedTimeToDeath();
+				u.addAffector(new RandomPathFollowAffector(new AffectorData()));
 				return null;
 			}
 			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
@@ -42,7 +45,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	}
 
 	private Branch pickBestBranch (Unit u) {
-		List<Branch> branchChoices = getBranchChoices(u);
+		List<Branch> branchChoices = getValidBranchChoices(u);
 		Branch bestBranch = null;
 		double bestHeuristic = Integer.MAX_VALUE;
 		for (Branch b : branchChoices) {
