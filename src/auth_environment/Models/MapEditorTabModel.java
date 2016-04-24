@@ -25,16 +25,6 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 		myTerrains = auth.getTerrains();
 	}
 
-	@Override
-	public void saveToFile() {
-		writer.saveElement(this.myAuthData); 
-	}
-	
-	@Override
-	public void loadFromFile() {
-		// TODO: add error checking
-		this.myAuthData = (IAuthEnvironment) writer.loadElement();
-	}
 	
 	public void addTerrain(double xPos, double yPos, Unit element){
 		element.getProperties().getPosition().setX(xPos);
