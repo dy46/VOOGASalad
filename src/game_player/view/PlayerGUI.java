@@ -63,7 +63,7 @@ public class PlayerGUI{
 		return gameData;
 	}
 	
-	private void createNewTab() { 
+	private void createNewTab() {
         gameEngine = new EngineWorkspace();
 		gameEngine.setUpEngine(readData());
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
@@ -71,4 +71,5 @@ public class PlayerGUI{
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
 	}
+	
 }
