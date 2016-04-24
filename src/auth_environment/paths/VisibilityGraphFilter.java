@@ -18,11 +18,12 @@ public class VisibilityGraphFilter {
 		myEncapsulator = new EncapsulationChecker();
 	}
 
-	public void filterObstacles(PathGraph graph, List<Unit> obstacles){
+	public PathGraph getVisibilityGraph(PathGraph graph, Unit u){
+		List<Unit> obstacles = u.getObstacles(); // TODO: replace with file check
 		List<Branch> branchesToFilter = getBranchesToFilter(graph, obstacles);
-		for(Branch b : branchesToFilter){
-			graph.removeBranch(b);
-		}
+		List<Branch> branches = graph.copyBranches();
+		branches.removeAll(branchesToFilter);
+		return new PathGraph(branches);
 	}
 
 	public List<Branch> getBranchesToFilter(PathGraph path, List<Unit> obstacles){
