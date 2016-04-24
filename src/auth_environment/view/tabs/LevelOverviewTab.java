@@ -46,7 +46,7 @@ public class LevelOverviewTab extends Tab{
 	private BorderPane myRoot;
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myInterface;
-	
+	private Button addNewLevel = new Button("add New Level");
 	public LevelOverviewTab(String name, IAuthModel authModel){
 		super(name);
 		this.myAuthModel = authModel;
@@ -63,9 +63,10 @@ public class LevelOverviewTab extends Tab{
 	
 	private void addSubTabs(){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new LevelTab("Level 1", myInterface));
-		myTabs.getTabs().addAll(new LevelTab("Level 2", myInterface));
-		System.out.println("ey");
+		
+//		myTabs.getTabs().addAll(new LevelTab("Level 1", myInterface));
+//		myTabs.getTabs().addAll(new LevelTab("Level 2", myInterface));
+
 		this.setContent(myTabs);
 	}
 	
