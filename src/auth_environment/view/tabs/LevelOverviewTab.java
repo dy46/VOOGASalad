@@ -7,6 +7,8 @@ import java.util.List;
 import auth_environment.IAuthEnvironment;
 import auth_environment.view.tabs.ElementTab;
 import auth_environment.view.tabs.TowerTab;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -44,9 +46,10 @@ import javafx.scene.text.Text;
 public class LevelOverviewTab extends Tab{
 	
 	private BorderPane myRoot;
+	private TabPane myTabs = new TabPane();
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myInterface;
-	private Button addNewLevel = new Button("add New Level");
+	private Button addNewLevelButton = new Button("Add New Level");
 	public LevelOverviewTab(String name, IAuthModel authModel){
 		super(name);
 		this.myAuthModel = authModel;
@@ -56,18 +59,21 @@ public class LevelOverviewTab extends Tab{
 	
 	private void init(){
 		myRoot = new BorderPane();
-		TitledPane newPane = new TitledPane();
-		ScrollPane newScrollPane = new ScrollPane();
+		myRoot.setTop(addNewLevelButton);
 		addSubTabs();
+		myRoot.setLeft(myTabs);
+		this.setContent(myRoot);
 	}
 	
 	private void addSubTabs(){
-		TabPane myTabs = new TabPane();
-		
-//		myTabs.getTabs().addAll(new LevelTab("Level 1", myInterface));
-//		myTabs.getTabs().addAll(new LevelTab("Level 2", myInterface));
-
-		this.setContent(myTabs);
+		addNewLevelButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				final Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myInterface);
+				myTabs.getTabs().addAll(tab);
+				myTabs.getSelectionModel().select(tab);
+			}
+		});
 	}
 	
 	public Node getRoot(){
