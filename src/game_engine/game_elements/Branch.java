@@ -166,4 +166,16 @@ public class Branch {
 		this.myNeighbors.remove(b);
 	}
 
+	public Branch deepCopy(Map<Branch, Branch> isomorphism){
+		Branch copy = isomorphism.get(this);
+	    if (copy == null) {
+	        copy = new Branch();
+	        isomorphism.put(this, copy);
+	        for (Branch neighbor : this.myNeighbors) {
+	            copy.addNeighbor(neighbor.deepCopy(isomorphism));
+	        }
+	    }
+	    return copy;
+	}
+
 }
