@@ -37,6 +37,7 @@ public class UnitView extends ImageView implements IUnitView {
 	public UnitView(Unit unit) {
 		super();
 		this.myUnit = unit;
+		this.setImage(this.myNodeFactory.buildImage(unit.toString()));
 	}
 	
 	public UnitView(Unit unit, Image image) {

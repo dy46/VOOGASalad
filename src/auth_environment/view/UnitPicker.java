@@ -15,6 +15,10 @@ public class UnitPicker{
 	private UnitPickerModel myUnitPickerModel;
 	private TitledPane myEditPane;
 	
+	public UnitPicker(){
+		myEditPane = new TitledPane();
+	}
+	
 	public UnitPicker(List<Unit> units){
 		myUnitPickerModel = new UnitPickerModel();
 		myEditPane = new TitledPane();
@@ -38,6 +42,10 @@ public class UnitPicker{
 		}
 		
 		
+	}
+	
+	public void setTitle(String title){
+		myEditPane.setText(title);
 	}
 	
 	public TitledPane getRoot(){

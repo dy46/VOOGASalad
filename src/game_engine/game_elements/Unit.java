@@ -307,7 +307,6 @@ public class Unit extends GameElement {
 		this.imgName = img;
 	}
 	
-<<<<<<< HEAD
 	public ImageView buildImageView(String imageName) {
 		return new ImageView(this.buildImage(imageName));
 	}
@@ -324,10 +323,9 @@ public class Unit extends GameElement {
 		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
 	
-=======
+
 	public String getType(){
 		return type;
 	}
 
->>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3
 }

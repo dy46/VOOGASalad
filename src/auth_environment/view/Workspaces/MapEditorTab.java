@@ -1,6 +1,7 @@
 package auth_environment.view.Workspaces;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -61,7 +62,6 @@ public class MapEditorTab implements IWorkspace{
 		this.buildTerrainChooser();
 		this.buildMapPane();
 		this.setupBorderPane();
-		
 	}
 
 	private void setupBorderPane() {
@@ -80,14 +80,23 @@ public class MapEditorTab implements IWorkspace{
 	}
 	
 	public void buildUnitViewList(){
-		myModel.getTerrains().stream().forEach(a->myUnitViewList.add(new UnitView(a)));
+		myUnitViewList = new ArrayList<UnitView>();
+		for(Unit uv:myModel.getTerrains()){
+			myUnitViewList.add(new UnitView(uv));
+		}
 	}
 	
 	public void buildTerrainChooser(){
-		myPicker.init(myUnitViewList);
+		buildUnitViewList();
+		myPicker = new UnitPicker();
+		if(!myUnitViewList.equals(null)){
+			myPicker.init(myUnitViewList);
+		}
+		myPicker.setTitle("Terrains");
 	}
 	
 	private void buildMapPane(){
+		myMapPane = new TitledPane();
         myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         this.addClickHandlers(myCanvas);
@@ -99,10 +108,14 @@ public class MapEditorTab implements IWorkspace{
 	        	
 	        });
 	}
+	
+	private void convertView(){
+		
+	}
 	@Override
 	public Node getRoot() {
 		// TODO Auto-generated method stub
-		return null;
+		return myBorderPane;
 	}
 
 }
