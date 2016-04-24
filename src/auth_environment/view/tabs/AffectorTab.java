@@ -152,7 +152,7 @@ public class AffectorTab extends Tab{
 					fun.add(Double.parseDouble(ff));
 				}
 				catch(Exception e){
-					System.out.println("womp not an int");
+					System.out.println("womp. not an int.");
 				}
 			}
 			funct.add(fun);
@@ -160,6 +160,7 @@ public class AffectorTab extends Tab{
 		
 		AffectorFactory affect = new AffectorFactory(new FunctionFactory());
 		Affector plz = affect.constructAffector(name, type, eff, funct);
+		System.out.println(plz.getName());
 		
 		
 		
