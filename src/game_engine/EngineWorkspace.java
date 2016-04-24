@@ -337,4 +337,22 @@ public class EngineWorkspace implements GameEngineInterface{
         
     }
 
+    @Override
+    public void moveUnit (Unit unit, double x, double y) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setCursorPosition (double x, double y) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Position getCursorPosition () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
