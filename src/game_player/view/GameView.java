@@ -76,7 +76,6 @@ public class GameView implements IGameView{
 	private void setEventHandlers() {
 		this.myScene.setOnKeyPressed(e -> setUpKeyPressed(e.getCode()));
 		this.root.setOnMouseClicked(e -> {
-			System.out.println(clickedTower);
 			if (clickedTower != null) {
 				playerEngineInterface.addTower(clickedTower, e.getX(), e.getY());
 			} else if (canPlaceTower){

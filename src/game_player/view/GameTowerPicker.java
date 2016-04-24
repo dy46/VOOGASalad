@@ -9,6 +9,7 @@ import game_player.GameDataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -26,6 +27,7 @@ public class GameTowerPicker implements IGUIObject {
 	private GameEngineInterface myEngine;
 	private ListView<Unit> myListView;
 	private ObservableList<Unit> myTowers;
+	private Label myMoney;
 	
 	public GameTowerPicker(ResourceBundle r, GameDataSource data, IGameView view) {
 		myResources = r;
@@ -39,6 +41,7 @@ public class GameTowerPicker implements IGUIObject {
 	public Node createNode() {
 		updateTowerList();
 		VBox box = new VBox();
+		
 		myListView = new ListView<>();
 		
 		Callback<ListView<Unit>, ListCell<Unit>> cellFactory = (e -> {

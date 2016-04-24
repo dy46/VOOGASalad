@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.GameDataSource;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,14 +38,16 @@ public class GameHUD {
 		VBox unitStuff = new VBox();
 		unitImage = new ImageView();
 		unitType = new Label();
-		unitStuff.getChildren().addAll(unitImage, unitType);
+		unitStuff.getChildren().addAll(unitType, unitImage);
 		upgradeButton = new Button();
 		sellButton = new Button();
 		HUDBox.getChildren().addAll(unitStuff, upgradeButton, sellButton);
+		HUDBox.setAlignment(Pos.CENTER_LEFT);
+		HUDBox.
 	}
 	
 	public void whenTowerSelected(Unit tower) {
-		System.out.print(tower.toString());
+		System.out.println(tower.toString());
 		unitImage.setImage(new Image(tower.toString() + ".png"));
 		unitType.setText(tower.getName());
 		upgradeButton.setText(myResources.getString("HUDUpgradeButton"));
@@ -52,8 +55,8 @@ public class GameHUD {
 	}
 	
 	public void whenNothingSelected() {
-		unitImage.setImage(new Image("health.png"));
-		unitType.setText("Testing");
+		unitImage.setImage(new Image("Tower.png"));
+		unitType.setText("No Selection");
 		upgradeButton.setText(myResources.getString("HUDUpgradeButton"));
 		sellButton.setText(myResources.getString("HUDSellButton"));
 	}
