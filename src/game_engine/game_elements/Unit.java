@@ -312,5 +312,4 @@ public class Unit extends GameElement {
 		return new Image(getClass().getClassLoader().getResourceAsStream(imageName)); 
 	}
 	
-
 }

@@ -98,31 +98,6 @@ public class MapEditorTab implements IWorkspace{
 		 myTerrainPane.getChildren().add(tile.getShape());
 	}
 	
-	private HBox buildTextInput() {
-		this.myGameNameField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
-		this.myGameNameField.setOnAction(e -> this.submitButtonPressed(this.myGameNameField));
-		
-		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
-		submitNameButton.setOnAction(e -> this.submitButtonPressed(this.myGameNameField));
-		
-		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(this.myGameNameField, submitNameButton);
-		return this.myNodeFactory.centerNode(hb); 
-	}
-	
-	private HBox buildSplashChooser() {
-		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
-				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
-				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
-		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
-		splashButton.setOnAction(e -> this.chooseSplash());
-		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(mySplashPreview, splashButton); 
-		return myNodeFactory.centerNode(hb); 
-	}
-	
 	private HBox buildSaveButton() {
 		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
 		save.setOnAction(e -> this.myModel.saveToFile());
@@ -133,24 +108,6 @@ public class MapEditorTab implements IWorkspace{
 		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
 		load.setOnAction(e -> this.myModel.loadFromFile());
 		return myNodeFactory.centerNode(load); 
-	}
-	
-	private void submitButtonPressed(TextField input) {
-		if (checkValidInput(input)) {
-			this.myModel.setGameName(input.getText());
-			input.clear();
-		}
-	}
-	
-	private void chooseSplash() {
-		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
-		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
-		this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
-		this.myModel.setSplashFile(splash.getName());
-	}
-	
-	private boolean checkValidInput(TextField input) {
-		return input.getText().length() > 0; 
 	}
 	
 	@Override
