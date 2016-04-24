@@ -36,7 +36,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
-	private GridPane myGridPane;
+	private GridPane myLeftGridPane;
+	private GridPane myRightGridPane;
 	private BorderPane myBorderPane; 
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave){
@@ -44,9 +45,14 @@ public class WaveWindow {
 		Group root = new Group();
 		Scene newScene = new Scene(root);
 		stage.setScene(newScene);
-		myGridPane = new GridPane();
+		myLeftGridPane = new GridPane();
+		myRightGridPane = new GridPane();
 		myBorderPane = new BorderPane();
-		root.getChildren().add(myGridPane);
+		myBorderPane.setLeft(myLeftGridPane);
+		myBorderPane.setRight(myRightGridPane);
+//		root.getChildren().add(myLeftGridPane);
+//		root.getChildren().add(myRightGridPane);
+		root.getChildren().add(myBorderPane);
 		
 		stage.setTitle(level + ", " + wave);
 		stage.show(); 
@@ -57,7 +63,8 @@ public class WaveWindow {
 		ComboBox dummyCBox = new ComboBox(); 
 		dummyCBox.setValue("test");
 		
-		addNewEnemySpace(index, myGridPane, dummyButton, dummyCBox);
+		addNewEnemySpace(index, myLeftGridPane, dummyButton, dummyCBox);
+		addNewTowerSpace(index, myRightGridPane, dummyButton, dummyCBox);
 		
 	}
 	
@@ -70,26 +77,38 @@ public class WaveWindow {
 		
 	}
 	
-	private void addNewEnemySpace (int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
+	//TODO: Refactor addNewEnemySpace and addNewTowerSpace methods 
+	private void addNewEnemySpace (int index, GridPane newTableInfo, Button dButton, ComboBox cbox) {
 		if (cbox.getValue() != null) {
-			newTableInfo.getChildren().remove(AffectorButton);
+			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
 			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
-			
-//			HBox hbox = new HBox();
-//			hbox.getChildren().add(newcbox);
-//			TextField input = new TextField();
-//			input.setMaxWidth(65);
-//			input.setMinHeight(25);
-//			hbox.setMinWidth(200);
-//			hbox.getChildren().add(input);
-			newTableInfo.add(addSpawnTimeHBox(false, newcbox), 2, index);
+
+			newTableInfo.add(addSpawnTimeHBox(true, newcbox), 2, index);
 			
 			index++;
 			Button newAffectorButton = new Button("+ Add New Enemy");
 			int num = index;
 			newAffectorButton
 			.setOnAction(e -> addNewEnemySpace(num, newTableInfo, newAffectorButton,
+					newcbox));
+			newTableInfo.add(newAffectorButton, 2, index);
+		}
+	}
+	
+	private void addNewTowerSpace(int index, GridPane newTableInfo, Button dButton, ComboBox cbox){
+		if (cbox.getValue() != null) {
+			newTableInfo.getChildren().remove(dButton);
+			ComboBox<String> newcbox = new ComboBox<String>();
+			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
+
+			newTableInfo.add(addSpawnTimeHBox(false, newcbox), 2, index);
+			
+			index++;
+			Button newAffectorButton = new Button("+ Add New Tower");
+			int num = index;
+			newAffectorButton
+			.setOnAction(e -> addNewTowerSpace(num, newTableInfo, newAffectorButton,
 					newcbox));
 			newTableInfo.add(newAffectorButton, 2, index);
 		}
