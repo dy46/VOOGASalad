@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.AffectorTabModel;
+import auth_environment.Models.Interfaces.IAffectorTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
 import game_engine.affectors.Affector;
@@ -35,8 +37,9 @@ public class AffectorTab extends Tab{
 	
 	private BorderPane myPane; 
 	
-	private IAuthEnvironment myInterface;
-	private IAuthModel myAuthModel; 
+	private IAuthModel myAuthModel; // passed around b/w all tabs
+	private IAuthEnvironment myInterface; // came out of the above
+	private IAffectorTabModel myAffectorTabModel; // kept ONLY in this class
 	
 	public AffectorTab(String name, IAuthModel authModel){
 		super(name);
@@ -44,6 +47,7 @@ public class AffectorTab extends Tab{
 		strDropMap = new HashMap<String, ComboBox<String>>();
 		this.myAuthModel = authModel; 
 		this.myInterface = this.myAuthModel.getIAuthEnvironment();
+		this.myAffectorTabModel = new AffectorTabModel(this.myInterface); 
 		this.addRefresh();
 		this.init();
 	}
