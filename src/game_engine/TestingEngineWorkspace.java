@@ -43,6 +43,7 @@ import game_engine.wave_goals.WaveGoal;
 
 public class TestingEngineWorkspace implements GameEngineInterface {
 
+
 	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
@@ -252,8 +253,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 //		w.addSpawningUnit(rand11, 60);
 //		w.addSpawningUnit(rand12, 60);
 		List<Unit> list = makeDummyTowers();
-		w.addPlacingUnit(list.get(0), 0);
-		w.addPlacingUnit(list.get(1), 0);
+		w.addPlacingUnit(list.get(0));
+		w.addPlacingUnit(list.get(1));
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e5 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
@@ -268,7 +269,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		w2.addSpawningUnit(e6, 60);
 		w2.addSpawningUnit(e7, 60);
 		w2.addSpawningUnit(e8, 60);
-		w2.addPlacingUnit(list.get(0), 0);
+		w2.addPlacingUnit(list.get(0));
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e9 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		Unit e10 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
@@ -282,7 +283,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		w3.addSpawningUnit(e10, 60);
 		w3.addSpawningUnit(e11, 60);
 		w3.addSpawningUnit(e12, 60);
-		w3.addPlacingUnit(list.get(1), 0);
+		w3.addPlacingUnit(list.get(1));
 		l.addWave(w3);
 		l.addWave(w2);
 		Affector affector =

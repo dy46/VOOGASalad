@@ -228,6 +228,8 @@ public class Branch implements Serializable{
 	}
 
 	public String toString(){
+
+
 		return "Branch positions: " + myPositions+"\n";
 	}
 

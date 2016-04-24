@@ -10,13 +10,12 @@ public class AffectorData {
 	private List<List<Function>> myFunctions;
 	private List<String> myUnitProperties;
 	
-	//constructor for affector that doesn't target a unit property
 	public AffectorData() {
 	    myFunctions = new ArrayList<>();
 	    myUnitProperties = new ArrayList<>();
 	    myFunctions.add(null);
 	    myUnitProperties.add(null);
-	};
+	}
 	
 	public AffectorData(List<List<Function>> functions, List<String> unitProperies){
 		myFunctions = functions;
