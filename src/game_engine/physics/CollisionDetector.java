@@ -3,7 +3,6 @@ package game_engine.physics;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import game_engine.GameEngineInterface;
@@ -18,12 +17,10 @@ import game_engine.properties.Position;
 public class CollisionDetector {
 
 	private GameEngineInterface myEngine;
-	private ResourceBundle myResources;
 	private AffectorFactory myAffectorFactory;
 
 	public CollisionDetector (GameEngineInterface engine) {
 		myEngine = engine;
-		myResources = ResourceBundle.getBundle("game_engine/physics/collisions");
 		myAffectorFactory = new AffectorFactory(new FunctionFactory());
 	}
 
@@ -70,41 +67,6 @@ public class CollisionDetector {
 			}
 		}
 		return false;
-	}
-	
-	public void handleCustomCollisions(List<Unit> allUnits){
-		for(Unit u1 : allUnits){
-			for(Unit u2: allUnits){
-				String cast = u1.getType() + u2.getType();
-				System.out.println(cast);
-				if(u1 != u2 && myResources.containsKey(cast) && collides(u1, u2)){
-					String affector = myResources.getString(cast);
-					String[] sep = affector.split(",");
-					Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
-					u1.addAffector(newEffect.copyAffector());
-					u2.addAffector(newEffect.copyAffector());
-				}
-				handleCustomCollision(u1, u2);
-			}
-		}
-	}
-	
-	private Affector handleCustomCollision(Unit u1, Unit u2){
-		String cast = u1.getType() + u2.getType();
-		//System.out.println(cast);
-		if(u1 != u2 && myResources.containsKey(cast) && collides(u1, u2)){
-			String affector = myResources.getString(cast);
-			String[] sep = affector.split(",");
-			Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
-			u1.addAffector(newEffect.copyAffector());
-			u2.addAffector(newEffect.copyAffector());
-			return newEffect.copyAffector();
-		}
-		return null;
-	}
-	
-	public Affector getAffectorApplied(Unit u1, Unit u2){
-		return handleCustomCollision(u1, u2);
 	}
 
 	// check if q is on segment defined by p and r
