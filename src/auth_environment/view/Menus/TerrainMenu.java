@@ -1,3 +1,4 @@
+//
 //package auth_environment.view.Menus;
 //
 //import java.lang.reflect.InvocationTargetException;
@@ -35,39 +36,36 @@
 //	public void createNewElement() { //can refactor this
 //		ResourceBundle myTerrainLabelsBundle = ResourceBundle.getBundle(TERRAIN_LABELS_PACKAGE);
 //		ResourceBundle myStringLabelsBundle = ResourceBundle.getBundle(TERRAIN_STRING_LABELS_PACKAGE);
-//		createElement(new TerrainBuildingBlock(), intTextMap, strTextMap,myTerrainLabelsBundle, myStringLabelsBundle);
+//		//createElement(new TerrainBuildingBlock(), intTextMap, strTextMap,myTerrainLabelsBundle, myStringLabelsBundle);
 //	}
 //
 //	@Override
 //	public void makeElement(Tooltip t, BuildingBlock block) {
-//	    	Class<?> c = block.getClass();
-//	    	for(String str: strTextMap.keySet()){
-//	    		Method[] allMethods = c.getMethods();
-//	    		
-//	    		for(Method m: allMethods){;
-////	    			String[] mString = m.getName().split(".");
-////	    			System.out.println(m.getName());
-////	    			System.out.println("setMy" + str);
-//	    			if(m.getName().startsWith("setMy" + str)){
-//	    				try {
-//							m.invoke(block,strTextMap.get(str).getText());
-//							break;
+//    	Class<?> c = block.getClass();
+//    	for(String str: strTextMap.keySet()){
+//    		Method[] allMethods = c.getMethods();
+//    		
+//    		for(Method m: allMethods){;
+////    			String[] mString = m.getName().split(".");
+////    			System.out.println(m.getName());
+////    			System.out.println("setMy" + str);
+//    			if(m.getName().startsWith("setMy" + str)){
+//    				try {
+//						m.invoke(block,strTextMap.get(str).getText());
+//						break;
 //
-//						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//							// TODO Auto-generated catch block
-//							//e.printStackTrace();
-//							System.out.println("ERROR");
-//						}
-//	    			}
-//	    		}	
-//	    	}
+//					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//						// TODO Auto-generated catch block
+//						//e.printStackTrace();
+//						System.out.println("ERROR");
+//					}
+//    			}
+//    		}	
+//    	}
 //	    	for(String str: intTextMap.keySet()){
 //	    		Method[] allMethods = c.getMethods();
 //	    		
 //	    		for(Method m: allMethods){;
-////	    			String[] mString = m.getName().split(".");
-////	    			System.out.println(m.getName());
-////	    			System.out.println("setMy" + str);
 //	    			if(m.getName().startsWith("setMy" + str)){
 //	    				try {
 //							m.invoke(block,Double.parseDouble(intTextMap.get(str).getText()));

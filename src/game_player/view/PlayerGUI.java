@@ -2,6 +2,9 @@ package game_player.view;
 
 import java.util.ResourceBundle;
 
+import auth_environment.IAuthEnvironment;
+import game_data.AuthSerializer;
+import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
 import game_engine.TestingEngineWorkspace;
 import javafx.scene.Scene;
@@ -52,20 +55,17 @@ public class PlayerGUI{
 		return myScene;
 	}
 	
-//	private GameEngineInterface readData() {
-//		IDataConverter<GameEngineInterface> dataConverter = new AuthSerializer<GameEngineInterface>();
-//		GameData gameData = (GameData) dataConverter.loadElement();
-//		gameEngine = new TDGame();
+	private IAuthEnvironment readData() {
+		AuthSerializer writer = new AuthSerializer();
+		IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
+//		gameEngine = new EngineWorkspace();
 //		gameEngine.setUpEngine(gameData);
-//		return gameEngine;
-//	}
+		return gameData;
+	}
 	
-	private void createNewTab() {    
-	    
+	private void createNewTab() { 
         gameEngine = new TestingEngineWorkspace();
 		gameEngine.setUpEngine(null);
-		
-		
 		Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, 
 				myResources.getString("TabName") + (myTabs.getTabs().size() + 1)).getTab();
         myTabs.getTabs().add(tab);

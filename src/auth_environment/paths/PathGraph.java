@@ -86,4 +86,14 @@ public class PathGraph {
 		return null;
 	}
 
+	public void removeBranch(Branch b) {
+		for(Branch neighbor : b.getNeighbors()){
+			neighbor.removeNeighbor(b);
+			b.removeNeighbor(neighbor);
+		}
+		for(PathNode path : myPaths){
+			path.removeBranch(b);
+		}
+	}
+
 }
