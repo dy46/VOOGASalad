@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.Interfaces.IAnimationTabModel;
-import auth_environment.backend.StateImageSaver;
+import auth_environment.delegatesAndFactories.StateImageSaver;
 import game_engine.game_elements.Unit;
 
 public class AnimationTabModel implements IAnimationTabModel {
