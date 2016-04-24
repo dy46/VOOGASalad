@@ -75,8 +75,6 @@ public interface GameEngineInterface {
     public Level getCurrentLevel ();
 
     public void decrementLives (int lives);
-    
-    public List<Position> getGoals ();
 
     public int getNextWaveTimer ();
 
@@ -99,5 +97,9 @@ public interface GameEngineInterface {
     public void setCursorPosition(double x, double y);
     
     public Position getCursorPosition();
+
+	public void removeTower(Unit u);
+
+	public Branch findBranchForSpawn(Position spawn);
 
 }

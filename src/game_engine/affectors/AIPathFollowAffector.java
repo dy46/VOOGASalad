@@ -26,19 +26,23 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		if (currentBranch == null) {
 			return null;
 		}
-		Position next = move.getNextPosition();
+		Position next = move.getNextPosition(currentPosition);
+//		System.out.println("Choosing next");
 		if (next == null) {
-			if(getWS().getGoals().contains(currentPosition)){
+			System.out.println("Next is null");
+			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
 			}
 			currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
+				System.out.println("Current branch is null");
 				List<Branch> gridBranches = getWS().getBranches();
 				currentBranch = pickClosestBranch(currentPosition, gridBranches);
 			}
-			u.getProperties().getMovement().setCurrentBranch(currentBranch);
-			next = currentBranch.getFirstPosition();
+			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
+			next = move.getNextPosition(currentPosition);
 		}
+//		System.out.println("Next: " + next);
 		return next;
 	}
 	

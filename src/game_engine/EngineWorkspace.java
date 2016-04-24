@@ -43,7 +43,6 @@ public class EngineWorkspace implements GameEngineInterface{
 	private FunctionFactory myFunctionFactory;
 	private WaveGoal waveGoal;
 	private ScoreUpdate scoreUpdate;
-	private List<Position> myGoals;
 	private List<PlaceValidation> myPlaceValidations;
 	private List<Unit> unitsToRemove;
 	private Position cursorPos;
@@ -62,17 +61,16 @@ public class EngineWorkspace implements GameEngineInterface{
 		myProjectiles = data.getProjectiles();
 		myAffectors = data.getAffectors();
 		myPlacedUnits = data.getPlacedUnits();
-		myFunctionFactory = new FunctionFactory();
-		myGoals = data.getGoals();
 		if(myLevels.size() > 0){
 			myCurrentLevel = myLevels.get(0);
-			myCurrentLevel.setGoals(data.getGoals());
 			myCurrentLevel.setSpawns(data.getSpawns());
+			myCurrentLevel.setGoals(data.getGoals());
 		}
 		initialize();
 	}
 
 	private void initialize(){
+		myFunctionFactory = new FunctionFactory();
 		myTimer = new Timer();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationController(this);
@@ -87,6 +85,8 @@ public class EngineWorkspace implements GameEngineInterface{
 		if(myStore == null)		myStore = new Store(500);
 		if(myLevels.size() > 0){
 			myCurrentLevel = myLevels.get(0);
+			myCurrentLevel.setGoals(new ArrayList<>());
+			myCurrentLevel.setSpawns(new ArrayList<>());
 		}
 	}
 
@@ -275,11 +275,6 @@ public class EngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public List<Position> getGoals () {
-		return myGoals;
-	}
-
-	@Override
 	public int getNextWaveTimer () {
 		return nextWaveTimer;
 	}
@@ -320,6 +315,21 @@ public class EngineWorkspace implements GameEngineInterface{
 
 	public Position getCursorPosition() {
 		return cursorPos;
+	}
+
+	public void removeTower(Unit u) {
+		if(myTowers.contains(u)){
+			myTowers.remove(u);
+		}
+	}
+
+	public Branch findBranchForSpawn(Position spawn) {
+		for(Branch b : myBranches){
+			if(b.getPositions().contains(spawn)){
+				return b;
+			}
+		}
+		return null;
 	}
 
 }
