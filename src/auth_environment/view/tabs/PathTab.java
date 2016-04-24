@@ -1,4 +1,4 @@
-package auth_environment.view.Workspaces;
+package auth_environment.view.tabs;
 
 import java.util.ArrayList;
 import java.util.List;

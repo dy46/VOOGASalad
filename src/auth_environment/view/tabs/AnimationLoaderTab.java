@@ -7,7 +7,6 @@ import auth_environment.Models.AnimationTabModel;
 import auth_environment.Models.Interfaces.IAnimationTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.view.Workspaces.IWorkspace;
 import game_engine.game_elements.Unit;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
