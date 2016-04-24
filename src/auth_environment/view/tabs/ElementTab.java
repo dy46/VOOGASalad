@@ -55,7 +55,6 @@ public class ElementTab extends Tab{
 		GridPane newAnimationInfo = new GridPane();					//*****	
 //		FlowPane editInfo = new FlowPane();							//*****	
 		myPane.setLeft(newPane);
-		
 		this.setClosable(false);
 		
 	    UnitPicker up = new UnitPicker("Edit");
@@ -296,6 +295,10 @@ public class ElementTab extends Tab{
 //			unit.getProperties().get
 //		}
 	}
+	
+//	public UnitFactory getUnitFactor(){
+//		return myUnitFactory;
+//	}
 	
 
 	
