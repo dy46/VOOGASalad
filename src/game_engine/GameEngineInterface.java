@@ -94,5 +94,13 @@ public interface GameEngineInterface {
     public List<Affector> getUpgrades(Unit name);
     
     public void applyUpgrade(Unit name, Affector affector);
+    
+    public void sellUnit(Unit name);
+    
+    public void moveUnit(Unit unit, double x, double y);
+    
+    public void setCursorPosition(double x, double y);
+    
+    public Position getCursorPosition();
 
 }

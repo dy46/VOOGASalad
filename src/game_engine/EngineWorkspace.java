@@ -300,4 +300,28 @@ public class EngineWorkspace implements GameEngineInterface{
         myCurrentLevel.decrementLives(lives);
     }
 
+    @Override
+    public void sellUnit (Unit name) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void moveUnit (Unit unit, double x, double y) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setCursorPosition (double x, double y) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public Position getCursorPosition () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

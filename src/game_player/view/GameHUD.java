@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
-import game_player.GameDataSource;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -26,11 +25,16 @@ public class GameHUD {
     private Label unitType;
     private HBox HUDBox;
     private GameEngineInterface engine;
+    private IGameView gameView;
 
     public GameHUD (ResourceBundle r) {
         myResources = r;
         upgrades = new ArrayList<>();
 
+    }
+    
+    public void setGameView(IGameView gameView) {
+        this.gameView = gameView;
     }
 
     public void setEngine (GameEngineInterface engine) {
@@ -55,6 +59,7 @@ public class GameHUD {
     }
 
     public void whenTowerSelected (Unit tower) {
+        gameView.setSpecificUnitIsClicked(tower);
         unitImage.setImage(new Image(tower.toString() + ".png"));
         for (int i = 0; i < upgrades.size(); i++) {
             HUDBox.getChildren().remove(upgrades.get(i));
@@ -73,6 +78,7 @@ public class GameHUD {
             children.add(child);
         }
         sellButton.setText(myResources.getString("HUDSellButton"));
+        sellButton.setOnMouseClicked(e -> engine.sellUnit(tower));
     }
 
     public void addUpgrades (Unit u) {
@@ -87,6 +93,9 @@ public class GameHUD {
     }
 
     public void whenNothingSelected () {
+        if(gameView != null) {
+            gameView.setSpecificUnitIsClicked(null);
+        }
         unitImage.setImage(new Image("health.png"));
         unitType.setText("Testing");
         sellButton.setText(myResources.getString("HUDSellButton"));

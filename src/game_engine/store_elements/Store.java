@@ -1,7 +1,6 @@
 package game_engine.store_elements;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +15,16 @@ public class Store {
     private int myMoney;
     private Map<Unit, Integer> buyableUnits;
     private Map<String, List<Pair<Affector, Integer>>> upgrades;
+    private Map<String, Unit> nameToOriginalInstance;
     private Map<Unit, Integer> items;
 
     public Store (int startMoney) {
         myMoney = startMoney;
         buyableUnits = new HashMap<Unit, Integer>();
         upgrades = new HashMap<String, List<Pair<Affector, Integer>>>();
+        nameToOriginalInstance = new HashMap<String, Unit>();
         items = new HashMap<Unit, Integer>();
+        
     }
     
     public void clearBuyableUnits() {
@@ -31,6 +33,7 @@ public class Store {
     
     public void addBuyableUnit (Unit t, Integer cost) {
         buyableUnits.put(t, cost);
+        nameToOriginalInstance.put(t.toString(), t);
     }
 
     public void addBuyableUnit (Collection<Pair<Unit, Integer>> listOfNewUnits) {
@@ -67,6 +70,10 @@ public class Store {
         }
         // this should have a copy method
         return u;
+    }
+    
+    public void sellUnit(Unit unit) {
+        myMoney += buyableUnits.get(nameToOriginalInstance.get(unit.toString()));
     }
 
     public int getUnitListSize () {
