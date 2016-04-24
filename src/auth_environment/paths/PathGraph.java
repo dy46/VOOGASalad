@@ -1,12 +1,13 @@
 package auth_environment.paths;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-public class PathGraph {
+public class PathGraph implements Serializable{
 
 	private List<Branch> myBranches;
 
@@ -72,5 +73,9 @@ public class PathGraph {
 		return myBranches.stream().filter(
 				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).roughlyEquals(pos) && !n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)).collect(Collectors.toList());
 	}
-	
+
+	public PathGraph copyGraph(){
+		return new PathGraph(myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
+	}
+
 }

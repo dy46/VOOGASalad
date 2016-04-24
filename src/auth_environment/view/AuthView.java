@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.AuthModel;
-import auth_environment.Models.SampleAuthData;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
 import auth_environment.view.tabs.AnimationLoaderTab;
@@ -14,6 +13,9 @@ import auth_environment.view.tabs.GlobalGameTab;
 import auth_environment.view.tabs.PathTab;
 import game_engine.game_elements.Unit;
 import game_engine.properties.UnitProperties;
+
+import auth_environment.view.tabs.LevelOverviewTab;
+//import auth_environment.view.tabs.LevelViewTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -38,24 +40,25 @@ public class AuthView implements IAuthView {
     private Stage myStage;
     private Scene myScene; 
     private TabPane myTabs = new TabPane();
-    private IAuthModel authModel;
+    private IAuthModel globalAuthModel;
 
     public AuthView (Stage stage) {
         myStage = stage;
-        this.authModel = new AuthModel(); 
+        this.globalAuthModel = new AuthModel(); 
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel); 
-    	PathTab pathTab = new PathTab(this.authModel); 
-    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
+    	GlobalGameTab globalGameTab = new GlobalGameTab(this.globalAuthModel); 
+    	PathTab pathTab = new PathTab(this.globalAuthModel); 
+//    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
-    	tabs.add(new VAsTesterTab("WOOOO", new SampleAuthData()));
+    	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
+//    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
-    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
+    	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }

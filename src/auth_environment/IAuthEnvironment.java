@@ -3,6 +3,9 @@ package auth_environment;
 import java.util.List;
 
 import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
@@ -87,5 +90,19 @@ public interface IAuthEnvironment {
 	public void setGridBranches(List<Branch> gridBranches);
 	
 	public List<Branch> getGridBranches();
+	
+	// For UnitCreation integration, issue 190
+	
+	public UnitFactory getUnitFactory();
+	
+	public void setUnitFactory(UnitFactory factory); 
+	
+	public FunctionFactory getFunctionFactory();
+	
+	public void setFunctionFactory(FunctionFactory factory); 
+	
+	public AffectorFactory getAffectorFactory();
+	
+	public void setAffectorFactory(AffectorFactory factory); 
 
 }
