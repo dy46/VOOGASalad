@@ -3,7 +3,6 @@ package game_player.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import auth_environment.paths.PathNode;
 import exceptions.WompException;
 import game_engine.physics.CollisionDetector;
 import game_engine.GameEngineInterface;
@@ -190,6 +189,23 @@ public class GameView implements IGameView {
         // TODO Auto-generated method stub
     }
 
+	public void placePath () {
+		List<Branch> currBranches = new ArrayList<>();
+		// Comment this out to hide path grid
+		currBranches.addAll(playerEngineInterface.getBranches());
+		List<Position> allPositions = new ArrayList<>();
+		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
+		for(int i = paths.size(); i < allPositions.size(); i++) {
+			Image img = new Image("DirtNew.png");
+			ImageView imgView = new ImageView(img);
+			imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth()/2);
+			imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight()/2);
+			root.getChildren().add(imgView);
+			imgView.toFront();
+			paths.add(imgView);
+		}
+	}
+	
     @Override
     public void changeGameSpeed (double gameSpeed) {
         this.myUpdateSpeed = gameSpeed;
@@ -208,27 +224,6 @@ public class GameView implements IGameView {
             towerTypes.add(imgView);
             myTab.addToConfigurationPanel(imgView);
             imgView.setOnMouseClicked(e -> clickedTower = name);
-        }
-    }
-
-    public void placePath () {
-        List<PathNode> currPaths = playerEngineInterface.getPaths();
-        List<Position> allPositions = new ArrayList<>();
-        List<Branch> currBranches = new ArrayList<>();
-        for (PathNode p : currPaths) {
-            currBranches.addAll(p.getBranches());
-        }
-        // Comment this out to hide path grid
-        // currBranches.addAll(playerEngineInterface.getGridBranches());
-        currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
-        for (int i = paths.size(); i < allPositions.size(); i++) {
-            Image img = new Image("DirtNew.png");
-            ImageView imgView = new ImageView(img);
-            imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth() / 2);
-            imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight() / 2);
-            root.getChildren().add(imgView);
-            imgView.toFront();
-            paths.add(imgView);
         }
     }
 

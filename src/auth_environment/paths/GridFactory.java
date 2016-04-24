@@ -9,27 +9,27 @@ import game_engine.properties.Position;
 
 public class GridFactory extends PathGraphFactory{
 
-	private PathNode myPathGrid;
 	private PositionHandler myPositionHandler;
 	private BranchHandler myBranchHandler;
 	
 	public GridFactory(){
-		myPathGrid = new PathNode();
 		myPositionHandler = new PositionHandler();
 		myBranchHandler = new BranchHandler();
 	}
 	
-	public void createUnlimitedPathGraph(double width, double length, double sideLength){
+	public PathGraph createUnlimitedPathGraph(double width, double length, double sideLength){
+		PathGraph pathGrid = new PathGraph();
 		Position[][] positionGrid = createPosGrid(width, length, sideLength);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
-			insertBranchInPath(branchPos, myPathGrid);
+			insertBranchInPath(branchPos, pathGrid);
 		}
+		return pathGrid;
 	}
 	
-	private void insertBranchInPath(List<Position> branchPos, PathNode path){
+	private void insertBranchInPath(List<Position> branchPos, PathGraph path){
 		Branch newBranch = new Branch(branchPos);
-		myBranchHandler.configureBranchInPath(newBranch, path);
+		myBranchHandler.configureBranch(newBranch, path);
 	}
 
 	private List<List<Position>> createBranchPosLists(Position[][] grid){
@@ -88,10 +88,6 @@ public class GridFactory extends PathGraphFactory{
 			posGrid[numSquareCols-1][y] = new Position(numSquareCols*sideLength, y*sideLength);
 		}
 		return posGrid;
-	}
-	
-	public PathNode getGrid(){
-		return myPathGrid;
 	}
 	
 }
