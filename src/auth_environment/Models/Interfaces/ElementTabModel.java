@@ -23,4 +23,9 @@ public class ElementTabModel implements IElementTabModel {
 		return this.myUnitFactory;
 	}
 
+	@Override
+	public AffectorFactory getAffectoryFactory() {
+		return this.myAffectorFactory;
+	}
+
 }
