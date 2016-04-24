@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import auth_environment.paths.MapHandler;
 import auth_environment.paths.PathGraphFactory;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
+import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -685,6 +687,18 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 			}
 		}
 		return null;
+	}
+	
+	public List<Unit> getAIEnemies(){
+		HashSet<Unit> AI = new HashSet<>();
+		for(Unit e : myEnemys){
+			for(Affector a : e.getAffectors()){
+				if(a instanceof AIPathFollowAffector){
+					AI.add(e);
+				}
+			}
+		}
+		return new ArrayList<>(AI);
 	}
 
 }

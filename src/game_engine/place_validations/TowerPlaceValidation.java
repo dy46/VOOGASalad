@@ -17,7 +17,14 @@ public class TowerPlaceValidation extends PlaceValidation{
 		if(!validMap){
 			return false;
 		}
-		return myVisibility.simulateEnemyCollisions(visibilityBranches);
+		boolean simulationValid = myVisibility.simulateEnemyCollisions(visibilityBranches);
+		if(simulationValid){
+			List<Unit> enemies = gameEngine.getAIEnemies();
+			for(Unit e : enemies){
+				e.getProperties().getMovement().setBranches(myVisibility.getShortestPath(e.getProperties().getPosition()));
+			}
+		}
+		return simulationValid;
 	}
 
 }

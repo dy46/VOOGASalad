@@ -1,10 +1,12 @@
 package game_engine;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
+import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -330,6 +332,18 @@ public class EngineWorkspace implements GameEngineInterface{
 			}
 		}
 		return null;
+	}
+	
+	public List<Unit> getAIEnemies(){
+		HashSet<Unit> AI = new HashSet<>();
+		for(Unit e : myEnemies){
+			for(Affector a : e.getAffectors()){
+				if(a instanceof AIPathFollowAffector){
+					AI.add(e);
+				}
+			}
+		}
+		return new ArrayList<>(AI);
 	}
 
 }

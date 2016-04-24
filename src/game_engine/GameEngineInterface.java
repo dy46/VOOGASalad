@@ -102,4 +102,6 @@ public interface GameEngineInterface {
 
 	public Branch findBranchForSpawn(Position spawn);
 
+	public List<Unit> getAIEnemies();
+
 }
