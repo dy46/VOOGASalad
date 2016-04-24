@@ -190,6 +190,13 @@ public class AffectorFactory {
                 Affector basic16 = new BasicIncrementAffector(d16);
                 basic16.setTTL(1);
                 myAffectorLibrary.addAffector(pr16, e16, basic16);
+                
+                String pr17 = "Cursor";
+                String e17 = "Direction";
+                List<List<Function>> f17 = new ArrayList<>();
+                List<List<String>> p17 = new ArrayList<>();
+                AffectorData d17 = new AffectorData();
+                constructAffector(pr17, e17, d17);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

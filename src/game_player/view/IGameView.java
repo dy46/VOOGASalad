@@ -1,6 +1,7 @@
 package game_player.view;
 
 import game_engine.GameEngineInterface;
+import game_engine.game_elements.Unit;
 
 /**
  * This interface specifies the different methods needed to run and animate the game elements.
@@ -26,4 +27,6 @@ public interface IGameView {
     GameEngineInterface getGameEngine();
     
     void changeClickedTower (String name);
+    
+    void setSpecificUnitIsClicked(Unit unit);
 }
