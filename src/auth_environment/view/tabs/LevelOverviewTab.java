@@ -20,6 +20,7 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
+import auth_environment.view.Workspaces.GlobalGameTab;
 import game_engine.TestingEngineWorkspace;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
@@ -42,30 +43,33 @@ import javafx.scene.text.Text;
 
 public class LevelOverviewTab extends Tab{
 	
-	private BorderPane myBorderPane;
+	private BorderPane myRoot;
 	private IAuthModel myAuthModel;
+	private IAuthEnvironment myInterface;
 	
-	
-	public LevelOverviewTab(IAuthModel authModel){
+	public LevelOverviewTab(String name, IAuthModel authModel){
+		super(name);
 		this.myAuthModel = authModel;
+		this.myInterface = this.myAuthModel.getIAuthEnvironment(); 
 		init();
 	}
 	
 	private void init(){
-		myBorderPane = new BorderPane();
+		myRoot = new BorderPane();
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
-		
-		newPane.setText("New");
-		this.setContent(myBorderPane);
+		addSubTabs();
 	}
 	
 	private void addSubTabs(){
 		TabPane myTabs = new TabPane();
-//		myTabs.getTabs().addAll(c)
+		myTabs.getTabs().addAll(new LevelTab("Level 1", myInterface));
+		myTabs.getTabs().addAll(new LevelTab("Level 2", myInterface));
+		System.out.println("ey");
+		this.setContent(myTabs);
 	}
 	
 	public Node getRoot(){
-		return this.myBorderPane;
+		return this.myRoot;
 	}
 }
