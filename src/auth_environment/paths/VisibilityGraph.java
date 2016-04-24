@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.physics.CollisionChecker;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationChecker;
 import game_engine.properties.Position;
@@ -131,7 +132,7 @@ public class VisibilityGraph {
 		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
-					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionDetector.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
+					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
 						removalList.add(b);
 					}
 				}
@@ -202,13 +203,13 @@ public class VisibilityGraph {
 		return visibleNeighbors.get(0);
 	}
 
-	public boolean simulateEnemyPathFollowing(List<Branch> visibilityBranches) {
+	public boolean simulateEnemyPathFollowing(List<Branch> visibilityBranches, Unit obstacle) {
 		List<Unit> enemies = myEngine.getEnemies();
 		for(Unit e : enemies){
 			Position current = e.getProperties().getPosition();
 			for(Position goal : myEngine.getCurrentLevel().getGoals()){
 				List<Branch> BFSvisited = getBFSVisited(visibilityBranches, current, goal);
-				if(!simulateEnemyBranchCollisions(BFSvisited)){
+				if(!simulateEnemyBranchCollisions(e, BFSvisited, obstacle)){
 					return false;
 				}
 			}
@@ -216,8 +217,19 @@ public class VisibilityGraph {
 		return true;
 	}
 	
-	private boolean simulateEnemyBranchCollisions(List<Branch> pathBranches){
-		
+	private boolean simulateEnemyBranchCollisions(Unit enemy, List<Branch> pathBranches, Unit obstacle){
+		List<Unit> obstacles = myEngine.getTowers();
+		List<Unit> obstaclesCopy = obstacles.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
+		obstaclesCopy.add(obstacle.copyShallowUnit());
+		for(Branch b : pathBranches){
+			for(Position pos : b.getPositions()){
+				List<Position> enemyBounds = CollisionChecker.getUseableBounds(enemy.getProperties().getBounds(), pos);
+				if(!CollisionChecker.simulatedObstacleCollisionCheck(enemyBounds, obstaclesCopy)){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }
