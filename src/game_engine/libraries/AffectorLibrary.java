@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 
 public class AffectorLibrary {
@@ -42,6 +42,10 @@ public class AffectorLibrary {
 	
 	public List<Affector> getAffectors(){
 		return allAffectors;
+	}
+	
+	public List<String> getAffectorNames() {
+	    return namesToAffector.keySet().stream().collect(Collectors.toList());
 	}
 	
 }
