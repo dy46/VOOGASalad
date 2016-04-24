@@ -32,7 +32,7 @@ public abstract class Affector {
     }
 
     public Affector copyAffector () {
-        // may need to copy functions too
+        // TODO: may need to copy functions too
         Affector copy = null;
         try {
             copy = (Affector) Class.forName(this.getClass().getName())
