@@ -43,7 +43,7 @@ public class PathTab implements IWorkspace {
 	private IPathTabModel myModel;
 	private IAuthEnvironment myAuth;
 	private IAuthModel myAuthModel;
-	
+
 	private int drawingIndex;
 	private List<Position> currentBranch;
 
@@ -70,7 +70,6 @@ public class PathTab implements IWorkspace {
 		this.myModel = new PathTabModel(myAuthModel.getIAuthEnvironment()); 
 		this.drawMap();
 		this.drawCurrentBranch();
-		System.out.println("HERE :(");
 	}
 
 	private void setupBorderPane() {
@@ -104,14 +103,14 @@ public class PathTab implements IWorkspace {
 
 		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
 		submitNameButton.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
-		
+
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
 		drawPathButton.setOnAction(e -> drawingIndex = 0);
 		Button drawGoalButton = myNodeFactory.buildButton(myNamesBundle.getString("drawGoal"));
 		drawPathButton.setOnAction(e -> drawingIndex = 1);
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
 		drawPathButton.setOnAction(e -> drawingIndex = 2);
-		
+
 		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
 		submitBranchButton.setOnAction(e -> this.submitBranch());
 
@@ -131,6 +130,8 @@ public class PathTab implements IWorkspace {
 
 	private void submitBranch(){
 		this.myModel.submitBranch();
+		this.currentBranch.clear();
+		this.drawMap();
 	}
 
 	// TODO: make this protected in an abstract class 
@@ -154,22 +155,27 @@ public class PathTab implements IWorkspace {
 		}
 	}
 
-	private void drawMap() {
+	private void clearMap(){
 		canvasPane.getChildren().clear();
+
+	}
+
+	private void drawMap() {
+		clearMap();
 		drawBranches();
 		drawSpawns();
 		drawGoals();
 		drawCurrentBranch();
 	}
-	
+
 	private void drawBranches(){
 		this.myModel.getEngineBranches().stream().forEach(b -> this.drawBranch(b));
 	}
-	
+
 	private void drawSpawns() {
 		this.myModel.getSpawns().forEach(s -> this.displaySpawnPoint(s));
 	}
-	
+
 	private void drawGoals() {
 		this.myModel.getGoals().forEach(s -> this.displayGoalPoint(s));
 	}
@@ -206,18 +212,11 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void addClickHandlers(Canvas canvas) {
-		canvas.setOnMouseClicked(e -> {
+		this.canvasPane.setOnMouseClicked(e -> {
+			//		canvas.setOnMouseClicked(e -> {
 			if(drawingIndex == 0){
-				System.out.println("HEREEE");
-				if (e.isShiftDown()) {
-					this.continueBranch(e.getX(), e.getY());
-					this.currentBranch.add(new Position(e.getX(), e.getY()));
-				}
-				else {
-					this.currentBranch.clear();
-					this.addPosition(e.getX(), e.getY());
-					this.currentBranch.add(new Position(e.getX(), e.getY()));
-				}
+				this.addPosition(e.getX(), e.getY());
+				this.currentBranch.add(new Position(e.getX(), e.getY()));
 			}
 			else if (drawingIndex == 1){
 				addSpawnPoint(e.getX(), e.getY());
@@ -228,7 +227,7 @@ public class PathTab implements IWorkspace {
 			this.drawMap();
 		});
 	}
-	
+
 	private void drawCurrentBranch(){
 		this.currentBranch.forEach(p -> displayClickedPoint(p));
 	}
@@ -236,17 +235,13 @@ public class PathTab implements IWorkspace {
 	private void addPosition(double x, double y) {
 		this.myModel.addNewPosition(x, y);
 	}
-	
+
 	private void addSpawnPoint(double x, double y){
 		this.myModel.addNewSpawn(x, y);
 	}
-	
+
 	private void addGoalPoint(double x, double y){
 		this.myModel.addNewGoal(x, y);
-	}
-
-	private void continueBranch(double x, double y) {
-		this.myModel.continueFromLastPosition(x, y);
 	}
 
 	// TODO: extract constants
@@ -254,16 +249,15 @@ public class PathTab implements IWorkspace {
 		Circle circle = new Circle(this.myModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
-		circle.relocate(x, y);
+		circle.relocate(x - circle.getRadius(), y - circle.getRadius());
 		this.canvasPane.getChildren().add(circle); 
 	}
-	
+
 	private void displayClickedPoint(Position p){
-		System.out.println("HERE");
 		Circle circle = new Circle(this.myModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.RED);
-		circle.relocate(p.getX(), p.getY());
+		circle.relocate(p.getX()- circle.getRadius(), p.getY()- circle.getRadius());
 		this.canvasPane.getChildren().add(circle);
 	}
 
@@ -271,7 +265,7 @@ public class PathTab implements IWorkspace {
 		Circle circle = new Circle(this.myModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.BLUE);
-		circle.relocate(spawn.getX(), spawn.getY());
+		circle.relocate(spawn.getX()- circle.getRadius(), spawn.getY()- circle.getRadius());
 		this.canvasPane.getChildren().add(circle);
 	}
 
@@ -279,7 +273,7 @@ public class PathTab implements IWorkspace {
 		Circle circle = new Circle(this.myModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.GREEN);
-		circle.relocate(goal.getX(), goal.getY());
+		circle.relocate(goal.getX()- circle.getRadius(), goal.getY()- circle.getRadius());
 		this.canvasPane.getChildren().add(circle); 
 	}
 

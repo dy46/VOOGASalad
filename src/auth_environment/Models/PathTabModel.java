@@ -54,6 +54,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void submitBranch() {
+		System.out.println("My current branch: " + myCurrentBranch);
 		this.myMapHandler.processPositions(myCurrentBranch);
 		myCurrentBranch.clear();
 		this.loadBranches();
@@ -85,9 +86,6 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void addNewPosition(double x, double y) {
-		if(myCurrentBranch.size() > 1){
-			submitBranch();
-		}
 		myCurrentBranch.add(new Position(x, y));
 	}
 

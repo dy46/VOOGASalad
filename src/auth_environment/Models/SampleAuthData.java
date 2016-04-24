@@ -77,6 +77,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.setProjectiles(test.getProjectiles());
 		this.setAffectors(test.getAffectors());
 		MapHandler mh = new MapHandler();
+		List<Branch> branches = mh.getEngineBranches();
 		this.setEngineBranches(mh.getEngineBranches());
 		this.setGoals(mh.getGoals());
 		this.setSpawns(mh.getSpawns());
