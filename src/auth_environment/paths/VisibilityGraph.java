@@ -3,10 +3,12 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import game_engine.GameEngineInterface;
@@ -48,10 +50,47 @@ public class VisibilityGraph {
 		}
 		return true;
 	}
-	
+
 	public boolean isAccessibleFrom(Branch b, Position p){
 		List<Branch> visibilityBranches = getVisibilityBranches();
 		return BFSPossible(visibilityBranches, b.getFirstPosition(), p);
+	}
+
+	public Branch bestDijkstrasBranch(Position current){
+		Branch best = null;
+		List<Position> goals = new ArrayList<>();
+		for(Position goal : myEngine.getCurrentLevel().getGoals()){
+			Branch pick = bestDijkstrasBranch(current, goal);
+			if(pick != null){
+
+			}
+		}
+	}
+
+	public Branch bestDijkstrasBranch(Position start, Position goal){
+		if(!BFSPreCheck(getVisibilityBranches(), start)){
+			return null;
+		}
+		Branch startBranch = myEngine.findBranchForSpawn(start);
+		Branch best = null;
+		return best;
+	}
+
+	private List<Position> manhattanDistanceSort(Position current, List<Position> goals){
+		TreeMap<Double, Position> manhattanDistanceMap = new TreeMap<>();
+		for(Position goal : goals){
+			manhattanDistanceMap.put(getManhattanDistance(current, goal), goal);
+		}
+		List<Position> sorted = new ArrayList<>();
+		Iterator it = manhattanDistanceMap.entrySet().iterator();
+		while(it.hasNext()){
+			sorted.add((Position) it.next());
+		}
+		return sorted;
+	}
+
+	private double getManhattanDistance(Position current, Position goal){
+		return Math.sqrt(Math.pow(current.getX(), goal.getY()) + Math.pow(current.getY(), goal.getY()));
 	}
 
 	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
@@ -88,14 +127,14 @@ public class VisibilityGraph {
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionDetector.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
-//						System.out.println("POS: "+pos+" BOUNDS: " + CollisionDetector.getUseableBounds(o.getProperties().getBounds(), pos));
+						//						System.out.println("POS: "+pos+" BOUNDS: " + CollisionDetector.getUseableBounds(o.getProperties().getBounds(), pos));
 						removalList.add(b);
 					}
 				}
 			}
 		}
 		for(Branch b: removalList){
-//			System.out.println("Filtered out: " + b.getFirstPosition()+" "+b.getLastPosition());
+			//			System.out.println("Filtered out: " + b.getFirstPosition()+" "+b.getLastPosition());
 		}
 		return new ArrayList<Branch>(removalList);
 	}
