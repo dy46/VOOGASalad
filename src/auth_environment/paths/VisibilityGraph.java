@@ -18,17 +18,19 @@ public class VisibilityGraph {
 	private EncapsulationChecker myEncapsulator;
 	private GameEngineInterface myEngine;
 
-	public VisibilityGraph(Unit u, GameEngineInterface engine){
+	public VisibilityGraph(GameEngineInterface engine){
 		myEncapsulator = new EncapsulationChecker();
 		myEngine = engine;
 	}
 
 	public List<Branch> getVisibilityBranches(){
-		List<Branch> branchesToFilter = getBranchesToFilter();
+		List<Unit> obstacles = myEngine.getTowers();
+		List<Unit> obstaclesCopy = obstacles.stream().map(b -> b.copyUnit()).collect(Collectors.toList());
+		List<Branch> branchesToFilter = getBranchesToFilter(obstaclesCopy);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
-		System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
+//		System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
 		for(int y=0; y<copyBranchesToFilter.size(); y++){
 			for(int x=0; x<branches.size(); x++){
 				if(copyBranchesToFilter.get(y).equals(branches.get(x))){
@@ -40,12 +42,38 @@ public class VisibilityGraph {
 		return branches;
 	}
 
-	public List<Branch> getBranchesToFilter(){
-		Set<Branch> removalList = new HashSet<>();
+	public List<Branch> getSimulatedBranches(Unit obstacle){
 		List<Unit> obstacles = myEngine.getTowers();
-		System.out.println("OBSTACLE: " + obstacles.get(obstacles.size()-1).getProperties().getPosition());
+		List<Unit> obstaclesCopy = obstacles.stream().map(b -> b.copyUnit()).collect(Collectors.toList());
+		obstaclesCopy.add(obstacle.copyShallowUnit());
+//		System.out.println("OBSTACLE: " + obstacle.getProperties().getPosition());
+		List<Branch> branchesToFilter = getBranchesToFilter(obstaclesCopy);
+		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
+		PathGraph pg = new PathGraph(myEngine.getBranches());
+		List<Branch> branches = pg.copyGraph().getBranches();
+		List<Branch> copyBranches = branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
+		if(copyBranchesToFilter.size() > 0 ){
+//			System.out.println("TO FILTER: " + copyBranchesToFilter.get(0).getFirstPosition()+" "+copyBranchesToFilter.get(0).getLastPosition());
+		}
+		for(int y=0; y<copyBranchesToFilter.size(); y++){
+			for(int x=0; x<copyBranches.size(); x++){
+				if(copyBranchesToFilter.get(y).equals(copyBranches.get(x))){
+					copyBranches.remove(x);
+					x--;
+				}
+			}	
+		}
+		return copyBranches;
+	}
+
+	private List<Branch> getBranchesToFilter(List<Unit> obstacles){
+		Set<Branch> removalList = new HashSet<>();
+		if(obstacles.size() > 0 ){
+//			System.out.println("OBSTACLE: " + obstacles.get(obstacles.size()-1).getProperties().getPosition());
+		}
+		List<Branch> copyBranches =  myEngine.getBranches().stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		for(Unit obstacle : obstacles){
-			for(Branch b : myEngine.getBranches()){
+			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), obstacle.getProperties().getBounds())){
 						removalList.add(b);

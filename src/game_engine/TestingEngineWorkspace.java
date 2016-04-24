@@ -97,7 +97,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();
-		myStore = new Store(500);
+		myStore = new Store(50000000);
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
@@ -175,9 +175,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
 		myBranches = mh.getEngineBranches();
-		System.out.println("MY BRANCHES: " + myBranches);
+//		System.out.println("MY BRANCHES: " + myBranches);
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
+		System.out.println("GOAL: " + mh.getGoals());
 		// For testing branching
 		// System.out.println("NUM BRANCHES: " + myBranches.size());
 		// for(int x=0; x<myBranches.size(); x++){
