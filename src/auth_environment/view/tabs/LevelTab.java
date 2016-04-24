@@ -32,8 +32,9 @@ import javafx.scene.text.Text;
 public class LevelTab extends Tab{
 	private IAuthEnvironment myInterface;
 	private BorderPane myBorderPane;
+	private GridPane myGridPane; 
 	private IAuthModel myAuthModel;
-	
+//	private int gridIndex = 0; 
 	private NodeFactory myNodeFactory;
 	
 	public LevelTab(String name, IAuthEnvironment myInterface){
@@ -44,11 +45,34 @@ public class LevelTab extends Tab{
 	}
 	
 	private void init(){
-		System.out.println("test");
 		myBorderPane = new BorderPane();
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
 		this.myBorderPane.getChildren().add(this.myNodeFactory.buildButton("hello"));
+		createWaveList();
 		this.setContent(myBorderPane);
+	}
+	
+	private void createWaveList(){
+		int index = 0;
+		GridPane newTableInfo = new GridPane();
+		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
+		newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
+		newTableInfo.setPrefSize(600, 200);	
+		myBorderPane.setLeft(newTableInfo);
+		Button waveButton = new Button("waveeee");
+		addNewWaveSpace(index, newTableInfo, waveButton);
+	}
+	
+	private void addNewWaveSpace(int index, GridPane newTableInfo, Button waveButton) {
+		newTableInfo.getChildren().remove(waveButton);
+		int waveNum = index + 1;
+		Button wave = new Button("Wave " + waveNum);
+		newTableInfo.add(wave, 2, index);
+		index++;
+		Button newWaveButton = new Button("+ Add Wave");
+		int num = index;
+		newWaveButton.setOnAction(e-> addNewWaveSpace(num, newTableInfo, newWaveButton));
+		newTableInfo.add(newWaveButton, 2, index);
 	}
 }
