@@ -1,36 +1,21 @@
 package game_engine;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
-import auth_environment.paths.GridFactory;
-import auth_environment.paths.PathGraphFactory;
-import auth_environment.paths.PathHandler;
-import auth_environment.paths.PathNode;
-import exceptions.WompException;
-import game_engine.IDFactory;
 import game_engine.affectors.Affector;
-import game_engine.factories.AffectorFactory;
-import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
-import game_engine.factories.TerrainFactory;
-import game_engine.factories.TimelineFactory;
-import game_engine.factories.TowerFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
-import game_engine.game_elements.Wave;
 import game_engine.games.Timer;
-import game_engine.libraries.AffectorLibrary;
-import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationController;
+import game_engine.place_validations.EnemySpawnPointPlaceValidation;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
-import game_engine.properties.UnitProperties;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.store_elements.Store;
@@ -40,8 +25,7 @@ import game_engine.wave_goals.WaveGoal;
 public class EngineWorkspace implements GameEngineInterface{
 
 	private int nextWaveTimer;
-	private List<Branch> myGridBranches;
-	private List<Branch> myPathBranches; 
+	private List<Branch> myBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers;
 	private List<Unit> myEnemies;
@@ -53,21 +37,23 @@ public class EngineWorkspace implements GameEngineInterface{
 	private boolean pause;
 	private CollisionDetector myCollider;
 	private EncapsulationController myEncapsulator;
-	private double myBalance;
-    private Store myStore;
-    private double score;
+	private Store myStore;
+	private double score;
 	private Timer myTimer;
 	private FunctionFactory myFunctionFactory;
-	private List<PathNode> myPaths;
 	private WaveGoal waveGoal;
-    private ScoreUpdate scoreUpdate;
-    private List<Position> myGoals;
+	private ScoreUpdate scoreUpdate;
+	private List<PlaceValidation> myPlaceValidations;
+	private List<Unit> unitsToRemove;
+	private Position cursorPos;
 
 	public void setUpEngine (IAuthEnvironment data) {
+		myPlaceValidations = new ArrayList<>();
+		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+		unitsToRemove = new ArrayList<>();
 		waveGoal = new EnemyNumberWaveGoal();
-        scoreUpdate = new EnemyDeathScoreUpdate();
-		myGridBranches = data.getGridBranches();
-		myPathBranches = data.getPathBranches();
+		scoreUpdate = new EnemyDeathScoreUpdate();
+		myBranches = data.getEngineBranches();
 		myLevels = data.getLevels();
 		myTowers = data.getTowers();
 		myEnemies = data.getEnemies();
@@ -75,22 +61,20 @@ public class EngineWorkspace implements GameEngineInterface{
 		myProjectiles = data.getProjectiles();
 		myAffectors = data.getAffectors();
 		myPlacedUnits = data.getPlacedUnits();
-		myFunctionFactory = new FunctionFactory();
-		myGoals = data.getGoals();
 		if(myLevels.size() > 0){
 			myCurrentLevel = myLevels.get(0);
-			myCurrentLevel.setGoals(data.getGoals());
 			myCurrentLevel.setSpawns(data.getSpawns());
+			myCurrentLevel.setGoals(data.getGoals());
 		}
 		initialize();
 	}
 
 	private void initialize(){
+		myFunctionFactory = new FunctionFactory();
 		myTimer = new Timer();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationController(this);
-		if(myGridBranches == null)	this.myGridBranches = new ArrayList<Branch>();
-		if(myPathBranches == null)	this.myPathBranches = new ArrayList<Branch>();
+		if(myBranches == null)	this.myBranches = new ArrayList<Branch>();
 		if(myLevels == null)	this.myLevels = new ArrayList<Level>();
 		if(myTowers == null)	this.myTowers = new ArrayList<Unit>();
 		if(myEnemies == null)	this.myEnemies = new ArrayList<Unit>();
@@ -101,6 +85,8 @@ public class EngineWorkspace implements GameEngineInterface{
 		if(myStore == null)		myStore = new Store(500);
 		if(myLevels.size() > 0){
 			myCurrentLevel = myLevels.get(0);
+			myCurrentLevel.setGoals(new ArrayList<>());
+			myCurrentLevel.setSpawns(new ArrayList<>());
 		}
 	}
 
@@ -112,14 +98,13 @@ public class EngineWorkspace implements GameEngineInterface{
 				", Lives remaining: " + myCurrentLevel.getMyLives();
 	}
 
-	public void addBalance (double money) {
-		myBalance += money;
-	}
+//	public void addBalance (double money) {
+//		myBalance += money;
+//	}
 	
 	public int getMoney() {
 		return myStore.getMoney();
 	}
-
 	public void addLevel (Level level) {
 		myLevels.add(level);
 	}
@@ -158,28 +143,27 @@ public class EngineWorkspace implements GameEngineInterface{
 		myCurrentLevel.playNextWave();
 		pause = false;
 	}
-	
-	private void initializeStore(){
-		if(myStore == null){
-			myStore = new Store(500);
-		}
-	}
-	
-	// change this
-	@Override
+
 	public boolean addTower (String name, double x, double y) {
-		initializeStore(); // TODO: remove this
 		Unit purchased = myStore.purchaseUnit(name);
-		if(purchased != null){
-			Unit copy = purchased.copyUnit();
-			copy.getProperties().setPosition(x,y);
-			myTowers.add(copy);
-			return true;
+		if (purchased != null) {
+			boolean canPlace = false;
+			for(int i = 0; i < myPlaceValidations.size(); i++) {
+				canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
+			}
+			if(canPlace) {
+				Unit copy = purchased.copyUnit();
+				copy.getProperties().setPosition(x, y);
+				myTowers.add(copy);
+				return true;
+			}
+			else {
+				myStore.sellUnit(purchased);
+			}
 		}
 		return false;
 	}
 
-	@Override
 	public List<Unit> getTowerTypes () {
 		return myStore.getTowerList();
 	}
@@ -189,37 +173,36 @@ public class EngineWorkspace implements GameEngineInterface{
 	}
 
 	@Override
-	public void update (){
+	public void update () {
 		List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
-        myStore.clearBuyableUnits();
-        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
-        nextWaveTimer++;
-        boolean gameOver = myCurrentLevel.getMyLives() <= 0;
-        if (!pause && !gameOver) {
-            myTowers.forEach(t -> t.update());
-            myEnemies.forEach(e -> e.update());
-            myCollider.resolveEnemyCollisions(myProjectiles);
-            myEncapsulator.resolveEncapsulations(myTerrains);
-            Unit newE = myCurrentLevel.update();
-            if (newE != null) {
-            	myEnemies.add(newE);
-            }// tries to spawn new enemies using Waves
-            // myStore.applyItem("Interesting", this.myEnemys);
-
-        }
-        if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
-            nextWaveTimer = 0;
-            System.out.println("NEXT WAVE");
-            continueWaves();
-        }
-        if (myEnemies.size() == 0) {
-            clearProjectiles();
-        }
-        myProjectiles.forEach(p -> p.update());
-        myProjectiles.removeIf(p -> !p.isVisible());
-        myTerrains.forEach(t -> t.update());
-        scoreUpdate.updateScore(this, myCurrentLevel);
-
+		myStore.clearBuyableUnits();
+		placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
+		nextWaveTimer++;
+		boolean gameOver = myCurrentLevel.getMyLives() <= 0;
+		if (!pause && !gameOver) {
+			myTowers.forEach(t -> t.update());
+			myEnemies.forEach(e -> e.update());
+			myCollider.resolveEnemyCollisions(myProjectiles);
+			myEncapsulator.resolveEncapsulations(myTerrains);
+			Unit newE = myCurrentLevel.update();
+			if (newE != null) {
+				myEnemies.add(newE);
+			}
+		}
+		if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
+			nextWaveTimer = 0;
+			System.out.println("NEXT WAVE");
+			continueWaves();
+		}
+		if (myEnemies.size() == 0) {
+			clearProjectiles();
+		}
+		myProjectiles.forEach(p -> p.update());
+		myProjectiles.removeIf(p -> !p.isVisible());
+		myTerrains.forEach(t -> t.update());
+		scoreUpdate.updateScore(this, myCurrentLevel);
+		unitsToRemove.stream().forEach(r -> r.setInvisible());
+		unitsToRemove.clear();
 	}
 
 	public void decrementLives () {
@@ -233,17 +216,6 @@ public class EngineWorkspace implements GameEngineInterface{
 		units.addAll(myProjectiles);
 		units.addAll(myTerrains);
 		return units;
-	}
-
-	@Override
-	public List<Branch> getGridBranches() {
-		return myGridBranches;
-	}
-
-	@Override
-	public void modifyTower(int activeTowerIndex, UnitProperties newProperties) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public List<Unit> getEnemies() {
@@ -267,7 +239,7 @@ public class EngineWorkspace implements GameEngineInterface{
 
 	@Override
 	public List<Branch> getBranches() {
-		return myPathBranches;
+		return myBranches;
 	}
 
 	@Override
@@ -299,64 +271,72 @@ public class EngineWorkspace implements GameEngineInterface{
 	public FunctionFactory getFunctionFactory() {
 		return myFunctionFactory;
 	}
-	
-	public List<PathNode> getPaths(){
-		return myPaths;
-	}
-	
+
 	@Override
-    public double getScore () {
-        return score;
-    }
+	public double getScore () {
+		return score;
+	}
 
-    public void setScore (double score) {
-        this.score = score;
-    }
-    
-    public List<Affector> getUpgrades(Unit unitToUpgrade) {
-        return myStore.getUpgrades(unitToUpgrade);
-    }
-    
-    public void applyUpgrade(Unit unitToUpgrade, Affector affector) {
-        myStore.buyUpgrade(unitToUpgrade, affector);
-    }
-    
-    @Override
-    public List<Position> getGoals () {
-        return myGoals;
-    }
-    
-    @Override
-    public int getNextWaveTimer () {
-        return nextWaveTimer;
-    }
+	public void setScore (double score) {
+		this.score = score;
+	}
 
-    public void decrementLives (int lives) {
-        myCurrentLevel.decrementLives(lives);
-    }
+	@Override
+	public int getNextWaveTimer () {
+		return nextWaveTimer;
+	}
 
-    @Override
-    public void sellUnit (Unit name) {
-        // TODO Auto-generated method stub
-        
-    }
+	public void decrementLives (int lives) {
+		myCurrentLevel.decrementLives(lives);
+	}
 
-    @Override
-    public void moveUnit (Unit unit, double x, double y) {
-        // TODO Auto-generated method stub
-        
-    }
+	@Override
+	public void sellUnit(Unit u) {
+		List<String> namesOfChildren = new ArrayList<>();
+		u.getChildren().stream().forEach(c -> namesOfChildren.add(c.toString()));
+		unitsToRemove.addAll(getAllUnits().stream().filter(c -> namesOfChildren.contains(c.toString()))
+				.collect(Collectors.toList()));
+		u.setInvisible();
+		u.update();
+		unitsToRemove.add(u);
+		myStore.sellUnit(u);
+	}
 
-    @Override
-    public void setCursorPosition (double x, double y) {
-        // TODO Auto-generated method stub
-        
-    }
+	public List<Affector> getUpgrades(Unit unitToUpgrade) {
+		return myStore.getUpgrades(unitToUpgrade);
+	}
 
-    @Override
-    public Position getCursorPosition () {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	public void applyUpgrade(Unit unitToUpgrade, Affector affector) {
+		myStore.buyUpgrade(unitToUpgrade, affector);
+	}
+
+	@Override
+	public void moveUnit (Unit unit, double x, double y) {
+		unit.getProperties().setPosition(new Position(x, y));
+	}
+
+	@Override
+	public void setCursorPosition (double x, double y) {
+		cursorPos = new Position(x, y);      
+	}
+
+	public Position getCursorPosition() {
+		return cursorPos;
+	}
+
+	public void removeTower(Unit u) {
+		if(myTowers.contains(u)){
+			myTowers.remove(u);
+		}
+	}
+
+	public Branch findBranchForSpawn(Position spawn) {
+		for(Branch b : myBranches){
+			if(b.getPositions().contains(spawn)){
+				return b;
+			}
+		}
+		return null;
+	}
 
 }

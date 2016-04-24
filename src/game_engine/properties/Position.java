@@ -1,10 +1,11 @@
 package game_engine.properties;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class Position extends Property {
+public class Position extends Property implements Serializable{
 
 	private double myX;
 	private double myY;

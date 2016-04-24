@@ -3,7 +3,6 @@ package game_engine.physics;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import game_engine.GameEngineInterface;
@@ -18,12 +17,10 @@ import game_engine.properties.Position;
 public class CollisionDetector {
 
 	private GameEngineInterface myEngine;
-	private ResourceBundle myResources;
 	private AffectorFactory myAffectorFactory;
 
 	public CollisionDetector (GameEngineInterface engine) {
 		myEngine = engine;
-		myResources = ResourceBundle.getBundle("game_engine/physics/collisions");
 		myAffectorFactory = new AffectorFactory(new FunctionFactory());
 	}
 
@@ -31,7 +28,6 @@ public class CollisionDetector {
 		myEngine.getEnemies().forEach(t -> updateEnemies(t, myProjectiles));
 	}
 
-	// returns which Unit from the list collided with the target unit
 	private void updateEnemies (Unit unit, List<Unit> myProjectiles) {
 		for (int i = 0; i < myProjectiles.size(); i++) {
 			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
@@ -39,7 +35,6 @@ public class CollisionDetector {
 					List<Affector> affectorsToApply = myProjectiles.get(i).getAffectorsToApply()
 							.stream().map(a -> a.copyAffector()).collect(Collectors.toList());                     
 					unit.addAffectors(affectorsToApply);
-//					unit.addAffector(myAffectorFactory.getAffectorLibrary().getAffector("Velocity", "Stop"));
 					myProjectiles.get(i).setHasCollided(true);        
 					myProjectiles.get(i).setElapsedTimeToDeath();
 				}
@@ -71,43 +66,7 @@ public class CollisionDetector {
 		}
 		return false;
 	}
-	
-	public void handleCustomCollisions(List<Unit> allUnits){
-		for(Unit u1 : allUnits){
-			for(Unit u2: allUnits){
-				String cast = u1.getType() + u2.getType();
-				System.out.println(cast);
-				if(u1 != u2 && myResources.containsKey(cast) && collides(u1, u2)){
-					String affector = myResources.getString(cast);
-					String[] sep = affector.split(",");
-					Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
-					u1.addAffector(newEffect.copyAffector());
-					u2.addAffector(newEffect.copyAffector());
-				}
-				handleCustomCollision(u1, u2);
-			}
-		}
-	}
-	
-	private Affector handleCustomCollision(Unit u1, Unit u2){
-		String cast = u1.getType() + u2.getType();
-		//System.out.println(cast);
-		if(u1 != u2 && myResources.containsKey(cast) && collides(u1, u2)){
-			String affector = myResources.getString(cast);
-			String[] sep = affector.split(",");
-			Affector newEffect = myAffectorFactory.getAffectorLibrary().getAffector(sep[0], sep[1]);
-			u1.addAffector(newEffect.copyAffector());
-			u2.addAffector(newEffect.copyAffector());
-			return newEffect.copyAffector();
-		}
-		return null;
-	}
-	
-	public Affector getAffectorApplied(Unit u1, Unit u2){
-		return handleCustomCollision(u1, u2);
-	}
 
-	// check if q is on segment defined by p and r
 	private boolean segmentOverlap (Position p, Position q, Position r) {
 		return (q.getX() <= Math.max(p.getX(), r.getX()) &&
 				q.getX() >= Math.min(p.getX(), r.getX()) &&
@@ -135,19 +94,6 @@ public class CollisionDetector {
 		return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
 	}
 	
-//	public static void main(String[] args){
-//		CollisionDetector test = new CollisionDetector(null);
-//		Unit u1 = new Unit("1", null);
-//		u1.setType("Type1");
-//		System.out.println(u1.getAffectors().size());
-//		Unit u2 = new Unit("2", null);
-//		u2.setType("Type2");
-//		List<Unit> testList = new ArrayList<Unit>();
-//		testList.add(u1);
-//		testList.add(u2);
-//		test.handleCustomCollisions(testList);
-//		System.out.println(u1.getAffectors().size());
-//		System.out.println(u1.getAffectors().get(0));
-//	}
+
 
 }

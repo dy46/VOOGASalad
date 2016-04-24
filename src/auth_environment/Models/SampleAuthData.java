@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.paths.MapHandler;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
 /**
@@ -35,8 +37,9 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
+	private List<Branch> myVisualBranches;
+	private List<Branch> myEngineBranches;
 	private List<Branch> myGridBranches;
-	private List<Branch> myPathBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers; 
 	private List<Unit> myEnemies;
@@ -46,21 +49,24 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; 
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
+	private UnitLibrary myUnitLibrary; 
 
 	public SampleAuthData() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
-		this.myGridBranches = new ArrayList<Branch>();
-		this.myPathBranches = new ArrayList<Branch>();
-		this.myLevels = new ArrayList<Level>();
-		this.myTowers = new ArrayList<Unit>();
-		this.myEnemies = new ArrayList<Unit>();
-		this.myTerrains = new ArrayList<Unit>();
-		this.myProjectiles = new ArrayList<Unit>();
-		this.myAffectors = new ArrayList<Affector>(); 
-		this.myPlacedUnits = new ArrayList<Unit>(); 
-		this.mySpawns = new ArrayList<Position>();
-		this.myGoals = new ArrayList<Position>(); 
+		this.myEngineBranches = new ArrayList<>();
+		this.myVisualBranches = new ArrayList<>();
+		this.myGridBranches = new ArrayList<>();
+		this.myLevels = new ArrayList<>();
+		this.myTowers = new ArrayList<>();
+		this.myEnemies = new ArrayList<>();
+		this.myTerrains = new ArrayList<>();
+		this.myProjectiles = new ArrayList<>();
+		this.myAffectors = new ArrayList<>(); 
+		this.myPlacedUnits = new ArrayList<>(); 
+		this.mySpawns = new ArrayList<>();
+		this.myGoals = new ArrayList<>(); 
+		this.myUnitLibrary = new UnitLibrary(); 
 		this.setupDummyValues();
 	}
 
@@ -70,12 +76,16 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.setTerrains(test.getTerrains());
 		this.setTowers(test.getTowers());
 		this.setLevels(test.getLevels());
-		this.setEnemies(test.getEnemies());
 		this.setProjectiles(test.getProjectiles());
 		this.setAffectors(test.getAffectors());
-		this.myGoals.add(new Position(450, 450));
-//		Unit tower = test.getTerrains().get(0); 
-//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
+		this.setEnemies(test.getEnemies());
+		MapHandler mh = new MapHandler();
+		List<Branch> branches = mh.getEngineBranches();
+		this.setEngineBranches(mh.getEngineBranches());
+		this.setGoals(mh.getGoals());
+		this.setSpawns(mh.getSpawns());
+		//		Unit tower = test.getTerrains().get(0); 
+		//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
 
 	@Override
@@ -174,25 +184,17 @@ public class SampleAuthData implements IAuthEnvironment {
 	}
 
 	@Override
-	public List<Branch> getPathBranches() {
-		return this.myPathBranches;
+	public List<Branch> getEngineBranches() {
+		return this.myEngineBranches;
 	}
 
 	@Override
-	public void setPathBranches(List<Branch> branches) {
-		Branch b = branches.get(0);
-		this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
-		this.myPathBranches = branches; 
-	}
-
-	@Override
-	public List<Branch> getGridBranches() {
-		return this.myGridBranches;
-	}
-
-	@Override
-	public void setGridBranches(List<Branch> branches) {
-		this.myGridBranches = branches; 
+	public void setEngineBranches(List<Branch> branches) {
+		if(branches.size() > 0){
+			Branch b = branches.get(0);
+			this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
+		}
+		this.myEngineBranches = branches; 
 	}
 
 	@Override
@@ -219,4 +221,35 @@ public class SampleAuthData implements IAuthEnvironment {
 	public void setLevels(List<Level> levels) {
 		this.myLevels = levels; 
 	}
+
+	@Override
+	public List<Branch> getVisualBranches() {
+		return this.myVisualBranches;
+	}
+
+	@Override
+	public void setVisualBranches(List<Branch> branches) {
+		this.myVisualBranches = branches;
+	}
+
+	@Override
+	public void setGridBranches(List<Branch> gridBranches) {
+		myGridBranches = gridBranches;
+	}
+
+	@Override
+	public List<Branch> getGridBranches() {
+		return myGridBranches;
+	}
+
+	@Override
+	public UnitLibrary getUnitLibrary() {
+		return this.myUnitLibrary;
+	}
+
+	@Override
+	public void setUnitLibrary(UnitLibrary library) {
+		this.myUnitLibrary = library; 
+	}
+	
 }

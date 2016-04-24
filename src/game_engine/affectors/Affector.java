@@ -16,14 +16,23 @@ public abstract class Affector {
     private GameEngineInterface engineWorkspace;
     private AffectorData myData;
     private List<Unit> unitList;
+    private String name;
 
     public Affector (AffectorData data) {
         this.myData = data;
         this.elapsedTime = 0;
     }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
+    public String getName() {
+    	return name;
+    }
 
     public Affector copyAffector () {
-        // may need to copy functions too
+        // TODO: may need to copy functions too
         Affector copy = null;
         try {
             copy = (Affector) Class.forName(this.getClass().getName())

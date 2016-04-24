@@ -2,7 +2,6 @@ package game_engine.game_elements;
 
 import java.util.ArrayList;
 import java.util.List;
-import auth_environment.paths.PathNode;
 import game_engine.properties.Position;
 
 
@@ -13,165 +12,154 @@ import game_engine.properties.Position;
  */
 public class Level extends GameElement {
 
-    private int myLives;
-    private int startingLives;
-    private Wave myCurrentWave;
-    private List<Wave> myWaves;
-    private List<PathNode> myPaths;
-    private List<Position> myGoals;
-    private List<Position> mySpawns;
+	private int myLives;
+	private int startingLives;
+	private Wave myCurrentWave;
+	private List<Wave> myWaves;
+	private List<Branch> myBranches;
+	private List<Position> myGoals;
+	private List<Position> mySpawns;
 
-    public Level (String name, int myLives) {
-        super(name);
-        this.myLives = myLives;
-        this.startingLives = myLives;
-        myWaves = new ArrayList<>();
-        myPaths = new ArrayList<>();
-    }
+	public Level (String name, int myLives) {
+		super(name);
+		this.myLives = myLives;
+		this.startingLives = myLives;
+		myWaves = new ArrayList<>();
+		myBranches = new ArrayList<>();
+	}
 
-    /*
-     * This API will allow the player to start a new wave. Returns true if next started, false if
-     * not.
-     */
-    public void playNextWave () {
-        Wave nextWave = getNextWave();
-        if (nextWave != null) {
-            myCurrentWave = nextWave;
-        }
-    }
+	/*
+	 * This API will allow the player to start a new wave. Returns true if next started, false if
+	 * not.
+	 */
+	public void playNextWave () {
+		Wave nextWave = getNextWave();
+		if (nextWave != null) {
+			myCurrentWave = nextWave;
+		}
+	}
 
-    public Wave getCurrentWave () {
-        return myCurrentWave;
-    }
+	public Wave getCurrentWave () {
+		return myCurrentWave;
+	}
 
-    public void setCurrentWave (int wave) {
-        myCurrentWave = myWaves.get(wave);
-    }
+	public void setCurrentWave (int wave) {
+		myCurrentWave = myWaves.get(wave);
+	}
 
-    public int wavesLeft () {
-        int numWavesLeft = myWaves.size();
-        for (Wave wave : myWaves) {
-            if (wave == myCurrentWave) {
-                break;
-            }
-            numWavesLeft--;
-        }
-        return numWavesLeft;
-    }
+	public int wavesLeft () {
+		int numWavesLeft = myWaves.size();
+		for (Wave wave : myWaves) {
+			if (wave == myCurrentWave) {
+				break;
+			}
+			numWavesLeft--;
+		}
+		return numWavesLeft;
+	}
 
-    public void addWave (Wave newWave) {
-        myWaves.add(newWave);
-        if (myWaves.size() == 1) {
-            myCurrentWave = newWave;
-        }
-    }
+	public void addWave (Wave newWave) {
+		myWaves.add(newWave);
+		if (myWaves.size() == 1) {
+			myCurrentWave = newWave;
+		}
+	}
 
-    public Unit update () {
-        if (myCurrentWave == null)
-            return null;
-//        System.out.println(myWaves.indexOf(myCurrentWave));
-        return myCurrentWave.tryToSpawnUnit();
-    }
+	public Unit update () {
+		if (myCurrentWave == null)
+			return null;
+		return myCurrentWave.tryToSpawnUnit();
+	}
 
-    public Wave getNextWave () {
-        for (int x = 0; x < myWaves.size() - 1; x++) {
-            if (myWaves.get(x).equals(myCurrentWave)) {
-                int nextWaveIndex = x + 1;
-                return myWaves.get(nextWaveIndex);
-            }
-        }
-        return null;
-    }
+	public Wave getNextWave () {
+		for (int x = 0; x < myWaves.size() - 1; x++) {
+			if (myWaves.get(x).equals(myCurrentWave)) {
+				int nextWaveIndex = x + 1;
+				return myWaves.get(nextWaveIndex);
+			}
+		}
+		return null;
+	}
 
-    public String toString () {
-        return String.valueOf(myWaves.size());
-    }
+	public String toString () {
+		return String.valueOf(myWaves.size());
+	}
 
-    public int getMyLives () {
-        return myLives;
-    }
+	public int getMyLives () {
+		return myLives;
+	}
 
-    public void setMyLives (int myLives) {
-        this.myLives = myLives;
-    }
+	public void setMyLives (int myLives) {
+		this.myLives = myLives;
+	}
 
-    public int getStartingLives () {
-        return startingLives;
-    }
+	public int getStartingLives () {
+		return startingLives;
+	}
 
-    public void addPath (PathNode path) {
-        myPaths.add(path);
-    }
+	public void addBranch (Branch branch) {
+		myBranches.add(branch);
+	}
 
-    public void addAllPaths (List<PathNode> paths) {
-        myPaths.addAll(paths);
-    }
+	public void addAllPaths (List<Branch> branches) {
+		myBranches.addAll(branches);
+	}
 
-    public List<PathNode> getPaths () {
-        return myPaths;
-    }
+	public List<Branch> getPaths () {
+		return myBranches;
+	}
 
-    public void decrementLife () {
-        myLives--;
-    }
-    
-    public void decrementLives(int lives) {
-        myLives -= lives;
-    }
+	public void decrementLife () {
+		myLives--;
+	}
 
-    public List<Wave> getWaves () {
-        return myWaves;
-    }
+	public void decrementLives(int lives) {
+		myLives -= lives;
+	}
 
-    public void setGoals (List<Position> goals) {
-        this.myGoals = goals;
-    }
+	public List<Wave> getWaves () {
+		return myWaves;
+	}
 
-    public void setSpawns (List<Position> spawns) {
-        this.mySpawns = spawns;
-    }
+	public void setGoals (List<Position> goals) {
+		this.myGoals = goals;
+	}
 
-    public void addSpawns (List<Position> spawns) {
-        this.mySpawns.addAll(spawns);
-    }
+	public void setSpawns (List<Position> spawns) {
+		this.mySpawns = spawns;
+	}
 
-    public void addSpawn (Position spawn) {
-        this.mySpawns.add(spawn);
-    }
+	public void addSpawns (List<Position> spawns) {
+		this.mySpawns.addAll(spawns);
+	}
 
-    public void addGoal (Position goal) {
-        this.myGoals.add(goal);
-    }
+	public void addSpawn (Position spawn) {
+		this.mySpawns.add(spawn);
+	}
 
-    public List<Position> getSpawns () {
-        return mySpawns;
-    }
+	public void addGoal (Position goal) {
+		this.myGoals.add(goal);
+	}
 
-    public void addGoals (List<Position> goals) {
-        this.myGoals.addAll(goals);
-    }
+	public List<Position> getSpawns () {
+		return mySpawns;
+	}
 
-    public void addWaves (List<Wave> waves) {
-        this.myWaves.addAll(waves);
-    }
+	public void addGoals (List<Position> goals) {
+		this.myGoals.addAll(goals);
+	}
 
-    public List<Position> getGoals () {
-        List<Position> goals = new ArrayList<>();
-        for (PathNode p : myPaths) {
-            List<Branch> branches = p.getBranches();
-            for (Branch b : branches) {
-                Position lastPos = b.getLastPosition();
-                List<Branch> forwardNeighbors = b.getForwardNeighbors();
-                if (forwardNeighbors.size() == 0)
-                    goals.add(lastPos);
-            }
-        }
-        return goals;
-    }
+	public void addWaves (List<Wave> waves) {
+		this.myWaves.addAll(waves);
+	}
 
-    public boolean isGoal (Position goal) {
-        if (myGoals == null)
-            return false;
-        return myGoals.contains(goal);
-    }
+	public List<Position> getGoals () {
+		return myGoals;
+	}
+
+	public boolean isGoal (Position goal) {
+		if (myGoals == null)
+			return false;
+		return myGoals.contains(goal);
+	}
 }

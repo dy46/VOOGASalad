@@ -2,7 +2,6 @@ package game_engine;
 
 import java.util.List;
 import auth_environment.IAuthEnvironment;
-import auth_environment.paths.PathNode;
 import exceptions.WompException;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
@@ -45,9 +44,6 @@ public interface GameEngineInterface {
     // tells engine to add tower to its active tower list given a tower index
     boolean addTower (String name, double x, double y);
 
-    // tells engine to modify tower given an activeTower index and list of changes
-    void modifyTower (int activeTowerIndex, UnitProperties newProperties);
-
     void setUpEngine(IAuthEnvironment data);
 
     public List<Unit> getEnemies ();
@@ -79,8 +75,6 @@ public interface GameEngineInterface {
     public Level getCurrentLevel ();
 
     public void decrementLives (int lives);
-    
-    public List<Position> getGoals ();
 
     public int getNextWaveTimer ();
 
@@ -91,10 +85,6 @@ public interface GameEngineInterface {
     public double getScore ();
 
     public void setScore (double score);
-
-    public List<PathNode> getPaths ();
-
-    public List<Branch> getGridBranches ();
     
     public List<Affector> getUpgrades(Unit name);
     
@@ -109,5 +99,9 @@ public interface GameEngineInterface {
     public Position getCursorPosition();
     
     public int getMoney();
+
+	public void removeTower(Unit u);
+
+	public Branch findBranchForSpawn(Position spawn);
 
 }
