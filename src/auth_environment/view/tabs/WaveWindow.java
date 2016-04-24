@@ -13,6 +13,7 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -36,6 +37,7 @@ import javafx.stage.Stage;
 
 public class WaveWindow {
 	private GridPane myGridPane;
+	private BorderPane myBorderPane; 
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave){
 		Stage stage = new Stage();
@@ -43,6 +45,7 @@ public class WaveWindow {
 		Scene newScene = new Scene(root);
 		stage.setScene(newScene);
 		myGridPane = new GridPane();
+		myBorderPane = new BorderPane();
 		root.getChildren().add(myGridPane);
 		
 		stage.setTitle(level + ", " + wave);
@@ -72,14 +75,16 @@ public class WaveWindow {
 			newTableInfo.getChildren().remove(AffectorButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
 			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
-			HBox hbox = new HBox();
-			hbox.getChildren().add(newcbox);
-			TextField input = new TextField();
-			input.setMaxWidth(65);
-			input.setMinHeight(25);
-			hbox.setMinWidth(200);
-			hbox.getChildren().add(input);
-			newTableInfo.add(hbox, 2, index);
+			
+//			HBox hbox = new HBox();
+//			hbox.getChildren().add(newcbox);
+//			TextField input = new TextField();
+//			input.setMaxWidth(65);
+//			input.setMinHeight(25);
+//			hbox.setMinWidth(200);
+//			hbox.getChildren().add(input);
+			newTableInfo.add(addSpawnTimeHBox(false, newcbox), 2, index);
+			
 			index++;
 			Button newAffectorButton = new Button("+ Add New Enemy");
 			int num = index;
@@ -90,5 +95,19 @@ public class WaveWindow {
 		}
 	}
 	
-	
+	private Node addSpawnTimeHBox(boolean makeSTBox, ComboBox cBox){
+		if(makeSTBox){
+			HBox hbox = new HBox();
+			hbox.getChildren().add(cBox);
+			TextField input = new TextField();
+			input.setMaxWidth(65);
+			input.setMinHeight(25);
+			hbox.setMinWidth(200);
+			hbox.getChildren().add(input);
+			return hbox;
+		}
+		else{
+			return cBox;
+		}	
+	}
 }
