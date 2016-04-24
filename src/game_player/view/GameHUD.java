@@ -73,6 +73,7 @@ public class GameHUD {
             children.add(child);
         }
         sellButton.setText(myResources.getString("HUDSellButton"));
+        sellButton.setOnMouseClicked(e -> engine.sellUnit(tower));
     }
 
     public void addUpgrades (Unit u) {

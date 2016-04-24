@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.GridFactory;
@@ -28,6 +29,8 @@ import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
+import game_engine.place_validations.EnemySpawnPointPlaceValidation;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
@@ -46,6 +49,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
     private List<Level> myLevels;
     private List<Branch> myBranches;
     private List<PathNode> myDrawablePaths;
+    private List<PlaceValidation> myPlaceValidations;
+    private List<Unit> unitsToRemove;
 
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
@@ -85,6 +90,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
     public void setUpEngine (IAuthEnvironment test) {
         score = 0;
+        unitsToRemove = new ArrayList<>();
+        myPlaceValidations = new ArrayList<>();
+        myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
         waveGoal = new EnemyNumberWaveGoal();
         scoreUpdate = new EnemyDeathScoreUpdate();
         myLevels = new ArrayList<>();
@@ -180,7 +188,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         // l.addWave(w2);
         // return l;
 
-        Level l = new Level("Dummy level", 3);
+        Level l = new Level("Dummy level", 20);
 
         PathHandler ph = new PathHandler();
         PathGraphFactory pgf = ph.getPGF();
@@ -266,7 +274,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
          List<Unit> list = makeDummyTowers();
          w.addPlacingUnit(list.get(0), 0);
          w.addPlacingUnit(list.get(1), 0);
-        l.setMyLives(5);
         l.addWave(w);
         Wave w2 = new Wave("I'm not quite sure what goes here", 240);
         Unit e5 = myEnemyFactory.createRandomEnemy("Enemy", pb1);
@@ -528,24 +535,37 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         pause = false;
     }
 
-    // change this
     @Override
     public boolean addTower (String name, double x, double y) {
-        // for(int i = 0; i < myStore.getTowerList().size(); i++) {
-        // if(myStore.getTowerList().get(i).toString().equals(name)) {
-        // Unit newTower = myStore.getTowerList().get(i).copyUnit();
-        // newTower.getProperties().setPosition(x, y);
-        // myTowers.add(newTower);
-        // }
-        // }
         Unit purchased = myStore.purchaseUnit(name);
         if (purchased != null) {
-            Unit copy = purchased.copyUnit();
-            copy.getProperties().setPosition(x, y);
-            myTowers.add(copy);
-            return true;
+            boolean canPlace = false;
+            for(int i = 0; i < myPlaceValidations.size(); i++) {
+                canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
+            }
+            if(canPlace) {
+                Unit copy = purchased.copyUnit();
+                copy.getProperties().setPosition(x, y);
+                myTowers.add(copy);
+                return true;
+            }
+            else {
+                myStore.sellUnit(purchased);
+            }
         }
         return false;
+    }
+    
+    @Override
+    public void sellUnit(Unit u) {
+        List<String> namesOfChildren = new ArrayList<>();
+        u.getChildren().stream().forEach(c -> namesOfChildren.add(c.toString()));
+        unitsToRemove.addAll(getAllUnits().stream().filter(c -> namesOfChildren.contains(c.toString()))
+                .collect(Collectors.toList()));
+        u.setInvisible();
+        u.update();
+        unitsToRemove.add(u);
+        myStore.sellUnit(u);
     }
 
     @Override
@@ -574,7 +594,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
                 myEnemys.add(newE);
             }// tries to spawn new enemies using Waves
             // myStore.applyItem("Interesting", this.myEnemys);
-
         }
         if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
             nextWaveTimer = 0;
@@ -588,6 +607,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
         myProjectiles.removeIf(p -> !p.isVisible());
         myTerrains.forEach(t -> t.update());
         scoreUpdate.updateScore(this, myCurrentLevel);
+        unitsToRemove.stream().forEach(r -> r.setInvisible());
+        unitsToRemove.clear();
         // updateLives();
 
     }

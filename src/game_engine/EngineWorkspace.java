@@ -331,4 +331,10 @@ public class EngineWorkspace implements GameEngineInterface{
         myCurrentLevel.decrementLives(lives);
     }
 
+    @Override
+    public void sellUnit (Unit name) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
