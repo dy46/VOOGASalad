@@ -6,7 +6,6 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.view.tabs.AffectorTab;
 import auth_environment.view.tabs.ElementTab;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

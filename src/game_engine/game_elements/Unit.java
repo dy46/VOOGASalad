@@ -47,7 +47,7 @@ public class Unit extends GameElement {
 		this.type = name;
 	}
 
-	public Unit(String name, UnitProperties unitProperties) {
+	public Unit(String name, UnitProperties unitProperties, int numFrames) {
 		super(name);
 		initialize();
 		myProperties = unitProperties;

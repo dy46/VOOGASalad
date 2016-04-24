@@ -66,7 +66,7 @@ public class AffectorFactory {
 	       return newAffector;
 	    }
 
-	private void setDefaultAffectors(FunctionFactory myFunctionFactory){
+	public void setDefaultAffectors(FunctionFactory myFunctionFactory){
 
 		String pr1 = "Constant";
 		String e1 ="HealthDamage";
