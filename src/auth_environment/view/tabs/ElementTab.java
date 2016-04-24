@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.Interfaces.ElementTabModel;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
@@ -25,20 +28,25 @@ import javafx.scene.text.Text;
 
 public class ElementTab extends Tab{
 	 
-	private IAuthEnvironment myInterface;
 	private Map<String, TextField> strTextMap;
 	private List<ComboBox<String>> affectorsToUnit;
 	private List<ComboBox<String>> affectorsToApply;
 	private List<ComboBox<String>> Projectiles;
 	private int index = 1;
 	
-	public ElementTab(String name, IAuthEnvironment myInterface){
+	private IAuthModel myAuthModel;
+	private IAuthEnvironment myInterface;
+	private IElementTabModel myElementTabModel;
+	
+	public ElementTab(String name, IAuthModel authModel){
 		super(name);
 		strTextMap = new HashMap<String, TextField>();
 		affectorsToUnit = new ArrayList<ComboBox<String>>();
 		affectorsToApply = new ArrayList<ComboBox<String>>();
-		this.myInterface = myInterface;
+		this.myInterface = authModel.getIAuthEnvironment();
 		Projectiles = new ArrayList<ComboBox<String>>();
+		this.myAuthModel = authModel; 
+		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
 		init();
 	}
 	
@@ -47,7 +55,7 @@ public class ElementTab extends Tab{
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
-		GridPane newAnimationInfo = new GridPane();					//*****							//*****	
+		GridPane newAnimationInfo = new GridPane();					
 		myPane.setLeft(newPane);
 		this.setClosable(false);
 		
@@ -262,9 +270,8 @@ public class ElementTab extends Tab{
     		proj.add(cb.getValue());
     	}
     	
-		UnitFactory myUnitFactory  = new UnitFactory();
-    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
-    	//Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
+		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
+    	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
     	up.add(unit, this);
     	
