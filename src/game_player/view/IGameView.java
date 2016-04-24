@@ -1,6 +1,6 @@
 package game_player.view;
 
-import game_engine.games.GameEngineInterface;
+import game_engine.GameEngineInterface;
 
 /**
  * This interface specifies the different methods needed to run and animate the game elements.
@@ -24,4 +24,6 @@ public interface IGameView {
     void changeGameSpeed (double gameSpeed); 
     
     GameEngineInterface getGameEngine();
+    
+    void changeClickedTower (String name);
 }

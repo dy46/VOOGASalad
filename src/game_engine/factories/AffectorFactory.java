@@ -6,6 +6,7 @@ import java.util.List;
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
 import game_engine.affectors.BasicDecrementAffector;
+import game_engine.affectors.BasicIncrementAffector;
 import game_engine.affectors.BasicSetAffector;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
@@ -43,7 +44,7 @@ public class AffectorFactory {
 		List<String> p1 = Arrays.asList("Health");
 		AffectorData d1 = new AffectorData(f1, p1);
 		Affector basic = new BasicDecrementAffector(d1);
-		basic.setTTL(150);
+		basic.setTTL(1);
 		myAffectorLibrary.addAffector(pr1, e1, basic);
 
 		//		String pr2 = "ExpIncr";
@@ -132,7 +133,6 @@ public class AffectorFactory {
 		AffectorData d13 = new AffectorData();
 		constructAffector(property13, effect13, d13);
 
-
 		String property14 = "Firing";
 		String effect14 = "Children";
 		Function function14 = myFunctionFactory.createConstantFunction(30);
@@ -174,6 +174,22 @@ public class AffectorFactory {
 		basic3.apply(u);
 //		System.out.println("this should be different");
 //		System.out.println(u.getProperties().getVelocity().getValues());
+		
+		String pr16 = "Increase";
+                String e16 ="Range";
+                List<List<Function>> f16 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(-25),
+                                                                       myFunctionFactory.createConstantFunction(-25),
+                                                                       myFunctionFactory.createConstantFunction(-25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(-25)));
+                List<String> p16 = Arrays.asList("Range");
+                AffectorData d16 = new AffectorData(f16, p16);
+                Affector basic16 = new BasicIncrementAffector(d16);
+                basic16.setTTL(1);
+                myAffectorLibrary.addAffector(pr16, e16, basic16);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

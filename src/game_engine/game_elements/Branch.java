@@ -22,20 +22,19 @@ public class Branch {
 	private List<Branch> myNeighbors;
 	private int myID;
 
-	public Branch(int ID, List<Position> positions){
-		this.myID = ID;
+	public Branch(List<Position> positions){
 		myPositions = positions;
 		myNeighbors = new ArrayList<>();
 		initialize();
 	}
 
-	public Branch(int ID) {
+	public Branch() {
 		this.myPositions = new ArrayList<>();
 		this.myNeighbors = new ArrayList<>();
 		initialize();
 	}
 
-	public Branch(int id, List<Position> positions, List<Branch> neighbors) {
+	public Branch(List<Position> positions, List<Branch> neighbors) {
 		cycle = false;
 		initialize(positions, neighbors);
 	}
@@ -122,7 +121,7 @@ public class Branch {
 	}
 
 	public Branch copyBranch(){
-		Branch newPath = new Branch(myID);
+		Branch newPath = new Branch();
 		this.myPositions.forEach(t -> {
 			newPath.addPosition(t.copyPosition());
 		});
@@ -157,7 +156,7 @@ public class Branch {
 		}
 		double dx = nextPosition.getX() - currentPosition.getX();
 		double dy = nextPosition.getY() - currentPosition.getY();
-		double newDir = Math.atan((dy) / (dx));
+		double newDir = Math.atan2((dy), (dx));
 		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
 		return degreesDir;
 	}
@@ -251,6 +250,10 @@ public class Branch {
 
 	public boolean equals(Branch branch){
 		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
+	}
+
+	public void removeNeighbor(Branch b) {
+		this.myNeighbors.remove(b);
 	}
 
 }

@@ -60,6 +60,13 @@ public class Position extends Property {
 				(Math.abs(((Position) o).myY - this.myY)) < 0.0000001) ||
 				(this == o);
 	}
+	
+	public boolean roughlyEquals (Object o) {
+		return (o instanceof Position &&
+				(Math.abs(((Position) o).myX - this.myX)) < 1 &&
+				(Math.abs(((Position) o).myY - this.myY)) < 1) ||
+				(this == o);
+	}
 
 	@Override
 	public String toString () {
@@ -86,5 +93,9 @@ public class Position extends Property {
 		return 15;
 	}
 
+	public void setPosition(Position pos) {
+		this.myX = pos.getX();
+		this.myY = pos.getY();
+	}
 
 }
