@@ -15,7 +15,6 @@ import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.physics.CollisionChecker;
-import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationChecker;
 import game_engine.properties.Position;
 
@@ -36,7 +35,8 @@ public class VisibilityGraph {
 	public List<Branch> getSimulatedPlacementBranches(Unit obstacle){
 		List<Unit> obstacles = new ArrayList<>();
 		obstacles.add(obstacle);
-		obstacles.addAll(myEngine.getTowers());
+		List<Unit> towerCopies = myEngine.getTowers().stream().map(t -> t.copyShallowUnit()).collect(Collectors.toList());
+		obstacles.addAll(towerCopies);
 		return getVisibilityBranches(obstacles);
 	}
 
@@ -44,7 +44,7 @@ public class VisibilityGraph {
 		for(Position goal : myEngine.getCurrentLevel().getGoals()){
 			for(Position spawn : myEngine.getCurrentLevel().getSpawns()){
 				if(!BFSPossible(visibilityBranches, spawn, goal)){
-					System.out.println("NOT VALIDATED");
+//					System.out.println("NOT VALIDATED");
 					return false;
 				}
 			}
@@ -79,6 +79,7 @@ public class VisibilityGraph {
 		}
 		Branch startBranch = myEngine.findBranchForSpawn(start);
 		List<Branch> bestPath = null;
+		
 		return bestPath;
 	}
 
@@ -101,6 +102,7 @@ public class VisibilityGraph {
 
 	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
 		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
+//		System.out.println("TO FILTER: " + branchesToFilter);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
@@ -132,7 +134,9 @@ public class VisibilityGraph {
 		for(Unit o : copyObstacleList){
 			for(Branch b : copyBranches){
 				for(Position pos : b.getPositions()){
+//					System.out.println("POS: " + pos+" BOUNDS: "+ CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()));
 					if(myEncapsulator.encapsulatesBounds(Arrays.asList(pos), CollisionChecker.getUseableBounds(o.getProperties().getBounds(), o.getProperties().getPosition()))){
+//						System.out.println("ENCAPSULATED");
 						removalList.add(b);
 					}
 				}
@@ -154,6 +158,7 @@ public class VisibilityGraph {
 
 	private boolean BFSPossible(List<Branch> visibilityBranches, Position spawn, Position goal){
 		List<Branch> visited = getBFSVisited(visibilityBranches, spawn, goal);
+//		System.out.println("BFS VISITED: " + visited);
 		if(visited.size() == 0){
 			return false;
 		}
@@ -169,6 +174,7 @@ public class VisibilityGraph {
 		if(!BFSPreCheck(visibilityBranches, spawn)){
 			return new ArrayList<>();
 		}
+//		System.out.println("VISIBLE BRANCHES: " + visibilityBranches);
 		Branch start = myEngine.findBranchForSpawn(spawn);
 		Branch copyStart = start.copyBranch();
 		Queue<Branch> queue = new LinkedList<>();

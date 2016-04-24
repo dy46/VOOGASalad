@@ -12,6 +12,7 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.paths.GridFactory;
 import auth_environment.paths.MapHandler;
 import auth_environment.paths.PathGraphFactory;
+import auth_environment.paths.VisibilityGraph;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.AIPathFollowAffector;
@@ -699,6 +700,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 			}
 		}
 		return new ArrayList<>(AI);
+	}
+	
+	@Override
+	public void updateAIBranches() {
+		List<Unit> activeAI = getActiveAIEnemies();
+		VisibilityGraph myVisibility = new VisibilityGraph(this);
+		for(Unit u : activeAI){
+			u.getProperties().getMovement().setBranches(myVisibility.getShortestPath(u.getProperties().getPosition()));
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.paths.VisibilityGraph;
 import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
@@ -351,6 +352,15 @@ public class EngineWorkspace implements GameEngineInterface{
 			}
 		}
 		return new ArrayList<>(AI);
+	}
+
+	@Override
+	public void updateAIBranches() {
+		List<Unit> activeAI = getActiveAIEnemies();
+		VisibilityGraph myVisibility = new VisibilityGraph(this);
+		for(Unit u : activeAI){
+			u.getProperties().getMovement().setBranches(myVisibility.getShortestPath(u.getProperties().getPosition()));
+		}
 	}
 
 }

@@ -104,4 +104,6 @@ public interface GameEngineInterface {
 
 	public List<Unit> getActiveAIEnemies();
 
+	public void updateAIBranches();
+
 }

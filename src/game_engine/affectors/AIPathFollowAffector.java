@@ -31,7 +31,6 @@ public class AIPathFollowAffector extends PathFollowAffector {
 			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
 			}
-			System.out.println("HERE");
 			currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
 				this.setElapsedTimeToDeath();

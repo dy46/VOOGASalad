@@ -228,7 +228,15 @@ public class Branch implements Serializable{
 	}
 
 	public String toString(){
-		return "Branch positions: " + myPositions+"\n";
+		String first = "";
+		if(myPositions.size() > 0){
+			first = myPositions.get(0)+"";
+		}
+		String last = "";
+		if(myPositions.size() > 0){
+			last = myPositions.get(myPositions.size()-1)+"";
+		}
+		return "Branch positions: " + first+" "+last+"\n";
 	}
 
 	public int getLength(){
