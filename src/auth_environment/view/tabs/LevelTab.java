@@ -2,6 +2,7 @@ package auth_environment.view.tabs;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
+import auth_environment.Models.WaveOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.UnitPicker;
@@ -34,8 +35,9 @@ public class LevelTab extends Tab{
 	private NodeFactory myNodeFactory;
 	private String myName; 
 	
-	public LevelTab(String name, IAuthEnvironment myInterface){
+	public LevelTab(String name, IAuthEnvironment myInterface, IAuthModel myModel){
 		super(name);
+		this.myAuthModel = myModel;
 		myName = name;
 		this.myInterface = myInterface;
 		this.myNodeFactory = new NodeFactory();
@@ -67,7 +69,7 @@ public class LevelTab extends Tab{
 		int waveNum = index + 1;
 		String waveName = "Wave " + waveNum;
 		Button wave = new Button(waveName);
-		wave.setOnAction(e -> new WaveWindow(myName, waveName));
+		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel));
 		newTableInfo.add(wave, 2, index);
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");
