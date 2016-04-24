@@ -32,9 +32,11 @@ public class LevelTab extends Tab{
 	private IAuthModel myAuthModel;
 //	private int gridIndex = 0; 
 	private NodeFactory myNodeFactory;
+	private String myName; 
 	
 	public LevelTab(String name, IAuthEnvironment myInterface){
 		super(name);
+		myName = name;
 		this.myInterface = myInterface;
 		this.myNodeFactory = new NodeFactory();
 		init();
@@ -63,8 +65,9 @@ public class LevelTab extends Tab{
 	private void addNewWaveSpace(int index, GridPane newTableInfo, Button waveButton) {
 		newTableInfo.getChildren().remove(waveButton);
 		int waveNum = index + 1;
-		Button wave = new Button("Wave " + waveNum);
-		wave.setOnAction(e -> new WaveWindow("Leve 1", "Wave 1"));
+		String waveName = "Wave " + waveNum;
+		Button wave = new Button(waveName);
+		wave.setOnAction(e -> new WaveWindow(myName, waveName));
 		newTableInfo.add(wave, 2, index);
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");
