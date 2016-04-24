@@ -83,7 +83,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		score = 0;
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new TowerPlaceValidation());
+		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
