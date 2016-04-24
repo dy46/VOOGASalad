@@ -334,9 +334,16 @@ public class EngineWorkspace implements GameEngineInterface{
 		return null;
 	}
 	
-	public List<Unit> getAIEnemies(){
+	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
-		for(Unit e : myEnemies){
+		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
+		for(Unit e : allEnemies){
+			if(e.isAlive() && !activeEnemies.contains(e)){
+				activeEnemies.add(e);
+			}
+		}
+		for(Unit e : activeEnemies){
 			for(Affector a : e.getAffectors()){
 				if(a instanceof AIPathFollowAffector){
 					AI.add(e);

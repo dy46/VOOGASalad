@@ -689,7 +689,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return null;
 	}
 	
-	public List<Unit> getAIEnemies(){
+	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
 		for(Unit e : myEnemys){
 			for(Affector a : e.getAffectors()){

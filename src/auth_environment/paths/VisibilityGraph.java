@@ -152,8 +152,21 @@ public class VisibilityGraph {
 	}
 
 	private boolean BFSPossible(List<Branch> visibilityBranches, Position spawn, Position goal){
-		if(!BFSPreCheck(visibilityBranches, spawn)){
+		List<Branch> visited = getBFSVisited(visibilityBranches, spawn, goal);
+		if(visited.size() == 0){
 			return false;
+		}
+		for(Branch b : visited){
+			if(b.getPositions().contains(goal)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private List<Branch> getBFSVisited(List<Branch> visibilityBranches, Position spawn, Position goal){
+		if(!BFSPreCheck(visibilityBranches, spawn)){
+			return new ArrayList<>();
 		}
 		Branch start = myEngine.findBranchForSpawn(spawn);
 		Branch copyStart = start.copyBranch();
@@ -168,12 +181,7 @@ public class VisibilityGraph {
 				queue.add(child);
 			}
 		}
-		for(Branch b : visited){
-			if(b.getPositions().contains(goal)){
-				return true;
-			}
-		}
-		return false;
+		return visited;
 	}
 
 	private Branch getUnvisitedChildNode(Branch branch, List<Branch> visited, List<Branch> visible) {
@@ -194,9 +202,22 @@ public class VisibilityGraph {
 		return visibleNeighbors.get(0);
 	}
 
-	public boolean simulateEnemyCollisions(List<Branch> visibilityBranches) {
+	public boolean simulateEnemyPathFollowing(List<Branch> visibilityBranches) {
 		List<Unit> enemies = myEngine.getEnemies();
-		return false;
+		for(Unit e : enemies){
+			Position current = e.getProperties().getPosition();
+			for(Position goal : myEngine.getCurrentLevel().getGoals()){
+				List<Branch> BFSvisited = getBFSVisited(visibilityBranches, current, goal);
+				if(!simulateEnemyBranchCollisions(BFSvisited)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean simulateEnemyBranchCollisions(List<Branch> pathBranches){
+		
 	}
 
 }
