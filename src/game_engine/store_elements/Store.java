@@ -72,6 +72,7 @@ public class Store {
     }
     
     public void sellUnit(Unit unit) {
+        System.out.println(nameToOriginalInstance);
         myMoney += buyableUnits.get(nameToOriginalInstance.get(unit.toString()));
     }
 

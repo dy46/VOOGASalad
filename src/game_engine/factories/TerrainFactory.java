@@ -10,7 +10,6 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.TerrainLibrary;
 import game_engine.properties.Movement;
-import game_engine.timelines.Timeline;
 
 public class TerrainFactory {
 

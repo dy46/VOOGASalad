@@ -83,7 +83,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		score = 0;
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new EnemySpawnPointPlaceValidation(this));
+//		myPlaceValidations.add(new EnemySpawnPointPlaceValidation(this));
 		myPlaceValidations.add(new TowerPlaceValidation(this));
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
@@ -517,7 +517,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 				Unit copy = purchased.copyUnit();
 				copy.getProperties().setPosition(x, y);
 				myTowers.add(copy);
-				updateAIBranches();
+//				updateAIBranches();
 				return true;
 			}
 			else {
