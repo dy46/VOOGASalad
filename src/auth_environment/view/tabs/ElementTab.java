@@ -50,11 +50,10 @@ public class ElementTab extends Tab{
 		Projectiles = new ArrayList<ComboBox<String>>();
 		this.myAuthModel = authModel; 
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
-		this.myPane = new BorderPane();
 		//this.addRefresh();
 		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
 		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();
-		this.setOnSelectionChanged(l -> refresh());
+		this.setOnSelectionChanged(l -> init());
 		this.myPane = new BorderPane(); 
 		init();
 	}
@@ -295,10 +294,10 @@ public class ElementTab extends Tab{
     	
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
 //    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
-    	System.out.println(strToStrMap);
-    	System.out.println(proj);
-    	System.out.println(atu);
-    	System.out.println(ata);
+//    	System.out.println(strToStrMap);
+//    	System.out.println(proj);
+//    	System.out.println(atu);
+//    	System.out.println(ata);
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
 //    	up.add(unit, this);

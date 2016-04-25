@@ -30,9 +30,10 @@ public class AffectorTab extends Tab{
 	
 	private Map<String, TextField> strTextMap;
 	private Map<String, ComboBox<String>> strDropMap;
-	List<TextField> effects = new ArrayList<TextField>();
-	List<TextField> functions = new ArrayList<TextField>();
-	private int index = 1;
+	private List<TextField> effects = new ArrayList<TextField>();
+	private List<TextField> functions = new ArrayList<TextField>();
+	
+	private int index;
 	
 	private BorderPane myPane; 
 	
@@ -48,17 +49,16 @@ public class AffectorTab extends Tab{
 		this.myInterface = this.myAuthModel.getIAuthEnvironment();
 		this.myAffectorTabModel = new AffectorTabModel(this.myInterface);
 		this.myPane = new BorderPane();
-		this.addRefresh();
 		this.init();
 	}
 	
-	private void addRefresh() {
-		this.myPane.setOnMouseEntered(e -> this.init());
-	}
+//	private void addRefresh() {
+//		this.myPane.setOnMouseEntered(e -> this.init());
+//	}
 	
 	private void init() {
+		index = 1;
 		// TODO Auto-generated constructor stub
-		myPane = new BorderPane();
 		TitledPane newPane = new TitledPane();
 //		TitledPane editPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
@@ -178,6 +178,9 @@ public class AffectorTab extends Tab{
 //		System.out.println(plz.getName());
 		System.out.println(this.myAffectorTabModel.getAffectorFactory().getAffectorLibrary().getAffectorNames());
 		
+		
+		myPane.getChildren().clear();
+		init();
 //		for(String s: strTextMap.keySet()){
 //			effects.add(s);
 //			List<Integer> func = new ArrayList<Integer>();
