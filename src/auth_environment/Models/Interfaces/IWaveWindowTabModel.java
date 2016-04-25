@@ -7,7 +7,7 @@ import game_engine.game_elements.Wave;
 
 public interface IWaveWindowTabModel {
 
-    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames);
+    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave);
     
     public List<Unit> unitsFromNames(List<String> names);
     

@@ -26,8 +26,8 @@ public class WaveWindowTabModel implements IWaveWindowTabModel {
     }
     
     @Override
-    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
-        Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes);
+    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave) {
+        Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes, timeBeforeWave);
         levelOverview.addToCreatedWaves(level, w);
         return w;
     }
