@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import game_player.interfaces.IGameView;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,8 +33,8 @@ public class GameHUD {
         upgrades = new ArrayList<>();
 
     }
-    
-    public void setGameView(IGameView gameView) {
+
+    public void setGameView (IGameView gameView) {
         this.gameView = gameView;
     }
 
@@ -59,7 +60,7 @@ public class GameHUD {
     }
 
     public void whenTowerSelected (Unit tower) {
-        gameView.setSpecificUnitIsClicked(tower);
+        gameView.setSpecificUnitIsSelected(tower);
         unitImage.setImage(new Image(tower.toString() + ".png"));
         for (int i = 0; i < upgrades.size(); i++) {
             HUDBox.getChildren().remove(upgrades.get(i));
@@ -93,8 +94,8 @@ public class GameHUD {
     }
 
     public void whenNothingSelected () {
-        if(gameView != null) {
-            gameView.setSpecificUnitIsClicked(null);
+        if (gameView != null) {
+            gameView.setSpecificUnitIsSelected(null);
         }
         unitImage.setImage(new Image("health.png"));
         unitType.setText("Testing");

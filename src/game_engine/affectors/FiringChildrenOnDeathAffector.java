@@ -21,7 +21,7 @@ public class FiringChildrenOnDeathAffector extends Affector{
         if(!u.isAlive()) {
             if(firstApplication) {
                 firingChildrenAffector.apply(functions, property, u);
-                u.getProperties().getChildren().stream().forEach(c -> 
+                u.getChildren().stream().forEach(c -> 
                 c.getProperties().setMovement(u.getProperties().getMovement().copyMovement()));
             }
         } 
