@@ -193,7 +193,7 @@ public class GameView implements IGameView {
 	public void placePath () {
 		List<Branch> currBranches = new ArrayList<>();
 		// Comment this out to hide path grid
-		currBranches.addAll(playerEngineInterface.getBranches());
+//		currBranches.addAll(playerEngineInterface.getBranches());
 		List<Position> allPositions = new ArrayList<>();
 		currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
 		for(int i = paths.size(); i < allPositions.size(); i++) {

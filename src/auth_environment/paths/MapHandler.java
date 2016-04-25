@@ -26,7 +26,7 @@ public class MapHandler {
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
 //		insertTestBranches();
-		createGrid();
+//		createGrid();
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Branch> gridBranches, List<Branch> visualBranches){
@@ -64,12 +64,12 @@ public class MapHandler {
 		myGridBranches = grid.getBranches();
 		myEngineBranches.addAll(grid.getBranches());
 		mySpawns = Arrays.asList(myGridBranches.get(0).getFirstPosition());
-		myGoals = Arrays.asList(myGridBranches.get(myGridBranches.size()-1).getFirstPosition());
+		myGoals = Arrays.asList(new Position(500, 500));
 		return myGridBranches;
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/2500;
+		return screenWidth*screenHeight/1000;
 	}
 
 	public void insertTestBranches(){

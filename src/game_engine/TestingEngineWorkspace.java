@@ -178,7 +178,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-		myBranches = mh.getEngineBranches();
+		myBranches = mh.createGrid();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
@@ -714,7 +714,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
 		for(Unit u : activeAI){
 			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
-			System.out.println("SHORTEST PATH: " + shortestPath);
 			if(shortestPath != null){
 				u.getProperties().getMovement().setBranches(shortestPath);
 			}
