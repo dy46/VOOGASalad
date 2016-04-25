@@ -1,8 +1,6 @@
 package auth_environment.view.tabs;
 
 import auth_environment.IAuthEnvironment;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -40,13 +38,10 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void addSubTabs(){
-		addNewLevelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				final Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myInterface, myAuthModel);
-				myTabs.getTabs().addAll(tab);
-				myTabs.getSelectionModel().select(tab);
-			}
+		this.addNewLevelButton.setOnAction(e -> {
+			Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myInterface, myAuthModel);
+			myTabs.getTabs().addAll(tab);
+			myTabs.getSelectionModel().select(tab);
 		});
 	}
 	
