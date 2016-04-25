@@ -11,11 +11,7 @@ import auth_environment.view.Interfaces.IAuthView;
 import auth_environment.view.tabs.AnimationLoaderTab;
 import auth_environment.view.tabs.GlobalGameTab;
 import auth_environment.view.tabs.PathTab;
-import game_engine.game_elements.Unit;
-import game_engine.properties.UnitProperties;
-
 import auth_environment.view.tabs.LevelOverviewTab;
-//import auth_environment.view.tabs.LevelViewTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;

@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.AffectorTabModel;
+import auth_environment.Models.Interfaces.IAffectorTabModel;
+import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
-import game_engine.factories.FunctionFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -25,20 +27,38 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class AffectorTab extends Tab{
-	private IAuthEnvironment myInterface;
+	
 	private Map<String, TextField> strTextMap;
 	private Map<String, ComboBox<String>> strDropMap;
 	List<TextField> effects = new ArrayList<TextField>();
 	List<TextField> functions = new ArrayList<TextField>();
 	private int index = 1;
 	
-	public AffectorTab(String name, IAuthEnvironment myInterface){
+	private BorderPane myPane; 
+	
+	private IAuthModel myAuthModel; // passed around b/w all tabs
+	private IAuthEnvironment myInterface; // came out of the above
+	private IAffectorTabModel myAffectorTabModel; // kept ONLY in this class
+	
+	public AffectorTab(String name, IAuthModel authModel){
 		super(name);
 		strTextMap = new HashMap<String, TextField>();
 		strDropMap = new HashMap<String, ComboBox<String>>();
-		this.myInterface = myInterface;
+		this.myAuthModel = authModel; 
+		this.myInterface = this.myAuthModel.getIAuthEnvironment();
+		this.myAffectorTabModel = new AffectorTabModel(this.myInterface);
+		this.myPane = new BorderPane();
+		this.addRefresh();
+		this.init();
+	}
+	
+	private void addRefresh() {
+		this.myPane.setOnMouseEntered(e -> this.init());
+	}
+	
+	private void init() {
 		// TODO Auto-generated constructor stub
-		BorderPane myPane = new BorderPane();
+		myPane = new BorderPane();
 		TitledPane newPane = new TitledPane();
 //		TitledPane editPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
@@ -123,11 +143,7 @@ public class AffectorTab extends Tab{
 //		newTableInfo.add(cbox1, 2, index);
 //		index++;
 //		//labels stuff
-		
-		
-	    
 		this.setContent(myPane);
-		
 	}
 	
 	private void createNewAffector(UnitPicker up) {
@@ -151,18 +167,16 @@ public class AffectorTab extends Tab{
 				try{
 					fun.add(Double.parseDouble(ff));
 				}
-				catch(Exception e){
+				catch(Exception e) {
 					System.out.println("womp. not an int.");
 				}
 			}
 			funct.add(fun);
 		}
 		
-		AffectorFactory affect = new AffectorFactory(new FunctionFactory());
-		Affector plz = affect.constructAffector(name, type, eff, funct);
-		System.out.println(plz.getName());
-		
-		
+		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, eff, funct);
+//		System.out.println(plz.getName());
+		System.out.println(this.myAffectorTabModel.getAffectorFactory().getAffectorLibrary().getAffectorNames());
 		
 //		for(String s: strTextMap.keySet()){
 //			effects.add(s);
@@ -178,8 +192,6 @@ public class AffectorTab extends Tab{
 //			}
 //			functions.add(func);	
 //		}
-		
-		
 	}
 
 	private void addTextFields(GridPane newTableInfo) {
@@ -207,6 +219,7 @@ public class AffectorTab extends Tab{
 		newTableInfo.add(new Text(s1), 1, index);
 		ComboBox<String> dropit = new ComboBox<String>();
 		newTableInfo.add(dropit, 2, index);
+		// TODO: extract to properties file
 		dropit.getItems().addAll("Increment", "Decrement", "Set");
 		strDropMap.put(s1, dropit);
 		index++;
@@ -234,8 +247,6 @@ public class AffectorTab extends Tab{
 		index++;
 	
 		//possibly just make index global MAKE INDEX GLOBAL
-		
-		
 	}
 
 	private void newThing(Button buuton, GridPane newTableInfo, TextField txtfld3, TextField txtfld4) {
@@ -263,7 +274,5 @@ public class AffectorTab extends Tab{
 		
 		index++;
 		}
-		
 	}
-
 }
