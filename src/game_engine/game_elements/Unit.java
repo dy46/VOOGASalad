@@ -288,15 +288,13 @@ public class Unit extends GameElement {
 	public String getType(){
 		return type;
 	}
-
+	
 	public void turnAround(){
 		Movement myMovement = this.myProperties.getMovement();
 		Branch currBranch = myMovement.getCurrentBranch();
 		Position movingTowards = myMovement.getMovingTowards();
 		myMovement.setMovingTowards(currBranch.getFirstPosition().equals(movingTowards) ? currBranch.getLastPosition() : currBranch.getFirstPosition());
-		Position currPos = this.myProperties.getPosition();
-		Position nextPosition = myMovement.getNextPosition(currPos);
-		double nextDir = myMovement.getNextDirection(nextPosition);
+		double nextDir = myMovement.getNextDirection();
 		this.myProperties.getVelocity().setDirection(nextDir);
 	}
 	

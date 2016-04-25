@@ -25,7 +25,7 @@ public class MapHandler {
 		myGridBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-//		insertTestBranches();
+		insertTestBranches();
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Branch> gridBranches, List<Branch> visualBranches){
@@ -68,7 +68,7 @@ public class MapHandler {
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/1000;
+		return screenWidth*screenHeight/2500;
 	}
 
 	public void insertTestBranches(){

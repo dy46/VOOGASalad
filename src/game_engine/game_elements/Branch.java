@@ -157,6 +157,8 @@ public class Branch implements Serializable{
 	}
 
 	public Position getFirstPosition() {
+		if(myPositions == null || myPositions.size() == 0)
+			return null;
 		return myPositions.get(0);
 	}
 
@@ -173,6 +175,9 @@ public class Branch implements Serializable{
 	}
 
 	public Position getLastPosition() {
+		if(myPositions == null || myPositions.size() == 0){
+			return null;
+		}
 		return myPositions.get(myPositions.size()-1);
 	}
 

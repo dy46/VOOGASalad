@@ -3,13 +3,10 @@ package game_engine.affectors;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import game_engine.AI.AISearcher;
 import game_engine.AI.VisibilityHandler;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.Property;
 
@@ -40,7 +37,7 @@ public abstract class PathFollowAffector extends Affector{
 	public abstract Position getNextPosition(Unit u);
 
 	public Double getNextDirection(Unit u){
-		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition());
+		return u.getProperties().getMovement().getNextDirection();
 	}
 
 	public List<Branch> getValidBranchChoices(Unit u){

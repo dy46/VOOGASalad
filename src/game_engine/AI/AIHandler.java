@@ -34,23 +34,13 @@ public class AIHandler {
 		List<Unit> activeAI = getActiveAIEnemies();
 		HashMap<Position, List<Branch>> pathMap = new HashMap<>();
 		for(Unit u : activeAI){
-			if(u.getProperties().getMovement().getCurrentBranch() == null){
-				Position currentPosition = u.getProperties().getPosition();
-				List<Branch> newBranches = new ArrayList<>();
-				if(pathMap.containsKey(currentPosition)){
-					newBranches = pathMap.get(currentPosition);
-				}
-				else{
-					newBranches = mySearcher.getShortestPath(currentPosition);
-					pathMap.put(currentPosition, newBranches);
-				}
-				System.out.println("NEW BRANCHES: " + newBranches);
-				configureMovement(u, newBranches);
-			}
-		}
-		for(Unit u : activeAI){
 			Position currentPosition = u.getProperties().getPosition();
 			List<Branch> newBranches = new ArrayList<>();
+			if(currentPosition == null){
+				currentPosition = myEngine.getCurrentLevel().getSpawns().get(0);
+				if(currentPosition == null)
+					return;
+			}
 			if(pathMap.containsKey(currentPosition)){
 				newBranches = pathMap.get(currentPosition);
 			}
@@ -68,9 +58,15 @@ public class AIHandler {
 		Movement myMovement = u.getProperties().getMovement();
 		List<Branch> currentBranches = myMovement.getBranches();
 		Position currentPosition = u.getProperties().getPosition();
-		myMovement.setBranches(newBranches, currentPosition);
-//		System.out.println("MOVING TOWARDS: " + myMovement.getMovingTowards());
-		if(currentBranches.size() == 0 || currentBranches.size() == 1){
+		if(currentPosition == null){
+			return;
+		}
+		else if(currentBranches == null || currentBranches.size() == 0){
+			if(newBranches != null){
+				myMovement.setBranches(newBranches);
+				myMovement.initializeCurrentBranch(newBranches.get(0));
+				myMovement.initializeMovingTowards();
+			}
 			return;
 		}
 		if(newBranches.get(0).equals(currentBranches.get(0))){

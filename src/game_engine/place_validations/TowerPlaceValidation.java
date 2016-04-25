@@ -17,8 +17,9 @@ public class TowerPlaceValidation extends PlaceValidation{
 
 	public boolean validate(Unit unit, double posX, double posY) {
 		Unit copy = unit.copyShallowUnit();
-		copy.getProperties().getPosition().setPosition(new Position(posX, posY));
-		return getAISimulator().simulateEnemyPathFollowing(copy);
+		copy.getProperties().setPosition(new Position(posX, posY));
+		boolean simulation = getAISimulator().simulateEnemyPathFollowing(copy);
+		return simulation;
 	}
 
 }

@@ -14,7 +14,6 @@ public class UnitProperties {
 	private Velocity myVelocity;
 	private Bounds myBounds;
 	private Bounds myRange;
-	private Position myPosition;
 	private Price myPrice;
 	private State myState;
 	private Movement myMovement;
@@ -28,6 +27,7 @@ public class UnitProperties {
 	private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
 	private static final double DEFAULT_X_POS = 0;
 	private static final double DEFAULT_Y_POS = 0;
+	private static final Position DEFAULT_POS = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 	private static final double DEFAULT_PRICE = 0;
 	private static final double DEFAULT_MASS = 1;
 	private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
@@ -37,7 +37,6 @@ public class UnitProperties {
 			Velocity velocity,
 			Bounds bounds,
 			Bounds range,
-			Position position,
 			Price price,
 			State state,
 			Movement movement, Mass mass) {
@@ -45,7 +44,6 @@ public class UnitProperties {
 		this.myTeam = team;
 		this.myVelocity = velocity;
 		this.myBounds = bounds;
-		this.myPosition = position;
 		this.myPrice = price;
 		this.myState = state;
 		this.myMovement = movement;
@@ -81,9 +79,8 @@ public class UnitProperties {
 		myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
 		myBounds = new Bounds(DEFAULT_BOUNDS);
 		myRange = new Bounds(DEFAULT_BOUNDS);
-		myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
 		myPrice = new Price(DEFAULT_PRICE);
-		myMovement = new Movement(DEFAULT_PATHS);
+		myMovement = new Movement(DEFAULT_PATHS, DEFAULT_POS);
 		myMass = new Mass(DEFAULT_MASS);
 	}
 
@@ -102,17 +99,9 @@ public class UnitProperties {
 	public Bounds getBounds () {
 		return myBounds;
 	}
-
+	
 	public Position getPosition () {
-		return myPosition;
-	}
-
-	public void setPosition(Position pos){
-		if(myPosition == null){
-			myPosition = new Position(pos.getX(), pos.getY());
-		}
-		myPosition.setX(pos.getX());
-		myPosition.setY(pos.getY());
+		return myMovement.getPosition();
 	}
 
 	public Price getPrice () {
@@ -160,15 +149,6 @@ public class UnitProperties {
 		myBounds = b;
 	}
 
-	public void setPosition (double x, double y) {
-		myPosition.setX(x);
-		myPosition.setY(y);
-	}
-
-	public void setPositionProp (Position pos) {
-		myPosition = pos;
-	}
-
 	public void setStateProp (State state) {
 		this.myState = state;
 	}
@@ -197,8 +177,6 @@ public class UnitProperties {
 		return myRange;
 	}
 
-
-
 	public void setMass(double mass) {
 		this.myMass.setMass(mass);
 	}
@@ -216,6 +194,14 @@ public class UnitProperties {
 		u.setHealth(100);
 		u.setVelocity(100, 3);
 		u.copyUnitProperties();
+	}
+
+	public void setPosition(double x, double y) {
+		this.myMovement.setPosition(x, y);
+	}
+	
+	public void setPosition(Position newPos){
+		this.myMovement.setPosition(newPos);
 	}
 
 }

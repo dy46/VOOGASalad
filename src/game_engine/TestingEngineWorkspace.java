@@ -176,7 +176,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-		myBranches = mh.createGrid();
+//		mh.createGrid();
+		myBranches = mh.getEngineBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
@@ -253,10 +254,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		e6.getProperties().setHealth(50);
 		e7.getProperties().setHealth(50);
 		e8.getProperties().setHealth(50);
-		w2.addSpawningUnit(e5, 0);
-		w2.addSpawningUnit(e6, 60);
-		w2.addSpawningUnit(e7, 60);
-		w2.addSpawningUnit(e8, 60);
+//		w2.addSpawningUnit(e5, 0);
+//		w2.addSpawningUnit(e6, 60);
+//		w2.addSpawningUnit(e7, 60);
+//		w2.addSpawningUnit(e8, 60);
 		w2.addPlacingUnit(list.get(0));
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e9 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
@@ -267,10 +268,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		e10.getProperties().setHealth(50);
 		e11.getProperties().setHealth(50);
 		e12.getProperties().setHealth(50);
-		w3.addSpawningUnit(e9, 0);
-		w3.addSpawningUnit(e10, 60);
-		w3.addSpawningUnit(e11, 60);
-		w3.addSpawningUnit(e12, 60);
+//		w3.addSpawningUnit(e9, 0);
+//		w3.addSpawningUnit(e10, 60);
+//		w3.addSpawningUnit(e11, 60);
+//		w3.addSpawningUnit(e12, 60);
 		w3.addPlacingUnit(list.get(1));
 		l.addWave(w3);
 		l.addWave(w2);

@@ -12,11 +12,11 @@ public class BranchHandler {
 		Position startPos = newBranch.getFirstPosition();
 		Position endPos = newBranch.getLastPosition();
 		configureBranchesWithEdgePos(newBranch, myPath, startPos);
-		if(!startPos.equals(endPos)){
+		if(startPos != null && endPos !=null && !startPos.equals(endPos)){
 			configureBranchesWithEdgePos(newBranch, myPath, endPos);
 		}
 		configureMidBranchSplits(newBranch, myPath, startPos);
-		if(!startPos.equals(endPos)){
+		if(startPos != null && endPos !=null && !startPos.equals(endPos)){
 			configureMidBranchSplits(newBranch, myPath, endPos);
 		}
 	}

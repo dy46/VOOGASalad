@@ -17,12 +17,12 @@ import game_engine.properties.Position;
  */
 
 public class AISimulator {
-	
+
 	private GameEngineInterface myEngine;
 	private AISearcher myAISearcher;
 	private VisibilityHandler myVisibility;
 	private AIHandler myAIHandler;
-	
+
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;
 		this.myAISearcher = new AISearcher(engine);
@@ -38,14 +38,11 @@ public class AISimulator {
 			for(Position goal : myEngine.getCurrentLevel().getGoals()){
 				List<Branch> shortestPath = myAISearcher.getShortestPathToGoal(current, goal, visibilityBranches);
 				if(shortestPath != null){
-					if(!simulateEnemyBranchCollisions(e, shortestPath, obstacle)){
-						shortestPath = myAISearcher.getShortestPathToGoal(current, goal, visibilityBranches);
+					if(simulateEnemyBranchCollisions(e, shortestPath, obstacle)){
+						return false;
 					}
-					else
-						break;
 				}
-				if(shortestPath == null){
-					System.out.println("DIJKSTRAS IMPOSSIBLE");
+				else{
 					return false;
 				}
 			}
@@ -61,11 +58,11 @@ public class AISimulator {
 			for(Position pos : b.getPositions()){
 				List<Position> enemyBounds = CollisionChecker.getUseableBounds(enemy.getProperties().getBounds(), pos);
 				if(CollisionChecker.simulatedObstacleCollisionCheck(enemyBounds, obstaclesCopy)){
-					return false;
+					return true;
 				}
 			}
 		}
-		return true;
+		return false;
 	}
-	
+
 }

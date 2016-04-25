@@ -31,31 +31,12 @@ public class AISearcher {
 		this.myEngine = engine;
 		this.myVisibility = new VisibilityHandler(engine);
 	}
-
-	public List<Branch> getPathToAnyGoal(Position current){
-		HashMap<Branch, List<Branch>> BFSVisitedMap = getBFSVisitedMap(myVisibility.getVisibilityBranches(), current);
-		Iterator it = BFSVisitedMap.keySet().iterator();
-		while(it.hasNext()){
-			Branch start = (Branch) it.next();
-			List<Branch> branchList = BFSVisitedMap.get(start);
-			for(Branch branch : branchList){
-				for(Position pos : branch.getPositions()){
-					for(Position goal : myEngine.getCurrentLevel().getGoals()){
-						if(pos.equals(goal)){
-							List<Branch> path = getOrderedPath(branchList, start, branch);
-							System.out.println("GOAL REACHED: " + goal+" FOR PATH: " + path);
-							if(path != null){
-								return path;
-							}
-						}
-					}
-				}
-			}
-		}
-		return null;
+	
+	public List<Branch> getShortestPath(Position current){
+		return getShortestPath(current, myVisibility.getVisibilityBranches());
 	}
 
-	public List<Branch> getShortestPath(Position current){
+	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
 		List<Position> goals = new ArrayList<>();
 		goals.addAll(myEngine.getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
@@ -69,7 +50,15 @@ public class AISearcher {
 				break;
 			}
 		}
-		return getShortestPathToGoal(current, closestGoal, myVisibility.getVisibilityBranches());
+		List<Branch> path = getShortestPathToGoal(current, closestGoal, visibilityBranches);
+		while(path == null && sortedGoals.size() > 0){
+			closestGoal = sortedGoals.remove(0);
+			path = getShortestPathToGoal(current, closestGoal, visibilityBranches);
+			if(path != null){
+				return path;
+			}
+		}
+		return path;
 	}
 
 	public List<Branch> getShortestPathToGoal(Position start, Position goal, List<Branch> visibilityBranches){
@@ -137,6 +126,7 @@ public class AISearcher {
 		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
 			shortestPath.add(node);
 		}
+		shortestPath.add(goal);
 		return shortestPath;
 	}
 
@@ -213,10 +203,6 @@ public class AISearcher {
 			return null;
 		}
 		return visibleNeighbors.get(0);
-	}
-
-	private List<Branch> getOrderedPath(List<Branch> branches, Branch start, Branch goal){
-		return this.dijkstrasShortestPath(start, goal, branches);
 	}
 
 }

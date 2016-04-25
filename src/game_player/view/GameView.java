@@ -28,7 +28,7 @@ public class GameView implements IGameView {
 
     public final String[] seeRangeElements = { "Tower" };
     private int timer;
-    private static final double DEFAULT_UPDATE_SPEED = 0.1;
+    private static final double DEFAULT_UPDATE_SPEED = 1;
     private AnimationTimer AT;
     private boolean timerStatus;
     private boolean isPlaying;
