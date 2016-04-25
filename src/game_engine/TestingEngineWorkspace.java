@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
-import auth_environment.paths.GridFactory;
 import auth_environment.paths.MapHandler;
 import auth_environment.paths.PathGraphFactory;
 import auth_environment.paths.VisibilityGraph;
@@ -37,7 +36,6 @@ import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
-import game_engine.score_updates.EnemyWinScoreUpdate;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.store_elements.Store;
 import game_engine.wave_goals.EnemyNumberWaveGoal;
@@ -45,6 +43,7 @@ import game_engine.wave_goals.WaveGoal;
 
 
 public class TestingEngineWorkspace implements GameEngineInterface {
+
 
 	private int nextWaveTimer;
 	private boolean pause;
@@ -244,8 +243,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 //		w.addSpawningUnit(rand11, 60);
 //		w.addSpawningUnit(rand12, 60);
 		List<Unit> list = makeDummyTowers();
-		w.addPlacingUnit(list.get(0), 0);
-		w.addPlacingUnit(list.get(1), 0);
+		w.addPlacingUnit(list.get(0));
+		w.addPlacingUnit(list.get(1));
 		l.addWave(w);
 		Wave w2 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e5 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
@@ -260,7 +259,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		w2.addSpawningUnit(e6, 60);
 		w2.addSpawningUnit(e7, 60);
 		w2.addSpawningUnit(e8, 60);
-		w2.addPlacingUnit(list.get(0), 0);
+		w2.addPlacingUnit(list.get(0));
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e9 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		Unit e10 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
@@ -274,7 +273,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		w3.addSpawningUnit(e10, 60);
 		w3.addSpawningUnit(e11, 60);
 		w3.addSpawningUnit(e12, 60);
-		w3.addPlacingUnit(list.get(1), 0);
+		w3.addPlacingUnit(list.get(1));
 		l.addWave(w3);
 		l.addWave(w2);
 		Affector affector =

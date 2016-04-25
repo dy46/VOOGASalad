@@ -17,6 +17,7 @@ public class UnitPicker{
 	private TitledPane myEditPane;
 	private FlowPane myEditInfo;
 	
+	
 	public UnitPicker(String name){
 		init(name);
 	}
@@ -24,6 +25,10 @@ public class UnitPicker{
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
 		addUnits(units);
+	}
+	
+	public void setName(String name){
+		init(name);
 	}
 	
 	private void init(String name){
