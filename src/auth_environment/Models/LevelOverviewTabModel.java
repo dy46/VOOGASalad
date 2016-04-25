@@ -85,7 +85,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
         return new ArrayList<Level>(this.myCreatedLevels);
     }
     
-    public void addToCreatedWaves(String level, Wave wave) {
+    private void addToCreatedWaves(String level, Wave wave) {
         this.myCreatedWaves.put(level, wave);
     }
 }

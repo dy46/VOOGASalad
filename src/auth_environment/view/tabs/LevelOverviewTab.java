@@ -34,10 +34,20 @@ public class LevelOverviewTab extends Tab {
 	private void init() {
 		this.myRoot = new BorderPane();
 		this.myTabs = new TabPane();
-		this.overviewModel = new LevelOverviewTabModel();
+		this.addRefresh();
+		this.setupBorderPane();
+		this.setContent(myRoot);
+	}
+	
+	private void setupBorderPane() {
 		myRoot.setTop(this.buildNewLevelButton());
 		myRoot.setLeft(myTabs);
-		this.setContent(myRoot);
+	}
+	
+	private void addRefresh() {
+		this.myRoot.setOnMouseEntered(e -> {
+			this.refresh();
+		});
 	}
 	
 	private Node buildNewLevelButton() {
@@ -51,7 +61,7 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void refresh() {
-		
+		this.overviewModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
 	}
 	
 	public Node getRoot(){
