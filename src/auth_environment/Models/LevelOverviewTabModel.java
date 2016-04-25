@@ -24,7 +24,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
         this.myCreatedLevels = auth.getLevels();
         this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
         this.myCreatedLevels.stream().forEach(level -> this.addWave(level));
-        this.myCurrentLevelIndex = 0;
+        this.myCurrentLevelIndex = 0; 
     }
     
     private void addWave(Level level) {
@@ -32,7 +32,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     	for (int i=0; i<level.getWaves().size(); i++) {
     		String label = this.myNamesBundle.getString("levelPrefix") + levelNum + 
     				this.myNamesBundle.getString("wavePrefix") + Integer.toString(i); 
-    		this.myCreatedWaves.put(label, level.getWaves().get(i));
+    		this.addToCreatedWaves(label, level.getWaves().get(i));
     	}
     }
     
@@ -85,7 +85,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
         return new ArrayList<Level>(this.myCreatedLevels);
     }
     
-    private void addToCreatedWaves(String level, Wave wave) {
+    public void addToCreatedWaves(String level, Wave wave) {
         this.myCreatedWaves.put(level, wave);
     }
 }
