@@ -8,6 +8,7 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.WaveWindowTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.IWaveWindowTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.UnitPicker;
 import game_engine.TestingEngineWorkspace;
@@ -46,6 +47,7 @@ public class WaveWindow {
 	private List<ComboBox<String>> placingNames;
 	private List<TextField> spawningTimes;
 	
+	private IWaveWindowTabModel myWaveWindowTabModel; 
 	
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave, IAuthModel myAuthModel){
