@@ -4,19 +4,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
+
+import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Wave;
 
 public class LevelOverviewTabModel implements ILevelOverviewTabModel{
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
     private Map<String, Wave> myCreatedWaves;
     private List<Level> myCreatedLevels;
     private int myCurrentLevelIndex;
     
-    public LevelOverviewTabModel(){
-        myCreatedLevels = new ArrayList<Level>();
-        myCreatedWaves = new HashMap<String, Wave>();
-        myCurrentLevelIndex = 0;
+    public LevelOverviewTabModel(IAuthEnvironment auth){
+        this.myCreatedLevels = auth.getLevels();
+        this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
+        this.myCreatedLevels.stream().forEach(level -> this.addWave(level));
+        this.myCurrentLevelIndex = 0;
+    }
+    
+    private void addWave(Level level) {
+    	String levelNum = Integer.toString(this.myCreatedLevels.indexOf(level)); 
+    	for (int i=0; i<level.getWaves().size(); i++) {
+    		String label = this.myNamesBundle.getString("levelPrefix") + levelNum + 
+    				this.myNamesBundle.getString("wavePrefix") + Integer.toString(i); 
+    		this.myCreatedWaves.put(label, level.getWaves().get(i));
+    	}
     }
     
     private boolean checkBounds(int levelNum){
