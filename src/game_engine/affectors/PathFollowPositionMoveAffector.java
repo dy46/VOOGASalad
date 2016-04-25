@@ -50,12 +50,6 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 	}
 
 	public Double getNextDirection(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			// END OF PATH
-			return u.getProperties().getVelocity().getDirection();
-		}
-		return move.getNextDirection(currentPosition);
+		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition());
 	}
 }

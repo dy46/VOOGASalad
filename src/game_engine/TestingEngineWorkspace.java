@@ -222,26 +222,26 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		rand10.getProperties().setHealth(50);
 		rand11.getProperties().setHealth(50);
 		rand12.getProperties().setHealth(50);
-//		w.addSpawningUnit(e1, 0);
-//		w.addSpawningUnit(e2, 60);
-//		w.addSpawningUnit(e3, 60);
-//		w.addSpawningUnit(e4, 60);
+		//		w.addSpawningUnit(e1, 0);
+		//		w.addSpawningUnit(e2, 60);
+		//		w.addSpawningUnit(e3, 60);
+		//		w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
 		w.addSpawningUnit(AI2, 60);
 		w.addSpawningUnit(AI3, 60);
 		w.addSpawningUnit(AI4, 60);
-//		w.addSpawningUnit(rand1, 60);
-//		w.addSpawningUnit(rand2, 60);
-//		w.addSpawningUnit(rand3, 60);
-//		w.addSpawningUnit(rand4, 60);
-//		w.addSpawningUnit(rand5, 60);
-//		w.addSpawningUnit(rand6, 60);
-//		w.addSpawningUnit(rand7, 60);
-//		w.addSpawningUnit(rand8, 60);
-//		w.addSpawningUnit(rand9, 60);
-//		w.addSpawningUnit(rand10, 60);
-//		w.addSpawningUnit(rand11, 60);
-//		w.addSpawningUnit(rand12, 60);
+		//		w.addSpawningUnit(rand1, 60);
+		//		w.addSpawningUnit(rand2, 60);
+		//		w.addSpawningUnit(rand3, 60);
+		//		w.addSpawningUnit(rand4, 60);
+		//		w.addSpawningUnit(rand5, 60);
+		//		w.addSpawningUnit(rand6, 60);
+		//		w.addSpawningUnit(rand7, 60);
+		//		w.addSpawningUnit(rand8, 60);
+		//		w.addSpawningUnit(rand9, 60);
+		//		w.addSpawningUnit(rand10, 60);
+		//		w.addSpawningUnit(rand11, 60);
+		//		w.addSpawningUnit(rand12, 60);
 		List<Unit> list = makeDummyTowers();
 		w.addPlacingUnit(list.get(0));
 		w.addPlacingUnit(list.get(1));
@@ -704,23 +704,18 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	@Override
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
-		setAIStartingBranch(activeAI);
+		for(Unit u : getActiveAIEnemies()){
+			if(u.getProperties().getMovement().getCurrentBranch() == null){
+				Position curr = u.getProperties().getPosition();
+				u.getProperties().getMovement().setCurrentBranch(findBranchForPos(curr), curr);
+			}
+		}
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
 		for(Unit u : activeAI){
 			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
-			if(shortestPath == null){
-				shortestPath = new ArrayList<>();
-			}
-			u.getProperties().getMovement().setBranches(shortestPath);
-		}
-	}
-	
-	private void setAIStartingBranch(List<Unit> AI){
-		for(Unit u : AI){
-			if(u.getProperties().getMovement().getCurrentBranch() == null){
-				Position curr = u.getProperties().getPosition();
-				u.getProperties().getMovement().setCurrentBranch(findBranchForPos(curr), curr);
+			if(shortestPath != null){
+				u.getProperties().getMovement().setBranches(shortestPath);
 			}
 		}
 	}

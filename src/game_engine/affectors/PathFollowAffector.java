@@ -28,8 +28,8 @@ public abstract class PathFollowAffector extends Affector{
                 for (int i = 0; i < speed; i++) {
                         Position next = getNextPosition(u);
                         if(next != null) {
-                            u.getProperties().getPosition().setX(next.getX());
-                            u.getProperties().getPosition().setY(next.getY());
+                        	u.getProperties().setPosition(next);
+//                            u.getProperties().getMovement().setCurrentBranch(u.getProperties().getMovement().getCurrentBranch(), next);
                             u.getProperties().getVelocity().setDirection(getNextDirection(u));
                         }
                 }
