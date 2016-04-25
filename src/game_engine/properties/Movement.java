@@ -31,10 +31,20 @@ public class Movement {
 
 	public void setBranches(List<Branch> branches, Position currentPosition, double currentDirection){
 		if(branches.get(0).equals(myCurrentBranch)){
-			setCurrentBranch(myCurrentBranch, currentPosition, currentDirection);
+			// edge case: current branch = new current branch but the current next branch != new next branch
+			// need to turn around on current branch
+			if(branches.size() > 1 && myBranches.size() > 1){
+				if(!branches.get(1).equals(myBranches.get(1))){
+					double degrees = getNextDegrees(currentPosition, myCurrentBranch.getFirstPosition());
+					movingTowards = (degrees == currentDirection) ? myCurrentBranch.getLastPosition() : myCurrentBranch.getFirstPosition();
+					this.myBranches = branches;
+					myCurrentBranch = branches.get(0);
+					return;
+				}
+			}
 		}
 		this.myBranches = branches;
-		setCurrentBranch(myCurrentBranch, currentPosition, currentDirection);
+		setCurrentBranch(branches.get(0), currentPosition, currentDirection);
 	}
 
 	public Movement copyMovement(){

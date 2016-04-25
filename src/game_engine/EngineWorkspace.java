@@ -1,13 +1,10 @@
 package game_engine;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import auth_environment.IAuthEnvironment;
-import auth_environment.paths.VisibilityGraph;
-import game_engine.affectors.AIPathFollowAffector;
+import game_engine.AI.AIHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -49,10 +46,12 @@ public class EngineWorkspace implements GameEngineInterface{
 	private List<PlaceValidation> myPlaceValidations;
 	private List<Unit> unitsToRemove;
 	private Position cursorPos;
+	private AIHandler myAIHandler;
 
 	public void setUpEngine (IAuthEnvironment data) {
+		myAIHandler = new AIHandler(this);
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+		myPlaceValidations.add(new EnemySpawnPointPlaceValidation(this));
 		unitsToRemove = new ArrayList<>();
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
@@ -145,7 +144,7 @@ public class EngineWorkspace implements GameEngineInterface{
 		if (purchased != null) {
 			boolean canPlace = false;
 			for(int i = 0; i < myPlaceValidations.size(); i++) {
-				canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
+				canPlace = myPlaceValidations.get(i).validate(purchased, x, y);
 			}
 			if(canPlace) {
 				Unit copy = purchased.copyUnit();
@@ -326,59 +325,19 @@ public class EngineWorkspace implements GameEngineInterface{
 		}
 	}
 
+	@Override
 	public Branch findBranchForPos(Position pos) {
-		for(Branch b : myBranches){
-			for(Position p : b.getPositions()){
-				if(p.equals(pos)){
-					return b;
-				}
-			}
-		}
-		for(Branch b : myBranches){
-			for(Position p : b.getPositions()){
-				if(p.roughlyEquals(pos)){
-					return b;
-				}
-			}
-		}
-		return null;
-	}
-	
-	public List<Unit> getActiveAIEnemies(){
-		HashSet<Unit> AI = new HashSet<>();
-		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
-		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
-		for(Unit e : allEnemies){
-			if(e.isAlive() && !activeEnemies.contains(e)){
-				activeEnemies.add(e);
-			}
-		}
-		for(Unit e : activeEnemies){
-			for(Affector a : e.getAffectors()){
-				if(a instanceof AIPathFollowAffector){
-					AI.add(e);
-				}
-			}
-		}
-		return new ArrayList<>(AI);
+		return myAIHandler.findBranchForPos(pos);
 	}
 
+	@Override
+	public List<Unit> getActiveAIEnemies() {
+		return myAIHandler.getActiveAIEnemies();
+	}
+
+	@Override
 	public void updateAIBranches() {
-		List<Unit> activeAI = getActiveAIEnemies();
-		for(Unit u : getActiveAIEnemies()){
-			if(u.getProperties().getMovement().getCurrentBranch() == null){
-				Position curr = u.getProperties().getPosition();
-				u.getProperties().getMovement().initializeCurrentBranch(findBranchForPos(curr), curr, u.getProperties().getVelocity().getDirection());
-			}
-		}
-		VisibilityGraph myVisibility = new VisibilityGraph(this);
-		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
-		for(Unit u : activeAI){
-			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
-			if(shortestPath != null){
-				u.getProperties().getMovement().setBranches(shortestPath, u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
-			}
-		}
+		myAIHandler.updateAIBranches();
 	}
 
 }

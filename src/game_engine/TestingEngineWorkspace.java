@@ -4,17 +4,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import auth_environment.paths.PathGraphFactory;
-import auth_environment.paths.VisibilityGraph;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
-import game_engine.affectors.AIPathFollowAffector;
+import game_engine.AI.AIHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -40,7 +36,6 @@ import game_engine.score_updates.ScoreUpdate;
 import game_engine.store_elements.Store;
 import game_engine.wave_goals.EnemyNumberWaveGoal;
 import game_engine.wave_goals.WaveGoal;
-
 
 public class TestingEngineWorkspace implements GameEngineInterface {
 
@@ -78,15 +73,18 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
+	
+	private AIHandler myAIHandler;
 
 	public TestingEngineWorkspace () {};
 
 	public void setUpEngine (IAuthEnvironment test) {
+		myAIHandler = new AIHandler(this);
 		score = 0;
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
-		myPlaceValidations.add(new TowerPlaceValidation());
+		myPlaceValidations.add(new EnemySpawnPointPlaceValidation(this));
+		myPlaceValidations.add(new TowerPlaceValidation(this));
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
@@ -512,7 +510,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		if (purchased != null) {
 			boolean canPlace = false;
 			for(int i = 0; i < myPlaceValidations.size(); i++) {
-				canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
+				canPlace = myPlaceValidations.get(i).validate(purchased, x, y);
 			}
 			if(canPlace) {
 				Unit copy = purchased.copyUnit();
@@ -664,60 +662,19 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 	}
 
+	@Override
 	public Branch findBranchForPos(Position pos) {
-		for(Branch b : myBranches){
-			for(Position p : b.getPositions()){
-				if(p.equals(pos)){
-					return b;
-				}
-			}
-		}
-		for(Branch b : myBranches){
-			for(Position p : b.getPositions()){
-				if(p.roughlyEquals(pos)){
-					return b;
-				}
-			}
-		}
-		return null;
+		return myAIHandler.findBranchForPos(pos);
 	}
 
-	public List<Unit> getActiveAIEnemies(){
-		HashSet<Unit> AI = new HashSet<>();
-		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
-		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
-		for(Unit e : allEnemies){
-			if(e.isAlive() && !activeEnemies.contains(e)){
-				activeEnemies.add(e);
-			}
-		}
-		for(Unit e : activeEnemies){
-			for(Affector a : e.getAffectors()){
-				if(a instanceof AIPathFollowAffector){
-					AI.add(e);
-				}
-			}
-		}
-		return new ArrayList<>(AI);
+	@Override
+	public List<Unit> getActiveAIEnemies() {
+		return myAIHandler.getActiveAIEnemies();
 	}
 
 	@Override
 	public void updateAIBranches() {
-		List<Unit> activeAI = getActiveAIEnemies();
-		for(Unit u : getActiveAIEnemies()){
-			if(u.getProperties().getMovement().getCurrentBranch() == null){
-				Position curr = u.getProperties().getPosition();
-				u.getProperties().getMovement().initializeCurrentBranch(findBranchForPos(curr), curr, u.getProperties().getVelocity().getDirection());
-			}
-		}
-		VisibilityGraph myVisibility = new VisibilityGraph(this);
-		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
-		for(Unit u : activeAI){
-			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
-			if(shortestPath != null){
-				u.getProperties().getMovement().setBranches(shortestPath, u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
-			}
-		}
+		myAIHandler.updateAIBranches();
 	}
 
 }

@@ -6,8 +6,12 @@ import game_engine.properties.Position;
 
 public class EnemySpawnPointPlaceValidation extends PlaceValidation{
 
-    @Override
-    public boolean validate (GameEngineInterface gameEngine, Unit unit, double posX, double posY) {
+    public EnemySpawnPointPlaceValidation(GameEngineInterface gameEngine) {
+		super(gameEngine);
+	}
+
+	@Override
+    public boolean validate (Unit unit, double posX, double posY) {
         System.out.println(posX);
         System.out.println(posY);
         if((new Position(posX, posY)).equals(new Position(100, 100))) {

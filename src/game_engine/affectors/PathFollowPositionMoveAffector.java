@@ -33,23 +33,7 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 			return null;
 		}
 		Position next = move.getNextPosition(currentPosition, u.getProperties().getVelocity().getDirection());
-		if(next == null){
-			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
-				return null;
-			}
-			currentBranch = move.getNextBranch();
-			if(currentBranch == null) {
-				this.setElapsedTimeToDeath();
-				u.kill();
-				return null;
-			}
-			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition, u.getProperties().getVelocity().getDirection());
-			next = move.getNextPosition(currentPosition, u.getProperties().getVelocity().getDirection());
-		}
-		return next;
+		return next == null ? null : next;
 	}
-
-	public Double getNextDirection(Unit u){
-		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
-	}
+	
 }
