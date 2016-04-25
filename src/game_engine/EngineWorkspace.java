@@ -1,10 +1,13 @@
 package game_engine;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.paths.VisibilityGraph;
+import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -323,13 +326,55 @@ public class EngineWorkspace implements GameEngineInterface{
 		}
 	}
 
-	public Branch findBranchForSpawn(Position spawn) {
+	public Branch findBranchForPos(Position pos) {
 		for(Branch b : myBranches){
-			if(b.getPositions().contains(spawn)){
-				return b;
+			for(Position p : b.getPositions()){
+				if(p.equals(pos)){
+					return b;
+				}
+			}
+		}
+		for(Branch b : myBranches){
+			for(Position p : b.getPositions()){
+				if(p.roughlyEquals(pos)){
+					return b;
+				}
 			}
 		}
 		return null;
+	}
+	
+	public List<Unit> getActiveAIEnemies(){
+		HashSet<Unit> AI = new HashSet<>();
+		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
+		for(Unit e : allEnemies){
+			if(e.isAlive() && !activeEnemies.contains(e)){
+				activeEnemies.add(e);
+			}
+		}
+		for(Unit e : activeEnemies){
+			for(Affector a : e.getAffectors()){
+				if(a instanceof AIPathFollowAffector){
+					AI.add(e);
+				}
+			}
+		}
+		return new ArrayList<>(AI);
+	}
+
+	@Override
+	public void updateAIBranches() {
+		List<Unit> activeAI = getActiveAIEnemies();
+		VisibilityGraph myVisibility = new VisibilityGraph(this);
+		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
+		for(Unit u : activeAI){
+			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
+			if(shortestPath == null){
+				shortestPath = new ArrayList<>();
+			}
+			u.getProperties().getMovement().setBranches(shortestPath);
+		}
 	}
 
 }

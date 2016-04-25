@@ -21,7 +21,6 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
-
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;
@@ -228,9 +227,15 @@ public class Branch implements Serializable{
 	}
 
 	public String toString(){
-
-
-		return "Branch positions: " + myPositions+"\n";
+		String first = "";
+		if(myPositions.size() > 0){
+			first = myPositions.get(0)+"";
+		}
+		String last = "";
+		if(myPositions.size() > 0){
+			last = myPositions.get(myPositions.size()-1)+"";
+		}
+		return "Branch positions: " + first+" "+last+"\n";
 	}
 
 	public int getLength(){
@@ -245,15 +250,6 @@ public class Branch implements Serializable{
 			}
 		}
 		return forwards;
-	}
-
-	public boolean isAccessible(Position p){
-		for(Branch b : getForwardNeighbors()){
-			if(b.getPositions().contains(p)){
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public boolean equals(Branch branch){
@@ -299,8 +295,6 @@ public class Branch implements Serializable{
         catch(ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         }
-//        System.out.println("BEFORE: " + this);
-//        System.out.println("SERIALIZED: " + obj);
         return obj;
     }
 

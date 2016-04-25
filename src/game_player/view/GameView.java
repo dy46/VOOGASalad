@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import exceptions.WompException;
+import game_engine.physics.CollisionChecker;
 import game_engine.physics.CollisionDetector;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
@@ -263,11 +264,11 @@ public class GameView implements IGameView {
             if (seeRange) {
                 Unit myUnit = imageViews.get(i).getUnit();
                 List<Position> bounds =
-                        CollisionDetector.getUseableBounds(myUnit.getChildren().get(0)
+                		CollisionChecker.getUseableBounds(myUnit.getChildren().get(0)
                                 .getProperties().getBounds(),
                                                            myUnit.getProperties().getPosition());
                 List<Position> range =
-                        CollisionDetector.getUseableBounds(myUnit.getChildren().get(0)
+                        CollisionChecker.getUseableBounds(myUnit.getChildren().get(0)
                                 .getProperties().getRange(),
                                                            myUnit.getProperties().getPosition());
                 rangesToSubtract.add(fillPolygonWithPoints(new Polygon(), bounds));

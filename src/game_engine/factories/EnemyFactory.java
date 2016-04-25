@@ -57,10 +57,10 @@ public class EnemyFactory {
         Health health = new Health(50);
         Velocity velocity = new Velocity(0.5, 90);
         List<Position> l1 = new ArrayList<>();
-        l1.add(new Position(0, 0));
-        l1.add(new Position(15, 0));
-        l1.add(new Position(15, 15));
-        l1.add(new Position(0, 15));
+        l1.add(new Position(-30, -30));
+        l1.add(new Position(30, -30));
+        l1.add(new Position(30, 30));
+        l1.add(new Position(-30, 30));
         Bounds b = new Bounds(l1);
         State st = new State(2);
         Price price = new Price(30);

@@ -1,6 +1,10 @@
 package game_engine.affectors;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import auth_environment.paths.VisibilityGraph;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -39,14 +43,35 @@ public abstract class PathFollowAffector extends Affector{
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			//this is the end of the path
 			return u.getProperties().getVelocity().getDirection();
 		}
 		return move.getNextDirection(currentPosition);
 	}
 	
-	public List<Branch> getBranchChoices(Unit u){
-		return u.getProperties().getMovement().getCurrentBranch().getForwardNeighbors();
+	public List<Branch> getValidBranchChoices(Unit u){
+		List<Branch> choices = getAllBranchChoices(u);
+		VisibilityGraph vg = new VisibilityGraph(getWS());
+		HashSet<Branch> visibleChoices = new HashSet<>();
+		List<Branch> visibleBranches = vg.getVisibilityBranches();
+		for(Branch choice : choices){
+			for(Branch v : visibleBranches){
+				if(choice.equals(v)){
+					visibleChoices.add(choice);
+				}
+			}
+		}
+		return new ArrayList<>(visibleChoices);
+	}
+	
+	public List<Branch> getAllBranchChoices(Unit u){
+		return u.getProperties().getMovement().getCurrentBranch().getNeighbors();
+	}
+	
+	public boolean isAccessible(Branch b, Position p){
+		if(b.getPositions().contains(p)){
+			return true;
+		}
+		return new VisibilityGraph(getWS()).isAccessibleFrom(b, p);
 	}
 	
 }

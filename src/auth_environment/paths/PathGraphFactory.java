@@ -1,6 +1,4 @@
 package auth_environment.paths;
-
-import java.util.ArrayList;
 import java.util.List;
 import game_engine.game_elements.Branch;
 import game_engine.libraries.PathLibrary;

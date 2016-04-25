@@ -4,13 +4,17 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
+import auth_environment.paths.PathGraphFactory;
+import auth_environment.paths.VisibilityGraph;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
+import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -27,6 +31,7 @@ import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
 import game_engine.place_validations.EnemySpawnPointPlaceValidation;
 import game_engine.place_validations.PlaceValidation;
+import game_engine.place_validations.TowerPlaceValidation;
 import game_engine.physics.EncapsulationController;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
@@ -81,6 +86,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
 		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+		myPlaceValidations.add(new TowerPlaceValidation());
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
@@ -103,6 +109,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 		myLevels.add(myCurrentLevel);
+		updateAIBranches();
 		myAffectorFactory.getAffectorLibrary().getAffectors().stream()
 		.forEach(a -> a.setWorkspace(this));
 		this.makeDummyUpgrades();
@@ -172,23 +179,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
 		myBranches = mh.getEngineBranches();
-//		System.out.println("MY BRANCHES: " + myBranches);
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
-		System.out.println("GOAL: " + mh.getGoals());
-		// For testing branching
-		// System.out.println("NUM BRANCHES: " + myBranches.size());
-		// for(int x=0; x<myBranches.size(); x++){
-		// System.out.println(myBranches.get(x)+" Starting pos: " +
-		// myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
-		// }
-		// Branch pb5 = myBranches.get(4);
-		// Branch pb6 = myBranches.get(5);
-		System.out.println("SPAWN: " + l.getSpawns().get(0));
-		
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
-		AI1.getProperties().getMovement().setCurrentBranch(findBranchForSpawn(l.getSpawns().get(0)), l.getSpawns().get(0));
 		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
@@ -233,9 +227,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 //		w.addSpawningUnit(e3, 60);
 //		w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-//		w.addSpawningUnit(AI2, 60);
-//		w.addSpawningUnit(AI3, 60);
-//		w.addSpawningUnit(AI4, 60);
+		w.addSpawningUnit(AI2, 60);
+		w.addSpawningUnit(AI3, 60);
+		w.addSpawningUnit(AI4, 60);
 //		w.addSpawningUnit(rand1, 60);
 //		w.addSpawningUnit(rand2, 60);
 //		w.addSpawningUnit(rand3, 60);
@@ -524,6 +518,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 				Unit copy = purchased.copyUnit();
 				copy.getProperties().setPosition(x, y);
 				myTowers.add(copy);
+				updateAIBranches();
 				return true;
 			}
 			else {
@@ -574,7 +569,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 		if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
 			nextWaveTimer = 0;
-			System.out.println("NEXT WAVE");
 			continueWaves();
 		}
 		if (myEnemys.size() == 0) {
@@ -663,20 +657,72 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	public Position getCursorPosition() {
 		return cursorPos;
 	}
-	
+
 	public void removeTower(Unit u) {
 		if(myTowers.contains(u)){
 			myTowers.remove(u);
 		}
 	}
-	
-	public Branch findBranchForSpawn(Position spawn) {
+
+	public Branch findBranchForPos(Position pos) {
 		for(Branch b : myBranches){
-			if(b.getPositions().contains(spawn)){
-				return b;
+			for(Position p : b.getPositions()){
+				if(p.equals(pos)){
+					return b;
+				}
+			}
+		}
+		for(Branch b : myBranches){
+			for(Position p : b.getPositions()){
+				if(p.roughlyEquals(pos)){
+					return b;
+				}
 			}
 		}
 		return null;
 	}
+
+	public List<Unit> getActiveAIEnemies(){
+		HashSet<Unit> AI = new HashSet<>();
+		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
+		for(Unit e : allEnemies){
+			if(e.isAlive() && !activeEnemies.contains(e)){
+				activeEnemies.add(e);
+			}
+		}
+		for(Unit e : activeEnemies){
+			for(Affector a : e.getAffectors()){
+				if(a instanceof AIPathFollowAffector){
+					AI.add(e);
+				}
+			}
+		}
+		return new ArrayList<>(AI);
+	}
+
+	@Override
+	public void updateAIBranches() {
+		List<Unit> activeAI = getActiveAIEnemies();
+		setAIStartingBranch(activeAI);
+		VisibilityGraph myVisibility = new VisibilityGraph(this);
+		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
+		for(Unit u : activeAI){
+			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
+			if(shortestPath == null){
+				shortestPath = new ArrayList<>();
+			}
+			u.getProperties().getMovement().setBranches(shortestPath);
+		}
+	}
 	
+	private void setAIStartingBranch(List<Unit> AI){
+		for(Unit u : AI){
+			if(u.getProperties().getMovement().getCurrentBranch() == null){
+				Position curr = u.getProperties().getPosition();
+				u.getProperties().getMovement().setCurrentBranch(findBranchForPos(curr), curr);
+			}
+		}
+	}
+
 }
