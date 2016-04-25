@@ -54,6 +54,7 @@ public class LevelOverviewTab extends Tab {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
 			Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myAuthModel);
+			// TODO: add new Level to the Game Data
 			myTabs.getTabs().addAll(tab);
 			myTabs.getSelectionModel().select(tab);
 		});
