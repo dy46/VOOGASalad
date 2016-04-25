@@ -1,8 +1,6 @@
 package auth_environment.view.tabs;
 
-import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
@@ -11,25 +9,21 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 
 public class LevelTab extends Tab{
-	private IAuthEnvironment myInterface;
+	
 	private BorderPane myBorderPane;
 	private IAuthModel myAuthModel;
-	private NodeFactory myNodeFactory;
 	private String myName; 
 	
 	public LevelTab(String name, IAuthModel authModel){
 		super(name);
 		this.myAuthModel = authModel;
 		this.myName = name;
-		this.myInterface = authModel.getIAuthEnvironment();
-		this.myNodeFactory = new NodeFactory();
 		init();
 	}
 	
 	private void init(){
-		myBorderPane = new BorderPane();
-		this.myBorderPane.getChildren().add(this.myNodeFactory.buildButton("hello"));
-		createWaveList();
+		this.myBorderPane = new BorderPane();
+		this.createWaveList();
 		this.setContent(myBorderPane);
 	}
 	
@@ -39,9 +33,9 @@ public class LevelTab extends Tab{
 		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
 		newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
 		newTableInfo.setPrefSize(600, 200);	
-		myBorderPane.setLeft(newTableInfo);
-		Button waveButton = new Button("waveeee");
-		addNewWaveSpace(index, newTableInfo, waveButton);
+		this.myBorderPane.setLeft(newTableInfo);
+		Button dummyWaveButton = new Button();
+		this.addNewWaveSpace(index, newTableInfo, dummyWaveButton);
 	}
 	
 	private void addNewWaveSpace(int index, GridPane newTableInfo, Button waveButton) {
@@ -54,7 +48,7 @@ public class LevelTab extends Tab{
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");
 		int num = index;
-		newWaveButton.setOnAction(e-> addNewWaveSpace(num, newTableInfo, newWaveButton));
+		newWaveButton.setOnAction(e -> addNewWaveSpace(num, newTableInfo, newWaveButton));
 		newTableInfo.add(newWaveButton, 2, index);
 	}
 	
