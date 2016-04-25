@@ -24,7 +24,6 @@ import auth_environment.Models.WaveOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import auth_environment.view.UnitPicker;
-import auth_environment.view.Workspaces.GlobalGameTab;
 import game_engine.TestingEngineWorkspace;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
