@@ -66,6 +66,7 @@ public class ElementTab extends Tab{
 	private void init(){
 		refresh();
 		index = 1;
+//		this.addRefresh();
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
@@ -136,7 +137,7 @@ public class ElementTab extends Tab{
 		//labels stuff
 		
 		Button newAffectorButton = new Button("+ Add New Affector");
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox, 2, affectorsToUnit));
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox1, 2, affectorsToUnit));
 		newTableInfo.add(newAffectorButton, 2, index);
 		index++;
 
@@ -294,6 +295,10 @@ public class ElementTab extends Tab{
     	
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
 //    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
+    	System.out.println(strToStrMap);
+    	System.out.println(proj);
+    	System.out.println(atu);
+    	System.out.println(ata);
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
 //    	up.add(unit, this);

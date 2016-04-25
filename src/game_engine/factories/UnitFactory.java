@@ -50,7 +50,7 @@ public class UnitFactory {
         String unitType = getUnitType(inputs.get("Unit Type"));
         UnitProperties newProperties = new UnitProperties();
         newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
-        newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+//        newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
 //        newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
         newProperties.setStateProp(getUnitState(inputs.get("State")));
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);
@@ -65,12 +65,18 @@ public class UnitFactory {
     }
     
     public List<Unit> getUnitsFromString(List<String> names) {
+    	if(names.contains(null)) {
+    		return new ArrayList<>();
+    	}
         List<Unit> units = new ArrayList<>();
         names.stream().forEach(n -> units.add(myUnitLibrary.getUnitByName(n)));
         return units;
     }
     
     public List<Affector> getAffectorsFromString(List<String> names) {
+    	if(names.contains(null)) {
+    		return new ArrayList<>();
+    	}
         List<Affector> affectors = new ArrayList<>();
         names.stream().forEach(n -> affectors.add(myAffectorLibrary.getAffector(n)));
         return affectors;
