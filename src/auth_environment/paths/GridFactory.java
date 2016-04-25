@@ -83,10 +83,10 @@ public class GridFactory extends PathGraphFactory{
 				posGrid[x][y] = new Position(x*sideLength, y*sideLength);
 			}
 		}
-		for(int x=0; x<numSquareCols; x++){
+		for(int x=numSquareCols+1; x<posGrid.length; x++){
 			posGrid[x][numSquareRows-1] = new Position(x*sideLength, numSquareRows*sideLength);
 		}
-		for(int y=0; y<numSquareCols; y++){
+		for(int y=numSquareRows+1; y<posGrid[0].length; y++){
 			posGrid[numSquareCols-1][y] = new Position(numSquareCols*sideLength, y*sideLength);
 		}
 		return posGrid;

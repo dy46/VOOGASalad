@@ -714,6 +714,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
 		for(Unit u : activeAI){
 			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
+			System.out.println("SHORTEST PATH: " + shortestPath);
 			if(shortestPath != null){
 				u.getProperties().getMovement().setBranches(shortestPath);
 			}
