@@ -2,7 +2,7 @@ package auth_environment.Models.Interfaces;
 
 import java.util.List;
 
-public interface IWaveOverviewTabModel {
+public interface IWaveWindowModel {
     static final int DEFAULT_TIME = 240;
     
     /*

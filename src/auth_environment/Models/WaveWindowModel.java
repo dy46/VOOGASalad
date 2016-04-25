@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
-import auth_environment.Models.Interfaces.IWaveWindowTabModel;
+import auth_environment.Models.Interfaces.IWaveWindowModel;
+
 import java.util.ArrayList;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 import game_engine.libraries.UnitLibrary;
 
-public class WaveWindowTabModel implements IWaveWindowTabModel {
+public class WaveWindowModel implements IWaveWindowModel {
 	
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -19,20 +20,18 @@ public class WaveWindowTabModel implements IWaveWindowTabModel {
     private UnitLibrary myLibrary;
     private ILevelOverviewTabModel levelOverview;
     
-    public WaveWindowTabModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
+    public WaveWindowModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
         this.myWave = new Wave(name, spawnTime);
         this.myLibrary = lib;
         this.levelOverview = levelOverview;
     }
     
-    @Override
     public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
         Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes);
         levelOverview.addToCreatedWaves(level, w);
         return w;
     }
     
-    @Override
     public List<Unit> unitsFromNames(List<String> names) {
         return names.stream().map(n -> myLibrary.getUnitByName(n)).collect(Collectors.toList());    
     }

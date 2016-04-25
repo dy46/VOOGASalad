@@ -2,7 +2,7 @@ package auth_environment.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.Models.Interfaces.IWaveWindowTabModel;
+import auth_environment.Models.Interfaces.IWaveWindowModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -17,23 +17,25 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
+	
 	private GridPane myLeftGridPane;
 	private GridPane myRightGridPane;
 	private BorderPane myBorderPane; 
-	private IAuthModel myAuthModel;
+	
 	private List<ComboBox<String>> spawningNames;
 	private List<ComboBox<String>> placingNames;
 	private List<TextField> spawningTimes;
 	
-	private IWaveWindowTabModel myWaveWindowTabModel; 
+	private IAuthModel myAuthModel;
+	private IWaveWindowModel myWaveWindowModel; 
 	
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave, IAuthModel myAuthModel){
 		this.myAuthModel = myAuthModel;
-		this.init();
-		
-		 
-
+		// TODO: these names should come out of the Model!
+		this.spawningNames = new ArrayList<ComboBox<String>>();
+		this.placingNames = new ArrayList<ComboBox<String>>();
+		this.spawningTimes = new ArrayList<TextField>();
 		Stage stage = new Stage();
 		Group root = new Group();
 		Scene newScene = new Scene(root);
@@ -65,13 +67,6 @@ public class WaveWindow {
 		ok.setOnAction(e -> createNewWave(title, level));
 	}
 	
-	private void init() {
-		// TODO: these names should come out of the Model!
-		this.spawningNames = new ArrayList<ComboBox<String>>();
-		this.placingNames = new ArrayList<ComboBox<String>>();
-		this.spawningTimes = new ArrayList<TextField>();
-	}
-	
 	//createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames)
 	private void createNewWave(String title, String level) {
 		List<String> sn = new ArrayList<String>();
@@ -88,7 +83,6 @@ public class WaveWindow {
 		}
 		
 		//createWave(title,level, sn, st, pn);
-		
 	}
 
 	private void centerStage(Stage stage){
