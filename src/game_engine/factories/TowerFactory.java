@@ -61,9 +61,9 @@ public class TowerFactory {
 		Velocity velocity = new Velocity(0.5, 180);
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(-30, -30));
-        l1.add(new Position(30, -30));
-        l1.add(new Position(30, 30));
-        l1.add(new Position(-30, 30));
+		l1.add(new Position(30, -30));
+		l1.add(new Position(30, 30));
+		l1.add(new Position(-30, 30));
 		Bounds b = new Bounds(l1);
 		State st = new State(2);
 		Branch p2 = new Branch();
@@ -78,9 +78,8 @@ public class TowerFactory {
 		p2.addPosition(startingPosition.copyPosition());
 		p2.addPosition(new Position(startingPosition.getX() + 636, startingPosition.getY() - 636));
 		UnitProperties properties =
-				new UnitProperties(h, null, velocity, b, range,
-						startingPosition.copyPosition(), null, st,
-						new Movement(Arrays.asList(p2)), new Mass(1));
+				new UnitProperties(h, null, velocity, b, range, null, st,
+						new Movement(startingPosition.copyPosition()), new Mass(1));
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
@@ -97,7 +96,7 @@ public class TowerFactory {
 				startingPosition.getY() + 636));
 		move2.setTTL(60);
 		pp2.getProperties().setVelocity(0.5, 90);
-		pp2.getProperties().setMovement(new Movement(Arrays.asList(path2)));
+		pp2.getProperties().setMovement(new Movement(Arrays.asList(path2), startingPosition.copyPosition()));
 
 		Unit pp3 = p.copyUnit();
 		pp3.setTTL(30);
@@ -108,7 +107,7 @@ public class TowerFactory {
 		path3.addPosition(startingPosition.copyPosition());
 		path3.addPosition(new Position(startingPosition.getX(), startingPosition.getY() + 900));
 		pp3.getProperties().setVelocity(0.5, 0);
-		pp3.getProperties().setMovement(new Movement(Arrays.asList(path3)));
+		pp3.getProperties().setMovement(new Movement(Arrays.asList(path3), startingPosition.copyPosition()));
 
 		Unit pp4 = p.copyUnit();
 		pp4.setTTL(60);
@@ -119,7 +118,7 @@ public class TowerFactory {
 		path4.addPosition(new Position(startingPosition.getX() + 900, startingPosition.getY()));
 		pp4.getProperties().setVelocity(0.5, 270);
 		move4.setTTL(30);
-		pp4.getProperties().setMovement(new Movement(Arrays.asList(path4)));
+		pp4.getProperties().setMovement(new Movement(Arrays.asList(path4), startingPosition.copyPosition()));
 
 		Unit pp5 = p.copyUnit();
 		pp5.setTTL(30);
@@ -131,7 +130,7 @@ public class TowerFactory {
 		path5.addPosition(new Position(startingPosition.getX() + 636,
 				startingPosition.getY() + 636));
 		pp5.getProperties().setVelocity(0.5, 225);
-		pp5.getProperties().setMovement(new Movement(Arrays.asList(path5)));
+		pp5.getProperties().setMovement(new Movement(Arrays.asList(path5), startingPosition.copyPosition()));
 
 		Unit pp6 = p.copyUnit();
 		pp6.setTTL(30);
@@ -142,7 +141,7 @@ public class TowerFactory {
 		path6.addPosition(startingPosition.copyPosition());
 		path6.addPosition(new Position(startingPosition.getX() - 900, startingPosition.getY()));
 		pp6.getProperties().setVelocity(0.5, 135);
-		pp6.getProperties().setMovement(new Movement(Arrays.asList(path6)));
+		pp6.getProperties().setMovement(new Movement(Arrays.asList(path6), startingPosition.copyPosition()));
 
 		Unit pp7 = p.copyUnit();
 		pp7.setTTL(30);
@@ -153,7 +152,7 @@ public class TowerFactory {
 		path7.addPosition(startingPosition.copyPosition());
 		path7.addPosition(new Position(startingPosition.getX(), startingPosition.getY() - 900));
 		pp7.getProperties().setVelocity(0.5, 315);
-		pp7.getProperties().setMovement(new Movement(Arrays.asList(path7)));
+		pp7.getProperties().setMovement(new Movement(Arrays.asList(path7), startingPosition.copyPosition()));
 
 		Unit pp8 = p.copyUnit();
 		Affector move8 = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
@@ -164,7 +163,7 @@ public class TowerFactory {
 		path8.addPosition(new Position(startingPosition.getX() - 450,
 				startingPosition.getY() - 450));
 		pp8.getProperties().setVelocity(0.5, 45);
-		pp8.getProperties().setMovement(new Movement(Arrays.asList(path8)));
+		pp8.getProperties().setMovement(new Movement(Arrays.asList(path8), startingPosition.copyPosition()));
 
 		myProjectiles.add(pp8);
 		myProjectiles.add(pp7);
@@ -185,23 +184,22 @@ public class TowerFactory {
 			Position startingPosition,
 			Store myStore) {
 		List<Unit> myProjectiles = new ArrayList<>();
-//		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
+		//		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		Affector move = myAffectorLibrary.getAffector("Cursor", "Direction");
 		move.setTTL(Integer.MAX_VALUE);
 		Unit p =
 				new Unit("Projectile",
 						Arrays.asList(move), 3);
 		Affector increase = myAffectorLibrary.getAffector("Increase", "Range");
-                myStore.addUpgrade(p, increase, 100);
-                System.out.println("hi");
+		myStore.addUpgrade(p, increase, 100);
 		p.setDeathDelay(15);
 		p.setTTL(1000000);
 		Velocity velocity = new Velocity(2, 90);
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(-30, -30));
-        l1.add(new Position(30, -30));
-        l1.add(new Position(30, 30));
-        l1.add(new Position(-30, 30));
+		l1.add(new Position(30, -30));
+		l1.add(new Position(30, 30));
+		l1.add(new Position(-30, 30));
 		Bounds b = new Bounds(l1);
 		State st = new State(2);
 		Branch p2 = new Branch();
@@ -214,9 +212,8 @@ public class TowerFactory {
 		l2.add(new Position(100, -100));
 		Bounds range = new Bounds(l2);
 		UnitProperties properties =
-				new UnitProperties(new Health(1), null, velocity, b, range,
-						startingPosition.copyPosition(), null, st,
-						new Movement(Arrays.asList(p2)), new Mass(1));
+				new UnitProperties(new Health(1), null, velocity, b, range, null, st,
+						new Movement(new Position(0, 0)), new Mass(1));
 		Affector damage = myAffectorLibrary.getAffector("Constant", "HealthDamage");
 		damage.setTTL(1);
 		Affector stateToDamaging = myAffectorLibrary.getAffector("State", "Change");
@@ -240,17 +237,16 @@ public class TowerFactory {
 		myProjectiles.stream().forEach(p -> p.addParent(t));
 		List<Position> l1 = new ArrayList<>();
 		l1.add(new Position(-30, -30));
-        l1.add(new Position(30, -30));
-        l1.add(new Position(30, 30));
-        l1.add(new Position(-30, 30));
+		l1.add(new Position(30, -30));
+		l1.add(new Position(30, 30));
+		l1.add(new Position(-30, 30));
 		Bounds b = new Bounds(l1);
 		Health health2 = new Health(50);
-		Position position2 = new Position(200, 300);
 		Velocity velocity2 = new Velocity(0, 180);
 		State st = new State(0);
-		Movement p2 = new Movement(Arrays.asList(new Branch()));
+		Movement p2 = new Movement(Arrays.asList(new Branch()), new Position(0, 0));
 		UnitProperties properties2 =
-				new UnitProperties(health2, null, velocity2, b, null, position2, null, st,
+				new UnitProperties(health2, null, velocity2, b, null, null, st,
 						p2, new Mass(1));
 		t.setProperties(properties2);
 		t.setTTL(1000000);

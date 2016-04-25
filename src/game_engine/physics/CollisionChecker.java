@@ -13,6 +13,8 @@ public class CollisionChecker {
 	public static List<Position> getUseableBounds (Bounds bounds, Position pos) {
 		List<Position> newBounds = new ArrayList<Position>();
 		for (Position p : bounds.getPositions()) {
+			if(pos == null || bounds == null)
+				System.out.println("P bounds: "+ p+" new pos: "+ pos);
 			Position newP = new Position(p.getX() + pos.getX(), p.getY() + pos.getY());
 			newBounds.add(newP);
 		}
@@ -24,7 +26,7 @@ public class CollisionChecker {
 				a.getProperties().getPosition());
 		return collides(aPos, b);
 	}
-	
+
 	private static boolean collides (List<Position> bounds, Unit b) {
 		List<Position> bPos = getUseableBounds(b.getProperties().getBounds(),
 				b.getProperties().getPosition());
@@ -38,7 +40,7 @@ public class CollisionChecker {
 		}
 		return false;
 	}
-	
+
 	public static boolean simulatedObstacleCollisionCheck(List<Position> enemyBounds, List<Unit> obstacles){
 		for(Unit obstacle : obstacles){
 			if(collides(enemyBounds, obstacle)){

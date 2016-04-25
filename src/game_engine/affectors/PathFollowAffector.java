@@ -3,12 +3,10 @@ package game_engine.affectors;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import auth_environment.paths.VisibilityGraph;
+import game_engine.AI.VisibilityHandler;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import game_engine.properties.Property;
 
@@ -39,17 +37,12 @@ public abstract class PathFollowAffector extends Affector{
 	public abstract Position getNextPosition(Unit u);
 
 	public Double getNextDirection(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			return u.getProperties().getVelocity().getDirection();
-		}
-		return move.getNextDirection(currentPosition);
+		return u.getProperties().getMovement().getNextDirection();
 	}
 
 	public List<Branch> getValidBranchChoices(Unit u){
 		List<Branch> choices = getAllBranchChoices(u);
-		VisibilityGraph vg = new VisibilityGraph(getWS());
+		VisibilityHandler vg = new VisibilityHandler(getWS());
 		HashSet<Branch> visibleChoices = new HashSet<>();
 		List<Branch> visibleBranches = vg.getVisibilityBranches();
 		for(Branch choice : choices){
@@ -64,13 +57,6 @@ public abstract class PathFollowAffector extends Affector{
 
 	public List<Branch> getAllBranchChoices(Unit u){
 		return u.getProperties().getMovement().getCurrentBranch().getNeighbors();
-	}
-
-	public boolean isAccessible(Branch b, Position p){
-		if(b.getPositions().contains(p)){
-			return true;
-		}
-		return new VisibilityGraph(getWS()).isAccessibleFrom(b, p);
 	}
 
 }

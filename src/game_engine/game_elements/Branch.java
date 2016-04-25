@@ -115,6 +115,7 @@ public class Branch implements Serializable{
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
 			return null;
 		}
+//		System.out.println("MOVE TOWARDS: " + moveTowards);
 		Map<Position, Position> use = moveTowards.equals(myPositions.get(0)) ? backwardPositions : forwardPositions;
 		if(use.containsKey(currentPosition)){
 			return use.get(currentPosition);
@@ -156,6 +157,8 @@ public class Branch implements Serializable{
 	}
 
 	public Position getFirstPosition() {
+		if(myPositions == null || myPositions.size() == 0)
+			return null;
 		return myPositions.get(0);
 	}
 
@@ -172,6 +175,9 @@ public class Branch implements Serializable{
 	}
 
 	public Position getLastPosition() {
+		if(myPositions == null || myPositions.size() == 0){
+			return null;
+		}
 		return myPositions.get(myPositions.size()-1);
 	}
 

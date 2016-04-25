@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
+import game_engine.properties.Movement;
+import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
@@ -286,5 +288,14 @@ public class Unit extends GameElement {
 	public String getType(){
 		return type;
 	}
-
+	
+	public void turnAround(){
+		Movement myMovement = this.myProperties.getMovement();
+		Branch currBranch = myMovement.getCurrentBranch();
+		Position movingTowards = myMovement.getMovingTowards();
+		myMovement.setMovingTowards(currBranch.getFirstPosition().equals(movingTowards) ? currBranch.getLastPosition() : currBranch.getFirstPosition());
+		double nextDir = myMovement.getNextDirection();
+		this.myProperties.getVelocity().setDirection(nextDir);
+	}
+	
 }

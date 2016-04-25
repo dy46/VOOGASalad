@@ -1,26 +1,25 @@
 package game_engine.place_validations;
-import java.util.List;
-
-import auth_environment.paths.VisibilityGraph;
 import game_engine.GameEngineInterface;
-import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
+/**
+ * This class checks for valid tower placement using an AI Simulator to run a simulated enemy path following obstacle test after adding an obstacle (the tower being placed).
+ * @author adamtache
+ *
+ */
+
 public class TowerPlaceValidation extends PlaceValidation{
 
-	public boolean validate(GameEngineInterface gameEngine, Unit unit, double posX, double posY) {
+	public TowerPlaceValidation(GameEngineInterface gameEngine) {
+		super(gameEngine);
+	}
+
+	public boolean validate(Unit unit, double posX, double posY) {
 		Unit copy = unit.copyShallowUnit();
-		copy.getProperties().getPosition().setPosition(new Position(posX, posY));
-		VisibilityGraph myVisibility = new VisibilityGraph(gameEngine);
-		List<Branch> visibilityPlacementBranches = myVisibility.getSimulatedPlacementBranches(copy);
-		boolean validMap = myVisibility.isValidMap(visibilityPlacementBranches);
-		if(!validMap){
-			return false;
-		}
-		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
-		boolean simulated = myVisibility.simulateEnemyPathFollowing(visibilityBranches, unit);
-		return simulated;
+		copy.getProperties().setPosition(new Position(posX, posY));
+		boolean simulation = getAISimulator().simulateEnemyPathFollowing(copy);
+		return simulation;
 	}
 
 }
