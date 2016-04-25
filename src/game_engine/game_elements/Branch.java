@@ -254,7 +254,7 @@ public class Branch implements Serializable{
 
 	public boolean equals(Branch branch){
 		for(int x=0; x<branch.getPositions().size(); x++){
-			if(!branch.getPositions().get(x).equals(this.getPositions().get(x))){
+			if(this.getPositions().size() > x && !branch.getPositions().get(x).equals(this.getPositions().get(x))){
 				return false;
 			}
 		}

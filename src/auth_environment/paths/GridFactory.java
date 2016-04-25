@@ -11,12 +11,12 @@ public class GridFactory extends PathGraphFactory{
 
 	private PositionHandler myPositionHandler;
 	private BranchHandler myBranchHandler;
-	
+
 	public GridFactory(){
 		myPositionHandler = new PositionHandler();
 		myBranchHandler = new BranchHandler();
 	}
-	
+
 	public PathGraph createUnlimitedPathGraph(double width, double length, double sideLength){
 		PathGraph pathGrid = new PathGraph();
 		Position[][] positionGrid = createPosGrid(width, length, sideLength);
@@ -26,7 +26,7 @@ public class GridFactory extends PathGraphFactory{
 		}
 		return pathGrid;
 	}
-	
+
 	private void insertBranchInPath(List<Position> branchPos, PathGraph path){
 		Branch newBranch = new Branch(branchPos);
 		myBranchHandler.configureBranch(newBranch, path);
@@ -47,10 +47,12 @@ public class GridFactory extends PathGraphFactory{
 								if(x==0 || y==0){
 									Position neighbor = grid[neighborX][neighborY];
 									List<Position> toInterpolate = Arrays.asList(pos, neighbor);
-									if(!pastPos.contains(pos) && !pastPos.contains(neighbor)){
-										List<Position> interpolated = myPositionHandler.getInterpolatedPositions(toInterpolate, false);
-										if(!branchPosLists.contains(interpolated)){
-											branchPosLists.add(interpolated);
+									if(pos != null && neighbor != null){
+										if(!pastPos.contains(pos) && !pastPos.contains(neighbor)){
+											List<Position> interpolated = myPositionHandler.getInterpolatedPositions(toInterpolate, false);
+											if(!branchPosLists.contains(interpolated)){
+												branchPosLists.add(interpolated);
+											}
 										}
 									}
 								}
@@ -66,7 +68,7 @@ public class GridFactory extends PathGraphFactory{
 
 	private Position[][] createPosGrid(double width, double length, double sideLength){
 		int numSquareCols = (int)Math.floor(width/sideLength);
-		int numSquareRows = (int)Math.floor(width/sideLength);
+		int numSquareRows = (int)Math.floor(length/sideLength);
 		int numExtraCols = 0;
 		int numExtraRows = 0;
 		if(width/sideLength > numSquareCols){
@@ -75,9 +77,9 @@ public class GridFactory extends PathGraphFactory{
 		if(length/sideLength > numSquareRows){
 			numExtraRows++;
 		}
-		Position[][] posGrid = new Position[numSquareCols + numExtraCols][numSquareRows + numExtraRows];
-		for(int x=0; x<numSquareCols; x++){
-			for(int y=0; y<numSquareRows; y++){
+		Position[][] posGrid = new Position[numSquareCols + numExtraCols +1][numSquareRows + numExtraRows + 1];
+		for(int x=0; x<=numSquareCols; x++){
+			for(int y=0; y<=numSquareRows; y++){
 				posGrid[x][y] = new Position(x*sideLength, y*sideLength);
 			}
 		}
@@ -89,5 +91,5 @@ public class GridFactory extends PathGraphFactory{
 		}
 		return posGrid;
 	}
-	
+
 }

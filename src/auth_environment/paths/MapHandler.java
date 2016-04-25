@@ -16,7 +16,6 @@ public class MapHandler {
 	private List<Branch> myVisualBranches;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
-	private List<Branch> testBranches;
 
 	public MapHandler(){
 		myPGF = new PathGraphFactory();
@@ -26,7 +25,8 @@ public class MapHandler {
 		myGridBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-		insertTestBranches();
+//		insertTestBranches();
+		createGrid();
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Branch> gridBranches, List<Branch> visualBranches){
@@ -63,11 +63,13 @@ public class MapHandler {
 		PathGraph grid = myGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
 		myGridBranches = grid.getBranches();
 		myEngineBranches.addAll(grid.getBranches());
+		mySpawns = Arrays.asList(myGridBranches.get(0).getFirstPosition());
+		myGoals = Arrays.asList(myGridBranches.get(myGridBranches.size()-1).getFirstPosition());
 		return myGridBranches;
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/12500;
+		return screenWidth*screenHeight/2500;
 	}
 
 	public void insertTestBranches(){
