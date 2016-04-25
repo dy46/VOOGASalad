@@ -13,26 +13,25 @@ public class RandomPathFollowAffector extends PathFollowAffector{
 	}
 
 	public Position getNextPosition(Unit u) {
-		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
 		if(currentBranch == null){
 			return null;
 		}
-		Position next = move.getNextPosition(currentPosition);
+		Position next = move.getNextPosition();
 		if(next == null){
 			currentBranch = pickRandomBranch(u);
 			if(currentBranch == null){
 				return null;
 			}
-			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
+			u.getProperties().getMovement().setCurrentBranch(currentBranch);
 			next = currentBranch.getFirstPosition();
 		}
 		return next;
 	}
 
 	private Branch pickRandomBranch(Unit u) {
-		List<Branch> choices = getBranchChoices(u);
+		List<Branch> choices = getAllBranchChoices(u);
 		if(choices.size() == 0)
 			return null;
 		int random = (int) (Math.random()*choices.size());

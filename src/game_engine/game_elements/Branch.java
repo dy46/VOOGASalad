@@ -21,7 +21,6 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
-
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;
@@ -116,6 +115,7 @@ public class Branch implements Serializable{
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
 			return null;
 		}
+//		System.out.println("MOVE TOWARDS: " + moveTowards);
 		Map<Position, Position> use = moveTowards.equals(myPositions.get(0)) ? backwardPositions : forwardPositions;
 		if(use.containsKey(currentPosition)){
 			return use.get(currentPosition);
@@ -157,6 +157,8 @@ public class Branch implements Serializable{
 	}
 
 	public Position getFirstPosition() {
+		if(myPositions == null || myPositions.size() == 0)
+			return null;
 		return myPositions.get(0);
 	}
 
@@ -173,6 +175,9 @@ public class Branch implements Serializable{
 	}
 
 	public Position getLastPosition() {
+		if(myPositions == null || myPositions.size() == 0){
+			return null;
+		}
 		return myPositions.get(myPositions.size()-1);
 	}
 
@@ -228,9 +233,15 @@ public class Branch implements Serializable{
 	}
 
 	public String toString(){
-
-
-		return "Branch positions: " + myPositions+"\n";
+		String first = "";
+		if(myPositions.size() > 0){
+			first = myPositions.get(0)+"";
+		}
+		String last = "";
+		if(myPositions.size() > 0){
+			last = myPositions.get(myPositions.size()-1)+"";
+		}
+		return "Branch positions: " + first+" "+last+"\n";
 	}
 
 	public int getLength(){
@@ -247,18 +258,15 @@ public class Branch implements Serializable{
 		return forwards;
 	}
 
-	public boolean isAccessible(Position p){
-		for(Branch b : getForwardNeighbors()){
-			if(b.getPositions().contains(p)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public boolean equals(Branch branch){
+		if(branch.getPositions() == null && this.getPositions() == null){
+			return true;
+		}
+		else if(branch.getPositions().size() == 0 && this.getPositions().size() == 0){
+			return true;
+		}
 		for(int x=0; x<branch.getPositions().size(); x++){
-			if(!branch.getPositions().get(x).equals(this.getPositions().get(x))){
+			if(this.getPositions().size() > x && !branch.getPositions().get(x).equals(this.getPositions().get(x))){
 				return false;
 			}
 		}
@@ -299,8 +307,6 @@ public class Branch implements Serializable{
         catch(ClassNotFoundException cnfe) {
             cnfe.printStackTrace();
         }
-//        System.out.println("BEFORE: " + this);
-//        System.out.println("SERIALIZED: " + obj);
         return obj;
     }
 

@@ -8,16 +8,16 @@ import game_engine.properties.Position;
 
 public class BranchHandler {
 	
-	public void configureBranch(Branch newPathNode, PathGraph myPath){
-		Position startPos = newPathNode.getFirstPosition();
-		Position endPos = newPathNode.getLastPosition();
-		configureBranchesWithEdgePos(newPathNode, myPath, startPos);
-		if(!startPos.equals(endPos)){
-			configureBranchesWithEdgePos(newPathNode, myPath, endPos);
+	public void configureBranch(Branch newBranch, PathGraph myPath){
+		Position startPos = newBranch.getFirstPosition();
+		Position endPos = newBranch.getLastPosition();
+		configureBranchesWithEdgePos(newBranch, myPath, startPos);
+		if(startPos != null && endPos !=null && !startPos.equals(endPos)){
+			configureBranchesWithEdgePos(newBranch, myPath, endPos);
 		}
-		configureMidBranchSplits(newPathNode, myPath, startPos);
-		if(!startPos.equals(endPos)){
-			configureMidBranchSplits(newPathNode, myPath, endPos);
+		configureMidBranchSplits(newBranch, myPath, startPos);
+		if(startPos != null && endPos !=null && !startPos.equals(endPos)){
+			configureMidBranchSplits(newBranch, myPath, endPos);
 		}
 	}
 

@@ -94,9 +94,4 @@ public class Position extends Property implements Serializable{
 		return 15;
 	}
 
-	public void setPosition(Position pos) {
-		this.myX = pos.getX();
-		this.myY = pos.getY();
-	}
-
 }
