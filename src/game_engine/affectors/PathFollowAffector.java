@@ -62,11 +62,4 @@ public abstract class PathFollowAffector extends Affector{
 		return u.getProperties().getMovement().getCurrentBranch().getNeighbors();
 	}
 
-	public boolean isAccessible(Branch b, Position p){
-		if(b.getPositions().contains(p)){
-			return true;
-		}
-		return new AISearcher(getWS()).isSearchPossible(b, p);
-	}
-
 }

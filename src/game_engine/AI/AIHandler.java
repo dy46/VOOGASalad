@@ -1,6 +1,7 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import game_engine.GameEngineInterface;
@@ -31,17 +32,34 @@ public class AIHandler {
 
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
+		HashMap<Position, List<Branch>> pathMap = new HashMap<>();
 		for(Unit u : activeAI){
 			if(u.getProperties().getMovement().getCurrentBranch() == null){
 				Position currentPosition = u.getProperties().getPosition();
-				List<Branch> newBranches = mySearcher.getShortestPath(currentPosition);
+				List<Branch> newBranches = new ArrayList<>();
+				if(pathMap.containsKey(currentPosition)){
+					newBranches = pathMap.get(currentPosition);
+				}
+				else{
+					newBranches = mySearcher.getShortestPath(currentPosition);
+					pathMap.put(currentPosition, newBranches);
+				}
+				System.out.println("NEW BRANCHES: " + newBranches);
 				configureMovement(u, newBranches);
 			}
 		}
 		for(Unit u : activeAI){
-			List<Branch> shortestPath = mySearcher.getShortestPath(u.getProperties().getPosition());
-			if(shortestPath != null){
-				configureMovement(u, shortestPath);
+			Position currentPosition = u.getProperties().getPosition();
+			List<Branch> newBranches = new ArrayList<>();
+			if(pathMap.containsKey(currentPosition)){
+				newBranches = pathMap.get(currentPosition);
+			}
+			else{
+				newBranches = mySearcher.getShortestPath(currentPosition);
+				pathMap.put(currentPosition, newBranches);
+			}
+			if(newBranches != null){
+				configureMovement(u, newBranches);
 			}
 		}
 	}
@@ -51,7 +69,8 @@ public class AIHandler {
 		List<Branch> currentBranches = myMovement.getBranches();
 		Position currentPosition = u.getProperties().getPosition();
 		myMovement.setBranches(newBranches, currentPosition);
-		if(currentBranches.size() == 0){
+//		System.out.println("MOVING TOWARDS: " + myMovement.getMovingTowards());
+		if(currentBranches.size() == 0 || currentBranches.size() == 1){
 			return;
 		}
 		if(newBranches.get(0).equals(currentBranches.get(0))){
@@ -86,22 +105,16 @@ public class AIHandler {
 		return new ArrayList<>(AI);
 	}
 
-	public Branch findBranchForPos(Position pos) {
+	public List<Branch> getBranchesAtPos(Position pos) {
+		List<Branch> branches = new ArrayList<>();
 		for(Branch b : myEngine.getBranches()){
 			for(Position p : b.getPositions()){
 				if(p.equals(pos)){
-					return b;
+					branches.add(b);
 				}
 			}
 		}
-		for(Branch b : myEngine.getBranches()){
-			for(Position p : b.getPositions()){
-				if(p.roughlyEquals(pos)){
-					return b;
-				}
-			}
-		}
-		return null;
+		return branches;
 	}
 
 }

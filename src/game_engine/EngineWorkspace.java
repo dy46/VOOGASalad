@@ -326,8 +326,8 @@ public class EngineWorkspace implements GameEngineInterface{
 	}
 	
 	@Override
-	public Branch getNearestBranch(Position pos) {
-		return myAIHandler.findBranchForPos(pos);
+	public List<Branch> getBranchesAtPos(Position pos) {
+		return myAIHandler.getBranchesAtPos(pos);
 	}
 
 	@Override

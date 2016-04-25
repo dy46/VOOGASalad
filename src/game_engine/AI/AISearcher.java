@@ -16,8 +16,8 @@ import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 /**
- * This class is a utility Artificial Intelligence searcher that allows for search problems using the path graph in the game engine.
- * A search problem is composed of a list of branches, possible starting points, and goals and tests for valid path finding.
+ * This class is a utility Artificial Intelligence searcher that allows for search problems.
+ * A search problem is composed of a list of branches, which compose a "path graph".
  * @author adamtache
  *
  */
@@ -26,12 +26,35 @@ public class AISearcher {
 
 	private GameEngineInterface myEngine;
 	private VisibilityHandler myVisibility;
-	
+
 	public AISearcher(GameEngineInterface engine){
 		this.myEngine = engine;
 		this.myVisibility = new VisibilityHandler(engine);
 	}
-	
+
+	public List<Branch> getPathToAnyGoal(Position current){
+		HashMap<Branch, List<Branch>> BFSVisitedMap = getBFSVisitedMap(myVisibility.getVisibilityBranches(), current);
+		Iterator it = BFSVisitedMap.keySet().iterator();
+		while(it.hasNext()){
+			Branch start = (Branch) it.next();
+			List<Branch> branchList = BFSVisitedMap.get(start);
+			for(Branch branch : branchList){
+				for(Position pos : branch.getPositions()){
+					for(Position goal : myEngine.getCurrentLevel().getGoals()){
+						if(pos.equals(goal)){
+							List<Branch> path = getOrderedPath(branchList, start, branch);
+							System.out.println("GOAL REACHED: " + goal+" FOR PATH: " + path);
+							if(path != null){
+								return path;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	public List<Branch> getShortestPath(Position current){
 		List<Position> goals = new ArrayList<>();
 		goals.addAll(myEngine.getCurrentLevel().getGoals());
@@ -50,23 +73,20 @@ public class AISearcher {
 	}
 
 	public List<Branch> getShortestPathToGoal(Position start, Position goal, List<Branch> visibilityBranches){
-		if(!myVisibility.positionVisibleCheck(visibilityBranches, start)){
-			return null;
+		List<Branch> startBranches = myEngine.getBranchesAtPos(start);
+		List<Branch> goalBranches = myEngine.getBranchesAtPos(goal);
+		List<Branch> bestPath = null;
+		for(Branch s : startBranches){
+			for(Branch g: goalBranches){
+				bestPath = dijkstrasShortestPath(s, g, visibilityBranches);
+				if(bestPath != null){
+					return bestPath;
+				}
+			}
 		}
-		Branch startBranch = myEngine.getNearestBranch(start);
-		Branch goalBranch = myEngine.getNearestBranch(goal);
-		List<Branch> bestPath = dijkstrasShortestPath(startBranch, goalBranch, visibilityBranches);
-		if(bestPath == null){
-			return null;
-		}
-		return bestPath;
+		return null;
 	}
-	
-	public boolean isSearchPossible(Branch b, Position p){
-		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
-		return BFSPossible(visibilityBranches, b.getFirstPosition(), p);
-	}
-	
+
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
 		for(Position goal : myEngine.getCurrentLevel().getGoals()){
 			for(Position spawn : myEngine.getCurrentLevel().getSpawns()){
@@ -137,40 +157,46 @@ public class AISearcher {
 	public double getManhattanDistance(Position current, Position goal){
 		return Math.sqrt(Math.pow(current.getX(), goal.getY()) + Math.pow(current.getY(), goal.getY()));
 	}
-	
+
 	public boolean BFSPossible(List<Branch> visibilityBranches, Position current, Position goal){
-		List<Branch> visited = getBFSVisited(visibilityBranches, current, goal);
-		if(visited.size() == 0){
+		HashMap<Branch, List<Branch>> visitedMap = getBFSVisitedMap(visibilityBranches, current);
+		if(visitedMap.keySet().size() == 0){
 			return false;
 		}
-		for(Branch b : visited){
-			if(b.getPositions().contains(goal)){
-				return true;
+		for(List<Branch> visited : visitedMap.values()){
+			for(Branch v : visited){
+				if(v.getPositions().contains(goal)){
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	private List<Branch> getBFSVisited(List<Branch> visibilityBranches, Position current, Position goal){
+	private HashMap<Branch, List<Branch>> getBFSVisitedMap(List<Branch> visibilityBranches, Position current){
 		if(!myVisibility.positionVisibleCheck(visibilityBranches, current)){
-			return new ArrayList<>();
+			return new HashMap<>();
 		}
-		Branch start = myEngine.getNearestBranch(current);
-		Branch copyStart = start.copyBranch();
-		Queue<Branch> queue = new LinkedList<>();
-		List<Branch> visited = new ArrayList<>();
-		queue.add(copyStart);
-		while(!queue.isEmpty()){
-			Branch branch = (Branch) queue.remove();
-			Branch child = null;
-			while((child = getUnvisitedChildNode(branch, visited, visibilityBranches)) != null){
-				visited.add(child);
-				queue.add(child);
+		List<Branch> startBranches = myEngine.getBranchesAtPos(current);
+		HashMap<Branch, List<Branch>> visitedMap = new HashMap<>();
+		for(Branch start : startBranches){
+			Branch copyStart = start.copyBranch();
+			Queue<Branch> queue = new LinkedList<>();
+			List<Branch> visited = new ArrayList<>();
+			queue.add(copyStart);
+			while(!queue.isEmpty()){
+				Branch branch = (Branch) queue.remove();
+				Branch child = null;
+				while((child = getUnvisitedChildNode(branch, visited, visibilityBranches)) != null){
+					visited.add(child);
+					queue.add(child);
+				}
 			}
+			visitedMap.put(start, visited);
 		}
-		return visited;
+		return visitedMap;
 	}
-	
+
 	private Branch getUnvisitedChildNode(Branch branch, List<Branch> visited, List<Branch> visible) {
 		List<Branch> neighbors = branch.getNeighbors();
 		List<Branch> visibleNeighbors = new ArrayList<>();
@@ -188,5 +214,9 @@ public class AISearcher {
 		}
 		return visibleNeighbors.get(0);
 	}
-	
+
+	private List<Branch> getOrderedPath(List<Branch> branches, Branch start, Branch goal){
+		return this.dijkstrasShortestPath(start, goal, branches);
+	}
+
 }

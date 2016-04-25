@@ -103,6 +103,6 @@ public interface GameEngineInterface {
 
 	public void updateAIBranches();
 
-	public Branch getNearestBranch(Position pos);
+	public List<Branch> getBranchesAtPos(Position pos);
 
 }

@@ -93,14 +93,14 @@ public class VisibilityHandler {
 	}
 
 	public boolean positionVisibleCheck(List<Branch> visibilityBranches, Position spawn){
-		Branch start = myEngine.getNearestBranch(spawn);
-		boolean contained = false;
 		for(Branch v : visibilityBranches){
-			if(v.equals(start)){
-				contained = true;
+			for(Position p : v.getPositions()){
+				if(p.equals(spawn)){
+					return true;
+				}
 			}
 		}
-		return contained;
+		return false;
 	}	
 
 }

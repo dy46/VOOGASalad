@@ -83,6 +83,7 @@ public class Movement {
 	}
 
 	public Position getNextPosition(Position currentPosition){
+//		System.out.println("MOVING TOWARDS: " + movingTowards);
 		Position next = myCurrentBranch.getNextPosition(currentPosition, movingTowards);
 		if(next == null){
 			if(myBranches.get(myBranches.size()-1).equals(myCurrentBranch)){
