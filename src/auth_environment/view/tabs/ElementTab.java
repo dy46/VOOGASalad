@@ -31,7 +31,9 @@ public class ElementTab extends Tab{
 	private List<ComboBox<String>> affectorsToUnit;
 	private List<ComboBox<String>> affectorsToApply;
 	private List<ComboBox<String>> Projectiles;
-	private int index = 1;
+	private List<String> affectorNames;
+	private List<String> unitNames;
+	private int index;
 	
 	private BorderPane myPane;
 	
@@ -49,18 +51,21 @@ public class ElementTab extends Tab{
 		this.myAuthModel = authModel; 
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
 		this.myPane = new BorderPane();
-		this.addRefresh();
+		//this.addRefresh();
+		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
+		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();
+		this.setOnSelectionChanged(l -> refresh());
+		this.myPane = new BorderPane(); 
 		init();
 	}
 	
-	private void addRefresh() {
-		this.myPane.setOnMouseEntered(e -> this.init());
-	}
+//	private void addRefresh() {
+//		this.myPane.setOnMouseEntered(e -> this.init());
+//	}
 	
 	private void init(){
-		System.out.println("refresh");
-		this.myPane = new BorderPane(); 
-		this.addRefresh();
+		refresh();
+		index = 1;
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
@@ -68,7 +73,7 @@ public class ElementTab extends Tab{
 		myPane.setLeft(newPane);
 		this.setClosable(false);
 		
-	    UnitPicker up = new UnitPicker("Edit");
+	    UnitPicker up = new UnitPicker("Edit", this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits());
 	    myPane.setRight(up.getRoot());
 		newPane.setText("New");
 		newPane.setContent(newScrollPane);
@@ -107,13 +112,12 @@ public class ElementTab extends Tab{
 		String wweorpawt  = "Projectiles";
 		newTableInfo.add(new Text(wweorpawt), 1, index);
 		ComboBox<String> cbox = new ComboBox<String>();
-		cbox.getItems().addAll(this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames());
+		cbox.getItems().addAll(unitNames);
 		newTableInfo.add(cbox, 2, index);
 		Projectiles.add(cbox);
 		int currentInt = index;
 		index++;
 		
-
 		Button projectileButton = new Button("+ Add New Projectile");
 		projectileButton.setOnAction(e-> addNewProjectileSpace(currentInt, newTableInfo, projectileButton, cbox, 2, Projectiles));
 		newTableInfo.add(projectileButton, 2, index);
@@ -123,7 +127,8 @@ public class ElementTab extends Tab{
 		String affectors = "Affector(s) For Unit";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox1 = new ComboBox<String>();
-		cbox1.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
+		
+		cbox1.getItems().addAll(affectorNames);
 		newTableInfo.add(cbox1, 2, index);
 		affectorsToUnit.add(cbox1);
 		int currentInt1 = index;
@@ -141,7 +146,7 @@ public class ElementTab extends Tab{
 		affectors = "Affector(s) to Apply";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox2 = new ComboBox<String>();
-		cbox2.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
+		cbox2.getItems().addAll(affectorNames);
 		newTableInfo.add(cbox2, 2, index);
 		affectorsToApply.add(cbox2);
 		int currentInt2 = index;
@@ -162,7 +167,7 @@ public class ElementTab extends Tab{
 			int newcol = col + 1;		
 			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
+			newcbox.getItems().addAll(affectorNames);
 			newTableInfo.add(newcbox, newcol, row);
 			list.add(newcbox);
 			button.setOnAction(e -> addNewAffectorApplySpace(row, newTableInfo, button, newcbox, newcol, list));
@@ -174,7 +179,7 @@ public class ElementTab extends Tab{
 			int newcol = col + 1;	
 			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
+			newcbox.getItems().addAll(affectorNames);
 			newTableInfo.add(newcbox, newcol, row);
 			list.add(newcbox);
 			button.setOnAction(e -> addNewAffectorSpace(row, newTableInfo, button, newcbox, newcol, list));
@@ -184,15 +189,23 @@ public class ElementTab extends Tab{
 	
 	private void addNewProjectileSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list) {
 		if(cbox.getValue() != null){
+			System.out.println("wat");
 			int newcol = col + 1;	
 			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("Hello", "its", "me", "Tack");
+			newcbox.getItems().addAll(unitNames);
 			newTableInfo.add(newcbox, newcol, row);
 			list.add(newcbox);
 			button.setOnAction(e -> addNewProjectileSpace(row, newTableInfo, button, newcbox, newcol, list));
 		}
 		
+	}
+	
+	private void refresh(){
+//		System.out.println("I AM REFRESHED");
+		
+		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
+		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
 	}
 
 	private void addTextFields(GridPane newTableInfo) {
@@ -213,6 +226,7 @@ public class ElementTab extends Tab{
 		myFields.add("NumFrames");
 		myFields.add("Direction");
 		myFields.add("Speed");
+		myFields.add("Price");
 		myFields.add("State");
 		myFields.add("Health");
 		//UnitProperties unitProp =myUnitFactory.getUnitLibrary().getPropertyByType(type);
@@ -282,8 +296,10 @@ public class ElementTab extends Tab{
 //    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
-    	up.add(unit, this);
+//    	up.add(unit, this);
     	
+    	myPane.getChildren().clear();
+    	init();
 	}
 
 //	private void addNewApplyAffectorSpace(GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {

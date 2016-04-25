@@ -51,7 +51,7 @@ public class UnitFactory {
         UnitProperties newProperties = new UnitProperties();
         newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
         newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
-        newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
+//        newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
         newProperties.setStateProp(getUnitState(inputs.get("State")));
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);
         Unit unit =
@@ -60,7 +60,7 @@ public class UnitFactory {
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));
-        unit.setDeathDelay(Integer.parseInt(inputs.get("DeathDelay")));
+        unit.setDeathDelay(Integer.parseInt(inputs.get("Death Delay")));
         return unit;
     }
     
