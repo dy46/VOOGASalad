@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 
 public class GameView implements IGameView {
 
+    public static final int DEFAULT_UPDATE_SPEED = 1;
     private Pane root;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
@@ -27,7 +28,6 @@ public class GameView implements IGameView {
     private PlayerMainTab myTab;
     private GameHUD myHUD;
     private int timer;
-    private static final int DEFAULT_UPDATE_SPEED = 1;
     private double myUpdateSpeed;
     private double currentSpeed;
     private AnimationTimer AT;

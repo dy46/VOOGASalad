@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
-import auth_environment.Models.Interfaces.ElementTabModel;
+import auth_environment.Models.ElementTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
@@ -33,6 +33,8 @@ public class ElementTab extends Tab{
 	private List<ComboBox<String>> Projectiles;
 	private int index = 1;
 	
+	private BorderPane myPane;
+	
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myInterface;
 	private IElementTabModel myElementTabModel;
@@ -46,11 +48,17 @@ public class ElementTab extends Tab{
 		Projectiles = new ArrayList<ComboBox<String>>();
 		this.myAuthModel = authModel; 
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
+		this.myPane = new BorderPane();
+		this.addRefresh();
 		init();
 	}
 	
+	private void addRefresh() {
+		this.myPane.setOnMouseEntered(e -> this.init());
+	}
+	
 	private void init(){
-		BorderPane myPane = new BorderPane();
+		this.myPane = new BorderPane(); 
 		TitledPane newPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
@@ -97,7 +105,7 @@ public class ElementTab extends Tab{
 		String wweorpawt  = "Projectiles";
 		newTableInfo.add(new Text(wweorpawt), 1, index);
 		ComboBox<String> cbox = new ComboBox<String>();
-		cbox.getItems().addAll("Hello", "its", "me", "Tack");
+		cbox.getItems().addAll(this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames());
 		newTableInfo.add(cbox, 2, index);
 		Projectiles.add(cbox);
 		int currentInt = index;
@@ -113,7 +121,7 @@ public class ElementTab extends Tab{
 		String affectors = "Affector(s) For Unit";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox1 = new ComboBox<String>();
-		cbox1.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+		cbox1.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
 		newTableInfo.add(cbox1, 2, index);
 		affectorsToUnit.add(cbox1);
 		int currentInt1 = index;
@@ -121,7 +129,7 @@ public class ElementTab extends Tab{
 		//labels stuff
 		
 		Button newAffectorButton = new Button("+ Add New Affector");
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox, 2, affectorsToUnit));
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox1, 2, affectorsToUnit));
 		newTableInfo.add(newAffectorButton, 2, index);
 		index++;
 
@@ -131,7 +139,7 @@ public class ElementTab extends Tab{
 		affectors = "Affector(s) to Apply";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox2 = new ComboBox<String>();
-		cbox2.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+		cbox2.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
 		newTableInfo.add(cbox2, 2, index);
 		affectorsToApply.add(cbox2);
 		int currentInt2 = index;
@@ -152,7 +160,7 @@ public class ElementTab extends Tab{
 			int newcol = col + 1;		
 			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+			newcbox.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
 			newTableInfo.add(newcbox, newcol, row);
 			list.add(newcbox);
 			button.setOnAction(e -> addNewAffectorApplySpace(row, newTableInfo, button, newcbox, newcol, list));
@@ -164,7 +172,7 @@ public class ElementTab extends Tab{
 			int newcol = col + 1;	
 			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+			newcbox.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
 			newTableInfo.add(newcbox, newcol, row);
 			list.add(newcbox);
 			button.setOnAction(e -> addNewAffectorSpace(row, newTableInfo, button, newcbox, newcol, list));
@@ -200,7 +208,6 @@ public class ElementTab extends Tab{
 		myFields.add("Unit Type");
 		myFields.add("Death Delay");
 		myFields.add("Type");
-		myFields.add("Name");
 		myFields.add("NumFrames");
 		myFields.add("Direction");
 		myFields.add("Speed");
@@ -271,9 +278,14 @@ public class ElementTab extends Tab{
     	
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
 //    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
+    	System.out.println(strToStrMap);
+    	System.out.println(proj);
+    	System.out.println(atu);
+    	System.out.println(ata);
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
     	up.add(unit, this);
+    	System.out.println(this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames());
     	
 	}
 

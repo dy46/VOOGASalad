@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.view.tabs.AffectorTab;
 import auth_environment.view.tabs.ElementTab;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -28,7 +28,7 @@ public class VAsTesterTab extends Tab{
 		TabPane myTabs = new TabPane();
 		// TODO: update AffectorTab's constructor to match ElementTab
 		myTabs.getTabs().addAll(new ElementTab("Units", authModel), 
-				new AffectorTab("Affectors", authModel.getIAuthEnvironment()));
+				new AffectorTab("Affectors", authModel));
 				//, new ElementTab("Affectors"), new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));
 		this.setContent(myTabs);
 	}
