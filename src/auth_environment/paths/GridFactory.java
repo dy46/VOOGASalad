@@ -69,14 +69,8 @@ public class GridFactory extends PathGraphFactory{
 	private Position[][] createPosGrid(double width, double length, double sideLength){
 		int numSquareCols = (int)Math.floor(width/sideLength);
 		int numSquareRows = (int)Math.floor(length/sideLength);
-		int numExtraCols = 0;
-		int numExtraRows = 0;
-		if(width/sideLength > numSquareCols){
-			numExtraCols++;
-		}
-		if(length/sideLength > numSquareRows){
-			numExtraRows++;
-		}
+		int numExtraCols = extraColNeeded(numSquareCols, width, sideLength) ? 1 : 0;
+		int numExtraRows = extraRowNeeded(numSquareRows, length, sideLength) ? 1 : 0;
 		Position[][] posGrid = new Position[numSquareCols + numExtraCols +1][numSquareRows + numExtraRows + 1];
 		for(int x=0; x<=numSquareCols; x++){
 			for(int y=0; y<=numSquareRows; y++){
@@ -90,6 +84,14 @@ public class GridFactory extends PathGraphFactory{
 			posGrid[numSquareCols-1][y] = new Position(numSquareCols*sideLength, y*sideLength);
 		}
 		return posGrid;
+	}
+
+	private boolean extraColNeeded(int numSquareCols, double width, double sideLength){
+		return width/sideLength > numSquareCols;
+	}
+
+	private boolean extraRowNeeded(int numSquareRows, double length, double sideLength){
+		return length/sideLength > numSquareRows;
 	}
 
 }
