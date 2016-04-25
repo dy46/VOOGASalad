@@ -180,27 +180,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
 		myBranches = mh.getEngineBranches();
-		//		System.out.println("MY BRANCHES: " + myBranches);
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
-		System.out.println("GOAL: " + mh.getGoals());
-		// For testing branching
-		// System.out.println("NUM BRANCHES: " + myBranches.size());
-//		for(int x=0; x<myBranches.size(); x++){
-//			System.out.println(" Starting pos: " +
-//					myBranches.get(x).getFirstPosition()+" Last pos: "+myBranches.get(x).getLastPosition());
-//			for(Branch n : myBranches.get(x).getNeighbors()){
-//				System.out.println("Neighbor: Starting pos: " +
-//						n.getFirstPosition()+" Last pos: "+n.getLastPosition());
-//			}
-//		}
-		// Branch pb5 = myBranches.get(4);
-		// Branch pb6 = myBranches.get(5);
-		System.out.println("SPAWN: " + l.getSpawns().get(0));
-
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
-		AI1.getProperties().getMovement().setCurrentBranch(findBranchForPos(l.getSpawns().get(0)), l.getSpawns().get(0));
 		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
 		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
@@ -240,26 +223,26 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		rand10.getProperties().setHealth(50);
 		rand11.getProperties().setHealth(50);
 		rand12.getProperties().setHealth(50);
-		//		w.addSpawningUnit(e1, 0);
-		//		w.addSpawningUnit(e2, 60);
-		//		w.addSpawningUnit(e3, 60);
-		//		w.addSpawningUnit(e4, 60);
+//		w.addSpawningUnit(e1, 0);
+//		w.addSpawningUnit(e2, 60);
+//		w.addSpawningUnit(e3, 60);
+//		w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-		//		w.addSpawningUnit(AI2, 60);
-		//		w.addSpawningUnit(AI3, 60);
-		//		w.addSpawningUnit(AI4, 60);
-		//		w.addSpawningUnit(rand1, 60);
-		//		w.addSpawningUnit(rand2, 60);
-		//		w.addSpawningUnit(rand3, 60);
-		//		w.addSpawningUnit(rand4, 60);
-		//		w.addSpawningUnit(rand5, 60);
-		//		w.addSpawningUnit(rand6, 60);
-		//		w.addSpawningUnit(rand7, 60);
-		//		w.addSpawningUnit(rand8, 60);
-		//		w.addSpawningUnit(rand9, 60);
-		//		w.addSpawningUnit(rand10, 60);
-		//		w.addSpawningUnit(rand11, 60);
-		//		w.addSpawningUnit(rand12, 60);
+		w.addSpawningUnit(AI2, 60);
+		w.addSpawningUnit(AI3, 60);
+		w.addSpawningUnit(AI4, 60);
+//		w.addSpawningUnit(rand1, 60);
+//		w.addSpawningUnit(rand2, 60);
+//		w.addSpawningUnit(rand3, 60);
+//		w.addSpawningUnit(rand4, 60);
+//		w.addSpawningUnit(rand5, 60);
+//		w.addSpawningUnit(rand6, 60);
+//		w.addSpawningUnit(rand7, 60);
+//		w.addSpawningUnit(rand8, 60);
+//		w.addSpawningUnit(rand9, 60);
+//		w.addSpawningUnit(rand10, 60);
+//		w.addSpawningUnit(rand11, 60);
+//		w.addSpawningUnit(rand12, 60);
 		List<Unit> list = makeDummyTowers();
 		w.addPlacingUnit(list.get(0), 0);
 		w.addPlacingUnit(list.get(1), 0);
@@ -536,6 +519,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 				Unit copy = purchased.copyUnit();
 				copy.getProperties().setPosition(x, y);
 				myTowers.add(copy);
+				updateAIBranches();
 				return true;
 			}
 			else {
@@ -586,7 +570,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 		if (myCurrentLevel.getNextWave() != null && waveGoal.reachedGoal(this)) {
 			nextWaveTimer = 0;
-			System.out.println("NEXT WAVE");
 			continueWaves();
 		}
 		if (myEnemys.size() == 0) {
@@ -684,8 +667,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 	public Branch findBranchForPos(Position pos) {
 		for(Branch b : myBranches){
-			if(b.getPositions().contains(pos)){
-				return b;
+			for(Position p : b.getPositions()){
+				if(p.equals(pos)){
+					return b;
+				}
 			}
 		}
 		for(Branch b : myBranches){
@@ -697,12 +682,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 		return null;
 	}
-	
+
 	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
-		System.out.println("LEVEL: " + myCurrentLevel);
-		System.out.println("WAVE: " + myCurrentLevel.getCurrentWave());
-		System.out.println("SPAWNING: " + myCurrentLevel.getCurrentWave().getSpawningUnitsLeft());
 		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
 		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
 		for(Unit e : allEnemies){
@@ -719,15 +701,28 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 		return new ArrayList<>(AI);
 	}
-	
+
 	@Override
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
-		System.out.println("ACTIVE AI: " + activeAI);
+		setAIStartingBranch(activeAI);
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
+		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
 		for(Unit u : activeAI){
-			System.out.println("UPDATING");
-			u.getProperties().getMovement().setBranches(myVisibility.getShortestPath(u.getProperties().getPosition()));
+			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
+			if(shortestPath == null){
+				shortestPath = new ArrayList<>();
+			}
+			u.getProperties().getMovement().setBranches(shortestPath);
+		}
+	}
+	
+	private void setAIStartingBranch(List<Unit> AI){
+		for(Unit u : AI){
+			if(u.getProperties().getMovement().getCurrentBranch() == null){
+				Position curr = u.getProperties().getPosition();
+				u.getProperties().getMovement().setCurrentBranch(findBranchForPos(curr), curr);
+			}
 		}
 	}
 

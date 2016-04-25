@@ -83,14 +83,16 @@ public class Movement {
 			}
 			Branch nextBranch = myBranches.get(1 + myBranches.indexOf(myCurrentBranch));
 			if(nextBranch.getFirstPosition().equals(currentPosition)){
-				movingTowards = nextBranch.getLastPosition();
 				myCurrentBranch = nextBranch;
-				return nextBranch.getFirstPosition();
+				Position curr = nextBranch.getFirstPosition();
+				initializeMovingTowards(curr);
+				return curr;
 			}
 			else{
 				myCurrentBranch = nextBranch;
-				movingTowards = nextBranch.getFirstPosition();
-				return nextBranch.getLastPosition();
+				Position curr = nextBranch.getLastPosition();
+				initializeMovingTowards(curr);
+				return curr;
 			}
 		}
 		return next;

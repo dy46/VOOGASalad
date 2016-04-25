@@ -13,19 +13,14 @@ public class TowerPlaceValidation extends PlaceValidation{
 		Unit copy = unit.copyShallowUnit();
 		copy.getProperties().getPosition().setPosition(new Position(posX, posY));
 		VisibilityGraph myVisibility = new VisibilityGraph(gameEngine);
-		List<Branch> visibilityBranches = myVisibility.getSimulatedPlacementBranches(copy);
-		boolean validMap = myVisibility.isValidMap(visibilityBranches);
+		List<Branch> visibilityPlacementBranches = myVisibility.getSimulatedPlacementBranches(copy);
+		boolean validMap = myVisibility.isValidMap(visibilityPlacementBranches);
 		if(!validMap){
-			System.out.println("NOT VALID MAP");
 			return false;
 		}
-		System.out.println("VALID MAP");
-		boolean simulationValid = myVisibility.simulateEnemyPathFollowing(visibilityBranches, unit);
-		System.out.println("SIMULATION VALIDITY: " + simulationValid);
-		if(simulationValid){
-			gameEngine.updateAIBranches();
-		}
-		return simulationValid;
+		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
+		boolean simulated = myVisibility.simulateEnemyPathFollowing(visibilityBranches, unit);
+		return simulated;
 	}
 
 }

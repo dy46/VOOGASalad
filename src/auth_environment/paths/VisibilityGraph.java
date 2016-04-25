@@ -58,7 +58,7 @@ public class VisibilityGraph {
 		return BFSPossible(visibilityBranches, b.getFirstPosition(), p);
 	}
 
-	public List<Branch> getShortestPath(Position current){
+	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
 		List<Position> goals = new ArrayList<>();
 		goals.addAll(myEngine.getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
@@ -69,24 +69,30 @@ public class VisibilityGraph {
 		while(closestGoal == null){
 			closestGoal = sortedGoals.remove(0);
 			if(closestGoal != null){
-				return bestDijkstrasPath(current, closestGoal);
+				break;
 			}
 		}
-		return bestDijkstrasPath(current, closestGoal);
+		return bestDijkstrasPath(current, closestGoal, visibilityBranches);
 	}
 
-	public List<Branch> bestDijkstrasPath(Position start, Position goal){
-		if(!BFSPreCheck(getVisibilityBranches(), start)){
+	private List<Branch> getShortestPath(Position current, Position goal, List<Branch> visibilityBranches) {
+		return bestDijkstrasPath(current, goal, visibilityBranches);
+	}
+
+	public List<Branch> bestDijkstrasPath(Position start, Position goal, List<Branch> visibilityBranches){
+		if(!BFSPreCheck(visibilityBranches, start)){
 			return null;
 		}
 		Branch startBranch = myEngine.findBranchForPos(start);
 		Branch goalBranch = myEngine.findBranchForPos(goal);
-		List<Branch> bestPath = getShortestPath(startBranch, goalBranch);
-		bestPath.add(goalBranch);
+		List<Branch> bestPath = dijkstrasShortestPath(startBranch, goalBranch, visibilityBranches);
+		if(bestPath == null){
+			return null;
+		}
 		return bestPath;
 	}
 
-	public List<Branch> getShortestPath(Branch start, Branch goal){
+	public List<Branch> dijkstrasShortestPath(Branch start, Branch goal, List<Branch> visibleBranches){
 		HashMap<Branch, Branch> nextNodeMap = new HashMap<>();
 		Branch currentNode = start;
 		Queue<Branch> queue = new LinkedList<>();
@@ -100,9 +106,17 @@ public class VisibilityGraph {
 			} else {
 				for (Branch nextNode : currentNode.getNeighbors()) {
 					if (!visitedNodes.contains(nextNode)) {
-						queue.add(nextNode);
-						visitedNodes.add(nextNode);
-						nextNodeMap.put(currentNode, nextNode);
+						boolean isVisible = false;
+						for(Branch v : visibleBranches){
+							if(v.equals(nextNode)){
+								isVisible = true;
+							}
+						}
+						if(isVisible){
+							queue.add(nextNode);
+							visitedNodes.add(nextNode);
+							nextNodeMap.put(currentNode, nextNode);
+						}
 					}
 				}
 			}
@@ -114,6 +128,11 @@ public class VisibilityGraph {
 		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
 			shortestPath.add(node);
 		}
+		// TODO
+		if(!shortestPath.get(0).equals(start)){
+			shortestPath.set(0, start);
+		}
+		shortestPath.add(goal);
 		return shortestPath;
 	}
 
@@ -136,14 +155,22 @@ public class VisibilityGraph {
 	}
 
 	private List<Branch> getVisibilityBranches(List<Unit> obstacles){
+		return filterObstacles(getFilteredBranches(obstacles));
+	}
+
+	private List<Branch> getFilteredBranches(List<Unit> obstacles){
 		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
 		List<Branch> copyBranchesToFilter = branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
+		return copyBranchesToFilter;
+	}
+
+	private List<Branch> filterObstacles(List<Branch> branchesToFilter){
 		PathGraph pg = new PathGraph(myEngine.getBranches());
 		List<Branch> branches = pg.copyGraph().getBranches();
 		List<Branch> copyBranches = branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-		for(int y=0; y<copyBranchesToFilter.size(); y++){
+		for(int y=0; y<branchesToFilter.size(); y++){
 			for(int x=0; x<copyBranches.size(); x++){
-				if(copyBranchesToFilter.get(y).equals(copyBranches.get(x))){
+				if(branchesToFilter.get(y).equals(copyBranches.get(x))){
 					Branch removed = copyBranches.remove(x);
 					x--;
 					for(Branch b : copyBranches){
@@ -188,8 +215,8 @@ public class VisibilityGraph {
 		return contained;
 	}
 
-	private boolean BFSPossible(List<Branch> visibilityBranches, Position spawn, Position goal){
-		List<Branch> visited = getBFSVisited(visibilityBranches, spawn, goal);
+	private boolean BFSPossible(List<Branch> visibilityBranches, Position current, Position goal){
+		List<Branch> visited = getBFSVisited(visibilityBranches, current, goal);
 		if(visited.size() == 0){
 			return false;
 		}
@@ -201,11 +228,11 @@ public class VisibilityGraph {
 		return false;
 	}
 
-	private List<Branch> getBFSVisited(List<Branch> visibilityBranches, Position spawn, Position goal){
-		if(!BFSPreCheck(visibilityBranches, spawn)){
+	private List<Branch> getBFSVisited(List<Branch> visibilityBranches, Position current, Position goal){
+		if(!BFSPreCheck(visibilityBranches, current)){
 			return new ArrayList<>();
 		}
-		Branch start = myEngine.findBranchForPos(spawn);
+		Branch start = myEngine.findBranchForPos(current);
 		Branch copyStart = start.copyBranch();
 		Queue<Branch> queue = new LinkedList<>();
 		List<Branch> visited = new ArrayList<>();
@@ -240,12 +267,12 @@ public class VisibilityGraph {
 	}
 
 	public boolean simulateEnemyPathFollowing(List<Branch> visibilityBranches, Unit obstacle) {
-		List<Unit> enemies = myEngine.getEnemies();
+		List<Unit> enemies = myEngine.getActiveAIEnemies();
 		for(Unit e : enemies){
 			Position current = e.getProperties().getPosition();
 			for(Position goal : myEngine.getCurrentLevel().getGoals()){
-				List<Branch> BFSvisited = getBFSVisited(visibilityBranches, current, goal);
-				if(!simulateEnemyBranchCollisions(e, BFSvisited, obstacle)){
+				List<Branch> shortestPath = getShortestPath(current, goal, visibilityBranches);
+				if(!simulateEnemyBranchCollisions(e, shortestPath, obstacle)){
 					return false;
 				}
 			}
@@ -260,7 +287,7 @@ public class VisibilityGraph {
 		for(Branch b : pathBranches){
 			for(Position pos : b.getPositions()){
 				List<Position> enemyBounds = CollisionChecker.getUseableBounds(enemy.getProperties().getBounds(), pos);
-				if(!CollisionChecker.simulatedObstacleCollisionCheck(enemyBounds, obstaclesCopy)){
+				if(CollisionChecker.simulatedObstacleCollisionCheck(enemyBounds, obstaclesCopy)){
 					return false;
 				}
 			}

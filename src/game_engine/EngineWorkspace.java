@@ -328,8 +328,10 @@ public class EngineWorkspace implements GameEngineInterface{
 
 	public Branch findBranchForPos(Position pos) {
 		for(Branch b : myBranches){
-			if(b.getPositions().contains(pos)){
-				return b;
+			for(Position p : b.getPositions()){
+				if(p.equals(pos)){
+					return b;
+				}
 			}
 		}
 		for(Branch b : myBranches){
@@ -365,8 +367,9 @@ public class EngineWorkspace implements GameEngineInterface{
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
+		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
 		for(Unit u : activeAI){
-			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition());
+			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
 			if(shortestPath == null){
 				shortestPath = new ArrayList<>();
 			}

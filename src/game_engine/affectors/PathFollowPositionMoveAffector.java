@@ -34,11 +34,17 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 		}
 		Position next = move.getNextPosition(currentPosition);
 		if(next == null){
-			currentBranch = move.getNextBranch();
-			if(currentBranch == null) {
+			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
 			}
-			next = currentBranch.getFirstPosition();
+			currentBranch = move.getNextBranch();
+			if(currentBranch == null) {
+				this.setElapsedTimeToDeath();
+				u.kill();
+				return null;
+			}
+			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
+			next = move.getNextPosition(currentPosition);
 		}
 		return next;
 	}
