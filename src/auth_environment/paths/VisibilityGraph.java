@@ -34,11 +34,36 @@ public class VisibilityGraph {
 		return getVisibilityBranches(myEngine.getTowers());
 	}
 
+	public boolean simulateEnemyPathFollowing(Unit obstacle) {
+		List<Branch> visibilityBranches = getVisibilityBranches();
+		List<Unit> enemies = myEngine.getActiveAIEnemies();
+		for(Unit e : enemies){
+			Position current = e.getProperties().getPosition();
+			for(Position goal : myEngine.getCurrentLevel().getGoals()){
+				List<Branch> shortestPath = dijkstrasShortestPath(current, goal, visibilityBranches);
+				if(simulateEnemyBranchCollisions(e, shortestPath, obstacle))
+					return true;
+				while(shortestPath == null){
+					System.out.println("SHORTEST PATH IS NULL");
+					if(!simulateEnemyBranchCollisions(e, shortestPath, obstacle)){
+						visibilityBranches = getSimulatedPlacementBranches(obstacle);
+						shortestPath = dijkstrasShortestPath(current, goal, visibilityBranches);
+					}
+					else
+						break;
+				}
+				if(shortestPath == null){
+					System.out.println("ALL SHORTEST PATHS WERE NULL");
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public List<Branch> getSimulatedPlacementBranches(Unit obstacle){
-		List<Unit> obstacles = new ArrayList<>();
+		List<Unit> obstacles = myEngine.getTowers().stream().map(t -> t.copyShallowUnit()).collect(Collectors.toList());
 		obstacles.add(obstacle);
-		List<Unit> towerCopies = myEngine.getTowers().stream().map(t -> t.copyShallowUnit()).collect(Collectors.toList());
-		obstacles.addAll(towerCopies);
 		return getVisibilityBranches(obstacles);
 	}
 
@@ -72,15 +97,11 @@ public class VisibilityGraph {
 				break;
 			}
 		}
-		return bestDijkstrasPath(current, closestGoal, visibilityBranches);
+		return dijkstrasShortestPath(current, closestGoal, visibilityBranches);
 	}
 
-	private List<Branch> getShortestPath(Position current, Position goal, List<Branch> visibilityBranches) {
-		return bestDijkstrasPath(current, goal, visibilityBranches);
-	}
-
-	public List<Branch> bestDijkstrasPath(Position start, Position goal, List<Branch> visibilityBranches){
-		if(!BFSPreCheck(visibilityBranches, start)){
+	public List<Branch> dijkstrasShortestPath(Position start, Position goal, List<Branch> visibilityBranches){
+		if(!positionVisibleCheck(visibilityBranches, start)){
 			return null;
 		}
 		Branch startBranch = myEngine.findBranchForPos(start);
@@ -131,11 +152,6 @@ public class VisibilityGraph {
 		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
 			shortestPath.add(node);
 		}
-		// TODO
-		if(!shortestPath.get(0).equals(start)){
-			shortestPath.set(0, start);
-		}
-		shortestPath.add(goal);
 		return shortestPath;
 	}
 
@@ -207,7 +223,7 @@ public class VisibilityGraph {
 		return new ArrayList<Branch>(removalList);
 	}
 
-	private boolean BFSPreCheck(List<Branch> visibilityBranches, Position spawn){
+	private boolean positionVisibleCheck(List<Branch> visibilityBranches, Position spawn){
 		Branch start = myEngine.findBranchForPos(spawn);
 		boolean contained = false;
 		for(Branch v : visibilityBranches){
@@ -232,7 +248,7 @@ public class VisibilityGraph {
 	}
 
 	private List<Branch> getBFSVisited(List<Branch> visibilityBranches, Position current, Position goal){
-		if(!BFSPreCheck(visibilityBranches, current)){
+		if(!positionVisibleCheck(visibilityBranches, current)){
 			return new ArrayList<>();
 		}
 		Branch start = myEngine.findBranchForPos(current);
@@ -267,20 +283,6 @@ public class VisibilityGraph {
 			return null;
 		}
 		return visibleNeighbors.get(0);
-	}
-
-	public boolean simulateEnemyPathFollowing(List<Branch> visibilityBranches, Unit obstacle) {
-		List<Unit> enemies = myEngine.getActiveAIEnemies();
-		for(Unit e : enemies){
-			Position current = e.getProperties().getPosition();
-			for(Position goal : myEngine.getCurrentLevel().getGoals()){
-				List<Branch> shortestPath = getShortestPath(current, goal, visibilityBranches);
-				if(!simulateEnemyBranchCollisions(e, shortestPath, obstacle)){
-					return false;
-				}
-			}
-		}
-		return true;
 	}
 
 	private boolean simulateEnemyBranchCollisions(Unit enemy, List<Branch> pathBranches, Unit obstacle){

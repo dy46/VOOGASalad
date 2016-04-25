@@ -32,7 +32,7 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 		if(currentBranch == null){
 			return null;
 		}
-		Position next = move.getNextPosition(currentPosition);
+		Position next = move.getNextPosition(currentPosition, u.getProperties().getVelocity().getDirection());
 		if(next == null){
 			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
@@ -43,13 +43,13 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 				u.kill();
 				return null;
 			}
-			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
-			next = move.getNextPosition(currentPosition);
+			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition, u.getProperties().getVelocity().getDirection());
+			next = move.getNextPosition(currentPosition, u.getProperties().getVelocity().getDirection());
 		}
 		return next;
 	}
 
 	public Double getNextDirection(Unit u){
-		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition());
+		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
 	}
 }

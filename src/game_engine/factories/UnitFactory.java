@@ -185,12 +185,12 @@ public class UnitFactory {
 		myUnitLibrary.getUnitByName(name).addAffectorsToApply(affectorsToApply);
 	}
 
-	public void addBranchesToUnit(String name, List<Branch> branches){
-		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setBranches(branches);
+	public void addBranchesToUnit(String name, List<Branch> branches, Position spawn, double currentDirection){
+		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setBranches(branches, spawn, currentDirection);
 	}
 
-	public void addStartingBranch(String name, Branch startingBranch){
-		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setBranches(Arrays.asList(startingBranch));
+	public void addStartingBranch(String name, Branch startingBranch, Position spawn, double currentDirection){
+		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setBranches(Arrays.asList(startingBranch), spawn, currentDirection);
 	}
 
 	public void setNewPropertiesForUnit(String name, UnitProperties newProperties){
@@ -213,8 +213,8 @@ public class UnitFactory {
 		myUnitLibrary.getUnitByName(name).getProperties().getPrice().setPrice(price);
 	}
 
-	public void setNewBranchesForUnit(String name, List<Branch> branches){
-		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setBranches(branches);
+	public void setNewBranchesForUnit(String name, List<Branch> branches, Position spawn, double currentDirection){
+		myUnitLibrary.getUnitByName(name).getProperties().getMovement().setBranches(branches, spawn, currentDirection);
 	}
 
 	public void setNewSpeedForUnit(String name, double speed){

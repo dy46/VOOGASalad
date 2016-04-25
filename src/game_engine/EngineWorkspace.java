@@ -363,17 +363,21 @@ public class EngineWorkspace implements GameEngineInterface{
 		return new ArrayList<>(AI);
 	}
 
-	@Override
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
+		for(Unit u : getActiveAIEnemies()){
+			if(u.getProperties().getMovement().getCurrentBranch() == null){
+				Position curr = u.getProperties().getPosition();
+				u.getProperties().getMovement().initializeCurrentBranch(findBranchForPos(curr), curr, u.getProperties().getVelocity().getDirection());
+			}
+		}
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches();
 		for(Unit u : activeAI){
 			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
-			if(shortestPath == null){
-				shortestPath = new ArrayList<>();
+			if(shortestPath != null){
+				u.getProperties().getMovement().setBranches(shortestPath, u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
 			}
-			u.getProperties().getMovement().setBranches(shortestPath);
 		}
 	}
 

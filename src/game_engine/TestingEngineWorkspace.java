@@ -178,7 +178,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-		myBranches = mh.getEngineBranches();
+		myBranches = mh.createGrid();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
@@ -707,7 +707,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		for(Unit u : getActiveAIEnemies()){
 			if(u.getProperties().getMovement().getCurrentBranch() == null){
 				Position curr = u.getProperties().getPosition();
-				u.getProperties().getMovement().setCurrentBranch(findBranchForPos(curr), curr);
+				u.getProperties().getMovement().initializeCurrentBranch(findBranchForPos(curr), curr, u.getProperties().getVelocity().getDirection());
 			}
 		}
 		VisibilityGraph myVisibility = new VisibilityGraph(this);
@@ -715,7 +715,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		for(Unit u : activeAI){
 			List<Branch> shortestPath = myVisibility.getShortestPath(u.getProperties().getPosition(), visibilityBranches);
 			if(shortestPath != null){
-				u.getProperties().getMovement().setBranches(shortestPath);
+				u.getProperties().getMovement().setBranches(shortestPath, u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
 			}
 		}
 	}
