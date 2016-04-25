@@ -12,7 +12,6 @@ import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
-import game_engine.factories.FunctionFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -47,7 +46,8 @@ public class AffectorTab extends Tab{
 		strDropMap = new HashMap<String, ComboBox<String>>();
 		this.myAuthModel = authModel; 
 		this.myInterface = this.myAuthModel.getIAuthEnvironment();
-		this.myAffectorTabModel = new AffectorTabModel(this.myInterface); 
+		this.myAffectorTabModel = new AffectorTabModel(this.myInterface);
+		this.myPane = new BorderPane();
 		this.addRefresh();
 		this.init();
 	}
@@ -167,18 +167,16 @@ public class AffectorTab extends Tab{
 				try{
 					fun.add(Double.parseDouble(ff));
 				}
-				catch(Exception e){
+				catch(Exception e) {
 					System.out.println("womp. not an int.");
 				}
 			}
 			funct.add(fun);
 		}
 		
-		AffectorFactory affect = new AffectorFactory(new FunctionFactory());
-		Affector plz = affect.constructAffector(name, type, eff, funct);
-		System.out.println(plz.getName());
-		
-		
+		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, eff, funct);
+//		System.out.println(plz.getName());
+		System.out.println(this.myAffectorTabModel.getAffectorFactory().getAffectorLibrary().getAffectorNames());
 		
 //		for(String s: strTextMap.keySet()){
 //			effects.add(s);
@@ -194,8 +192,6 @@ public class AffectorTab extends Tab{
 //			}
 //			functions.add(func);	
 //		}
-		
-		
 	}
 
 	private void addTextFields(GridPane newTableInfo) {
@@ -223,6 +219,7 @@ public class AffectorTab extends Tab{
 		newTableInfo.add(new Text(s1), 1, index);
 		ComboBox<String> dropit = new ComboBox<String>();
 		newTableInfo.add(dropit, 2, index);
+		// TODO: extract to properties file
 		dropit.getItems().addAll("Increment", "Decrement", "Set");
 		strDropMap.put(s1, dropit);
 		index++;
@@ -250,8 +247,6 @@ public class AffectorTab extends Tab{
 		index++;
 	
 		//possibly just make index global MAKE INDEX GLOBAL
-		
-		
 	}
 
 	private void newThing(Button buuton, GridPane newTableInfo, TextField txtfld3, TextField txtfld4) {
@@ -279,7 +274,5 @@ public class AffectorTab extends Tab{
 		
 		index++;
 		}
-		
 	}
-
 }
