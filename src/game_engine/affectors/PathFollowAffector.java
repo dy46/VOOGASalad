@@ -17,28 +17,27 @@ public abstract class PathFollowAffector extends Affector{
 	public PathFollowAffector(AffectorData data){
 		super(data);
 	}
-	
-	 public void apply (List<Function> functions, Property property, Unit u) {
-             pathFollow(u);
-	 }
-	 
-	public void pathFollow(Unit u) {
-	    if (this.getElapsedTime() <= this.getTTL()) {
-                double speed = u.getProperties().getVelocity().getSpeed();
-                for (int i = 0; i < speed; i++) {
-                        Position next = getNextPosition(u);
-                        if(next != null) {
-                        	u.getProperties().setPosition(next);
-//                            u.getProperties().getMovement().setCurrentBranch(u.getProperties().getMovement().getCurrentBranch(), next);
-                            u.getProperties().getVelocity().setDirection(getNextDirection(u));
-                        }
-                }
-                this.updateElapsedTime();
-            }
+
+	public void apply (List<Function> functions, Property property, Unit u) {
+		pathFollow(u);
 	}
-	
+
+	public void pathFollow(Unit u) {
+		if (this.getElapsedTime() <= this.getTTL()) {
+			double speed = u.getProperties().getVelocity().getSpeed();
+			for (int i = 0; i < speed; i++) {
+				Position next = getNextPosition(u);
+				if(next != null) {
+					u.getProperties().setPosition(next);
+					u.getProperties().getVelocity().setDirection(getNextDirection(u));
+				}
+			}
+			this.updateElapsedTime();
+		}
+	}
+
 	public abstract Position getNextPosition(Unit u);
-	
+
 	public Double getNextDirection(Unit u){
 		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
@@ -47,7 +46,7 @@ public abstract class PathFollowAffector extends Affector{
 		}
 		return move.getNextDirection(currentPosition);
 	}
-	
+
 	public List<Branch> getValidBranchChoices(Unit u){
 		List<Branch> choices = getAllBranchChoices(u);
 		VisibilityGraph vg = new VisibilityGraph(getWS());
@@ -62,16 +61,16 @@ public abstract class PathFollowAffector extends Affector{
 		}
 		return new ArrayList<>(visibleChoices);
 	}
-	
+
 	public List<Branch> getAllBranchChoices(Unit u){
 		return u.getProperties().getMovement().getCurrentBranch().getNeighbors();
 	}
-	
+
 	public boolean isAccessible(Branch b, Position p){
 		if(b.getPositions().contains(p)){
 			return true;
 		}
 		return new VisibilityGraph(getWS()).isAccessibleFrom(b, p);
 	}
-	
+
 }

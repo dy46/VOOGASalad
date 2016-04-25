@@ -11,12 +11,12 @@ public class GridFactory extends PathGraphFactory{
 
 	private PositionHandler myPositionHandler;
 	private BranchHandler myBranchHandler;
-	
+
 	public GridFactory(){
 		myPositionHandler = new PositionHandler();
 		myBranchHandler = new BranchHandler();
 	}
-	
+
 	public PathGraph createUnlimitedPathGraph(double width, double length, double sideLength){
 		PathGraph pathGrid = new PathGraph();
 		Position[][] positionGrid = createPosGrid(width, length, sideLength);
@@ -26,7 +26,7 @@ public class GridFactory extends PathGraphFactory{
 		}
 		return pathGrid;
 	}
-	
+
 	private void insertBranchInPath(List<Position> branchPos, PathGraph path){
 		Branch newBranch = new Branch(branchPos);
 		myBranchHandler.configureBranch(newBranch, path);
@@ -34,60 +34,34 @@ public class GridFactory extends PathGraphFactory{
 
 	private List<List<Position>> createBranchPosLists(Position[][] grid){
 		List<List<Position>> branchPosLists = new ArrayList<>();
-		List<Position> pastPos = new ArrayList<>();
 		for(int r=0; r<grid.length; r++){
 			for(int c=0; c<grid[r].length; c++){
 				Position pos = grid[r][c];
-				for(int x=-1; x<2; x++){
-					for(int y=-1; y<2; y++){
-						int neighborX = r+x;
-						int neighborY = c+y;
-						if(neighborX >= 0 && neighborX < grid.length){
-							if(neighborY >= 0 && neighborY < grid[r].length){
-								if(x==0 || y==0){
-									Position neighbor = grid[neighborX][neighborY];
-									List<Position> toInterpolate = Arrays.asList(pos, neighbor);
-									if(!pastPos.contains(pos) && !pastPos.contains(neighbor)){
-										List<Position> interpolated = myPositionHandler.getInterpolatedPositions(toInterpolate, false);
-										if(!branchPosLists.contains(interpolated)){
-											branchPosLists.add(interpolated);
-										}
-									}
-								}
-							}
-						}
-					}
+				if((r+1) < grid.length){
+					Position neighbor1 = grid[r+1][c];
+					List<Position> branchEndPos = Arrays.asList(pos, neighbor1);
+					branchPosLists.add(myPositionHandler.getInterpolatedPositions(branchEndPos, false)); 
 				}
-				pastPos.add(pos);
+				if((c+1) < grid[0].length){
+					Position neighbor2 = grid[r][c+1];
+					List<Position> branchEndPos = Arrays.asList(pos, neighbor2);
+					branchPosLists.add(myPositionHandler.getInterpolatedPositions(branchEndPos, false)); 
+				}
 			}
 		}
 		return branchPosLists;
 	}
 
 	private Position[][] createPosGrid(double width, double length, double sideLength){
-		int numSquareCols = (int)Math.floor(width/sideLength);
-		int numSquareRows = (int)Math.floor(width/sideLength);
-		int numExtraCols = 0;
-		int numExtraRows = 0;
-		if(width/sideLength > numSquareCols){
-			numExtraCols++;
-		}
-		if(length/sideLength > numSquareRows){
-			numExtraRows++;
-		}
-		Position[][] posGrid = new Position[numSquareCols + numExtraCols][numSquareRows + numExtraRows];
+		int numSquareCols = (int)Math.floor(width/sideLength) + 1;
+		int numSquareRows = (int)Math.floor(length/sideLength) + 1;
+		Position[][] posGrid = new Position[numSquareCols][numSquareRows];
 		for(int x=0; x<numSquareCols; x++){
 			for(int y=0; y<numSquareRows; y++){
 				posGrid[x][y] = new Position(x*sideLength, y*sideLength);
 			}
 		}
-		for(int x=0; x<numSquareCols; x++){
-			posGrid[x][numSquareRows-1] = new Position(x*sideLength, numSquareRows*sideLength);
-		}
-		for(int y=0; y<numSquareCols; y++){
-			posGrid[numSquareCols-1][y] = new Position(numSquareCols*sideLength, y*sideLength);
-		}
 		return posGrid;
 	}
-	
+
 }

@@ -101,6 +101,9 @@ public class VisibilityGraph {
 		visitedNodes.add(currentNode);
 		while (!queue.isEmpty()) {
 			currentNode = queue.remove();
+			if(currentNode == null){
+				break;
+			}
 			if (currentNode.equals(goal)) {
 				break;
 			} else {
