@@ -6,7 +6,7 @@ import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
-import auth_environment.Models.WaveOverviewTabModel;
+import auth_environment.Models.WaveWindowTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.UnitPicker;
@@ -45,6 +45,8 @@ public class WaveWindow {
 	private List<ComboBox<String>> spawningNames;
 	private List<ComboBox<String>> placingNames;
 	private List<TextField> spawningTimes;
+	
+	
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave, IAuthModel myAuthModel){
 		spawningNames = new ArrayList<ComboBox<String>>();
