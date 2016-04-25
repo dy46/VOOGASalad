@@ -3,10 +3,12 @@ package auth_environment;
 import java.util.List;
 
 import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
-import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
 /**
@@ -91,8 +93,16 @@ public interface IAuthEnvironment {
 	
 	// For UnitCreation integration, issue 190
 	
-	public UnitLibrary getUnitLibrary();
+	public UnitFactory getUnitFactory();
 	
-	public void setUnitLibrary(UnitLibrary library); 
+	public void setUnitFactory(UnitFactory factory); 
+	
+	public FunctionFactory getFunctionFactory();
+	
+	public void setFunctionFactory(FunctionFactory factory); 
+	
+	public AffectorFactory getAffectorFactory();
+	
+	public void setAffectorFactory(AffectorFactory factory); 
 
 }

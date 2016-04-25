@@ -20,10 +20,10 @@ import javafx.scene.layout.VBox;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.UnitView;
+import auth_environment.Models.WaveOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import auth_environment.view.UnitPicker;
-import auth_environment.view.Workspaces.GlobalGameTab;
 import game_engine.TestingEngineWorkspace;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
@@ -75,7 +75,7 @@ public class LevelOverviewTab extends Tab{
 		addNewLevelButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				final Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myInterface);
+				final Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myInterface, myAuthModel);
 				myTabs.getTabs().addAll(tab);
 				myTabs.getSelectionModel().select(tab);
 			}
