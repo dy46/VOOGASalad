@@ -63,6 +63,7 @@ public class AffectorFactory {
 	           e.printStackTrace();
 	       }
 	       newAffector.setName(name);
+	       myAffectorLibrary.addAffector(name, newAffector);
 	       return newAffector;
 	    }
 

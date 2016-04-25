@@ -1,34 +1,38 @@
 package auth_environment.Models;
 
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
-import auth_environment.Models.Interfaces.IWaveOverviewTabModel;
-
+import auth_environment.Models.Interfaces.IWaveWindowTabModel;
 import java.util.ArrayList;
-
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 import game_engine.libraries.UnitLibrary;
 
-public class WaveOverviewTabModel implements IWaveOverviewTabModel{
+public class WaveWindowTabModel implements IWaveWindowTabModel {
+	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
     
     private Wave myWave;
     private UnitLibrary myLibrary;
     private ILevelOverviewTabModel levelOverview;
     
-    public WaveOverviewTabModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
+    public WaveWindowTabModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
         this.myWave = new Wave(name, spawnTime);
         this.myLibrary = lib;
         this.levelOverview = levelOverview;
     }
     
+    @Override
     public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
         Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes);
         levelOverview.addToCreatedWaves(level, w);
         return w;
     }
     
+    @Override
     public List<Unit> unitsFromNames(List<String> names) {
         return names.stream().map(n -> myLibrary.getUnitByName(n)).collect(Collectors.toList());    
     }
@@ -65,7 +69,7 @@ public class WaveOverviewTabModel implements IWaveOverviewTabModel{
 
     @Override
     public void addSpawningUnit(String name) {
-        this.addSpawningUnit(name, DEFAULT_TIME);
+        this.addSpawningUnit(name, Integer.parseInt(this.myDimensionsBundle.getString("defaultSpawnTime")));
     }
 
     @Override
@@ -85,9 +89,4 @@ public class WaveOverviewTabModel implements IWaveOverviewTabModel{
     public void removePlacingUnit(int index) {
         this.myWave.removePlacingUnit(index);
     }
-    
-    
-    
-    
-    
 }

@@ -1,11 +1,14 @@
 package auth_environment.view.tabs;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.UnitView;
+import auth_environment.Models.WaveWindowTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.IWaveWindowTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.UnitPicker;
 import game_engine.TestingEngineWorkspace;
@@ -39,8 +42,19 @@ public class WaveWindow {
 	private GridPane myLeftGridPane;
 	private GridPane myRightGridPane;
 	private BorderPane myBorderPane; 
+	private IAuthModel myModel;
+	private List<ComboBox<String>> spawningNames;
+	private List<ComboBox<String>> placingNames;
+	private List<TextField> spawningTimes;
+	
+	private IWaveWindowTabModel myWaveWindowTabModel; 
+	
 	//TODO: Add Unit Library to WaveWindow constructor	
-	public WaveWindow(String level, String wave){
+	public WaveWindow(String level, String wave, IAuthModel myAuthModel){
+		spawningNames = new ArrayList<ComboBox<String>>();
+		placingNames = new ArrayList<ComboBox<String>>();
+		spawningTimes = new ArrayList<TextField>();
+		this.myModel = myAuthModel;
 		Stage stage = new Stage();
 		Group root = new Group();
 		Scene newScene = new Scene(root);
@@ -54,7 +68,8 @@ public class WaveWindow {
 //		root.getChildren().add(myRightGridPane);
 		root.getChildren().add(myBorderPane);
 		
-		stage.setTitle(level + ", " + wave);
+		String title = level + ", " + wave;
+		stage.setTitle(title);
 		stage.show(); 
 		centerStage(stage);
 		
@@ -66,8 +81,31 @@ public class WaveWindow {
 		addNewEnemySpace(index, myLeftGridPane, dummyButton, dummyCBox);
 		addNewTowerSpace(index, myRightGridPane, dummyButton, dummyCBox);
 		
+		Button ok = new Button("Ok");
+		myBorderPane.setBottom(ok);
+		ok.setOnAction(e -> createNewWave(title, level));
+		
 	}
 	
+	//createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames)
+	private void createNewWave(String title, String level) {
+		List<String> sn = new ArrayList<String>();
+		List<Integer> st = new ArrayList<Integer>();
+		List<String> pn = new ArrayList<String>();
+		for(ComboBox<String> cb: spawningNames){
+			sn.add(cb.getValue());
+		}
+		for(ComboBox<String> cb: placingNames){
+			pn.add(cb.getValue());
+		}
+		for(TextField hb: spawningTimes){
+			st.add(Integer.parseInt(hb.getText()));
+		}
+		
+		//createWave(title,level, sn, st, pn);
+		
+	}
+
 	private void centerStage(Stage stage){
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
@@ -93,6 +131,7 @@ public class WaveWindow {
 			.setOnAction(e -> addNewEnemySpace(num, newTableInfo, newAffectorButton,
 					newcbox));
 			newTableInfo.add(newAffectorButton, 2, index);
+			spawningNames.add(newcbox);
 		}
 	}
 	
@@ -111,6 +150,7 @@ public class WaveWindow {
 			.setOnAction(e -> addNewTowerSpace(num, newTableInfo, newAffectorButton,
 					newcbox));
 			newTableInfo.add(newAffectorButton, 2, index);
+			placingNames.add(newcbox);
 		}
 	}
 	
@@ -123,6 +163,7 @@ public class WaveWindow {
 			input.setMinHeight(25);
 			hbox.setMinWidth(200);
 			hbox.getChildren().add(input);
+			spawningTimes.add(input);
 			return hbox;
 		}
 		else{
