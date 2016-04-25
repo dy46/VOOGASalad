@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
+import game_engine.physics.DirectionHandler;
 
 public class Movement {
 
@@ -28,23 +29,14 @@ public class Movement {
 	public List<Branch> getBranches(){
 		return myBranches;
 	}
-
-	public void setBranches(List<Branch> branches, Position currentPosition, double currentDirection){
-		if(branches.get(0).equals(myCurrentBranch)){
-			// edge case: current branch = new current branch but the current next branch != new next branch
-			// need to turn around on current branch
-			if(branches.size() > 1 && myBranches.size() > 1){
-				if(!branches.get(1).equals(myBranches.get(1))){
-					double degrees = getNextDegrees(currentPosition, myCurrentBranch.getFirstPosition());
-					movingTowards = (degrees == currentDirection) ? myCurrentBranch.getLastPosition() : myCurrentBranch.getFirstPosition();
-					this.myBranches = branches;
-					myCurrentBranch = branches.get(0);
-					return;
-				}
-			}
-		}
+	
+	public void setBranches(List<Branch> branches){
 		this.myBranches = branches;
-		setCurrentBranch(branches.get(0), currentPosition, currentDirection);
+	}
+
+	public void setBranches(List<Branch> branches, Position currentPosition){
+		this.myBranches = branches;
+		setCurrentBranch(branches.get(0), currentPosition);
 	}
 
 	public Movement copyMovement(){
@@ -71,62 +63,52 @@ public class Movement {
 		return myCurrentBranch;
 	}
 
-	public void setCurrentBranch(Branch branch, Position currentPosition, double currentDirection) {
+	public void setCurrentBranch(Branch branch, Position currentPosition) {
 		myCurrentBranch = branch;
-		initializeMovingTowards(currentPosition, currentDirection);
+		initializeMovingTowards(currentPosition);
 	}
 
-	public void initializeCurrentBranch(Branch branch, Position currentPosition, double currentDirection){
+	public void initializeCurrentBranch(Branch branch, Position currentPosition){
 		myCurrentBranch = branch;
 		myBranches.add(myCurrentBranch);
-		initializeMovingTowards(currentPosition, currentDirection);
+		initializeMovingTowards(currentPosition);
 	}
 
-	public Double getNextDirection (Position currentPosition, double currentDirection) {
-		Position nextPosition = getNextPosition(currentPosition, currentDirection);
+	public Double getNextDirection (Position currentPosition) {
+		Position nextPosition = getNextPosition(currentPosition);
 		if(nextPosition == null){
 			nextPosition = currentPosition;
 		}
-		return getNextDegrees(currentPosition, nextPosition);
+		return DirectionHandler.getDirectionBetween(currentPosition, nextPosition);
 	}
 
-	private Double getNextDegrees(Position currentPosition, Position nextPosition){
-		double dx = nextPosition.getX() - currentPosition.getX();
-		double dy = nextPosition.getY() - currentPosition.getY();
-		double newDir = Math.atan2((dy), (dx));
-		double degreesDir = dx < 0 ? 270 - Math.toDegrees(newDir) : 90 - Math.toDegrees(newDir);
-		return degreesDir;
-	}
-
-	public Position getNextPosition(Position currentPosition, double currentDirection){
+	public Position getNextPosition(Position currentPosition){
 		Position next = myCurrentBranch.getNextPosition(currentPosition, movingTowards);
 		if(next == null){
 			if(myBranches.get(myBranches.size()-1).equals(myCurrentBranch)){
 				return null;
 			}
 			Branch nextBranch = myBranches.get(1 + myBranches.indexOf(myCurrentBranch));
-			setCurrentBranch(nextBranch, currentPosition, currentDirection);
+			setCurrentBranch(nextBranch, currentPosition);
 		}
 		return next;
 	}
 
-	public void initializeMovingTowards(Position currentPosition, double currentDirection){
+	public void initializeMovingTowards(Position currentPosition){
 		if(currentPosition.equals(myCurrentBranch.getFirstPosition())){
 			movingTowards = myCurrentBranch.getLastPosition();
 		}
 		else if(currentPosition.equals(myCurrentBranch.getLastPosition())){
 			movingTowards = myCurrentBranch.getFirstPosition();
 		}
-		else{
-			if(!myBranches.get(myBranches.size()-1).equals(myCurrentBranch)){
-				Branch nextBranch = myBranches.get(myBranches.indexOf(myCurrentBranch) + 1);
-				double degrees = getNextDegrees(currentPosition, nextBranch.getFirstPosition());
-				movingTowards = (degrees == currentDirection) ? nextBranch.getFirstPosition() : nextBranch.getLastPosition();
-			}
-			else{
-				movingTowards = (currentPosition.equals(myCurrentBranch.getFirstPosition()) ? myCurrentBranch.getLastPosition() : myCurrentBranch.getFirstPosition());
-			}
-		}
+	}
+	
+	public Position getMovingTowards(){
+		return this.movingTowards;
+	}
+	
+	public void setMovingTowards(Position pos){
+		this.movingTowards = pos;
 	}
 
 }

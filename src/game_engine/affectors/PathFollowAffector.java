@@ -40,7 +40,7 @@ public abstract class PathFollowAffector extends Affector{
 	public abstract Position getNextPosition(Unit u);
 
 	public Double getNextDirection(Unit u){
-		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition(), u.getProperties().getVelocity().getDirection());
+		return u.getProperties().getMovement().getNextDirection(u.getProperties().getPosition());
 	}
 
 	public List<Branch> getValidBranchChoices(Unit u){

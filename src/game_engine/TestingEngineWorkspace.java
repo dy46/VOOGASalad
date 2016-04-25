@@ -663,13 +663,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	}
 
 	@Override
-	public Branch findBranchForPos(Position pos) {
+	public Branch getNearestBranch(Position pos) {
 		return myAIHandler.findBranchForPos(pos);
-	}
-
-	@Override
-	public List<Unit> getActiveAIEnemies() {
-		return myAIHandler.getActiveAIEnemies();
 	}
 
 	@Override

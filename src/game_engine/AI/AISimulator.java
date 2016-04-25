@@ -21,16 +21,18 @@ public class AISimulator {
 	private GameEngineInterface myEngine;
 	private AISearcher myAISearcher;
 	private VisibilityHandler myVisibility;
+	private AIHandler myAIHandler;
 	
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;
 		this.myAISearcher = new AISearcher(engine);
+		this.myAIHandler = new AIHandler(engine);
 		this.myVisibility = new VisibilityHandler(engine);
 	}
 
 	public boolean simulateEnemyPathFollowing(Unit obstacle) {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
-		List<Unit> enemies = myEngine.getActiveAIEnemies();
+		List<Unit> enemies = myAIHandler.getActiveAIEnemies();
 		for(Unit e : enemies){
 			Position current = e.getProperties().getPosition();
 			for(Position goal : myEngine.getCurrentLevel().getGoals()){

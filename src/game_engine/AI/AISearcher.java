@@ -32,7 +32,7 @@ public class AISearcher {
 		this.myVisibility = new VisibilityHandler(engine);
 	}
 	
-	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
+	public List<Branch> getShortestPath(Position current){
 		List<Position> goals = new ArrayList<>();
 		goals.addAll(myEngine.getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
@@ -46,15 +46,15 @@ public class AISearcher {
 				break;
 			}
 		}
-		return getShortestPathToGoal(current, closestGoal, visibilityBranches);
+		return getShortestPathToGoal(current, closestGoal, myVisibility.getVisibilityBranches());
 	}
 
 	public List<Branch> getShortestPathToGoal(Position start, Position goal, List<Branch> visibilityBranches){
 		if(!myVisibility.positionVisibleCheck(visibilityBranches, start)){
 			return null;
 		}
-		Branch startBranch = myEngine.findBranchForPos(start);
-		Branch goalBranch = myEngine.findBranchForPos(goal);
+		Branch startBranch = myEngine.getNearestBranch(start);
+		Branch goalBranch = myEngine.getNearestBranch(goal);
 		List<Branch> bestPath = dijkstrasShortestPath(startBranch, goalBranch, visibilityBranches);
 		if(bestPath == null){
 			return null;
@@ -134,7 +134,7 @@ public class AISearcher {
 		return sorted;
 	}
 
-	private double getManhattanDistance(Position current, Position goal){
+	public double getManhattanDistance(Position current, Position goal){
 		return Math.sqrt(Math.pow(current.getX(), goal.getY()) + Math.pow(current.getY(), goal.getY()));
 	}
 	
@@ -155,7 +155,7 @@ public class AISearcher {
 		if(!myVisibility.positionVisibleCheck(visibilityBranches, current)){
 			return new ArrayList<>();
 		}
-		Branch start = myEngine.findBranchForPos(current);
+		Branch start = myEngine.getNearestBranch(current);
 		Branch copyStart = start.copyBranch();
 		Queue<Branch> queue = new LinkedList<>();
 		List<Branch> visited = new ArrayList<>();
