@@ -3,9 +3,12 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
 import game_engine.affectors.BasicDecrementAffector;
+import game_engine.affectors.BasicIncrementAffector;
 import game_engine.affectors.BasicSetAffector;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
@@ -16,9 +19,11 @@ public class AffectorFactory {
 	private static final String PACKAGE = "game_engine.affectors.";
 	private static final String BASE = "Affector";
 	private AffectorLibrary myAffectorLibrary;
+	private FunctionFactory myFunctionFactory;
 
 	public AffectorFactory(FunctionFactory myFunctionFactory){
 		myAffectorLibrary = new AffectorLibrary();
+		this.myFunctionFactory = myFunctionFactory;
 		setDefaultAffectors(myFunctionFactory);
 	}
 
@@ -34,8 +39,34 @@ public class AffectorFactory {
 		}
 		myAffectorLibrary.addAffector(property, effect, affector);
 	}
+	
+	public Affector constructAffector(String name, String className, List<String> properties, List<List<Double>> functions) {
+	       List<List<Function>> doubleList = new ArrayList<>();
+	       for(int i = 0; i < functions.size(); i++) {
+	            List<Function> singleList = functions.get(i).stream()
+	                    .map(f -> myFunctionFactory.createConstantFunction(f))
+	                    .collect(Collectors.toList());
+	            doubleList.add(singleList);
+	       }
+	       AffectorData newData = new AffectorData(doubleList, properties);
+	       Affector newAffector = null;
+	       try {
+//	    	   System.out.println(className);
+//	    	   BasicDecrementAffector womp = new BasicDecrementAffector(newData);
+//				Class<?> c = womp.getClass();
+//				System.out.println(c.getName());
+	    	   
+	            newAffector =  (Affector) Class.forName(className).getConstructor(AffectorData.class)
+	                    .newInstance(newData);
+	       }
+	       catch (Exception e) {
+	           e.printStackTrace();
+	       }
+	       newAffector.setName(name);
+	       return newAffector;
+	    }
 
-	private void setDefaultAffectors(FunctionFactory myFunctionFactory){
+	public void setDefaultAffectors(FunctionFactory myFunctionFactory){
 
 		String pr1 = "Constant";
 		String e1 ="HealthDamage";
@@ -43,7 +74,7 @@ public class AffectorFactory {
 		List<String> p1 = Arrays.asList("Health");
 		AffectorData d1 = new AffectorData(f1, p1);
 		Affector basic = new BasicDecrementAffector(d1);
-		basic.setTTL(150);
+		basic.setTTL(1);
 		myAffectorLibrary.addAffector(pr1, e1, basic);
 
 		//		String pr2 = "ExpIncr";
@@ -96,13 +127,13 @@ public class AffectorFactory {
 		AffectorData d8 = new AffectorData();
 		constructAffector(pr8, e8, d8);
 
-//		String pr9 = "Death";
-//		String e9 = "Activation";
-//		List<List<Function>> deathfunction = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(0)));
-//		List<String> deathproperty = Arrays.asList("Health");
-//		AffectorData deathdata = new AffectorData(deathfunction, deathproperty);
-//		Affector deathbasic = new BasicSetAffector(deathdata);
-//		myAffectorLibrary.addAffector(pr9, e9, deathbasic);
+		String pr9 = "Death";
+		String e9 = "Activation";
+		List<List<Function>> deathfunction = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(0)));
+		List<String> deathproperty = Arrays.asList("Health");
+		AffectorData deathdata = new AffectorData(deathfunction, deathproperty);
+		Affector deathbasic = new BasicSetAffector(deathdata);
+		myAffectorLibrary.addAffector(pr9, e9, deathbasic);
 
 		String pr10 = "RandomPath";
 		String e10 = "Follow";
@@ -131,7 +162,6 @@ public class AffectorFactory {
 		List<List<String>> p13 = new ArrayList<>();
 		AffectorData d13 = new AffectorData();
 		constructAffector(property13, effect13, d13);
-
 
 		String property14 = "Firing";
 		String effect14 = "Children";
@@ -174,6 +204,29 @@ public class AffectorFactory {
 		basic3.apply(u);
 //		System.out.println("this should be different");
 //		System.out.println(u.getProperties().getVelocity().getValues());
+		
+		String pr16 = "Increase";
+                String e16 ="Range";
+                List<List<Function>> f16 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(-25),
+                                                                       myFunctionFactory.createConstantFunction(-25),
+                                                                       myFunctionFactory.createConstantFunction(-25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(25),
+                                                                       myFunctionFactory.createConstantFunction(-25)));
+                List<String> p16 = Arrays.asList("Range");
+                AffectorData d16 = new AffectorData(f16, p16);
+                Affector basic16 = new BasicIncrementAffector(d16);
+                basic16.setTTL(1);
+                myAffectorLibrary.addAffector(pr16, e16, basic16);
+                
+                String pr17 = "Cursor";
+                String e17 = "Direction";
+                List<List<Function>> f17 = new ArrayList<>();
+                List<List<String>> p17 = new ArrayList<>();
+                AffectorData d17 = new AffectorData();
+                constructAffector(pr17, e17, d17);
 	}
 
 	public AffectorLibrary getAffectorLibrary(){

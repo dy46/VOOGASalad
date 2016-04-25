@@ -26,19 +26,23 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		if (currentBranch == null) {
 			return null;
 		}
-		Position next = currentBranch.getNextPosition(currentPosition);
+		Position next = move.getNextPosition(currentPosition);
+//		System.out.println("Choosing next");
 		if (next == null) {
-			if(getWS().getGoals().contains(currentPosition)){
+			System.out.println("Next is null");
+			if(getWS().getCurrentLevel().getGoals().contains(currentPosition)){
 				return null;
 			}
 			currentBranch = pickBestBranch(u);
 			if (currentBranch == null) {
-				List<Branch> gridBranches = getWS().getGridBranches();
+				System.out.println("Current branch is null");
+				List<Branch> gridBranches = getWS().getBranches();
 				currentBranch = pickClosestBranch(currentPosition, gridBranches);
 			}
-			u.getProperties().getMovement().setCurrentBranch(currentBranch);
-			next = currentBranch.getFirstPosition();
+			u.getProperties().getMovement().setCurrentBranch(currentBranch, currentPosition);
+			next = move.getNextPosition(currentPosition);
 		}
+//		System.out.println("Next: " + next);
 		return next;
 	}
 	
@@ -79,7 +83,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 		for (Unit e : currentEnemies) {
 			if (e.isAlive()) {
 				Position ePosition = e.getProperties().getPosition();
-				if (b.getAllPositions().contains(ePosition)) {
+				if (b.getPositions().contains(ePosition)) {
 					numEnemiesOnBranch++;
 				}
 			}
@@ -90,7 +94,7 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	private double nearbyTowersHeuristic(Branch b){
 		List<Unit> currentTowers = getWS().getTowers();
 		List<Unit> nearbyTowers = new ArrayList<>();
-		for (Position p : b.getAllPositions()) {
+		for (Position p : b.getPositions()) {
 			for (Unit t : currentTowers) {
 				if (t.isAlive()) {
 					Position tPosition = t.getProperties().getPosition();
@@ -111,8 +115,8 @@ public class AIPathFollowAffector extends PathFollowAffector {
 	private double goalDistanceHeuristic(Branch b){
 		double minDistanceToGoal = Integer.MAX_VALUE;
 		Position lastPos = b.getLastPosition();
-		if(getWS().getGoals() != null){
-			for (Position goal : getWS().getGoals()) {
+		if(getWS().getCurrentLevel().getGoals() != null){
+			for (Position goal : getWS().getCurrentLevel().getGoals()) {
 				if (b.isAccessible(goal)) {
 					double distanceToGoal = lastPos.distanceTo(goal);
 					if (distanceToGoal < minDistanceToGoal) {

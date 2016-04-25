@@ -14,14 +14,17 @@ public class Store {
 
     private int myMoney;
     private Map<Unit, Integer> buyableUnits;
-    private Map<Unit, List<Pair<Unit, Integer>>> upgrades;
+    private Map<String, List<Pair<Affector, Integer>>> upgrades;
+    private Map<String, Unit> nameToOriginalInstance;
     private Map<Unit, Integer> items;
 
     public Store (int startMoney) {
         myMoney = startMoney;
         buyableUnits = new HashMap<Unit, Integer>();
-        upgrades = new HashMap<Unit, List<Pair<Unit, Integer>>>();
+        upgrades = new HashMap<String, List<Pair<Affector, Integer>>>();
+        nameToOriginalInstance = new HashMap<String, Unit>();
         items = new HashMap<Unit, Integer>();
+        
     }
     
     public void clearBuyableUnits() {
@@ -30,6 +33,7 @@ public class Store {
     
     public void addBuyableUnit (Unit t, Integer cost) {
         buyableUnits.put(t, cost);
+        nameToOriginalInstance.put(t.toString(), t);
     }
 
     public void addBuyableUnit (Collection<Pair<Unit, Integer>> listOfNewUnits) {
@@ -64,8 +68,11 @@ public class Store {
                 break;
             }
         }
-        // this should have a copy method
         return u;
+    }
+    
+    public void sellUnit(Unit unit) {
+        myMoney += buyableUnits.get(nameToOriginalInstance.get(unit.toString()));
     }
 
     public int getUnitListSize () {
@@ -75,9 +82,7 @@ public class Store {
     public void applyItem (String name, List<Unit> applied) {
         for (Unit u : items.keySet()) {
             if (u.toString().equals(name) && myMoney >= items.get(u)) {
-                // apply shit here
                 for (Unit app : applied) {
-                    // System.out.println(applied.size());
                     List<Affector> affectorsToApply = u.getAffectorsToApply()
                             .stream().map(p -> p.copyAffector()).collect(Collectors.toList());
                     app.addAffectorsToApply(affectorsToApply);
@@ -108,40 +113,44 @@ public class Store {
         myMoney += amount;
     }
 
-    public void addUpgrade (Unit upgradedUnit, Unit upgradeType, int cost) {
-        List<Pair<Unit, Integer>> list = new ArrayList<Pair<Unit, Integer>>();
-        for (Unit u : upgrades.keySet()) {
-            if (u.toString().equals(upgradedUnit.toString())) {
-                list = upgrades.get(u);
-            }
+    public void addUpgrade (Unit upgradedUnit, Affector upgrade, int cost) {
+        Pair<Affector, Integer> affectorPair = new Pair<>(upgrade, cost);
+        if(upgrades.get(upgradedUnit.toString()) == null) {
+            upgrades.put(upgradedUnit.toString(), new ArrayList<>());
         }
-        boolean found = false;
-        for (Pair<Unit, Integer> p : list) {
-            if (p.getLeft().toString().equals(upgradeType.toString())) {
-                p.setRight(cost);
-                found = true;
-            }
-        }
-        if (!found) {
-            list.add(new Pair<Unit, Integer>(upgradeType, cost));
-        }
-        upgrades.put(upgradedUnit, list);
+        upgrades.get(upgradedUnit.toString()).add(affectorPair);
     }
-
-    public void buyUpgrade (Unit upgradedUnit, Unit upgradeType) {
+    
+    public List<Affector> getUpgrades(Unit upgradedUnit) {
+        List<Affector> affectors = new ArrayList<>();
         Unit found = null;
-        for (Unit u : upgrades.keySet()) {
-            if (u.toString().equals(upgradedUnit.toString())) {
-                found = u;
+        for (String u : upgrades.keySet()) {
+            if (u.equals(upgradedUnit.toString())) {
+                found = upgradedUnit;
+            }
+        }
+        for (Pair<Affector, Integer> p : upgrades.get(found.toString())) {
+            affectors.add(p.getLeft());
+        }
+        return affectors;
+    }
+    
+    public void buyUpgrade (Unit upgradedUnit, Affector affector) {
+        Unit found = null;
+        for (String u : upgrades.keySet()) {
+            if (u.equals(upgradedUnit.toString())) {
+                found = upgradedUnit;
             }
         }
         if (found == null) {
             throw new RuntimeException("This unit could not be found");
         }
-        for (Pair<Unit, Integer> p : upgrades.get(found)) {
-            if (p.getLeft().toString().equals(upgradeType.toString()) && myMoney >= p.getRight()) {
+        for (Pair<Affector, Integer> p : upgrades.get(found.toString())) {
+            if (p.getLeft().getClass().getSimpleName().equals(affector.getClass().getSimpleName()) 
+                    && myMoney >= p.getRight()) {
                 myMoney -= p.getRight();
-                upgradedUnit.addAffectors(p.getLeft().getAffectorsToApply());
+                System.out.println(p.getLeft());
+                p.getLeft().apply(upgradedUnit);
             }
         }
     }

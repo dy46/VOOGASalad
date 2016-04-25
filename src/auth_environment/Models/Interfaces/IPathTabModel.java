@@ -3,6 +3,7 @@ package auth_environment.Models.Interfaces;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
+import game_engine.properties.Position;
 
 public interface IPathTabModel extends IWorkspaceModel {
 	
@@ -16,10 +17,22 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public void loadBranches(); 
 	
-	public List<Branch> getBranches();
+	public List<Branch> getEngineBranches();
 	
+	public List<Branch> getVisualBranches();
+	
+	public void continueFromLastPosition(double x, double y);
+
+	public void createGrid();
+
 	public void addNewPosition(double x, double y);
+
+	public void addNewSpawn(double x, double y);
+
+	public void addNewGoal(double x, double y);
+
+	public List<Position> getGoals();
 	
-	public void continueFromLastPosition(double x, double y); 
+	public List<Position> getSpawns();
 	
 }

@@ -1,5 +1,11 @@
 package game_engine.game_elements;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,13 +20,13 @@ import java.util.List;
  * for enemy movements.
  */
 
-public class Branch {
+public class Branch implements Serializable{
 
 	private List<Position> myPositions;
-	private Map<Position, Position> nextPositions;
+	private Map<Position, Position> forwardPositions;
+	private Map<Position, Position> backwardPositions;
 	private boolean cycle;
 	private List<Branch> myNeighbors;
-	private int myID;
 
 	public Branch(List<Position> positions){
 		myPositions = positions;
@@ -42,8 +48,11 @@ public class Branch {
 	public void initialize(){
 		if(myPositions == null)
 			myPositions = new ArrayList<>();
-		if(nextPositions == null)
-			nextPositions = new HashMap<Position, Position>();
+		if(forwardPositions == null)
+			forwardPositions = new HashMap<Position, Position>();
+		if(backwardPositions == null){
+			backwardPositions = new HashMap<Position, Position>();
+		}
 		if(myNeighbors == null)
 			myNeighbors = new ArrayList<>();
 		setNextPositions();
@@ -52,7 +61,8 @@ public class Branch {
 	public void initialize(List<Position> list, List<Branch> neighbors){
 		myPositions = list;
 		myNeighbors = neighbors;
-		nextPositions = new HashMap<Position, Position>();
+		forwardPositions = new HashMap<Position, Position>();
+		backwardPositions = new HashMap<Position, Position>();
 		setNextPositions();
 	}
 
@@ -82,11 +92,13 @@ public class Branch {
 			while((vx == 0 || (p2.getX() - x)/vx > 0 ) && (vy == 0 || (p2.getY() - y)/vy > 0)){
 				Position newPosition = new Position(x + vx, y + vy);
 				//myPositions.add(newPosition);
-				nextPositions.put(new Position(x, y), newPosition);
+				forwardPositions.put(new Position(x, y), newPosition);
+				backwardPositions.put(newPosition, new Position(x, y));
 				x += vx;
 				y += vy;
 			}
-			nextPositions.put(new Position(x - vx, y - vy), p2);
+			forwardPositions.put(new Position(x - vx, y - vy), p2);
+			backwardPositions.put(p2,new Position(x - vx, y - vy));
 			x = p2.getX();
 			y = p2.getY();
 		}
@@ -100,41 +112,40 @@ public class Branch {
 	 *
 	 * @return	The next Position in the list of Positions that represent the path being taken.
 	 */
-	public Position getNextPosition(Position currentPosition){
+	public Position getNextPosition(Position currentPosition, Position moveTowards){
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
 			return null;
 		}
-		if(nextPositions.containsKey(currentPosition)){
-			return nextPositions.get(currentPosition);
+		Map<Position, Position> use = moveTowards.equals(myPositions.get(0)) ? backwardPositions : forwardPositions;
+		if(use.containsKey(currentPosition)){
+			return use.get(currentPosition);
 		}
 		else{
 			double minDist = Double.MAX_VALUE;
 			Position closest = null;
-			for(Position pos : nextPositions.keySet()){
+			for(Position pos : use.keySet()){
 				if(pos.distanceTo(currentPosition) < minDist){
 					closest = pos;
 					minDist = pos.distanceTo(currentPosition);
 				}
 			}
-			return nextPositions.get(closest);
+			return use.get(closest);
 		}
 	}
 
-	public Branch copyBranch(){
-		Branch newPath = new Branch();
-		this.myPositions.forEach(t -> {
-			newPath.addPosition(t.copyPosition());
-		});
-		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
-		return newPath;
-	}
+	//	public Branch copyBranch(){
+	//		Branch newPath = new Branch();
+	//		this.myPositions.forEach(t -> {
+	//			newPath.addPosition(t.copyPosition());
+	//		});
+	//		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
+	//		return newPath;
+	//	}
 
-	public List<Position> getAllPositions() {
-		List<Position> allPositions = new ArrayList<>();
-		allPositions.addAll(nextPositions.keySet());
-		return allPositions;
-	}
-
+	/*
+	 * this should probably be deprecated because when units are moving along paths 
+	 * they already need to know which positions they want to get to.
+	 */
 	public boolean isUnitAtLastPosition(Unit u) {
 		Position lastPos = myPositions.get(myPositions.size()-1);
 		return u.getProperties().getPosition().getX() == lastPos.getX() &&
@@ -149,8 +160,8 @@ public class Branch {
 		return myPositions.get(0);
 	}
 
-	public Double getNextDirection (Position currentPosition) {
-		Position nextPosition = getNextPosition(currentPosition);
+	public Double getNextDirection (Position currentPosition, Position moveTowards) {
+		Position nextPosition = getNextPosition(currentPosition, moveTowards);
 		if(nextPosition == null){
 			nextPosition = currentPosition;
 		}
@@ -165,11 +176,11 @@ public class Branch {
 		return myPositions.get(myPositions.size()-1);
 	}
 
-	public Position getSecondPosition(){
-		if(getAllPositions().size() <= 1)
-			return null;
-		return getAllPositions().get(1);
-	}
+	//	public Position getSecondPosition(){
+	//		if(getMyP().size() <= 1)
+	//			return null;
+	//		return getAllPositions().get(1);
+	//	}
 
 	public void addNeighbor(Branch neighbor){
 		this.myNeighbors.add(neighbor);
@@ -187,10 +198,6 @@ public class Branch {
 
 	public List<Branch> getNeighbors(){
 		return myNeighbors;
-	}
-
-	public int getID(){
-		return myID;
 	}
 
 	public List<Position> cutoffByPosition(Position pos){
@@ -221,12 +228,13 @@ public class Branch {
 	}
 
 	public String toString(){
-//		return "Branch ID: " + myID+ " positions: " + myPositions;
-		return "Branch ID: " + myID;
+
+
+		return "Branch positions: " + myPositions+"\n";
 	}
 
 	public int getLength(){
-		return getAllPositions().size();
+		return getPositions().size();
 	}
 
 	public List<Branch> getForwardNeighbors(){
@@ -249,7 +257,51 @@ public class Branch {
 	}
 
 	public boolean equals(Branch branch){
-		return branch.getAllPositions().equals(this.getAllPositions()) && (branch.getID() == this.getID());
+		for(int x=0; x<branch.getPositions().size(); x++){
+			if(!branch.getPositions().get(x).equals(this.getPositions().get(x))){
+				return false;
+			}
+		}
+		return true;
 	}
+
+	public void removeNeighbor(Branch b) {
+		this.myNeighbors.remove(b);
+	}
+
+	public Branch deepCopy(Map<Branch, Branch> isomorphism){
+		Branch copy = isomorphism.get(this);
+		if (copy == null) {
+			copy = new Branch(this.getMyPositions(), this.getNeighbors());
+			isomorphism.put(this, copy);
+			for (Branch neighbor : this.myNeighbors) {
+				copy.addNeighbor(neighbor.deepCopy(isomorphism));
+			}
+		}
+		return copy;
+	}
+	
+	public Branch copyBranch() {
+        Branch obj = null;
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            out.close();
+            ObjectInputStream in = new ObjectInputStream(
+                new ByteArrayInputStream(bos.toByteArray()));
+            obj = (Branch) in.readObject();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        }
+//        System.out.println("BEFORE: " + this);
+//        System.out.println("SERIALIZED: " + obj);
+        return obj;
+    }
 
 }

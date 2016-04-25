@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.view.tabs.AffectorTab;
 import auth_environment.view.tabs.ElementTab;
-import auth_environment.view.tabs.TowerTab;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -19,14 +20,16 @@ import javafx.scene.layout.VBox;
 
 public class VAsTesterTab extends Tab{
 
-	public VAsTesterTab(String name, IAuthEnvironment myInterface){
+	public VAsTesterTab(String name, IAuthModel authModel){
 		super(name);
-		booyah(myInterface);
+		booyah(authModel);
 	}
 	
-	private void booyah(IAuthEnvironment myInterface){
+	private void booyah(IAuthModel authModel){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new ElementTab("Projectiles", myInterface));
+		// TODO: update AffectorTab's constructor to match ElementTab
+		myTabs.getTabs().addAll(new ElementTab("Units", authModel), 
+				new AffectorTab("Affectors", authModel.getIAuthEnvironment()));
 				//, new ElementTab("Affectors"), new ElementTab("Terrain"), new TowerTab(), new ElementTab("Enemy"), new ElementTab("Projectile"));
 		this.setContent(myTabs);
 	}
