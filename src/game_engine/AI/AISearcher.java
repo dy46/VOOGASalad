@@ -78,7 +78,7 @@ public class AISearcher {
 	}
 
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
-		for(Unit u : this.myEngine.getLevelController().getCurrentLevel().getCurrentWave().getSpawningUnits()){
+		for(Unit u : this.myEngine.getUnitController().getUnitType("Enemy")){
 			Branch currentBranch = u.getProperties().getMovement().getCurrentBranch();
 			if(!visibilityBranches.contains(currentBranch)){
 				return false;
