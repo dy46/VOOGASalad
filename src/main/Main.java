@@ -15,7 +15,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		MainView mainView = new MainView(primaryStage);
-		
 //		myView = new PlayerGUI(790, 614);
 //		primaryStage.setScene(myView.createPlayerScene());
 //		primaryStage.show();

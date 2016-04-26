@@ -41,9 +41,9 @@ public class EncapsulationController {
 
 	private void terrainHandling (Unit unit, List<Unit> terrains){
 		for (int i = 0; i < terrains.size(); i++) {
-			if ((!(unit == terrains.get(i)) && ec.encapsulates(CollisionDetector.getUseableBounds(unit.getProperties().getBounds(), 
+			if ((!(unit == terrains.get(i)) && ec.encapsulates(CollisionChecker.getUseableBounds(unit.getProperties().getBounds(), 
 			                                                                                   unit.getProperties().getPosition()), 
-			                                                CollisionDetector.getUseableBounds(terrains.get(i).getProperties().getBounds(),
+			                                                CollisionChecker.getUseableBounds(terrains.get(i).getProperties().getBounds(),
 			                                                                                   terrains.get(i).getProperties().getPosition())))) {
 				if (unit.isVisible()) {
 					List<Affector> newAffectorsToApply =

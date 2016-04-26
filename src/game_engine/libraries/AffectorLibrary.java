@@ -31,6 +31,10 @@ public class AffectorLibrary {
 	    return a;
 	}
 	
+	public void addAffector(String name, Affector affector) {
+		namesToAffector.put(name, affector);
+	}
+	
 	public void addAffector(String property, String effect, Affector affector){
 		myAffectors.put(getIdentifier(property, effect), affector);
 		namesToAffector.put(property + effect, affector);

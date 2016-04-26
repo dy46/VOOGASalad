@@ -1,86 +1,87 @@
 package auth_environment.view.tabs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import auth_environment.IAuthEnvironment;
-import auth_environment.view.tabs.ElementTab;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import auth_environment.IAuthEnvironment;
+
+import java.util.ResourceBundle;
+
 import auth_environment.Models.LevelOverviewTabModel;
-import auth_environment.Models.UnitView;
-import auth_environment.Models.WaveOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
-import auth_environment.view.UnitPicker;
-import auth_environment.view.Workspaces.GlobalGameTab;
-import game_engine.TestingEngineWorkspace;
-import game_engine.factories.UnitFactory;
-import game_engine.game_elements.Unit;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import game_engine.game_elements.Level;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
-public class LevelOverviewTab extends Tab{
+public class LevelOverviewTab extends Tab {
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private BorderPane myRoot;
 	private TabPane myTabs;
 	private IAuthModel myAuthModel;
-	private IAuthEnvironment myInterface;
-	private Button addNewLevelButton;
-	private ILevelOverviewTabModel overviewModel;
+	private ILevelOverviewTabModel myLevelOverviewTabModel;
 	
 	public LevelOverviewTab(String name, IAuthModel authModel){
 		super(name);
-		this.myTabs = new TabPane();
-		this.addNewLevelButton = new Button("Add New Level");
 		this.myAuthModel = authModel;
-		this.overviewModel = new LevelOverviewTabModel();
-		this.myInterface = this.myAuthModel.getIAuthEnvironment(); 
 		init();
 	}
 	
-	private void init(){
-		myRoot = new BorderPane();
-		myRoot.setTop(addNewLevelButton);
-		addSubTabs();
-		myRoot.setLeft(myTabs);
+	private void init() {
+		this.myRoot = new BorderPane();
+		this.myTabs = new TabPane();
+		this.addRefresh();
+		this.setupBorderPane();
 		this.setContent(myRoot);
 	}
 	
-	private void addSubTabs(){
-		addNewLevelButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				final Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myInterface, myAuthModel);
-				myTabs.getTabs().addAll(tab);
-				myTabs.getSelectionModel().select(tab);
-			}
+	private void setupBorderPane() {
+		myRoot.setTop(this.buildNewLevelButton());
+		myRoot.setLeft(myTabs);
+	}
+	
+	private void addRefresh() {
+		this.myRoot.setOnMouseEntered(e -> {
+			this.refresh();
 		});
+	}
+	
+	private void refresh() {
+		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
+		System.out.println(this.myLevelOverviewTabModel.getCreatedLevels().size());
+		this.setupLevelTabs();
+	}
+	
+	private void setupLevelTabs() {
+		this.myTabs.getTabs().clear();
+		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
+	}
+	
+	private Tab addFrontendTab() {
+		Tab tab = new LevelTab("Level " + (this.myTabs.getTabs().size()), 
+				this.myTabs.getTabs().size(), 
+				myAuthModel, 
+				this.myLevelOverviewTabModel);
+		myTabs.getTabs().addAll(tab);
+		return tab;
+	}
+	
+	private void addLevelTab(Level level) {
+		Tab tab = new LevelTab("Level " + (this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level)),
+				this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level),
+				myAuthModel, 
+				this.myLevelOverviewTabModel);
+		myTabs.getTabs().addAll(tab);
+	}
+	
+	private Node buildNewLevelButton() {
+		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
+		addNewLevelButton.setOnAction(e -> {
+			myTabs.getSelectionModel().select(this.addFrontendTab());
+		});
+		return addNewLevelButton;
 	}
 	
 	public Node getRoot(){

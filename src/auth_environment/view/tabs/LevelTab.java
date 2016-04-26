@@ -1,67 +1,59 @@
 package auth_environment.view.tabs;
 
-import auth_environment.IAuthEnvironment;
-import auth_environment.Models.UnitView;
-import auth_environment.Models.WaveOverviewTabModel;
+import auth_environment.Models.LevelTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.view.UnitPicker;
-import game_engine.TestingEngineWorkspace;
-import game_engine.factories.UnitFactory;
-import game_engine.game_elements.Unit;
+import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class LevelTab extends Tab{
-	private IAuthEnvironment myInterface;
+	
 	private BorderPane myBorderPane;
-	private GridPane myGridPane; 
 	private IAuthModel myAuthModel;
-//	private int gridIndex = 0; 
-	private NodeFactory myNodeFactory;
 	private String myName; 
 	
-	public LevelTab(String name, IAuthEnvironment myInterface, IAuthModel myModel){
+	private LevelTabModel myLevelTabModel;
+	private ILevelOverviewTabModel myLevelOverviewTabModel; 
+	
+	public LevelTab(String name, int levelIndex, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		super(name);
-		this.myAuthModel = myModel;
-		myName = name;
-		this.myInterface = myInterface;
-		this.myNodeFactory = new NodeFactory();
+		this.myLevelTabModel = new LevelTabModel(levelIndex); 
+		this.myAuthModel = authModel;
+		this.myLevelOverviewTabModel = levelOverview; 
+		this.myName = name;
 		init();
 	}
 	
 	private void init(){
-		myBorderPane = new BorderPane();
-		TitledPane newPane = new TitledPane();
-		ScrollPane newScrollPane = new ScrollPane();
-		this.myBorderPane.getChildren().add(this.myNodeFactory.buildButton("hello"));
-		createWaveList();
+		this.myBorderPane = new BorderPane();
+		this.addRefresh();
+		this.createWaveList();
 		this.setContent(myBorderPane);
 	}
 	
-	private void createWaveList(){
+	private void addRefresh() {
+		this.myBorderPane.setOnMouseEntered(e -> {
+			this.refresh();
+		});
+	}
+	
+	private void refresh() {
+		this.myLevelOverviewTabModel.changeEditedLevel(this.myLevelTabModel.getLevelIndex());
+	}
+	
+	private void createWaveList() { 
 		int index = 0;
 		GridPane newTableInfo = new GridPane();
 		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
 		newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
 		newTableInfo.setPrefSize(600, 200);	
-		myBorderPane.setLeft(newTableInfo);
-		Button waveButton = new Button("waveeee");
-		addNewWaveSpace(index, newTableInfo, waveButton);
+		this.myBorderPane.setLeft(newTableInfo);
+		Button dummyWaveButton = new Button();
+		this.addNewWaveSpace(index, newTableInfo, dummyWaveButton);
 	}
 	
 	private void addNewWaveSpace(int index, GridPane newTableInfo, Button waveButton) {
@@ -69,12 +61,12 @@ public class LevelTab extends Tab{
 		int waveNum = index + 1;
 		String waveName = "Wave " + waveNum;
 		Button wave = new Button(waveName);
-		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel));
+		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel, this.myLevelOverviewTabModel));
 		newTableInfo.add(wave, 2, index);
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");
 		int num = index;
-		newWaveButton.setOnAction(e-> addNewWaveSpace(num, newTableInfo, newWaveButton));
+		newWaveButton.setOnAction(e -> addNewWaveSpace(num, newTableInfo, newWaveButton));
 		newTableInfo.add(newWaveButton, 2, index);
 	}
 	

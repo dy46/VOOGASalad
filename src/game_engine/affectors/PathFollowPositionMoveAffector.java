@@ -26,30 +26,13 @@ public class PathFollowPositionMoveAffector extends PathFollowAffector {
 	}
 	           
 	public Position getNextPosition(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
 		Movement move = u.getProperties().getMovement();
 		Branch currentBranch = move.getCurrentBranch();
 		if(currentBranch == null){
 			return null;
 		}
-		Position next = move.getNextPosition(currentPosition);
-		if(next == null){
-			currentBranch = move.getNextBranch();
-			if(currentBranch == null) {
-				return null;
-			}
-			next = currentBranch.getFirstPosition();
-		}
-		return next;
+		Position next = move.getNextPosition();
+		return next == null ? null : next;
 	}
-
-	public Double getNextDirection(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			// END OF PATH
-			return u.getProperties().getVelocity().getDirection();
-		}
-		return move.getNextDirection(currentPosition);
-	}
+	
 }
