@@ -3,7 +3,7 @@ package main;
 import game_player.view.PlayerGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import utility.SampleFrontend;
+import utility.CloudStorageFrontend;
 
 public class Main extends Application {
 
@@ -19,7 +19,7 @@ public class Main extends Application {
 //		myView = new PlayerGUI(790, 765);
 //		primaryStage.setScene(myView.createPlayerScene());
 //		primaryStage.show();
-		SampleFrontend test = new SampleFrontend(); 
+		CloudStorageFrontend test = new CloudStorageFrontend(); 
 	}
 
 }

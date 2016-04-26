@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class SampleFrontend {
+public class CloudStorageFrontend {
 	
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -24,6 +24,9 @@ public class SampleFrontend {
 
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
+	
+    private static final String MESSAGE = "new files have been uploaded!";
+	private static final String DEVELOPER_TOKEN = "lr976BMHY8Nm9NGys7J5KYV6Qy6PRNwJ";
 
 	private Scene myScene;
 	
@@ -31,7 +34,7 @@ public class SampleFrontend {
 	
 	private NodeFactory myNodeFactory;
 
-	public SampleFrontend () {
+	public CloudStorageFrontend () {
 		this.myNodeFactory = new NodeFactory(); 
 		this.init(); 
 	}
@@ -71,11 +74,11 @@ public class SampleFrontend {
 	// TODO: refactor by combining with uploadFile() 
 	private void uploadFolder() {
 		FileChooserDelegate chooser = new FileChooserDelegate(); 
-        CloudStorage c;
 		try {
-			c = new CloudStorage("sea7P0kYz0PcuVJ4pcEoYWQRRNrNjkoA");
 			String path = chooser.chooseFile("Choose a File within the Desired Folder").getParent(); 
+	        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
 			c.uploadFolder(path);
+			this.printResults(c);
 		} catch (FileNotFoundException | TwilioRestException e) {
 			System.out.println("Invalid developer token"); 
 		}
@@ -83,15 +86,26 @@ public class SampleFrontend {
 	
 	private void uploadFile() {
 		FileChooserDelegate chooser = new FileChooserDelegate(); 
-        CloudStorage c;
 		try {
-			c = new CloudStorage("sea7P0kYz0PcuVJ4pcEoYWQRRNrNjkoA");
 	        File f = chooser.chooseFile("Choose a File");
+	        System.out.println(f.getParent());
+	        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
 	        c.uploadFile(f.getAbsolutePath(), f.getName());
+	        this.printResults(c);
 		} catch (FileNotFoundException e) {
 			System.out.println("Invalid developer token"); 
 		}
 
+	}
+	
+	private void printResults (CloudStorage c) {
+        System.out.println(c.getCurrentFiles());
+        c.listFolders();
+        try {
+			c.notify(MESSAGE);
+		} catch (TwilioRestException e) {
+			System.out.println("Twilio API error");
+		}
 	}
 	
 	private ImageView buildAnimation() {

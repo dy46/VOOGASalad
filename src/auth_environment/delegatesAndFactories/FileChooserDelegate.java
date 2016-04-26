@@ -3,6 +3,7 @@ package auth_environment.delegatesAndFactories;
 import java.io.File;
 
 import javafx.scene.control.ContextMenu;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -39,6 +40,12 @@ public class FileChooserDelegate {
     	FileChooser f = new FileChooser();
     	f.setTitle(title);
     	return f; 
+    }
+    
+    private DirectoryChooser initDirectoryChooser(String title) {
+    	DirectoryChooser d = new DirectoryChooser(); 
+    	d.setTitle(title);
+    	return d; 
     }
     
     private FileChooser addImageFilter(FileChooser f) {
