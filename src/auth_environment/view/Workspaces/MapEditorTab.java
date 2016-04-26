@@ -64,7 +64,7 @@ public class MapEditorTab implements IWorkspace{
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
 	private Canvas myCanvas;
-	private GridPane myCanvasPane;
+	private Pane myCanvasPane;
 	private UnitPicker myPicker;
 	private ContextMenu myContextMenu;
 	
@@ -113,20 +113,20 @@ public class MapEditorTab implements IWorkspace{
 		myMapPane = new TitledPane();
 //        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
 //        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        myCanvasPane = new GridPane();
-        myCanvasPane.setGridLinesVisible(true);
-        final int numCols = 10 ;
-        final int numRows = 10 ;
-        for (int i = 0; i < numCols; i++) {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / numCols);
-            myCanvasPane.getColumnConstraints().add(colConst);
-        }
-        for (int i = 0; i < numRows; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(100.0 / numRows);
-            myCanvasPane.getRowConstraints().add(rowConst);         
-        }
+        myCanvasPane = new Pane();
+//        myCanvasPane.setGridLinesVisible(true);
+//        final int numCols = 10 ;
+//        final int numRows = 10 ;
+//        for (int i = 0; i < numCols; i++) {
+//            ColumnConstraints colConst = new ColumnConstraints();
+//            colConst.setPercentWidth(100.0 / numCols);
+//            myCanvasPane.getColumnConstraints().add(colConst);
+//        }
+//        for (int i = 0; i < numRows; i++) {
+//            RowConstraints rowConst = new RowConstraints();
+//            rowConst.setPercentHeight(100.0 / numRows);
+//            myCanvasPane.getRowConstraints().add(rowConst);         
+//        }
         myCanvasPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
 //        myCanvasPane.setScaleX(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")));
@@ -139,7 +139,7 @@ public class MapEditorTab implements IWorkspace{
 	
 //To be refactor out
 	
-    public void setUpNodeTarget(GridPane target) {
+    public void setUpNodeTarget(Pane target) {
 		
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
@@ -187,11 +187,11 @@ public class MapEditorTab implements IWorkspace{
 					myModel.addTerrain(event.getSceneX(), event.getSceneY(), imv.getUnit());
 					System.out.println("X: " + event.getSceneX());
 					System.out.println("Y: " + event.getSceneY());
-					int i = (int)((event.getSceneY()-imv.getFitHeight())/(target.getHeight()/10));
-					int j = (int)(event.getSceneX()/(target.getWidth()/10));
-					target.add(imv, j, i);
-					System.out.println("Grid X: " + i);
-					System.out.println("Grid Y: " + j);
+//					int i = (int)((event.getSceneY()-imv.getFitHeight())/(target.getHeight()/10));
+//					int j = (int)(event.getSceneX()/(target.getWidth()/10));
+					target.getChildren().add(imv);
+//					System.out.println("Grid X: " + i);
+//					System.out.println("Grid Y: " + j);
 					System.out.println(myPicker.myEditInfo.getChildren());
 					imv.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						    new EventHandler<MouseEvent>() {
