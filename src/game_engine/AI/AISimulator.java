@@ -38,21 +38,24 @@ public class AISimulator {
 
 	public boolean simulateEnemyPathFollowing(Unit obstacle) {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
-		HashMap<Branch, List<Branch>> branchPaths = myAIHandler.getBranchPaths();
-		HashMap<Position, List<Branch>> posPaths = myAIHandler.getPositionPaths();
-		HashMap<Unit, List<Branch>> unitPaths = myAIHandler.getUnitPaths();
+		HashMap<Branch, List<Branch>> branchPaths = new HashMap<>();
+		HashMap<Position, List<Branch>> posPaths = new HashMap<>();
+		HashMap<Unit, List<Branch>> unitPaths = new HashMap<>();
+		HashMap<Branch, List<Branch>> cachedBranchPaths = myAIHandler.getBranchPaths();
+		HashMap<Position, List<Branch>> cachedPosPaths = myAIHandler.getPositionPaths();
+		HashMap<Unit, List<Branch>> cachedUnitPaths = myAIHandler.getUnitPaths();
 		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
 			return false;
 		}
 		for(Unit e : myAIHandler.getActiveAIEnemies()){
 			Position currPos = e.getProperties().getPosition();
 			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
-			List<Branch> oldShortestPath = unitPaths.get(e);
+			List<Branch> oldShortestPath = cachedUnitPaths.get(e);
 			for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
 				if(continueSearch(oldShortestPath, visibilityBranches)){
-					List<Branch> cachedBranchPath = branchPaths.get(currBranch);
+					List<Branch> cachedBranchPath = cachedBranchPaths.get(currBranch);
 					if(continueSearch(cachedBranchPath, visibilityBranches)){
-						List<Branch> cachedPosPath = posPaths.get(currPos);
+						List<Branch> cachedPosPath = cachedPosPaths.get(currPos);
 						if(continueSearch(cachedPosPath, visibilityBranches)){
 							List<Branch> newShortestPath = myAISearcher.getPathToGoal(currPos, goal, visibilityBranches);
 							if(newShortestPath == null || simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
