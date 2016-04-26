@@ -47,18 +47,25 @@ public class LevelOverviewTab extends Tab {
 		});
 	}
 	
-	
 	private void refresh() {
 		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
+		this.setupLevelTabs();
+	}
+	
+	private void setupLevelTabs() {
+		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab());
+	}
+	
+	private Tab addLevelTab() {
+		Tab tab = new LevelTab("Level " + (this.myLevelOverviewTabModel.getCreatedLevels().size() + 1), myAuthModel, this.myLevelOverviewTabModel);
+		myTabs.getTabs().addAll(tab);
+		return tab;
 	}
 	
 	private Node buildNewLevelButton() {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
-			Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myAuthModel, this.myLevelOverviewTabModel);
-			// TODO: add new Level to the Game Data
-			myTabs.getTabs().addAll(tab);
-			myTabs.getSelectionModel().select(tab);
+			myTabs.getSelectionModel().select(this.addLevelTab());
 		});
 		return addNewLevelButton;
 	}
