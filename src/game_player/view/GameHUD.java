@@ -20,6 +20,8 @@ import javafx.scene.shape.Rectangle;
 
 public class GameHUD {
 	
+	private static final String PNG_EXTENSION = ".png";
+
 	private static final int PANEL_SPACING = 5;
 
     private ResourceBundle myResources;
@@ -49,7 +51,7 @@ public class GameHUD {
     }
 
     public Node createNode () {
-        HUDBox = new HBox();
+        HUDBox = new HBox(50);
         addToHUD();
         whenNothingSelected();
         return HUDBox;
@@ -57,12 +59,12 @@ public class GameHUD {
 
     public void addToHUD () {
     	HUDBox.getChildren().clear();
-        VBox unitStuff = new VBox();
+        VBox unitStuff = new VBox(PANEL_SPACING);
         unitStuff.setAlignment(Pos.CENTER);
         unitImage = new ImageView();
         unitType = new Label();
         sellButton = new Button();
-        unitStuff.getChildren().addAll(unitType, unitImage, sellButton);
+        unitStuff.getChildren().addAll(new Label(myResources.getString("SelectedUnit")), unitType, unitImage, sellButton);
         HUDBox.getChildren().addAll(unitStuff, upgradesBox);
         upgradesBox.setAlignment(Pos.CENTER_RIGHT);
         HUDBox.setAlignment(Pos.CENTER_LEFT);
@@ -72,7 +74,7 @@ public class GameHUD {
     	addToHUD();
         gameView.setSpecificUnitIsClicked(tower);
         unitType.setText(tower.getName());
-        unitImage.setImage(new Image(tower.toString() + ".png"));
+        unitImage.setImage(new Image(tower.toString() + PNG_EXTENSION));
         removeUpgrades();
         addUpgrades(tower, new HBox(PANEL_SPACING));
         addChildrenUpgrades(tower);
@@ -105,7 +107,7 @@ public class GameHUD {
         for (int i = 0; i < tower.getChildren().size(); i++) {
         	HBox childUpgrades = new HBox(PANEL_SPACING);
             ImageView child =
-                    new ImageView(new Image(tower.getChildren().get(i).toString() + ".png"));
+                    new ImageView(new Image(tower.getChildren().get(i).toString() + PNG_EXTENSION));
             childUpgrades.getChildren().add(child);
             addUpgrades(tower.getChildren().get(i), childUpgrades);
             children.add(child);
