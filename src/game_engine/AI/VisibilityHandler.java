@@ -61,15 +61,26 @@ public class VisibilityHandler {
 			fixNeighbors(visible, branchesToFilter);
 		}
 		for(Branch branchToFilter : branchesToFilter){
-			visibilityBranches.remove(branchToFilter);
+			removeBranch(visibilityBranches, branchToFilter);
 		}
-		System.out.println("VISIBLE: " + visibilityBranches);
 		return visibilityBranches;
 	}
-	
+
+	private void removeBranch(List<Branch> branches, Branch toRemove){
+		int removalIndex = -1;
+		for(int x=0; x<branches.size(); x++){
+			if(branches.get(x).equals(toRemove)){
+				removalIndex = x;
+				break;
+			}
+		}
+		if(removalIndex != -1)
+			branches.remove(removalIndex);
+	}
+
 	private void fixNeighbors(Branch branch, List<Branch> branchesToFilter) {
 		for (Branch filteredBranch : branchesToFilter) {
-			branch.getNeighbors().remove(filteredBranch);
+			branch.removeNeighbor(filteredBranch);
 		}
 	}
 

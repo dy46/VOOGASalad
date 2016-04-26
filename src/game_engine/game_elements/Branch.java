@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import game_engine.properties.Position;
 
@@ -21,7 +20,7 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
-    
+
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;
@@ -245,18 +244,27 @@ public class Branch implements Serializable{
 	}
 
 	public boolean equals(Branch branch){
-		if(branch.getPositions() == null && this.getPositions() == null){
-			return true;
-		}
-		else if(branch.getPositions().size() == 0 && this.getPositions().size() == 0){
-			return true;
-		}
-		for(int x=0; x<branch.getPositions().size(); x++){
-			if(this.getPositions().size() > x && !branch.getPositions().get(x).equals(this.getPositions().get(x))){
-				return false;
+		if(branch.getFirstPosition().equals(this.getFirstPosition())){
+			for(int x=0; x<myPositions.size(); x++){
+				if(!positionEquals(myPositions.get(x), branch.getPositions().get(x)))
+					return false;
 			}
 		}
+		else if(branch.getLastPosition().equals(this.getLastPosition())){
+			for(int x=myPositions.size()-1; x >= 0; x--){
+				if(!positionEquals(myPositions.get(x), branch.getPositions().get(x)))
+					return false;
+			}
+		}
+		else{
+			return false;
+		}
 		return true;
+	}
+
+	private boolean positionEquals(Position a, Position b){
+		return (Math.abs((a.getX() - b.getX())) < 0.0000001 &&
+				(Math.abs(a.getY() - b.getY())) < 0.0000001);
 	}
 
 	public void removeNeighbor(Branch b) {
@@ -274,26 +282,26 @@ public class Branch implements Serializable{
 		}
 		return copy;
 	}
-	
+
 	public Branch copyBranch() {
-        Branch obj = null;
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bos);
-            out.writeObject(this);
-            out.flush();
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(
-                new ByteArrayInputStream(bos.toByteArray()));
-            obj = (Branch) in.readObject();
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
-        catch(ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
-        }
-        return obj;
-    }
+		Branch obj = null;
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(this);
+			out.flush();
+			out.close();
+			ObjectInputStream in = new ObjectInputStream(
+					new ByteArrayInputStream(bos.toByteArray()));
+			obj = (Branch) in.readObject();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		catch(ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}
+		return obj;
+	}
 
 }

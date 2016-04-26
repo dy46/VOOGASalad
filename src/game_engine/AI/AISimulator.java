@@ -41,7 +41,7 @@ public class AISimulator {
 		List<Unit> enemies = myAIHandler.getActiveAIEnemies();
 		HashMap<Unit, List<Branch>> unitPaths = new HashMap<>();
 		HashMap<Unit, List<Branch>> oldUnitPaths = myAIHandler.getUnitPaths();
-		System.out.println("VISIBILITY BRANCHES: " + visibilityBranches);
+//		System.out.println("VISIBILITY BRANCHES: " + visibilityBranches);
 		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
 			System.out.println("INVALID SEARCH PROBLEM");
 			return false;
