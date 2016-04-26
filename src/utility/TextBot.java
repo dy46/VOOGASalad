@@ -46,7 +46,7 @@ public class TextBot {
                                                                    // number for your account.
             params.add(new BasicNameValuePair("Body", message));
             Message sms = messageFactory.create(params);
-            System.out.println(sms.getSid());
+//            System.out.println(sms.getSid());
         }
     }
 

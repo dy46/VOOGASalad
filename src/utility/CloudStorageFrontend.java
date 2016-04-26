@@ -47,7 +47,7 @@ public class CloudStorageFrontend {
 				this.buildAnimation()
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
-		this.myRoot.setPrefSize(800, 800); 
+		this.myRoot.setPrefSize(600, 600); 
 		myStage.setScene(this.myScene);
 		myStage.show();
 		myStage.toFront();
@@ -79,6 +79,7 @@ public class CloudStorageFrontend {
 				String path = dir.getPath(); 
 				c.uploadFolder(path);
 				this.printResults(c);
+//				c.notify(MESSAGE);
 			}
 		} catch (FileNotFoundException | TwilioRestException e) {
 			System.out.println("Invalid developer token"); 
@@ -93,8 +94,9 @@ public class CloudStorageFrontend {
 	        if (f != null) {
 		        c.uploadFile(f.getAbsolutePath(), f.getName());
 		        this.printResults(c);
+//		        c.notify(MESSAGE);
 	        }
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			System.out.println("Invalid developer token"); 
 		}
 	}
