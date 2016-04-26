@@ -31,16 +31,18 @@ public class WaveWindow {
 	
 	private IAuthModel myAuthModel;
 	private IWaveWindowModel myWaveWindowModel; 
+	private ILevelOverviewTabModel myLevelOverviewTabModel; 
 	
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		this.myAuthModel = authModel;
+		this.myLevelOverviewTabModel = levelOverview; 
 		// TODO: these names should come out of the Model!
 		this.spawningNames = new ArrayList<ComboBox<String>>();
 		this.placingNames = new ArrayList<ComboBox<String>>();
 		this.spawningTimes = new ArrayList<TextField>();
-		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
-				level+wave, ); 
+//		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
+//				level+wave, ); 
 		
 		Stage stage = new Stage();
 		Group root = new Group();

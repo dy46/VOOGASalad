@@ -14,13 +14,14 @@ public class LevelTab extends Tab{
 	private BorderPane myBorderPane;
 	private IAuthModel myAuthModel;
 	private String myName; 
-	private ILevelOverviewTabModel myLevelOverview; 
+	
+	private ILevelOverviewTabModel myLevelOverviewTabModel; 
 	
 	public LevelTab(String name, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		super(name);
 		this.myAuthModel = authModel;
+		this.myLevelOverviewTabModel = levelOverview; 
 		this.myName = name;
-		this.myLevelOverview = levelOverview; 
 		init();
 	}
 	
@@ -46,7 +47,7 @@ public class LevelTab extends Tab{
 		int waveNum = index + 1;
 		String waveName = "Wave " + waveNum;
 		Button wave = new Button(waveName);
-		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel));
+		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel, this.myLevelOverviewTabModel));
 		newTableInfo.add(wave, 2, index);
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");

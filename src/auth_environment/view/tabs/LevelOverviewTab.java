@@ -20,7 +20,7 @@ public class LevelOverviewTab extends Tab {
 	private BorderPane myRoot;
 	private TabPane myTabs;
 	private IAuthModel myAuthModel;
-	private ILevelOverviewTabModel overviewModel;
+	private ILevelOverviewTabModel myLevelOverviewTabModel;
 	
 	public LevelOverviewTab(String name, IAuthModel authModel){
 		super(name);
@@ -50,7 +50,7 @@ public class LevelOverviewTab extends Tab {
 	private Node buildNewLevelButton() {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
-			Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myAuthModel);
+			Tab tab = new LevelTab("Level " + (myTabs.getTabs().size() + 1), myAuthModel, this.myLevelOverviewTabModel);
 			// TODO: add new Level to the Game Data
 			myTabs.getTabs().addAll(tab);
 			myTabs.getSelectionModel().select(tab);
@@ -59,7 +59,7 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void refresh() {
-		this.overviewModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
+		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
 	}
 	
 	public Node getRoot(){
