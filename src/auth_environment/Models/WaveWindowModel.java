@@ -1,7 +1,6 @@
 package auth_environment.Models;
 
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IWaveWindowModel;
@@ -13,9 +12,6 @@ import game_engine.libraries.UnitLibrary;
 
 public class WaveWindowModel implements IWaveWindowModel {
 	
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
-	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-    
     private Wave myWave;
     private UnitLibrary myLibrary;
     private ILevelOverviewTabModel levelOverview;
@@ -68,7 +64,7 @@ public class WaveWindowModel implements IWaveWindowModel {
 
     @Override
     public void addSpawningUnit(String name) {
-        this.addSpawningUnit(name, Integer.parseInt(this.myDimensionsBundle.getString("defaultSpawnTime")));
+        this.addSpawningUnit(name, DEFAULT_TIME);
     }
 
     @Override

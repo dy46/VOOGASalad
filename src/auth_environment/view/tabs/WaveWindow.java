@@ -1,6 +1,8 @@
 package auth_environment.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
+
+import auth_environment.Models.WaveWindowModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IWaveWindowModel;
 import javafx.geometry.Rectangle2D;
@@ -30,12 +32,15 @@ public class WaveWindow {
 	private IWaveWindowModel myWaveWindowModel; 
 	
 	//TODO: Add Unit Library to WaveWindow constructor	
-	public WaveWindow(String level, String wave, IAuthModel myAuthModel){
-		this.myAuthModel = myAuthModel;
+	public WaveWindow(String level, String wave, IAuthModel authModel){
+		this.myAuthModel = authModel;
 		// TODO: these names should come out of the Model!
 		this.spawningNames = new ArrayList<ComboBox<String>>();
 		this.placingNames = new ArrayList<ComboBox<String>>();
 		this.spawningTimes = new ArrayList<TextField>();
+		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
+				level+wave, ); 
+		
 		Stage stage = new Stage();
 		Group root = new Group();
 		Scene newScene = new Scene(root);
