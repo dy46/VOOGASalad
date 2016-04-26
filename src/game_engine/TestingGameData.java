@@ -8,6 +8,7 @@ import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.place_validations.EnemySpawnPointPlaceValidation;
 import game_engine.place_validations.PlaceValidation;
+import game_engine.place_validations.TowerPlaceValidation;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.store_elements.Store;
@@ -33,6 +34,7 @@ public class TestingGameData {
         this.score = 0;
         this.myPlaceValidations = new ArrayList<>();
         this.myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+        this.myPlaceValidations.add(new TowerPlaceValidation());
         TestingEngineWorkspace engine = new TestingEngineWorkspace();
         engine.setUpEngine(null);
         this.myPlacedUnits = engine.getAllUnits();

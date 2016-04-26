@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import auth_environment.paths.PathGraph;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -25,89 +24,77 @@ import game_engine.properties.Position;
 
 public class VisibilityHandler {
 
-    private GameEngineInterface myEngine;
+	private GameEngineInterface myEngine;
 
-    public VisibilityHandler (GameEngineInterface engine) {
-        myEngine = engine;
-    }
+	public VisibilityHandler (GameEngineInterface engine) {
+		myEngine = engine;
+	}
 
-    public List<Branch> getVisibilityBranches () {
-        return getVisibilityBranches(myEngine.getUnitController().getUnitType("Tower"));
-    }
+	public List<Branch> getVisibilityBranches () {
+		return getVisibilityBranches(myEngine.getUnitController().getUnitType("Tower"));
+	}
 
-    public List<Branch> getVisibilityBranches (Unit obstacle) {
-        List<Unit> obstacles =
-                myEngine.getUnitController().getUnitType("Tower").stream().map(t -> t.copyShallowUnit())
-                        .collect(Collectors.toList());
-        obstacles.add(obstacle);
-        return getVisibilityBranches(obstacles);
-    }
+	public List<Branch> getVisibilityBranches (Unit obstacle) {
+		List<Unit> obstacles = getUnitCopyList(myEngine.getUnitController().getUnitType("Tower"));
+		obstacles.add(obstacle.copyShallowUnit());
+		return getVisibilityBranches(obstacles);
+	}
 
-    private List<Branch> getVisibilityBranches (List<Unit> obstacles) {
-        return filterObstacles(getFilteredBranches(obstacles));
-    }
+	public boolean isPositionVisible (List<Branch> visibilityBranches, Position spawn) {
+		for (Branch v : visibilityBranches) {
+			for (Position p : v.getPositions()) {
+				if (p.equals(spawn)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-    private List<Branch> getFilteredBranches (List<Unit> obstacles) {
-        List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
-        List<Branch> copyBranchesToFilter =
-                branchesToFilter.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-        return copyBranchesToFilter;
-    }
+	private List<Branch> getVisibilityBranches (List<Unit> obstacles) {
+		return getFilteredVisibilityBranches(getBranchCopyList(getBranchesToFilter(obstacles)));
+	}
 
-    private List<Branch> filterObstacles (List<Branch> branchesToFilter) {
-        PathGraph pg = new PathGraph(myEngine.getBranches());
-        List<Branch> branches = pg.copyGraph().getBranches();
-        List<Branch> copyBranches =
-                branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
-        for (int y = 0; y < branchesToFilter.size(); y++) {
-            for (int x = 0; x < copyBranches.size(); x++) {
-                if (branchesToFilter.get(y).equals(copyBranches.get(x))) {
-                    Branch removed = copyBranches.remove(x);
-                    x--;
-                    for (Branch b : copyBranches) {
-                        for (int z = 0; z < b.getNeighbors().size(); z++) {
-                            if (b.getNeighbors().get(z).equals(removed)) {
-                                b.getNeighbors().remove(z);
-                                z--;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return copyBranches;
-    }
+	private List<Branch> getFilteredVisibilityBranches (List<Branch> branchesToFilter) {
+		List<Branch> visibilityBranches = getBranchCopyList(myEngine.getBranches());
+		for(Branch visible : visibilityBranches){
+			fixNeighbors(visible, branchesToFilter);
+		}
+		for(Branch branchToFilter : branchesToFilter){
+			visibilityBranches.remove(branchToFilter);
+		}
+		return visibilityBranches;
+	}
 
-    private List<Branch> getBranchesToFilter (List<Unit> obstacles) {
-        Set<Branch> removalList = new HashSet<>();
-        List<Branch> copyBranches =
-                myEngine.getBranches().stream().map(b -> b.copyBranch())
-                        .collect(Collectors.toList());
-        List<Unit> obstacleList = obstacles;
-        List<Unit> copyObstacleList =
-                obstacleList.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
-        for (Unit o : copyObstacleList) {
-            for (Branch b : copyBranches) {
-                for (Position pos : b.getPositions()) {
-                    if (EncapsulationChecker.encapsulates(Arrays.asList(pos), o.getProperties()
-                            .getBounds().getUseableBounds(o.getProperties().getPosition()))) {
-                        removalList.add(b);
-                    }
-                }
-            }
-        }
-        return new ArrayList<Branch>(removalList);
-    }
+	private void fixNeighbors(Branch branch, List<Branch> branchesToFilter) {
+		for (Branch filteredBranch : branchesToFilter) {
+			branch.removeNeighbor(filteredBranch);
+		}
+	}
 
-    public boolean positionVisibleCheck (List<Branch> visibilityBranches, Position spawn) {
-        for (Branch v : visibilityBranches) {
-            for (Position p : v.getPositions()) {
-                if (p.equals(spawn)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+	private List<Branch> getBranchesToFilter (List<Unit> obstacles) {
+		Set<Branch> removalList = new HashSet<>();
+		List<Branch> copyBranches = getBranchCopyList(myEngine.getBranches());
+		List<Unit> copyObstacles = getUnitCopyList(obstacles);
+		for (Unit o : copyObstacles) {
+			for (Branch b : copyBranches) {
+				for (Position pos : b.getPositions()) {
+					if (EncapsulationChecker.encapsulates(Arrays.asList(pos), o.getProperties()
+							.getBounds().getUseableBounds(o.getProperties().getPosition()))) {
+						removalList.add(b);
+					}
+				}
+			}
+		}
+		return new ArrayList<Branch>(removalList);
+	}
+
+	private List<Branch> getBranchCopyList(List<Branch> branches){
+		return branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
+	}
+
+	private List<Unit> getUnitCopyList(List<Unit> units){
+		return units.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
+	}
 
 }

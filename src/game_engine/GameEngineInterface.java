@@ -1,6 +1,9 @@
 package game_engine;
 
 import java.util.List;
+import game_engine.AI.AIHandler;
+import game_engine.AI.AISearcher;
+import game_engine.AI.AISimulator;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -17,26 +20,32 @@ import game_engine.properties.Position;
 
 public interface GameEngineInterface {
 
-    List<String> saveGame ();
+	List<String> saveGame ();
 
-    void update ();
+	void update ();
 
-    void setUpEngine (TestingGameData data);
+	void setUpEngine (TestingGameData data);
 
-    public UnitController getUnitController ();
+	public UnitController getUnitController ();
 
-    public LevelController getLevelController ();
+	public LevelController getLevelController ();
 
-    public List<Branch> getBranches ();
+	public List<Branch> getBranches ();
 
-    public int getNextWaveTimer ();
+	public int getNextWaveTimer ();
 
-    public void setCursorPosition (double x, double y);
+	public void setCursorPosition (double x, double y);
 
-    public Position getCursorPosition ();
+	public Position getCursorPosition ();
 
-    public void updateAIBranches ();
+	public void updateAIBranches ();
 
-    public List<Branch> getBranchesAtPos (Position pos);
+	public List<Branch> getBranchesAtPos (Position pos);
+
+	public AIHandler getAIHandler();
+
+	public AISearcher getAISearcher();
+
+	public AISimulator getAISimulator();
 
 }

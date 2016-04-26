@@ -3,6 +3,8 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.List;
 import game_engine.AI.AIHandler;
+import game_engine.AI.AISearcher;
+import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -14,7 +16,6 @@ import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
-
 
 public class EngineWorkspace implements GameEngineInterface {
 
@@ -30,10 +31,14 @@ public class EngineWorkspace implements GameEngineInterface {
     private List<Unit> unitsToRemove;
     private Position cursorPos;
     private AIHandler myAIHandler;
+    private AISimulator myAISimulator;
+	private AISearcher myAISearcher;
 
     public void setUpEngine (TestingGameData data) {
         unitsToRemove = new ArrayList<>();
+        myAISearcher = new AISearcher(this);
         myAIHandler = new AIHandler(this);
+        myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
@@ -136,5 +141,19 @@ public class EngineWorkspace implements GameEngineInterface {
     public LevelController getLevelController () {
         return myLevelController;
     }
+    
+    @Override
+	public AIHandler getAIHandler() {
+		return myAIHandler;
+	}
+	
+	@Override
+	public AISearcher getAISearcher() {
+		return myAISearcher;
+	}
+	
+	public AISimulator getAISimulator(){
+		return myAISimulator;
+	}
 
 }
