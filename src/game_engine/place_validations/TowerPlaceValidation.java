@@ -25,7 +25,7 @@ public class TowerPlaceValidation extends PlaceValidation {
 
     public void setEngine (GameEngineInterface myEngine) {
         super.setEngine(myEngine);
-        this.mySimulator = new AISimulator(myEngine);
+        this.mySimulator = myEngine.getAISimulator();
     }
 
 }

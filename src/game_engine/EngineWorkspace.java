@@ -36,9 +36,9 @@ public class EngineWorkspace implements GameEngineInterface {
 
     public void setUpEngine (TestingGameData data) {
         unitsToRemove = new ArrayList<>();
-        myAISimulator = new AISimulator(this);
-		myAISearcher = new AISearcher(this);
+        myAISearcher = new AISearcher(this);
         myAIHandler = new AIHandler(this);
+        myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();

@@ -243,28 +243,14 @@ public class Branch implements Serializable{
 		return forwards;
 	}
 
-	public boolean equals(Branch branch){
-		if(branch.getFirstPosition().equals(this.getFirstPosition())){
-			for(int x=0; x<myPositions.size(); x++){
-				if(!positionEquals(myPositions.get(x), branch.getPositions().get(x)))
-					return false;
-			}
-		}
-		else if(branch.getLastPosition().equals(this.getLastPosition())){
-			for(int x=myPositions.size()-1; x >= 0; x--){
-				if(!positionEquals(myPositions.get(x), branch.getPositions().get(x)))
-					return false;
-			}
-		}
-		else{
-			return false;
-		}
-		return true;
+	@Override
+	public int hashCode(){
+		return 16;
 	}
 
-	private boolean positionEquals(Position a, Position b){
-		return (Math.abs((a.getX() - b.getX())) < 0.0000001 &&
-				(Math.abs(a.getY() - b.getY())) < 0.0000001);
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Branch && myPositions.equals(((Branch) o).getPositions());
 	}
 
 	public void removeNeighbor(Branch b) {

@@ -93,6 +93,15 @@ public class AISearcher {
 		}
 		return true;
 	}
+	
+	public boolean isValidSearchProblem(List<Branch> path, List<Branch> visibilityBranches) {
+		for(Branch b : path){
+			if(!visibilityBranches.contains(b)){
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public List<Branch> dijkstrasShortestPath(Branch start, Branch goal, List<Branch> visibilityBranches){
 		HashMap<Branch, Branch> nextNodeMap = new HashMap<>();
@@ -111,13 +120,7 @@ public class AISearcher {
 			} else {
 				for (Branch nextNode : currentNode.getNeighbors()) {
 					if (!visitedNodes.contains(nextNode)) {
-						boolean isVisible = false;
-						for(Branch v : visibilityBranches){
-							if(v.equals(nextNode)){
-								isVisible = true;
-							}
-						}
-						if(isVisible){
+						if(visibilityBranches.contains(nextNode)){
 							queue.add(nextNode);
 							visitedNodes.add(nextNode);
 							nextNodeMap.put(currentNode, nextNode);
@@ -209,20 +212,6 @@ public class AISearcher {
 			return null;
 		}
 		return visibleNeighbors.get(0);
-	}
-
-	public boolean isValidSearchProblem(List<Branch> path, List<Branch> visibilityBranches) {
-		for(Branch b : path){
-			boolean contained = true;
-			for(Branch v : visibilityBranches){
-				if(b.equals(v)){
-					contained = true;
-				}
-			}
-			if(!contained)
-				return false;
-		}
-		return true;
 	}
 
 }

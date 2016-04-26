@@ -136,10 +136,8 @@ public class AIHandler {
     public List<Branch> getBranchesAtPos (Position pos) {
         List<Branch> branches = new ArrayList<>();
         for (Branch b : myEngine.getBranches()) {
-            for (Position p : b.getPositions()) {
-                if (p.equals(pos)) {
-                    branches.add(b);
-                }
+            if(b.getPositions().contains(pos)){
+            	branches.add(b);
             }
         }
         return branches;
