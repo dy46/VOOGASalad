@@ -8,35 +8,27 @@ import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IMapEditorTabModel;
-import game_data.AuthSerializer;
-import game_engine.TestingEngineWorkspace;
 import game_engine.game_elements.Unit;
-import game_engine.games.GameEngineInterface;
 import game_engine.properties.Position;
-import game_engine.properties.UnitProperties;
 
 public class MapEditorTabModel implements IMapEditorTabModel{
 
 	private IAuthEnvironment myAuthData;  
+	private Map<Position, Unit> myMap = new HashMap<Position, Unit>();
+	private List<Unit> myTerrains;
 	
-	// TODO: are type arguments necessary? 
-	private AuthSerializer writer = new AuthSerializer();
-	
-	Map<Position, Unit> myMap = new HashMap<Position, Unit>();
-	List<Unit> myTerrains;
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;
-//		myTerrains = auth.getTerrains();
-		myTerrains = getSampleUnits();
+		myTerrains = auth.getTerrains();
 	}
 
-	public List<Unit> getSampleUnits() {
-	       GameEngineInterface gameInterface = new TestingEngineWorkspace();
-	       gameInterface.setUpEngine(null);
-	       Unit unit = new Unit("Tower", 2);
-	       unit.setProperties(new UnitProperties());
-	       return Arrays.asList(unit);
-	   }
+//	public List<Unit> getSampleUnits() {
+//	       GameEngineInterface gameInterface = new TestingEngineWorkspace();
+//	       gameInterface.setUpEngine(null);
+//	       Unit unit = new Unit("Tower", 2);
+//	       unit.setProperties(new UnitProperties());
+//	       return Arrays.asList(unit);
+//	   }
 	
 	public void addTerrain(double xPos, double yPos, Unit element){
 		element.getProperties().getPosition().setX(xPos);

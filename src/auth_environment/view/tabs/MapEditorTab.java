@@ -121,7 +121,7 @@ public class MapEditorTab implements IWorkspace {
 		
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
-				System.out.println("Dragging over Node...");
+//				System.out.println("Dragging over Node...");
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 				event.consume();
 			}
@@ -129,7 +129,7 @@ public class MapEditorTab implements IWorkspace {
 		
 		target.setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
-				System.out.println("Drag entered...");
+//				System.out.println("Drag entered...");
 //				if (event.getGestureSource() != target &&
 //						event.getDragboard().hasString()) {
 //				}
@@ -140,7 +140,7 @@ public class MapEditorTab implements IWorkspace {
 		target.setOnDragExited(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* mouse moved away, remove the graphical cues */
-				System.out.println("Drag exited...");
+//				System.out.println("Drag exited...");
 				event.consume();
 			}
 		});
@@ -148,7 +148,7 @@ public class MapEditorTab implements IWorkspace {
 		target.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				event.acceptTransferModes(TransferMode.COPY);
-				System.out.println("Drag dropped...");
+//				System.out.println("Drag dropped...");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
