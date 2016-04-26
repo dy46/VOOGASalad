@@ -40,6 +40,7 @@ public class AISimulator {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
 		List<Unit> enemies = myAIHandler.getActiveAIEnemies();
 		HashMap<Unit, List<Branch>> unitPaths = new HashMap<>();
+		HashMap<Branch, List<Branch>> oldBranchPaths = myAIHandler.getBranchPaths();
 		HashMap<Unit, List<Branch>> oldUnitPaths = myAIHandler.getUnitPaths();
 		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
 			System.out.println("INVALID SEARCH PROBLEM");
@@ -47,22 +48,26 @@ public class AISimulator {
 		}
 		System.out.println("VALID SEARCH PROBLEM");
 		for(Unit e : enemies){
-			Position current = e.getProperties().getPosition();
+			Position currPos = e.getProperties().getPosition();
+			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
 			List<Branch> oldShortestPath = oldUnitPaths.get(e);
 			for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
-				if(!myAISearcher.isValidSearchProblem(oldShortestPath, visibilityBranches)){
+				if(oldShortestPath == null || !myAISearcher.isValidSearchProblem(oldShortestPath, visibilityBranches)){
+					List<Branch> cachedShortestPath = oldBranchPaths.get(currBranch);
 					System.out.println("OLD PATH NOT VALID ANYMORE");
-					List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(current, goal, visibilityBranches);
-					if(newShortestPath != null){
-						if(simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
-							return false;
+					if(cachedShortestPath == null || !myAISearcher.isValidSearchProblem(cachedShortestPath, visibilityBranches)){
+						List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
+						if(newShortestPath != null){
+							if(simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
+								return false;
+							}
+							else{
+								unitPaths.put(e, newShortestPath);
+							}
 						}
 						else{
-							unitPaths.put(e, newShortestPath);
+							return false;
 						}
-					}
-					else{
-						return false;
 					}
 				}
 				else{

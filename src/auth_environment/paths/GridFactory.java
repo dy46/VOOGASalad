@@ -24,9 +24,6 @@ public class GridFactory extends PathGraphFactory{
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, pathGrid);
 		}
-		for(Branch p : pathGrid.getBranches()){
-			System.out.println(p+ " Neighbors: " + p.getNeighbors());
-		}
 		return pathGrid;
 	}
 
