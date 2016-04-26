@@ -119,7 +119,7 @@ public class AIHandler {
 			newBranches = cachedBranchPaths.get(currBranch);
 		}
 		else{
-			newBranches = mySearcher.getPathToAnyGoal(currPos);
+			newBranches = mySearcher.getShortestPath(currPos);
 			cachedPosPaths.put(currPos, newBranches);
 			cachedBranchPaths.put(currBranch, newBranches);
 		}
