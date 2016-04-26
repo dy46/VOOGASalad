@@ -1,9 +1,9 @@
 package game_engine.properties;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Unit;
 
 
 public class UnitProperties {
@@ -13,23 +13,22 @@ public class UnitProperties {
     private Velocity myVelocity;
     private Bounds myBounds;
     private Bounds myRange;
-    private Position myPosition;
     private Price myPrice;
     private State myState;
     private Movement myMovement;
     private Mass myMass;
-    private List<Unit> myChildren;
 
-    private static double DEFAULT_STATE = 0;
-    private static double DEFAULT_HEALTH = 1;
-    private static double DEFAULT_TEAM = 0;
-    private static double DEFAULT_SPEED = 1;
-    private static double DEFAULT_DIRECTION = 90;
+    private static final double DEFAULT_STATE = 0;
+    private static final double DEFAULT_HEALTH = 1;
+    private static final double DEFAULT_TEAM = 0;
+    private static final double DEFAULT_SPEED = 1;
+    private static final double DEFAULT_DIRECTION = 0;
     private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
-    private static double DEFAULT_X_POS = 0;
-    private static double DEFAULT_Y_POS = 0;
-    private static double DEFAULT_PRICE = 0;
-    private static double DEFAULT_MASS = 1;
+    private static final double DEFAULT_X_POS = 0;
+    private static final double DEFAULT_Y_POS = 0;
+    private static final Position DEFAULT_POS = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
+    private static final double DEFAULT_PRICE = 0;
+    private static final double DEFAULT_MASS = 1;
     private static List<Branch> DEFAULT_PATHS = new ArrayList<>();
 
     public UnitProperties (Health health,
@@ -37,15 +36,14 @@ public class UnitProperties {
                            Velocity velocity,
                            Bounds bounds,
                            Bounds range,
-                           Position position,
                            Price price,
                            State state,
-                           Movement movement, Mass mass) {
+                           Movement movement,
+                           Mass mass) {
         this.myHealth = health;
         this.myTeam = team;
         this.myVelocity = velocity;
         this.myBounds = bounds;
-        this.myPosition = position;
         this.myPrice = price;
         this.myState = state;
         this.myMovement = movement;
@@ -53,38 +51,26 @@ public class UnitProperties {
         this.myMass = mass;
     }
 
-    public UnitProperties copyUnitProperties() {
-		UnitProperties newProperties = new UnitProperties();
-		if(this.getHealth() != null) {
-		   newProperties.myHealth = this.getHealth().copyHealth();
-		}
-		if(this.getTeam() != null) {
-		    newProperties.myTeam = this.getTeam().copyTeam();
-		}
-		newProperties.myState = this.getState().copyState();
-		if(this.myVelocity != null) {
-		    newProperties.myVelocity = this.getVelocity().copyVelocity();
-		}
-		if(this.myBounds != null) {
-		    newProperties.myBounds = this.getBounds().copyBounds();
-		}
-		if(this.myPosition != null) {
-	            newProperties.myPosition = this.myPosition.copyPosition(); 
-		}
-		if(this.getMovement() != null) {
-		    newProperties.myMovement = this.myMovement.copyMovement();
-		}
-		if(this.getRange() != null) {
-		    newProperties.myRange = this.getRange().copyBounds();
-		}
-		if(this.getPrice() != null) {
-		    this.myPrice = this.getPrice().copyPrice();
-		}
-		if(this.getMass() != null){
-			this.myMass = this.getMass().copyMass();
-		}
-		return newProperties;
-	}
+    public UnitProperties copyUnitProperties () {
+        UnitProperties n2 = new UnitProperties();
+        for (Field f : n2.getClass().getDeclaredFields()) {
+            if (f.getName().matches("my[A-Za-z]*")) {
+                try {
+                    if (f.get(this) != null) {
+                        f.set(n2, f.get(this).getClass()
+                                .getMethod("copy" + f.get(this).getClass().getSimpleName(),
+                                           new Class[0])
+                                .invoke(f.get(this), new Object[0]));
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return n2;
+    }
 
     public UnitProperties () {
         myState = new State(DEFAULT_STATE);
@@ -93,9 +79,8 @@ public class UnitProperties {
         myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
         myBounds = new Bounds(DEFAULT_BOUNDS);
         myRange = new Bounds(DEFAULT_BOUNDS);
-        myPosition = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
         myPrice = new Price(DEFAULT_PRICE);
-        myMovement = new Movement(DEFAULT_PATHS);
+        myMovement = new Movement(DEFAULT_PATHS, DEFAULT_POS);
         myMass = new Mass(DEFAULT_MASS);
     }
 
@@ -116,42 +101,42 @@ public class UnitProperties {
     }
 
     public Position getPosition () {
-        return myPosition;
+        return myMovement.getPosition();
     }
 
     public Price getPrice () {
         return myPrice;
     }
-    
-    public void setPrice(double price){
-    	this.myPrice.setPrice(price);
+
+    public void setPrice (double price) {
+        this.myPrice.setPrice(price);
     }
-    
-    public void setPriceProp(Price price){
-    	this.myPrice = price;
+
+    public void setPriceProp (Price price) {
+        this.myPrice = price;
     }
 
     public void setHealth (double health) {
         myHealth.setValue(health);
     }
-    
-    public void setHealthProp(Health health) {
+
+    public void setHealthProp (Health health) {
         myHealth = health;
     }
 
     public void setTeam (double team) {
-    	this.myTeam.setTeam(team);
+        this.myTeam.setTeam(team);
     }
-    
+
     public void setTeamProp (Team team) {
-    	this.myTeam = team;
+        this.myTeam = team;
     }
 
     public void setVelocity (double speed, double direction) {
         myVelocity.setSpeed(speed);
         myVelocity.setDirection(direction);
     }
-    
+
     public void setVelocityProp (Velocity velocity) {
         this.myVelocity = velocity;
     }
@@ -164,21 +149,12 @@ public class UnitProperties {
         myBounds = b;
     }
 
-    public void setPosition (double x, double y) {
-        myPosition.setX(x);
-        myPosition.setY(y);
-    }
-
-    public void setPositionProp (Position pos) {
-        myPosition = pos;
-    }
-
     public void setStateProp (State state) {
         this.myState = state;
     }
-    
-    public void setState(double state){
-    	this.myState.setState(state);
+
+    public void setState (double state) {
+        this.myState.setState(state);
     }
 
     public State getState () {
@@ -200,21 +176,25 @@ public class UnitProperties {
     public Bounds getRange () {
         return myRange;
     }
-    
-    public List<Unit> getChildren() {
-        return myChildren;
+
+    public void setMass (double mass) {
+        this.myMass.setMass(mass);
     }
 
-	public void setMass(double mass) {
-		this.myMass.setMass(mass);
-	}
-	
-	public void setMassProp(Mass mass){
-		this.myMass = mass;
-	}
-	
-	public Mass getMass(){
-		return myMass;
-	}
+    public void setMassProp (Mass mass) {
+        this.myMass = mass;
+    }
+
+    public Mass getMass () {
+        return myMass;
+    }
+
+    public void setPosition (double x, double y) {
+        this.myMovement.setPosition(x, y);
+    }
+
+    public void setPosition (Position newPos) {
+        this.myMovement.setPosition(newPos);
+    }
 
 }

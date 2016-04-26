@@ -1,84 +1,81 @@
 package auth_environment.paths;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-public class PathGraph {
+public class PathGraph implements Serializable{
 
-	private List<PathNode> myPaths;
-	private List<Position> mySpawns;
-	private List<Position> myGoals;
+	private List<Branch> myBranches;
 
-	public PathGraph(List<PathNode> paths){
-		this.myPaths = paths;
+	public PathGraph(List<Branch> branches){
+		this.myBranches = branches;
 	}
 
 	public PathGraph() {
-		myPaths = new ArrayList<>();
-	}
-
-	public void addPath(PathNode graph){
-		myPaths.add(graph);
-	}
-	
-	public void addSpawn(Position spawn){
-		mySpawns.add(spawn);
-	}
-	
-	public void addGoal(Position goal){
-		myGoals.add(goal);
+		myBranches = new ArrayList<>();
 	}
 
 	public List<Branch> getBranches(){
-		return myPaths.stream().map(p -> p.getBranches()).collect(Collectors.toList()).stream().flatMap(List<Branch>::stream).collect(Collectors.toList());
+		return myBranches;
 	}
 
-	public PathNode getPathByID(int ID){
-		Optional<PathNode> graph = myPaths.stream().filter(g -> g.getID() == (ID)).findFirst();
-		return graph.isPresent() ? graph.get() : null;
+	public Branch getBranchByPos(Position pos){
+		if(myBranches.size() == 0)
+			return null;
+		List<Branch> branchesAtEdgePos = getBranchesByEdgePosition(pos);
+		if(branchesAtEdgePos.size() == 0)
+			return null;
+		return branchesAtEdgePos.get(0);
 	}
 
-	public Branch getBranchByID(int ID){
-		for(PathNode path : myPaths){
-			Branch branch = path.getBranchByID(ID);
-			if(branch != null){
-				return branch;
+	public Branch getBranch(Branch newBranch) {
+		for(Branch b : myBranches){
+			if(b.equals(newBranch)){
+				return b;
 			}
 		}
 		return null;
 	}
 
-	public PathNode getPathByPos(Position pos){
-		Optional<PathNode> path = myPaths.stream().filter(g -> g.getBranchesByEdgePosition(pos) != null).findFirst();
-		return path.isPresent() ? path.get() : null;
+	public void removeBranch(Branch b) {
+		for(Branch neighbor : b.getNeighbors()){
+			neighbor.removeNeighbor(b);
+			b.removeNeighbor(neighbor);
+		}
+		myBranches.remove(b);
 	}
 
-	public PathNode getLastPath(){
-		return myPaths.get(myPaths.size()-1);
-	}
-	
-	public List<PathNode> getPaths(){
-		return myPaths;
+	public void addBranch(Branch branch){
+		myBranches.add(branch);
 	}
 
-	public void addSpawns(List<Position> spawns) {
-		this.mySpawns.addAll(spawns);
+	public List<Branch> getBranchNodes(Branch branch){
+		List<Branch> nodes = branch.getNeighbors().stream().filter(n -> getBranchNodes(n) != null).collect(Collectors.toList());
+		nodes.add(branch);
+		return nodes;
 	}
-	
-	public void addGoals(List<Position> goals){
-		this.myGoals.addAll(goals);
+
+	public List<Branch> copyBranches(){
+		return myBranches.stream().map(p -> new Branch(p.getPositions(), p.getNeighbors())).collect(Collectors.toList());
 	}
-	
-	public void setSpawns(List<Position> spawns){
-		this.mySpawns = spawns;
+
+	public List<Branch> getBranchesByEdgePosition(Position pos){
+		return myBranches.stream().filter(
+				n -> n.getPositions().size() > 0 && (n.getPositions().get(0).roughlyEquals(pos) || n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)))
+				.collect(Collectors.toList());
 	}
-	
-	public void setGoals(List<Position> goals){
-		this.myGoals = goals;
+
+	public List<Branch> getBranchesByMidPosition(Position pos){
+		return myBranches.stream().filter(
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).roughlyEquals(pos) && !n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)).collect(Collectors.toList());
 	}
-	
+
+	public PathGraph copyGraph(){
+		return new PathGraph(myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
+	}
+
 }

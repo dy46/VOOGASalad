@@ -1,11 +1,9 @@
 package game_engine.affectors;
 
 import java.util.List;
-
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
-import game_engine.physics.CollisionDetector;
-import game_engine.physics.EncapsulationDetector;
+import game_engine.physics.EncapsulationChecker;
 import game_engine.properties.Position;
 import game_engine.properties.Property;
 import game_engine.properties.UnitProperties;
@@ -43,12 +41,24 @@ public abstract class SingleTrackRangeAffector extends Affector {
     public abstract void futureApply (Unit u, Unit tracked);
 
     public Unit findTrackedUnit (UnitProperties properties) {
-        Position myPos = properties.getPosition();
+        Unit closestEnemy = findClosestEnemy(properties.getPosition());
+        if (closestEnemy == null) {
+            return null;
+        }
+        return EncapsulationChecker.encapsulates(closestEnemy.getProperties().getBounds()
+                .getUseableBounds(closestEnemy.getProperties().getPosition()),
+                                                 properties.getRange()
+                                                         .getUseableBounds(properties
+                                                                 .getPosition())) ? closestEnemy
+                                                                                  : null;
+    }
+
+    public Unit findClosestEnemy (Position myPos) {
         double closestDiff = Double.MAX_VALUE;
         Unit closestEnemy = null;
-        for (int i = 0; i < getWS().getEnemies().size(); i++) {
+        for (int i = 0; i < getWorkspace().getUnitController().getUnitType("Enemy").size(); i++) {
             double currDiff;
-            Unit currEnemy = getWS().getEnemies().get(i);
+            Unit currEnemy = getWorkspace().getUnitController().getUnitType("Enemy").get(i);
             if (currEnemy.isVisible()) {
                 Position currPos = currEnemy.getProperties().getPosition();
                 if ((currDiff =
@@ -60,16 +70,6 @@ public abstract class SingleTrackRangeAffector extends Affector {
                 }
             }
         }
-        if (closestEnemy == null) {
-            return null;
-        }
-        return EncapsulationDetector.encapsulates(CollisionDetector
-                .getUseableBounds(closestEnemy.getProperties().getBounds(),
-                                  closestEnemy.getProperties().getPosition()),
-                                              CollisionDetector
-                                                      .getUseableBounds(properties.getRange(),
-                                                                        properties.getPosition()))
-                                                                                                   ? closestEnemy
-                                                                                                   : null;
+        return closestEnemy;
     }
 }

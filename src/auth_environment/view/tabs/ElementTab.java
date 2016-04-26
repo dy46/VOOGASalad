@@ -1,20 +1,20 @@
 package auth_environment.view.tabs;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.Models.ElementTabModel;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
-import game_engine.properties.UnitProperties;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -27,35 +27,43 @@ import javafx.scene.text.Text;
 
 public class ElementTab extends Tab{
 	 
-	private IAuthEnvironment myInterface;
 	private Map<String, TextField> strTextMap;
-	private UnitFactory myUnitFactory;
 	private List<ComboBox<String>> affectorsToUnit;
 	private List<ComboBox<String>> affectorsToApply;
-	private List<Unit> Projectiles;
+	private List<ComboBox<String>> Projectiles;
+	private int index = 1;
 	
-	public ElementTab(String name, IAuthEnvironment myInterface){
+	private BorderPane myPane;
+	
+	private IAuthModel myAuthModel;
+	private IAuthEnvironment myInterface;
+	private IElementTabModel myElementTabModel;
+	
+	public ElementTab(String name, IAuthModel authModel){
 		super(name);
 		strTextMap = new HashMap<String, TextField>();
-		myUnitFactory  = new UnitFactory();
 		affectorsToUnit = new ArrayList<ComboBox<String>>();
 		affectorsToApply = new ArrayList<ComboBox<String>>();
-		this.myInterface = myInterface;
-		Projectiles = new ArrayList<Unit>();
+		this.myInterface = authModel.getIAuthEnvironment();
+		Projectiles = new ArrayList<ComboBox<String>>();
+		this.myAuthModel = authModel; 
+		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
+		this.myPane = new BorderPane();
+		this.addRefresh();
 		init();
 	}
 	
+	private void addRefresh() {
+		this.myPane.setOnMouseEntered(e -> this.init());
+	}
+	
 	private void init(){
-		BorderPane myPane = new BorderPane();
+		this.myPane = new BorderPane(); 
 		TitledPane newPane = new TitledPane();
-//		TitledPane editPane = new TitledPane();
 		ScrollPane newScrollPane = new ScrollPane();
-//		ScrollPane editScrollPane = new ScrollPane();
 		BorderPane newBorderPane = new BorderPane();
-		GridPane newAnimationInfo = new GridPane();					//*****	
-//		FlowPane editInfo = new FlowPane();							//*****	
+		GridPane newAnimationInfo = new GridPane();					
 		myPane.setLeft(newPane);
-		
 		this.setClosable(false);
 		
 	    UnitPicker up = new UnitPicker("Edit");
@@ -66,7 +74,6 @@ public class ElementTab extends Tab{
 		newPane.setCollapsible(false);
 		newScrollPane.setContent(newBorderPane);
 		newBorderPane.setTop(newAnimationInfo);
-		newScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		
 		Button animationButton = new Button("ANIMATION");
 		animationButton.setOnAction( e -> System.out.println("ANIMATION"));
@@ -87,54 +94,42 @@ public class ElementTab extends Tab{
 		ok.setOnAction(e -> createNewUnit(up));
 		bottomInfo.add(ok, 2, 0);
 		newBorderPane.setBottom(bottomInfo);
-//        Button apply = new Button("Apply");
-//        apply.setOnAction(e -> updateOldUnit());
-//        bottomInfo.add(apply, 1, 0);
         
         Text propertiesTitle = new Text("Properties");
         propertiesTitle.setFont(new Font(20));
         newTableInfo.add(propertiesTitle, 0, 0);
         
-        int index = addTextFields(newTableInfo);
-        
-        //labels stuff
-//      int index = 1;
-//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-//		String name = "Name";
-//		newTableInfo.add(new Text(name), 1, index);
-//		TextField myTextField = new TextField();
-//		newTableInfo.add(myTextField, 2, index);
-//		strTextMap.put(name, myTextField);
-//		index++;
-//		
-//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-//		String damage = "Attack";
-//		newTableInfo.add(new Text(damage+":"), 1, index);
-//		myTextField = new TextField();
-//		newTableInfo.add(myTextField, 2, index);
-//		index++;
-//		
+        addTextFields(newTableInfo);
         
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String wweorpawt  = "Projectiles";
 		newTableInfo.add(new Text(wweorpawt), 1, index);
 		ComboBox<String> cbox = new ComboBox<String>();
-		cbox.getItems().addAll("Hello", "its", "me");
+		cbox.getItems().addAll(this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames());
 		newTableInfo.add(cbox, 2, index);
+		Projectiles.add(cbox);
+		int currentInt = index;
+		index++;
+		
+
+		Button projectileButton = new Button("+ Add New Projectile");
+		projectileButton.setOnAction(e-> addNewProjectileSpace(currentInt, newTableInfo, projectileButton, cbox, 2, Projectiles));
+		newTableInfo.add(projectileButton, 2, index);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String affectors = "Affector(s) For Unit";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox1 = new ComboBox<String>();
-		cbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+		cbox1.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
 		newTableInfo.add(cbox1, 2, index);
+		affectorsToUnit.add(cbox1);
+		int currentInt1 = index;
 		index++;
 		//labels stuff
 		
 		Button newAffectorButton = new Button("+ Add New Affector");
-		int num = index;
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, cbox));
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox1, 2, affectorsToUnit));
 		newTableInfo.add(newAffectorButton, 2, index);
 		index++;
 
@@ -144,43 +139,61 @@ public class ElementTab extends Tab{
 		affectors = "Affector(s) to Apply";
 		newTableInfo.add(new Text(affectors), 1, index);
 		ComboBox<String> cbox2 = new ComboBox<String>();
-		cbox2.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+		cbox2.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
 		newTableInfo.add(cbox2, 2, index);
+		affectorsToApply.add(cbox2);
+		int currentInt2 = index;
 		index++;
 		
 		//labels stuff
 		
 		Button newApplyAffectorButton = new Button("+ Add Apply Affector");
-		int num2 = index;
-		newApplyAffectorButton.setOnAction(e-> addNewApplyAffectorSpace(num2, newTableInfo, newApplyAffectorButton, cbox2));
+		newApplyAffectorButton.setOnAction(e-> addNewAffectorApplySpace(currentInt2, newTableInfo, newApplyAffectorButton, cbox2, 2, affectorsToApply));
 		newTableInfo.add(newApplyAffectorButton, 2, index);
 		index++;
-		
-        
-        
-//		editPane.setPrefSize(200.0, 800.0);
-//		editScrollPane.setContent(editInfo);
-//		editScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-//		editScrollPane.setFitToWidth(true);
-//		
-//		editPane.setText("Edit");
-//		editPane.setContent(editScrollPane);
-//		editPane.setCollapsible(false);
-// 		List<Unit> myList = myInterface.getTowers();
-//		for(Unit unit: myList){
-//			editInfo.getChildren().addAll(new ImageView(new Image(unit.toString())));
-//		}
-        
-	    
+       
 		this.setContent(myPane);
 	}
+	
+	private void addNewAffectorApplySpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list) {
+		if(cbox.getValue() != null){
+			int newcol = col + 1;		
+			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
+			ComboBox<String> newcbox = new ComboBox<String>();
+			newcbox.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
+			newTableInfo.add(newcbox, newcol, row);
+			list.add(newcbox);
+			button.setOnAction(e -> addNewAffectorApplySpace(row, newTableInfo, button, newcbox, newcol, list));
+		}
+	}
 
-//	private void updateOldUnit() {
-//		// Ask them how they edit things
-//	}
+	private void addNewAffectorSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list) {
+		if(cbox.getValue() != null){
+			int newcol = col + 1;	
+			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
+			ComboBox<String> newcbox = new ComboBox<String>();
+			newcbox.getItems().addAll(this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames());
+			newTableInfo.add(newcbox, newcol, row);
+			list.add(newcbox);
+			button.setOnAction(e -> addNewAffectorSpace(row, newTableInfo, button, newcbox, newcol, list));
+		}
+		
+	}
+	
+	private void addNewProjectileSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list) {
+		if(cbox.getValue() != null){
+			int newcol = col + 1;	
+			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
+			ComboBox<String> newcbox = new ComboBox<String>();
+			newcbox.getItems().addAll("Hello", "its", "me", "Tack");
+			newTableInfo.add(newcbox, newcol, row);
+			list.add(newcbox);
+			button.setOnAction(e -> addNewProjectileSpace(row, newTableInfo, button, newcbox, newcol, list));
+		}
+		
+	}
 
-	private int addTextFields(GridPane newTableInfo) {
-		int index = 1;
+	private void addTextFields(GridPane newTableInfo) {
 //		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 //		newTableInfo.add(new Text("UnitType"), 1, index);
 //		TextField myTextField = new TextField();
@@ -189,9 +202,17 @@ public class ElementTab extends Tab{
 //		newTableInfo.add(typeButton, 3, index);
 //		index++;
 //		int iterationNum = index;
-		//typeButton.setOnAction(e -> setUnitType(myTextField.getText(), iterationNum, newTableInfo));
+		//typeButton.setOnAction(e -> setYnitType(myTextField.getText(), iterationNum, newTableInfo));
 		
-		List<String> myFields = myUnitFactory.getFields();
+		List<String> myFields = new ArrayList<String>();
+		myFields.add("Unit Type");
+		myFields.add("Death Delay");
+		myFields.add("Type");
+		myFields.add("NumFrames");
+		myFields.add("Direction");
+		myFields.add("Speed");
+		myFields.add("State");
+		myFields.add("Health");
 		//UnitProperties unitProp =myUnitFactory.getUnitLibrary().getPropertyByType(type);
 		for(String s: myFields){
 			newTableInfo.getRowConstraints().add(new RowConstraints(30));
@@ -201,8 +222,6 @@ public class ElementTab extends Tab{
 			strTextMap.put(s, myTextField);
 			index++;
 		}
-	
-		return index;
 		
 		
 	}
@@ -243,43 +262,64 @@ public class ElementTab extends Tab{
     			strTextMap.get(str).clear();
     	}
     	
-    	Unit unit = myUnitFactory.createUnit(strToStrMap);
+    	List<String> ata = new ArrayList<String>();
+    	List<String> atu = new ArrayList<String>();
+    	List<String> proj = new ArrayList<String>();
+    	
+    	for(ComboBox<String> cb: affectorsToApply){
+    		ata.add(cb.getValue());
+    	}
+    	for(ComboBox<String> cb: affectorsToUnit){
+    		atu.add(cb.getValue());
+    	}
+    	for(ComboBox<String> cb: Projectiles){
+    		proj.add(cb.getValue());
+    	}
+    	
+		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
+//    	Unit unit = myUnitFactory.createUnit(strToStrMap);	
+    	System.out.println(strToStrMap);
+    	System.out.println(proj);
+    	System.out.println(atu);
+    	System.out.println(ata);
+    	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
     	up.add(unit, this);
+    	System.out.println(this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames());
     	
 	}
 
-	private void addNewApplyAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
-		if(cbox.getValue() != null){
-			newTableInfo.getChildren().remove(AffectorButton);
-			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
-			newTableInfo.add(newcbox, 2, index);
-			index++;
-			Button newAffectorButton = new Button("+ Add New Affector");
-			int num = index;
-			newAffectorButton.setOnAction(e-> addNewApplyAffectorSpace(num, newTableInfo, newAffectorButton, newcbox));
-			newTableInfo.add(newAffectorButton, 2, index);
-		}
-	}
+//	private void addNewApplyAffectorSpace(GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
+//		if(cbox.getValue() != null){
+//			newTableInfo.getChildren().remove(AffectorButton);
+//			ComboBox<String> newcbox = new ComboBox<String>();
+//			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+//			newTableInfo.add(newcbox, 2, index);
+//			index++;
+//			Button newAffectorButton = new Button("+ Add New Affector");
+//			newAffectorButton.setOnAction(e-> addNewApplyAffectorSpace(newTableInfo, newAffectorButton, newcbox));
+//			newTableInfo.add(newAffectorButton, 2, index);
+//			affectorsToApply.add(newcbox);
+//		}
+//	}
 	
 	//there has to be a better way to do this omg
 	//ok make a border pane
 	// with just the affectors
 	// and then have some on left some on right ok cool
-	private void addNewAffectorSpace(int index, GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
-		if(cbox.getValue() != null){
-			newTableInfo.getChildren().remove(AffectorButton);
-			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
-			newTableInfo.add(newcbox, 2, index);
-			index++;
-			Button newAffectorButton = new Button("+ Add New Affector");
-			int num = index;
-			newAffectorButton.setOnAction(e-> addNewAffectorSpace(num, newTableInfo, newAffectorButton, newcbox));
-			newTableInfo.add(newAffectorButton, 2, index);
-		}
-	}
+//	private void addNewAffectorSpace(GridPane newTableInfo, Button AffectorButton, ComboBox cbox) {
+//		if(cbox.getValue() != null){
+//			newTableInfo.getChildren().remove(AffectorButton);
+//			ComboBox<String> newcbox = new ComboBox<String>();
+//			newcbox.getItems().addAll("ConstantHealthDamage", "ExpIncrHealthDamage", "HealthDamage", "HomingMove", "PathFollowPositionMove", "RandomPoisonHealthDamage", "StateChange");
+//			newTableInfo.add(newcbox, 2, index);
+//			index++;
+//			Button newAffectorButton = new Button("+ Add New Affector");
+//			newAffectorButton.setOnAction(e-> addNewAffectorSpace(newTableInfo, newAffectorButton, newcbox));
+//			newTableInfo.add(newAffectorButton, 2, index);
+//			affectorsToUnit.add(newcbox);
+//		}
+//	}
 
 	public void updateMenu(Unit unit) {
 		//refactor this part
@@ -292,9 +332,6 @@ public class ElementTab extends Tab{
 		strTextMap.get("Price").setText(unit.getProperties().getPrice().getValue()+"");
 		strTextMap.get("State").setText(unit.getProperties().getState().getValue()+"");
 		strTextMap.get("Mass").setText(unit.getProperties().getMass().getMass()+"");
-//		for(String s: strTextMap.keySet()){
-//			unit.getProperties().get
-//		}
 	}
 	
 

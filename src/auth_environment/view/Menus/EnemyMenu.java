@@ -9,11 +9,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import auth_environment.backend.FactoryController;
-import auth_environment.buildingBlocks.BuildingBlock;
-import auth_environment.buildingBlocks.EnemyBuildingBlock;
-import auth_environment.view.ElementPicker;
 import game_engine.factories.EnemyFactory;
-import game_engine.game_elements.Enemy;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;

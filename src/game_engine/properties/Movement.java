@@ -3,30 +3,30 @@ package game_engine.properties;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import game_engine.game_elements.Branch;
-import game_engine.game_elements.Unit;
+import game_engine.physics.DirectionHandler;
 
 public class Movement {
 
 	private List<Branch> myBranches;
 	private Branch myCurrentBranch;
+	private Position movingTowards;
+	private Position myPosition;
 
-	public Movement(List<Branch> branches, Position spawn){
+	public Movement(List<Branch> branches, Position currentPosition){
 		this.myBranches = branches;
-		if(branches.size() > 0)
-			myCurrentBranch = myBranches.get(0);
-	}
-
-	public Movement(List<Branch> branches){
-		this.myBranches = branches;
+		this.myPosition = currentPosition;
 		if(branches.size() > 0){
 			myCurrentBranch = myBranches.get(0);
+			if(myCurrentBranch.getPositions().size() > 0){
+				this.initializeMovingTowards();
+			}
 		}
 	}
-	
+
 	public Movement(Position spawn){
 		this.myBranches = new ArrayList<>();
+		this.myPosition = spawn;
 	}
 
 	public List<Branch> getBranches(){
@@ -35,14 +35,13 @@ public class Movement {
 
 	public void setBranches(List<Branch> branches){
 		this.myBranches = branches;
-	}
-
-	public boolean isUnitAtLastPosition(Unit u) {
-		return getLastBranch().isUnitAtLastPosition(u);
+		if(branches != null && branches.size() != 0)
+			this.initializeCurrentBranch(branches.get(0));
 	}
 
 	public Movement copyMovement(){
-		return new Movement(this.myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
+		Movement newMovement = new Movement(myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()), myPosition);
+		return newMovement;
 	}
 
 	public Branch getCurrentBranch(){
@@ -50,6 +49,8 @@ public class Movement {
 	}
 
 	public Branch getLastBranch(){
+		if(myBranches.size() == 0)
+			return null;
 		return myBranches.get(myBranches.size()-1);
 	}
 
@@ -65,6 +66,68 @@ public class Movement {
 
 	public void setCurrentBranch(Branch branch) {
 		myCurrentBranch = branch;
+		initializeMovingTowards();
+	}
+
+	public void initializeCurrentBranch(Branch branch){
+		myCurrentBranch = branch;
+		initializeMovingTowards();
+	}
+
+	public Double getNextDirection () {
+		Position nextPosition = getNextPosition();
+		if(nextPosition == null){
+			nextPosition = myPosition;
+		}
+		return DirectionHandler.getDirection(myPosition, nextPosition);
+	}
+
+	public Position getNextPosition(){
+		Position next = myCurrentBranch.getNextPosition(myPosition, movingTowards);
+		if(next == null){
+			if(myBranches.get(myBranches.size()-1).equals(myCurrentBranch)){
+				return null;
+			}
+			Branch nextBranch = myBranches.get(1 + myBranches.indexOf(myCurrentBranch));
+			setCurrentBranch(nextBranch);
+		}
+		return next;
+	}
+
+	public void initializeMovingTowards(){
+		if(myPosition != null && myCurrentBranch != null){
+			if(myPosition.equals(myCurrentBranch.getFirstPosition())){
+				movingTowards = myCurrentBranch.getLastPosition();
+			}
+			else if(myPosition.equals(myCurrentBranch.getLastPosition())){
+				movingTowards = myCurrentBranch.getFirstPosition();
+			}
+			else{
+//				System.out.println("MIDDLE");
+			}
+		}
+	}
+
+	public void setPosition(Position position){
+		this.myPosition = position;
+		initializeMovingTowards();
+	}
+
+	public void setPosition(double x, double y){
+		this.myPosition = new Position(x, y);
+		initializeMovingTowards();
+	}
+
+	public Position getPosition(){
+		return myPosition;
+	}
+
+	public Position getMovingTowards(){
+		return this.movingTowards;
+	}
+
+	public void setMovingTowards(Position pos){
+		this.movingTowards = pos;
 	}
 
 }

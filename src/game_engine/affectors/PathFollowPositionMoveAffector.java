@@ -14,44 +14,28 @@ import game_engine.properties.Position;
  * based on a sampled version of the path that has been drawn out for them.
  * 
  */
+
+// TODO: Discuss whether this class is necessary. If so, update range path follow position as well.
+
 public class PathFollowPositionMoveAffector extends PathFollowAffector {
 
-	public PathFollowPositionMoveAffector(AffectorData data){
-		super(data);
-	}
+    public PathFollowPositionMoveAffector (AffectorData data) {
+        super(data);
+    }
 
-	@Override
-	public void apply (Unit u) {
-		super.apply(u);
-	}
-	           
-	public Position getNextPosition(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		Branch currentBranch = move.getCurrentBranch();
-		if(currentBranch == null){
-			getWS().decrementLives();
-			return null;
-		}
-		Position next = currentBranch.getNextPosition(currentPosition);
-		if(next == null){
-			currentBranch = move.getNextBranch();
-			if(currentBranch == null) {
-				getWS().decrementLives();
-				return null;
-			}
-			next = currentBranch.getFirstPosition();
-		}
-		return next;
-	}
+    @Override
+    public void apply (Unit u) {
+        super.apply(u);
+    }
 
-	public Double getNextDirection(Unit u){
-		Position currentPosition = u.getProperties().getPosition();
-		Movement move = u.getProperties().getMovement();
-		if(currentPosition.equals(move.getLastBranch().getLastPosition())) {
-			// END OF PATH
-			return u.getProperties().getVelocity().getDirection();
-		}
-		return move.getCurrentBranch().getNextDirection(currentPosition);
-	}
+    public Position getNextPosition (Unit u) {
+        Movement move = u.getProperties().getMovement();
+        Branch currentBranch = move.getCurrentBranch();
+        if (currentBranch == null) {
+            return null;
+        }
+        Position next = move.getNextPosition();
+        return next == null ? null : next;
+    }
+
 }
