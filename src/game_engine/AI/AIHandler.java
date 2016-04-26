@@ -28,16 +28,16 @@ public class AIHandler {
 
 	private GameEngineInterface myEngine;
 	private AISearcher mySearcher;
-	private HashMap<Position, List<Branch>> posShortestPaths;
-	private HashMap<Branch, List<Branch>> branchShortestPaths;
-	private HashMap<Unit, List<Branch>> unitShortestPaths;
+	private HashMap<Position, List<Branch>> cachedPosPaths;
+	private HashMap<Branch, List<Branch>> cachedBranchPaths;
+	private HashMap<Unit, List<Branch>> cachedUnitPaths;
 
 	public AIHandler(GameEngineInterface engine){
 		this.myEngine = engine;
 		this.mySearcher = engine.getAISearcher();
-		posShortestPaths = new HashMap<>();
-		branchShortestPaths = new HashMap<>();
-		unitShortestPaths = new HashMap<>();
+		cachedPosPaths = new HashMap<>();
+		cachedBranchPaths = new HashMap<>();
+		cachedUnitPaths = new HashMap<>();
 	}
 
 	public void updateAIBranches() {
@@ -48,13 +48,22 @@ public class AIHandler {
 				updateBranches(u);
 			}
 			else{
-				unitShortestPaths.put(u, currentPath);
+				cachedUnitPaths.put(u, currentPath);
+				cachedPosPaths.put(u.getProperties().getPosition(), currentPath);
+				cachedBranchPaths.put(u.getProperties().getMovement().getCurrentBranch(), currentPath);
 			}
 		}
 	}
+	
+	public void updatePathMaps(HashMap<Unit, List<Branch>> unitPaths, HashMap<Branch, List<Branch>> branchPaths,
+			HashMap<Position, List<Branch>> posPaths) {
+		this.updateBranchPaths(branchPaths);
+		this.updatePosPaths(posPaths);
+		this.updateUnitPaths(unitPaths);
+	}
 
 	public void updateUnitPaths(HashMap<Unit, List<Branch>> unitPaths){
-		this.unitShortestPaths = unitPaths;
+		this.cachedUnitPaths = unitPaths;
 		Iterator<Unit> it = unitPaths.keySet().iterator();
 		while(it.hasNext()){
 			Unit next = it.next();
@@ -63,11 +72,11 @@ public class AIHandler {
 	}
 	
 	public void updateBranchPaths(HashMap<Branch, List<Branch>> branchPaths){
-		this.branchShortestPaths = branchPaths;
+		this.cachedBranchPaths = branchPaths;
 	}
 	
 	public void updatePosPaths(HashMap<Position, List<Branch>> posPaths){
-		this.posShortestPaths = posPaths;
+		this.cachedPosPaths = posPaths;
 	}
 
 	private void updateBranches(Unit u){
@@ -79,19 +88,19 @@ public class AIHandler {
 				return;
 		}
 		Branch currBranch = u.getProperties().getMovement().getCurrentBranch();
-		if(posShortestPaths.containsKey(currPos)){
-			newBranches = posShortestPaths.get(currPos);
+		if(cachedPosPaths.containsKey(currPos)){
+			newBranches = cachedPosPaths.get(currPos);
 		}
-		else if(branchShortestPaths.containsKey(currPos)){
-			newBranches = branchShortestPaths.get(currBranch);
+		else if(cachedBranchPaths.containsKey(currPos)){
+			newBranches = cachedBranchPaths.get(currBranch);
 		}
 		else{
 			newBranches = mySearcher.getShortestPath(currPos);
-			posShortestPaths.put(currPos, newBranches);
-			branchShortestPaths.put(currBranch, newBranches);
+			cachedPosPaths.put(currPos, newBranches);
+			cachedBranchPaths.put(currBranch, newBranches);
 		}
 		if(newBranches != null){
-			unitShortestPaths.put(u, newBranches);
+			cachedUnitPaths.put(u, newBranches);
 			configureMovement(u, newBranches);
 		}
 	}
@@ -156,15 +165,15 @@ public class AIHandler {
 	}
 
 	public HashMap<Unit, List<Branch>> getUnitPaths() {
-		return unitShortestPaths;
+		return cachedUnitPaths;
 	}
 
 	public HashMap<Branch, List<Branch>> getBranchPaths() {
-		return branchShortestPaths;
+		return cachedBranchPaths;
 	}
 
 	public HashMap<Position, List<Branch>> getPositionPaths() {
-		return posShortestPaths;
+		return cachedPosPaths;
 	}
 
 }

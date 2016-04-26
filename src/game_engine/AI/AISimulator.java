@@ -77,9 +77,7 @@ public class AISimulator {
 				}
 			}
 		}
-		myAIHandler.updateUnitPaths(unitPaths);
-		myAIHandler.updateBranchPaths(branchPaths);
-		myAIHandler.updatePosPaths(posPaths);
+		myAIHandler.updatePathMaps(unitPaths, branchPaths, posPaths);
 		return true;
 	}
 
