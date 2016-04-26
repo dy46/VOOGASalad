@@ -95,15 +95,20 @@ public class PathTab implements IWorkspace {
 		// Option 1: CTRL-Click and create a Unit and set its Position accordingly. 
 		this.myBorderPane.setOnMouseClicked(e -> {
 			if (e.isControlDown()) {
-				Level l = this.myAuth.getLevels().get(0); 
-				Unit u = l.getWaves().get(0).getSpawningUnits().get(0); 
-				u.getProperties().setPosition(e.getSceneX(), e.getSceneY());
-				System.out.println("Unit spawned at: " + e.getSceneX() + ", " + e.getSceneY()); 
-				this.myAuth.getPlacedUnits().add(u); // TODO: bad code, remove later
-				System.out.println("Current placed unit types: "); 
-				this.myAuth.getPlacedUnits().stream().forEach(a -> System.out.println(a));
+				this.spawnSampleUnit(e.getSceneX(), e.getSceneY());
 			}
 		});
+		// Option 2: click on a SPAWN point (within the displaySpawnPoint() method) 
+	}
+	
+	private void spawnSampleUnit(double x, double y) {
+		Level l = this.myAuth.getLevels().get(0); 
+		Unit u = l.getWaves().get(0).getSpawningUnits().get(0); 
+		u.getProperties().setPosition(x, y);
+		System.out.println("Unit spawned at: " + x + ", " + y); 
+		this.myAuth.getPlacedUnits().add(u); // TODO: bad code, remove later
+		System.out.println("Current placed unit types: "); 
+		this.myAuth.getPlacedUnits().stream().forEach(a -> System.out.println(a));
 	}
 
 	// TODO: remove after testing
@@ -284,6 +289,7 @@ public class PathTab implements IWorkspace {
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.BLUE);
 		circle.relocate(spawn.getX()- circle.getRadius(), spawn.getY()- circle.getRadius());
+		circle.setOnMouseClicked(e -> this.spawnSampleUnit(spawn.getX(), spawn.getY()));
 		this.canvasPane.getChildren().add(circle);
 	}
 
@@ -292,6 +298,7 @@ public class PathTab implements IWorkspace {
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.GREEN);
 		circle.relocate(goal.getX()- circle.getRadius(), goal.getY()- circle.getRadius());
+
 		this.canvasPane.getChildren().add(circle); 
 	}
 
