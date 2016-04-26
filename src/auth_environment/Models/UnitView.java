@@ -50,6 +50,10 @@ public class UnitView extends ImageView implements IUnitView {
 		this.setImage(this.myNodeFactory.buildImage(imageName));
 	}
 	
+	public UnitView clone(){
+		UnitView uv = new UnitView(this.myUnit, this.getImage());
+		return uv;
+	}
 	@Override
 	public void setUnit(Unit unit) {
 		this.myUnit = unit; 

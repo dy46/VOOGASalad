@@ -5,9 +5,12 @@ import java.util.List;
 
 import auth_environment.Models.Interfaces.IUnitPickerModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.view.UnitPicker;
+import auth_environment.view.Workspaces.MapEditorTab;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
@@ -51,19 +54,25 @@ public class UnitPickerModel implements IUnitPickerModel {
 		source.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				System.out.println("Drag detected..."); 
-				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+				Dragboard db = source.startDragAndDrop(TransferMode.COPY);
 				ClipboardContent content = new ClipboardContent();
-				content.putImage(source.getImage());
+				
+				source.setId(this.getClass().getSimpleName() + System.currentTimeMillis());
+//				content.putImage(source.getImage());
+				content.putString(source.getId());
+				System.out.println(source.getId());
 				db.setContent(content);
-				System.out.println("Name: " + db.getImage());
+//				System.out.println("Name: " + db.getImage());
 				event.consume();
 			}
 		});
 	
 		source.setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
-				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println("Drag completed for source"); 
+				if (event.getTransferMode() == TransferMode.COPY) {
+					System.out.println(myUnitViews.get(0));
+					System.out.println("Drag completed for source");
+					
 				}
 				event.consume();
 			}

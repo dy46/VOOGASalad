@@ -25,11 +25,15 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
@@ -59,7 +63,8 @@ public class MapEditorTab implements IWorkspace{
 	private Canvas myCanvas;
 	private Pane myCanvasPane;
 	private UnitPicker myPicker;
-
+	private ContextMenu myContextMenu;
+	
 	private MapEditorTabModel myModel;
 	private List<Unit> myTerrains;
 	private IAuthModel myAuthModel;
@@ -121,14 +126,9 @@ public class MapEditorTab implements IWorkspace{
     public void setUpNodeTarget(Pane target) {
 		
 		target.setOnDragOver(new EventHandler<DragEvent>() {
-			@Override
 			public void handle(DragEvent event) {
 				System.out.println("Dragging over Node...");
-//				if (event.getGestureSource() != target &&
-//						event.getDragboard().hasString()) {
 					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-					
-//				}
 				event.consume();
 			}
 		});
@@ -136,9 +136,9 @@ public class MapEditorTab implements IWorkspace{
 		target.setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				System.out.println("Drag entered...");
-				if (event.getGestureSource() != target &&
-						event.getDragboard().hasString()) {
-				}
+//				if (event.getGestureSource() != target &&
+//						event.getDragboard().hasString()) {
+//				}
 				event.consume();
 			}
 		});
@@ -153,28 +153,39 @@ public class MapEditorTab implements IWorkspace{
 		
 		target.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
-				event.acceptTransferModes(TransferMode.ANY);
+				event.acceptTransferModes(TransferMode.COPY);
 				System.out.println("Drag dropped...");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
-				if (db.hasImage()) {
+				if (db.hasString()) {
 //					System.out.println("Name: " + db.getString());
 //					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
-					System.out.println(db.getImage());
-					ImageView imv= new ImageView(db.getImage());
-//					imv.setFitHeight(50);
-//					imv.setFitWidth(50);
+//					System.out.println(db.getImage());
+//					System.out.println(myPicker.getRoot().lookup(db.getString()));
+					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
+					imv.setFitHeight(50);
+					imv.setFitWidth(50);
 					imv.setX(event.getSceneX() - imv.getFitWidth());
 					imv.setY(event.getSceneY() - imv.getFitHeight() - 60);
 					System.out.println("X: " + event.getSceneX());
 					System.out.println("Y: " + event.getSceneY());
 					target.getChildren().add(imv);
-					imv.setOnMouseClicked(new EventHandler<MouseEvent>(){
-						@Override
-						public void handle(MouseEvent event) {
-							target.getChildren().remove(imv);
-						}
-					});
+					System.out.println(myPicker.myEditInfo.getChildren());
+					imv.addEventHandler(MouseEvent.MOUSE_CLICKED,
+						    new EventHandler<MouseEvent>() {
+						        @Override public void handle(MouseEvent e) {
+						            if (e.getButton() == MouseButton.SECONDARY){ 
+						            	myContextMenu = buildContextMenu(imv, target);
+						                myContextMenu.show(imv, e.getScreenX(), e.getScreenY());
+						            }
+						        }
+						});
+//					imv.setOnMouseClicked(new EventHandler<MouseEvent>(){
+//						@Override
+//						public void handle(MouseEvent event) {
+//							target.getChildren().remove(imv);
+//						}
+//					});
 //					UnitView uv = new UnitView(db.getImage());
 //					target.getChildren().addAll(uv);
 //					myModel.addTerrain(uv.getX(), uv.getY(), uv.getUnit());
@@ -191,6 +202,14 @@ public class MapEditorTab implements IWorkspace{
 		clear.setOnAction(e -> this.myCanvasPane.getChildren().clear());
 		return clear;
 	}
+    
+    private ContextMenu buildContextMenu(ImageView imv, Pane tempPane){
+    	ContextMenu cm = new ContextMenu();
+    	MenuItem cmItem1 = new MenuItem("Delete Image");
+    	cmItem1.setOnAction(e-> tempPane.getChildren().remove(imv));
+    	cm.getItems().add(cmItem1);
+    	return cm;
+    }
     
 	@Override
 	public Node getRoot() {

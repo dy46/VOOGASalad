@@ -1,5 +1,6 @@
 package auth_environment.delegatesAndFactories;
 
+import auth_environment.Models.UnitView;
 import auth_environment.view.Tile;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
@@ -18,28 +19,29 @@ public class MapDragDelegate {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void setupSource(Unit source) {
-		ImageView sourceImage = myNodeFactory.buildImageView(source.toString());
-		myNodeFactory.buildImageView(source.toString()).setOnDragDetected(new EventHandler<MouseEvent>() {
+	public void addUnitViewSource(UnitView source) {
+		source.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
-				Dragboard db = .startDragAndDrop(TransferMode.ANY);
+				System.out.println("Drag detected..."); 
+				Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 				ClipboardContent content = new ClipboardContent();
-//				content.put(DragDelegate.gameElementFormat, source.getElement());
-				content.putString(source.getName());
+				content.putImage(source.getImage());
 				db.setContent(content);
+				System.out.println("Name: " + db.getImage());
 				event.consume();
 			}
 		});
-		
-		source.getShape().setOnDragDone(new EventHandler<DragEvent>() {
+	
+		source.setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getTransferMode() == TransferMode.MOVE) {
-					System.out.println(source.getName()); 
+					System.out.println("Drag completed for source"); 
 				}
 				event.consume();
 			}
 		});
 	}
+	
 	
 	public void setupTarget(Pane target) {
 		target.getShape().setOnDragOver(new EventHandler<DragEvent>() {

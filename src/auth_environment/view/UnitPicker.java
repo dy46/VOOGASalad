@@ -15,15 +15,19 @@ public class UnitPicker{
 
 	private UnitPickerModel myUnitPickerModel;
 	private TitledPane myEditPane;
-	private FlowPane myEditInfo;
+	public FlowPane myEditInfo;
+	private String name;
+	private List<Unit> units;
 	
 	public UnitPicker(String name){
+		this.name = name;
 		init(name);
 		System.out.println("No Units!");
 	}
 	
-	
 	public UnitPicker(String name, List<Unit> units){
+		this.name = name;
+		this.units = units;
 		init(name);
 		addUnits(units);
 		System.out.println("Has Unit!");
@@ -33,6 +37,10 @@ public class UnitPicker{
 		init(name);
 	}
 	
+	public UnitPicker clone(){
+		UnitPicker up = new UnitPicker(this.name, this.units);
+		return up;
+	}
 	private void init(String name){
 		ScrollPane editScrollPane = new ScrollPane();
 		myEditPane = new TitledPane();
