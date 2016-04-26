@@ -11,10 +11,9 @@ public class Test1 {
 
 
     public static void main(String[] args) throws FileNotFoundException, TwilioRestException {
-//        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
-//        c.uploadFolder("src/main");
-//        c.listFolders();
-		SampleFrontend test = new SampleFrontend(); 
+        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
+        c.uploadFolder("src/main");
+        c.listFolders();
     }
 
     
