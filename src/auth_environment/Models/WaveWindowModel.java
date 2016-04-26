@@ -22,7 +22,7 @@ public class WaveWindowModel implements IWaveWindowModel {
         this.levelOverview = levelOverview;
     }
     
-    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
+    public Wave createWave(String name, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
         Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes);
         levelOverview.addToCreatedWaves(level, w);
         return w;

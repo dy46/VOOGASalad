@@ -1,6 +1,7 @@
 package auth_environment.view.tabs;
 
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
@@ -13,11 +14,13 @@ public class LevelTab extends Tab{
 	private BorderPane myBorderPane;
 	private IAuthModel myAuthModel;
 	private String myName; 
+	private ILevelOverviewTabModel myLevelOverview; 
 	
-	public LevelTab(String name, IAuthModel authModel){
+	public LevelTab(String name, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		super(name);
 		this.myAuthModel = authModel;
 		this.myName = name;
+		this.myLevelOverview = levelOverview; 
 		init();
 	}
 	

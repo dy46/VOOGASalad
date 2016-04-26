@@ -6,6 +6,7 @@ import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.UnitFactory;
+import game_engine.factories.WaveFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
@@ -104,5 +105,8 @@ public interface IAuthEnvironment {
 	public AffectorFactory getAffectorFactory();
 	
 	public void setAffectorFactory(AffectorFactory factory); 
-
+	
+	public WaveFactory getWaveFactory();
+	
+	public void setWaveFactory(WaveFactory factory);
 }
