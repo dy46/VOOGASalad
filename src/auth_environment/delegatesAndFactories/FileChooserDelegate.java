@@ -23,11 +23,21 @@ public class FileChooserDelegate {
     	return this.fileFromWindow(this.addXMLFilter(this.initChooser(title)));
     }
     
+    public File chooseDirectory(String title) {
+    	return this.directoryFromWindow(this.initDirectoryChooser(title));
+    }
+    
     // TODO: refactor
     public File save(String title) {
     	ContextMenu prefWindow = new ContextMenu();
         File file = this.initChooser(title).showSaveDialog(prefWindow.getOwnerWindow());
         return file;
+    }
+    
+    private File directoryFromWindow(DirectoryChooser d) {
+    	ContextMenu prefWindow = new ContextMenu();
+    	File dir = d.showDialog(prefWindow.getOwnerWindow()); 
+    	return dir; 
     }
     
     private File fileFromWindow(FileChooser f) {
