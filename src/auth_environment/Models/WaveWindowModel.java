@@ -28,9 +28,9 @@ public class WaveWindowModel implements IWaveWindowModel {
     }
     
     @Override 
-    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave) {
+    public Wave createWave(String name, String levelPlusWaveName, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave) {
         Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes, timeBeforeWave);
-        levelOverview.addToCreatedWaves(level, w);
+        levelOverview.addToCreatedWaves(levelPlusWaveName, w);
         return w;
     }
     
