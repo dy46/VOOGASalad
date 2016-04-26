@@ -37,7 +37,6 @@ import game_engine.wave_goals.WaveGoal;
 
 public class TestingEngineWorkspace implements GameEngineInterface {
 
-
 	private int nextWaveTimer;
 	private boolean pause;
 	private List<Level> myLevels;
@@ -581,11 +580,13 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return myAIHandler.getBranchesAtPos(pos);
 	}
 
-	@Override
+	public int getMoney() {
+		return myStore.getMoney();
+	}
+	
 	public void updateAIBranches() {
 		myAIHandler.updateAIBranches();
 	}
-
 
     @Override
     public UnitController getUnitController () {

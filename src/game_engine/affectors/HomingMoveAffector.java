@@ -24,7 +24,6 @@ public class HomingMoveAffector extends SingleTrackRangeAffector {
     }
     
     public void firstApply (Unit u, Unit tracked) {
-        futureApply(u, tracked);
         u.getParents().get(0).getProperties().getVelocity()
                 .setDirection(DirectionHandler.getDirection(u.getProperties().getPosition(),
                                                             tracked.getProperties().getPosition()));

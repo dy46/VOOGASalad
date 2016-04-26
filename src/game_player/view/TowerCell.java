@@ -20,10 +20,10 @@ public class TowerCell extends ListCell<Unit> {
         if (empty) {
             setText(null);
             setGraphic(null);
-        }
-        else {
-            ImageView image = createImageView(item);
-            setText(String.valueOf(7734));
+        } else {
+        	ImageView image = createImageView(item);
+//            setText(String.valueOf(item.getProperties().getPrice().getValue()));
+            setText("FUCK");
             setGraphic(image);
         }
     }

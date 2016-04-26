@@ -40,10 +40,10 @@ public class MainView implements IMainView {
         this.display();
     }
 
-    public void displayPlayer () {
-        System.out.println("David, please modify as you see fit. Thanks!");
-        PlayerGUI playerGUI = new PlayerGUI(645, 614); // TODO: extract constants
-        this.myStage.setScene(playerGUI.createPlayerScene());
-        this.display();
+    
+    public void displayPlayer() {
+		PlayerGUI playerGUI = new PlayerGUI(790, 765); // TODO: extract constants
+		this.myStage.setScene(playerGUI.createPlayerScene());
+		this.display();
     }
 }

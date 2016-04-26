@@ -9,7 +9,10 @@ import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Priority;
@@ -20,12 +23,19 @@ import javafx.util.Callback;
 public class GameTowerPicker implements IGUIObject {
 
     private static final int LISTVIEW_WIDTH = 150;
+    private static final int PANEL_SPACING = 10;
+	private static final int TOP_PADDING = 10;
+	private static final int RIGHT_PADDING = 0;
+	private static final int BOTTOM_PADDING = 0;
+	private static final int LEFT_PADDING = 0;
+    
     private ResourceBundle myResources;
     private GameDataSource myData;
     private IGameView myView;
     private GameEngineInterface myEngine;
     private ListView<Unit> myListView;
     private ObservableList<Unit> myTowers;
+    private Label myMoney;
 
     public GameTowerPicker (ResourceBundle r, GameDataSource data, IGameView view) {
         myResources = r;
@@ -33,12 +43,13 @@ public class GameTowerPicker implements IGUIObject {
         myView = view;
         myEngine = myView.getGameEngine();
         myTowers = FXCollections.observableArrayList();
+		myMoney = new Label();
     }
 
     @Override
     public Node createNode () {
-        updateTowerList();
-        VBox box = new VBox();
+        updateNode();
+        VBox box = new VBox(PANEL_SPACING);
         myListView = new ListView<>();
         Callback<ListView<Unit>, ListCell<Unit>> cellFactory = (e -> {
             return new TowerCell();
@@ -49,7 +60,9 @@ public class GameTowerPicker implements IGUIObject {
             myView.setUnitToPlace(myListView.getSelectionModel().getSelectedItem().toString());
         });
         myListView.setPrefWidth(LISTVIEW_WIDTH);
-        box.getChildren().add(myListView);
+        box.getChildren().addAll(myMoney, myListView);
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
         VBox.setVgrow(myListView, Priority.ALWAYS);
         return box;
     }
@@ -57,6 +70,7 @@ public class GameTowerPicker implements IGUIObject {
     @Override
     public void updateNode () {
         updateTowerList();
+		myMoney.setText(String.valueOf(myResources.getString("Money") + myEngine.getUnitController().getStore().getMoney()));
     }
 
     private void updateTowerList () {

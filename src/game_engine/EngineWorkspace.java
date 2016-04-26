@@ -2,7 +2,6 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import game_engine.AI.AIHandler;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
@@ -49,6 +48,7 @@ public class EngineWorkspace implements GameEngineInterface {
         myUnitController =
                 new UnitController(data.getPlacedUnits(), myPlaceValidations,
                                    data.getStore(), unitsToRemove);
+        updateAIBranches();
     }
 
     @Override
@@ -138,3 +138,4 @@ public class EngineWorkspace implements GameEngineInterface {
     }
 
 }
+
