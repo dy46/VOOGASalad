@@ -1,6 +1,5 @@
 package auth_environment.view.tabs;
 
-import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import javafx.scene.control.Button;
