@@ -21,7 +21,6 @@ public class FiringChildrenAffector extends Affector {
             newChildren.forEach(p -> {
                 p.getProperties().setPosition(u.getProperties().getPosition().getX(),
                                               u.getProperties().getPosition().getY());
-                System.out.println(p.isVisible());
                 getWorkspace().getUnitController().getPlacedUnits().add(p);
                 p.addParent(u);
             });
