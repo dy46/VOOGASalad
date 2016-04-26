@@ -105,27 +105,7 @@ public class GameView implements IGameView {
             paths.add(imgView);
         }
     }
-
-<<<<<<< HEAD
-    public void placeUnits (List<Unit> totalList, List<ImageViewPicker> imageViews) {
-        List<Unit> list =
-                totalList.stream().filter(u -> u.isVisible()).collect(Collectors.toList());
-        for (int i = 0; i < list.size(); i++) {
-            if (!hasImageView(list.get(i), imageViews)) {
-                ImageViewPicker picker = new ImageViewPicker(list.get(i), root);
-	            picker.getImageView().setOnMouseClicked(e -> updateHUD(picker));
-                imageViews.add(picker);
-            }
-        }
-        for (int i = 0; i < imageViews.size(); i++) {
-            ImageViewPicker picker = imageViews.get(i);
-            if (imageViews.get(i).getUnit().isVisible()) {
-                picker.selectNextImageView(timer);
-            }
-            else {
-                picker.removeElementsFromRoot();
-                imageViews.remove(i);
-=======
+    
     public static boolean testUnitTypePreference (String type,
                                                   String preference,
                                                   ResourceBundleSymbolProcessor myPreferencesBundle) {
@@ -133,7 +113,6 @@ public class GameView implements IGameView {
         for (int i = 0; i < unitTypes.length; i++) {
             if (type.contains(unitTypes[i])) {
                 return true;
->>>>>>> df284a88970c8a8cabd1b9f5637a549ac9d2e200
             }
         }
         return false;
