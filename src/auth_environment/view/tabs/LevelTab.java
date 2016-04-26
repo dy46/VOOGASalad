@@ -1,5 +1,6 @@
 package auth_environment.view.tabs;
 
+import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import javafx.scene.control.Button;
@@ -13,12 +14,14 @@ public class LevelTab extends Tab{
 	
 	private BorderPane myBorderPane;
 	private IAuthModel myAuthModel;
+	private int myLevelIndex; 
 	private String myName; 
 	
 	private ILevelOverviewTabModel myLevelOverviewTabModel; 
 	
-	public LevelTab(String name, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
+	public LevelTab(String name, int levelIndex, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		super(name);
+		this.myLevelIndex = levelIndex; 
 		this.myAuthModel = authModel;
 		this.myLevelOverviewTabModel = levelOverview; 
 		this.myName = name;
@@ -27,8 +30,19 @@ public class LevelTab extends Tab{
 	
 	private void init(){
 		this.myBorderPane = new BorderPane();
+		this.addRefresh();
 		this.createWaveList();
 		this.setContent(myBorderPane);
+	}
+	
+	private void addRefresh() {
+		this.myBorderPane.setOnMouseEntered(e -> {
+			this.refresh();
+		});
+	}
+	
+	private void refresh() {
+		this.myLevelOverviewTabModel.changeEditedLevel(this.myLevelIndex);
 	}
 	
 	private void createWaveList() { 

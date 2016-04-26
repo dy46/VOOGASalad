@@ -93,7 +93,7 @@ public class WaveWindow {
 			st.add(Integer.parseInt(hb.getText()));
 		}
 		
-		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4);
+		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4); 
 	}
 
 	private void centerStage(Stage stage){

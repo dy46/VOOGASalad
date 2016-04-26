@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
+import game_engine.game_elements.Level;
 import javafx.scene.layout.BorderPane;
 
 public class LevelOverviewTab extends Tab {
@@ -49,23 +50,36 @@ public class LevelOverviewTab extends Tab {
 	
 	private void refresh() {
 		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
+		System.out.println(this.myLevelOverviewTabModel.getCreatedLevels().size());
 		this.setupLevelTabs();
 	}
 	
 	private void setupLevelTabs() {
-		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab());
+		this.myTabs.getTabs().clear();
+		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
 	}
 	
-	private Tab addLevelTab() {
-		Tab tab = new LevelTab("Level " + (this.myLevelOverviewTabModel.getCreatedLevels().size() + 1), myAuthModel, this.myLevelOverviewTabModel);
+	private Tab addFrontendTab() {
+		Tab tab = new LevelTab("Level " + (this.myTabs.getTabs().size()), 
+				this.myTabs.getTabs().size(), 
+				myAuthModel, 
+				this.myLevelOverviewTabModel);
 		myTabs.getTabs().addAll(tab);
 		return tab;
+	}
+	
+	private void addLevelTab(Level level) {
+		Tab tab = new LevelTab("Level " + (this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level)),
+				this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level),
+				myAuthModel, 
+				this.myLevelOverviewTabModel);
+		myTabs.getTabs().addAll(tab);
 	}
 	
 	private Node buildNewLevelButton() {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
-			myTabs.getSelectionModel().select(this.addLevelTab());
+			myTabs.getSelectionModel().select(this.addFrontendTab());
 		});
 		return addNewLevelButton;
 	}
