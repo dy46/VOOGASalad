@@ -58,7 +58,7 @@ public class UnitPickerModel implements IUnitPickerModel {
 				ClipboardContent content = new ClipboardContent();
 				
 				source.setId(this.getClass().getSimpleName() + System.currentTimeMillis());
-//				content.putImage(source.getImage());
+				content.putImage(source.getImage());
 				content.putString(source.getId());
 				System.out.println(source.getId());
 				db.setContent(content);

@@ -37,9 +37,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -61,7 +64,7 @@ public class MapEditorTab implements IWorkspace{
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
 	private Canvas myCanvas;
-	private Pane myCanvasPane;
+	private GridPane myCanvasPane;
 	private UnitPicker myPicker;
 	private ContextMenu myContextMenu;
 	
@@ -110,7 +113,20 @@ public class MapEditorTab implements IWorkspace{
 		myMapPane = new TitledPane();
 //        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
 //        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        myCanvasPane = new Pane();
+        myCanvasPane = new GridPane();
+        myCanvasPane.setGridLinesVisible(true);
+        final int numCols = 10 ;
+        final int numRows = 10 ;
+        for (int i = 0; i < numCols; i++) {
+            ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPercentWidth(100.0 / numCols);
+            myCanvasPane.getColumnConstraints().add(colConst);
+        }
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPercentHeight(100.0 / numRows);
+            myCanvasPane.getRowConstraints().add(rowConst);         
+        }
         myCanvasPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
 //        myCanvasPane.setScaleX(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")));
@@ -123,7 +139,7 @@ public class MapEditorTab implements IWorkspace{
 	
 //To be refactor out
 	
-    public void setUpNodeTarget(Pane target) {
+    public void setUpNodeTarget(GridPane target) {
 		
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
@@ -162,14 +178,20 @@ public class MapEditorTab implements IWorkspace{
 //					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
 //					System.out.println(db.getImage());
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
+					
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
-					imv.setFitHeight(50);
-					imv.setFitWidth(50);
-					imv.setX(event.getSceneX() - imv.getFitWidth());
-					imv.setY(event.getSceneY() - imv.getFitHeight() - 60);
+					imv.setFitHeight(target.getHeight()/10 - 10);
+					imv.setFitWidth(target.getWidth()/10 - 10);
+					imv.setX(event.getSceneX());
+					imv.setY(event.getSceneY() - imv.getFitHeight());
+					myModel.addTerrain(event.getSceneX(), event.getSceneY(), imv.getUnit());
 					System.out.println("X: " + event.getSceneX());
 					System.out.println("Y: " + event.getSceneY());
-					target.getChildren().add(imv);
+					int i = (int)((event.getSceneY()-imv.getFitHeight())/(target.getHeight()/10));
+					int j = (int)(event.getSceneX()/(target.getWidth()/10));
+					target.add(imv, j, i);
+					System.out.println("Grid X: " + i);
+					System.out.println("Grid Y: " + j);
 					System.out.println(myPicker.myEditInfo.getChildren());
 					imv.addEventHandler(MouseEvent.MOUSE_CLICKED,
 						    new EventHandler<MouseEvent>() {
@@ -203,10 +225,12 @@ public class MapEditorTab implements IWorkspace{
 		return clear;
 	}
     
-    private ContextMenu buildContextMenu(ImageView imv, Pane tempPane){
+    private ContextMenu buildContextMenu(UnitView imv, Pane tempPane){
     	ContextMenu cm = new ContextMenu();
     	MenuItem cmItem1 = new MenuItem("Delete Image");
-    	cmItem1.setOnAction(e-> tempPane.getChildren().remove(imv));
+    	cmItem1.setOnAction(e-> {tempPane.getChildren().remove(imv);
+    	myModel.deleteTerrain(imv.getUnit());
+    	});
     	cm.getItems().add(cmItem1);
     	return cm;
     }
