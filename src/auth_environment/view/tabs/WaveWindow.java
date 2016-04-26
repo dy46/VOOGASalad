@@ -6,6 +6,7 @@ import auth_environment.Models.WaveWindowModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IWaveWindowModel;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -32,12 +33,14 @@ public class WaveWindow {
 	private IAuthModel myAuthModel;
 	private IWaveWindowModel myWaveWindowModel; 
 	private ILevelOverviewTabModel myLevelOverviewTabModel; 
+
+	private NodeFactory myNodeFactory; 
 	
 	//TODO: Add Unit Library to WaveWindow constructor	
 	public WaveWindow(String level, String wave, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		this.myAuthModel = authModel;
 		this.myLevelOverviewTabModel = levelOverview; 
-		// TODO: these names should come out of the Model!
+		this.myNodeFactory = new NodeFactory(); 
 		this.spawningNames = new ArrayList<ComboBox<String>>();
 		this.placingNames = new ArrayList<ComboBox<String>>();
 		this.spawningTimes = new ArrayList<TextField>();
@@ -145,7 +148,7 @@ public class WaveWindow {
 		if(makeSTBox){
 			HBox hbox = new HBox();
 			hbox.getChildren().add(cBox);
-			TextField input = new TextField();
+			TextField input = this.myNodeFactory.buildTextFieldWithPrompt("Delay");
 			input.setMaxWidth(65);
 			input.setMinHeight(25);
 			hbox.setMinWidth(200);

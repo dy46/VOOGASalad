@@ -10,7 +10,6 @@ import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.UnitFactory;
-import game_engine.factories.WaveFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
@@ -57,7 +56,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	private UnitFactory myUnitFactory; 
 	private FunctionFactory myFunctionFactory; 
 	private AffectorFactory myAffectorFactory;
-	private WaveFactory myWaveFactory; 
 
 	public SampleAuthData() {
 		this.myName = "sampleGame";
@@ -77,7 +75,6 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
 		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
-		this.myWaveFactory = new WaveFactory(); 
 		this.setupDummyValues();
 	}
 
@@ -278,15 +275,4 @@ public class SampleAuthData implements IAuthEnvironment {
 	public void setAffectorFactory(AffectorFactory factory) {
 		this.myAffectorFactory = factory; 
 	}
-
-	@Override
-	public WaveFactory getWaveFactory() {
-		return this.myWaveFactory;
-	}
-
-	@Override
-	public void setWaveFactory(WaveFactory factory) {
-		this.myWaveFactory = factory; 
-	}
-	
 }

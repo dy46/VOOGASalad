@@ -47,6 +47,11 @@ public class LevelOverviewTab extends Tab {
 		});
 	}
 	
+	
+	private void refresh() {
+		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
+	}
+	
 	private Node buildNewLevelButton() {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
@@ -56,10 +61,6 @@ public class LevelOverviewTab extends Tab {
 			myTabs.getSelectionModel().select(tab);
 		});
 		return addNewLevelButton;
-	}
-	
-	private void refresh() {
-		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
 	}
 	
 	public Node getRoot(){
