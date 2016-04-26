@@ -1,4 +1,4 @@
-package auth_environment.view.Workspaces;
+package auth_environment.view.tabs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class PathTab implements IWorkspace {
 	public PathTab(IAuthModel auth) {
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
-		this.myModel = new PathTabModel(auth.getIAuthEnvironment()); 
+		this.myModel = new PathTabModel(this.myAuth); 
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 

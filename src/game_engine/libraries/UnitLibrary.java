@@ -3,7 +3,7 @@ package game_engine.libraries;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import auth_environment.dialogs.ConfirmationDialog;
 import exceptions.WompException;
 import game_engine.game_elements.Unit;
@@ -25,6 +25,10 @@ public class UnitLibrary {
 	
 	public void addUnit(Unit unit){
 		this.myUnits.add(unit);
+	}
+	
+	public List<String> getUnitNames() {
+	    return myUnits.stream().map(m -> m.toString()).collect(Collectors.toList());
 	}
 	
 	public Unit getUnitByName(String name){

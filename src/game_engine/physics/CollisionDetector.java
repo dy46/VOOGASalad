@@ -17,11 +17,9 @@ import game_engine.properties.Position;
 public class CollisionDetector {
 
 	private GameEngineInterface myEngine;
-	private AffectorFactory myAffectorFactory;
 
 	public CollisionDetector (GameEngineInterface engine) {
 		myEngine = engine;
-		myAffectorFactory = new AffectorFactory(new FunctionFactory());
 	}
 
 	public void resolveEnemyCollisions (List<Unit> myProjectiles) {
@@ -30,7 +28,7 @@ public class CollisionDetector {
 
 	private void updateEnemies (Unit unit, List<Unit> myProjectiles) {
 		for (int i = 0; i < myProjectiles.size(); i++) {
-			if (!(unit == myProjectiles.get(i)) && collides(unit, myProjectiles.get(i))) {
+			if (!(unit == myProjectiles.get(i)) && CollisionChecker.collides(unit, myProjectiles.get(i))) {
 				if (!myProjectiles.get(i).hasCollided() && unit.isVisible()) {
 					List<Affector> affectorsToApply = myProjectiles.get(i).getAffectorsToApply()
 							.stream().map(a -> a.copyAffector()).collect(Collectors.toList());                     
@@ -93,7 +91,5 @@ public class CollisionDetector {
 				(q.getX() - p.getX()) * (r.getY() - q.getY());
 		return orient == 0 ? 0 : (orient > 0 ? 1 : 2);
 	}
-	
-
 
 }

@@ -28,15 +28,13 @@ public class EnemyFactory {
     
     public Unit createPathFollowPositionMoveEnemy (String name, List<Branch> branches) {
         Unit e = createSpecifiedEnemy(name, "PathFollow", "PositionMove");
-        e.getProperties().setMovement(new Movement(branches));
-        e.getProperties().setPosition(e.getProperties().getMovement().getCurrentBranch().getFirstPosition());
+        e.getProperties().setMovement(new Movement(branches, branches.get(0).getFirstPosition()));
         return e;
     }
 
     public Unit createAIEnemy (String name, Position spawn) {
         Unit e = createSpecifiedEnemy(name, "AIPath", "Follow");
         e.getProperties().setMovement(new Movement(spawn));
-        e.getProperties().setPosition(spawn);
         return e;
     }
     
@@ -56,16 +54,16 @@ public class EnemyFactory {
         Health health = new Health(50);
         Velocity velocity = new Velocity(0.5, 90);
         List<Position> l1 = new ArrayList<>();
-        l1.add(new Position(0, 0));
-        l1.add(new Position(15, 0));
-        l1.add(new Position(15, 15));
-        l1.add(new Position(0, 15));
+        l1.add(new Position(-30, -30));
+        l1.add(new Position(30, -30));
+        l1.add(new Position(30, 30));
+        l1.add(new Position(-30, 30));
         Bounds b = new Bounds(l1);
         State st = new State(2);
         Price price = new Price(30);
         UnitProperties properties =
-                new UnitProperties(health, null, velocity, b, null, new Position(0, 30), price,
-                                   st, null, new Mass(1));
+                new UnitProperties(health, null, velocity, b, null, price,
+                                   st, new Movement(new Position(0, 0)), new Mass(1));
         e1.setProperties(properties);
         e1.setTTL(1000000);
         e1.setDeathDelay(3);

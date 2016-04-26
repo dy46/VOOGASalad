@@ -7,6 +7,7 @@ import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import javafx.geometry.Pos;
+import game_player.interfaces.IGameView;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -41,8 +42,8 @@ public class GameHUD {
         children = new ArrayList<>();
         upgradesBox = new VBox(PANEL_SPACING);
     }
-    
-    public void setGameView(IGameView gameView) {
+
+    public void setGameView (IGameView gameView) {
         this.gameView = gameView;
     }
 
@@ -72,7 +73,7 @@ public class GameHUD {
 
     public void whenTowerSelected (Unit tower) {
     	addToHUD();
-        gameView.setSpecificUnitIsClicked(tower);
+        gameView.setSpecificUnitIsSelected(tower);
         unitType.setText(tower.getName());
         unitImage.setImage(new Image(tower.toString() + PNG_EXTENSION));
         removeUpgrades();
@@ -119,8 +120,8 @@ public class GameHUD {
     	Rectangle rect = new Rectangle(500, 150);
     	rect.setFill(Color.DARKGRAY);
     	HUDBox.getChildren().add(rect);
-        if(gameView != null) {
-            gameView.setSpecificUnitIsClicked(null);
+        if (gameView != null) {
+            gameView.setSpecificUnitIsSelected(null);
         }
 //        unitImage.setImage(new Image("Tower.png"));
 //        unitType.setText("No Selection");

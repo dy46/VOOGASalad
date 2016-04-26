@@ -3,8 +3,8 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import auth_environment.IAuthEnvironment;
+import game_engine.AI.AIHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -46,10 +46,12 @@ public class EngineWorkspace implements GameEngineInterface{
 	private List<PlaceValidation> myPlaceValidations;
 	private List<Unit> unitsToRemove;
 	private Position cursorPos;
+	private AIHandler myAIHandler;
 
 	public void setUpEngine (IAuthEnvironment data) {
+		myAIHandler = new AIHandler(this);
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
+		myPlaceValidations.add(new EnemySpawnPointPlaceValidation(this));
 		unitsToRemove = new ArrayList<>();
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
@@ -149,7 +151,7 @@ public class EngineWorkspace implements GameEngineInterface{
 		if (purchased != null) {
 			boolean canPlace = false;
 			for(int i = 0; i < myPlaceValidations.size(); i++) {
-				canPlace = myPlaceValidations.get(i).validate(this, purchased, x, y);
+				canPlace = myPlaceValidations.get(i).validate(purchased, x, y);
 			}
 			if(canPlace) {
 				Unit copy = purchased.copyUnit();
@@ -329,14 +331,15 @@ public class EngineWorkspace implements GameEngineInterface{
 			myTowers.remove(u);
 		}
 	}
+	
+	@Override
+	public List<Branch> getBranchesAtPos(Position pos) {
+		return myAIHandler.getBranchesAtPos(pos);
+	}
 
-	public Branch findBranchForSpawn(Position spawn) {
-		for(Branch b : myBranches){
-			if(b.getPositions().contains(spawn)){
-				return b;
-			}
-		}
-		return null;
+	@Override
+	public void updateAIBranches() {
+		myAIHandler.updateAIBranches();
 	}
 
 }

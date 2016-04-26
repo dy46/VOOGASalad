@@ -4,6 +4,7 @@ import java.util.List;
 import auth_environment.IAuthEnvironment;
 import exceptions.WompException;
 import game_engine.game_elements.Level;
+import game_engine.AI.AIHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -102,6 +103,8 @@ public interface GameEngineInterface {
 
 	public void removeTower(Unit u);
 
-	public Branch findBranchForSpawn(Position spawn);
+	public void updateAIBranches();
+
+	public List<Branch> getBranchesAtPos(Position pos);
 
 }
