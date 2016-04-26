@@ -38,46 +38,53 @@ public class AISimulator {
 
 	public boolean simulateEnemyPathFollowing(Unit obstacle) {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
-		List<Unit> enemies = myAIHandler.getActiveAIEnemies();
-		HashMap<Unit, List<Branch>> unitPaths = new HashMap<>();
-		HashMap<Branch, List<Branch>> oldBranchPaths = myAIHandler.getBranchPaths();
-		HashMap<Unit, List<Branch>> oldUnitPaths = myAIHandler.getUnitPaths();
+		HashMap<Branch, List<Branch>> branchPaths = myAIHandler.getBranchPaths();
+		HashMap<Position, List<Branch>> posPaths = myAIHandler.getPositionPaths();
+		HashMap<Unit, List<Branch>> unitPaths = myAIHandler.getUnitPaths();
 		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
-			System.out.println("INVALID SEARCH PROBLEM");
 			return false;
 		}
-		System.out.println("VALID SEARCH PROBLEM");
-		for(Unit e : enemies){
+		for(Unit e : myAIHandler.getActiveAIEnemies()){
 			Position currPos = e.getProperties().getPosition();
 			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
-			List<Branch> oldShortestPath = oldUnitPaths.get(e);
+			List<Branch> oldShortestPath = unitPaths.get(e);
 			for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
-				if(oldShortestPath == null || !myAISearcher.isValidSearchProblem(oldShortestPath, visibilityBranches)){
-					List<Branch> cachedShortestPath = oldBranchPaths.get(currBranch);
-					System.out.println("OLD PATH NOT VALID ANYMORE");
-					if(cachedShortestPath == null || !myAISearcher.isValidSearchProblem(cachedShortestPath, visibilityBranches)){
-						List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
-						if(newShortestPath != null){
-							if(simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
+				if(continueSearch(oldShortestPath, visibilityBranches)){
+					List<Branch> cachedBranchPath = branchPaths.get(currBranch);
+					if(continueSearch(cachedBranchPath, visibilityBranches)){
+						List<Branch> cachedPosPath = posPaths.get(currPos);
+						if(continueSearch(cachedPosPath, visibilityBranches)){
+							List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
+							if(newShortestPath == null || simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
 								return false;
 							}
 							else{
+								posPaths.put(currPos, newShortestPath);
+								branchPaths.put(currBranch, newShortestPath);
 								unitPaths.put(e, newShortestPath);
 							}
 						}
 						else{
-							return false;
+							posPaths.put(currPos, cachedBranchPath);
 						}
+					}
+					else{
+						branchPaths.put(currBranch, cachedBranchPath);
 					}
 				}
 				else{
-					System.out.println("OLD PATH STILL VALID");
 					unitPaths.put(e, oldShortestPath);
 				}
 			}
 		}
-		myAIHandler.updateAIBranches(unitPaths);
+		myAIHandler.updateUnitPaths(unitPaths);
+		myAIHandler.updateBranchPaths(branchPaths);
+		myAIHandler.updatePosPaths(posPaths);
 		return true;
+	}
+
+	private boolean continueSearch(List<Branch> path, List<Branch> visibility){
+		return path == null || !myAISearcher.isValidSearchProblem(path, visibility);
 	}
 
 	private boolean simulateEnemyBranchCollisions (Unit enemy,

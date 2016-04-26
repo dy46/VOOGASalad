@@ -52,14 +52,22 @@ public class AIHandler {
 			}
 		}
 	}
-	
-	public void updateAIBranches(HashMap<Unit, List<Branch>> unitPaths){
+
+	public void updateUnitPaths(HashMap<Unit, List<Branch>> unitPaths){
 		this.unitShortestPaths = unitPaths;
 		Iterator<Unit> it = unitPaths.keySet().iterator();
 		while(it.hasNext()){
 			Unit next = it.next();
 			next.getProperties().getMovement().setBranches(unitPaths.get(next));
 		}
+	}
+	
+	public void updateBranchPaths(HashMap<Branch, List<Branch>> branchPaths){
+		this.branchShortestPaths = branchPaths;
+	}
+	
+	public void updatePosPaths(HashMap<Position, List<Branch>> posPaths){
+		this.posShortestPaths = posPaths;
 	}
 
 	private void updateBranches(Unit u){
@@ -88,35 +96,35 @@ public class AIHandler {
 		}
 	}
 
-    private void configureMovement (Unit u, List<Branch> newBranches) {
-        Movement myMovement = u.getProperties().getMovement();
-        List<Branch> currentBranches = myMovement.getBranches();
-        Position currentPosition = u.getProperties().getPosition();
-        if (currentPosition == null) {
-            return;
-        }
-        else if (currentBranches == null || currentBranches.size() == 0) {
-            if (newBranches != null) {
-                myMovement.setBranches(newBranches);
-                myMovement.initializeCurrentBranch(newBranches.get(0));
-                myMovement.initializeMovingTowards();
-            }
-            return;
-        }
-        if (newBranches.get(0).equals(currentBranches.get(0))) {
-            if (!newBranches.get(1).equals(currentBranches.get(1))) {
-                Position newBranchFirstPos = newBranches.get(1).getFirstPosition();
-                Position newBranchLastPos = newBranches.get(1).getLastPosition();
-                double dirToFirstPos =
-                        DirectionHandler.getDirection(currentPosition, newBranchFirstPos);
-                double dirToLastPos =
-                        DirectionHandler.getDirection(currentPosition, newBranchLastPos);
-                double currDir = u.getProperties().getVelocity().getDirection();
-                if (currDir == dirToFirstPos || currDir == dirToLastPos)
-                    u.turnAround();
-            }
-        }
-    }
+	private void configureMovement (Unit u, List<Branch> newBranches) {
+		Movement myMovement = u.getProperties().getMovement();
+		List<Branch> currentBranches = myMovement.getBranches();
+		Position currentPosition = u.getProperties().getPosition();
+		if (currentPosition == null) {
+			return;
+		}
+		else if (currentBranches == null || currentBranches.size() == 0) {
+			if (newBranches != null) {
+				myMovement.setBranches(newBranches);
+				myMovement.initializeCurrentBranch(newBranches.get(0));
+				myMovement.initializeMovingTowards();
+			}
+			return;
+		}
+		if (newBranches.get(0).equals(currentBranches.get(0))) {
+			if (!newBranches.get(1).equals(currentBranches.get(1))) {
+				Position newBranchFirstPos = newBranches.get(1).getFirstPosition();
+				Position newBranchLastPos = newBranches.get(1).getLastPosition();
+				double dirToFirstPos =
+						DirectionHandler.getDirection(currentPosition, newBranchFirstPos);
+				double dirToLastPos =
+						DirectionHandler.getDirection(currentPosition, newBranchLastPos);
+				double currDir = u.getProperties().getVelocity().getDirection();
+				if (currDir == dirToFirstPos || currDir == dirToLastPos)
+					u.turnAround();
+			}
+		}
+	}
 
 	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
@@ -137,22 +145,26 @@ public class AIHandler {
 		return new ArrayList<>(AI);
 	}
 
-    public List<Branch> getBranchesAtPos (Position pos) {
-        List<Branch> branches = new ArrayList<>();
-        for (Branch b : myEngine.getBranches()) {
-            if(b.getPositions().contains(pos)){
-            	branches.add(b);
-            }
-        }
-        return branches;
-    }
+	public List<Branch> getBranchesAtPos (Position pos) {
+		List<Branch> branches = new ArrayList<>();
+		for (Branch b : myEngine.getBranches()) {
+			if(b.getPositions().contains(pos)){
+				branches.add(b);
+			}
+		}
+		return branches;
+	}
 
 	public HashMap<Unit, List<Branch>> getUnitPaths() {
 		return unitShortestPaths;
 	}
-	
+
 	public HashMap<Branch, List<Branch>> getBranchPaths() {
 		return branchShortestPaths;
+	}
+
+	public HashMap<Position, List<Branch>> getPositionPaths() {
+		return posShortestPaths;
 	}
 
 }
