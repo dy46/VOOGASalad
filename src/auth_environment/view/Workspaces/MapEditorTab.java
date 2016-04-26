@@ -25,7 +25,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -73,6 +75,9 @@ public class MapEditorTab implements IWorkspace{
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myAuth;
 	
+    private int numCols = 10 ;
+    private int numRows = 10 ;
+	
 	public MapEditorTab(IAuthModel auth) {
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
@@ -91,7 +96,8 @@ public class MapEditorTab implements IWorkspace{
 		
 		this.myBorderPane.setRight(myPicker.getRoot());
 		this.myBorderPane.setLeft(myMapPane);
-		this.myBorderPane.setBottom(buildClearButton());
+		this.myBorderPane.setBottom(buildHBox());
+		
 	}
 	
 	private void refresh(){
@@ -111,12 +117,13 @@ public class MapEditorTab implements IWorkspace{
 	
 	private void buildMapPane(){
 		myMapPane = new TitledPane();
+		myMapPane.setText("Grid");
 //        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
 //        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         myCanvasPane = new GridPane();
+        myCanvasPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         myCanvasPane.setGridLinesVisible(true);
-        final int numCols = 10 ;
-        final int numRows = 10 ;
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
             colConst.setPercentWidth(100.0 / numCols);
@@ -127,8 +134,6 @@ public class MapEditorTab implements IWorkspace{
             rowConst.setPercentHeight(100.0 / numRows);
             myCanvasPane.getRowConstraints().add(rowConst);         
         }
-        myCanvasPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
-        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
 //        myCanvasPane.setScaleX(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")));
 //        myCanvasPane.setScaleY(Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
 //        myCanvasPane.getChildren().add(myCanvas);
@@ -180,8 +185,11 @@ public class MapEditorTab implements IWorkspace{
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
 					
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
-					imv.setFitHeight(target.getHeight()/10 - 10);
-					imv.setFitWidth(target.getWidth()/10 - 10);
+					if(target.getClass().getName().equals("Pane")){
+						
+					}
+					imv.setFitHeight(target.getHeight()/10-3);
+					imv.setFitWidth(target.getWidth()/10-3);
 					imv.setX(event.getSceneX());
 					imv.setY(event.getSceneY() - imv.getFitHeight());
 					myModel.addTerrain(event.getSceneX(), event.getSceneY(), imv.getUnit());
@@ -225,6 +233,14 @@ public class MapEditorTab implements IWorkspace{
 		return clear;
 	}
     
+    private CheckBox buildGridSwitchBox(){
+    	CheckBox gridSwitch = new CheckBox("Grid Line");
+        gridSwitch.setSelected(true);
+        gridSwitch.setOnAction(e -> this.myCanvasPane.setGridLinesVisible(!myCanvasPane.isGridLinesVisible()));
+    	return gridSwitch;
+    }
+    
+    
     private ContextMenu buildContextMenu(UnitView imv, Pane tempPane){
     	ContextMenu cm = new ContextMenu();
     	MenuItem cmItem1 = new MenuItem("Delete Image");
@@ -235,7 +251,29 @@ public class MapEditorTab implements IWorkspace{
     	return cm;
     }
     
-	@Override
+	
+	 private HBox buildHBox() {
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setSpacing(10);
+
+        Button clearButton = buildClearButton();
+        CheckBox gridSwitchBox = buildGridSwitchBox();
+        
+        
+        hbox.getChildren().addAll(clearButton,gridSwitchBox);
+        return hbox;
+    }
+	
+	 private void createTextField(HBox hbox){
+	    	Label speedlabel = new Label("Columns: ");
+	        TextField textField = new TextField();
+	        textField.setMaxWidth(50);
+	        textField.setPromptText("int");
+	        hbox.getChildren().addAll(speedlabel, textField);
+	    }
+	 
+	 
 	public Node getRoot() {
 		// TODO Auto-generated method stub
 		return myBorderPane;
