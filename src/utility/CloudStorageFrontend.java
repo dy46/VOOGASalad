@@ -1,30 +1,25 @@
 package utility;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ResourceBundle;
 
 import com.twilio.sdk.TwilioRestException;
 
-import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class CloudStorageFrontend {
-	
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
-	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
     private static final String MESSAGE = "new files have been uploaded!";
 
@@ -50,9 +45,8 @@ public class CloudStorageFrontend {
 				this.buildAnimation()
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
-		this.myRoot.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		this.myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
+		this.myRoot.setPrefSize(800, 800); 
+//		this.myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
 		myStage.setScene(this.myScene);
 		myStage.show();
 		myStage.toFront();
@@ -76,9 +70,10 @@ public class CloudStorageFrontend {
 	
 	// TODO: refactor by combining with uploadFile() 
 	private void uploadFolder() {
-		FileChooserDelegate chooser = new FileChooserDelegate(); 
+		DirectoryChooser chooser = new DirectoryChooser(); 
 		try {
-			File dir = chooser.chooseDirectory("Choose a Folder"); 
+			ContextMenu prefWindow = new ContextMenu(); 
+			File dir = chooser.showDialog(prefWindow.getOwnerWindow());
 			if (dir == null) {
 				System.out.println("Cancel button pressed"); 
 			}
@@ -94,9 +89,10 @@ public class CloudStorageFrontend {
 	}
 	
 	private void uploadFile() {
-		FileChooserDelegate chooser = new FileChooserDelegate(); 
+		FileChooser chooser = new FileChooser(); 
 		try {
-	        File f = chooser.chooseFile("Choose a File");
+			ContextMenu prefWindow = new ContextMenu();
+		    File f = chooser.showOpenDialog(prefWindow.getOwnerWindow());
 	        if (f == null) {
 	        	System.out.println("Cancel button pressed");
 	        }
@@ -146,7 +142,7 @@ public class CloudStorageFrontend {
 	
 	private ImageView buildAnimation() {
 		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("drippyDrops.gif")));
-		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
+		animation.setFitWidth(800);
 		return animation;
 	}
  	
