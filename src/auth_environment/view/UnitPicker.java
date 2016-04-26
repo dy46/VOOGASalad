@@ -15,16 +15,17 @@ public class UnitPicker{
 
 	private UnitPickerModel myUnitPickerModel;
 	private TitledPane myEditPane;
-	private FlowPane myEditInfo;
-	
+	public FlowPane myEditInfo;
 	
 	public UnitPicker(String name){
 		init(name);
+		System.out.println("No Units!");
 	}
 	
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
 		addUnits(units);
+		System.out.println("Has Unit!");
 	}
 	
 	public void setName(String name){
@@ -46,7 +47,9 @@ public class UnitPicker{
 		myEditPane.setCollapsible(false);
 	}
 	
+
 	private void addUnits(List<Unit> units){
+		System.out.println(units);
 		myUnitPickerModel = new UnitPickerModel();
 		//for(UnitView uv: myUnitPickerModel.setUnits(units)){
 			myEditInfo.getChildren().addAll(myUnitPickerModel.setUnits(units));
@@ -58,8 +61,6 @@ public class UnitPicker{
 		myEditInfo.getChildren().add(uv);
 		uv.setOnMouseClicked(e -> elementTab.updateMenu(unit));
 	}
-	
-	
 	
 	
 	public TitledPane getRoot(){
