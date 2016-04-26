@@ -8,9 +8,11 @@ import com.twilio.sdk.TwilioRestException;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,9 +23,6 @@ public class CloudStorageFrontend {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
@@ -33,19 +32,16 @@ public class CloudStorageFrontend {
 	private Scene myScene;
 	
 	private VBox myRoot;
-	
-	private NodeFactory myNodeFactory;
 
 	public CloudStorageFrontend () {
-		this.myNodeFactory = new NodeFactory(); 
 		this.init(); 
 	}
 
 	private void init() {
 		Stage myStage = new Stage(); 
-		this.myRoot = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding"))
-				);
+		this.myRoot = new VBox();
+		this.myRoot.setSpacing(10);
+		this.myRoot.setPadding(new Insets(10));
 		this.myScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll( 
 				this.buildBoxImage(),
@@ -72,18 +68,25 @@ public class CloudStorageFrontend {
 		hb.setSpacing(10);
 		hb.setPadding(new Insets(10));
 		hb.getChildren().addAll(chooseFile, chooseFolder); 
+		hb.setAlignment(Pos.CENTER);
 		
-		return this.myNodeFactory.centerNode(hb); 
+		return hb;
 	}
 	
 	// TODO: refactor by combining with uploadFile() 
 	private void uploadFolder() {
 		FileChooserDelegate chooser = new FileChooserDelegate(); 
 		try {
-			String path = chooser.chooseDirectory("Choose a Folder").getPath(); 
-	        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
-			c.uploadFolder(path);
-			this.printResults(c);
+			File dir = chooser.chooseDirectory("Choose a Folder"); 
+			if (dir == null) {
+				System.out.println("Cancel button pressed"); 
+			}
+			else {
+				String path = dir.getPath(); 
+				CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
+				c.uploadFolder(path);
+				this.printResults(c);
+			}
 		} catch (FileNotFoundException | TwilioRestException e) {
 			System.out.println("Invalid developer token"); 
 		}
@@ -93,17 +96,24 @@ public class CloudStorageFrontend {
 		FileChooserDelegate chooser = new FileChooserDelegate(); 
 		try {
 	        File f = chooser.chooseFile("Choose a File");
-	        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
-	        c.uploadFile(f.getAbsolutePath(), f.getName());
-	        this.printResults(c);
+	        if (f == null) {
+	        	System.out.println("Cancel button pressed");
+	        }
+	        else {
+		        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
+		        c.uploadFile(f.getAbsolutePath(), f.getName());
+		        this.printResults(c);
+	        }
 		} catch (FileNotFoundException e) {
 			System.out.println("Invalid developer token"); 
 		}
-
 	}
 	
 	private HBox buildBoxImage() {
-		return myNodeFactory.centerNode(myNodeFactory.buildImageView("boxLogo.png"));
+		HBox hb = new HBox();
+		hb.setAlignment(Pos.CENTER);
+		hb.getChildren().add(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("boxLogo.png"))));
+		return hb; 
 	}
 	
 	private void printResults (CloudStorage c) {
@@ -117,8 +127,8 @@ public class CloudStorageFrontend {
 	}
 	
 	private ImageView buildAnimation() {
-		ImageView animation = myNodeFactory.buildImageView(myNamesBundle.getString("wompAnimation"));
-		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
+		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("catKeyboard.gif")));
+//		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
 		return animation;
 	}
  	
