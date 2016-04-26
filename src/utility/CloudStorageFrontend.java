@@ -7,10 +7,12 @@ import com.twilio.sdk.TwilioRestException;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -46,8 +48,8 @@ public class CloudStorageFrontend {
 				);
 		this.myScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll( 
+				this.buildBoxImage(),
 				this.buildFileButton(),
-				this.buildFolderButton(),
 				this.buildAnimation()
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
@@ -60,22 +62,25 @@ public class CloudStorageFrontend {
 	}
 	
 	private Node buildFileButton() {
-		Button chooseFile = this.myNodeFactory.buildButton("Choose a File"); 
+		Button chooseFile = new Button("Choose a File");
 		chooseFile.setOnAction(e -> this.uploadFile());
-		return chooseFile; 
-	}
-	
-	private Node buildFolderButton() {
-		Button chooseFolder = this.myNodeFactory.buildButton("Choose a Folder");
+		
+		Button chooseFolder = new Button("Choose a Folder"); 
 		chooseFolder.setOnAction(e -> this.uploadFolder());
-		return chooseFolder; 
+		
+		HBox hb = new HBox(); 
+		hb.setSpacing(10);
+		hb.setPadding(new Insets(10));
+		hb.getChildren().addAll(chooseFile, chooseFolder); 
+		
+		return this.myNodeFactory.centerNode(hb); 
 	}
 	
 	// TODO: refactor by combining with uploadFile() 
 	private void uploadFolder() {
 		FileChooserDelegate chooser = new FileChooserDelegate(); 
 		try {
-			String path = chooser.chooseFile("Choose a File within the Desired Folder").getParent(); 
+			String path = chooser.chooseDirectory("Choose a Folder").getPath(); 
 	        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
 			c.uploadFolder(path);
 			this.printResults(c);
@@ -88,7 +93,6 @@ public class CloudStorageFrontend {
 		FileChooserDelegate chooser = new FileChooserDelegate(); 
 		try {
 	        File f = chooser.chooseFile("Choose a File");
-	        System.out.println(f.getParent());
 	        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
 	        c.uploadFile(f.getAbsolutePath(), f.getName());
 	        this.printResults(c);
@@ -96,6 +100,10 @@ public class CloudStorageFrontend {
 			System.out.println("Invalid developer token"); 
 		}
 
+	}
+	
+	private HBox buildBoxImage() {
+		return myNodeFactory.centerNode(myNodeFactory.buildImageView("boxLogo.png"));
 	}
 	
 	private void printResults (CloudStorage c) {
