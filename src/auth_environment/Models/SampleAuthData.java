@@ -275,5 +275,4 @@ public class SampleAuthData implements IAuthEnvironment {
 	public void setAffectorFactory(AffectorFactory factory) {
 		this.myAffectorFactory = factory; 
 	}
-	
 }

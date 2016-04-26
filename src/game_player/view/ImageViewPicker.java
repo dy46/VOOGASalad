@@ -43,8 +43,6 @@ public class ImageViewPicker {
 		if(timer % Integer.parseInt(myBundle.getString(name + state)) == 0) {
 			currState = state;
 			currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
-			System.out.println(name + state + currFrame + EXTENSION);
-			System.out.println(new Image(name + state + currFrame + EXTENSION));
 			imageView.setImage(new Image(name + state + currFrame + EXTENSION));      
 			boolean isCornerElement = myUnit.toString().contains(leftCornerElements[0]);
 			double offsetX = isCornerElement ? 0 : -imageView.getImage().getWidth()/2;
