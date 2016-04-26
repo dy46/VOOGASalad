@@ -59,6 +59,7 @@ public class AISimulator {
 						if(continueSearch(cachedPosPath, visibilityBranches)){
 							List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
 							if(newShortestPath == null || simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
+								System.out.println("SIMULATION FAILS");
 								return false;
 							}
 							else{
@@ -88,14 +89,12 @@ public class AISimulator {
 		return path == null || !myAISearcher.isValidSearchProblem(path, visibility);
 	}
 
-	private boolean simulateEnemyBranchCollisions (Unit enemy,
-			List<Branch> pathBranches,
-			Unit obstacle) {
+	private boolean simulateEnemyBranchCollisions (Unit enemy, List<Branch> newBranches, Unit obstacle) {
 		List<Unit> obstacles = myEngine.getUnitController().getUnitType("Tower");
 		List<Unit> obstaclesCopy =
 				obstacles.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
 		obstaclesCopy.add(obstacle.copyShallowUnit());
-		for (Branch b : pathBranches) {
+		for (Branch b : newBranches) {
 			for (Position pos : b.getPositions()) {
 				List<Position> enemyBounds =
 						enemy.getProperties().getBounds().getUseableBounds(pos);

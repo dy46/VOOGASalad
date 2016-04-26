@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
-
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -119,7 +117,9 @@ public class AISearcher {
 				break;
 			}
 			if (currentNode.equals(branchGoal)) {
-				break;
+				List<Branch> visitedList = new ArrayList<>(visitedNodes);
+				if(isValidGoalDirection(branchGoal, goal, visitedList.get(visitedList.size() - 1)))
+						break;
 			} else {
 				for (Branch nextNode : currentNode.getNeighbors()) {
 					if (!visitedNodes.contains(nextNode)) {
@@ -139,9 +139,18 @@ public class AISearcher {
 		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
 			shortestPath.add(node);
 		}
-		List<Position> endGoalPos = Arrays.asList(shortestPath.get(shortestPath.size() - 1).getLastPosition(), goal);
-		shortestPath.add(new Branch(endGoalPos));
+		shortestPath.add(getValidGoalBranch(shortestPath.get(shortestPath.size() - 1).getLastPosition(), goal));
 		return shortestPath;
+	}
+	
+	private Branch getValidGoalBranch(Position lastPos, Position goal){
+		return new Branch(Arrays.asList(lastPos, goal));
+	}
+
+	private boolean isValidGoalDirection(Branch branchGoal, Position goal, Branch previousBranch) {
+		Position lastPos = previousBranch.getLastPosition();
+		Branch validGoalBranch = getValidGoalBranch(lastPos, goal);
+		return branchGoal.equals(validGoalBranch);
 	}
 
 	private List<Position> manhattanDistanceSort(Position current, List<Position> goals){
