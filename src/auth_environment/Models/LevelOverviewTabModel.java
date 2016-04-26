@@ -23,11 +23,11 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     public LevelOverviewTabModel(IAuthEnvironment auth){
         this.myCreatedLevels = auth.getLevels();
         this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
-        this.myCreatedLevels.stream().forEach(level -> this.addWave(level));
+        this.myCreatedLevels.stream().forEach(level -> this.addWavesToLevel(level));
         this.myCurrentLevelIndex = 0; 
     }
     
-    private void addWave(Level level) {
+    private void addWavesToLevel(Level level) {
     	String levelNum = Integer.toString(this.myCreatedLevels.indexOf(level)); 
     	for (int i=0; i<level.getWaves().size(); i++) {
     		String label = this.myNamesBundle.getString("levelPrefix") + levelNum + 
@@ -55,7 +55,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     
     @Override
     public void addLevels(String name, int numLives, int numLevelsToAdd){
-        for(int i = 1;i <= numLevelsToAdd;i++){
+        for(int i = 1; i <= numLevelsToAdd; i++){
             this.addLevel(name + i, numLives);
         }
     }

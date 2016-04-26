@@ -14,7 +14,6 @@ import game_engine.game_elements.Level;
 import javafx.scene.layout.BorderPane;
 
 public class LevelOverviewTab extends Tab {
-	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
@@ -32,7 +31,7 @@ public class LevelOverviewTab extends Tab {
 	private void init() {
 		this.myRoot = new BorderPane();
 		this.myTabs = new TabPane();
-		this.addRefresh();
+		this.setRefresh();
 		this.setupBorderPane();
 		this.setContent(myRoot);
 	}
@@ -42,7 +41,7 @@ public class LevelOverviewTab extends Tab {
 		myRoot.setLeft(myTabs);
 	}
 	
-	private void addRefresh() {
+	private void setRefresh() {
 		this.myRoot.setOnMouseEntered(e -> {
 			this.refresh();
 		});
@@ -50,18 +49,21 @@ public class LevelOverviewTab extends Tab {
 	
 	private void refresh() {
 		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
-		System.out.println(this.myLevelOverviewTabModel.getCreatedLevels().size());
-		this.setupLevelTabs();
+//		System.out.println(this.myLevelOverviewTabModel.getCreatedLevels().size());
+		this.setUpLevelTabs();
 	}
 	
-	private void setupLevelTabs() {
+	private void setUpLevelTabs() {
 		this.myTabs.getTabs().clear();
 		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
 	}
 	
-	private Tab addFrontendTab() {
-		Tab tab = new LevelTab("Level " + (this.myTabs.getTabs().size()), 
-				this.myTabs.getTabs().size(), 
+	private Tab addNewLevelTab() {
+		int newLevelIndex = ((LevelTab)myTabs.getTabs().get(myTabs.getTabs().size()-1)).getIndex() + 1;
+		String newLevelName = "Level " + newLevelIndex;
+		myLevelOverviewTabModel.addLevel(newLevelName, 10); // TODO: Not hardcode number of lives
+		Tab tab = new LevelTab(newLevelName, 
+				newLevelIndex, 
 				myAuthModel, 
 				this.myLevelOverviewTabModel);
 		myTabs.getTabs().addAll(tab);
@@ -79,7 +81,7 @@ public class LevelOverviewTab extends Tab {
 	private Node buildNewLevelButton() {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
-			myTabs.getSelectionModel().select(this.addFrontendTab());
+			myTabs.getSelectionModel().select(this.addNewLevelTab());
 		});
 		return addNewLevelButton;
 	}

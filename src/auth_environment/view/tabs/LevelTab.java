@@ -30,12 +30,12 @@ public class LevelTab extends Tab{
 	
 	private void init(){
 		this.myBorderPane = new BorderPane();
-		this.addRefresh();
+		this.setRefresh();
 		this.createWaveList();
 		this.setContent(myBorderPane);
 	}
 	
-	private void addRefresh() {
+	private void setRefresh() {
 		this.myBorderPane.setOnMouseEntered(e -> {
 			this.refresh();
 		});
@@ -50,7 +50,8 @@ public class LevelTab extends Tab{
 		GridPane newTableInfo = new GridPane();
 		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
 		newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
-		newTableInfo.setPrefSize(600, 200);	
+		newTableInfo.setPrefSize(600, 200);	//TODO: Avoid hard-coded values
+		
 		this.myBorderPane.setLeft(newTableInfo);
 		Button dummyWaveButton = new Button();
 		this.addNewWaveSpace(index, newTableInfo, dummyWaveButton);
@@ -68,6 +69,10 @@ public class LevelTab extends Tab{
 		int num = index;
 		newWaveButton.setOnAction(e -> addNewWaveSpace(num, newTableInfo, newWaveButton));
 		newTableInfo.add(newWaveButton, 2, index);
+	}
+	
+	public int getIndex() {
+		return myLevelTabModel.getLevelIndex();
 	}
 	
 }
