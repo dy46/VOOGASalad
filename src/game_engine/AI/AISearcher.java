@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 
@@ -77,6 +78,12 @@ public class AISearcher {
 	}
 
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
+		for(Unit u : this.myEngine.getLevelController().getCurrentLevel().getCurrentWave().getSpawningUnits()){
+			Branch currentBranch = u.getProperties().getMovement().getCurrentBranch();
+			if(!visibilityBranches.contains(currentBranch)){
+				return false;
+			}
+		}
 		for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
 			for(Position spawn : myEngine.getLevelController().getCurrentLevel().getSpawns()){
 				if(!BFSPossible(visibilityBranches, spawn, goal)){
