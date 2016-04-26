@@ -57,12 +57,12 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.setupBorderPane();
-//		String gridHeaderText = "You have the option to have a default grid for extension.";
-//		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
-//		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
-//		if(confirmation){
-//			this.myModel.createGrid();
-//		}
+		String gridHeaderText = "You have the option to have a default grid for extension.";
+		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
+		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		if(confirmation){
+			this.myModel.createGrid();
+		}
 		currentBranch = new ArrayList<>();
 		this.testSpawnUnits();
 		this.drawMap();
