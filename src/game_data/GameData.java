@@ -117,9 +117,4 @@ public class GameData {
 	public void setAffectors(List<Affector> affectors) {
 		this.myAffectors = affectors; 
 	}
-<<<<<<< HEAD
-	
 }
-=======
-}
->>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3

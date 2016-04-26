@@ -23,17 +23,10 @@ public interface IGameData extends IAuthEnvironment {
 
 	//Getters
 	public List<Level> getLevels();
-<<<<<<< HEAD
 	public List<Unit> getTowerTypes();
-=======
->>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3
 	public List<Branch> getPaths();
 	public List<Unit> getEnemies();
 	public List<Unit> getTerrains();
 	public List<Unit> getProjectiles();
-<<<<<<< HEAD
 	
 }
-=======
-}
->>>>>>> 8d680d3b0f9c0fb898e3573924763b9431a5ebb3

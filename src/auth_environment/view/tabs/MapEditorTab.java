@@ -1,25 +1,13 @@
-package auth_environment.view.Workspaces;
+package auth_environment.view.tabs;
 
-import java.awt.MouseInfo;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import auth_environment.IAuthEnvironment;
-import auth_environment.Models.GlobalGameTabModel;
 import auth_environment.Models.MapEditorTabModel;
-import auth_environment.Models.PathTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.Models.Interfaces.IGlobalGameTabModel;
-import auth_environment.delegatesAndFactories.DragDelegate;
-import auth_environment.delegatesAndFactories.FileChooserDelegate;
-import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.view.RecTile;
 import auth_environment.view.UnitPicker;
 import game_engine.game_elements.Unit;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -31,8 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
@@ -40,28 +26,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineBuilder;
-import javafx.scene.shape.Rectangle;
 
-public class MapEditorTab implements IWorkspace{	
+public class MapEditorTab implements IWorkspace {	
+	
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
-	private NodeFactory myNodeFactory = new NodeFactory(); 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
@@ -275,7 +248,6 @@ public class MapEditorTab implements IWorkspace{
 	 
 	 
 	public Node getRoot() {
-		// TODO Auto-generated method stub
 		return myBorderPane;
 	}
 

@@ -10,14 +10,13 @@ import auth_environment.view.Interfaces.IAuthView;
 <<<<<<< HEAD
 
 import auth_environment.view.Workspaces.GlobalGameTab;
-import auth_environment.view.Workspaces.MapEditorTab;
 import auth_environment.view.Workspaces.PathTab;
 =======
 import auth_environment.view.tabs.AnimationLoaderTab;
 import auth_environment.view.tabs.GlobalGameTab;
 import auth_environment.view.tabs.PathTab;
 import auth_environment.view.tabs.LevelOverviewTab;
->>>>>>> auth-environment
+import auth_environment.view.tabs.MapEditorTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;

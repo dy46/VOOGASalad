@@ -6,7 +6,7 @@ import java.util.List;
 import auth_environment.Models.Interfaces.IUnitPickerModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.UnitPicker;
-import auth_environment.view.Workspaces.MapEditorTab;
+import auth_environment.view.tabs.MapEditorTab;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.scene.effect.ColorAdjust;
