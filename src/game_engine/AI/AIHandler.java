@@ -74,6 +74,7 @@ public class AIHandler {
 			newBranches = mySearcher.getShortestPath(currentPosition);
 			myShortestPaths.put(currentPosition, newBranches);
 		}
+		System.out.println("NEW BRANCHES: " + newBranches);
 		if(newBranches != null){
 			myUnitPaths.put(u, newBranches);
 			configureMovement(u, newBranches);
