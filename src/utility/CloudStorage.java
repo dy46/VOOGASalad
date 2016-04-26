@@ -26,7 +26,8 @@ public class CloudStorage {
         this.devToken = dt;
         BoxAPIConnection api = new BoxAPIConnection(devToken);
         BoxUser.Info userInfo = BoxUser.getCurrentUser(api).getInfo();
-        System.out.format("Welcome, %s <%s>!\n\n", userInfo.getName(), userInfo.getLogin());
+        System.out.println("Thanks for logging in!"); 
+//        System.out.format("Welcome, %s <%s>!\n\n", userInfo.getName(), userInfo.getLogin());
         this.rootFolder = BoxFolder.getRootFolder(api);
         this.currentFolder = this.rootFolder;
         tb = new TextBot(RESOURCE_PATH);
