@@ -46,7 +46,6 @@ public class CloudStorageFrontend {
 				);
 		this.myRoot.setStyle("-fx-background-color: #292929;");
 		this.myRoot.setPrefSize(800, 800); 
-//		this.myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet"));
 		myStage.setScene(this.myScene);
 		myStage.show();
 		myStage.toFront();
@@ -74,10 +73,7 @@ public class CloudStorageFrontend {
 		try {
 			ContextMenu prefWindow = new ContextMenu(); 
 			File dir = chooser.showDialog(prefWindow.getOwnerWindow());
-			if (dir == null) {
-				System.out.println("Cancel button pressed"); 
-			}
-			else {
+			if (dir != null) {
 				String path = dir.getPath(); 
 				CloudStorage c = new CloudStorage(this.myDevKey);
 				c.uploadFolder(path);
@@ -93,10 +89,7 @@ public class CloudStorageFrontend {
 		try {
 			ContextMenu prefWindow = new ContextMenu();
 		    File f = chooser.showOpenDialog(prefWindow.getOwnerWindow());
-	        if (f == null) {
-	        	System.out.println("Cancel button pressed");
-	        }
-	        else {
+	        if (f != null) {
 		        CloudStorage c = new CloudStorage(this.myDevKey);
 		        c.uploadFile(f.getAbsolutePath(), f.getName());
 		        this.printResults(c);
