@@ -1,3 +1,4 @@
+
 package auth_environment.view;
 
 import java.util.ArrayList;
@@ -7,16 +8,10 @@ import java.util.ResourceBundle;
 import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
-<<<<<<< HEAD
-
-import auth_environment.view.Workspaces.GlobalGameTab;
-import auth_environment.view.Workspaces.PathTab;
-=======
 import auth_environment.view.tabs.AnimationLoaderTab;
 import auth_environment.view.tabs.GlobalGameTab;
 import auth_environment.view.tabs.PathTab;
 import auth_environment.view.tabs.LevelOverviewTab;
-import auth_environment.view.tabs.MapEditorTab;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Tab;
@@ -52,24 +47,14 @@ public class AuthView implements IAuthView {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-<<<<<<< HEAD
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.authModel); 
-    	PathTab pathTab = new PathTab(this.authModel); 
-    	MapEditorTab mapTab = new MapEditorTab(this.authModel);
-=======
     	GlobalGameTab globalGameTab = new GlobalGameTab(this.globalAuthModel); 
     	PathTab pathTab = new PathTab(this.globalAuthModel); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
->>>>>>> auth-environment
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
     	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
 //    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
-<<<<<<< HEAD
-    	tabs.add(new Tab("Map Editor", mapTab.getRoot()));
-=======
     	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));
->>>>>>> auth-environment
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
