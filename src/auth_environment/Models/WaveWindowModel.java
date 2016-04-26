@@ -16,14 +16,20 @@ public class WaveWindowModel implements IWaveWindowModel {
     private UnitLibrary myLibrary;
     private ILevelOverviewTabModel levelOverview;
     
+    public WaveWindowModel(UnitLibrary lib, ILevelOverviewTabModel levelOverview) {
+    	this.myLibrary = lib;
+    	this.levelOverview = levelOverview; 
+    }
+    
     public WaveWindowModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
         this.myWave = new Wave(name, spawnTime);
         this.myLibrary = lib;
         this.levelOverview = levelOverview;
     }
     
-    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames) {
-        Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes);
+    @Override 
+    public Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave) {
+        Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes, timeBeforeWave);
         levelOverview.addToCreatedWaves(level, w);
         return w;
     }

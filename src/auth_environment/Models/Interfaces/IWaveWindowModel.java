@@ -2,6 +2,8 @@ package auth_environment.Models.Interfaces;
 
 import java.util.List;
 
+import game_engine.game_elements.Wave;
+
 public interface IWaveWindowModel {
     static final int DEFAULT_TIME = 240;
     
@@ -12,6 +14,9 @@ public interface IWaveWindowModel {
      * @param    name represents the name of the unit to be added
      */
     void addSpawningUnit(String name);
+    
+    Wave createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave);
+
     /*
      * Adds a unit associated with a specific name. If the unit does not exist in the library,
      * nothing is added to the list of units and an error is thrown.

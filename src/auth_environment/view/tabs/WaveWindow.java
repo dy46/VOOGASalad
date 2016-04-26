@@ -41,8 +41,8 @@ public class WaveWindow {
 		this.spawningNames = new ArrayList<ComboBox<String>>();
 		this.placingNames = new ArrayList<ComboBox<String>>();
 		this.spawningTimes = new ArrayList<TextField>();
-//		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
-//				level+wave, ); 
+		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
+				this.myLevelOverviewTabModel); 
 		
 		Stage stage = new Stage();
 		Group root = new Group();
@@ -90,7 +90,7 @@ public class WaveWindow {
 			st.add(Integer.parseInt(hb.getText()));
 		}
 		
-		//createWave(title,level, sn, st, pn);
+		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4);
 	}
 
 	private void centerStage(Stage stage){
