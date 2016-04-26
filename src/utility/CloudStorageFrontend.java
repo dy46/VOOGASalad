@@ -6,12 +6,12 @@ import java.util.ResourceBundle;
 import com.twilio.sdk.TwilioRestException;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
-import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -27,11 +27,11 @@ public class CloudStorageFrontend {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
     private static final String MESSAGE = "new files have been uploaded!";
-	private static final String DEVELOPER_TOKEN = "lr976BMHY8Nm9NGys7J5KYV6Qy6PRNwJ";
 
 	private Scene myScene;
-	
 	private VBox myRoot;
+	private TextField myKeyInput; 
+	private String myDevKey = "";
 
 	public CloudStorageFrontend () {
 		this.init(); 
@@ -45,6 +45,7 @@ public class CloudStorageFrontend {
 		this.myScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll( 
 				this.buildBoxImage(),
+				this.buildKeyInput(),
 				this.buildFileButton(),
 				this.buildAnimation()
 				);
@@ -83,7 +84,7 @@ public class CloudStorageFrontend {
 			}
 			else {
 				String path = dir.getPath(); 
-				CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
+				CloudStorage c = new CloudStorage(this.myDevKey);
 				c.uploadFolder(path);
 				this.printResults(c);
 			}
@@ -100,13 +101,30 @@ public class CloudStorageFrontend {
 	        	System.out.println("Cancel button pressed");
 	        }
 	        else {
-		        CloudStorage c = new CloudStorage(DEVELOPER_TOKEN);
+		        CloudStorage c = new CloudStorage(this.myDevKey);
 		        c.uploadFile(f.getAbsolutePath(), f.getName());
 		        this.printResults(c);
 	        }
 		} catch (FileNotFoundException e) {
 			System.out.println("Invalid developer token"); 
 		}
+	}
+	
+	private HBox buildKeyInput() {
+		this.myKeyInput = new TextField();
+		this.myKeyInput.setPromptText("Enter account key");
+		this.myKeyInput.setOnAction(e -> this.myDevKey = this.myKeyInput.getText());
+		
+		Button submitButton = new Button("Submit");
+		submitButton.setOnAction(e -> this.myDevKey = this.myKeyInput.getText());
+		
+		HBox hb = new HBox(); 
+		hb.setPadding(new Insets(10));
+		hb.setSpacing(10);
+		hb.getChildren().addAll(this.myKeyInput, submitButton);
+		hb.setAlignment(Pos.CENTER);
+		
+		return hb;
 	}
 	
 	private HBox buildBoxImage() {
@@ -127,8 +145,8 @@ public class CloudStorageFrontend {
 	}
 	
 	private ImageView buildAnimation() {
-		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("catKeyboard.gif")));
-//		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
+		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("drippyDrops.gif")));
+		animation.setFitWidth(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")));
 		return animation;
 	}
  	
