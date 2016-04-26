@@ -73,10 +73,34 @@ public class AIHandler {
 	
 	public void updateBranchPaths(HashMap<Branch, List<Branch>> branchPaths){
 		this.cachedBranchPaths = branchPaths;
+		Iterator<Branch> it = branchPaths.keySet().iterator();
+		while(it.hasNext()){
+			updateUnitsWithBranch(it.next());
+		}
+	}
+	
+	private void updateUnitsWithBranch(Branch branch){
+		for(Unit u : this.getActiveAIEnemies()){
+			if(u.getProperties().getMovement().getBranches().contains(branch)){
+				u.getProperties().getMovement().setBranches(cachedBranchPaths.get(branch));
+			}
+		}
+	}
+	
+	private void updateUnitsAtPos(Position pos){
+		for(Unit u : this.getActiveAIEnemies()){
+			if(u.getProperties().getPosition().equals(pos)){
+				u.getProperties().getMovement().setBranches(cachedPosPaths.get(pos));
+			}
+		}
 	}
 	
 	public void updatePosPaths(HashMap<Position, List<Branch>> posPaths){
 		this.cachedPosPaths = posPaths;
+		Iterator<Position> it = posPaths.keySet().iterator();
+		while(it.hasNext()){
+			updateUnitsAtPos(it.next());
+		}
 	}
 
 	private void updateBranches(Unit u){
@@ -95,7 +119,7 @@ public class AIHandler {
 			newBranches = cachedBranchPaths.get(currBranch);
 		}
 		else{
-			newBranches = mySearcher.getShortestPath(currPos);
+			newBranches = mySearcher.getPathToAnyGoal(currPos);
 			cachedPosPaths.put(currPos, newBranches);
 			cachedBranchPaths.put(currBranch, newBranches);
 		}

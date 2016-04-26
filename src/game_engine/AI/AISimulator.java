@@ -54,7 +54,7 @@ public class AISimulator {
 					if(continueSearch(cachedBranchPath, visibilityBranches)){
 						List<Branch> cachedPosPath = posPaths.get(currPos);
 						if(continueSearch(cachedPosPath, visibilityBranches)){
-							List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
+							List<Branch> newShortestPath = myAISearcher.getPathToGoal(currPos, goal, visibilityBranches);
 							if(newShortestPath == null || simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
 								return false;
 							}

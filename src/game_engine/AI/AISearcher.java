@@ -1,6 +1,7 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -101,6 +102,44 @@ public class AISearcher {
 			}
 		}
 		return true;
+	}
+	
+	public List<Branch> getPathToGoal(Position current, Position goal, List<Branch> visibilityBranches){
+		return getPathToAnyGoal(current, visibilityBranches, Arrays.asList(goal));
+	}
+	
+	public List<Branch> getPathToAnyGoal(Position current){
+		return getPathToAnyGoal(current, this.myVisibility.getVisibilityBranches());
+	}
+	
+	public List<Branch> getPathToAnyGoal(Position current, List<Branch> visibilityBranches){
+		return getPathToAnyGoal(current, visibilityBranches, myEngine.getLevelController().getCurrentLevel().getGoals());
+	}
+	
+	private List<Branch> getPathToAnyGoal(Position current, List<Branch> visibilityBranches, List<Position> goals){
+		HashMap<Branch, List<Branch>> BFSVisitedMap = getBFSVisitedMap(visibilityBranches, current);
+		Iterator<Branch> it = BFSVisitedMap.keySet().iterator();
+		while(it.hasNext()){
+			Branch start = (Branch) it.next();
+			List<Branch> branchList = BFSVisitedMap.get(start);
+			for(Branch branch : branchList){
+				for(Position pos : branch.getPositions()){
+					for(Position goal : goals){
+						if(pos.equals(goal)){
+							List<Branch> path = getOrderedPath(branchList, start, branch);
+							if(path != null){
+								return path;
+							}
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private List<Branch> getOrderedPath(List<Branch> branchList, Branch start, Branch goal) {
+		return dijkstrasShortestPath(start, goal, branchList);
 	}
 
 	public List<Branch> dijkstrasShortestPath(Branch start, Branch goal, List<Branch> visibilityBranches){
