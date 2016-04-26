@@ -1,6 +1,5 @@
 package game_engine;
 
-import java.util.ArrayList;
 import java.util.List;
 import game_engine.game_elements.Level;
 

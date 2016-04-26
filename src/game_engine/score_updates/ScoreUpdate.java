@@ -18,15 +18,17 @@ public abstract class ScoreUpdate {
     }
 
     public void updateScoreFromUnitList (List<Unit> unitList, GameEngineInterface engineWorkspace) {
-        unitList.stream().forEach(e -> engineWorkspace.getLevelController().setScore(engineWorkspace.getLevelController().getScore() +
+        unitList.stream().forEach(e -> engineWorkspace.getLevelController()
+                .setScore(engineWorkspace.getLevelController().getScore() +
                           e.getProperties().getPrice().getValue()));
     }
 
     public void removeAllInvisibleEnemies (GameEngineInterface engineWorkspace,
                                            Level currentLevel) {
-        engineWorkspace.getUnitController().getUnitType("Enemy")
-                .removeIf(e -> currentLevel.isEnemyAtGoal(e));
-        engineWorkspace.getUnitController().getUnitType("Enemy").removeIf(e -> !e.isVisible());
+        engineWorkspace.getUnitController().getPlacedUnits()
+                .removeIf(e -> currentLevel.isEnemyAtGoal(e) && e.toString().contains("Enemy"));
+        engineWorkspace.getUnitController().getPlacedUnits()
+                .removeIf(e -> !e.isVisible() && e.toString().contains("Enemy"));
     }
 
 }
