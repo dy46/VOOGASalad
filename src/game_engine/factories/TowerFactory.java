@@ -12,6 +12,7 @@ import game_engine.properties.Health;
 import game_engine.properties.Mass;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
+import game_engine.properties.Price;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
@@ -55,7 +56,7 @@ public class TowerFactory {
 		Affector move = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
 		move.setTTL(Integer.MAX_VALUE);
 		Unit p =
-				new Unit("Tack", Arrays.asList(move), 3);
+				new Unit("TackProjectile", Arrays.asList(move), 3);
 		p.setDeathDelay(30);
 		p.setTTL(60);
 		Velocity velocity = new Velocity(0.5, 180);
@@ -184,7 +185,7 @@ public class TowerFactory {
 			Position startingPosition,
 			Store myStore) {
 		List<Unit> myProjectiles = new ArrayList<>();
-		//		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
+//		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
 		Affector move = myAffectorLibrary.getAffector("Cursor", "Direction");
 		move.setTTL(Integer.MAX_VALUE);
 		Unit p =

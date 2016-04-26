@@ -21,6 +21,7 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
+    
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;
@@ -115,7 +116,6 @@ public class Branch implements Serializable{
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
 			return null;
 		}
-//		System.out.println("MOVE TOWARDS: " + moveTowards);
 		Map<Position, Position> use = moveTowards.equals(myPositions.get(0)) ? backwardPositions : forwardPositions;
 		if(use.containsKey(currentPosition)){
 			return use.get(currentPosition);
@@ -133,14 +133,6 @@ public class Branch implements Serializable{
 		}
 	}
 
-	//	public Branch copyBranch(){
-	//		Branch newPath = new Branch();
-	//		this.myPositions.forEach(t -> {
-	//			newPath.addPosition(t.copyPosition());
-	//		});
-	//		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
-	//		return newPath;
-	//	}
 
 	/*
 	 * this should probably be deprecated because when units are moving along paths 
@@ -180,12 +172,6 @@ public class Branch implements Serializable{
 		}
 		return myPositions.get(myPositions.size()-1);
 	}
-
-	//	public Position getSecondPosition(){
-	//		if(getMyP().size() <= 1)
-	//			return null;
-	//		return getAllPositions().get(1);
-	//	}
 
 	public void addNeighbor(Branch neighbor){
 		this.myNeighbors.add(neighbor);

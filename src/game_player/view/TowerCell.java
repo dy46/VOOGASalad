@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 
 public class TowerCell extends ListCell<Unit> {
 
+    public static final String EXTENSION = ".png";
+    
     public TowerCell () {
         super();
     }
@@ -18,17 +20,17 @@ public class TowerCell extends ListCell<Unit> {
         if (empty) {
             setText(null);
             setGraphic(null);
-        }
-        else {
-            ImageView image = createImageView(item);
-            setText(String.valueOf(7734));
+        } else {
+        	ImageView image = createImageView(item);
+//            setText(String.valueOf(item.getProperties().getPrice().getValue()));
+            setText("FUCK");
             setGraphic(image);
         }
     }
 
     private ImageView createImageView (Unit unit) {
         String name = unit.toString();
-        Image image = new Image(name + ".png");
+        Image image = new Image(name + EXTENSION);
         ImageView imageView = new ImageView(image);
         return imageView;
     }

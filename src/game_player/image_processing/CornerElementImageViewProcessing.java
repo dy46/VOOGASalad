@@ -17,8 +17,7 @@ public class CornerElementImageViewProcessing extends ImageViewProcessing {
     @Override
     public void processImageView (Unit myUnit) {
         boolean isCornerElement =
-                GameView.testUnitTypePreference(myUnit.toString(), LEFT_CORNER_ELEMENTS,
-                                                getResourceBundle());
+                getResourceBundle().testUnitTypePreference(myUnit.toString(), LEFT_CORNER_ELEMENTS);
         double offsetX = isCornerElement ? 0 : -getMainImageView().getImage().getWidth() / 2;
         double offsetY = isCornerElement ? 0 : -getMainImageView().getImage().getHeight() / 2;
         getMainImageView().setX(myUnit.getProperties().getPosition().getX() + offsetX);

@@ -10,14 +10,15 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Map.Entry;
-
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
+
 /**
  * This class is a utility Artificial Intelligence searcher that allows for search problems.
  * A search problem is composed of a list of branches, which compose a "path graph".
+ * 
  * @author adamtache
  *
  */
@@ -31,14 +32,14 @@ public class AISearcher {
 		this.myEngine = engine;
 		this.myVisibility = new VisibilityHandler(engine);
 	}
-	
+
 	public List<Branch> getShortestPath(Position current){
 		return getShortestPath(current, myVisibility.getVisibilityBranches());
 	}
 
 	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
 		List<Position> goals = new ArrayList<>();
-		goals.addAll(myEngine.getCurrentLevel().getGoals());
+		goals.addAll(myEngine.getLevelController().getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
 		if(sortedGoals.size() == 0){
 			return null;
@@ -77,8 +78,8 @@ public class AISearcher {
 	}
 
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
-		for(Position goal : myEngine.getCurrentLevel().getGoals()){
-			for(Position spawn : myEngine.getCurrentLevel().getSpawns()){
+		for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
+			for(Position spawn : myEngine.getLevelController().getCurrentLevel().getSpawns()){
 				if(BFSPossible(visibilityBranches, spawn, goal)){
 					return false;
 				}

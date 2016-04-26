@@ -17,8 +17,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-
 public class PlayerMainTab implements IPlayerTab {
+    
     private static final int TOP_PADDING = 5;
     private static final int RIGHT_PADDING = 10;
     private static final int BOTTOM_PADDING = 5;
@@ -110,7 +110,7 @@ public class PlayerMainTab implements IPlayerTab {
     }
 
     private void createUISections () {
-        gameSection = new VBox(PANEL_PADDING);
+        gameSection = new VBox();
         configurationPanel = new VBox(PANEL_PADDING);
         gameMenu = new VBox(PANEL_PADDING);
         gamePanel = new VBox(PANEL_PADDING);

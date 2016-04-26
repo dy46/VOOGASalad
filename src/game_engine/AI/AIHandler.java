@@ -14,9 +14,12 @@ import game_engine.physics.DirectionHandler;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
 
+
 /**
  * This class handles configuration of artificially intelligent Units for a game engine.
- * This includes properly configuring movement (branches, position, direction) based on game factors.
+ * This includes properly configuring movement (branches, position, direction) based on game
+ * factors.
+ * 
  * @author adamtache
  *
  */
@@ -63,7 +66,7 @@ public class AIHandler {
 		List<Branch> newBranches = new ArrayList<>();
 		Position currentPosition = u.getProperties().getPosition();
 		if(currentPosition == null){
-			currentPosition = myEngine.getCurrentLevel().getSpawns().get(0);
+			currentPosition = myEngine.getLevelController().getCurrentLevel().getSpawns().get(0);
 			if(currentPosition == null)
 				return;
 		}
@@ -81,38 +84,40 @@ public class AIHandler {
 		}
 	}
 
-	private void configureMovement(Unit u, List<Branch> newBranches) {
-		Movement myMovement = u.getProperties().getMovement();
-		List<Branch> currentBranches = myMovement.getBranches();
-		Position currentPosition = u.getProperties().getPosition();
-		if(currentPosition == null){
-			return;
-		}
-		else if(currentBranches == null || currentBranches.size() == 0){
-			if(newBranches != null){
-				myMovement.setBranches(newBranches);
-				myMovement.initializeCurrentBranch(newBranches.get(0));
-				myMovement.initializeMovingTowards();
-			}
-			return;
-		}
-		if(newBranches.get(0).equals(currentBranches.get(0))){
-			if(!newBranches.get(1).equals(currentBranches.get(1))){
-				Position newBranchFirstPos = newBranches.get(1).getFirstPosition();
-				Position newBranchLastPos = newBranches.get(1).getLastPosition();
-				double dirToFirstPos = DirectionHandler.getDirectionBetween(currentPosition, newBranchFirstPos);
-				double dirToLastPos = DirectionHandler.getDirectionBetween(currentPosition, newBranchLastPos);
-				double currDir = u.getProperties().getVelocity().getDirection();
-				if(currDir == dirToFirstPos || currDir == dirToLastPos)
-					u.turnAround();
-			}
-		}
-	}
+    private void configureMovement (Unit u, List<Branch> newBranches) {
+        Movement myMovement = u.getProperties().getMovement();
+        List<Branch> currentBranches = myMovement.getBranches();
+        Position currentPosition = u.getProperties().getPosition();
+        if (currentPosition == null) {
+            return;
+        }
+        else if (currentBranches == null || currentBranches.size() == 0) {
+            if (newBranches != null) {
+                myMovement.setBranches(newBranches);
+                myMovement.initializeCurrentBranch(newBranches.get(0));
+                myMovement.initializeMovingTowards();
+            }
+            return;
+        }
+        if (newBranches.get(0).equals(currentBranches.get(0))) {
+            if (!newBranches.get(1).equals(currentBranches.get(1))) {
+                Position newBranchFirstPos = newBranches.get(1).getFirstPosition();
+                Position newBranchLastPos = newBranches.get(1).getLastPosition();
+                double dirToFirstPos =
+                        DirectionHandler.getDirection(currentPosition, newBranchFirstPos);
+                double dirToLastPos =
+                        DirectionHandler.getDirection(currentPosition, newBranchLastPos);
+                double currDir = u.getProperties().getVelocity().getDirection();
+                if (currDir == dirToFirstPos || currDir == dirToLastPos)
+                    u.turnAround();
+            }
+        }
+    }
 
 	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
-		List<Unit> activeEnemies = myEngine.getCurrentLevel().getCurrentWave().getSpawningUnitsLeft();
-		List<Unit> allEnemies = myEngine.getCurrentLevel().getCurrentWave().getSpawningUnits();
+		List<Unit> activeEnemies = myEngine.getLevelController().getCurrentLevel().getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myEngine.getLevelController().getCurrentLevel().getCurrentWave().getSpawningUnits();
 		for(Unit e : allEnemies){
 			if(e.isAlive() && e.isAlive() && e.isVisible() && !activeEnemies.contains(e)){
 				activeEnemies.add(e);
@@ -128,17 +133,17 @@ public class AIHandler {
 		return new ArrayList<>(AI);
 	}
 
-	public List<Branch> getBranchesAtPos(Position pos) {
-		List<Branch> branches = new ArrayList<>();
-		for(Branch b : myEngine.getBranches()){
-			for(Position p : b.getPositions()){
-				if(p.equals(pos)){
-					branches.add(b);
-				}
-			}
-		}
-		return branches;
-	}
+    public List<Branch> getBranchesAtPos (Position pos) {
+        List<Branch> branches = new ArrayList<>();
+        for (Branch b : myEngine.getBranches()) {
+            for (Position p : b.getPositions()) {
+                if (p.equals(pos)) {
+                    branches.add(b);
+                }
+            }
+        }
+        return branches;
+    }
 
 	public HashMap<Unit, List<Branch>> getUnitPaths() {
 		return myUnitPaths;
