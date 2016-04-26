@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import auth_environment.IAuthEnvironment;
 import game_engine.AI.AIHandler;
+import game_engine.AI.AISearcher;
+import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
 import game_engine.factories.FunctionFactory;
 import game_engine.game_elements.Branch;
@@ -47,6 +49,8 @@ public class EngineWorkspace implements GameEngineInterface{
 	private List<Unit> unitsToRemove;
 	private Position cursorPos;
 	private AIHandler myAIHandler;
+	private AISimulator myAISimulator;
+	private AISearcher myAISearcher;
 
 	public void setUpEngine (IAuthEnvironment data) {
 		myAIHandler = new AIHandler(this);
@@ -333,6 +337,20 @@ public class EngineWorkspace implements GameEngineInterface{
 	@Override
 	public void updateAIBranches() {
 		myAIHandler.updateAIBranches();
+	}
+	
+	@Override
+	public AIHandler getAIHandler() {
+		return myAIHandler;
+	}
+	
+	@Override
+	public AISearcher getAISearcher() {
+		return myAISearcher;
+	}
+	
+	public AISimulator getAISimulator(){
+		return myAISimulator;
 	}
 
 }

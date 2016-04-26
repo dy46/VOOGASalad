@@ -25,7 +25,7 @@ public class MapHandler {
 		myGridBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-		insertTestBranches();
+//		insertTestBranches();
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Branch> gridBranches, List<Branch> visualBranches){

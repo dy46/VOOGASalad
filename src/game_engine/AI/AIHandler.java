@@ -3,6 +3,7 @@ package game_engine.AI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.AIPathFollowAffector;
@@ -24,33 +25,58 @@ public class AIHandler {
 
 	private GameEngineInterface myEngine;
 	private AISearcher mySearcher;
+	private HashMap<Position, List<Branch>> myShortestPaths;
+	private HashMap<Unit, List<Branch>> myUnitPaths;
 
 	public AIHandler(GameEngineInterface engine){
 		this.myEngine = engine;
-		this.mySearcher = new AISearcher(engine);
+		this.mySearcher = engine.getAISearcher();
+		myShortestPaths = new HashMap<>();
+		myUnitPaths = new HashMap<>();
 	}
 
 	public void updateAIBranches() {
 		List<Unit> activeAI = getActiveAIEnemies();
-		HashMap<Position, List<Branch>> pathMap = new HashMap<>();
 		for(Unit u : activeAI){
-			Position currentPosition = u.getProperties().getPosition();
-			List<Branch> newBranches = new ArrayList<>();
-			if(currentPosition == null){
-				currentPosition = myEngine.getCurrentLevel().getSpawns().get(0);
-				if(currentPosition == null)
-					return;
-			}
-			if(pathMap.containsKey(currentPosition)){
-				newBranches = pathMap.get(currentPosition);
+			List<Branch> currentPath = u.getProperties().getMovement().getBranches();
+			if(currentPath.size() == 0){
+				System.out.println("ADDING BRANCHES");
+				updateBranches(u);
 			}
 			else{
-				newBranches = mySearcher.getShortestPath(currentPosition);
-				pathMap.put(currentPosition, newBranches);
+				myUnitPaths.put(u, currentPath);
 			}
-			if(newBranches != null){
-				configureMovement(u, newBranches);
-			}
+		}
+	}
+	
+	public void updateAIBranches(HashMap<Unit, List<Branch>> unitPaths){
+		this.myUnitPaths = unitPaths;
+		Iterator<Unit> it = unitPaths.keySet().iterator();
+		while(it.hasNext()){
+			System.out.println("NEW BRANCH FROM UNIT PATH MAP");
+			Unit next = it.next();
+			next.getProperties().getMovement().setBranches(unitPaths.get(next));
+		}
+	}
+
+	private void updateBranches(Unit u){
+		List<Branch> newBranches = new ArrayList<>();
+		Position currentPosition = u.getProperties().getPosition();
+		if(currentPosition == null){
+			currentPosition = myEngine.getCurrentLevel().getSpawns().get(0);
+			if(currentPosition == null)
+				return;
+		}
+		if(myShortestPaths.containsKey(currentPosition)){
+			newBranches = myShortestPaths.get(currentPosition);
+		}
+		else{
+			newBranches = mySearcher.getShortestPath(currentPosition);
+			myShortestPaths.put(currentPosition, newBranches);
+		}
+		if(newBranches != null){
+			myUnitPaths.put(u, newBranches);
+			configureMovement(u, newBranches);
 		}
 	}
 
@@ -87,7 +113,7 @@ public class AIHandler {
 		List<Unit> activeEnemies = myEngine.getCurrentLevel().getCurrentWave().getSpawningUnitsLeft();
 		List<Unit> allEnemies = myEngine.getCurrentLevel().getCurrentWave().getSpawningUnits();
 		for(Unit e : allEnemies){
-			if(e.isAlive() && !activeEnemies.contains(e)){
+			if(e.isAlive() && e.isAlive() && e.isVisible() && !activeEnemies.contains(e)){
 				activeEnemies.add(e);
 			}
 		}
@@ -111,6 +137,10 @@ public class AIHandler {
 			}
 		}
 		return branches;
+	}
+
+	public HashMap<Unit, List<Branch>> getUnitPaths() {
+		return myUnitPaths;
 	}
 
 }

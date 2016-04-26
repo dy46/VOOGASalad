@@ -11,6 +11,8 @@ import auth_environment.paths.MapHandler;
 import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.AI.AIHandler;
+import game_engine.AI.AISearcher;
+import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -75,10 +77,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private TerrainFactory myTerrainFactory;
 	
 	private AIHandler myAIHandler;
+	private AISimulator myAISimulator;
+	private AISearcher myAISearcher;
 
 	public TestingEngineWorkspace () {};
 
 	public void setUpEngine (IAuthEnvironment test) {
+		myAISimulator = new AISimulator(this);
+		myAISearcher = new AISearcher(this);
 		myAIHandler = new AIHandler(this);
 		score = 0;
 		unitsToRemove = new ArrayList<>();
@@ -176,7 +182,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-//		mh.createGrid();
+		mh.createGrid();
 		myBranches = mh.getEngineBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
@@ -226,9 +232,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		//		w.addSpawningUnit(e3, 60);
 		//		w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-		w.addSpawningUnit(AI2, 60);
-		w.addSpawningUnit(AI3, 60);
-		w.addSpawningUnit(AI4, 60);
+//		w.addSpawningUnit(AI2, 60);
+//		w.addSpawningUnit(AI3, 60);
+//		w.addSpawningUnit(AI4, 60);
 		//		w.addSpawningUnit(rand1, 60);
 		//		w.addSpawningUnit(rand2, 60);
 		//		w.addSpawningUnit(rand3, 60);
@@ -517,7 +523,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 				Unit copy = purchased.copyUnit();
 				copy.getProperties().setPosition(x, y);
 				myTowers.add(copy);
-//				updateAIBranches();
 				return true;
 			}
 			else {
@@ -671,6 +676,20 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	@Override
 	public void updateAIBranches() {
 		myAIHandler.updateAIBranches();
+	}
+
+	@Override
+	public AIHandler getAIHandler() {
+		return myAIHandler;
+	}
+	
+	@Override
+	public AISearcher getAISearcher() {
+		return myAISearcher;
+	}
+	
+	public AISimulator getAISimulator(){
+		return myAISimulator;
 	}
 
 }

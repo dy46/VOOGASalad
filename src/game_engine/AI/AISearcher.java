@@ -205,4 +205,18 @@ public class AISearcher {
 		return visibleNeighbors.get(0);
 	}
 
+	public boolean isValidSearchProblem(List<Branch> path, List<Branch> visibilityBranches) {
+		for(Branch b : path){
+			boolean contained = true;
+			for(Branch v : visibilityBranches){
+				if(b.equals(v)){
+					contained = true;
+				}
+			}
+			if(!contained)
+				return false;
+		}
+		return true;
+	}
+
 }

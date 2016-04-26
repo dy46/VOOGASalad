@@ -1,5 +1,6 @@
 package game_engine.AI;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,33 +21,47 @@ public class AISimulator {
 
 	private GameEngineInterface myEngine;
 	private AISearcher myAISearcher;
-	private VisibilityHandler myVisibility;
 	private AIHandler myAIHandler;
+	private VisibilityHandler myVisibility;
 
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;
 		this.myAISearcher = new AISearcher(engine);
-		this.myAIHandler = new AIHandler(engine);
+		this.myAIHandler = engine.getAIHandler();
 		this.myVisibility = new VisibilityHandler(engine);
 	}
 
 	public boolean simulateEnemyPathFollowing(Unit obstacle) {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
 		List<Unit> enemies = myAIHandler.getActiveAIEnemies();
+		HashMap<Unit, List<Branch>> unitPaths = new HashMap<>();
+		HashMap<Unit, List<Branch>> oldUnitPaths = myAIHandler.getUnitPaths();
 		for(Unit e : enemies){
 			Position current = e.getProperties().getPosition();
+			List<Branch> oldShortestPath = oldUnitPaths.get(e);
 			for(Position goal : myEngine.getCurrentLevel().getGoals()){
-				List<Branch> shortestPath = myAISearcher.getShortestPathToGoal(current, goal, visibilityBranches);
-				if(shortestPath != null){
-					if(simulateEnemyBranchCollisions(e, shortestPath, obstacle)){
+				if(!myAISearcher.isValidSearchProblem(oldShortestPath, visibilityBranches)){
+					System.out.println("OLD PATH NOT VALID ANYMORE");
+					List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(current, goal, visibilityBranches);
+					if(newShortestPath != null){
+						if(simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
+							return false;
+						}
+						else{
+							unitPaths.put(e, newShortestPath);
+						}
+					}
+					else{
 						return false;
 					}
 				}
 				else{
-					return false;
+					System.out.println("OLD PATH STILL VALID");
+					unitPaths.put(e, oldShortestPath);
 				}
 			}
 		}
+		myAIHandler.updateAIBranches(unitPaths);
 		return true;
 	}
 
