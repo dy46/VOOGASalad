@@ -27,6 +27,8 @@ public class CloudStorageFrontend {
 	private VBox myRoot;
 	private TextField myKeyInput; 
 	private String myDevKey = "";
+	private CloudStorage c; 
+
 
 	public CloudStorageFrontend () {
 		this.init(); 
@@ -75,7 +77,6 @@ public class CloudStorageFrontend {
 			File dir = chooser.showDialog(prefWindow.getOwnerWindow());
 			if (dir != null) {
 				String path = dir.getPath(); 
-				CloudStorage c = new CloudStorage(this.myDevKey);
 				c.uploadFolder(path);
 				this.printResults(c);
 			}
@@ -90,7 +91,6 @@ public class CloudStorageFrontend {
 			ContextMenu prefWindow = new ContextMenu();
 		    File f = chooser.showOpenDialog(prefWindow.getOwnerWindow());
 	        if (f != null) {
-		        CloudStorage c = new CloudStorage(this.myDevKey);
 		        c.uploadFile(f.getAbsolutePath(), f.getName());
 		        this.printResults(c);
 	        }
@@ -102,10 +102,24 @@ public class CloudStorageFrontend {
 	private HBox buildKeyInput() {
 		this.myKeyInput = new TextField();
 		this.myKeyInput.setPromptText("Enter account key");
-		this.myKeyInput.setOnAction(e -> this.myDevKey = this.myKeyInput.getText());
+		this.myKeyInput.setOnAction(e -> {
+			this.myDevKey = this.myKeyInput.getText();
+			try {
+				this.c = new CloudStorage(this.myDevKey);
+			} catch (Exception e1) {
+				System.out.println("Invalid developer token"); 
+			}
+		});
 		
 		Button submitButton = new Button("Submit");
-		submitButton.setOnAction(e -> this.myDevKey = this.myKeyInput.getText());
+		submitButton.setOnAction(e -> {
+			this.myDevKey = this.myKeyInput.getText();
+			try {
+				this.c = new CloudStorage(this.myDevKey);
+			} catch (Exception e1) {
+				System.out.println("Invalid developer token"); 
+			}
+		});
 		
 		HBox hb = new HBox(); 
 		hb.setPadding(new Insets(10));
