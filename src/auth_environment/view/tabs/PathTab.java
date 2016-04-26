@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Level;
+import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
@@ -55,13 +57,14 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.setupBorderPane();
-		String gridHeaderText = "You have the option to have a default grid for extension.";
-		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
-		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
-		if(confirmation){
-			this.myModel.createGrid();
-		}
+//		String gridHeaderText = "You have the option to have a default grid for extension.";
+//		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
+//		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+//		if(confirmation){
+//			this.myModel.createGrid();
+//		}
 		currentBranch = new ArrayList<>();
+		this.testSpawnUnits();
 		this.drawMap();
 	}
 
@@ -85,6 +88,22 @@ public class PathTab implements IWorkspace {
 		center.getChildren().addAll(this.buildTextInput(),
 				this.buildMainCanvas()); 
 		return center; 
+	}
+	
+	// TODO: test method, please remove when finished 
+	private void testSpawnUnits() {
+		// Option 1: CTRL-Click and create a Unit and set its Position accordingly. 
+		this.myBorderPane.setOnMouseClicked(e -> {
+			if (e.isControlDown()) {
+				Level l = this.myAuth.getLevels().get(0); 
+				Unit u = l.getWaves().get(0).getSpawningUnits().get(0); 
+				u.getProperties().setPosition(e.getSceneX(), e.getSceneY());
+				System.out.println("Unit spawned at: " + e.getSceneX() + ", " + e.getSceneY()); 
+				this.myAuth.getPlacedUnits().add(u); // TODO: bad code, remove later
+				System.out.println("Current placed unit types: "); 
+				this.myAuth.getPlacedUnits().stream().forEach(a -> System.out.println(a));
+			}
+		});
 	}
 
 	// TODO: remove after testing
@@ -157,7 +176,6 @@ public class PathTab implements IWorkspace {
 
 	private void clearMap(){
 		canvasPane.getChildren().clear();
-
 	}
 
 	private void drawMap() {
