@@ -6,6 +6,7 @@ import game_data.AuthSerializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
 import game_engine.TestingEngineWorkspace;
+import game_engine.TestingGameData;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
@@ -14,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 
 
 public class PlayerGUI {
+
     private static final double TABS_OFFSET = 0;
     private static final double NEWTAB_OFFSET = 33;
     private static final String GUI_RESOURCE = "game_player/resources/GUI";
@@ -62,10 +64,11 @@ public class PlayerGUI {
     }
 
     private void createNewTab () {
-        gameEngine = new TestingEngineWorkspace();
-        gameEngine.setUpEngine(null);
-//        gameEngine = new EngineWorkspace();
-//        gameEngine.setUpEngine(readData());
+//        gameEngine = new TestingEngineWorkspace();
+//        gameEngine.setUpEngine(null);
+        gameEngine = new EngineWorkspace();
+        TestingGameData testData = new TestingGameData();
+        gameEngine.setUpEngine(testData);
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))

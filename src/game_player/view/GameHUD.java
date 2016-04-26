@@ -79,14 +79,14 @@ public class GameHUD {
             children.add(child);
         }
         sellButton.setText(myResources.getString("HUDSellButton"));
-        sellButton.setOnMouseClicked(e -> engine.sellUnit(tower));
+        sellButton.setOnMouseClicked(e -> engine.getUnitController().sellUnit(tower));
     }
 
     public void addUpgrades (Unit u) {
-        for (int i = 0; i < engine.getUpgrades(u).size(); i++) {
+        for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
             Button upgradeButton = new Button();
-            Affector affector = engine.getUpgrades(u).get(i);
-            upgradeButton.setOnMouseClicked(e -> engine.applyUpgrade(u, affector));
+            Affector affector = engine.getUnitController().getUpgrades(u).get(i);
+            upgradeButton.setOnMouseClicked(e -> engine.getUnitController().applyUpgrade(u, affector));
             upgradeButton.setText(affector.getClass().getSimpleName());
             upgrades.add(upgradeButton);
             HUDBox.getChildren().add(upgradeButton);

@@ -1,7 +1,7 @@
 package game_player.image_processing;
 
 import game_engine.game_elements.Unit;
-import game_player.utilties.ResourceBundleSymbolProcessor;
+import game_player.utilties.UnitTypeResourceBundleProcessor;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
@@ -9,13 +9,13 @@ import javafx.scene.layout.Pane;
 public abstract class ImageViewProcessing {
     
     public static final String RESOURCE_BUNDLE_LINK = "game_player/resources/UnitTypePreferences";
-    private ResourceBundleSymbolProcessor myPreferencesBundle;
+    private UnitTypeResourceBundleProcessor myPreferencesBundle;
     private ImageView mainImageView;
     private Pane root;
     
     public ImageViewProcessing(ImageView mainImageView, Pane root) {
         this.root = root;
-        this.myPreferencesBundle = new ResourceBundleSymbolProcessor();
+        this.myPreferencesBundle = new UnitTypeResourceBundleProcessor();
         this.myPreferencesBundle.addPatterns(RESOURCE_BUNDLE_LINK);
         this.mainImageView = mainImageView;
     }
@@ -24,7 +24,7 @@ public abstract class ImageViewProcessing {
     
     public abstract void removeFromRoot();
     
-    public ResourceBundleSymbolProcessor getResourceBundle() {
+    public UnitTypeResourceBundleProcessor getResourceBundle() {
         return myPreferencesBundle;
     }
     

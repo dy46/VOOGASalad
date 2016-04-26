@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 public class ImageViewPicker extends UnitImageView {
 
     public static final String EXTENSION = ".png";
+    public static final String RESOURCE_URL = "game_player/resources/animation";
     private ResourceBundle myAnimationBundle;
     private String currState;
     private int numFrames;
@@ -25,7 +26,7 @@ public class ImageViewPicker extends UnitImageView {
         this.numFrames = u.getNumFrames();
         this.currFrame = 0;
         this.currState = u.getProperties().getState().getString();
-        this.myAnimationBundle = ResourceBundle.getBundle("game_engine/animation_rates/animation");
+        this.myAnimationBundle = ResourceBundle.getBundle(RESOURCE_URL);
         initImageViewProcesses();
     }
     

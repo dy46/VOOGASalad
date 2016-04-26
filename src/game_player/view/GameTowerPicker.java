@@ -60,7 +60,7 @@ public class GameTowerPicker implements IGUIObject {
     }
 
     private void updateTowerList () {
-        List<Unit> allTowerTypes = myEngine.getTowerTypes();
+        List<Unit> allTowerTypes = myEngine.getUnitController().getTowerTypes();
         for (int i = myTowers.size(); i < allTowerTypes.size(); i++) {
             if (!hasUnitImageView(allTowerTypes.get(i), myTowers)) {
                 myTowers.add(allTowerTypes.get(i));
