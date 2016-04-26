@@ -43,7 +43,7 @@ public class AIHandler {
 		for(Unit u : activeAI){
 			List<Branch> currentPath = u.getProperties().getMovement().getBranches();
 			if(currentPath.size() == 0){
-				System.out.println("ADDING BRANCHES");
+//				System.out.println("ADDING BRANCHES");
 				updateBranches(u);
 			}
 			else{
@@ -56,7 +56,7 @@ public class AIHandler {
 		this.myUnitPaths = unitPaths;
 		Iterator<Unit> it = unitPaths.keySet().iterator();
 		while(it.hasNext()){
-			System.out.println("NEW BRANCH FROM UNIT PATH MAP");
+//			System.out.println("NEW BRANCH FROM UNIT PATH MAP");
 			Unit next = it.next();
 			next.getProperties().getMovement().setBranches(unitPaths.get(next));
 		}
@@ -77,7 +77,7 @@ public class AIHandler {
 			newBranches = mySearcher.getShortestPath(currentPosition);
 			myShortestPaths.put(currentPosition, newBranches);
 		}
-		System.out.println("NEW BRANCHES: " + newBranches);
+//		System.out.println("NEW BRANCHES: " + newBranches);
 		if(newBranches != null){
 			myUnitPaths.put(u, newBranches);
 			configureMovement(u, newBranches);

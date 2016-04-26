@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
@@ -80,7 +79,7 @@ public class AISearcher {
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
 		for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
 			for(Position spawn : myEngine.getLevelController().getCurrentLevel().getSpawns()){
-				if(BFSPossible(visibilityBranches, spawn, goal)){
+				if(!BFSPossible(visibilityBranches, spawn, goal)){
 					return false;
 				}
 			}
@@ -137,10 +136,9 @@ public class AISearcher {
 			manhattanDistanceMap.put(getManhattanDistance(current, goal), goal);
 		}
 		List<Position> sorted = new ArrayList<>();
-		Iterator it = manhattanDistanceMap.entrySet().iterator();
+		Iterator<Position> it = manhattanDistanceMap.values().iterator();
 		while(it.hasNext()){
-			Entry<Double, Position> entry = (Entry<Double, Position>) it.next();
-			sorted.add(entry.getValue());
+			sorted.add(it.next());
 		}
 		return sorted;
 	}
@@ -165,7 +163,7 @@ public class AISearcher {
 	}
 
 	private HashMap<Branch, List<Branch>> getBFSVisitedMap(List<Branch> visibilityBranches, Position current){
-		if(!myVisibility.positionVisibleCheck(visibilityBranches, current)){
+		if(!myVisibility.isPositionVisible(visibilityBranches, current)){
 			return new HashMap<>();
 		}
 		List<Branch> startBranches = myEngine.getBranchesAtPos(current);
