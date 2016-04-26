@@ -36,17 +36,17 @@ public class AISimulator {
 		collisionDetector = new CollisionDetector(engine);
 	}
 
-	public boolean simulateEnemyPathFollowing(Unit obstacle) {
+	public boolean simulateTowerPlacement(Unit obstacle) {
 		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
+		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
+			return false;
+		}
 		HashMap<Branch, List<Branch>> newBranchPaths = new HashMap<>();
 		HashMap<Position, List<Branch>> newPosPaths = new HashMap<>();
 		HashMap<Unit, List<Branch>> newUnitPaths = new HashMap<>();
 		HashMap<Branch, List<Branch>> cachednewBranchPaths = myAIHandler.getBranchPaths();
 		HashMap<Position, List<Branch>> cachednewPosPaths = myAIHandler.getPositionPaths();
 		HashMap<Unit, List<Branch>> cachednewUnitPaths = myAIHandler.getUnitPaths();
-		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
-			return false;
-		}
 		for(Unit e : myAIHandler.getActiveAIEnemies()){
 			Position currPos = e.getProperties().getPosition();
 			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
@@ -58,8 +58,7 @@ public class AISimulator {
 						List<Branch> cachedPosPath = cachednewPosPaths.get(currPos);
 						if(continueSearch(cachedPosPath, visibilityBranches)){
 							List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
-							if(newShortestPath == null || simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
-								System.out.println("SIMULATION FAILS");
+							if(newShortestPath == null || simulatedCollision(e, newShortestPath, obstacle)){
 								return false;
 							}
 							else{
@@ -89,7 +88,7 @@ public class AISimulator {
 		return path == null || !myAISearcher.isValidSearchProblem(path, visibility);
 	}
 
-	private boolean simulateEnemyBranchCollisions (Unit enemy, List<Branch> newBranches, Unit obstacle) {
+	private boolean simulatedCollision (Unit enemy, List<Branch> newBranches, Unit obstacle) {
 		List<Unit> obstacles = myEngine.getUnitController().getUnitType("Tower");
 		List<Unit> obstaclesCopy =
 				obstacles.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());

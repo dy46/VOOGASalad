@@ -119,7 +119,7 @@ public class AISearcher {
 			if (currentNode.equals(branchGoal)) {
 				List<Branch> visitedList = new ArrayList<>(visitedNodes);
 				if(isValidGoalDirection(branchGoal, goal, visitedList.get(visitedList.size() - 1)))
-						break;
+					break;
 			} else {
 				for (Branch nextNode : currentNode.getNeighbors()) {
 					if (!visitedNodes.contains(nextNode)) {
@@ -142,12 +142,15 @@ public class AISearcher {
 		shortestPath.add(getValidGoalBranch(shortestPath.get(shortestPath.size() - 1).getLastPosition(), goal));
 		return shortestPath;
 	}
-	
+
 	private Branch getValidGoalBranch(Position lastPos, Position goal){
 		return new Branch(Arrays.asList(lastPos, goal));
 	}
 
 	private boolean isValidGoalDirection(Branch branchGoal, Position goal, Branch previousBranch) {
+		System.out.println("PREVIOUS BRANCH: " + previousBranch + " NEIGHBORS: " + previousBranch.getNeighbors());
+		if(!previousBranch.getNeighbors().contains(branchGoal))
+			return false;
 		Position lastPos = previousBranch.getLastPosition();
 		Branch validGoalBranch = getValidGoalBranch(lastPos, goal);
 		return branchGoal.equals(validGoalBranch);

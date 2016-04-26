@@ -181,6 +181,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		MapHandler mh = new MapHandler();
 		mh.createGrid();
 		myBranches = mh.getEngineBranches();
+		for(Branch b : myBranches){
+			System.out.println(b+ " Neighbors: " + b.getNeighbors());
+		}
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
