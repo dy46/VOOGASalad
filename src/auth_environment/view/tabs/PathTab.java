@@ -82,7 +82,8 @@ public class PathTab implements IWorkspace {
 	private Node buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		center.getChildren().addAll(this.buildTextInput(),
+		center.getChildren().addAll(
+				this.buildTextInput(),
 				this.buildMainCanvas()); 
 		return center; 
 	}
@@ -212,6 +213,7 @@ public class PathTab implements IWorkspace {
 
 	private void addClickHandlers(Canvas canvas) {
 		this.canvasPane.setOnMouseClicked(e -> {
+			System.out.println("mouse clicked"); 
 			//		canvas.setOnMouseClicked(e -> {
 			if(drawingIndex == 0){
 				this.addPosition(e.getX(), e.getY());
