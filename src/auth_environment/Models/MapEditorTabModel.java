@@ -19,7 +19,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;
-		myTerrains = auth.getTerrains();
+		myTerrains = auth.getUnitFactory().getUnitLibrary().getUnits();
 	}
 
 //	public List<Unit> getSampleUnits() {
