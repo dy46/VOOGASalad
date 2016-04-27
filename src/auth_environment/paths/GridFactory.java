@@ -42,7 +42,7 @@ public class GridFactory extends PathGraphFactory{
 					List<Position> branchEndPos = Arrays.asList(pos, neighbor1);
 					branchPosLists.add(myPositionHandler.getInterpolatedPositions(branchEndPos, false)); 
 				}
-				if((c+1) < grid[0].length){
+				if((c+1) < grid[r].length){
 					Position neighbor2 = grid[r][c+1];
 					List<Position> branchEndPos = Arrays.asList(pos, neighbor2);
 					branchPosLists.add(myPositionHandler.getInterpolatedPositions(branchEndPos, false)); 

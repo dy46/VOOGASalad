@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Wave extends GameElement {
 
     private List<Unit> mySpawningUnits;
@@ -12,7 +11,6 @@ public class Wave extends GameElement {
     private int myCurrentUnit;
     private int timeSinceLastSpawn;
     private int timeBeforeWave;
-
 
     public Wave (String name, int time) {
         super(name);
@@ -24,7 +22,11 @@ public class Wave extends GameElement {
         timeSinceLastSpawn = 0;
     }
 
-    public Wave (String name, List<Unit> spawning, List<Unit> placing, List<Integer> spawnTimes, int timeBeforeWave) {
+    public Wave (String name,
+                 List<Unit> spawning,
+                 List<Unit> placing,
+                 List<Integer> spawnTimes,
+                 int timeBeforeWave) {
         super(name);
         this.timeBeforeWave = timeBeforeWave;
         mySpawningUnits = spawning;
@@ -56,13 +58,14 @@ public class Wave extends GameElement {
     public void addPlacingUnit (Unit e) {
         myPlacingUnits.add(e);
     }
-    
-    public void removePlacingUnit(int index){
-    	myPlacingUnits.remove(index);
+
+    public void removePlacingUnit (int index) {
+        myPlacingUnits.remove(index);
     }
-    public void removeSpawningUnit(int index){
-    	mySpawningUnits.remove(index);
-    	mySpawnTimes.remove(index);
+
+    public void removeSpawningUnit (int index) {
+        mySpawningUnits.remove(index);
+        mySpawnTimes.remove(index);
     }
 
     public List<Unit> getSpawningUnits () {
@@ -72,7 +75,7 @@ public class Wave extends GameElement {
     public List<Unit> getPlacingUnits () {
         return myPlacingUnits;
     }
-    
+
     public Unit tryToSpawnUnit () {
         timeSinceLastSpawn++;
         if (myCurrentUnit < mySpawningUnits.size() &&
@@ -83,5 +86,5 @@ public class Wave extends GameElement {
         }
         return null;
     }
-    
+
 }

@@ -1,6 +1,7 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,15 +10,16 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Map.Entry;
-
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
+
 
 /**
  * This class is a utility Artificial Intelligence searcher that allows for search problems.
  * A search problem is composed of a list of branches, which compose a "path graph".
+ * 
  * @author adamtache
  *
  */
@@ -31,14 +33,14 @@ public class AISearcher {
 		this.myEngine = engine;
 		this.myVisibility = new VisibilityHandler(engine);
 	}
-	
+
 	public List<Branch> getShortestPath(Position current){
 		return getShortestPath(current, myVisibility.getVisibilityBranches());
 	}
 
 	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
 		List<Position> goals = new ArrayList<>();
-		goals.addAll(myEngine.getCurrentLevel().getGoals());
+		goals.addAll(myEngine.getLevelController().getCurrentLevel().getGoals());
 		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
 		if(sortedGoals.size() == 0){
 			return null;
@@ -67,7 +69,7 @@ public class AISearcher {
 		List<Branch> bestPath = null;
 		for(Branch s : startBranches){
 			for(Branch g: goalBranches){
-				bestPath = dijkstrasShortestPath(s, g, visibilityBranches);
+				bestPath = dijkstrasShortestPath(s, g, visibilityBranches, goal);
 				if(bestPath != null){
 					return bestPath;
 				}
@@ -77,9 +79,15 @@ public class AISearcher {
 	}
 
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
-		for(Position goal : myEngine.getCurrentLevel().getGoals()){
-			for(Position spawn : myEngine.getCurrentLevel().getSpawns()){
-				if(BFSPossible(visibilityBranches, spawn, goal)){
+		for(Unit u : this.myEngine.getUnitController().getUnitType("Enemy")){
+			Branch currentBranch = u.getProperties().getMovement().getCurrentBranch();
+			if(!visibilityBranches.contains(currentBranch)){
+				return false;
+			}
+		}
+		for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
+			for(Position spawn : myEngine.getLevelController().getCurrentLevel().getSpawns()){
+				if(!BFSPossible(visibilityBranches, spawn, goal)){
 					return false;
 				}
 			}
@@ -87,7 +95,16 @@ public class AISearcher {
 		return true;
 	}
 
-	public List<Branch> dijkstrasShortestPath(Branch start, Branch goal, List<Branch> visibilityBranches){
+	public boolean isValidSearchProblem(List<Branch> path, List<Branch> visibilityBranches) {
+		for(Branch b : path){
+			if(!visibilityBranches.contains(b)){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public List<Branch> dijkstrasShortestPath(Branch start, Branch branchGoal, List<Branch> visibilityBranches, Position goal){
 		HashMap<Branch, Branch> nextNodeMap = new HashMap<>();
 		Branch currentNode = start;
 		Queue<Branch> queue = new LinkedList<>();
@@ -99,18 +116,14 @@ public class AISearcher {
 			if(currentNode == null){
 				break;
 			}
-			if (currentNode.equals(goal)) {
-				break;
+			if (currentNode.equals(branchGoal)) {
+				List<Branch> visitedList = new ArrayList<>(visitedNodes);
+				if(isValidGoalDirection(branchGoal, goal, visitedList.get(visitedList.size() - 1)))
+						break;
 			} else {
 				for (Branch nextNode : currentNode.getNeighbors()) {
 					if (!visitedNodes.contains(nextNode)) {
-						boolean isVisible = false;
-						for(Branch v : visibilityBranches){
-							if(v.equals(nextNode)){
-								isVisible = true;
-							}
-						}
-						if(isVisible){
+						if(visibilityBranches.contains(nextNode)){
 							queue.add(nextNode);
 							visitedNodes.add(nextNode);
 							nextNodeMap.put(currentNode, nextNode);
@@ -119,15 +132,25 @@ public class AISearcher {
 				}
 			}
 		}
-		if (!currentNode.equals(goal)) {
+		if (!currentNode.equals(branchGoal)) {
 			return null;
 		}
 		List<Branch> shortestPath = new LinkedList<>();
 		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
 			shortestPath.add(node);
 		}
-		shortestPath.add(goal);
+		shortestPath.add(getValidGoalBranch(shortestPath.get(shortestPath.size() - 1).getLastPosition(), goal));
 		return shortestPath;
+	}
+	
+	private Branch getValidGoalBranch(Position lastPos, Position goal){
+		return new Branch(Arrays.asList(lastPos, goal));
+	}
+
+	private boolean isValidGoalDirection(Branch branchGoal, Position goal, Branch previousBranch) {
+		Position lastPos = previousBranch.getLastPosition();
+		Branch validGoalBranch = getValidGoalBranch(lastPos, goal);
+		return branchGoal.equals(validGoalBranch);
 	}
 
 	private List<Position> manhattanDistanceSort(Position current, List<Position> goals){
@@ -136,10 +159,9 @@ public class AISearcher {
 			manhattanDistanceMap.put(getManhattanDistance(current, goal), goal);
 		}
 		List<Position> sorted = new ArrayList<>();
-		Iterator it = manhattanDistanceMap.entrySet().iterator();
+		Iterator<Position> it = manhattanDistanceMap.values().iterator();
 		while(it.hasNext()){
-			Entry<Double, Position> entry = (Entry<Double, Position>) it.next();
-			sorted.add(entry.getValue());
+			sorted.add(it.next());
 		}
 		return sorted;
 	}
@@ -164,7 +186,7 @@ public class AISearcher {
 	}
 
 	private HashMap<Branch, List<Branch>> getBFSVisitedMap(List<Branch> visibilityBranches, Position current){
-		if(!myVisibility.positionVisibleCheck(visibilityBranches, current)){
+		if(!myVisibility.isPositionVisible(visibilityBranches, current)){
 			return new HashMap<>();
 		}
 		List<Branch> startBranches = myEngine.getBranchesAtPos(current);

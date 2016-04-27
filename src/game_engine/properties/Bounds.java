@@ -36,6 +36,16 @@ public class Bounds extends Property {
         }
         return str;
     }
+    
+
+    public List<Position> getUseableBounds (Position pos) {
+            List<Position> newBounds = new ArrayList<Position>();
+            for (Position p : this.getPositions()) {
+                    Position newP = new Position(p.getX() + pos.getX(), p.getY() + pos.getY());
+                    newBounds.add(newP);
+            }
+            return newBounds;
+    }
 
     @Override
     public List<Double> getValues () {

@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import game_engine.properties.Position;
 
@@ -21,6 +20,7 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
+
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;
@@ -115,7 +115,6 @@ public class Branch implements Serializable{
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
 			return null;
 		}
-//		System.out.println("MOVE TOWARDS: " + moveTowards);
 		Map<Position, Position> use = moveTowards.equals(myPositions.get(0)) ? backwardPositions : forwardPositions;
 		if(use.containsKey(currentPosition)){
 			return use.get(currentPosition);
@@ -133,14 +132,6 @@ public class Branch implements Serializable{
 		}
 	}
 
-	//	public Branch copyBranch(){
-	//		Branch newPath = new Branch();
-	//		this.myPositions.forEach(t -> {
-	//			newPath.addPosition(t.copyPosition());
-	//		});
-	//		newPath.addNeighbors(myNeighbors.stream().map(b -> b.copyBranch()).collect(Collectors.toList()));
-	//		return newPath;
-	//	}
 
 	/*
 	 * this should probably be deprecated because when units are moving along paths 
@@ -180,12 +171,6 @@ public class Branch implements Serializable{
 		}
 		return myPositions.get(myPositions.size()-1);
 	}
-
-	//	public Position getSecondPosition(){
-	//		if(getMyP().size() <= 1)
-	//			return null;
-	//		return getAllPositions().get(1);
-	//	}
 
 	public void addNeighbor(Branch neighbor){
 		this.myNeighbors.add(neighbor);
@@ -258,19 +243,14 @@ public class Branch implements Serializable{
 		return forwards;
 	}
 
-	public boolean equals(Branch branch){
-		if(branch.getPositions() == null && this.getPositions() == null){
-			return true;
-		}
-		else if(branch.getPositions().size() == 0 && this.getPositions().size() == 0){
-			return true;
-		}
-		for(int x=0; x<branch.getPositions().size(); x++){
-			if(this.getPositions().size() > x && !branch.getPositions().get(x).equals(this.getPositions().get(x))){
-				return false;
-			}
-		}
-		return true;
+	@Override
+	public int hashCode(){
+		return 16;
+	}
+
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Branch && myPositions.equals(((Branch) o).getPositions());
 	}
 
 	public void removeNeighbor(Branch b) {
@@ -288,26 +268,26 @@ public class Branch implements Serializable{
 		}
 		return copy;
 	}
-	
+
 	public Branch copyBranch() {
-        Branch obj = null;
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(bos);
-            out.writeObject(this);
-            out.flush();
-            out.close();
-            ObjectInputStream in = new ObjectInputStream(
-                new ByteArrayInputStream(bos.toByteArray()));
-            obj = (Branch) in.readObject();
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
-        catch(ClassNotFoundException cnfe) {
-            cnfe.printStackTrace();
-        }
-        return obj;
-    }
+		Branch obj = null;
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream out = new ObjectOutputStream(bos);
+			out.writeObject(this);
+			out.flush();
+			out.close();
+			ObjectInputStream in = new ObjectInputStream(
+					new ByteArrayInputStream(bos.toByteArray()));
+			obj = (Branch) in.readObject();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		catch(ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
+		}
+		return obj;
+	}
 
 }

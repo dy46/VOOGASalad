@@ -79,7 +79,7 @@ public class Movement {
 		if(nextPosition == null){
 			nextPosition = myPosition;
 		}
-		return DirectionHandler.getDirectionBetween(myPosition, nextPosition);
+		return DirectionHandler.getDirection(myPosition, nextPosition);
 	}
 
 	public Position getNextPosition(){

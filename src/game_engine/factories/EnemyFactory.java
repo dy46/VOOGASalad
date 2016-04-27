@@ -44,7 +44,7 @@ public class EnemyFactory {
         e.getProperties().setPosition(spawn);
 		return e;
 	}
-
+    
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
         moveAffector.setTTL(Integer.MAX_VALUE);

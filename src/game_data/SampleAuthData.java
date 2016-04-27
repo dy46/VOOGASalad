@@ -7,9 +7,13 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
 /**
@@ -238,5 +242,41 @@ public class SampleAuthData implements IAuthEnvironment {
 	public List<Branch> getGridBranches() {
 		return myGridBranches;
 	}
+	
+    @Override
+    public UnitFactory getUnitFactory () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setUnitFactory (UnitFactory factory) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public FunctionFactory getFunctionFactory () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setFunctionFactory (FunctionFactory factory) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public AffectorFactory getAffectorFactory () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setAffectorFactory (AffectorFactory factory) {
+        // TODO Auto-generated method stub
+        
+    }
 	
 }

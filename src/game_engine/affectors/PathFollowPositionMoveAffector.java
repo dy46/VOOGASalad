@@ -14,25 +14,28 @@ import game_engine.properties.Position;
  * based on a sampled version of the path that has been drawn out for them.
  * 
  */
+
+// TODO: Discuss whether this class is necessary. If so, update range path follow position as well.
+
 public class PathFollowPositionMoveAffector extends PathFollowAffector {
 
-	public PathFollowPositionMoveAffector(AffectorData data){
-		super(data);
-	}
+    public PathFollowPositionMoveAffector (AffectorData data) {
+        super(data);
+    }
 
-	@Override
-	public void apply (Unit u) {
-		super.apply(u);
-	}
-	           
-	public Position getNextPosition(Unit u){
-		Movement move = u.getProperties().getMovement();
-		Branch currentBranch = move.getCurrentBranch();
-		if(currentBranch == null){
-			return null;
-		}
-		Position next = move.getNextPosition();
-		return next == null ? null : next;
-	}
-	
+    @Override
+    public void apply (Unit u) {
+        super.apply(u);
+    }
+
+    public Position getNextPosition (Unit u) {
+        Movement move = u.getProperties().getMovement();
+        Branch currentBranch = move.getCurrentBranch();
+        if (currentBranch == null) {
+            return null;
+        }
+        Position next = move.getNextPosition();
+        return next == null ? null : next;
+    }
+
 }

@@ -143,13 +143,6 @@ public class AffectorFactory {
 		AffectorData d10 = new AffectorData();
 		constructAffector(pr10, e10, d10);
 
-		//		String pr11 = "Explosion";
-		//		String e11 = "Radius";
-		//		List<List<Function>> f11 = new ArrayList<>();
-		//		List<List<String>> p11 = Arrays.asList(Arrays.asList("Damage"));
-		//		AffectorData d11 = new AffectorData(f11, p11);
-		//		constructAffector(pr11, e11, d11);
-
 		String property12 = "Position";
 		String effect12 = "Move";
 		List<List<Function>> f12 = new ArrayList<>();
@@ -172,15 +165,6 @@ public class AffectorFactory {
 		p14.add(null);
 		AffectorData d14 = new AffectorData(f14, p14);
 		constructAffector(property14, effect14, d14);
-
-		//		String pr15 = "MoveTo";
-		//		String e15 = "Spawn";
-		//		Function function1 = myFunctionFactory.createConstantFunction(0);
-		//		Function function2 = myFunctionFactory.createConstantFunction(0);
-		//		List<List<Function>> f15 = Arrays.asList(Arrays.asList(function1, function2));
-		//		List<List<String>> p15 = Arrays.asList(Arrays.asList("Position"));
-		//		AffectorData d15 = new AffectorData(f15, p15);
-		//		constructAffector(pr15, e15, d15);
 //		
 //		String property15 = "Velocity";
 //		String effect15 = "Stop";
