@@ -1,12 +1,15 @@
 package auth_environment.Models;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.MapHandler;
+import auth_environment.view.BoundLine;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
@@ -34,6 +37,8 @@ public class PathTabModel implements IPathTabModel {
 	private List<Position> mySpawns;
 	
 	// TODO: reselect a branch by clicking on the corresponding BoundLine (GUI element) 
+	private Map<BoundLine, Branch> myBranchMap; 
+	
 	
 	// ComboBox contents
 	private List<Level> myLevels;
@@ -44,6 +49,7 @@ public class PathTabModel implements IPathTabModel {
 
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
+		this.myBranchMap = new HashMap<BoundLine, Branch>(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 		this.myCurrentBranch = new ArrayList<Position>(); 
 		this.myVisualBranches = auth.getVisualBranches();
@@ -155,6 +161,16 @@ public class PathTabModel implements IPathTabModel {
 	public List<Unit> getWaveUnits(String selectedWave) {
 		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
 		return this.currentWave.getSpawningUnitsLeft();
+	}
+
+	@Override
+	public Branch reselectBranch(BoundLine line) {
+		return this.myBranchMap.get(line); 
+	}
+
+	@Override
+	public void saveBranch(BoundLine line, Branch branch) {
+		this.myBranchMap.put(line, branch); 
 	}
 
 }

@@ -3,6 +3,7 @@ package auth_environment.Models.Interfaces;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.view.BoundLine;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -42,5 +43,9 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public List<String> getWaveNames(String selectedLevel); 
 	
 	public List<Unit> getWaveUnits(String selectedWave); 
+	
+	public Branch reselectBranch(BoundLine line); 
+	
+	public void saveBranch(BoundLine line, Branch branch); 
 	
 }

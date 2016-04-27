@@ -11,6 +11,7 @@ import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.dialogs.ConfirmationDialog;
+import auth_environment.view.BoundLine;
 import auth_environment.view.UnitPicker;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
