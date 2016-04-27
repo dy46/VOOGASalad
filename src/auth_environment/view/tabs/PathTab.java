@@ -216,7 +216,8 @@ public class PathTab implements IWorkspace {
 			this.addBoundLine(lastPosDrawn.getX(), 
 					lastPosDrawn.getY(), 
 					currPos.getX(), 
-					currPos.getY());
+					currPos.getY(),
+					branch);
 			lastPosDrawn = currPos;
 			displayPoint(currPos);
 		}
@@ -254,12 +255,14 @@ public class PathTab implements IWorkspace {
 		return canvasPane; 
 	}
 
-	private void addBoundLine(double startX, double startY, double endX, double endY) {
-		this.canvasPane.getChildren().add(new BoundLine(new SimpleDoubleProperty(startX),
+	private void addBoundLine(double startX, double startY, double endX, double endY, Branch branch) {
+		BoundLine b = new BoundLine(new SimpleDoubleProperty(startX),
 				new SimpleDoubleProperty(startY),
 				new SimpleDoubleProperty(endX),
-				new SimpleDoubleProperty(endY)
-				));
+				new SimpleDoubleProperty(endY));
+		this.myPathTabModel.saveBranch(b, branch);
+		b.setOnMouseClicked(e -> this.myPathTabModel.reselectBranch(b)); 
+		this.canvasPane.getChildren().add(b); 
 	}
 
 	private void addClickHandlers(Canvas canvas) {

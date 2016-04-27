@@ -165,6 +165,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public Branch reselectBranch(BoundLine line) {
+		System.out.println("BoundLine " + line.toString() + " selected!"); 
 		return this.myBranchMap.get(line); 
 	}
 
