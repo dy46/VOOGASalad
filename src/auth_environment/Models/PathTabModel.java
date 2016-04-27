@@ -33,6 +33,8 @@ public class PathTabModel implements IPathTabModel {
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
 	
+	// TODO: reselect a branch by clicking on the corresponding BoundLine (GUI element) 
+	
 	// ComboBox contents
 	private List<Level> myLevels;
 	private Level currentLevel;

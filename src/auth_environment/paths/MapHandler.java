@@ -36,9 +36,10 @@ public class MapHandler {
 		//		insertTestBranches();
 	}
 
-	public void processPositions(List<Position> positions){
+	public Branch processPositions(List<Position> positions){
 		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);
+		return this.myPGF.getBranches().get(this.myPGF.getBranches().size()-1);
 	}
 
 	public void splinePositions(List<Position> positions){
