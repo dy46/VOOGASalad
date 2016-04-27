@@ -7,17 +7,19 @@ import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class BranchHandler {
-	
+
 	public void configureBranch(Branch newBranch, PathGraph myPath){
-		Position startPos = newBranch.getFirstPosition();
-		Position endPos = newBranch.getLastPosition();
-		configureBranchesWithEdgePos(newBranch, myPath, startPos);
-		if(startPos != null && endPos !=null && !startPos.equals(endPos)){
-			configureBranchesWithEdgePos(newBranch, myPath, endPos);
-		}
-		configureMidBranchSplits(newBranch, myPath, startPos);
-		if(startPos != null && endPos !=null && !startPos.equals(endPos)){
-			configureMidBranchSplits(newBranch, myPath, endPos);
+		if(!myPath.getBranches().contains(newBranch)){
+			Position startPos = newBranch.getFirstPosition();
+			Position endPos = newBranch.getLastPosition();
+			configureBranchesWithEdgePos(newBranch, myPath, startPos);
+			if(startPos != null && endPos !=null && !startPos.equals(endPos)){
+				configureBranchesWithEdgePos(newBranch, myPath, endPos);
+			}
+			configureMidBranchSplits(newBranch, myPath, startPos);
+			if(startPos != null && endPos !=null && !startPos.equals(endPos)){
+				configureMidBranchSplits(newBranch, myPath, endPos);
+			}
 		}
 	}
 
@@ -58,5 +60,5 @@ public class BranchHandler {
 			myPath.addBranch(newSplitBranch);
 		}
 	}
-	
+
 }
