@@ -156,7 +156,6 @@ public class MapEditorTab implements IWorkspace {
 //					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
 //					System.out.println(db.getImage());
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
-					
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 					if(target.getClass().getName().equals("Pane")){
 						

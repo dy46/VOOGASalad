@@ -7,7 +7,6 @@ import auth_environment.Models.UnitView;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.ElementTab;
 import game_engine.game_elements.Unit;
-import javafx.event.ActionEvent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -50,10 +49,6 @@ public class UnitPicker{
 		myEditPane.setCollapsible(false);
 	}
 	
-	public List<UnitView> getUnitViews() {
-		return this.myUnitViews;
-	}
-	
 	public void setUnits(List<Unit> units) {
 		this.myUnitViews.clear();
 		this.myEditInfo.getChildren().clear();
@@ -65,7 +60,7 @@ public class UnitPicker{
 	public void setDragable(){
 //		myUnitViews.stream().forEach(s->addUnitViewSource(s));
 		myUnitViews.stream().forEach(e -> {
-			DragDelegate drag= new DragDelegate();
+			DragDelegate drag = new DragDelegate();
 			drag.addUnitViewSource(e);
 		});
 	}

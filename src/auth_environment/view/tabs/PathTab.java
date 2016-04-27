@@ -4,20 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import game_engine.game_elements.Branch;
+import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
+import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
 import auth_environment.view.UnitPicker;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -57,7 +66,7 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.setupBorderPane();
-		currentBranch = new ArrayList<>();
+		this.currentBranch = new ArrayList<>();
 		this.drawMap();
 	}
 
@@ -88,7 +97,7 @@ public class PathTab implements IWorkspace {
 	private Node buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		
+
 		center.getChildren().addAll(
 				this.buildTextInput(),
 				this.canvasPane); 
@@ -100,7 +109,7 @@ public class PathTab implements IWorkspace {
 	private Node buildRight() {
 		VBox right = this.myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		
+
 		right.getChildren().addAll(this.buildComboBoxes());
 		return right; 
 	}
@@ -235,7 +244,7 @@ public class PathTab implements IWorkspace {
 	private void drawGoals() {
 		this.myPathTabModel.getGoals().forEach(s -> this.displayGoalPoint(s));
 	}
-	
+
 	private void addBoundLine(double startX, double startY, double endX, double endY, Branch branch) {
 		BoundLine b = new BoundLine(new SimpleDoubleProperty(startX),
 				new SimpleDoubleProperty(startY),
@@ -243,8 +252,6 @@ public class PathTab implements IWorkspace {
 				new SimpleDoubleProperty(endY));
 		this.myPathTabModel.saveBranch(b, branch);
 		b.setOnMouseClicked(e -> this.myPathTabModel.reselectBranch(b)); 
-//		b.setOnKeyPressed(e -> System.out.println(e.getCode())); 
-		
 		this.canvasPane.getChildren().add(b); 
 	}
 
@@ -323,9 +330,60 @@ public class PathTab implements IWorkspace {
 		this.canvasPane.getChildren().add(circle); 
 	}
 
+	private void setupSpawnDrag(Circle spawn) {
+	}
+
 	@Override
 	public Node getRoot() {
 		return this.myBorderPane;
+	}
+
+	public void setUpNodeTarget(Circle target, UnitPicker picker) {
+
+		target.setOnDragOver(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				//					System.out.println("Dragging over Node...");
+				event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+				event.consume();
+			}
+		});
+
+		target.setOnDragEntered(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				//					System.out.println("Drag entered...");
+				//					if (event.getGestureSource() != target &&
+				//							event.getDragboard().hasString()) {
+				//					}
+				event.consume();
+			}
+		});
+
+		target.setOnDragExited(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				/* mouse moved away, remove the graphical cues */
+				//					System.out.println("Drag exited...");
+				event.consume();
+			}
+		});
+
+		target.setOnDragDropped(new EventHandler<DragEvent>() {
+			public void handle(DragEvent event) {
+				event.acceptTransferModes(TransferMode.COPY);
+				//					System.out.println("Drag dropped...");
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if (db.hasString()) {
+					UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
+					Position pos = new Position(target.getCenterX() + target.getRadius(), 
+							target.getCenterY() + target.getRadius()); 
+					uv.getUnit().getProperties().setMovement(new Movement(pos));
+					uv.getUnit().getProperties().setPosition(pos);
+					success = true;
+				}
+				event.setDropCompleted(success);
+				event.consume();
+			}
+		});
 	}
 
 }
