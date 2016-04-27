@@ -45,7 +45,7 @@ public class PathTab implements IWorkspace {
 	private ComboBox<String> waveComboBox; 
 	private UnitPicker myUnitPicker; 
 
-	private IPathTabModel myModel;
+	private IPathTabModel myPathTabModel;
 	private IAuthEnvironment myAuth;
 	private IAuthModel myAuthModel;
 	
@@ -55,7 +55,7 @@ public class PathTab implements IWorkspace {
 	public PathTab(IAuthModel auth) {
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
-		this.myModel = new PathTabModel(this.myAuth); 
+		this.myPathTabModel = new PathTabModel(this.myAuth); 
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
@@ -69,13 +69,13 @@ public class PathTab implements IWorkspace {
 		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
 		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
 		if(confirmation){
-			this.myModel.createGrid();
+			this.myPathTabModel.createGrid();
 		}
 	}
 
 	private void refresh() {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
-		this.myModel.refresh(this.myAuth);
+		this.myPathTabModel.refresh(this.myAuth);
 		this.buildLevelComboBox();
 		this.drawMap();
 	}
@@ -110,16 +110,17 @@ public class PathTab implements IWorkspace {
 		
 		this.levelComboBox = new ComboBox<String>();
 		this.waveComboBox = new ComboBox<String>(); 
+		this.myUnitPicker = new UnitPicker("Units to Spawn"); 
 		
 		this.buildLevelComboBox();
 		
-		vb.getChildren().addAll(this.levelComboBox, this.waveComboBox); 
+		vb.getChildren().addAll(this.levelComboBox, this.waveComboBox, this.myUnitPicker.getRoot()); 
 		return vb; 
 	}
 	
 	private void buildLevelComboBox() {
 		if (!this.myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
-			this.myModel.getLevelNames().stream().forEach(name -> this.levelComboBox.getItems().add(name));
+			this.myPathTabModel.getLevelNames().stream().forEach(name -> this.levelComboBox.getItems().add(name));
 			this.levelComboBox.setOnAction(event -> {
 				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 				this.buildWaveComboBox(selectedItem);
@@ -133,7 +134,7 @@ public class PathTab implements IWorkspace {
 	
 	private void buildWaveComboBox(String levelName) {
 		this.waveComboBox = new ComboBox<String>();
-		this.myModel.getWaveNames(levelName).stream().forEach(name -> this.waveComboBox.getItems().add(name));
+		this.myPathTabModel.getWaveNames(levelName).stream().forEach(name -> this.waveComboBox.getItems().add(name));
 		this.waveComboBox.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 			this.buildUnitPicker(selectedItem);
@@ -142,7 +143,7 @@ public class PathTab implements IWorkspace {
 	}
 	
 	private void buildUnitPicker(String waveName) {
-		this.myUnitPicker = new UnitPicker(this.myModel.get)
+		this.myUnitPicker.setUnits(this.myPathTabModel.getWaveUnits(waveName));
 	}
 	
 	// TODO: remove after testing
@@ -187,13 +188,13 @@ public class PathTab implements IWorkspace {
 	// TODO: make this protected in an abstract class 
 	private void submitPathWidth(TextField input) {
 		if (checkValidInput(input)) {
-			this.myModel.setPathWidth(Double.parseDouble(input.getText()));
+			this.myPathTabModel.setPathWidth(Double.parseDouble(input.getText()));
 			input.clear();
 		}
 	}
 
 	private void submitBranch(){
-		this.myModel.submitBranch();
+		this.myPathTabModel.submitBranch();
 		this.currentBranch.clear();
 		this.drawMap();
 	}
@@ -232,15 +233,15 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void drawBranches(){
-		this.myModel.getEngineBranches().stream().forEach(b -> this.drawBranch(b));
+		this.myPathTabModel.getEngineBranches().stream().forEach(b -> this.drawBranch(b));
 	}
 
 	private void drawSpawns() {
-		this.myModel.getSpawns().forEach(s -> this.displaySpawnPoint(s));
+		this.myPathTabModel.getSpawns().forEach(s -> this.displaySpawnPoint(s));
 	}
 
 	private void drawGoals() {
-		this.myModel.getGoals().forEach(s -> this.displayGoalPoint(s));
+		this.myPathTabModel.getGoals().forEach(s -> this.displayGoalPoint(s));
 	}
 
 	private Node buildMainCanvas() {
@@ -297,20 +298,20 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void addPosition(double x, double y) {
-		this.myModel.addNewPosition(x, y);
+		this.myPathTabModel.addNewPosition(x, y);
 	}
 
 	private void addSpawnPoint(double x, double y){
-		this.myModel.addNewSpawn(x, y);
+		this.myPathTabModel.addNewSpawn(x, y);
 	}
 
 	private void addGoalPoint(double x, double y){
-		this.myModel.addNewGoal(x, y);
+		this.myPathTabModel.addNewGoal(x, y);
 	}
 
 	// TODO: extract constants
 	private void displayEndPoint(double x, double y) {
-		Circle circle = new Circle(this.myModel.getPathWidth());
+		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
 		circle.relocate(x - circle.getRadius(), y - circle.getRadius());
@@ -318,7 +319,7 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void displayClickedPoint(Position p){
-		Circle circle = new Circle(this.myModel.getPathWidth());
+		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.RED);
 		circle.relocate(p.getX()- circle.getRadius(), p.getY()- circle.getRadius());
@@ -326,7 +327,7 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void displaySpawnPoint(Position spawn) {
-		Circle circle = new Circle(this.myModel.getPathWidth());
+		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.BLUE);
 		circle.relocate(spawn.getX()- circle.getRadius(), spawn.getY()- circle.getRadius());
@@ -334,7 +335,7 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void displayGoalPoint(Position goal) {
-		Circle circle = new Circle(this.myModel.getPathWidth());
+		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
 		circle.setStroke(Color.BLACK);
 		circle.setFill(Color.GREEN);
 		circle.relocate(goal.getX()- circle.getRadius(), goal.getY()- circle.getRadius());
