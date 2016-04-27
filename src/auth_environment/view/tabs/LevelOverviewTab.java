@@ -42,9 +42,10 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void setRefresh() {
-		this.myRoot.setOnMouseEntered(e -> {
-			this.refresh();
-		});
+//		this.myRoot.setOnMouseEntered(e -> {
+//			this.refresh();
+//		});
+		this.setOnSelectionChanged(e -> this.refresh()); 
 	}
 	
 	private void refresh() {
@@ -75,7 +76,7 @@ public class LevelOverviewTab extends Tab {
 				this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level),
 				myAuthModel, 
 				this.myLevelOverviewTabModel);
-		myTabs.getTabs().addAll(tab);
+		myTabs.getTabs().add(tab);
 	}
 	
 	private Node buildNewLevelButton() {
