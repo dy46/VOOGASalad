@@ -99,7 +99,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     public void addToCreatedWaves(String levelPlusWaveName, Wave wave) {
         this.myCreatedWaves.put(levelPlusWaveName, wave);
         int levelNum = Integer.parseInt(levelPlusWaveName.split(" ")[0]); 
-        this.getCreatedLevels().get(levelNum).addWave(wave);
+        this.getCreatedLevels().get(levelNum-1).addWave(wave);
         this.submit();
     }
 
