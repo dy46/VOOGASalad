@@ -15,6 +15,7 @@ import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
+import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
@@ -205,10 +206,8 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void drawBranch(Branch branch) {
-		this.displayEndPoint(branch.getFirstPosition().getX(),
-				branch.getFirstPosition().getY());
-		this.displayEndPoint(branch.getLastPosition().getX(),
-				branch.getLastPosition().getY());
+		this.displayEndPoint(branch.getFirstPosition());
+		this.displayEndPoint(branch.getLastPosition());
 		Position lastPosDrawn = branch.getFirstPosition();
 		for(Position currPos : branch.getPositions()){
 			this.addBoundLine(lastPosDrawn.getX(), 
@@ -290,47 +289,42 @@ public class PathTab implements IWorkspace {
 	}
 
 	// TODO: extract constants
-	private void displayEndPoint(double x, double y) {
-		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
-		circle.setStroke(Color.BLACK);
-		circle.setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
-		circle.relocate(x - circle.getRadius(), y - circle.getRadius());
-		circle.setOnMouseClicked(e -> System.out.println("Endpoint clicked"));
-		this.canvasPane.getChildren().add(circle); 
+	private void displayEndPoint(Position p) {
+		PathPoint point = new PathPoint(p, this.myPathTabModel.getPathWidth()); 
+		point.getCircle().setStroke(Color.BLACK);
+		point.getCircle().setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
+		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
 	private void displayClickedPoint(Position p) {
-		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
-		circle.setStroke(Color.BLACK);
-		circle.setFill(Color.RED);
-		circle.relocate(p.getX()- circle.getRadius(), p.getY()- circle.getRadius());
-		this.canvasPane.getChildren().add(circle);
+		PathPoint point = new PathPoint(p, this.myPathTabModel.getPathWidth()); 
+		point.getCircle().setStroke(Color.BLACK);
+		point.getCircle().setFill(Color.RED);
+		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
 	private void displaySpawnPoint(Position spawn) {
-		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
-		circle.setStroke(Color.BLACK);
-		circle.setFill(Color.BLUE);
-		circle.relocate(spawn.getX()- circle.getRadius(), spawn.getY()- circle.getRadius());
-		this.canvasPane.getChildren().add(circle);
+		PathPoint point = new PathPoint(spawn, this.myPathTabModel.getPathWidth()); 
+		point.getCircle().setStroke(Color.BLACK);
+		point.getCircle().setFill(Color.BLUE);
+		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
 	private void displayGoalPoint(Position goal) {
-		Circle circle = new Circle(this.myPathTabModel.getPathWidth());
-		circle.setStroke(Color.BLACK);
-		circle.setFill(Color.GREEN);
-		circle.relocate(goal.getX()- circle.getRadius(), goal.getY()- circle.getRadius());
-		this.canvasPane.getChildren().add(circle); 
+		PathPoint point = new PathPoint(goal, this.myPathTabModel.getPathWidth()); 
+		point.getCircle().setStroke(Color.BLACK);
+		point.getCircle().setFill(Color.GREEN);
+		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
 	private void displayPoint(Position p) {
-		Circle circle = new Circle(1);
-		circle.setStroke(Color.BLACK);
-		circle.relocate(p.getX(), p.getY());
-		this.canvasPane.getChildren().add(circle); 
+		PathPoint point = new PathPoint(p, 1.0);
+		point.getCircle().setStroke(Color.BLACK);
+		canvasPane.getChildren().add(point.getCircle()); 
 	}
 
 	private void setupSpawnDrag(Circle spawn) {
+		
 	}
 
 	@Override
@@ -338,7 +332,8 @@ public class PathTab implements IWorkspace {
 		return this.myBorderPane;
 	}
 
-	public void setUpNodeTarget(Circle target, UnitPicker picker) {
+	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, IPathTabModel pathModel) {
+		Circle target = pathPoint.getCircle(); 
 
 		target.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {

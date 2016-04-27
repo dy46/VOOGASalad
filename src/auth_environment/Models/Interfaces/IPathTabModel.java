@@ -50,4 +50,8 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public void saveBranch(BoundLine line, Branch branch); 
 
 	public Set<BoundLine> getBoundLines(); 
+	
+	public void setActiveUnit(Unit unit);
+	
+	public Unit getActiveUnit(); 
 }

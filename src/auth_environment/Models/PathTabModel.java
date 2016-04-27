@@ -45,6 +45,7 @@ public class PathTabModel implements IPathTabModel {
 	private List<Level> myLevels;
 	private Level currentLevel;
 	private Wave currentWave; 
+	private Unit myActiveUnit; 
 
 	private double myPathWidth;
 
@@ -177,6 +178,16 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public Set<BoundLine> getBoundLines() {
 		return this.myBranchMap.keySet();
+	}
+
+	@Override
+	public void setActiveUnit(Unit unit) {
+		this.myActiveUnit = unit; 
+	}
+
+	@Override
+	public Unit getActiveUnit() {
+		return this.myActiveUnit;
 	}
 
 }
