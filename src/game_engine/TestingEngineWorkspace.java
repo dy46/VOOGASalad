@@ -179,13 +179,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-		mh.createGrid();
+//		mh.createGrid();
 		myBranches = mh.getEngineBranches();
-		for(Branch b : myBranches){
-			System.out.println(b+ " Neighbors: " + b.getNeighbors());
-		}
+//		for(Branch b : myBranches){
+//			System.out.println(b+ " Neighbors: " + b.getNeighbors());
+//		}
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
+		System.out.println("GOALS: " + mh.getGoals());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
 		Unit AI2 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
@@ -232,9 +233,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// w.addSpawningUnit(e3, 60);
 		// w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-		w.addSpawningUnit(AI2, 60);
-		w.addSpawningUnit(AI3, 60);
-		w.addSpawningUnit(AI4, 60);
+//		w.addSpawningUnit(AI2, 60);
+//		w.addSpawningUnit(AI3, 60);
+//		w.addSpawningUnit(AI4, 60);
 		// w.addSpawningUnit(rand1, 60);
 		// w.addSpawningUnit(rand2, 60);
 		// w.addSpawningUnit(rand3, 60);

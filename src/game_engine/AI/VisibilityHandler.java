@@ -40,10 +40,10 @@ public class VisibilityHandler {
 		return getVisibilityBranches(obstacles);
 	}
 
-	public boolean isPositionVisible (List<Branch> visibilityBranches, Position spawn) {
+	public boolean isPositionVisible (List<Branch> visibilityBranches, Position pos) {
 		for (Branch v : visibilityBranches) {
 			for (Position p : v.getPositions()) {
-				if (p.equals(spawn)) {
+				if (p.equals(pos)) {
 					return true;
 				}
 			}
@@ -52,18 +52,28 @@ public class VisibilityHandler {
 	}
 
 	private List<Branch> getVisibilityBranches (List<Unit> obstacles) {
-		return getFilteredVisibilityBranches(getBranchCopyList(getBranchesToFilter(obstacles)));
+		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
+		return getFilteredVisibilityBranches(branchesToFilter);
 	}
 
 	private List<Branch> getFilteredVisibilityBranches (List<Branch> branchesToFilter) {
-		List<Branch> visibilityBranches = getBranchCopyList(myEngine.getBranches());
+		HashSet<Branch> visibilityBranches = new HashSet<Branch>(getBranchCopyList(myEngine.getBranches()));
 		for(Branch visible : visibilityBranches){
 			fixNeighbors(visible, branchesToFilter);
 		}
 		for(Branch branchToFilter : branchesToFilter){
-			visibilityBranches.remove(branchToFilter);
+			remove(new ArrayList<>(visibilityBranches), branchToFilter);
 		}
-		return visibilityBranches;
+		return new ArrayList<>(visibilityBranches);
+	}
+	
+	private void remove(List<Branch> branches, Branch branchToRemove){
+		for(int x=0; x<branches.size(); x++){
+			if(branches.get(x).equals(branchToRemove)){
+				branches.remove(x);
+				x--;
+			}
+		}
 	}
 
 	private void fixNeighbors(Branch branch, List<Branch> branchesToFilter) {

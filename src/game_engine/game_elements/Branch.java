@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -257,16 +258,8 @@ public class Branch implements Serializable{
 		this.myNeighbors.remove(b);
 	}
 
-	public Branch deepCopy(Map<Branch, Branch> isomorphism){
-		Branch copy = isomorphism.get(this);
-		if (copy == null) {
-			copy = new Branch(this.getMyPositions(), this.getNeighbors());
-			isomorphism.put(this, copy);
-			for (Branch neighbor : this.myNeighbors) {
-				copy.addNeighbor(neighbor.deepCopy(isomorphism));
-			}
-		}
-		return copy;
+	public List<Position> getEndPoints(){
+		return Arrays.asList(getFirstPosition(), getLastPosition());
 	}
 
 	public Branch copyBranch() {
