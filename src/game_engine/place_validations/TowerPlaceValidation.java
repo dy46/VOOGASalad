@@ -20,7 +20,7 @@ public class TowerPlaceValidation extends PlaceValidation {
     public boolean validate (Unit unit, double posX, double posY) {
         Unit copy = unit.copyShallowUnit();
         copy.getProperties().setPosition(new Position(posX, posY));
-        return mySimulator.simulateEnemyPathFollowing(copy);
+        return mySimulator.simulateTowerPlacement(copy);
     }
 
     public void setEngine (GameEngineInterface myEngine) {
