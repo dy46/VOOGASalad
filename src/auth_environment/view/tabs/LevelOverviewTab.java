@@ -31,7 +31,9 @@ public class LevelOverviewTab extends Tab {
 	private void init() {
 		this.myRoot = new BorderPane();
 		this.myTabs = new TabPane();
+		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
 		this.setRefresh();
+		this.setUpLevelTabs();
 		this.setupBorderPane();
 		this.setContent(myRoot);
 	}
@@ -49,18 +51,23 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void refresh() {
-		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
-//		System.out.println(this.myLevelOverviewTabModel.getCreatedLevels().size());
+		this.myLevelOverviewTabModel.refresh(this.myAuthModel.getIAuthEnvironment());
 		this.setUpLevelTabs();
 	}
 	
 	private void setUpLevelTabs() {
 		this.myTabs.getTabs().clear();
-		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
+		if (this.myLevelOverviewTabModel.getCreatedLevels().size()>0) {
+			this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
+		}
+		else {
+			this.addLevelTab();
+		}
 	}
 	
-	private Tab addNewLevelTab() {
-		int newLevelIndex = ((LevelTab)myTabs.getTabs().get(myTabs.getTabs().size()-1)).getIndex() + 1;
+	private Tab addLevelTab() {
+//		int newLevelIndex = ((LevelTab)myTabs.getTabs().get(myTabs.getTabs().size()-1)).getIndex() + 1;
+		int newLevelIndex = this.myTabs.getTabs().size() + 1; 
 		String newLevelName = "Level " + newLevelIndex;
 		myLevelOverviewTabModel.addLevel(newLevelName, 10); // TODO: Not hardcode number of lives
 		Tab tab = new LevelTab(newLevelName, 
@@ -82,7 +89,7 @@ public class LevelOverviewTab extends Tab {
 	private Node buildNewLevelButton() {
 		Button addNewLevelButton = new Button(this.myNamesBundle.getString("levelItemLabel"));
 		addNewLevelButton.setOnAction(e -> {
-			myTabs.getSelectionModel().select(this.addNewLevelTab());
+			myTabs.getSelectionModel().select(this.addLevelTab());
 		});
 		return addNewLevelButton;
 	}
