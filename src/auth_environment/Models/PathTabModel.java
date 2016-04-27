@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
@@ -129,7 +130,6 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void addNewSpawn(double x, double y) {
-		System.out.println(this.mySpawns.getClass());
 		this.mySpawns.add(new Position(x, y));
 	}
 
@@ -172,6 +172,11 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public void saveBranch(BoundLine line, Branch branch) {
 		this.myBranchMap.put(line, branch); 
+	}
+
+	@Override
+	public Set<BoundLine> getBoundLines() {
+		return this.myBranchMap.keySet();
 	}
 
 }

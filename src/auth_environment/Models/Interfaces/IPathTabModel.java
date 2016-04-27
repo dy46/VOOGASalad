@@ -1,6 +1,7 @@
 package auth_environment.Models.Interfaces;
 
 import java.util.List;
+import java.util.Set;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.view.BoundLine;
@@ -47,5 +48,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public Branch reselectBranch(BoundLine line); 
 	
 	public void saveBranch(BoundLine line, Branch branch); 
-	
+
+	public Set<BoundLine> getBoundLines(); 
 }
