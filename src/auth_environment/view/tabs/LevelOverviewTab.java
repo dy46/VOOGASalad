@@ -49,14 +49,13 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void refresh() {
-		this.myLevelOverviewTabModel.refresh(this.myAuthModel.getIAuthEnvironment());
-		this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> level.getWaves().stream().forEach(wave -> System.out.println(wave)));
-		this.setUpLevelTabs();
+//		this.myLevelOverviewTabModel.refresh(this.myAuthModel.getIAuthEnvironment());
+		System.out.println("refresh in level overview");
+//		this.setUpLevelTabs();
 	}
 	
 	private void setUpLevelTabs() {
 		this.myTabs.getTabs().clear();
-		System.out.println(this.myLevelOverviewTabModel.getCreatedLevels().size());
 		if (this.myLevelOverviewTabModel.getCreatedLevels().size()>0) {
 			this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
 		}
