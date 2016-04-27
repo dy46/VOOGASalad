@@ -4,6 +4,7 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 public interface IPathTabModel extends IWorkspaceModel {
@@ -40,8 +41,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<String> getWaveNames(String selectedLevel); 
 	
-	public void setLevelIndex(int index); 
-	
-	public void setWaveIndex(int index); 
+	public List<Unit> getWaveUnits(String selectedWave); 
 	
 }

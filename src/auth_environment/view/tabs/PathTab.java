@@ -11,6 +11,7 @@ import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.dialogs.ConfirmationDialog;
+import auth_environment.view.UnitPicker;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
@@ -42,6 +43,7 @@ public class PathTab implements IWorkspace {
 	private Pane canvasPane;
 	private ComboBox<String> levelComboBox;
 	private ComboBox<String> waveComboBox; 
+	private UnitPicker myUnitPicker; 
 
 	private IPathTabModel myModel;
 	private IAuthEnvironment myAuth;
@@ -58,14 +60,17 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.setupBorderPane();
-//		String gridHeaderText = "You have the option to have a default grid for extension.";
-//		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
-//		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
-//		if(confirmation){
-//			this.myModel.createGrid();
-//		}
 		currentBranch = new ArrayList<>();
 		this.drawMap();
+	}
+	
+	private void addConfirmationDialog() {
+		String gridHeaderText = "You have the option to have a default grid for extension.";
+		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
+		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		if(confirmation){
+			this.myModel.createGrid();
+		}
 	}
 
 	private void refresh() {
@@ -122,11 +127,8 @@ public class PathTab implements IWorkspace {
 			});
 		}
 		else {
-			this.levelComboBox.getItems().add(""); 
+			this.levelComboBox.getItems().add("No Levels Available"); 
 		}
-
-		
-	
 	}
 	
 	private void buildWaveComboBox(String levelName) {
@@ -134,9 +136,13 @@ public class PathTab implements IWorkspace {
 		this.myModel.getWaveNames(levelName).stream().forEach(name -> this.waveComboBox.getItems().add(name));
 		this.waveComboBox.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-			this.myModel.setWaveIndex(this.waveComboBox.getItems().indexOf(selectedItem));
+			this.buildUnitPicker(selectedItem);
 	        event.consume();
 		});
+	}
+	
+	private void buildUnitPicker(String waveName) {
+		this.myUnitPicker = new UnitPicker(this.myModel.get)
 	}
 	
 	// TODO: remove after testing

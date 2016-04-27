@@ -9,6 +9,7 @@ import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
+import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 
@@ -34,9 +35,8 @@ public class PathTabModel implements IPathTabModel {
 	
 	// ComboBox contents
 	private List<Level> myLevels;
-	private List<Wave> myWaves; 
-	private int myLevelIndex; 
-	private int myWaveIndex; 
+	private Level currentLevel;
+	private Wave currentWave; 
 
 	private double myPathWidth;
 
@@ -145,18 +145,14 @@ public class PathTabModel implements IPathTabModel {
 	}
 	
 	public List<String> getWaveNames(String selectedLevel) {
-		Level level = this.myLevels.stream().filter(l -> l.toString().equals(selectedLevel)).collect(Collectors.toList()).get(0);
-		return level.getWaves().stream().map(wave -> wave.getName()).collect(Collectors.toList());
+		this.currentLevel = this.myLevels.stream().filter(l -> l.toString().equals(selectedLevel)).collect(Collectors.toList()).get(0);
+		return this.currentLevel.getWaves().stream().map(wave -> wave.getName()).collect(Collectors.toList());
 	}
 
 	@Override
-	public void setLevelIndex(int index) {
-		this.myLevelIndex = index;
-	}
-
-	@Override
-	public void setWaveIndex(int index) {
-		this.myWaveIndex = index; 
+	public List<Unit> getWaveUnits(String selectedWave) {
+		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+		return this.currentWave.getSpawningUnitsLeft();
 	}
 
 }
