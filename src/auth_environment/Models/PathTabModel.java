@@ -65,7 +65,7 @@ public class PathTabModel implements IPathTabModel {
 		System.out.println("My current branch: " + myCurrentBranch);
 		this.myMapHandler.processPositions(myCurrentBranch);
 		myCurrentBranch.clear();
-		this.loadBranches();
+		this.submit(); 
 	}
 
 	@Override
@@ -75,8 +75,7 @@ public class PathTabModel implements IPathTabModel {
 //		}
 	}
 
-	@Override
-	public void loadBranches() {
+	private void submit() {
 		this.myAuthData.setEngineBranches(this.myMapHandler.getEngineBranches());
 		this.myAuthData.setVisualBranches(this.myVisualBranches);
 		this.myAuthData.setGridBranches(this.myMapHandler.getGridBranches());

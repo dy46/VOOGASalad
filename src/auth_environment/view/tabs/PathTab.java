@@ -67,9 +67,8 @@ public class PathTab implements IWorkspace {
 
 	private void refresh() {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
-		this.myModel = new PathTabModel(myAuthModel.getIAuthEnvironment()); 
+		this.myModel.refresh(this.myAuth);
 		this.drawMap();
-		this.drawCurrentBranch();
 	}
 
 	private void setupBorderPane() {

@@ -18,8 +18,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public void printCurrentPositions(); 
 	
-	public void loadBranches(); 
-	
 	public List<Branch> getEngineBranches();
 	
 	public List<Branch> getVisualBranches();
