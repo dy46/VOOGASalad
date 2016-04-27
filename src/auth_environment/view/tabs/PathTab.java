@@ -78,14 +78,16 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void refresh() {
+		System.out.println("refresh");
+		this.clearComboBoxes();
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myPathTabModel.refresh(this.myAuth);
 		this.buildLevelComboBox();
-		this.drawMap();
+//		this.drawMap();
 	}
 
 	private void setupBorderPane() {
-		//		this.myBorderPane.setOnMouseEntered(e -> this.refresh());
+				this.myBorderPane.setOnMouseEntered(e -> this.refresh());
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
@@ -124,6 +126,11 @@ public class PathTab implements IWorkspace {
 
 		vb.getChildren().addAll(this.levelComboBox, this.waveComboBox, this.myUnitPicker.getRoot()); 
 		return vb; 
+	}
+	
+	private void clearComboBoxes() {
+		this.levelComboBox.getItems().clear();
+		this.waveComboBox.getItems().clear();
 	}
 
 	private void buildLevelComboBox() {
