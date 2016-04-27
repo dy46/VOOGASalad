@@ -11,7 +11,6 @@ import auth_environment.Models.PathTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
-import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
@@ -25,8 +24,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -323,7 +320,7 @@ public class PathTab implements IWorkspace {
 		canvasPane.getChildren().add(point.getCircle()); 
 	}
 
-	private void setupSpawnDrag(Circle spawn) {
+	private void setupSpawnDrag() {
 		
 	}
 
@@ -364,13 +361,12 @@ public class PathTab implements IWorkspace {
 		target.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				event.acceptTransferModes(TransferMode.COPY);
-				//					System.out.println("Drag dropped...");
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
 					UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
-					Position pos = new Position(target.getCenterX() + target.getRadius(), 
-							target.getCenterY() + target.getRadius()); 
+					pathModel.setActiveUnit(uv.getUnit());
+					Position pos = pathPoint.getPosition(); 
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
 					success = true;

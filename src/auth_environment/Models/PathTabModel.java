@@ -40,7 +40,6 @@ public class PathTabModel implements IPathTabModel {
 	// TODO: reselect a branch by clicking on the corresponding BoundLine (GUI element) 
 	private Map<BoundLine, Branch> myBranchMap; 
 	
-	
 	// ComboBox contents
 	private List<Level> myLevels;
 	private Level currentLevel;
@@ -167,6 +166,9 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public Branch reselectBranch(BoundLine line) {
 		System.out.println("BoundLine " + this.myBranchMap.get(line).toString() + " selected!"); 
+		if (this.myActiveUnit!=null) {
+			this.myActiveUnit.getProperties().getMovement().getBranches().add(this.myBranchMap.get(line));
+		}
 		return this.myBranchMap.get(line); 
 	}
 
