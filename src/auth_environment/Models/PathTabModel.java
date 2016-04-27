@@ -38,10 +38,12 @@ public class PathTabModel implements IPathTabModel {
 		this.myCurrentBranch = new ArrayList<Position>();
 		this.myGoals = new ArrayList<Position>();
 		this.mySpawns = new ArrayList<Position>(); 
+		this.refresh(auth);
 	}
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
+		System.out.println("refresh"); 
 		this.myCurrentBranch.clear();
 		this.myVisualBranches = auth.getVisualBranches();
 		this.myGoals = auth.getGoals();
@@ -108,6 +110,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void addNewSpawn(double x, double y) {
+		System.out.println(this.mySpawns.getClass());
 		this.mySpawns.add(new Position(x, y));
 	}
 

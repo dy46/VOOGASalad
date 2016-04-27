@@ -72,7 +72,7 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void setupBorderPane() {
-		this.myBorderPane.setOnMouseEntered(e -> this.refresh());
+//		this.myBorderPane.setOnMouseEntered(e -> this.refresh());
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
@@ -101,23 +101,29 @@ public class PathTab implements IWorkspace {
 		this.myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
 		this.myPathWidthField.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
 
-		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
-		submitNameButton.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
+//		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
+//		submitNameButton.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
 
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
-		drawPathButton.setOnAction(e -> drawingIndex = 0);
+		drawPathButton.setOnAction(e -> this.updateDrawIndex(0));
 		Button drawGoalButton = myNodeFactory.buildButton(myNamesBundle.getString("drawGoal"));
-		drawPathButton.setOnAction(e -> drawingIndex = 1);
+		drawGoalButton.setOnAction(e -> this.updateDrawIndex(1));
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
-		drawPathButton.setOnAction(e -> drawingIndex = 2);
+		drawSpawnButton.setOnAction(e -> this.updateDrawIndex(2));
 
 		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
 		submitBranchButton.setOnAction(e -> this.submitBranch());
 
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(this.myPathWidthField, submitNameButton, submitBranchButton, drawPathButton, drawGoalButton, drawSpawnButton);
+		hb.getChildren().addAll(this.myPathWidthField, 
+				submitBranchButton, drawPathButton, drawGoalButton, drawSpawnButton);
 		return this.myNodeFactory.centerNode(hb); 
+	}
+	
+	private void updateDrawIndex(int index) {
+		this.drawingIndex = index;
+		System.out.println(this.drawingIndex); 
 	}
 
 	// TODO: make this protected in an abstract class 
@@ -212,17 +218,17 @@ public class PathTab implements IWorkspace {
 
 	private void addClickHandlers(Canvas canvas) {
 		this.canvasPane.setOnMouseClicked(e -> {
-			System.out.println("mouse clicked"); 
+			System.out.println("Drawing Index is: " + this.drawingIndex); 
 			//		canvas.setOnMouseClicked(e -> {
 			if(drawingIndex == 0){
 				this.addPosition(e.getX(), e.getY());
 				this.currentBranch.add(new Position(e.getX(), e.getY()));
 			}
 			else if (drawingIndex == 1){
-				addSpawnPoint(e.getX(), e.getY());
-			}
-			else{
 				addGoalPoint(e.getX(), e.getY());
+			}
+			else if (drawingIndex == 2){
+				addSpawnPoint(e.getX(), e.getY());
 			}
 			this.drawMap();
 		});
