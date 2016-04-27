@@ -1,14 +1,12 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Stack;
-import auth_environment.paths.PositionHandler;
+import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -37,8 +35,9 @@ public class AISearcher {
 	}
 
 	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
+		BFSTuple tuple = this.getBFSPath(current, getGoals(), visibilityBranches);
 		for(Position goal : getGoals()){
-			List<Branch> path = this.getBFSPath(current, goal, visibilityBranches);
+			List<Branch> path = tuple.getShortestPath(goal);
 			if(path != null){
 				return path;
 			}
@@ -46,7 +45,8 @@ public class AISearcher {
 		return null;
 	}
 
-	public List<Branch> getBFSPath(Position current, Position goal, List<Branch> visibilityBranches){
+	public BFSTuple getBFSPath(Position current, List<Position> goals, List<Branch> visibilityBranches){
+		List<Position> goalCopies = goals.stream().map(g -> g.copyPosition()).collect(Collectors.toList());
 		Queue<Position> queue = new LinkedList<>();
 		HashMap<Position, Integer> distances = new HashMap<>();
 		HashMap<Position, Position> edges = new HashMap<>();
@@ -63,43 +63,39 @@ public class AISearcher {
 					distances.put(adjacent, distances.get(next) + 1);
 					visited.add(adjacent);
 					queue.add(adjacent);
+					if(goalCopies.contains(adjacent)){
+						goalCopies.remove(adjacent);
+					}
+					if(goalCopies.size() == 0){
+						queue.clear();
+						break;
+					}
 				}
 			}
 		}
-		if(!visited.contains(goal)){
-			return null;
-		}
-		Stack<Position> path = new Stack<>();
-		for(current = goal; distances.get(current) != 0; current = edges.get(current)){
-			path.push(current);
-		}
-		path.push(current);
-		Collections.reverse(path);
-		List<Branch> newPath = new PositionHandler().createPath(path, visibilityBranches);
-		//trimFirstBranch(newPath, current);
-		return newPath;
+		return new BFSTuple(visibilityBranches, current, visited, edges, distances);
 	}
-	
-//	private void trimFirstBranch(List<Branch> newPath, Position currPos){
-//		if(newPath == null || newPath.size() <= 1)
-//			return;
-//		Branch firstBranch = newPath.get(0);
-//		Branch secondBranch = newPath.get(1);
-//		int trimIndex = firstBranch.getPositions().indexOf(currPos);
-//		boolean trimRight = secondBranch.getEndPoints().contains(firstBranch.getFirstPosition());
-//		Branch newBranch = trimBranchAtIndex(trimIndex, trimRight, firstBranch);
-//		newPath.set(0, newBranch);
-//	}
-//	
-//	private Branch trimBranchAtIndex(int trimIndex, boolean trimRight, Branch branch){
-//		Branch copyBranch = branch.copyBranch();
-//		List<Position> copyPos = copyBranch.getPositions();
-//		List<Position> trimmedPos = trimRight ? copyPos.subList(0, trimIndex+1): copyPos.subList(trimIndex, copyPos.size());
-//		branch = new Branch(trimmedPos);
-//		branch.addNeighbors(copyBranch.getNeighbors());
-//		return branch;
-//	}
-	
+
+	//	private void trimFirstBranch(List<Branch> newPath, Position currPos){
+	//		if(newPath == null || newPath.size() <= 1)
+	//			return;
+	//		Branch firstBranch = newPath.get(0);
+	//		Branch secondBranch = newPath.get(1);
+	//		int trimIndex = firstBranch.getPositions().indexOf(currPos);
+	//		boolean trimRight = secondBranch.getEndPoints().contains(firstBranch.getFirstPosition());
+	//		Branch newBranch = trimBranchAtIndex(trimIndex, trimRight, firstBranch);
+	//		newPath.set(0, newBranch);
+	//	}
+	//	
+	//	private Branch trimBranchAtIndex(int trimIndex, boolean trimRight, Branch branch){
+	//		Branch copyBranch = branch.copyBranch();
+	//		List<Position> copyPos = copyBranch.getPositions();
+	//		List<Position> trimmedPos = trimRight ? copyPos.subList(0, trimIndex+1): copyPos.subList(trimIndex, copyPos.size());
+	//		branch = new Branch(trimmedPos);
+	//		branch.addNeighbors(copyBranch.getNeighbors());
+	//		return branch;
+	//	}
+
 	private List<Position> getEndPoints(List<Branch> visibilityBranches){
 		HashSet<Position> pointSet = new HashSet<>();
 		for(Branch b : visibilityBranches){

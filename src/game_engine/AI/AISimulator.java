@@ -44,8 +44,10 @@ public class AISimulator {
 		HashMap<Unit, List<Branch>> newShortestPaths = new HashMap<>();
 		for(Unit e : myAIHandler.getActiveAIEnemies()){
 			Position currPos = e.getProperties().getPosition();
-			for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
-				List<Branch> newShortestPath = myAISearcher.getBFSPath(currPos, goal, visibilityBranches);
+			List<Position> goals = myEngine.getLevelController().getCurrentLevel().getGoals();
+			BFSTuple myBFS = myAISearcher.getBFSPath(currPos, goals, visibilityBranches);
+			for(Position goal : goals){
+				List<Branch> newShortestPath = myBFS.getShortestPath(goal);
 				if(newShortestPath == null || simulatedCollision(e, newShortestPath, obstacle)){
 					return false;
 				}
