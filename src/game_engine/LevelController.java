@@ -10,10 +10,10 @@ public class LevelController {
     private double score;
     private boolean paused;
     
-    public LevelController(List<Level> levels, double score, boolean paused) {
+    public LevelController(List<Level> levels, double score) {
         this.myLevels = levels;
         this.score = score;
-        this.paused = paused;
+        this.paused = false;
         this.myCurrentLevel = this.myLevels.get(0);
     }
     

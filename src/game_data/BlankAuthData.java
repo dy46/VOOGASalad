@@ -36,7 +36,7 @@ import game_engine.properties.Position;
  * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
  */
 
-public class SampleAuthData implements IAuthEnvironment {
+public class BlankAuthData implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
@@ -53,7 +53,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
 
-	public SampleAuthData() {
+	public BlankAuthData() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
 		this.myEngineBranches = new ArrayList<>();
