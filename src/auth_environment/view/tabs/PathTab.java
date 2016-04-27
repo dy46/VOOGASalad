@@ -55,12 +55,12 @@ public class PathTab implements IWorkspace {
 		this.myNodeFactory = new NodeFactory(); 
 		this.canvasPane = new Pane(); 
 		this.setupBorderPane();
-		String gridHeaderText = "You have the option to have a default grid for extension.";
-		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
-		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
-		if(confirmation){
-			this.myModel.createGrid();
-		}
+//		String gridHeaderText = "You have the option to have a default grid for extension.";
+//		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
+//		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+//		if(confirmation){
+//			this.myModel.createGrid();
+//		}
 		currentBranch = new ArrayList<>();
 		this.drawMap();
 	}
@@ -70,7 +70,6 @@ public class PathTab implements IWorkspace {
 		this.myModel = new PathTabModel(myAuthModel.getIAuthEnvironment()); 
 		this.drawMap();
 		this.drawCurrentBranch();
-		this.myAuth.getLevels().stream().forEach(l -> System.out.println(l.getWaves().size()));
 	}
 
 	private void setupBorderPane() {
@@ -158,7 +157,6 @@ public class PathTab implements IWorkspace {
 
 	private void clearMap(){
 		canvasPane.getChildren().clear();
-
 	}
 
 	private void drawMap() {
