@@ -1,10 +1,13 @@
 package game_engine.factories;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import game_engine.libraries.AffectorLibrary;
+import game_engine.libraries.UnitLibrary;
 import game_engine.store_elements.Store;
 import game_engine.store_elements.Pair;
 
@@ -13,6 +16,16 @@ public class StoreFactory {
 	private Map<String, Unit> myUnits;
 	private Map<String, Affector> myUpgrades;
 	
+	public StoreFactory(UnitLibrary ul, AffectorLibrary al){
+		myUnits = new HashMap<String, Unit>();
+		myUpgrades = new HashMap<String, Affector>();
+		for(String name : ul.getUnitNames()){
+			myUnits.put(name, ul.getUnitByName(name));
+		}
+		for(String name : al.getAffectorNames()){
+			myUpgrades.put(name,  al.getAffector(name));
+		}
+	}
 	public StoreFactory(Map<String, Unit> units, Map<String, Affector> upgrades){
 		myStore = null;
 		myUnits = units;
