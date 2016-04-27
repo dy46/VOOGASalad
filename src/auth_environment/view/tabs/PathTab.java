@@ -16,6 +16,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -39,11 +40,13 @@ public class PathTab implements IWorkspace {
 	private BorderPane myBorderPane;
 	private TextField myPathWidthField;
 	private Pane canvasPane;
+	private ComboBox levelComboBox;
+	private ComboBox waveComboBox; 
 
 	private IPathTabModel myModel;
 	private IAuthEnvironment myAuth;
 	private IAuthModel myAuthModel;
-
+	
 	private int drawingIndex;
 	private List<Position> currentBranch;
 
@@ -85,6 +88,18 @@ public class PathTab implements IWorkspace {
 				this.buildTextInput(),
 				this.buildMainCanvas()); 
 		return center; 
+	}
+	
+	private Node buildRight() {
+		VBox right = this.myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
+				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
+		right.getChildren().addAll(c)
+	}
+	
+	private Node buildComboBoxes() {
+		VBox cb = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
+				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
+		cb.getChildren().add()
 	}
 
 	// TODO: remove after testing
