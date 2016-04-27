@@ -2,22 +2,24 @@ package auth_environment;
 
 import java.util.List;
 
+import game_engine.game_elements.Level;
+import game_engine.game_elements.Branch;
+import game_engine.game_elements.Unit;
+import game_engine.place_validations.PlaceValidation;
+import game_engine.properties.Position;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
+import game_engine.wave_goals.WaveGoal;
 import game_engine.affectors.Affector;
+
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.UnitFactory;
-import game_engine.game_elements.Branch;
-import game_engine.game_elements.Level;
-import game_engine.game_elements.Unit;
-import game_engine.properties.Position;
 
-/**
- * This interface is the external API for the Auth Environment (excluding Factory calls). 
- * @author Brian Lin
- *
- */
+import game_data.IGameData;
 
-public interface IAuthEnvironment {
+
+public interface IAuthEnvironment extends IGameData {
 	
 	// GlobalGameTab
 	
@@ -39,22 +41,6 @@ public interface IAuthEnvironment {
 	
 	public void setSpawns(List<Position> spawns); 
 	
-	// Levels Tab
-	
-	public void setLevels(List<Level> levels); 
-	
-	public List<Level> getLevels();
-	
-	public void addLevel(Level level); 
-	
-	// These Units have been placed on the Map. Not to be confused with available Enemy and Tower Units.
-	
-	public void placeUnit(Unit unit); // add this Unit to current List of placed Units 
-	
-	public void setPlacedUnits(List<Unit> units); 
-	
-	public List<Unit> getPlacedUnits(); 
-	
 	// Unit / Affector Creator Tab
 	
 	public void setTowers(List<Unit> towers); 
@@ -72,39 +58,47 @@ public interface IAuthEnvironment {
 	public void setProjectiles(List<Unit> projectiles); 
 	
     public List<Unit> getProjectiles();
-    
-    public void setAffectors(List<Affector> affectors); 
-    
-    public List<Affector> getAffectors();
-
-	public List<Branch> getEngineBranches();
-	
-	public void setEngineBranches(List<Branch> branches);
-
-	public void setVisualBranches(List<Branch> branches);
-
-	public List<Branch> getVisualBranches();
-
-	public void setGridBranches(List<Branch> gridBranches);
-	
-	public List<Branch> getGridBranches();
-	
+    	
 	// For UnitCreation integration, issue 190
-	
-	public UnitFactory getUnitFactory();
-	
-	public void setUnitFactory(UnitFactory factory); 
 	
 	public FunctionFactory getFunctionFactory();
 	
 	public void setFunctionFactory(FunctionFactory factory); 
 	
+	// IGameData Methods
+	
+	public List<Level> getLevels();
+    public void setLevels(List<Level> levels);
+
+    public List<Branch> getBranches();
+    public void setBranches(List<Branch> branches);
+    
+    public List<Unit> getPlacedUnits();
+    public void setPlacedUnits(List<Unit> units);
+
+    public List<Affector> getAffectors();
 	public AffectorFactory getAffectorFactory();
-	
 	public void setAffectorFactory(AffectorFactory factory); 
+
+    public List<PlaceValidation> getPlaceValidations();
+    public void setPlaceValidations(List<PlaceValidation> placeValidations);
+    
+    public WaveGoal getWaveGoal();
+    public void setWaveGoal(WaveGoal waveGoal);
+    
+    public ScoreUpdate getScoreUpdate();
+    public void setScoreUpdate(ScoreUpdate scoreUpdate);
+
+    public Store getStore();
+    public void setStore(Store store);
+    
+    public double getScore();
+    public void setScore(double score);
 	
-	// Saving Game Data
+	public UnitFactory getUnitFactory();
+	public void setUnitFactory(UnitFactory factory); 
 	
-	public void saveGameData();
+    // Not in IGameData
+	public IGameData getGameData();
 
 }

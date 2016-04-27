@@ -24,7 +24,7 @@ public class SampleAuthEnvironment implements IAuthEnvironment {
 	private List<Branch> myEngineBranches;
 	private List<Branch> myGridBranches;
 	private List<Level> myLevels;
-	private List<Unit> myTowers; 
+	private List<Unit> myTowers;
 	private List<Unit> myEnemies;
 	private List<Unit> myTerrains;
 	private List<Unit> myProjectiles; 

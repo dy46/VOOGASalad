@@ -5,6 +5,8 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
+import game_data.GameData;
+import game_data.IGameData;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
@@ -14,17 +16,19 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.UnitLibrary;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
+import game_engine.wave_goals.WaveGoal;
 
-// ********* COPY OF SampleAuthEnvironment, TODO TO BE REPLACED WITH A BLANK AuthEnvironment
 
 public class AuthEnvironment implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
-	private List<Branch> myVisualBranches;
-	private List<Branch> myEngineBranches;
-	private List<Branch> myGridBranches;
+	
+	private List<Branch> myBranches;
 	private List<Level> myLevels;
 	private List<Unit> myTowers; 
 	private List<Unit> myEnemies;
@@ -34,21 +38,39 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; 
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
+	
+	private IGameData myGameData;
 
 	public AuthEnvironment() {
-		this.myEngineBranches = new ArrayList<>();
-		this.myVisualBranches = new ArrayList<>();
-		this.myGridBranches = new ArrayList<>();
-		this.myLevels = new ArrayList<>();
-		this.myTowers = new ArrayList<>();
-		this.myEnemies = new ArrayList<>();
-		this.myTerrains = new ArrayList<>();
-		this.myProjectiles = new ArrayList<>();
-		this.myAffectors = new ArrayList<>(); 
-		this.myPlacedUnits = new ArrayList<>(); 
-		this.mySpawns = new ArrayList<>();
-		this.myGoals = new ArrayList<>(); 
-		this.setupDummyValues();
+		myBranches = new ArrayList<Branch>();
+		myLevels = new ArrayList<Level>();
+		myTowers = new ArrayList<Unit>();
+		myEnemies = new ArrayList<Unit>();
+		myTerrains = new ArrayList<Unit>();
+		myProjectiles = new ArrayList<Unit>();
+		myAffectors = new ArrayList<Affector>(); 
+		myPlacedUnits = new ArrayList<Unit>(); 
+		mySpawns = new ArrayList<Position>();
+		myGoals = new ArrayList<Position>(); 	
+		
+		myGameData = new GameData();
+	}
+	
+	public AuthEnvironment(IGameData gameData) {
+		myGameData = gameData;
+		
+		myLevels = myGameData.getLevels();
+		myBranches = myGameData.getBranches();
+		myAffectors = myGameData.getAffectors();
+		myPlacedUnits = myGameData.getPlacedUnits(); 
+		
+
+		myTowers = new ArrayList<Unit>();
+		myEnemies = new ArrayList<Unit>();
+		myTerrains = new ArrayList<Unit>();
+		myProjectiles = new ArrayList<Unit>();
+		mySpawns = new ArrayList<Position>();
+		myGoals = new ArrayList<Position>(); 				
 	}
 
 	private void setupDummyValues() {
@@ -165,20 +187,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 
 	@Override
-	public List<Branch> getEngineBranches() {
-		return this.myEngineBranches;
-	}
-
-	@Override
-	public void setEngineBranches(List<Branch> branches) {
-		if(branches.size() > 0){
-			Branch b = branches.get(0);
-			this.mySpawns.add(new Position(b.getFirstPosition().getX(), b.getFirstPosition().getY()));
-		}
-		this.myEngineBranches = branches; 
-	}
-
-	@Override
 	public List<Position> getGoals() {
 		return this.myGoals;
 	}
@@ -201,11 +209,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setLevels(List<Level> levels) {
 		this.myLevels = levels; 
-	}
-
-	@Override
-	public List<Branch> getVisualBranches() {
-		return this.myVisualBranches;
 	}
 
 	@Override
@@ -263,6 +266,70 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public void saveGameData() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Branch> getBranches() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PlaceValidation> getPlaceValidations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public WaveGoal getWaveGoal() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setWaveGoal(WaveGoal waveGoal) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public ScoreUpdate getScoreUpdate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setScoreUpdate(ScoreUpdate scoreUpdate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Store getStore() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setStore(Store store) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getScore() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void setScore(double score) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IGameData getGameData() {
+
+		return null;
 	}
 	
 }
