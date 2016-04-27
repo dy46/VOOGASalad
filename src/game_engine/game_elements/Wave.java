@@ -23,11 +23,8 @@ public class Wave extends GameElement {
         timeSinceLastSpawn = 0;
     }
 
-    public Wave (String name,
-                 List<Unit> spawning,
-                 List<Unit> placing,
-                 List<Integer> spawnTimes,
-                 int timeBeforeWave) {
+
+    public Wave (String name, List<Unit> spawning, List<Unit> placing, List<Integer> spawnTimes, int timeBeforeWave) {
         super(name);
         this.timeBeforeWave = timeBeforeWave;
         mySpawningUnits = spawning;

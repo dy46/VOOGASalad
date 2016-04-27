@@ -70,6 +70,7 @@ public class PathTab implements IWorkspace {
 		this.myModel = new PathTabModel(myAuthModel.getIAuthEnvironment()); 
 		this.drawMap();
 		this.drawCurrentBranch();
+		this.myAuth.getLevels().stream().forEach(l -> System.out.println(l.getWaves().size()));
 	}
 
 	private void setupBorderPane() {

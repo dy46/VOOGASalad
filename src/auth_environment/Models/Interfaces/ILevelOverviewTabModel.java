@@ -2,6 +2,7 @@ package auth_environment.Models.Interfaces;
 
 import java.util.List;
 
+import auth_environment.IAuthEnvironment;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Wave;
 
@@ -57,4 +58,8 @@ public interface ILevelOverviewTabModel {
      List<Level> getCreatedLevels();
      
     void addToCreatedWaves(String level, Wave wave);
+    
+    void refresh(IAuthEnvironment auth);
+    
+    void submit(); 
 }

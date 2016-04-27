@@ -1,56 +1,52 @@
 package auth_environment.view.tabs;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import auth_environment.IAuthEnvironment;
-import auth_environment.Models.UnitView;
-import auth_environment.Models.WaveOverviewTabModel;
+import auth_environment.Models.WaveWindowModel;
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
+import auth_environment.Models.Interfaces.IWaveWindowModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.view.UnitPicker;
-import game_engine.TestingEngineWorkspace;
-import game_engine.factories.UnitFactory;
-import game_engine.game_elements.Unit;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
+	
 	private GridPane myLeftGridPane;
 	private GridPane myRightGridPane;
 	private BorderPane myBorderPane; 
-	private IAuthModel myModel;
+	
 	private List<ComboBox<String>> spawningNames;
 	private List<ComboBox<String>> placingNames;
 	private List<TextField> spawningTimes;
+	
+	private IAuthModel myAuthModel;
+	private IWaveWindowModel myWaveWindowModel; 
+	private ILevelOverviewTabModel myLevelOverviewTabModel; 
+
+	private NodeFactory myNodeFactory; 
+	
 	//TODO: Add Unit Library to WaveWindow constructor	
-	public WaveWindow(String level, String wave, IAuthModel myAuthModel){
-		spawningNames = new ArrayList<ComboBox<String>>();
-		placingNames = new ArrayList<ComboBox<String>>();
-		spawningTimes = new ArrayList<TextField>();
-		this.myModel = myAuthModel;
+	public WaveWindow(String level, String wave, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
+		this.myAuthModel = authModel;
+		this.myLevelOverviewTabModel = levelOverview; 
+		this.myNodeFactory = new NodeFactory(); 
+		this.spawningNames = new ArrayList<ComboBox<String>>();
+		this.placingNames = new ArrayList<ComboBox<String>>();
+		this.spawningTimes = new ArrayList<TextField>();
+		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
+				this.myLevelOverviewTabModel); 
+		
 		Stage stage = new Stage();
 		Group root = new Group();
 		Scene newScene = new Scene(root);
@@ -79,8 +75,9 @@ public class WaveWindow {
 		
 		Button ok = new Button("Ok");
 		myBorderPane.setBottom(ok);
-		ok.setOnAction(e -> createNewWave(title, level));
-		
+		String levelNum = level.split(" ")[1]; 
+		String waveNum = wave.split(" ")[1];
+		ok.setOnAction(e -> createNewWave(title, levelNum + " " + waveNum));
 	}
 	
 	//createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames)
@@ -97,9 +94,7 @@ public class WaveWindow {
 		for(TextField hb: spawningTimes){
 			st.add(Integer.parseInt(hb.getText()));
 		}
-		
-		//createWave(title,level, sn, st, pn);
-		
+		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4); 
 	}
 
 	private void centerStage(Stage stage){
@@ -154,7 +149,7 @@ public class WaveWindow {
 		if(makeSTBox){
 			HBox hbox = new HBox();
 			hbox.getChildren().add(cBox);
-			TextField input = new TextField();
+			TextField input = this.myNodeFactory.buildTextFieldWithPrompt("Delay");
 			input.setMaxWidth(65);
 			input.setMinHeight(25);
 			hbox.setMinWidth(200);

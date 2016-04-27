@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
@@ -23,7 +26,8 @@ public class CloudStorage {
         this.devToken = dt;
         BoxAPIConnection api = new BoxAPIConnection(devToken);
         BoxUser.Info userInfo = BoxUser.getCurrentUser(api).getInfo();
-        System.out.format("Welcome, %s <%s>!\n\n", userInfo.getName(), userInfo.getLogin());
+        System.out.println("Thanks for logging in!"); 
+//        System.out.format("Welcome, %s <%s>!\n\n", userInfo.getName(), userInfo.getLogin());
         this.rootFolder = BoxFolder.getRootFolder(api);
         this.currentFolder = this.rootFolder;
         tb = new TextBot(RESOURCE_PATH);
@@ -100,9 +104,11 @@ public class CloudStorage {
     public void uploadFolder (String folder) throws FileNotFoundException, TwilioRestException {
         File f = new File(folder);
         uploadFolder(this.currentFolder, f);
-        tb.sendTextToAll("A new folder has been uploaded to box!!!");
     }
-
+    
+    public void notify(String message) throws TwilioRestException{
+    	tb.sendTextToAll(message);
+    }
     private void uploadFolder (BoxFolder current, File folder) throws FileNotFoundException {
         if (folder.isDirectory()) {
             current.createFolder(folder.getName());
@@ -126,6 +132,18 @@ public class CloudStorage {
             throw new RuntimeException("This folder is not located in your box account");
         }
         f.delete(true);
+    }
+    
+    public List<String> getCurrentFiles(){
+    	List<String> files = new ArrayList<String>();
+    	for(BoxItem.Info info : this.currentFolder){
+    		String addition = info.getName();
+    		if(info instanceof BoxFolder.Info){
+    			addition += " -- folder";
+    		}
+    		files.add(addition);
+    	}
+    	return files;
     }
 
 }

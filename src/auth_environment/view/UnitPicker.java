@@ -1,9 +1,10 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import auth_environment.Models.UnitPickerModel;
 import auth_environment.Models.UnitView;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.ElementTab;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.ScrollPane;
@@ -13,19 +14,20 @@ import javafx.scene.layout.FlowPane;
 
 public class UnitPicker{
 
-	private UnitPickerModel myUnitPickerModel;
 	private TitledPane myEditPane;
 	public FlowPane myEditInfo;
 	
+	private List<UnitView> myUnitViews;
+	
 	public UnitPicker(String name){
 		init(name);
-		System.out.println("No Units!");
+		this.myUnitViews = new ArrayList<UnitView>(); 
 	}
 	
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
-		addUnits(units);
-		System.out.println("Has Unit!");
+		this.myUnitViews = new ArrayList<UnitView>();
+		this.setUnits(units);
 	}
 	
 	public void setName(String name){
@@ -47,17 +49,24 @@ public class UnitPicker{
 		myEditPane.setCollapsible(false);
 	}
 	
-
-	private void addUnits(List<Unit> units){
-		System.out.println(units);
-		myUnitPickerModel = new UnitPickerModel();
-		//for(UnitView uv: myUnitPickerModel.setUnits(units)){
-			myEditInfo.getChildren().addAll(myUnitPickerModel.setUnits(units));
-		//}
+	public void setUnits(List<Unit> units) {
+		this.myUnitViews.clear();
+		this.myEditInfo.getChildren().clear();
+		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
+		this.myEditInfo.getChildren().addAll(this.myUnitViews);
+		setDragable();
+	}
+	
+	public void setDragable(){
+//		myUnitViews.stream().forEach(s->addUnitViewSource(s));
+		myUnitViews.stream().forEach(e -> {
+			DragDelegate drag= new DragDelegate();
+			drag.addUnitViewSource(e);
+		});
 	}
 	
 	public void add(Unit unit, ElementTab elementTab){
-		UnitView uv = new UnitView(unit,"unicornCat.gif");
+		UnitView uv = new UnitView(unit, unit.toString() + ".png");
 		myEditInfo.getChildren().add(uv);
 		uv.setOnMouseClicked(e -> elementTab.updateMenu(unit));
 	}

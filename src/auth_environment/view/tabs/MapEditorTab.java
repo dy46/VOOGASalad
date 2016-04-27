@@ -44,7 +44,6 @@ public class MapEditorTab implements IWorkspace {
 	private ContextMenu myContextMenu;
 	
 	private MapEditorTabModel myModel;
-	private List<Unit> myTerrains;
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myAuth;
 	
@@ -55,7 +54,6 @@ public class MapEditorTab implements IWorkspace {
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
 		this.myModel = new MapEditorTabModel(myAuth); 
-		this.myTerrains = myModel.getTerrains();
 		this.buildTerrainChooser();
 		this.buildMapPane();
 		this.setupBorderPane();
@@ -75,16 +73,18 @@ public class MapEditorTab implements IWorkspace {
 	
 	private void refresh(){
 		this.myAuth = myAuthModel.getIAuthEnvironment();
-		this.myModel = new MapEditorTabModel(myAuthModel.getIAuthEnvironment());
+		this.myModel.refresh(this.myAuth);
+		System.out.println("Test " + this.myModel.getTerrains());
+		this.myPicker.setUnits(this.myModel.getTerrains());
 	}
 	
 	public void buildTerrainChooser(){
-		if(myTerrains.equals(null)){
+		if(this.myModel.getTerrains().equals(null)){
 			myPicker = new UnitPicker("Terrains");
 			System.out.println("WIEOJROIEJTET");
 		}
 		else{
-			myPicker = new UnitPicker("Terrains", myTerrains);
+			myPicker = new UnitPicker("Terrains", this.myModel.getTerrains());
 		}
 	}
 	
