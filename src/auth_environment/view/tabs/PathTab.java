@@ -212,12 +212,12 @@ public class PathTab implements IWorkspace {
 		}
 	}
 
-//	private void clearMap(){
-//		canvasPane.getChildren().clear();
-//	}
+	private void clearMap(){
+		canvasPane.getChildren().clear();
+	}
 
 	private void drawMap() {
-//		clearMap();
+		clearMap();
 		drawBranches();
 		drawSpawns();
 		drawGoals();
