@@ -40,8 +40,8 @@ public class PathTab implements IWorkspace {
 	private BorderPane myBorderPane;
 	private TextField myPathWidthField;
 	private Pane canvasPane;
-	private ComboBox levelComboBox;
-	private ComboBox waveComboBox; 
+	private ComboBox<String> levelComboBox;
+	private ComboBox<String> waveComboBox; 
 
 	private IPathTabModel myModel;
 	private IAuthEnvironment myAuth;
@@ -71,6 +71,7 @@ public class PathTab implements IWorkspace {
 	private void refresh() {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myModel.refresh(this.myAuth);
+		this.buildLevelComboBox();
 		this.drawMap();
 	}
 
@@ -79,6 +80,7 @@ public class PathTab implements IWorkspace {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
+		this.myBorderPane.setRight(this.buildRight());
 	}
 
 	private Node buildCenter() {
@@ -93,15 +95,50 @@ public class PathTab implements IWorkspace {
 	private Node buildRight() {
 		VBox right = this.myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		right.getChildren().addAll(c)
+		right.getChildren().addAll(this.buildComboBoxes());
+		return right; 
 	}
 	
 	private Node buildComboBoxes() {
-		VBox cb = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
+		VBox vb = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		cb.getChildren().add()
+		
+		this.levelComboBox = new ComboBox<String>();
+		this.waveComboBox = new ComboBox<String>(); 
+		
+		this.buildLevelComboBox();
+		
+		vb.getChildren().addAll(this.levelComboBox, this.waveComboBox); 
+		return vb; 
 	}
+	
+	private void buildLevelComboBox() {
+		if (!this.myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
+			this.myModel.getLevelNames().stream().forEach(name -> this.levelComboBox.getItems().add(name));
+			this.levelComboBox.setOnAction(event -> {
+				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+				this.buildWaveComboBox(selectedItem);
+		        event.consume();
+			});
+		}
+		else {
+			this.levelComboBox.getItems().add(""); 
+		}
 
+		
+	
+	}
+	
+	private void buildWaveComboBox(String levelName) {
+		this.waveComboBox = new ComboBox<String>();
+		this.myModel.getWaveNames(levelName).stream().forEach(name -> this.waveComboBox.getItems().add(name));
+		this.waveComboBox.setOnAction(event -> {
+			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+			this.myModel.setWaveIndex(this.waveComboBox.getItems().indexOf(selectedItem));
+	        event.consume();
+		});
+	}
+	
 	// TODO: remove after testing
 	//	private UnitView buildTestUnitView() {
 	//		TestingEngineWorkspace test = new TestingEngineWorkspace();

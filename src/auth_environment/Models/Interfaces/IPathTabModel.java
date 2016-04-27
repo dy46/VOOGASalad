@@ -36,4 +36,12 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<Position> getSpawns();
 	
+	public List<String> getLevelNames();
+	
+	public List<String> getWaveNames(String selectedLevel); 
+	
+	public void setLevelIndex(int index); 
+	
+	public void setWaveIndex(int index); 
+	
 }

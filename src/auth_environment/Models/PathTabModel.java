@@ -2,11 +2,14 @@ package auth_environment.Models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Level;
+import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 
 /**
@@ -28,17 +31,24 @@ public class PathTabModel implements IPathTabModel {
 	private List<Position> myCurrentBranch;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
+	
+	// ComboBox contents
+	private List<Level> myLevels;
+	private List<Wave> myWaves; 
+	private int myLevelIndex; 
+	private int myWaveIndex; 
 
 	private double myPathWidth;
 
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
-		this.myMapHandler = new MapHandler(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
-		this.myCurrentBranch = new ArrayList<Position>();
-		this.myGoals = new ArrayList<Position>();
-		this.mySpawns = new ArrayList<Position>(); 
-		this.refresh(auth);
+		this.myCurrentBranch = new ArrayList<Position>(); 
+		this.myVisualBranches = auth.getVisualBranches();
+		this.myGoals = auth.getGoals();
+		this.mySpawns = auth.getSpawns();
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myLevels = auth.getLevels(); 
 	}
 
 	@Override
@@ -49,6 +59,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
 		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myLevels = auth.getLevels(); 
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 
@@ -127,6 +138,25 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Position> getSpawns() {
 		return mySpawns;
+	}
+	
+	public List<String> getLevelNames() {
+		return this.myLevels.stream().map(level -> level.getName()).collect(Collectors.toList());
+	}
+	
+	public List<String> getWaveNames(String selectedLevel) {
+		Level level = this.myLevels.stream().filter(l -> l.toString().equals(selectedLevel)).collect(Collectors.toList()).get(0);
+		return level.getWaves().stream().map(wave -> wave.getName()).collect(Collectors.toList());
+	}
+
+	@Override
+	public void setLevelIndex(int index) {
+		this.myLevelIndex = index;
+	}
+
+	@Override
+	public void setWaveIndex(int index) {
+		this.myWaveIndex = index; 
 	}
 
 }
