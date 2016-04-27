@@ -33,8 +33,20 @@ public class StoreFactory {
 		}
 	}
 	
+	public void addBuyableUnits(List<String> names, List<Integer> prices){
+		for(int i = 0;i < names.size();i++){
+			this.addBuyableUnit(names.get(i), prices.get(i));
+		}
+	}
+	
 	public void addUpgrade(String unitName,String upgradeName, int cost){
 		myStore.addUpgrade(myUnits.get(unitName), myUpgrades.get(upgradeName), cost);
+	}
+	
+	public void addUpgrades(List<String> unitNames, List<String> upgradeNames, List<Integer> costs){
+		for(int i = 0;i < unitNames.size();i++){
+			this.addUpgrade(unitNames.get(i), upgradeNames.get(i), costs.get(i));
+		}
 	}
 	
 	
