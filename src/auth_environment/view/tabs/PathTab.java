@@ -261,21 +261,6 @@ public class PathTab implements IWorkspace {
 				));
 	}
 
-	// Source: http://stackoverflow.com/questions/19748744/javafx-how-to-connect-two-nodes-by-a-line
-	class BoundLine extends Line {
-		BoundLine(DoubleProperty startX, DoubleProperty startY, DoubleProperty endX, DoubleProperty endY) {
-			startXProperty().bind(startX);
-			startYProperty().bind(startY);
-			endXProperty().bind(endX);
-			endYProperty().bind(endY);
-			setStrokeWidth(2);
-			setStroke(Color.GRAY.deriveColor(0, 1, 1, 0.5));
-			setStrokeLineCap(StrokeLineCap.BUTT);
-			getStrokeDashArray().setAll(10.0, 5.0);
-			setMouseTransparent(true);
-		}
-	}
-
 	private void addClickHandlers(Canvas canvas) {
 		this.canvasPane.setOnMouseClicked(e -> {
 			System.out.println("Drawing Index is: " + this.drawingIndex); 
