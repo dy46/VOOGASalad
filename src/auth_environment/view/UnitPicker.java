@@ -7,6 +7,7 @@ import auth_environment.Models.UnitView;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.ElementTab;
 import game_engine.game_elements.Unit;
+import javafx.event.ActionEvent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -47,6 +48,10 @@ public class UnitPicker{
 		myEditPane.setText(name);
 		myEditPane.setContent(editScrollPane);
 		myEditPane.setCollapsible(false);
+	}
+	
+	public List<UnitView> getUnitViews() {
+		return this.myUnitViews;
 	}
 	
 	public void setUnits(List<Unit> units) {
