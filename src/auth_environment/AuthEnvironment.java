@@ -258,5 +258,11 @@ public class AuthEnvironment implements IAuthEnvironment {
         // TODO Auto-generated method stub
         
     }
+
+	@Override
+	public void saveGameData() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
