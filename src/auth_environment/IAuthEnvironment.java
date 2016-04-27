@@ -19,7 +19,7 @@ import game_engine.properties.Position;
 
 public interface IAuthEnvironment {
 	
-	// GlobalGameTab - Brian
+	// GlobalGameTab
 	
 	public void setGameName(String name);
 	
@@ -29,7 +29,7 @@ public interface IAuthEnvironment {
 	
 	public String getSplashScreen(); 
 	
-	// Path Tab - Brian
+	// Path Tab
 	
 	public List<Position> getGoals();
 	
@@ -39,7 +39,7 @@ public interface IAuthEnvironment {
 	
 	public void setSpawns(List<Position> spawns); 
 	
-	// All Levels Tab - Austin
+	// Levels Tab
 	
 	public void setLevels(List<Level> levels); 
 	
@@ -55,9 +55,7 @@ public interface IAuthEnvironment {
 	
 	public List<Unit> getPlacedUnits(); 
 	
-	// Austin will also use getTowers(), getTerrains(), and getEnemies() (seen below) 
-	
-	// Create Units + Affector Tab - Virginia
+	// Unit / Affector Creator Tab
 	
 	public void setTowers(List<Unit> towers); 
 	

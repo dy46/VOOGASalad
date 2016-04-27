@@ -16,27 +16,7 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
-/**
- * Created by BrianLin on 4/19/16
- * Team member responsible: Brian
- *
- * This class holds the highest level of Auth Environment backend data. Most important is a single instance
- * of IEngineWorkspace.java (all of our data). 
- * 
- * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
- */
-
-/**
- * Created by BrianLin on 4/19/16
- * Team member responsible: Brian
- *
- * This class holds the highest level of Auth Environment backend data. Most important is a single instance
- * of IEngineWorkspace.java (all of our data). 
- * 
- * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
- */
-
-public class BlankAuthData implements IAuthEnvironment {
+public class SampleAuthEnvironment implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
@@ -53,7 +33,7 @@ public class BlankAuthData implements IAuthEnvironment {
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
 
-	public BlankAuthData() {
+	public SampleAuthEnvironment() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
 		this.myEngineBranches = new ArrayList<>();

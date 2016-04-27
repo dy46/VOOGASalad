@@ -23,7 +23,6 @@ public interface IGameData {
 
     public List<PlaceValidation> getPlaceValidations();
 
-   
     public WaveGoal getWaveGoal();
     public void setWaveGoal(WaveGoal waveGoal);
     
