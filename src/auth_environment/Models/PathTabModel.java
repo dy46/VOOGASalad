@@ -33,12 +33,20 @@ public class PathTabModel implements IPathTabModel {
 
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
-		this.myVisualBranches = auth.getVisualBranches();
+		this.myMapHandler = new MapHandler(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
-		this.myCurrentBranch = new ArrayList<>();
+		this.myCurrentBranch = new ArrayList<Position>();
+		this.myGoals = new ArrayList<Position>();
+		this.mySpawns = new ArrayList<Position>(); 
+	}
+
+	@Override
+	public void refresh(IAuthEnvironment auth) {
+		this.myCurrentBranch.clear();
+		this.myVisualBranches = auth.getVisualBranches();
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 

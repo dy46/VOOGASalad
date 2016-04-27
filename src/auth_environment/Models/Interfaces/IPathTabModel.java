@@ -2,10 +2,13 @@ package auth_environment.Models.Interfaces;
 
 import java.util.List;
 
+import auth_environment.IAuthEnvironment;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public interface IPathTabModel extends IWorkspaceModel {
+	
+	public void refresh(IAuthEnvironment auth); 
 	
 	public void setPathWidth(double width);
 	
