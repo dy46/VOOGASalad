@@ -61,19 +61,13 @@ public class VisibilityHandler {
 		for(Branch visible : visibilityBranches){
 			fixNeighbors(visible, branchesToFilter);
 		}
+		List<Branch> branches = new ArrayList<>(visibilityBranches);
 		for(Branch branchToFilter : branchesToFilter){
-			remove(new ArrayList<>(visibilityBranches), branchToFilter);
-		}
-		return new ArrayList<>(visibilityBranches);
-	}
-	
-	private void remove(List<Branch> branches, Branch branchToRemove){
-		for(int x=0; x<branches.size(); x++){
-			if(branches.get(x).equals(branchToRemove)){
-				branches.remove(x);
-				x--;
+			while(branches.contains(branchToFilter)){
+				branches.remove(branchToFilter);
 			}
 		}
+		return branches;
 	}
 
 	private void fixNeighbors(Branch branch, List<Branch> branchesToFilter) {
