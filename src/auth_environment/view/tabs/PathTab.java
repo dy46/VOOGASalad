@@ -193,7 +193,7 @@ public class PathTab implements IWorkspace {
 		}
 	}
 
-	private void submitBranch(){
+	private void submitBranch() {
 		this.myPathTabModel.submitBranch();
 		this.currentBranch.clear();
 		this.drawMap();
@@ -205,6 +205,7 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void drawBranch(Branch branch) {
+		System.out.println("drawing a branch..."); 
 		this.displayEndPoint(branch.getFirstPosition().getX(),
 				branch.getFirstPosition().getY());
 		this.displayEndPoint(branch.getLastPosition().getX(),
