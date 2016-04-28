@@ -138,11 +138,10 @@ public class PathTab implements IWorkspace {
 		if (!this.myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
 //			this.myPathTabModel.getLevelNames().stream().forEach(name -> this.levelComboBox.getItems().add(name));
 			this.levelComboBox.getItems().addAll(this.myPathTabModel.getLevelNames());
-			this.levelComboBox.getItems().addAll("One", "Two", "Three"); 
 			this.levelComboBox.setOnAction(event -> {
 				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 				System.out.println(selectedItem);
-				this.buildWaveComboBox(selectedItem);
+//				this.buildWaveComboBox(selectedItem);
 				event.consume();
 			});
 		}
