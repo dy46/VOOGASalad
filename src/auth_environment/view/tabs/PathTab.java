@@ -21,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -32,7 +33,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PathTab implements IWorkspace {
+public class PathTab extends Tab implements IWorkspace {
 
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -56,7 +57,8 @@ public class PathTab implements IWorkspace {
 	private int drawingIndex;
 	private List<Position> currentBranch;
 
-	public PathTab(IAuthModel auth) {
+	public PathTab(String name, IAuthModel auth) {
+		super(name); 
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
 		this.myPathTabModel = new PathTabModel(this.myAuth); 
@@ -66,6 +68,7 @@ public class PathTab implements IWorkspace {
 		this.setupBorderPane();
 		this.currentBranch = new ArrayList<>();
 		this.drawMap();
+		this.setContent(this.getRoot());
 	}
 
 	private void addConfirmationDialog() {
@@ -87,7 +90,7 @@ public class PathTab implements IWorkspace {
 	}
 
 	private void setupBorderPane() {
-				this.myBorderPane.setOnMouseEntered(e -> this.refresh());
+		this.setOnSelectionChanged(e -> this.refresh());
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
