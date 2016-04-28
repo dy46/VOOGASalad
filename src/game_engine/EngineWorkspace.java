@@ -10,6 +10,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationDetector;
@@ -26,7 +27,7 @@ public class EngineWorkspace implements GameEngineInterface {
     private List<Affector> myAffectors;
     private LevelController myLevelController;
     private ICollisionDetector myCollider;
-    private EncapsulationDetector myEncapsulator;
+    private IEncapsulationDetector myEncapsulator;
     private UnitController myUnitController;
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
