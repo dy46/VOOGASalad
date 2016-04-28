@@ -164,8 +164,7 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void buildUnitPicker(String waveName) {
-		System.out.println(this.myPathTabModel.getWaveUnits(waveName));
-//		this.myUnitPicker.setUnits(this.myPathTabModel.getWaveUnits(waveName));
+		this.myUnitPicker.setUnits(this.myPathTabModel.getWaveUnits(waveName));
 	}
 
 	private HBox buildTextInput() {
