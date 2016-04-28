@@ -81,7 +81,6 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void refresh() {
-		System.out.println("refresh");
 		this.clearComboBoxes();
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myPathTabModel.refresh(this.myAuth);

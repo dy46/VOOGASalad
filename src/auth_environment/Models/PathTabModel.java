@@ -62,7 +62,6 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
-		System.out.println("refresh"); 
 		this.myCurrentBranch.clear();
 		this.myVisualBranches = auth.getVisualBranches();
 		this.myGoals = auth.getGoals();
@@ -84,7 +83,6 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void submitBranch() {
-		System.out.println("My current branch: " + myCurrentBranch);
 		this.myMapHandler.processPositions(myCurrentBranch);
 		myCurrentBranch.clear();
 		this.submit(); 
