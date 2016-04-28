@@ -15,6 +15,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.DragEvent;
@@ -29,7 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 
-public class MapEditorTab implements IWorkspace {	
+public class MapEditorTab extends Tab implements IWorkspace {	
 	
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -48,13 +49,15 @@ public class MapEditorTab implements IWorkspace {
     private int numCols = 10 ;
     private int numRows = 10 ;
 	
-	public MapEditorTab(IAuthModel auth) {
+	public MapEditorTab(String name, IAuthModel auth) {
+		super(name);
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
 		this.myModel = new MapEditorTabModel(myAuth); 
 		this.buildTerrainChooser();
 		this.buildMapPane();
 		this.setupBorderPane();
+		this.setContent(this.getRoot());
 	}
 
 	private void setupBorderPane() {
