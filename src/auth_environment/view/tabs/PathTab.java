@@ -25,6 +25,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -330,6 +331,13 @@ public class PathTab extends Tab implements IWorkspace {
 		PathPoint point = new PathPoint(goal, this.myPathTabModel.getPathWidth()); 
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREEN);
+		point.getCircle().setOnMouseClicked(e -> {
+			 if(e.getButton().equals(MouseButton.PRIMARY)){
+		            if(e.getClickCount() == 2){
+		            	this.myPathTabModel.addGoalToActiveLevel(point.getPosition());
+		            }
+		        }
+		});
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
