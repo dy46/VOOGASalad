@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.ICollisionDetector;
 import game_engine.physics.CollisionDetector;
 import game_engine.properties.Position;
 
@@ -26,7 +27,7 @@ public class AISimulator {
 	private AISearcher myAISearcher;
 	private AIHandler myAIHandler;
 	private VisibilityHandler myVisibility;
-	private CollisionDetector collisionDetector;
+	private ICollisionDetector collisionDetector;
 
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;

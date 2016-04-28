@@ -22,6 +22,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
@@ -625,6 +626,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	@Override
 	public AISimulator getAISimulator() {
 		return myAISimulator;
+	}
+
+	@Override
+	public ILevelDisplayer getLevelDisplay() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

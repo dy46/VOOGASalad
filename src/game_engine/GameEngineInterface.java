@@ -5,6 +5,7 @@ import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
 import game_engine.game_elements.Branch;
+import game_engine.interfaces.ILevelDisplayer;
 import game_engine.properties.Position;
 
 
@@ -47,5 +48,7 @@ public interface GameEngineInterface {
 	public AISearcher getAISearcher();
 
 	public AISimulator getAISimulator();
+
+	ILevelDisplayer getLevelDisplay();
 
 }
