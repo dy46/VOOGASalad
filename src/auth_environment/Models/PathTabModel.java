@@ -164,11 +164,12 @@ public class PathTabModel implements IPathTabModel {
 		// TODO: get this working with getSpawningUnitsLeft() method 
 	}
 
+	// TODO: can Units repeat the same branch? 
 	@Override
 	public Branch reselectBranch(BoundLine line) {
-		System.out.println("BoundLine " + this.myBranchMap.get(line).toString() + " selected!"); 
 		if (this.myActiveUnit!=null) {
 			this.myActiveUnit.getProperties().getMovement().getBranches().add(this.myBranchMap.get(line));
+			System.out.println("Current branches " + this.myActiveUnit.getProperties().getMovement().getBranches());
 		}
 		return this.myBranchMap.get(line); 
 	}
