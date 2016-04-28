@@ -139,12 +139,11 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void buildLevelComboBox() {
 		if (!this.myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
-//			this.myPathTabModel.getLevelNames().stream().forEach(name -> this.levelComboBox.getItems().add(name));
 			this.levelComboBox.getItems().addAll(this.myPathTabModel.getLevelNames());
 			this.levelComboBox.setOnAction(event -> {
 				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-				System.out.println(selectedItem);
-//				this.buildWaveComboBox(selectedItem);
+				System.out.println("Level combo box used " + selectedItem + "!");
+				this.buildWaveComboBox(selectedItem);
 				event.consume();
 			});
 		}
@@ -155,16 +154,18 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void buildWaveComboBox(String levelName) {
 		this.waveComboBox = new ComboBox<String>();
-		this.myPathTabModel.getWaveNames(levelName).stream().forEach(name -> this.waveComboBox.getItems().add(name));
+		this.waveComboBox.getItems().addAll(this.myPathTabModel.getWaveNames(levelName));
 		this.waveComboBox.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+			System.out.println("Wave combo box used " + selectedItem + "!");
 			this.buildUnitPicker(selectedItem);
 			event.consume();
 		});
 	}
 
 	private void buildUnitPicker(String waveName) {
-		this.myUnitPicker.setUnits(this.myPathTabModel.getWaveUnits(waveName));
+		System.out.println(this.myPathTabModel.getWaveUnits(waveName));
+//		this.myUnitPicker.setUnits(this.myPathTabModel.getWaveUnits(waveName));
 	}
 
 	private HBox buildTextInput() {
