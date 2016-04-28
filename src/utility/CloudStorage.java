@@ -3,11 +3,13 @@ package utility;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.box.sdk.BoxAPIConnection;
+import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
 import com.box.sdk.BoxUser;
@@ -25,9 +27,7 @@ public class CloudStorage {
     public CloudStorage (String dt) throws FileNotFoundException {
         this.devToken = dt;
         BoxAPIConnection api = new BoxAPIConnection(devToken);
-        BoxUser.Info userInfo = BoxUser.getCurrentUser(api).getInfo();
         System.out.println("Thanks for logging in!"); 
-//        System.out.format("Welcome, %s <%s>!\n\n", userInfo.getName(), userInfo.getLogin());
         this.rootFolder = BoxFolder.getRootFolder(api);
         this.currentFolder = this.rootFolder;
         tb = new TextBot(RESOURCE_PATH);
@@ -71,7 +71,9 @@ public class CloudStorage {
         InputStream is = new FileInputStream(f);
         currentFolder.uploadFile(is, name);
     }
-
+    public void goToRootFolder(){
+    	this.currentFolder = this.rootFolder;
+    }
     private BoxFolder getFolder (String name) {
         return this.getFolder(rootFolder, name);
     }
@@ -144,6 +146,26 @@ public class CloudStorage {
     		files.add(addition);
     	}
     	return files;
+    }
+    
+    public void downloadFromCurrent(String name, String location) throws FileNotFoundException{
+    	File f = new File(location+"/"+name);
+    	for (BoxItem.Info itemInfo : this.currentFolder) {
+    		System.out.println(itemInfo.getName());
+    	    if (itemInfo instanceof BoxFile.Info && itemInfo.getName().equals(name)) {
+    	        BoxFile.Info fileInfo = (BoxFile.Info) itemInfo;
+    	        fileInfo.getResource().download(new FileOutputStream(f));
+    	    } else if (itemInfo instanceof BoxFolder.Info && itemInfo.getName().equals(name)) {
+    	        BoxFolder.Info folderInfo = (BoxFolder.Info) itemInfo;
+    	        f.mkdirs();
+    	        BoxFolder prev = this.currentFolder;
+    	        this.goToFolder(name);
+    	        for(BoxItem.Info child : folderInfo.getResource()){
+    	        	this.downloadFromCurrent(child.getName(), location+"/"+name);
+    	        }
+    	        this.currentFolder = prev;
+    	    }
+    	}
     }
 
 }
