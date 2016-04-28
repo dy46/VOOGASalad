@@ -35,8 +35,10 @@ public class Movement {
 
 	public void setBranches(List<Branch> branches){
 		this.myBranches = branches;
-		if(branches != null && branches.size() != 0)
-			this.initializeCurrentBranch(branches.get(0));
+		if(branches != null && branches.size() != 0){
+			myCurrentBranch = branches.get(0);
+			initializeMovingTowards();
+		}
 	}
 
 	public Movement copyMovement(){
@@ -65,11 +67,6 @@ public class Movement {
 	}
 
 	public void setCurrentBranch(Branch branch) {
-		myCurrentBranch = branch;
-		initializeMovingTowards();
-	}
-
-	public void initializeCurrentBranch(Branch branch){
 		myCurrentBranch = branch;
 		initializeMovingTowards();
 	}
@@ -103,7 +100,7 @@ public class Movement {
 				movingTowards = myCurrentBranch.getFirstPosition();
 			}
 			else{
-//				System.out.println("MIDDLE");
+				
 			}
 		}
 	}

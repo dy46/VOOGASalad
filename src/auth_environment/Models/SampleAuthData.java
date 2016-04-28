@@ -75,21 +75,21 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
 		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
-//		this.setupDummyValues();
+		this.setupDummyValues();
 	}
 
 	private void setupDummyValues() {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
 		test.setUpEngine(null);
-		this.setTerrains(test.getTerrains());
-		this.setTowers(test.getTowers());
-		this.setLevels(test.getLevels());
-		this.setProjectiles(test.getProjectiles());
-		this.setAffectors(test.getAffectors());
-		this.setEnemies(test.getEnemies());
+//		this.setTerrains(test.getTerrains());
+//		this.setTowers(test.getTowers());
+//		this.setLevels(test.getLevels());
+//		this.setProjectiles(test.getProjectiles());
+//		this.setAffectors(test.getAffectors());
+//		this.setEnemies(test.getEnemies());
 		MapHandler mh = new MapHandler();
-		List<Branch> branches = mh.getEngineBranches();
-		this.setEngineBranches(mh.getEngineBranches());
+//		List<Branch> branches = mh.getEngineBranches();
+//		this.setEngineBranches(mh.getEngineBranches());
 		this.setGoals(mh.getGoals());
 		this.setSpawns(mh.getSpawns());
 		//		Unit tower = test.getTerrains().get(0); 
@@ -275,4 +275,5 @@ public class SampleAuthData implements IAuthEnvironment {
 	public void setAffectorFactory(AffectorFactory factory) {
 		this.myAffectorFactory = factory; 
 	}
+	
 }

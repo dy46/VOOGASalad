@@ -60,7 +60,7 @@ public class UnitPicker{
 	public void setDragable(){
 //		myUnitViews.stream().forEach(s->addUnitViewSource(s));
 		myUnitViews.stream().forEach(e -> {
-			DragDelegate drag= new DragDelegate();
+			DragDelegate drag = new DragDelegate();
 			drag.addUnitViewSource(e);
 		});
 	}

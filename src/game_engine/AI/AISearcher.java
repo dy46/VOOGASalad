@@ -1,20 +1,18 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.Stack;
+import auth_environment.paths.PositionHandler;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
-
 
 /**
  * This class is a utility Artificial Intelligence searcher that allows for search problems.
@@ -39,43 +37,76 @@ public class AISearcher {
 	}
 
 	public List<Branch> getShortestPath(Position current, List<Branch> visibilityBranches){
-		List<Position> goals = new ArrayList<>();
-		goals.addAll(myEngine.getLevelController().getCurrentLevel().getGoals());
-		List<Position> sortedGoals = manhattanDistanceSort(current, goals);
-		if(sortedGoals.size() == 0){
-			return null;
-		}
-		Position closestGoal = sortedGoals.remove(0);
-		while(closestGoal == null){
-			closestGoal = sortedGoals.remove(0);
-			if(closestGoal != null){
-				break;
-			}
-		}
-		List<Branch> path = getShortestPathToGoal(current, closestGoal, visibilityBranches);
-		while(path == null && sortedGoals.size() > 0){
-			closestGoal = sortedGoals.remove(0);
-			path = getShortestPathToGoal(current, closestGoal, visibilityBranches);
+		for(Position goal : getGoals()){
+			List<Branch> path = this.getBFSPath(current, goal, visibilityBranches);
 			if(path != null){
 				return path;
 			}
 		}
-		return path;
+		return null;
 	}
 
-	public List<Branch> getShortestPathToGoal(Position start, Position goal, List<Branch> visibilityBranches){
-		List<Branch> startBranches = myEngine.getBranchesAtPos(start);
-		List<Branch> goalBranches = myEngine.getBranchesAtPos(goal);
-		List<Branch> bestPath = null;
-		for(Branch s : startBranches){
-			for(Branch g: goalBranches){
-				bestPath = dijkstrasShortestPath(s, g, visibilityBranches, goal);
-				if(bestPath != null){
-					return bestPath;
+	public List<Branch> getBFSPath(Position current, Position goal, List<Branch> visibilityBranches){
+		Queue<Position> queue = new LinkedList<>();
+		HashMap<Position, Integer> distances = new HashMap<>();
+		HashMap<Position, Position> edges = new HashMap<>();
+		HashSet<Position> visited = new HashSet<>();
+		getEndPoints(visibilityBranches).stream().forEach(p -> distances.put(p, Integer.MAX_VALUE));
+		distances.put(current, 0);
+		visited.add(current);
+		queue.add(current);
+		while(!queue.isEmpty()){
+			Position next = queue.poll();
+			for(Position adjacent : getNeighborPositions(visibilityBranches, next)){
+				if(!visited.contains(adjacent)){
+					edges.put(adjacent, next);
+					distances.put(adjacent, distances.get(next) + 1);
+					visited.add(adjacent);
+					queue.add(adjacent);
 				}
 			}
 		}
-		return null;
+		if(!visited.contains(goal)){
+			return null;
+		}
+		Stack<Position> path = new Stack<>();
+		for(current = goal; distances.get(current) != 0; current = edges.get(current)){
+			path.push(current);
+		}
+		path.push(current);
+		Collections.reverse(path);
+		List<Branch> newPath = new PositionHandler().createPath(path, visibilityBranches);
+		//trimFirstBranch(newPath, current);
+		return newPath;
+	}
+	
+//	private void trimFirstBranch(List<Branch> newPath, Position currPos){
+//		if(newPath == null || newPath.size() <= 1)
+//			return;
+//		Branch firstBranch = newPath.get(0);
+//		Branch secondBranch = newPath.get(1);
+//		int trimIndex = firstBranch.getPositions().indexOf(currPos);
+//		boolean trimRight = secondBranch.getEndPoints().contains(firstBranch.getFirstPosition());
+//		Branch newBranch = trimBranchAtIndex(trimIndex, trimRight, firstBranch);
+//		newPath.set(0, newBranch);
+//	}
+//	
+//	private Branch trimBranchAtIndex(int trimIndex, boolean trimRight, Branch branch){
+//		Branch copyBranch = branch.copyBranch();
+//		List<Position> copyPos = copyBranch.getPositions();
+//		List<Position> trimmedPos = trimRight ? copyPos.subList(0, trimIndex+1): copyPos.subList(trimIndex, copyPos.size());
+//		branch = new Branch(trimmedPos);
+//		branch.addNeighbors(copyBranch.getNeighbors());
+//		return branch;
+//	}
+	
+	private List<Position> getEndPoints(List<Branch> visibilityBranches){
+		HashSet<Position> pointSet = new HashSet<>();
+		for(Branch b : visibilityBranches){
+			pointSet.add(b.getFirstPosition());
+			pointSet.add(b.getLastPosition());
+		}
+		return new ArrayList<>(pointSet);
 	}
 
 	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
@@ -104,70 +135,29 @@ public class AISearcher {
 		return true;
 	}
 
-	public List<Branch> dijkstrasShortestPath(Branch start, Branch branchGoal, List<Branch> visibilityBranches, Position goal){
-		HashMap<Branch, Branch> nextNodeMap = new HashMap<>();
-		Branch currentNode = start;
-		Queue<Branch> queue = new LinkedList<>();
-		queue.add(currentNode);
-		Set<Branch> visitedNodes = new HashSet<>();
-		visitedNodes.add(currentNode);
-		while (!queue.isEmpty()) {
-			currentNode = queue.remove();
-			if(currentNode == null){
-				break;
-			}
-			if (currentNode.equals(branchGoal)) {
-				List<Branch> visitedList = new ArrayList<>(visitedNodes);
-				if(isValidGoalDirection(branchGoal, goal, visitedList.get(visitedList.size() - 1)))
-						break;
+	private List<Branch> getVisibleBranchesAtPos(List<Branch> visibility, Position current){
+		List<Branch> branchesAtPos = new ArrayList<>();
+		for(Branch b : visibility){
+			if(b.getPositions().contains(current))
+				branchesAtPos.add(b);
+		}
+		return branchesAtPos;
+	}
+
+	private List<Position> getNeighborPositions(List<Branch> visibility, Position current){
+		List<Branch> neighboringBranches = getVisibleBranchesAtPos(visibility, current);
+		List<Position> neighborPos = new ArrayList<>();
+		for(Branch n : neighboringBranches){
+			if(n.getFirstPosition().equals(current)) {
+				neighborPos.add(n.getLastPosition());
+			} else if(n.getLastPosition().equals(current)) {
+				neighborPos.add(n.getFirstPosition());
 			} else {
-				for (Branch nextNode : currentNode.getNeighbors()) {
-					if (!visitedNodes.contains(nextNode)) {
-						if(visibilityBranches.contains(nextNode)){
-							queue.add(nextNode);
-							visitedNodes.add(nextNode);
-							nextNodeMap.put(currentNode, nextNode);
-						}
-					}
-				}
+				neighborPos.add(n.getLastPosition());
+				neighborPos.add(n.getFirstPosition());
 			}
 		}
-		if (!currentNode.equals(branchGoal)) {
-			return null;
-		}
-		List<Branch> shortestPath = new LinkedList<>();
-		for (Branch node = start; node != null; node = nextNodeMap.get(node)) {
-			shortestPath.add(node);
-		}
-		shortestPath.add(getValidGoalBranch(shortestPath.get(shortestPath.size() - 1).getLastPosition(), goal));
-		return shortestPath;
-	}
-	
-	private Branch getValidGoalBranch(Position lastPos, Position goal){
-		return new Branch(Arrays.asList(lastPos, goal));
-	}
-
-	private boolean isValidGoalDirection(Branch branchGoal, Position goal, Branch previousBranch) {
-		Position lastPos = previousBranch.getLastPosition();
-		Branch validGoalBranch = getValidGoalBranch(lastPos, goal);
-		return branchGoal.equals(validGoalBranch);
-	}
-
-	private List<Position> manhattanDistanceSort(Position current, List<Position> goals){
-		TreeMap<Double, Position> manhattanDistanceMap = new TreeMap<>();
-		for(Position goal : goals){
-			manhattanDistanceMap.put(getManhattanDistance(current, goal), goal);
-		}
-		List<Position> sorted = new ArrayList<>();
-		Iterator<Position> it = manhattanDistanceMap.values().iterator();
-		while(it.hasNext()){
-			sorted.add(it.next());
-		}
-		return sorted;
-	}
-
-	public double getManhattanDistance(Position current, Position goal){
-		return Math.sqrt(Math.pow(current.getX(), goal.getY()) + Math.pow(current.getY(), goal.getY()));
+		return neighborPos;
 	}
 
 	public boolean BFSPossible(List<Branch> visibilityBranches, Position current, Position goal){
@@ -225,6 +215,10 @@ public class AISearcher {
 			return null;
 		}
 		return visibleNeighbors.get(0);
+	}
+
+	private List<Position> getGoals(){
+		return myEngine.getLevelController().getCurrentLevel().getGoals();
 	}
 
 }

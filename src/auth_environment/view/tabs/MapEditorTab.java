@@ -1,13 +1,11 @@
 package auth_environment.view.tabs;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
-import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -156,7 +154,6 @@ public class MapEditorTab implements IWorkspace {
 //					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
 //					System.out.println(db.getImage());
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
-					
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 					if(target.getClass().getName().equals("Pane")){
 						
