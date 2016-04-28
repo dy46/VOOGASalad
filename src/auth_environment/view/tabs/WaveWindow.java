@@ -111,7 +111,7 @@ public class WaveWindow {
 		if (cbox.getValue() != null) {
 			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
+			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 
 			newTableInfo.add(addSpawnTimeHBox(true, newcbox), 2, index);
 			
@@ -130,7 +130,7 @@ public class WaveWindow {
 		if (cbox.getValue() != null) {
 			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
+			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 
 			newTableInfo.add(addSpawnTimeHBox(false, newcbox), 2, index);
 			
