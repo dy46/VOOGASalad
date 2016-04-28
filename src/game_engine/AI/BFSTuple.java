@@ -1,6 +1,7 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -68,6 +69,9 @@ public class BFSTuple {
 		Branch copyBranch = branch.copyBranch();
 		List<Position> copyPos = copyBranch.getPositions();
 		List<Position> trimmedPos = trimRight ? copyPos.subList(0, trimIndex+1): copyPos.subList(trimIndex, copyPos.size());
+		if(trimRight){
+			Collections.reverse(trimmedPos);
+		}
 		branch = new Branch(trimmedPos);
 		branch.addNeighbors(copyBranch.getNeighbors());
 		return branch;
