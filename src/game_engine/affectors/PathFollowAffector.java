@@ -1,9 +1,5 @@
 package game_engine.affectors;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import game_engine.AI.VisibilityHandler;
 import game_engine.functions.Function;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -39,21 +35,6 @@ public abstract class PathFollowAffector extends Affector {
 
     public Double getNextDirection (Unit u) {
         return u.getProperties().getMovement().getNextDirection();
-    }
-
-    public List<Branch> getValidBranchChoices (Unit u) {
-        List<Branch> choices = getAllBranchChoices(u);
-        VisibilityHandler vg = new VisibilityHandler(getWorkspace());
-        HashSet<Branch> visibleChoices = new HashSet<>();
-        List<Branch> visibleBranches = vg.getVisibilityBranches();
-        for (Branch choice : choices) {
-            for (Branch v : visibleBranches) {
-                if (choice.equals(v)) {
-                    visibleChoices.add(choice);
-                }
-            }
-        }
-        return new ArrayList<>(visibleChoices);
     }
 
     public List<Branch> getAllBranchChoices (Unit u) {

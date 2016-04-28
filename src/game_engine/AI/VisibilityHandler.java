@@ -30,75 +30,108 @@ public class VisibilityHandler {
 		myEngine = engine;
 	}
 
-	public List<Branch> getVisibilityBranches () {
-		return getVisibilityBranches(myEngine.getUnitController().getUnitType("Tower"));
+	public List<Position> getVisibleNodes () {
+		return getVisibleNodes(getCurrentObstacles());
 	}
 
-	public List<Branch> getVisibilityBranches (Unit obstacle) {
-		List<Unit> obstacles = getUnitCopyList(myEngine.getUnitController().getUnitType("Tower"));
+	public List<Position> getVisibleNodes (Unit obstacle) {
+		List<Unit> obstacles = getUnitCopyList(getCurrentObstacles());
 		obstacles.add(obstacle.copyShallowUnit());
-		return getVisibilityBranches(obstacles);
+		return getVisibleNodes(obstacles);
 	}
-
-	public boolean isPositionVisible (List<Branch> visibilityBranches, Position pos) {
-		for (Branch v : visibilityBranches) {
-			for (Position p : v.getPositions()) {
-				if (p.equals(pos)) {
-					return true;
-				}
+	
+	public List<Position> getVisibleNeighbors(Position curr, List<Branch> searchBranches, List<Position> visibleNodes) {
+		List<Position> visibleNeighbors = new ArrayList<>();
+		List<Position> neighborPos = getNeighborPositions(searchBranches, curr);
+		for(Position neighbor : neighborPos){
+			if(visibleNodes.contains(neighbor)){
+				visibleNeighbors.add(neighbor);
 			}
 		}
-		return false;
+		return visibleNeighbors;
+	}
+	
+	private List<Unit> getCurrentObstacles(){
+		return myEngine.getUnitController().getUnitType("Tower");
 	}
 
-	private List<Branch> getVisibilityBranches (List<Unit> obstacles) {
-		List<Branch> branchesToFilter = getBranchesToFilter(obstacles);
-		return getFilteredVisibilityBranches(branchesToFilter);
+	private List<Position> getVisibleNodes (List<Unit> obstacles) {
+		List<Position> nodesToFilter = getNodesToFilter(obstacles);
+		return getFilteredNodes(nodesToFilter);
 	}
 
-	private List<Branch> getFilteredVisibilityBranches (List<Branch> branchesToFilter) {
-		HashSet<Branch> visibilityBranches = new HashSet<Branch>(getBranchCopyList(myEngine.getBranches()));
-		for(Branch visible : visibilityBranches){
-			fixNeighbors(visible, branchesToFilter);
-		}
-		List<Branch> branches = new ArrayList<>(visibilityBranches);
-		for(Branch branchToFilter : branchesToFilter){
-			while(branches.contains(branchToFilter)){
-				branches.remove(branchToFilter);
+	private List<Position> getFilteredNodes (List<Position> nodesToFilter) {
+		HashSet<Position> copyVisibleNodes = new HashSet<Position>(getPosCopyList(getEndPoints(myEngine.getBranches())));
+		List<Position> nodes = new ArrayList<>(copyVisibleNodes);
+		for(Position nodeToFilter : nodesToFilter){
+			while(nodes.contains(nodeToFilter)){
+				nodes.remove(nodeToFilter);
 			}
 		}
-		return branches;
+		return nodes;
 	}
 
-	private void fixNeighbors(Branch branch, List<Branch> branchesToFilter) {
-		for (Branch filteredBranch : branchesToFilter) {
-			branch.removeNeighbor(filteredBranch);
-		}
-	}
-
-	private List<Branch> getBranchesToFilter (List<Unit> obstacles) {
-		Set<Branch> removalList = new HashSet<>();
-		List<Branch> copyBranches = getBranchCopyList(myEngine.getBranches());
+	private List<Position> getNodesToFilter (List<Unit> obstacles) {
+		Set<Position> removalList = new HashSet<>();
+		List<Position> copyPos = getPosCopyList(getEndPoints(myEngine.getBranches()));
 		List<Unit> copyObstacles = getUnitCopyList(obstacles);
 		for (Unit o : copyObstacles) {
-			for (Branch b : copyBranches) {
-				for (Position pos : b.getPositions()) {
-					if (EncapsulationChecker.encapsulates(Arrays.asList(pos), o.getProperties()
-							.getBounds().getUseableBounds(o.getProperties().getPosition()))) {
-						removalList.add(b);
-					}
+			for (Position pos : copyPos) {
+				if (EncapsulationChecker.encapsulates(Arrays.asList(pos), o.getProperties()
+						.getBounds().getUseableBounds(o.getProperties().getPosition()))) {
+					removalList.add(pos);
 				}
 			}
 		}
-		return new ArrayList<Branch>(removalList);
+		return new ArrayList<Position>(removalList);
 	}
 
-	private List<Branch> getBranchCopyList(List<Branch> branches){
-		return branches.stream().map(b -> b.copyBranch()).collect(Collectors.toList());
+	private List<Position> getPosCopyList(List<Position> positions){
+		return positions.stream().map(b -> b.copyPosition()).collect(Collectors.toList());
 	}
 
 	private List<Unit> getUnitCopyList(List<Unit> units){
 		return units.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
+	}
+	
+	private List<Position> getEndPoints(Branch b){
+		return Arrays.asList(b.getFirstPosition(), b.getLastPosition());
+	}
+
+	private List<Position> getEndPoints(List<Branch> branches){
+		HashSet<Position> pointSet = new HashSet<>();
+		for(Branch b : branches){
+			List<Position> endPoints = getEndPoints(b);
+			for(Position endPoint : endPoints){
+				pointSet.add(endPoint);
+			}
+		}
+		return new ArrayList<>(pointSet);
+	}
+
+	private List<Position> getNeighborPositions(List<Branch> visibility, Position current){
+		List<Branch> neighboringBranches = getVisibleBranchesAtPos(visibility, current);
+		List<Position> neighborPos = new ArrayList<>();
+		for(Branch n : neighboringBranches){
+			if(n.getFirstPosition().equals(current)) {
+				neighborPos.add(n.getLastPosition());
+			} else if(n.getLastPosition().equals(current)) {
+				neighborPos.add(n.getFirstPosition());
+			} else {
+				neighborPos.add(n.getLastPosition());
+				neighborPos.add(n.getFirstPosition());
+			}
+		}
+		return neighborPos;
+	}
+
+	private List<Branch> getVisibleBranchesAtPos(List<Branch> visibility, Position current){
+		List<Branch> branchesAtPos = new ArrayList<>();
+		for(Branch b : visibility){
+			if(b.getPositions().contains(current))
+				branchesAtPos.add(b);
+		}
+		return branchesAtPos;
 	}
 
 }
