@@ -6,10 +6,12 @@ import game_data.AuthSerializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
 import game_engine.TestingEngineWorkspace;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 
 
@@ -36,6 +38,8 @@ public class PlayerGUI {
         myTabs = new TabPane();
 
         myScene = new Scene(myRoot, windowWidth, windowHeight);
+        
+        myScene.setCursor(new ImageCursor(new Image("mousecursor.png")));
 
         // TODO: Create resource file for UI text.
         Button newTabButton = new Button(myResources.getString("NewTabText"));
@@ -67,8 +71,7 @@ public class PlayerGUI {
 //        gameEngine = new EngineWorkspace();
 //        gameEngine.setUpEngine(readData());
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene,
-                                    myResources.getString("TabName") +
-                                                                      (myTabs.getTabs().size() + 1))
+                                    myResources.getString("TabName") + (myTabs.getTabs().size() + 1))
                                                                               .getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);

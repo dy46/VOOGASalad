@@ -3,6 +3,7 @@ package game_player.interfaces;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
+import javafx.scene.Scene;
 
 
 /**
@@ -36,5 +37,7 @@ public interface IGameView {
     void updateHUD (UnitImageView view); 
     
     void setCanPlaceUnit(boolean canPlaceUnit);
+    
+    Scene getScene();
     
 }

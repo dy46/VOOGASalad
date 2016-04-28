@@ -51,11 +51,8 @@ public class GameTowerPicker implements IGUIObject {
         updateNode();
         VBox box = new VBox(PANEL_SPACING);
         myListView = new ListView<>();
-        Callback<ListView<Unit>, ListCell<Unit>> cellFactory = (e -> {
-            return new TowerCell();
-        });
         myListView.setItems(myTowers);
-        myListView.setCellFactory(cellFactory);
+        myListView.setCellFactory(cellFactory -> new TowerCell());
         myListView.setOnMouseClicked(e -> {
             myView.setUnitToPlace(myListView.getSelectionModel().getSelectedItem().toString());
         });

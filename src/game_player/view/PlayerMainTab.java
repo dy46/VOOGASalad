@@ -13,9 +13,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class PlayerMainTab implements IPlayerTab {
     private static final int TOP_PADDING = 5;
@@ -23,7 +25,7 @@ public class PlayerMainTab implements IPlayerTab {
     private static final int BOTTOM_PADDING = 5;
     private static final int LEFT_PADDING = 10;
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
-    private static final String PACKAGE_NAME = "game_player.view.";
+    private static final String PACKAGE_NAME = "game_player.";
     private static final int PANEL_PADDING = 10;
     private Tab myTab;
     private BorderPane myRoot;
@@ -55,7 +57,7 @@ public class PlayerMainTab implements IPlayerTab {
         this.gameData = new GameDataSource();
         this.myScene = scene;
         this.tabName = tabName;
-        gameData.setDoubleValue("High Score", 0);
+        this.gameData.setDoubleValue("High Score", 0);
     }
 
     @Override
@@ -126,11 +128,10 @@ public class PlayerMainTab implements IPlayerTab {
     }
 
     private void configurePanels () {
-        // Label configurationLabel = new Label(myResources.getString("Configuration"));
-        // configurationLabel.setFont(new Font("Arial", 20));
-        // configurationLabel.getStyleClass().add("label-header");
+        Label configurationLabel = new Label(myResources.getString("Configuration"));
+        configurationLabel.setFont(new Font("Arial", 20));
         configurationPanel.setAlignment(Pos.TOP_CENTER);
-        // configurationPanel.getChildren().add(configurationLabel);
+//        configurationPanel.getChildren().add(configurationLabel);
         // configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING,
         // LEFT_PADDING));
         configurationPanel.getStyleClass().add("vbox");

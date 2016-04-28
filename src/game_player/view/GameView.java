@@ -20,6 +20,7 @@ import javafx.scene.layout.Pane;
 public class GameView implements IGameView {
 
     public static final int DEFAULT_UPDATE_SPEED = 1;
+    private Scene myScene;
     private Pane root;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
@@ -39,6 +40,7 @@ public class GameView implements IGameView {
                      GameHUD hud,
                      Scene scene,
                      PlayerMainTab tab) {
+    	this.myScene = scene;
         this.root = canvas.getRoot();
         this.playerEngineInterface = engine;
         this.rangeDisplayView = new RangeDisplayView(this, root);
@@ -157,6 +159,10 @@ public class GameView implements IGameView {
 
     public void hideHUD () {
         myHUD.whenNothingSelected();
+    }
+    
+    public Scene getScene() {
+    	return this.myScene;
     }
 
     public void changeColorScheme (int colorIndex) {

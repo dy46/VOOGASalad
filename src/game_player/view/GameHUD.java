@@ -97,15 +97,12 @@ public class GameHUD {
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
-    	Callback<ListView<Affector>, ListCell<Affector>> cellFactory = (e -> {
-            return new UpgradeCell();
-        });
         for (int i = 0; i < engine.getUpgrades(u).size(); i++) {
         	Affector affector = engine.getUpgrades(u).get(i);
         	theUpgrades.add(affector);
         }
         upgradesList.setItems(theUpgrades);
-        upgradesList.setCellFactory(cellFactory);
+        upgradesList.setCellFactory(cellFactory -> new UpgradeCell());
         upgradesList.setOnMouseClicked(e -> {
             engine.applyUpgrade(u, upgradesList.getSelectionModel().getSelectedItem());
         });
@@ -130,9 +127,7 @@ public class GameHUD {
     }
     
     private ImageView createImageView (Unit unit) {
-        String name = unit.toString();
-        Image image = new Image(name + ".png");
-        ImageView imageView = new ImageView(image);
+        ImageView imageView = new ImageView(new Image(unit.toString() + PNG_EXTENSION));
         imageView.setFitHeight(IMAGEVIEW_HEIGHT);
         imageView.setPreserveRatio(true);
         return imageView;
