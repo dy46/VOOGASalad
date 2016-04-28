@@ -317,6 +317,7 @@ public class PathTab extends Tab implements IWorkspace {
 		PathPoint point = new PathPoint(spawn, this.myPathTabModel.getPathWidth()); 
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.BLUE);
+		setUpNodeTarget(point, this.myUnitPicker, this.myPathTabModel);
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
@@ -331,10 +332,6 @@ public class PathTab extends Tab implements IWorkspace {
 		PathPoint point = new PathPoint(p, 1.0);
 		point.getCircle().setStroke(Color.BLACK);
 		canvasPane.getChildren().add(point.getCircle()); 
-	}
-
-	private void setupSpawnDrag() {
-		
 	}
 
 	@Override
@@ -382,6 +379,7 @@ public class PathTab extends Tab implements IWorkspace {
 					Position pos = pathPoint.getPosition(); 
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
+					System.out.println(uv.getUnit().getProperties().getPosition());
 					success = true;
 				}
 				event.setDropCompleted(success);
