@@ -167,13 +167,21 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private HBox buildTextInput() {
+		VBox vb = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
+		
+		HBox hb0 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		
+		HBox hb1 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		
 		// TODO: duplicate code with GlobalGameTab
 		this.myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
 		this.myPathWidthField.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
-
-		//		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
-		//		submitNameButton.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
-
+		
+		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
+		submitBranchButton.setOnAction(e -> this.submitBranch());
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
 		drawPathButton.setOnAction(e -> this.updateDrawIndex(0));
 		Button drawGoalButton = myNodeFactory.buildButton(myNamesBundle.getString("drawGoal"));
@@ -181,14 +189,12 @@ public class PathTab extends Tab implements IWorkspace {
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
 		drawSpawnButton.setOnAction(e -> this.updateDrawIndex(2));
 
-		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
-		submitBranchButton.setOnAction(e -> this.submitBranch());
-
-		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(this.myPathWidthField, 
-				submitBranchButton, drawPathButton, drawGoalButton, drawSpawnButton);
-		return this.myNodeFactory.centerNode(hb); 
+		hb0.getChildren().addAll(this.myPathWidthField, 
+				submitBranchButton);
+		hb1.getChildren().addAll(drawPathButton, drawGoalButton, drawSpawnButton);
+		vb.getChildren().addAll(hb0, hb1);
+		
+		return this.myNodeFactory.centerNode(vb); 
 	}
 
 	private void updateDrawIndex(int index) {
