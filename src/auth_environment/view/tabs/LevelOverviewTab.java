@@ -39,8 +39,11 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void setupBorderPane() {
-		myRoot.setTop(this.buildNewLevelButton());
+		myRoot.setRight(this.buildNewLevelButton());
 		myRoot.setLeft(myTabs);
+//		Tab addTabButton = new Tab("+ Level");
+//		addTabButton.setOnSelectionChanged(e -> addLevelTab());
+//		myTabs.getTabs().addAll(addTabButton);
 	}
 	
 	private void setRefresh() {
