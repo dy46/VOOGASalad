@@ -39,7 +39,7 @@ public class VisibilityHandler {
 		obstacles.add(obstacle.copyShallowUnit());
 		return getVisibleNodes(obstacles);
 	}
-	
+
 	public List<Position> getVisibleNeighbors(Position curr, List<Branch> searchBranches, List<Position> visibleNodes) {
 		List<Position> visibleNeighbors = new ArrayList<>();
 		List<Position> neighborPos = getNeighborPositions(searchBranches, curr);
@@ -50,7 +50,7 @@ public class VisibilityHandler {
 		}
 		return visibleNeighbors;
 	}
-	
+
 	private List<Unit> getCurrentObstacles(){
 		return myEngine.getUnitController().getUnitType("Tower");
 	}
@@ -73,7 +73,8 @@ public class VisibilityHandler {
 
 	private List<Position> getNodesToFilter (List<Unit> obstacles) {
 		Set<Position> removalList = new HashSet<>();
-		List<Position> copyPos = getPosCopyList(getEndPoints(myEngine.getBranches()));
+		List<Branch> engineBranches = myEngine.getBranches();
+		List<Position> copyPos = getPosCopyList(getEndPoints(engineBranches));
 		List<Unit> copyObstacles = getUnitCopyList(obstacles);
 		for (Unit o : copyObstacles) {
 			for (Position pos : copyPos) {
@@ -82,8 +83,30 @@ public class VisibilityHandler {
 					removalList.add(pos);
 				}
 			}
+			for(Branch branch : engineBranches){
+				for(Position pos : branch.getPositions()){
+					if (midBranchObstacle(o, branch, pos)){
+						removalList.add(branch.getFirstPosition());
+						removalList.add(branch.getLastPosition());
+					}
+				}
+			}
 		}
 		return new ArrayList<Position>(removalList);
+	}
+
+	private boolean midBranchObstacle(Unit o, Branch branch, Position pos){
+		if(EncapsulationChecker.encapsulates(Arrays.asList(pos), o.getProperties()
+				.getBounds().getUseableBounds(o.getProperties().getPosition()))){
+			if(!EncapsulationChecker.encapsulates(Arrays.asList(branch.getFirstPosition()), o.getProperties()
+					.getBounds().getUseableBounds(o.getProperties().getPosition()))){
+				if(!EncapsulationChecker.encapsulates(Arrays.asList(branch.getLastPosition()), o.getProperties()
+						.getBounds().getUseableBounds(o.getProperties().getPosition()))){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private List<Position> getPosCopyList(List<Position> positions){
@@ -93,7 +116,7 @@ public class VisibilityHandler {
 	private List<Unit> getUnitCopyList(List<Unit> units){
 		return units.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());
 	}
-	
+
 	private List<Position> getEndPoints(Branch b){
 		return Arrays.asList(b.getFirstPosition(), b.getLastPosition());
 	}
