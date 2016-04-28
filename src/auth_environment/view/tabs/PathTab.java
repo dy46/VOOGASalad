@@ -378,7 +378,7 @@ public class PathTab extends Tab implements IWorkspace {
 					Position pos = pathPoint.getPosition(); 
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
-					System.out.println("Spawn set as: " + uv.getUnit().getProperties().getPosition());
+//					System.out.println("Spawn set as: " + uv.getUnit().getProperties().getPosition());
 					success = true;
 				}
 				event.setDropCompleted(success);

@@ -167,7 +167,7 @@ public class PathTabModel implements IPathTabModel {
 	public Branch reselectBranch(BoundLine line) {
 		if (this.myActiveUnit!=null) {
 			this.myActiveUnit.getProperties().getMovement().getBranches().add(this.myBranchMap.get(line));
-			System.out.println("Current branches " + this.myActiveUnit.getProperties().getMovement().getBranches());
+//			System.out.println("Current branches " + this.myActiveUnit.getProperties().getMovement().getBranches());
 		}
 		return this.myBranchMap.get(line); 
 	}
