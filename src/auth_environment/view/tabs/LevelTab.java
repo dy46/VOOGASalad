@@ -3,6 +3,7 @@ package auth_environment.view.tabs;
 import auth_environment.Models.LevelTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
@@ -51,6 +52,8 @@ public class LevelTab extends Tab{
 	private void createWaveList() { 
 		int index = 0;
 		GridPane newTableInfo = new GridPane();
+		newTableInfo.setPadding(new Insets(15, 12, 15, 12));
+		newTableInfo.setVgap(15);
 		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(0),new ColumnConstraints(0),new ColumnConstraints(200),new ColumnConstraints(100) );
 		newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
 		newTableInfo.setPrefSize(600, 200);	//TODO: Avoid hard-coded values
