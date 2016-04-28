@@ -59,7 +59,8 @@ public class MapHandler {
 		double screenWidth = 500;
 		double screenHeight = 500;
 		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
-		mySpawns = Arrays.asList(myPGF.getBranches().get(0).getFirstPosition());
+		mySpawns = new ArrayList<Position>();
+		mySpawns.add(myPGF.getBranches().get(0).getFirstPosition());
 		addGoal(new Position(500, 500));
 	}
 
