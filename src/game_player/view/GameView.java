@@ -2,6 +2,7 @@ package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -9,7 +10,6 @@ import game_engine.properties.Position;
 import game_player.UnitViews.UnitImageView;
 import game_player.display_views.RangeDisplayView;
 import game_player.interfaces.IGameView;
-import game_player.utilties.ResourceBundleSymbolProcessor;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -76,7 +76,9 @@ public class GameView implements IGameView {
                     timer++;
                     updateEngine();
                     placePath();
-                    rangeDisplayView.display(playerEngineInterface.getAllUnits(), timer);
+//                    System.out.println("BEFORE RANGE DISPLAY");
+//                    System.out.println(playerEngineInterface.getUnitController().getPlacedUnits().stream().filter(u -> u.isVisible()).collect(Collectors.toList()));
+                    rangeDisplayView.display(playerEngineInterface.getUnitController().getPlacedUnits(), timer);
                 }
             }
         };
@@ -106,18 +108,6 @@ public class GameView implements IGameView {
             imgView.toFront();
             paths.add(imgView);
         }
-    }
-    
-    public static boolean testUnitTypePreference (String type,
-                                                  String preference,
-                                                  ResourceBundleSymbolProcessor myPreferencesBundle) {
-        String[] unitTypes = myPreferencesBundle.getSymbol(preference).split(",");
-        for (int i = 0; i < unitTypes.length; i++) {
-            if (type.contains(unitTypes[i])) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void toggleGame () {

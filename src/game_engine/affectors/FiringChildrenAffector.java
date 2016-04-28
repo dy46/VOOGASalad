@@ -8,12 +8,11 @@ import game_engine.properties.Property;
 
 
 public class FiringChildrenAffector extends Affector {
-    
-    
+
     public FiringChildrenAffector (AffectorData data) {
         super(data);
     }
-    
+
     @Override
     public void apply (List<Function> functions, Property property, Unit u) {
         if (getElapsedTime() % functions.get(0).evaluate(getElapsedTime()) == 0) {
@@ -22,11 +21,11 @@ public class FiringChildrenAffector extends Affector {
             newChildren.forEach(p -> {
                 p.getProperties().setPosition(u.getProperties().getPosition().getX(),
                                               u.getProperties().getPosition().getY());
-                getWS().getProjectiles().add(p);
+                getWorkspace().getUnitController().getPlacedUnits().add(p);
                 p.addParent(u);
             });
         }
-        
+
     }
 
 }

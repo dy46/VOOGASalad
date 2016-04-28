@@ -1,4 +1,3 @@
-
 package auth_environment.view;
 
 import java.util.ResourceBundle;

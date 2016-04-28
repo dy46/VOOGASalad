@@ -104,5 +104,4 @@ public interface IAuthEnvironment {
 	public AffectorFactory getAffectorFactory();
 	
 	public void setAffectorFactory(AffectorFactory factory); 
-
 }

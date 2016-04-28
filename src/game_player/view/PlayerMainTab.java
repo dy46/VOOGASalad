@@ -20,6 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class PlayerMainTab implements IPlayerTab {
+    
     private static final int TOP_PADDING = 5;
     private static final int RIGHT_PADDING = 10;
     private static final int BOTTOM_PADDING = 5;

@@ -1,15 +1,10 @@
 package game_engine.place_validations;
 
-import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 
 public class EnemySpawnPointPlaceValidation extends PlaceValidation {
-
-    public EnemySpawnPointPlaceValidation (GameEngineInterface gameEngine) {
-        super(gameEngine);
-    }
 
     @Override
     public boolean validate (Unit unit, double posX, double posY) {

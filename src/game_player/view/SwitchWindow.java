@@ -24,9 +24,7 @@ public class SwitchWindow {
 
     public GridPane createWindow () {
         windowRoot = new GridPane();
-
         this.addGameElements();
-
         return windowRoot;
     }
 

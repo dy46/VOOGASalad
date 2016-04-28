@@ -1,7 +1,5 @@
 package game_player.view;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
@@ -81,7 +79,7 @@ public class GameHUD {
         unitType.setText(tower.getName());
         unitImage.setImage(new Image(tower.toString() + PNG_EXTENSION));
         sellButton.setText(myResources.getString("HUDSellButton"));
-        sellButton.setOnMouseClicked(e -> engine.sellUnit(tower));
+        sellButton.setOnMouseClicked(e -> engine.getUnitController().sellUnit(tower));
         removeUpgrades();
         addUpgrades(tower);
         addChildrenUpgrades(tower);
@@ -97,14 +95,14 @@ public class GameHUD {
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
-        for (int i = 0; i < engine.getUpgrades(u).size(); i++) {
-        	Affector affector = engine.getUpgrades(u).get(i);
+        for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
+        	Affector affector = engine.getUnitController().getUpgrades(u).get(i);
         	theUpgrades.add(affector);
         }
         upgradesList.setItems(theUpgrades);
         upgradesList.setCellFactory(cellFactory -> new UpgradeCell());
         upgradesList.setOnMouseClicked(e -> {
-            engine.applyUpgrade(u, upgradesList.getSelectionModel().getSelectedItem());
+            engine.getUnitController().applyUpgrade(u, upgradesList.getSelectionModel().getSelectedItem());
         });
         upgradeTab.setContent(upgradesList);
         myUpgradesTab.getTabs().add(upgradeTab);

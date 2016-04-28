@@ -67,11 +67,11 @@ public class GameTowerPicker implements IGUIObject {
     @Override
     public void updateNode () {
         updateTowerList();
-		myMoney.setText(String.valueOf(myResources.getString("Money") + myEngine.getMoney()));
+		myMoney.setText(String.valueOf(myResources.getString("Money") + myEngine.getUnitController().getStore().getMoney()));
     }
 
     private void updateTowerList () {
-        List<Unit> allTowerTypes = myEngine.getTowerTypes();
+        List<Unit> allTowerTypes = myEngine.getUnitController().getTowerTypes();
         for (int i = myTowers.size(); i < allTowerTypes.size(); i++) {
             if (!hasUnitImageView(allTowerTypes.get(i), myTowers)) {
                 myTowers.add(allTowerTypes.get(i));

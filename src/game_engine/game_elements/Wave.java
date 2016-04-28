@@ -13,7 +13,6 @@ public class Wave extends GameElement {
     private int timeSinceLastSpawn;
     private int timeBeforeWave;
 
-
     public Wave (String name, int time) {
         super(name);
         timeBeforeWave = time;
@@ -23,6 +22,7 @@ public class Wave extends GameElement {
         myCurrentUnit = 0;
         timeSinceLastSpawn = 0;
     }
+
 
     public Wave (String name, List<Unit> spawning, List<Unit> placing, List<Integer> spawnTimes, int timeBeforeWave) {
         super(name);
@@ -56,13 +56,14 @@ public class Wave extends GameElement {
     public void addPlacingUnit (Unit e) {
         myPlacingUnits.add(e);
     }
-    
-    public void removePlacingUnit(int index){
-    	myPlacingUnits.remove(index);
+
+    public void removePlacingUnit (int index) {
+        myPlacingUnits.remove(index);
     }
-    public void removeSpawningUnit(int index){
-    	mySpawningUnits.remove(index);
-    	mySpawnTimes.remove(index);
+
+    public void removeSpawningUnit (int index) {
+        mySpawningUnits.remove(index);
+        mySpawnTimes.remove(index);
     }
 
     public List<Unit> getSpawningUnits () {
@@ -72,7 +73,7 @@ public class Wave extends GameElement {
     public List<Unit> getPlacingUnits () {
         return myPlacingUnits;
     }
-    
+
     public Unit tryToSpawnUnit () {
         timeSinceLastSpawn++;
         if (myCurrentUnit < mySpawningUnits.size() &&
@@ -83,5 +84,5 @@ public class Wave extends GameElement {
         }
         return null;
     }
-    
+
 }

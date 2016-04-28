@@ -1,7 +1,6 @@
 package game_player.image_processing;
 
 import game_engine.game_elements.Unit;
-import game_player.view.GameView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -23,8 +22,7 @@ public class HealthImageViewProcessing extends ImageViewProcessing {
     @Override
     public void processImageView (Unit myUnit) {
         boolean isHealth =
-                GameView.testUnitTypePreference(myUnit.toString(), NEEDS_HEALTH,
-                                                getResourceBundle());
+                getResourceBundle().testUnitTypePreference(myUnit.toString(), NEEDS_HEALTH);
         health.setFitWidth(myUnit.getProperties().getHealth().getValue() /
                            myUnit.getProperties().getHealth().getInitialValue() *
                            health.getImage().getWidth());

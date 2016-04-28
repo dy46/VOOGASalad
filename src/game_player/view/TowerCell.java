@@ -8,6 +8,8 @@ import javafx.scene.image.ImageView;
 
 public class TowerCell extends ListCell<Unit> {
 
+    public static final String EXTENSION = ".png";
+    
     public TowerCell () {
         super();
     }
@@ -28,7 +30,7 @@ public class TowerCell extends ListCell<Unit> {
 
     private ImageView createImageView (Unit unit) {
         String name = unit.toString();
-        Image image = new Image(name + ".png");
+        Image image = new Image(name + EXTENSION);
         ImageView imageView = new ImageView(image);
         return imageView;
     }

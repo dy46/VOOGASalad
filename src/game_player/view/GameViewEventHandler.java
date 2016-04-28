@@ -37,7 +37,7 @@ public class GameViewEventHandler {
 
     public void setUpMouseClicked (MouseEvent e) {
         if (unitToPlace != null) {
-            playerEngineInterface.addTower(unitToPlace, e.getX(), e.getY());
+            playerEngineInterface.getUnitController().addTower(unitToPlace, e.getX(), e.getY());
         }
         else if (canPlaceUnit) {
             gameView.hideHUD();
@@ -53,22 +53,22 @@ public class GameViewEventHandler {
         switch (code) {
             case SPACE: gameView.toggleGame(); break;
             case ESCAPE: unitToPlace = null; break;
-            case W: moveSelectedUnit(Arrays.asList(new Double(0), new Double(-moveSpeed))); break;
-            case A: moveSelectedUnit(Arrays.asList(new Double(-moveSpeed), new Double(0))); break;
-            case D: moveSelectedUnit(Arrays.asList(new Double(moveSpeed), new Double(0))); break;
-            case S: moveSelectedUnit(Arrays.asList(new Double(0), new Double(moveSpeed))); break;
+            case W: moveSelectedUnit(0, -moveSpeed); break;
+            case A: moveSelectedUnit(-moveSpeed, 0); break;
+            case D: moveSelectedUnit(moveSpeed, 0); break;
+            case S: moveSelectedUnit(0, moveSpeed); break;
             default: break;
         }
     }
 
-    public void moveSelectedUnit (List<Double> offset) {
+    public void moveSelectedUnit (double offsetX, double offsetY) {
         if (specificUnitIsSelected != null) {
-            playerEngineInterface
+            playerEngineInterface.getUnitController()
                     .moveUnit(specificUnitIsSelected,
                               specificUnitIsSelected.getProperties().getPosition().getX() +
-                                                      offset.get(0),
+                                                      offsetX,
                               specificUnitIsSelected.getProperties().getPosition().getY() +
-                                                                     offset.get(1));
+                                                                     offsetY);
         }
     }
 
