@@ -47,16 +47,16 @@ public class BFSTuple {
 			Position endB = posList.get(x+1);
 			path.add(myEngineBranches.stream().filter(b -> b.getPositions().contains(endA) && b.getPositions().contains(endB)).findFirst().get());
 		}
+		path = myBranchHandler.processBranches(path);
 		if(path.size() > 1){
 			if(currBranch != null){
 				Branch partialBranch = myBranchHandler.getPartialBranch(currBranch, path.get(0), currPos);
 				if(partialBranch != null){
 					path.add(0, partialBranch);
-					System.out.println("WITH PARTIAL: " + path);
 				}
 			}
 		}
-		return myBranchHandler.processBranches(path);
+		return path;
 	}
 
 	public boolean hasPathTo(Position pos) {

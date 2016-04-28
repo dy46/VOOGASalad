@@ -102,7 +102,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		myTowers = new ArrayList<>();
 		myStore = new Store(50000000);
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
-		myTerrains = makeDummyTerrains();
+		//myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
@@ -305,14 +305,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// myStore.addItem(u, 10);
 	}
 
-	private List<Unit> makeDummyTerrains () {
-		List<Unit> ice = makeDummyIceTerrain();
-		// Unit spike = makeDummySpike();
-		List<Unit> terrains = new ArrayList<>();
-		terrains.addAll(ice);
-		// terrains.add(spike);
-		return terrains;
-	}
+//	private List<Unit> makeDummyTerrains () {
+//		List<Unit> ice = makeDummyIceTerrain();
+//		// Unit spike = makeDummySpike();
+//		List<Unit> terrains = new ArrayList<>();
+//		terrains.addAll(ice);
+//		// terrains.add(spike);
+//		return terrains;
+//	}
 
 	private List<Unit> makeDummyIceTerrain () {
 		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
@@ -547,7 +547,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		units.addAll(myTowers);
 		units.addAll(myEnemys);
 		units.addAll(myProjectiles);
-		units.addAll(myTerrains);
+		//units.addAll(myTerrains);
 		return units;
 	}
 

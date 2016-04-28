@@ -37,9 +37,13 @@ public class BranchHandler {
 		for(int x=0; x<path.size()-1; x++){
 			Branch currBranch = path.get(x);
 			Branch nextBranch = path.get(x+1);
-			if(!nextBranch.getFirstPosition().equals(currBranch.getLastPosition()) && nextBranch.getFirstPosition().equals(currBranch.getFirstPosition())){
-				nextBranch = reverseBranch(nextBranch);
+			if(nextBranch.getLastPosition().equals(currBranch.getLastPosition())){
+				path.set(x+1, reverseBranch(nextBranch));
 			}
+			else if(nextBranch.getFirstPosition().equals(currBranch.getFirstPosition())){
+				path.set(x, reverseBranch(currBranch));
+			}
+			
 		}
 		return path;
 	}
