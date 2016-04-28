@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
-import auth_environment.view.tabs.GlobalGameTab;
+import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.PathTab;
 import auth_environment.view.tabs.LevelOverviewTab;
 import auth_environment.view.tabs.MapEditorTab;
@@ -47,7 +47,7 @@ public class AuthView implements IAuthView {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.globalAuthModel); 
+    	GameSettingsTab globalGameTab = new GameSettingsTab(this.globalAuthModel); 
     	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
