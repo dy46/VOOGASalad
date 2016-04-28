@@ -138,6 +138,7 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void buildLevelComboBox() {
+		this.levelComboBox.getItems().clear();
 		if (!this.myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
 			this.levelComboBox.getItems().addAll(this.myPathTabModel.getLevelNames());
 			this.levelComboBox.setOnAction(event -> {
@@ -152,7 +153,7 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void buildWaveComboBox(String levelName) {
-		this.waveComboBox = new ComboBox<String>();
+		this.waveComboBox.getItems().clear();
 		this.waveComboBox.getItems().addAll(this.myPathTabModel.getWaveNames(levelName));
 		this.waveComboBox.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
