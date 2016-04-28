@@ -61,6 +61,7 @@ public class VisibilityHandler {
 	}
 
 	private List<Position> getFilteredNodes (List<Position> nodesToFilter) {
+		System.out.println("TO FILTER: " + nodesToFilter);
 		HashSet<Position> copyVisibleNodes = new HashSet<Position>(getPosCopyList(getEndPoints(myEngine.getBranches())));
 		List<Position> nodes = new ArrayList<>(copyVisibleNodes);
 		for(Position nodeToFilter : nodesToFilter){

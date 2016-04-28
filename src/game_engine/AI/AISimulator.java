@@ -48,7 +48,7 @@ public class AISimulator {
 			return false;
 		}
 		HashMap<Unit, List<Branch>> newPaths = new HashMap<>();
-		for(Unit e : myAIHandler.getActiveAIEnemies()){
+		for(Unit e : activeAI){
 			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
 			Position currPos = e.getProperties().getPosition();
 			Position movingTowards = e.getProperties().getMovement().getMovingTowards();

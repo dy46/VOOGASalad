@@ -65,29 +65,6 @@ public class AISearcher {
 		return new BFSTuple(myEngine.getBranches(), visited, edges, distances);
 	}
 
-	//	public BFSTuple getBFSTuple(Position start, List<Position> visibleNodes, List<Branch> searchBranches){
-	//		Queue<Position> queue = new LinkedList<>();
-	//		HashMap<Position, Integer> distances = new HashMap<>();
-	//		HashMap<Position, Position> edges = new HashMap<>();
-	//		HashSet<Position> visited = new HashSet<>();
-	//		visibleNodes.stream().forEach(p -> distances.put(p, Integer.MAX_VALUE));
-	//		distances.put(start, 0);
-	//		visited.add(start);
-	//		queue.add(start);
-	//		while(!queue.isEmpty()){
-	//			Position next = queue.poll();
-	//			for(Position adjacent : myVisibility.getVisibleNeighbors(next, searchBranches, visibleNodes)){
-	//				if(!visited.contains(adjacent)){
-	//					edges.put(adjacent, next);
-	//					distances.put(adjacent, distances.get(next) + 1);
-	//					visited.add(adjacent);
-	//					queue.add(adjacent);
-	//				}
-	//			}
-	//		}
-	//		return new BFSTuple(searchBranches, visited, edges, distances);
-	//	}
-
 	public boolean isValidSearch(BFSTuple myBFS){
 		List<Position> spawns = myEngine.getLevelController().getCurrentLevel().getSpawns();
 		for(Position spawn : spawns){
