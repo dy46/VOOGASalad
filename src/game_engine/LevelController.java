@@ -2,8 +2,9 @@ package game_engine;
 
 import java.util.List;
 import game_engine.game_elements.Level;
+import game_engine.interfaces.ILevelDisplayer;
 
-public class LevelController {
+public class LevelController implements ILevelDisplayer {
 
     private List<Level> myLevels;
     private Level myCurrentLevel;

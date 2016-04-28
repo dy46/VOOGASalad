@@ -9,6 +9,8 @@ import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.ILevelDisplayer;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
@@ -23,7 +25,7 @@ public class EngineWorkspace implements GameEngineInterface {
     private List<Branch> myBranches;
     private List<Affector> myAffectors;
     private LevelController myLevelController;
-    private CollisionDetector myCollider;
+    private ICollisionDetector myCollider;
     private EncapsulationDetector myEncapsulator;
     private UnitController myUnitController;
     private WaveGoal waveGoal;
@@ -140,6 +142,11 @@ public class EngineWorkspace implements GameEngineInterface {
     @Override
     public LevelController getLevelController () {
         return myLevelController;
+    }
+    
+    @Override
+    public ILevelDisplayer getLevelDisplay(){
+    	return myLevelController;
     }
     
     @Override
