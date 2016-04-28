@@ -142,7 +142,6 @@ public class PathTab extends Tab implements IWorkspace {
 			this.levelComboBox.getItems().addAll(this.myPathTabModel.getLevelNames());
 			this.levelComboBox.setOnAction(event -> {
 				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-				System.out.println("Level combo box used " + selectedItem + "!");
 				this.buildWaveComboBox(selectedItem);
 				event.consume();
 			});
