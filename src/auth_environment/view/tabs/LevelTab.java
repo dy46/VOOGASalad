@@ -51,7 +51,7 @@ public class LevelTab extends Tab{
 	private void createWaveList() { 
 		int index = 0;
 		GridPane newTableInfo = new GridPane();
-		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(175),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
+		newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(0),new ColumnConstraints(0),new ColumnConstraints(200),new ColumnConstraints(100) );
 		newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
 		newTableInfo.setPrefSize(600, 200);	//TODO: Avoid hard-coded values
 		
