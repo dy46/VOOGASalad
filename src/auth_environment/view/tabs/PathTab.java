@@ -309,6 +309,15 @@ public class PathTab extends Tab implements IWorkspace {
 		PathPoint point = new PathPoint(p, this.myPathTabModel.getPathWidth()); 
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
+		point.getCircle().setOnMouseClicked(e -> {
+			if(e.getButton().equals(MouseButton.PRIMARY)){
+	            if(e.getClickCount() == 2){
+	            	this.displayClickedPoint(p);
+	    			this.addPosition(point.getPosition().getX(), point.getPosition().getY());
+	    			this.currentBranch.add(point.getPosition());
+	            }
+	        }
+		});
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
@@ -392,7 +401,6 @@ public class PathTab extends Tab implements IWorkspace {
 					Position pos = pathPoint.getPosition(); 
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
-//					System.out.println("Spawn set as: " + uv.getUnit().getProperties().getPosition());
 					success = true;
 				}
 				event.setDropCompleted(success);
