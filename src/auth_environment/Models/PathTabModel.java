@@ -154,8 +154,8 @@ public class PathTabModel implements IPathTabModel {
 	
 	public List<String> getWaveNames(String selectedLevel) {
 		System.out.println("Chose level " + selectedLevel);
-		this.myLevels.stream().forEach(l -> System.out.println(l.toString()));
-		this.currentLevel = this.myLevels.stream().filter(l -> l.toString().equals(selectedLevel)).collect(Collectors.toList()).get(0);
+		this.myLevels.stream().forEach(l -> System.out.println(l.getName()));
+		this.currentLevel = this.myLevels.stream().filter(l -> l.getName().equals(selectedLevel)).collect(Collectors.toList()).get(0);
 		return this.currentLevel.getWaves().stream().map(wave -> wave.getName()).collect(Collectors.toList());
 	}
 
