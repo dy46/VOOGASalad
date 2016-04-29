@@ -399,6 +399,7 @@ public class PathTab extends Tab implements IWorkspace {
 					UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
 					pathModel.setActiveUnit(uv.getUnit());
 					Position pos = pathPoint.getPosition(); 
+					pathModel.addSpawnToActiveLevel(pos);
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
 					success = true;

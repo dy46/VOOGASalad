@@ -201,4 +201,11 @@ public class PathTabModel implements IPathTabModel {
 		}
 	}
 
+	@Override
+	public void addSpawnToActiveLevel(Position spawn) {
+		if (this.currentLevel!=null) {
+			currentLevel.addSpawn(spawn);
+		}
+	}
+
 }
