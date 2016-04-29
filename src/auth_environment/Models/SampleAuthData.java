@@ -89,7 +89,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private void setupDummyValues() {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
 		test.setUpEngine(this);
-		this.myStore = test.getStore(); 
+		this.myStore = new Store(1000);
 //		this.setTerrains(test.getTerrains());
 //		this.setTowers(test.getTowers());
 //		this.setLevels(test.getLevels());
@@ -97,6 +97,7 @@ public class SampleAuthData implements IAuthEnvironment {
 //		this.setAffectors(test.getAffectors());
 //		this.setEnemies(test.getEnemies());
 		MapHandler mh = new MapHandler();
+		this.myBranches = mh.getEngineBranches();
 //		List<Branch> branches = mh.getEngineBranches();
 //		this.setEngineBranches(mh.getEngineBranches());
 		this.setGoals(mh.getGoals());
