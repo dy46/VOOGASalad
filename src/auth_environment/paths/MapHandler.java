@@ -66,7 +66,7 @@ public class MapHandler {
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/12500;
+		return screenWidth*screenHeight/5000;
 	}
 
 	public void insertTestBranches(){
