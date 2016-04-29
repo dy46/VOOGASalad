@@ -56,7 +56,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myVisualBranches = auth.getVisualBranches();
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getSpawns());
 		this.myLevels = auth.getLevels(); 
 	}
 
@@ -66,7 +66,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myVisualBranches = auth.getVisualBranches();
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getSpawns());
 		this.myLevels = auth.getLevels(); 
 	}
 
@@ -98,7 +98,6 @@ public class PathTabModel implements IPathTabModel {
 	private void submit() {
 		this.myAuthData.setEngineBranches(this.myMapHandler.getEngineBranches());
 		this.myAuthData.setVisualBranches(this.myVisualBranches);
-		this.myAuthData.setGridBranches(this.myMapHandler.getGridBranches());
 	}
 
 	@Override
