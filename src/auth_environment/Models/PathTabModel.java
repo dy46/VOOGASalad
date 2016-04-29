@@ -57,7 +57,7 @@ public class PathTabModel implements IPathTabModel {
 		myGoals.add(new Position(500, 500));
 		this.mySpawns = auth.getSpawns();
 		mySpawns.add(new Position(0,0));
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getGoals());
+		this.myMapHandler = auth.getMapHandler();
 		this.myLevels = auth.getLevels(); 
 	}
 
@@ -66,7 +66,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myCurrentBranch.clear();
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getGoals());
+		this.myMapHandler = auth.getMapHandler();
 		this.myLevels = auth.getLevels(); 
 	}
 

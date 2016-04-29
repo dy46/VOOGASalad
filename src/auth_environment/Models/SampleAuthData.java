@@ -79,7 +79,8 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlaceValidations = new ArrayList<>(); 
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
-		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
+		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory);
+		this.myMapHandler = new MapHandler(this.myEngineBranches, this.mySpawns, this.myGoals); 
 		this.setupDummyValues();
 	}
 
