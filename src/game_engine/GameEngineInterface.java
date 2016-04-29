@@ -4,6 +4,9 @@ import java.util.List;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.properties.Position;
@@ -50,5 +53,7 @@ public interface GameEngineInterface {
 	public AISimulator getAISimulator();
 
 	ILevelDisplayer getLevelDisplay();
+
+	public EnemyController getEnemyController ();
 
 }

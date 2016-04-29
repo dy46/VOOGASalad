@@ -6,6 +6,9 @@ import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
@@ -28,6 +31,7 @@ public class EngineWorkspace implements GameEngineInterface {
     private ICollisionDetector myCollider;
     private EncapsulationDetector myEncapsulator;
     private UnitController myUnitController;
+    private EnemyController myEnemyController;
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
     private List<Unit> unitsToRemove;
@@ -55,6 +59,7 @@ public class EngineWorkspace implements GameEngineInterface {
         myUnitController =
                 new UnitController(data.getPlacedUnits(), myPlaceValidations,
                                    data.getStore(), unitsToRemove);
+        myEnemyController = new EnemyController(myLevelController, myUnitController);
         updateAIBranches();
     }
 
@@ -161,6 +166,11 @@ public class EngineWorkspace implements GameEngineInterface {
 	
 	public AISimulator getAISimulator(){
 		return myAISimulator;
+	}
+
+	@Override
+	public EnemyController getEnemyController() {
+		return myEnemyController;
 	}
 
 }
