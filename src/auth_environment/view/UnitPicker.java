@@ -52,8 +52,8 @@ public class UnitPicker{
 	public void setUnits(List<Unit> units) {
 		this.myUnitViews.clear();
 		this.myEditInfo.getChildren().clear();
-		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, "unicornCat.gif")));
-		//units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
+		//units.stream().forEach(s -> myUnitViews.add(new UnitView(s, "unicornCat.gif")));
+		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
 		this.myEditInfo.getChildren().addAll(this.myUnitViews);
 		setDragable();
 	}
