@@ -1,6 +1,6 @@
 package auth_environment.Models;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,7 +25,7 @@ import game_engine.wave_goals.WaveGoal;
 
 public class GameSettingsTabModel implements IGameSettingsTabModel {
 	
-	private static final String SETTINGS_PACKAGE = "auth_environment/properties/names";
+	private static final String SETTINGS_PACKAGE = "auth_environment/properties/gameSettings";
 	private ResourceBundle mySettingsBundle = ResourceBundle.getBundle(SETTINGS_PACKAGE);
 	
 	private IAuthModel myAuthModel;
@@ -70,7 +70,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 
 	@Override
 	public List<String> getScoreUpdateNames() {
-		return Arrays.asList(mySettingsBundle.getString("scoreUpdateTypes").split(" ")); 
+		return Arrays.asList(mySettingsBundle.getString("scoreUpdateTypes").split(" "));
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	@Override
 	public void chooseScoreUpdate(String selectedItem) {
 		try {
-			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName(selectedItem + "ScoreUpdate").getConstructor().newInstance());
+			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName("game_engine.score_updates." + selectedItem + "ScoreUpdate").getConstructor().newInstance());
 		} catch (Exception e) {
 			// TODO: remove 
 			e.printStackTrace();
@@ -96,7 +96,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	@Override
 	public void chooseWaveGoal(String selectedItem) {
 		try {
-			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName(selectedItem + "WaveGoal").getConstructor().newInstance());
+			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName("game_engine.wave_goals." + selectedItem + "WaveGoal").getConstructor().newInstance());
 		} catch (Exception e) {
 			// TODO: remove 
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	@Override
 	public void choosePlaceValidation(String selectedItem) {
 		try {
-			myAuthModel.getIAuthEnvironment().setPlaceValidation( (PlaceValidation) Class.forName(selectedItem + "PlaceValidation").getConstructor().newInstance());
+			myAuthModel.getIAuthEnvironment().setPlaceValidation( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
 		} catch (Exception e) {
 			// TODO: remove
 			e.printStackTrace();
