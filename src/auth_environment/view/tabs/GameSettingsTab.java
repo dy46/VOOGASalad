@@ -10,6 +10,7 @@ import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +26,7 @@ import main.IMainView;
  * in so that it can be saved/loaded. 
  */
 
-public class GameSettingsTab implements IWorkspace {
+public class GameSettingsTab extends Tab implements IWorkspace {
 
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -45,7 +46,8 @@ public class GameSettingsTab implements IWorkspace {
 	
 	private IGameSettingsTabModel myGameSettingsTabModel;
 	
-	public GameSettingsTab(IAuthModel authModel, IMainView mainView) {
+	public GameSettingsTab(String name, IAuthModel authModel, IMainView mainView) {
+		super(name); 
 		this.setupBorderPane();
 		this.myMainView = mainView; 
 		this.myGameSettingsTabModel = new GameSettingsTabModel(authModel); 
@@ -55,6 +57,7 @@ public class GameSettingsTab implements IWorkspace {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
+		this.setContent(this.myBorderPane);
 	}
 	
 	private Node buildCenter() {
