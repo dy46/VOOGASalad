@@ -33,8 +33,8 @@ public class AnimationTabModel implements IAnimationTabModel {
 	}
 	
 	public void saveFiles(){
-		System.out.println(this.myUnit.getType());
+		System.out.println("name:"+this.myUnit.getType());
 		System.out.println(this.myUnit.getName());
-		this.mySaver.saveFiles(this.myUnit.getType(), this.myUnit.getName(), this.myFiles);
+		this.mySaver.saveFiles(this.myUnit.getName(), this.myFiles);
 	}
 }
