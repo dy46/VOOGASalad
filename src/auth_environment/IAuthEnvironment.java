@@ -41,9 +41,7 @@ public interface IAuthEnvironment {
 	
 	public ScoreUpdate getScoreUpdate();
 	
-	public void setPlaceValidation(PlaceValidation validation);
-	
-	public PlaceValidation getPlaceValidation(); 
+	public List<PlaceValidation> getPlaceValidations(); 
 	
 	public Store getStore(); 
 	

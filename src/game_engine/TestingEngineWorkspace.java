@@ -638,4 +638,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return null;
 	}
 
+	@Override
+	public void setUpEngine(IAuthEnvironment data) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

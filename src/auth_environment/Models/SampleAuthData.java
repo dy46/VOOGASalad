@@ -54,10 +54,10 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myProjectiles; // TODO: remove
 	private List<Unit> myPlacedUnits; // TODO: remove
 	private List<Position> myGoals;
-	private List<Position> mySpawns; 
+	private List<Position> mySpawns;
+	private List<PlaceValidation> myPlaceValidations; 
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
-	private PlaceValidation myPlaceValidation; 
 	private Store myStore; 
 	
 	// TODO: Factory class variables... remove eventually
@@ -79,6 +79,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myPlacedUnits = new ArrayList<>(); 
 		this.mySpawns = new ArrayList<>();
 		this.myGoals = new ArrayList<>(); 
+		this.myPlaceValidations = new ArrayList<>(); 
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
 		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
@@ -87,7 +88,7 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	private void setupDummyValues() {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
-		test.setUpEngine(null);
+		test.setUpEngine(this);
 		this.myStore = test.getStore(); 
 //		this.setTerrains(test.getTerrains());
 //		this.setTowers(test.getTowers());
@@ -304,16 +305,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	}
 
 	@Override
-	public void setPlaceValidation(PlaceValidation validation) {
-		this.myPlaceValidation = validation; 
-	}
-
-	@Override
-	public PlaceValidation getPlaceValidation() {
-		return this.myPlaceValidation;
-	}
-
-	@Override
 	public List<Branch> getBranches() {
 		return this.myBranches;
 	}
@@ -321,6 +312,11 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public Store getStore() {
 		return this.myStore;
+	}
+
+	@Override
+	public List<PlaceValidation> getPlaceValidations() {
+		return this.myPlaceValidations;
 	}
 	
 }

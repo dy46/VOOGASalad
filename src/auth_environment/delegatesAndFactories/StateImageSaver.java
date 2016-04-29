@@ -29,7 +29,7 @@ public class StateImageSaver {
 	 * @param	images is the list of file images to be renamed
 	 */
 	public void saveFiles(String type, String unit, List<File> images){
-		String prefix = type + unit;
+		String prefix = type + "_" + unit;
 		for(int i = 1;i <= images.size();i++){
 			String rename = prefix + i;
 			try{

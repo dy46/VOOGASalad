@@ -105,7 +105,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	@Override
 	public void choosePlaceValidation(String selectedItem) {
 		try {
-			myAuthModel.getIAuthEnvironment().setPlaceValidation( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
+			myAuthModel.getIAuthEnvironment().getPlaceValidations().add( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
 		} catch (Exception e) {
 			// TODO: remove
 			e.printStackTrace();

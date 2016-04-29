@@ -67,8 +67,8 @@ public class PlayerGUI {
 //        gameEngine = new TestingEngineWorkspace();
 //        gameEngine.setUpEngine(null);
         gameEngine = new EngineWorkspace();
-        TestingGameData testData = new TestingGameData();
-        gameEngine.setUpEngine(testData);
+//        TestingGameData testData = new TestingGameData();
+        gameEngine.setUpEngine(readData());
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
