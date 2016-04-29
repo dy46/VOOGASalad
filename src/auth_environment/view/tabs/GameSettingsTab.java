@@ -59,7 +59,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
-		this.myBorderPane.setRight(this.buildRight());
+		this.myBorderPane.setBottom(this.buildBottom());
 		this.setContent(this.myBorderPane);
 	}
 	
@@ -75,12 +75,10 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return center; 
 	}
 	
-	private Node buildRight() {
-		VBox right = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
-				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		right.getChildren().addAll(
-				buildComboBoxes());
-		return right;
+	private Node buildBottom() {
+		HBox bottom = myNodeFactory.buildHBox(10, 10);
+		bottom.getChildren().addAll(this.buildChooseScore(), this.buildChooseWaveGoal(), this.buildChoosePlaceValidation());
+		return bottom; 
 	}
 	
 	private HBox buildWompImage() {
@@ -130,45 +128,47 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return myNodeFactory.centerNode(play); 
 	}
 	
-	private Node buildComboBoxes() {
+	private Node buildChooseScore() {
+		VBox vb = new VBox(); 
+		vb.getChildren().add(myNodeFactory.buildLabel("Score Update Type"));
 		ComboBox<String> chooseScore = new ComboBox<String>();
-		ComboBox<String> chooseWaveGoal = new ComboBox<String>();
-		ComboBox<String> choosePlaceValidation = new ComboBox<String>(); 
-		
 		chooseScore.getItems().addAll(this.myGameSettingsTabModel.getScoreUpdateNames());
-		chooseWaveGoal.getItems().addAll(this.myGameSettingsTabModel.getWaveGoalNames());
-		choosePlaceValidation.getItems().addAll(this.myGameSettingsTabModel.getPlaceValidationNames());
-		
 		chooseScore.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 			myGameSettingsTabModel.chooseScoreUpdate(selectedItem);
 			event.consume();
 		});
+		vb.getChildren().add(chooseScore);  
+		return vb;
+	}
+	
+	private Node buildChooseWaveGoal() {
+		VBox vb = new VBox(); 
+		vb.getChildren().add(myNodeFactory.buildLabel("Wave Goal Type"));
+		ComboBox<String> chooseWaveGoal = new ComboBox<String>();
+		chooseWaveGoal.getItems().addAll(this.myGameSettingsTabModel.getWaveGoalNames());
 		chooseWaveGoal.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 			myGameSettingsTabModel.chooseWaveGoal(selectedItem);
 			event.consume();
 		});
+		vb.getChildren().add(chooseWaveGoal); 
+		return vb; 
+	}
+	
+	private Node buildChoosePlaceValidation() {
+		VBox vb = new VBox(); 
+		vb.getChildren().add(myNodeFactory.buildLabel("Place Validation Type"));
+		ComboBox<String> choosePlaceValidation = new ComboBox<String>(); 
+		choosePlaceValidation.getItems().addAll(this.myGameSettingsTabModel.getPlaceValidationNames());
 		choosePlaceValidation.setOnAction(event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 			myGameSettingsTabModel.choosePlaceValidation(selectedItem);
 			event.consume();
 		});
-		
-		// TODO: extract 
-		VBox vb = myNodeFactory.buildVBox(10, 10);
-		vb.getChildren().addAll(chooseScore, chooseWaveGoal, choosePlaceValidation); 
-		
+		vb.getChildren().add(choosePlaceValidation);
 		return vb; 
 	}
-
-	//	public void writeToGameData() {
-	////		gameData.setLevels(myPicker.getLevels());
-	//		gameData.setEnemies(myPicker.getEnemies());
-	//		gameData.setTerrains(myPicker.getTerrains());
-	//		gameData.setTowerTypes(myPicker.getTowers());
-	//		gameData.setPaths(myDisplay.getGrid().getPathGraphFactory().getPaths());
-	//	}
 	
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
