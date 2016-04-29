@@ -10,10 +10,12 @@ import javafx.collections.ObservableList;
 public class PreferencesColorTheme extends GUIComboBox {
 	
     private ResourceBundle myResources;
+    private IGameView myView;
 
     public PreferencesColorTheme (ResourceBundle r, GameDataSource gameData, IGameView view) {
     	super(r, gameData, view, r.getString("ColorThemeLabel"));
         myResources = r;
+        myView = view;
     }
 
 	@Override
@@ -26,7 +28,7 @@ public class PreferencesColorTheme extends GUIComboBox {
 	}
 	
     public void performAction () {
-        // change color theme
+        myView.setCSS(super.getComboBox().getValue());
     }
 
     @Override

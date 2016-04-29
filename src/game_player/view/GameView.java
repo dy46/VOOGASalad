@@ -20,7 +20,9 @@ import main.IMainView;
 
 public class GameView implements IGameView {
 
-    public static final int DEFAULT_UPDATE_SPEED = 1;
+    private static final String DEFAULT_CSS = "PlayerTheme1.css";
+    private static final String DEFAULT_PACKAGE = "game_player/view/";
+	public static final int DEFAULT_UPDATE_SPEED = 1;
     private Scene myScene;
     private Pane root;
     private GameViewEventHandler eventHandler;
@@ -51,6 +53,7 @@ public class GameView implements IGameView {
         setUpEventHandlers(scene);
         setUpSpeed();
         setUpHUD();
+        setCSS(DEFAULT_CSS);
     }
 
     private void setUpEventHandlers (Scene scene) {
@@ -68,6 +71,12 @@ public class GameView implements IGameView {
     private void setUpHUD () {
         myHUD.setGameView(this);
         myHUD.setEngine(playerEngineInterface);
+    }
+    
+    public void setCSS(String fileName) {
+    	this.clearCSS();
+        myScene.getStylesheets().add(DEFAULT_PACKAGE + fileName);
+        myScene.getRoot().getStyleClass().add("background");
     }
 
     public void playGame (int gameIndex) {
@@ -166,5 +175,9 @@ public class GameView implements IGameView {
     
     public IMainView getMainView() {
     	return myTab.getMainView();
+    }
+    
+    public void clearCSS() {
+    	myScene.getStylesheets().clear();
     }
 }

@@ -43,4 +43,6 @@ public interface IGameView {
     
     IMainView getMainView();
     
+    void setCSS(String fileName);
+    
 }

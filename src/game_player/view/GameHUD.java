@@ -117,7 +117,7 @@ public class GameHUD {
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
     	Rectangle rect = new Rectangle(500, 150);
-    	rect.setFill(Color.DARKGRAY);
+    	rect.setOpacity(0);
     	HUDBox.getChildren().add(rect);
         if (gameView != null) {
             gameView.setSpecificUnitIsSelected(null);

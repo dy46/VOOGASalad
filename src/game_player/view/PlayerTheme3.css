@@ -3,13 +3,13 @@
 }
 
 .background {
-    -fx-background-color: #C1DAD6;
+    -fx-background-color: #F87359;
 }
 
 .label {
     -fx-font-size: 10pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-opacity: 1;
 }
 
@@ -37,6 +37,17 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
+.combobox {
+    -fx-border-color: #29C5A3;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-color: #1d1d1d;
+    -fx-font-family: "Segoe UI Light", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: white;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }
@@ -51,18 +62,18 @@
 }
 .tab-pane .tab
 {
-    -fx-background-color: #ACD1E9;
+    -fx-background-color: #FAB276;
 
 }
 
 .tab-pane .tab:selected
 {
-    -fx-background-color: #6D929B;
+    -fx-background-color: #F37207;
 }
 
 .tab .tab-label { 
     -fx-alignment: CENTER;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
@@ -77,5 +88,5 @@
 }
 
 .hbox {
-    -fx-background-color: #ACD1E9;
+    -fx-background-color: #F90D66;
 }

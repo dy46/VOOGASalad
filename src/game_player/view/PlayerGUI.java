@@ -56,9 +56,6 @@ public class PlayerGUI {
         AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
         AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
 
-        myScene.getStylesheets().add("game_player/view/PlayerTheme2.css");
-        myRoot.getStyleClass().add("background");
-
         myRoot.getChildren().addAll(myTabs, newTabButton);
 
         return myScene;
