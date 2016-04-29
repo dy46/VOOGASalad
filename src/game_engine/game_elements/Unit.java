@@ -41,7 +41,6 @@ public class Unit extends GameElement {
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
     }
-
     public Unit (String name, UnitProperties unitProperties, int numFrames) {
         super(name);
         initialize();
@@ -60,7 +59,9 @@ public class Unit extends GameElement {
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
     }
-
+    public String getType(){
+    	return this.getName().split("\\s+")[0];
+    }
     public Unit copyUnit () {
         Unit copy = this.copyShallowUnit();
         List<Unit> copiedChildren =
@@ -257,16 +258,6 @@ public class Unit extends GameElement {
                 x--;
             }
         }
-    }
-    
-    public void turnAround () {
-        Movement myMovement = this.myProperties.getMovement();
-        Branch currBranch = myMovement.getCurrentBranch();
-        Position movingTowards = myMovement.getMovingTowards();
-        myMovement.setMovingTowards(currBranch.getFirstPosition().equals(movingTowards) ? currBranch
-                .getLastPosition() : currBranch.getFirstPosition());
-        double nextDir = myMovement.getNextDirection();
-        this.myProperties.getVelocity().setDirection(nextDir);
     }
 
 }

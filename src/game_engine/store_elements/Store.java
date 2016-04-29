@@ -8,9 +8,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.IStore;
 
 
-public class Store {
+public class Store implements IStore{
 
     private int myMoney;
     private Map<Unit, Integer> buyableUnits;
@@ -25,16 +26,19 @@ public class Store {
         nameToOriginalInstance = new HashMap<String, Unit>();
         items = new HashMap<Unit, Integer>();
     }
-
+    
+    @Override
     public void clearBuyableUnits () {
         buyableUnits.clear();
     }
-
+    
+    @Override
     public void addBuyableUnit (Unit t, Integer cost) {
         buyableUnits.put(t, cost);
         nameToOriginalInstance.put(t.toString(), t);
     }
-
+    
+    @Override
     public void addBuyableUnit (Collection<Pair<Unit, Integer>> listOfNewUnits) {
         for (Pair<Unit, Integer> p : listOfNewUnits) {
             Unit newUnit = p.getLeft();
@@ -53,11 +57,8 @@ public class Store {
             buyableUnits.put(newUnit, cost);
         }
     }
-
-    public boolean canAfford (int cost) {
-        return myMoney >= cost;
-    }
-
+    
+    @Override
     public Unit purchaseUnit (String name) {
         Unit u = null;
         for (Unit unit : buyableUnits.keySet()) {
@@ -70,13 +71,10 @@ public class Store {
         return u;
     }
 
+    @Override
     public void sellUnit (Unit unit) {
         System.out.println(nameToOriginalInstance);
         myMoney += buyableUnits.get(nameToOriginalInstance.get(unit.toString()));
-    }
-
-    public int getUnitListSize () {
-        return buyableUnits.size();
     }
 
     public void applyItem (String name, List<Unit> applied) {
@@ -92,6 +90,7 @@ public class Store {
         }
     }
 
+    @Override
     public List<Unit> getTowerList () {
         ArrayList<Unit> ret = new ArrayList<Unit>();
         for (Unit t : buyableUnits.keySet()) {
@@ -104,6 +103,7 @@ public class Store {
         myMoney += amount;
     }
 
+    @Override
     public void addUpgrade (Unit upgradedUnit, Affector upgrade, int cost) {
         Pair<Affector, Integer> affectorPair = new Pair<>(upgrade, cost);
         if (upgrades.get(upgradedUnit.toString()) == null) {
@@ -112,6 +112,7 @@ public class Store {
         upgrades.get(upgradedUnit.toString()).add(affectorPair);
     }
 
+    @Override
     public List<Affector> getUpgrades (Unit upgradedUnit) {
         List<Affector> affectors = new ArrayList<>();
         Unit found = findUnit(upgradedUnit);
@@ -121,6 +122,7 @@ public class Store {
         return affectors;
     }
 
+    @Override
     public void buyUpgrade (Unit upgradedUnit, Affector affector) {
         Unit found = findUnit(upgradedUnit);
         if (found == null) {
@@ -136,6 +138,7 @@ public class Store {
         }
     }
 
+    
     public Unit findUnit (Unit upgradedUnit) {
         Unit found = null;
         for (String u : upgrades.keySet()) {
@@ -146,6 +149,7 @@ public class Store {
         return found;
     }
 
+    @Override
     public int getMoney () {
         return myMoney;
     }

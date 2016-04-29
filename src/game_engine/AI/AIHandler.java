@@ -48,7 +48,7 @@ public class AIHandler {
 		if(currPos == null){
 			currPos = myEngine.getLevelController().getCurrentLevel().getSpawns().get(0);
 		}
-		newBranches = mySearcher.getShortestPath(currPos);
+		newBranches = mySearcher.getPath(currPos);
 		if(newBranches != null){
 			u.getProperties().getMovement().setBranches(newBranches);
 		}

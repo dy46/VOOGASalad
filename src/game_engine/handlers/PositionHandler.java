@@ -1,4 +1,4 @@
-package auth_environment.paths;
+package game_engine.handlers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,17 +59,6 @@ public class PositionHandler {
 			y = p2.getY();
 		}
 		return nextPositions;
-	}
-	
-	public List<Branch> createPath(List<Position> posList, List<Branch> visibilityBranches){
-		List<Branch> path = new ArrayList<>();
-		for(int x=0; x<posList.size()-1; x++){
-			Position endA = posList.get(x);
-			Position endB = posList.get(x+1);
-//			System.out.println(endA + "  " + endB);
-			path.add(visibilityBranches.stream().filter(b -> b.getPositions().contains(endA) && b.getPositions().contains(endB)).findFirst().get());
-		}
-		return path;
 	}
 	
 }

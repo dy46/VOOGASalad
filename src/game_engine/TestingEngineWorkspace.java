@@ -13,6 +13,9 @@ import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -22,6 +25,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
@@ -102,7 +106,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		myTowers = new ArrayList<>();
 		myStore = new Store(50000000);
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
-		myTerrains = makeDummyTerrains();
+		//myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
 		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
@@ -179,14 +183,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-//		mh.createGrid();
 		myBranches = mh.getEngineBranches();
-//		for(Branch b : myBranches){
-//			System.out.println(b+ " Neighbors: " + b.getNeighbors());
-//		}
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
-		System.out.println("GOALS: " + mh.getGoals());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
 		Unit AI2 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
@@ -305,14 +304,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// myStore.addItem(u, 10);
 	}
 
-	private List<Unit> makeDummyTerrains () {
-		List<Unit> ice = makeDummyIceTerrain();
-		// Unit spike = makeDummySpike();
-		List<Unit> terrains = new ArrayList<>();
-		terrains.addAll(ice);
-		// terrains.add(spike);
-		return terrains;
-	}
+//	private List<Unit> makeDummyTerrains () {
+//		List<Unit> ice = makeDummyIceTerrain();
+//		// Unit spike = makeDummySpike();
+//		List<Unit> terrains = new ArrayList<>();
+//		terrains.addAll(ice);
+//		// terrains.add(spike);
+//		return terrains;
+//	}
 
 	private List<Unit> makeDummyIceTerrain () {
 		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
@@ -547,7 +546,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		units.addAll(myTowers);
 		units.addAll(myEnemys);
 		units.addAll(myProjectiles);
-		units.addAll(myTerrains);
+		//units.addAll(myTerrains);
 		return units;
 	}
 
@@ -625,6 +624,18 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	@Override
 	public AISimulator getAISimulator() {
 		return myAISimulator;
+	}
+
+	@Override
+	public ILevelDisplayer getLevelDisplay() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EnemyController getEnemyController() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

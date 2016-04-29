@@ -5,10 +5,11 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.ICollisionDetector;
 import game_engine.properties.Position;
 
 
-public class CollisionDetector {
+public class CollisionDetector implements ICollisionDetector{
 
     private GameEngineInterface myEngine;
 
@@ -37,7 +38,7 @@ public class CollisionDetector {
         }
     }
 
-    public boolean collides (List<Position> bounds, Unit b) {
+    private boolean collides (List<Position> bounds, Unit b) {
         List<Position> bPos =
                 b.getProperties().getBounds().getUseableBounds(b.getProperties().getPosition());
         for (int i = 0; i < bounds.size(); i++) {
