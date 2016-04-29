@@ -132,16 +132,19 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
-		
+
 		List<Position> path = new ArrayList<>();
-		for(int i = 0; i < 100; i++)
-			path.add(new Position(i * 2, 200));
-		
-		
+
+		path.add(new Position(500, 200));
+		path.add(new Position(200, 200));
+		path.add(new Position(150, 400));
+		path.add(new Position(50, 400));
+		path.add(new Position(500, 401));
+
 		mh.processPositions(path);
 		mh.addSpawn(path.get(0));
 		mh.addGoal(path.get(path.size() - 1));
-		
+
 		myBranches = mh.getEngineBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
@@ -156,11 +159,13 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 		List<Unit> list = makeDummyTowers();
 		w.addPlacingUnit(list.get(0));
-		//w.addPlacingUnit(list.get(1));
+		// w.addPlacingUnit(list.get(1));
 		l.addWave(w);
 
-		//Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
-		//myStore.addUpgrade(list.get(1), affector, 100);
+		// Affector affector =
+		// this.myAffectorFactory.getAffectorLibrary().getAffector("Constant",
+		// "HealthDamage");
+		// myStore.addUpgrade(list.get(1), affector, 100);
 		Affector affector2 = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
 		myStore.addUpgrade(list.get(0), affector2, 100);
 		return l;
@@ -183,7 +188,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		List<Unit> ice = makeDummyIceTerrain();
 		// Unit spike = makeDummySpike();
 		List<Unit> terrains = new ArrayList<>();
-		//terrains.addAll(ice);
+		// terrains.addAll(ice);
 		// terrains.add(spike);
 		return terrains;
 	}
@@ -471,6 +476,5 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
 }
