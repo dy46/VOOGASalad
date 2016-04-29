@@ -23,8 +23,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<Branch> getEngineBranches();
 	
-	public List<Branch> getVisualBranches();
-	
 	public void continueFromLastPosition(double x, double y);
 
 	public void createGrid();
