@@ -112,13 +112,13 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	private HBox buildSaveButton() {
 		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> this.myGameSettingsTabModel.saveToFile());
+		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
 		return myNodeFactory.centerNode(save); 
 	}
 	
 	private HBox buildLoadButton() {
 		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
-		load.setOnAction(e -> this.myGameSettingsTabModel.loadFromFile());
+		load.setOnAction(e -> myGameSettingsTabModel.loadFromFile());
 		return myNodeFactory.centerNode(load); 
 	}
 	

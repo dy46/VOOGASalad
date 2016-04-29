@@ -12,6 +12,7 @@ import game_engine.game_elements.Unit;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 /**
@@ -44,6 +45,8 @@ public interface IAuthEnvironment {
 	
 	public PlaceValidation getPlaceValidation(); 
 	
+	public Store getStore(); 
+	
 	// Path Tab - Brian
 	
 	public List<Position> getGoals();
@@ -54,7 +57,7 @@ public interface IAuthEnvironment {
 	
 	public void setSpawns(List<Position> spawns); 
 	
-	// All Levels Tab - Austin
+	// All Levels Tab - Cody
 	
 	public void setLevels(List<Level> levels); 
 	
@@ -105,6 +108,8 @@ public interface IAuthEnvironment {
 	public void setGridBranches(List<Branch> gridBranches);
 	
 	public List<Branch> getGridBranches();
+	
+	public List<Branch> getBranches(); 
 	
 	// For UnitCreation integration, issue 190
 	

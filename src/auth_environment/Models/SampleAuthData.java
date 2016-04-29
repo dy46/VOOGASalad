@@ -16,6 +16,7 @@ import game_engine.game_elements.Unit;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 /**
@@ -45,18 +46,19 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Branch> myVisualBranches;
 	private List<Branch> myEngineBranches;
 	private List<Branch> myGridBranches;
+	private List<Branch> myBranches; 
 	private List<Level> myLevels;
-	private List<Unit> myTowers; 
-	private List<Unit> myEnemies;
-	private List<Unit> myTerrains;
-	private List<Unit> myProjectiles; 
-	private List<Affector> myAffectors; // Will eventually be replaced with a Library
-	private List<Unit> myPlacedUnits; 
-	private List<Position> mySpawns;
-	private List<Position> myGoals; 
+	private List<Unit> myTowers; // TODO: remove 
+	private List<Unit> myEnemies; // TODO: remove
+	private List<Unit> myTerrains; // TODO: remove
+	private List<Unit> myProjectiles; // TODO: remove
+	private List<Unit> myPlacedUnits; // TODO: remove
+	private List<Position> myGoals;
+	private List<Position> mySpawns; 
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
 	private PlaceValidation myPlaceValidation; 
+	private Store myStore; 
 	
 	// TODO: Factory class variables... remove eventually
 	private UnitFactory myUnitFactory; 
@@ -74,7 +76,6 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myEnemies = new ArrayList<>();
 		this.myTerrains = new ArrayList<>();
 		this.myProjectiles = new ArrayList<>();
-		this.myAffectors = new ArrayList<>(); 
 		this.myPlacedUnits = new ArrayList<>(); 
 		this.mySpawns = new ArrayList<>();
 		this.myGoals = new ArrayList<>(); 
@@ -87,6 +88,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private void setupDummyValues() {
 		TestingEngineWorkspace test = new TestingEngineWorkspace();
 		test.setUpEngine(null);
+		this.myStore = test.getStore(); 
 //		this.setTerrains(test.getTerrains());
 //		this.setTowers(test.getTowers());
 //		this.setLevels(test.getLevels());
@@ -164,7 +166,7 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public List<Affector> getAffectors() {
-		return this.myAffectors;
+		return this.myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 
 	@Override
@@ -194,7 +196,6 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public void setAffectors(List<Affector> affectors) {
-		this.myAffectors = affectors; 
 	}
 
 	@Override
@@ -310,6 +311,16 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public PlaceValidation getPlaceValidation() {
 		return this.myPlaceValidation;
+	}
+
+	@Override
+	public List<Branch> getBranches() {
+		return this.myBranches;
+	}
+
+	@Override
+	public Store getStore() {
+		return this.myStore;
 	}
 	
 }
