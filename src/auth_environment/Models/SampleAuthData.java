@@ -43,9 +43,7 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
-	private List<Branch> myVisualBranches;
 	private List<Branch> myEngineBranches;
-	private List<Branch> myGridBranches;
 	private List<Branch> myBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers; // TODO: remove 
@@ -55,6 +53,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; // TODO: remove
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
+	private MapHandler myMapHandler; 
 	private List<PlaceValidation> myPlaceValidations; 
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
@@ -69,8 +68,6 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
 		this.myEngineBranches = new ArrayList<>();
-		this.myVisualBranches = new ArrayList<>();
-		this.myGridBranches = new ArrayList<>();
 		this.myLevels = new ArrayList<>();
 		this.myTowers = new ArrayList<>();
 		this.myEnemies = new ArrayList<>();
@@ -96,8 +93,8 @@ public class SampleAuthData implements IAuthEnvironment {
 //		this.setProjectiles(test.getProjectiles());
 //		this.setAffectors(test.getAffectors());
 //		this.setEnemies(test.getEnemies());
-		MapHandler mh = new MapHandler();
-		this.myBranches = mh.getEngineBranches();
+//		MapHandler mh = new MapHandler();
+//		this.myBranches = mh.getEngineBranches();
 //		List<Branch> branches = mh.getEngineBranches();
 //		this.setEngineBranches(mh.getEngineBranches());
 //		this.setGoals(mh.getGoals());
@@ -236,26 +233,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	}
 
 	@Override
-	public List<Branch> getVisualBranches() {
-		return this.myVisualBranches;
-	}
-
-	@Override
-	public void setVisualBranches(List<Branch> branches) {
-		this.myVisualBranches = branches;
-	}
-
-	@Override
-	public void setGridBranches(List<Branch> gridBranches) {
-		myGridBranches = gridBranches;
-	}
-
-	@Override
-	public List<Branch> getGridBranches() {
-		return myGridBranches;
-	}
-
-	@Override
 	public UnitFactory getUnitFactory() {
 		return this.myUnitFactory;
 	}
@@ -318,6 +295,16 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public List<PlaceValidation> getPlaceValidations() {
 		return this.myPlaceValidations;
+	}
+
+	@Override
+	public void setMapHandler(MapHandler mh) {
+		myMapHandler = mh;
+	}
+
+	@Override
+	public MapHandler getMapHandler() {
+		return myMapHandler; 
 	}
 	
 }

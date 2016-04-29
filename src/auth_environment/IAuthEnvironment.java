@@ -2,6 +2,7 @@ package auth_environment;
 
 import java.util.List;
 
+import auth_environment.paths.MapHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
@@ -99,15 +100,11 @@ public interface IAuthEnvironment {
 	
 	public void setEngineBranches(List<Branch> branches);
 
-	public void setVisualBranches(List<Branch> branches);
-
-	public List<Branch> getVisualBranches();
-
-	public void setGridBranches(List<Branch> gridBranches);
-	
-	public List<Branch> getGridBranches();
-	
 	public List<Branch> getBranches(); 
+	
+	public void setMapHandler(MapHandler mh);
+	
+	public MapHandler getMapHandler(); 
 	
 	// For UnitCreation integration, issue 190
 	
