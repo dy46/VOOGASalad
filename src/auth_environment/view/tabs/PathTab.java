@@ -154,15 +154,18 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void buildWaveComboBox(String levelName) {
 		this.waveComboBox.getItems().clear();
-		this.waveComboBox.getItems().addAll(this.myPathTabModel.getWaveNames(levelName));
-		this.waveComboBox.setOnAction(event -> {
-			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-			System.out.println("Wave combo box used " + selectedItem + "!");
-			if (selectedItem!=null) {
-				this.buildUnitPicker(selectedItem);
-			}
-			event.consume();
-		});
+		System.out.println(levelName);
+		if (this.myPathTabModel.getWaveNames(levelName)!=null) {
+			this.waveComboBox.getItems().addAll(this.myPathTabModel.getWaveNames(levelName));
+			this.waveComboBox.setOnAction(event -> {
+				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+				System.out.println("Wave combo box used " + selectedItem + "!");
+				if (selectedItem!=null) {
+					this.buildUnitPicker(selectedItem);
+				}
+				event.consume();
+			});
+		}
 	}
 
 	private void buildUnitPicker(String waveName) {
