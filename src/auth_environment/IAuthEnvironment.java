@@ -23,13 +23,13 @@ public interface IAuthEnvironment extends IGameData {
 	
 	// GlobalGameTab
 	
-	public void setGameName(String name);
-	
 	public String getGameName(); 
-	
-	public void setSplashScreen(String fileName); 
-	
+
+	public void setGameName(String name);
+		
 	public String getSplashScreen(); 
+
+	public void setSplashScreen(String fileName); 	
 	
 	// Path Tab
 	
@@ -43,22 +43,22 @@ public interface IAuthEnvironment extends IGameData {
 	
 	// Unit / Affector Creator Tab
 	
+	public List<Unit> getTowers(); 
+
 	public void setTowers(List<Unit> towers); 
 	
-	public List<Unit> getTowers(); 
-	
-	public void setTerrains(List<Unit> terrains); 
-	
 	public List<Unit> getTerrains(); 
-	
-	public void setEnemies(List<Unit> enemies); 
-	
+
+	public void setTerrains(List<Unit> terrains); 
+		
 	public List<Unit> getEnemies(); 
-	
-	public void setProjectiles(List<Unit> projectiles); 
+
+	public void setEnemies(List<Unit> enemies); 	
 	
     public List<Unit> getProjectiles();
-    	
+
+	public void setProjectiles(List<Unit> projectiles); 
+	    	
 	// For UnitCreation integration, issue 190
 	
 	public FunctionFactory getFunctionFactory();

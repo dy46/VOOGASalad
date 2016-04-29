@@ -28,49 +28,36 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private String myName;
 	private String mySplashFileName;
 	
-	private List<Branch> myBranches;
-	private List<Level> myLevels;
-	private List<Unit> myTowers; 
-	private List<Unit> myEnemies;
-	private List<Unit> myTerrains;
-	private List<Unit> myProjectiles; 
-	private List<Affector> myAffectors; // Will eventually be replaced with a Library
-	private List<Unit> myPlacedUnits; 
-	private List<Position> mySpawns;
-	private List<Position> myGoals; 
+//	private List<Level> myLevels = new ArrayList<Level>();
+//	private List<Branch> myBranches = new ArrayList<Branch>();
+//	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
+//	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
+//	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
+//	private ScoreUpdate myScoreUpdate;
+//	private WaveGoal myWaveGoal;
+//	private Store myStore;
+//	private double myScore;
+//	
+//	private AffectorFactory myAffectorFactory;
+//	private UnitFactory myUnitFactory;
 	
-	private IGameData myGameData;
+	private List<Unit> myTowers = new ArrayList<Unit>();
+	private List<Unit> myEnemies = new ArrayList<Unit>();
+	private List<Unit> myTerrains = new ArrayList<Unit>();
+	private List<Unit> myProjectiles = new ArrayList<Unit>();
+	private List<Position> mySpawns = new ArrayList<Position>();
+	private List<Position> myGoals = new ArrayList<Position>();
+	private FunctionFactory myFunctionFactory;
+	
+	private IGameData myGameData = new GameData();
 
-	public AuthEnvironment() {
-		myBranches = new ArrayList<Branch>();
-		myLevels = new ArrayList<Level>();
-		myTowers = new ArrayList<Unit>();
-		myEnemies = new ArrayList<Unit>();
-		myTerrains = new ArrayList<Unit>();
-		myProjectiles = new ArrayList<Unit>();
-		myAffectors = new ArrayList<Affector>(); 
-		myPlacedUnits = new ArrayList<Unit>(); 
-		mySpawns = new ArrayList<Position>();
-		myGoals = new ArrayList<Position>(); 	
+	public AuthEnvironment() { 
 		
-		myGameData = new GameData();
 	}
-	
 	public AuthEnvironment(IGameData gameData) {
 		myGameData = gameData;
 		
-		myLevels = myGameData.getLevels();
-		myBranches = myGameData.getBranches();
-		myAffectors = myGameData.getAffectors();
-		myPlacedUnits = myGameData.getPlacedUnits(); 
-		
-
-		myTowers = new ArrayList<Unit>();
-		myEnemies = new ArrayList<Unit>();
-		myTerrains = new ArrayList<Unit>();
-		myProjectiles = new ArrayList<Unit>();
-		mySpawns = new ArrayList<Position>();
-		myGoals = new ArrayList<Position>(); 				
+		myTowers = myGameData.getUnitFactory().getUnitLibrary().getUnits();
 	}
 
 	private void setupDummyValues() {
@@ -100,210 +87,154 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public String getGameName() {
 		return this.myName; 
 	}
-
+	
+	@Override
+	public String getSplashScreen() {
+		return this.mySplashFileName;
+	}
 	@Override
 	public void setSplashScreen(String fileName) {
 		this.mySplashFileName = fileName;
 	}
 
 	@Override
-	public String getSplashScreen() {
-		return this.mySplashFileName;
-	}
-
-	@Override
-	public List<Level> getLevels() {
-		return this.myLevels;
-	}
-
-	@Override
-	public void addLevel(Level level) {
-		this.myLevels.add(level); 
-	}
-
-	@Override
-	public List<Unit> getPlacedUnits() {
-		return this.myPlacedUnits;
-	}
-
-	@Override
-	public void placeUnit(Unit unit) {
-		this.myPlacedUnits.add(unit); 
-	}
-
-	@Override
-	public List<Unit> getTowers() {
-		return this.myTowers;
-	}
-
-	@Override
-	public List<Unit> getTerrains() {
-		return this.myTerrains;
-	}
-
-	@Override
-	public List<Unit> getEnemies() {
-		return this.myEnemies;
-	}
-
-	@Override
-	public List<Unit> getProjectiles() {
-		return this.myProjectiles;
-	}
-
-	@Override
-	public List<Affector> getAffectors() {
-		return this.myAffectors;
-	}
-
-	@Override
-	public void setPlacedUnits(List<Unit> units) {
-		this.myPlacedUnits = units; 
-	}
-
-	@Override
-	public void setTowers(List<Unit> towers) {
-		this.myTowers = towers; 
-	}
-
-	@Override
-	public void setTerrains(List<Unit> terrains) {
-		this.myTerrains = terrains;
-	}
-
-	@Override
-	public void setEnemies(List<Unit> enemies) {
-		this.myEnemies = enemies; 
-	}
-
-	@Override
-	public void setProjectiles(List<Unit> projectiles) {
-		this.myProjectiles = projectiles; 
-	}
-
-	@Override
-	public void setAffectors(List<Affector> affectors) {
-		this.myAffectors = affectors; 
-	}
-
-	@Override
 	public List<Position> getGoals() {
-		return this.myGoals;
+		return myGoals;
 	}
-
 	@Override
 	public void setGoals(List<Position> goals) {
-		this.myGoals = goals; 
-	}
-
-	@Override
-	public List<Position> getSpawns() {
-		return this.mySpawns;
-	}
-
-	@Override
-	public void setSpawns(List<Position> spawns) {
-		this.mySpawns = spawns; 
-	}
-
-	@Override
-	public void setLevels(List<Level> levels) {
-		this.myLevels = levels; 
-	}
-
-	@Override
-	public void setVisualBranches(List<Branch> branches) {
-		this.myVisualBranches = branches;
-	}
-
-	@Override
-	public void setGridBranches(List<Branch> gridBranches) {
-		myGridBranches = gridBranches;
-	}
-
-	@Override
-	public List<Branch> getGridBranches() {
-		return myGridBranches;
+		myGoals = goals;
 	}
 	
-    @Override
-    public UnitFactory getUnitFactory () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setUnitFactory (UnitFactory factory) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public FunctionFactory getFunctionFactory () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setFunctionFactory (FunctionFactory factory) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public AffectorFactory getAffectorFactory () {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void setAffectorFactory (AffectorFactory factory) {
-        // TODO Auto-generated method stub
-        
-    }
+	@Override
+	public List<Position> getSpawns() {
+		return mySpawns;
+	}
+	@Override
+	public void setSpawns(List<Position> spawns) {
+		mySpawns = spawns;
+	}
+	
+	@Override
+	public List<Unit> getTowers() {
+		return myTowers;
+	}
+	@Override
+	public void setTowers(List<Unit> towers) {
+		myTowers = towers;
+	}
+	
+	@Override
+	public List<Unit> getTerrains() {
+		return myTerrains;
+	}
+	@Override
+	public void setTerrains(List<Unit> terrains) {
+		myTerrains = terrains;
+	}
+	
+	@Override
+	public List<Unit> getEnemies() {
+		return myEnemies;
+	}
+	@Override
+	public void setEnemies(List<Unit> enemies) {
+		myEnemies = enemies;
+	}
+	
+	@Override
+	public List<Unit> getProjectiles() {
+		return myProjectiles;
+	}
+	@Override
+	public void setProjectiles(List<Unit> projectiles) {
+		myProjectiles = projectiles;
+	}
 
 	@Override
-	public void saveGameData() {
+	public FunctionFactory getFunctionFactory() {
+		return myFunctionFactory;
+	}
+	@Override
+	public void setFunctionFactory(FunctionFactory factory) {
+		myFunctionFactory = factory;
+	}
+	
+	@Override
+	public List<Level> getLevels() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setLevels(List<Level> levels) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public List<Branch> getBranches() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public void setBranches(List<Branch> branches) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public List<Unit> getPlacedUnits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setPlacedUnits(List<Unit> units) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public List<Affector> getAffectors() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public AffectorFactory getAffectorFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setAffectorFactory(AffectorFactory factory) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
 	public List<PlaceValidation> getPlaceValidations() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public void setPlaceValidations(List<PlaceValidation> placeValidations) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
 	public WaveGoal getWaveGoal() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public void setWaveGoal(WaveGoal waveGoal) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public ScoreUpdate getScoreUpdate() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public void setScoreUpdate(ScoreUpdate scoreUpdate) {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public Store getStore() {
 		// TODO Auto-generated method stub
@@ -314,7 +245,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public double getScore() {
 		// TODO Auto-generated method stub
@@ -325,11 +255,21 @@ public class AuthEnvironment implements IAuthEnvironment {
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
-	public IGameData getGameData() {
-
+	public UnitFactory getUnitFactory() {
+		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void setUnitFactory(UnitFactory factory) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public IGameData getGameData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import auth_environment.OldIAuthEnvironment;
 import auth_environment.paths.MapHandler;
 import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
@@ -16,7 +17,7 @@ import game_engine.game_elements.Unit;
 import game_engine.libraries.UnitLibrary;
 import game_engine.properties.Position;
 
-public class SampleAuthEnvironment implements IAuthEnvironment {
+public class SampleAuthEnvironment implements OldIAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
@@ -258,11 +259,5 @@ public class SampleAuthEnvironment implements IAuthEnvironment {
         // TODO Auto-generated method stub
         
     }
-
-	@Override
-	public void saveGameData() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
