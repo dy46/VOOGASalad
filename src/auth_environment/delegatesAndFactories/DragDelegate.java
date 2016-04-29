@@ -8,8 +8,10 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 
@@ -27,6 +29,8 @@ public class DragDelegate {
 	public DragDelegate() {
 		
 	}
+	
+	
 
 //	public void addUnitViewSource(UnitView source) {
 //		source.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -75,14 +79,6 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
-	}
-	
-	public void setupPaneTarget(Pane target) {
-		target.setOnDragOver(e -> System.out.println("drag over"));
-	}
-	
-	public void setupCanvasTarget(Canvas target) {
-		target.setOnDragOver(e -> System.out.println("drag over"));
 	}
 	
 	public void setupNodeTarget(Node target) {
