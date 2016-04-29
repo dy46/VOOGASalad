@@ -20,4 +20,5 @@ public class Main extends Application {
 		primaryStage.setScene(myView.createPlayerScene());
 		primaryStage.show();
 	}
+	
 }

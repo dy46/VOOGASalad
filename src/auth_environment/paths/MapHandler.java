@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
+import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
 public class MapHandler {
@@ -65,7 +66,7 @@ public class MapHandler {
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/2500;
+		return screenWidth*screenHeight/12500;
 	}
 
 	public void insertTestBranches(){

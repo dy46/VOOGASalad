@@ -1,4 +1,4 @@
-package game_engine;
+package game_engine.controllers;
 
 import java.util.List;
 import game_engine.game_elements.Level;
@@ -51,7 +51,6 @@ public class LevelController implements ILevelDisplayer {
         myCurrentLevel = myLevels.get(levelNumber);
         paused = false;
     }
-    
 
     public void continueWaves () {
         myCurrentLevel.playNextWave();

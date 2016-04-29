@@ -1,4 +1,4 @@
-package game_engine;
+package game_engine.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
