@@ -40,6 +40,7 @@ public class Unit extends GameElement {
         addAffectors(affectors);
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
+        this.TTL = Integer.MAX_VALUE;
     }
 
     public Unit (String name, UnitProperties unitProperties, int numFrames) {
@@ -49,6 +50,7 @@ public class Unit extends GameElement {
         elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
+        this.TTL = Integer.MAX_VALUE;
     }
 
     public Unit (String name, int numFrames) {
@@ -59,6 +61,7 @@ public class Unit extends GameElement {
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
+        this.TTL = Integer.MAX_VALUE;
     }
 
     public Unit copyUnit () {
