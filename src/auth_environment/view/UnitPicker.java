@@ -52,7 +52,8 @@ public class UnitPicker{
 	public void setUnits(List<Unit> units) {
 		this.myUnitViews.clear();
 		this.myEditInfo.getChildren().clear();
-		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
+		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, "unicornCat.gif")));
+		//units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
 		this.myEditInfo.getChildren().addAll(this.myUnitViews);
 		setDragable();
 	}
@@ -68,11 +69,17 @@ public class UnitPicker{
 	public void add(Unit unit, ElementTab elementTab){
 		UnitView uv = new UnitView(unit, unit.toString() + ".png");
 		myEditInfo.getChildren().add(uv);
-		uv.setOnMouseClicked(e -> elementTab.updateMenu(unit));
+
 	}
-	
-	
+
 	public TitledPane getRoot(){
 		return myEditPane;
+	}
+
+	public void setClickable(ElementTab elementTab) {
+		myUnitViews.stream().forEach(e -> {
+			e.setOnMouseClicked(l -> elementTab.updateMenu(e.getUnit()));
+		});
+		
 	}
 }
