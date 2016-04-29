@@ -70,6 +70,7 @@ public class PathTab extends Tab implements IWorkspace {
 		this.currentBranch = new ArrayList<>();
 		this.drawMap();
 		this.setContent(this.getRoot());
+		this.myPathTabModel.createGrid();
 	}
 
 	private void addConfirmationDialog() {

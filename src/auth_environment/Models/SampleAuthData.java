@@ -100,8 +100,8 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myBranches = mh.getEngineBranches();
 //		List<Branch> branches = mh.getEngineBranches();
 //		this.setEngineBranches(mh.getEngineBranches());
-		this.setGoals(mh.getGoals());
-		this.setSpawns(mh.getSpawns());
+//		this.setGoals(mh.getGoals());
+//		this.setSpawns(mh.getSpawns());
 		//		Unit tower = test.getTerrains().get(0); 
 		//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
