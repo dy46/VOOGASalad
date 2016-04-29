@@ -38,7 +38,7 @@ public abstract class Affector {
             copy = (Affector) Class.forName(this.getClass().getName())
                     .getConstructor(AffectorData.class)
                     .newInstance(myData);
-            copy.setWorkspace(this.getWS());
+            copy.setWorkspace(this.getWorkspace());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +97,7 @@ public abstract class Affector {
         this.TTL = TTL;
     }
 
-    public GameEngineInterface getWS () {
+    public GameEngineInterface getWorkspace () {
         return engineWorkspace;
     }
 

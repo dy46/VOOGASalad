@@ -38,8 +38,4 @@ public class AffectorData {
 		this.myUnitProperties = unitProperties;
 	}
 	
-	public int getNumPairs() {
-	    return myFunctions.size();
-	}
-	
 }

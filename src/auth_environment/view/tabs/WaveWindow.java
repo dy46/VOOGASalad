@@ -75,7 +75,9 @@ public class WaveWindow {
 		
 		Button ok = new Button("Ok");
 		myBorderPane.setBottom(ok);
-		ok.setOnAction(e -> createNewWave(title, level));
+		String levelNum = level.split(" ")[1]; 
+		String waveNum = wave.split(" ")[1];
+		ok.setOnAction(e -> createNewWave(title, levelNum + " " + waveNum));
 	}
 	
 	//createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames)
@@ -92,7 +94,6 @@ public class WaveWindow {
 		for(TextField hb: spawningTimes){
 			st.add(Integer.parseInt(hb.getText()));
 		}
-		
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4); 
 	}
 
@@ -110,7 +111,7 @@ public class WaveWindow {
 		if (cbox.getValue() != null) {
 			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
+			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 
 			newTableInfo.add(addSpawnTimeHBox(true, newcbox), 2, index);
 			
@@ -129,7 +130,7 @@ public class WaveWindow {
 		if (cbox.getValue() != null) {
 			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll("FireTower", "IceTower", "TackTower");
+			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 
 			newTableInfo.add(addSpawnTimeHBox(false, newcbox), 2, index);
 			

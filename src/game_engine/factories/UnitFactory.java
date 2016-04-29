@@ -52,32 +52,31 @@ public class UnitFactory {
         newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
         newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
         newProperties.setVelocity(Double.parseDouble(inputs.get("Speed")), Double.parseDouble(inputs.get("Direction")));
-//        newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
         newProperties.setStateProp(getUnitState(inputs.get("State")));
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);
         Unit unit =
                 createUnit(getName(type, unitType), unitProperties,
-                           Integer.parseInt(inputs.get("NumFrames")));  
+                           Integer.parseInt(inputs.get("NumFrames")));
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));
         unit.setDeathDelay(Integer.parseInt(inputs.get("Death Delay")));
         return unit;
     }
-    
-    public List<Unit> getUnitsFromString(List<String> names) {
-    	if(names.contains(null)) {
-    		return new ArrayList<>();
-    	}
+
+    public List<Unit> getUnitsFromString (List<String> names) {
+        if (names.contains(null)) {
+            return new ArrayList<>();
+        }
         List<Unit> units = new ArrayList<>();
         names.stream().forEach(n -> units.add(myUnitLibrary.getUnitByName(n)));
         return units;
     }
-    
-    public List<Affector> getAffectorsFromString(List<String> names) {
-    	if(names.contains(null)) {
-    		return new ArrayList<>();
-    	}
+
+    public List<Affector> getAffectorsFromString (List<String> names) {
+        if (names.contains(null)) {
+            return new ArrayList<>();
+        }
         List<Affector> affectors = new ArrayList<>();
         names.stream().forEach(n -> affectors.add(myAffectorLibrary.getAffector(n)));
         return affectors;
@@ -317,9 +316,9 @@ public class UnitFactory {
     public List<String> getUnitTypes () {
         return Arrays.asList("Enemy", "Tower", "Projectile", "Terrain");
     }
-    
-    public void setAffectorLibrary(AffectorLibrary library) {
-    	this.myAffectorLibrary = library; 
+
+    public void setAffectorLibrary (AffectorLibrary library) {
+        this.myAffectorLibrary = library;
     }
 
 }

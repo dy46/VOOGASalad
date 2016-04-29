@@ -28,7 +28,7 @@ public class LevelTab extends Tab{
 		init();
 	}
 	
-	private void init(){
+	private void init() {
 		this.myBorderPane = new BorderPane();
 		this.setRefresh();
 		this.createWaveList();
@@ -37,6 +37,9 @@ public class LevelTab extends Tab{
 	
 	private void setRefresh() {
 		this.myBorderPane.setOnMouseEntered(e -> {
+			this.refresh();
+		});
+		this.setOnSelectionChanged(e -> {
 			this.refresh();
 		});
 	}

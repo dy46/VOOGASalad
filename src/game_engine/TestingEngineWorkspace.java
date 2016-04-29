@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_engine.IDFactory;
 import game_engine.TestingEngineWorkspace;
 import game_engine.AI.AIHandler;
+import game_engine.AI.AISearcher;
+import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
@@ -21,14 +22,13 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
-import game_engine.games.Timer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
 import game_engine.place_validations.EnemySpawnPointPlaceValidation;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.place_validations.TowerPlaceValidation;
-import game_engine.physics.EncapsulationController;
+import game_engine.physics.EncapsulationDetector;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
@@ -37,8 +37,8 @@ import game_engine.store_elements.Store;
 import game_engine.wave_goals.EnemyNumberWaveGoal;
 import game_engine.wave_goals.WaveGoal;
 
-public class TestingEngineWorkspace implements GameEngineInterface {
 
+public class TestingEngineWorkspace implements GameEngineInterface {
 
 	private int nextWaveTimer;
 	private boolean pause;
@@ -56,10 +56,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private List<Unit> myProjectiles;
 
 	private CollisionDetector myCollider;
-	private EncapsulationController myEncapsulator;
+	private EncapsulationDetector myEncapsulator;
 
 	private Level myCurrentLevel;
-	private IDFactory myIDFactory;
 	private double myBalance;
 	private Store myStore;
 	private double score;
@@ -73,23 +72,26 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
-	
+
 	private AIHandler myAIHandler;
+	private AISimulator myAISimulator;
+	private AISearcher myAISearcher;
 
-	public TestingEngineWorkspace () {};
+	public TestingEngineWorkspace () {
+	};
 
-	public void setUpEngine (IAuthEnvironment test) {
+	public void setUpEngine (TestingGameData test) {
+		myAISimulator = new AISimulator(this);
+		myAISearcher = new AISearcher(this);
 		myAIHandler = new AIHandler(this);
 		score = 0;
 		unitsToRemove = new ArrayList<>();
 		myPlaceValidations = new ArrayList<>();
-		myPlaceValidations.add(new EnemySpawnPointPlaceValidation(this));
-		myPlaceValidations.add(new TowerPlaceValidation(this));
+		// myPlaceValidations.add(new TowerPlaceValidation(this));
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
 		myLevels = new ArrayList<>();
 		myBranches = new ArrayList<>();
-		myIDFactory = new IDFactory();
 		myProjectiles = new ArrayList<>();
 		// projectiles must be intialized before towers
 		myFunctionFactory = new FunctionFactory();
@@ -102,14 +104,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
-		myEncapsulator = new EncapsulationController(this);
+		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
 		myCurrentLevel = makeDummyLevel();
 		myLevels.add(myCurrentLevel);
-		updateAIBranches();
+		// updateAIBranches();
 		myAffectorFactory.getAffectorLibrary().getAffectors().stream()
 		.forEach(a -> a.setWorkspace(this));
+		this.myAffectors = myAffectorFactory.getAffectorLibrary().getAffectors();
 		this.makeDummyUpgrades();
 	}
 
@@ -178,17 +181,21 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		MapHandler mh = new MapHandler();
 //		mh.createGrid();
 		myBranches = mh.getEngineBranches();
+//		for(Branch b : myBranches){
+//			System.out.println(b+ " Neighbors: " + b.getNeighbors());
+//		}
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
+		System.out.println("GOALS: " + mh.getGoals());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
-		Unit AI1 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
-		Unit AI2 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit AI1 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
+		Unit AI2 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
 		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
-		Unit AI3 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
-		Unit AI4 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
+		Unit AI3 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
+		Unit AI4 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
 		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
@@ -221,26 +228,26 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		rand10.getProperties().setHealth(50);
 		rand11.getProperties().setHealth(50);
 		rand12.getProperties().setHealth(50);
-		//		w.addSpawningUnit(e1, 0);
-		//		w.addSpawningUnit(e2, 60);
-		//		w.addSpawningUnit(e3, 60);
-		//		w.addSpawningUnit(e4, 60);
+		// w.addSpawningUnit(e1, 0);
+		// w.addSpawningUnit(e2, 60);
+		// w.addSpawningUnit(e3, 60);
+		// w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-		w.addSpawningUnit(AI2, 60);
-		w.addSpawningUnit(AI3, 60);
-		w.addSpawningUnit(AI4, 60);
-		//		w.addSpawningUnit(rand1, 60);
-		//		w.addSpawningUnit(rand2, 60);
-		//		w.addSpawningUnit(rand3, 60);
-		//		w.addSpawningUnit(rand4, 60);
-		//		w.addSpawningUnit(rand5, 60);
-		//		w.addSpawningUnit(rand6, 60);
-		//		w.addSpawningUnit(rand7, 60);
-		//		w.addSpawningUnit(rand8, 60);
-		//		w.addSpawningUnit(rand9, 60);
-		//		w.addSpawningUnit(rand10, 60);
-		//		w.addSpawningUnit(rand11, 60);
-		//		w.addSpawningUnit(rand12, 60);
+//		w.addSpawningUnit(AI2, 60);
+//		w.addSpawningUnit(AI3, 60);
+//		w.addSpawningUnit(AI4, 60);
+		// w.addSpawningUnit(rand1, 60);
+		// w.addSpawningUnit(rand2, 60);
+		// w.addSpawningUnit(rand3, 60);
+		// w.addSpawningUnit(rand4, 60);
+		// w.addSpawningUnit(rand5, 60);
+		// w.addSpawningUnit(rand6, 60);
+		// w.addSpawningUnit(rand7, 60);
+		// w.addSpawningUnit(rand8, 60);
+		// w.addSpawningUnit(rand9, 60);
+		// w.addSpawningUnit(rand10, 60);
+		// w.addSpawningUnit(rand11, 60);
+		// w.addSpawningUnit(rand12, 60);
 		List<Unit> list = makeDummyTowers();
 		w.addPlacingUnit(list.get(0));
 		w.addPlacingUnit(list.get(1));
@@ -254,10 +261,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		e6.getProperties().setHealth(50);
 		e7.getProperties().setHealth(50);
 		e8.getProperties().setHealth(50);
-//		w2.addSpawningUnit(e5, 0);
-//		w2.addSpawningUnit(e6, 60);
-//		w2.addSpawningUnit(e7, 60);
-//		w2.addSpawningUnit(e8, 60);
+		// w2.addSpawningUnit(e5, 0);
+		// w2.addSpawningUnit(e6, 60);
+		// w2.addSpawningUnit(e7, 60);
+		// w2.addSpawningUnit(e8, 60);
 		w2.addPlacingUnit(list.get(0));
 		Wave w3 = new Wave("I'm not quite sure what goes here", 240);
 		Unit e9 = myEnemyFactory.createAIEnemy("Moab", l.getSpawns().get(0));
@@ -268,10 +275,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		e10.getProperties().setHealth(50);
 		e11.getProperties().setHealth(50);
 		e12.getProperties().setHealth(50);
-//		w3.addSpawningUnit(e9, 0);
-//		w3.addSpawningUnit(e10, 60);
-//		w3.addSpawningUnit(e11, 60);
-//		w3.addSpawningUnit(e12, 60);
+		// w3.addSpawningUnit(e9, 0);
+		// w3.addSpawningUnit(e10, 60);
+		// w3.addSpawningUnit(e11, 60);
+		// w3.addSpawningUnit(e12, 60);
 		w3.addPlacingUnit(list.get(1));
 		l.addWave(w3);
 		l.addWave(w2);
@@ -295,15 +302,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// init.add(t);
 		Unit u = new Unit("Interesting", Arrays.asList(affector), 1);
 		u.addAffectorToApply(affector);
-		//        myStore.addItem(u, 10);
+		// myStore.addItem(u, 10);
 	}
 
 	private List<Unit> makeDummyTerrains () {
 		List<Unit> ice = makeDummyIceTerrain();
-		//        Unit spike = makeDummySpike();
+		// Unit spike = makeDummySpike();
 		List<Unit> terrains = new ArrayList<>();
 		terrains.addAll(ice);
-		//        terrains.add(spike);
+		// terrains.add(spike);
 		return terrains;
 	}
 
@@ -311,9 +318,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
-		pos.add(new Position(30, 0));
-		pos.add(new Position(30, 30));
-		pos.add(new Position(0, 30));
+		pos.add(new Position(60, 0));
+		pos.add(new Position(60, 60));
+		pos.add(new Position(0, 60));
 		ice1.getProperties().setPosition(185, 155);
 		ice1.getProperties().setBounds(pos);
 		ice1.setTTL(Integer.MAX_VALUE);
@@ -425,10 +432,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return myCurrentLevel;
 	}
 
-	public IDFactory getIDFactory () {
-		return myIDFactory;
-	}
-
 	public double getBalance () {
 		return myBalance;
 	}
@@ -469,11 +472,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return myAffectorFactory.getAffectorLibrary();
 	}
 
-	@Override
-	public int getLives () {
-		return myCurrentLevel.getMyLives();
-	}
-
 	public void clearProjectiles () {
 		myProjectiles.forEach(t -> {
 			t.setInvisible();
@@ -503,45 +501,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	public void continueWaves () {
 		myCurrentLevel.playNextWave();
 		pause = false;
-	}
-
-	@Override
-	public boolean addTower (String name, double x, double y) {
-		Unit purchased = myStore.purchaseUnit(name);
-		if (purchased != null) {
-			boolean canPlace = false;
-			for(int i = 0; i < myPlaceValidations.size(); i++) {
-				canPlace = myPlaceValidations.get(i).validate(purchased, x, y);
-			}
-			if(canPlace) {
-				Unit copy = purchased.copyUnit();
-				copy.getProperties().setPosition(x, y);
-				myTowers.add(copy);
-				updateAIBranches();
-				return true;
-			}
-			else {
-				myStore.sellUnit(purchased);
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public void sellUnit(Unit u) {
-		List<String> namesOfChildren = new ArrayList<>();
-		u.getChildren().stream().forEach(c -> namesOfChildren.add(c.toString()));
-		unitsToRemove.addAll(getAllUnits().stream().filter(c -> namesOfChildren.contains(c.toString()))
-				.collect(Collectors.toList()));
-		u.setInvisible();
-		u.update();
-		unitsToRemove.add(u);
-		myStore.sellUnit(u);
-	}
-
-	@Override
-	public List<Unit> getTowerTypes () {
-		return myStore.getTowerList();
 	}
 
 	public List<Affector> getAffectors () {
@@ -583,35 +542,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 	}
 
-	@Override
-	public boolean isPaused () {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setPaused () {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isGameOver () {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Timer getTimer () {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void decrementLives (int lives) {
-		myCurrentLevel.decrementLives(lives);
-	}
-
 	public List<Unit> getAllUnits () {
 		List<Unit> units = new ArrayList<>();
 		units.addAll(myTowers);
@@ -619,11 +549,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		units.addAll(myProjectiles);
 		units.addAll(myTerrains);
 		return units;
-	}
-
-	@Override
-	public double getScore () {
-		return score;
 	}
 
 	public void setScore (double score) {
@@ -635,42 +560,71 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return nextWaveTimer;
 	}
 
-	public List<Affector> getUpgrades(Unit unitToUpgrade) {
+	public List<Affector> getUpgrades (Unit unitToUpgrade) {
 		return myStore.getUpgrades(unitToUpgrade);
 	}
 
-	public void applyUpgrade(Unit unitToUpgrade, Affector affector) {
+	public void applyUpgrade (Unit unitToUpgrade, Affector affector) {
 		myStore.buyUpgrade(unitToUpgrade, affector);
 	}
 
 	@Override
-	public void moveUnit (Unit unit, double x, double y) {
-		unit.getProperties().setPosition(new Position(x, y));
-	}
-
-	@Override
 	public void setCursorPosition (double x, double y) {
-		cursorPos = new Position(x, y);      
+		cursorPos = new Position(x, y);
 	}
 
-	public Position getCursorPosition() {
+	public Position getCursorPosition () {
 		return cursorPos;
 	}
 
-	public void removeTower(Unit u) {
-		if(myTowers.contains(u)){
+	public void removeTower (Unit u) {
+		if (myTowers.contains(u)) {
 			myTowers.remove(u);
 		}
 	}
 
 	@Override
-	public List<Branch> getBranchesAtPos(Position pos) {
+	public List<Branch> getBranchesAtPos (Position pos) {
 		return myAIHandler.getBranchesAtPos(pos);
 	}
 
-	@Override
-	public void updateAIBranches() {
+	public int getMoney () {
+		return myStore.getMoney();
+	}
+
+	public void updateAIBranches () {
 		myAIHandler.updateAIBranches();
+	}
+
+	@Override
+	public UnitController getUnitController () {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LevelController getLevelController () {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Store getStore () {
+		return myStore;
+	}
+
+	@Override
+	public AIHandler getAIHandler() {
+		return myAIHandler;
+	}
+
+	@Override
+	public AISearcher getAISearcher() {
+		return myAISearcher;
+	}
+
+	@Override
+	public AISimulator getAISimulator() {
+		return myAISimulator;
 	}
 
 }

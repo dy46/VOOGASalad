@@ -1,10 +1,9 @@
-package auth_environment.Models;
+ package auth_environment.Models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
@@ -13,26 +12,37 @@ import game_engine.game_elements.Wave;
 
 public class LevelOverviewTabModel implements ILevelOverviewTabModel{
 	
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	private IAuthEnvironment myAuthEnvironment; 
 	
     private Map<String, Wave> myCreatedWaves;
     private List<Level> myCreatedLevels;
     private int myCurrentLevelIndex;
     
     public LevelOverviewTabModel(IAuthEnvironment auth){
-        this.myCreatedLevels = auth.getLevels();
+    	this.myAuthEnvironment = auth; 
+    	this.myCreatedLevels = new ArrayList<Level>(); 
         this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
+        this.myCurrentLevelIndex = 0; 
+    }
+    
+    public void refresh(IAuthEnvironment auth) {
+    	this.clear();
+    	this.myAuthEnvironment = auth; 
+    	this.myCreatedLevels = auth.getLevels();
         this.myCreatedLevels.stream().forEach(level -> this.addWavesToLevel(level));
+    }
+    
+    private void clear() {
+    	this.myCreatedLevels.clear();
+    	this.myCreatedWaves.clear();
         this.myCurrentLevelIndex = 0; 
     }
     
     private void addWavesToLevel(Level level) {
     	String levelNum = Integer.toString(this.myCreatedLevels.indexOf(level)); 
     	for (int i=0; i<level.getWaves().size(); i++) {
-    		String label = this.myNamesBundle.getString("levelPrefix") + levelNum + 
-    				this.myNamesBundle.getString("wavePrefix") + Integer.toString(i); 
-    		this.addToCreatedWaves(label, level.getWaves().get(i));
+    		String label =  levelNum + " " + Integer.toString(i); 
+    		this.myCreatedWaves.put(label, level.getWaves().get(i));
     	}
     }
     
@@ -85,8 +95,18 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
         return new ArrayList<Level>(this.myCreatedLevels);
     }
     
-    // example of levelPlusWaveName: Level1Wave1 
+    // example of levelPlusWaveName: Level 1 Wave 1 
     public void addToCreatedWaves(String levelPlusWaveName, Wave wave) {
         this.myCreatedWaves.put(levelPlusWaveName, wave);
+        int levelNum = Integer.parseInt(levelPlusWaveName.split(" ")[0]); 
+        this.getCreatedLevels().get(levelNum-1).addWave(wave);
+//        System.out.println("New wave " + wave.toString() + " added to level " + levelNum);
+        this.submit();
     }
+
+	@Override
+	public void submit() {
+		this.myAuthEnvironment.setLevels(this.myCreatedLevels);
+	}
+    
 }

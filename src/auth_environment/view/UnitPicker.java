@@ -1,9 +1,10 @@
 package auth_environment.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import auth_environment.Models.UnitPickerModel;
 import auth_environment.Models.UnitView;
+import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.ElementTab;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.ScrollPane;
@@ -13,18 +14,20 @@ import javafx.scene.layout.FlowPane;
 
 public class UnitPicker{
 
-	private UnitPickerModel myUnitPickerModel;
 	private TitledPane myEditPane;
-	private FlowPane myEditInfo;
+	public FlowPane myEditInfo;
 	
+	private List<UnitView> myUnitViews;
 	
 	public UnitPicker(String name){
 		init(name);
+		this.myUnitViews = new ArrayList<UnitView>(); 
 	}
 	
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
-		addUnits(units);
+		this.myUnitViews = new ArrayList<UnitView>();
+		this.setUnits(units);
 	}
 	
 	public void setName(String name){
@@ -46,32 +49,37 @@ public class UnitPicker{
 		myEditPane.setCollapsible(false);
 	}
 	
-	public void addUnits(List<Unit> units, ElementTab elementTab){
-		myUnitPickerModel = new UnitPickerModel();
-		for(UnitView uv: myUnitPickerModel.setUnits(units)){
-			myEditInfo.getChildren().add(uv);
-			uv.setOnMouseClicked(e -> elementTab.updateMenu(uv.getUnit()));
-		}
+	public void setUnits(List<Unit> units) {
+		this.myUnitViews.clear();
+		this.myEditInfo.getChildren().clear();
+		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, "unicornCat.gif")));
+		//units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
+		this.myEditInfo.getChildren().addAll(this.myUnitViews);
+		setDragable();
 	}
 	
-	private void addUnits(List<Unit> units){
-		myUnitPickerModel = new UnitPickerModel();
-		//for(UnitView uv: myUnitPickerModel.setUnits(units)){
-			myEditInfo.getChildren().addAll(myUnitPickerModel.setUnits(units));
-		//}
+	public void setDragable(){
+//		myUnitViews.stream().forEach(s->addUnitViewSource(s));
+		myUnitViews.stream().forEach(e -> {
+			DragDelegate drag = new DragDelegate();
+			drag.addUnitViewSource(e);
+		});
 	}
 	
-//	public void add(Unit unit, ElementTab elementTab){
-//		//UnitView uv = new UnitView(unit,"unicornCat.gif");
-//		UnitView uv = new UnitView(unit, unit.getImgName());
-//		myEditInfo.getChildren().add(uv);
-//
-//	}
-//	
-	
-	
-	
+	public void add(Unit unit, ElementTab elementTab){
+		UnitView uv = new UnitView(unit, unit.toString() + ".png");
+		myEditInfo.getChildren().add(uv);
+
+	}
+
 	public TitledPane getRoot(){
 		return myEditPane;
+	}
+
+	public void setClickable(ElementTab elementTab) {
+		myUnitViews.stream().forEach(e -> {
+			e.setOnMouseClicked(l -> elementTab.updateMenu(e.getUnit()));
+		});
+		
 	}
 }

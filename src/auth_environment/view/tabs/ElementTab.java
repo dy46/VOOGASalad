@@ -14,6 +14,7 @@ import auth_environment.view.UnitPicker;
 import game_engine.affectors.Affector;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -26,6 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ElementTab extends Tab{
 	 
@@ -78,8 +80,8 @@ public class ElementTab extends Tab{
 		myPane.setLeft(newPane);
 		this.setClosable(false);
 		
-	    UnitPicker up = new UnitPicker(myLabelsBundle.getString("editLabel"));
-	    up.addUnits(this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits(),this);
+	    UnitPicker up = new UnitPicker(myLabelsBundle.getString("editLabel"), this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits());
+	    up.setClickable(this);
 	    
 	    myPane.setRight(up.getRoot());
 		newPane.setText(myLabelsBundle.getString("newLabel"));
@@ -270,7 +272,13 @@ public class ElementTab extends Tab{
    
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
-   
+    	
+    	AnimationLoaderTab newAnimation = new AnimationLoaderTab(unit);
+    	Scene scene = new Scene(newAnimation.getRoot());
+    	Stage stage = new Stage();
+    	stage.setScene(scene);
+    	stage.show();
+    	
     	myPane.getChildren().clear();
     	init();
 	}
@@ -310,7 +318,7 @@ public class ElementTab extends Tab{
 	public void updateMenu(Unit unit) {
 		//refactor this part
 		strTextMap.get("Unit Type").setText(unit.getName());
-		strTextMap.get("Type").setText(unit.getType());
+		//strTextMap.get("Type").setText(unit.getType());
 		strTextMap.get("Death Delay").setText(unit.getDeathDelay() + "");
 		strTextMap.get("NumFrames").setText(unit.getNumFrames()+"");
 		strTextMap.get("Speed").setText(unit.getProperties().getVelocity().getSpeed() +"");//check these 3

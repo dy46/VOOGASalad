@@ -71,7 +71,7 @@ public class AnimationLoaderTab implements IWorkspace {
 	}
 
 	@Override
-	public Node getRoot() {
+	public BorderPane getRoot() {
 		return this.myBorderPane;
 	}
 

@@ -44,7 +44,7 @@ public class EnemyFactory {
         e.getProperties().setPosition(spawn);
 		return e;
 	}
-
+    
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
         moveAffector.setTTL(Integer.MAX_VALUE);
@@ -54,10 +54,10 @@ public class EnemyFactory {
         Health health = new Health(50);
         Velocity velocity = new Velocity(0.5, 90);
         List<Position> l1 = new ArrayList<>();
-        l1.add(new Position(-30, -30));
-        l1.add(new Position(30, -30));
-        l1.add(new Position(30, 30));
-        l1.add(new Position(-30, 30));
+        l1.add(new Position(-20, -20));
+		l1.add(new Position(20, -20));
+		l1.add(new Position(20, 20));
+		l1.add(new Position(-20, 20));
         Bounds b = new Bounds(l1);
         State st = new State(2);
         Price price = new Price(30);
