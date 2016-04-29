@@ -17,14 +17,7 @@ import javafx.stage.Stage;
 
 public class MainView implements IMainView {
 
-    private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-    private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-
-    private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-    private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
     private Stage myStage;
-    private Scene myScene;
 
     public MainView (Stage stage) {
         myStage = stage;
@@ -36,11 +29,10 @@ public class MainView implements IMainView {
     }
 
     public void displayAuth () {
-        AuthView authView = new AuthView(this.myStage);
+        AuthView authView = new AuthView(this.myStage, this);
         this.display();
     }
 
-    
     public void displayPlayer() {
 		PlayerGUI playerGUI = new PlayerGUI(790, 765); // TODO: extract constants
 		this.myStage.setScene(playerGUI.createPlayerScene());

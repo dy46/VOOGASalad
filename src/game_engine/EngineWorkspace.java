@@ -53,7 +53,7 @@ public class EngineWorkspace implements GameEngineInterface {
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
         myLevelController =
-                new LevelController(data.getLevels(), data.getScore(), data.getPaused());
+                new LevelController(data.getLevels(), 0, false);
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
