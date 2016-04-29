@@ -111,17 +111,19 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	private List<Unit> makeTowers(Wave w) {
 		Position position2 = new Position(200, 300);
-		Unit t = myTowerFactory.createHomingTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers),
+		Unit t = myTowerFactory.createHomingTower("Cannon_Tower", myProjectiles, Collections.unmodifiableList(myTowers),
 				position2, myStore);
 		
+		/*Unit t = myTowerFactory.createHomingTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers),
+				position2, myStore);*/
 		Pair<Unit, Integer> towerPair = new Pair<Unit, Integer>(t, 100);
 		List<Pair<Unit, Integer>> towers = new ArrayList<Pair<Unit, Integer>>();
-		
+
 		towers.add(towerPair);
-		
-		for(Pair<Unit, Integer> p : towers)
+
+		for (Pair<Unit, Integer> p : towers)
 			w.addPlacingUnit((Unit) p.getLeft());
-		
+
 		myStore.addBuyableUnit(towers);
 		return new ArrayList<>(Arrays.asList(new Unit[] { t }));
 	}
@@ -185,10 +187,9 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	private List<Unit> makeTerrain() {
-		
+
 		List<Unit> terrain = new ArrayList<>();
-		for(int i = 0; i < 10; i++)
-		{
+		for (int i = 0; i < 10; i++) {
 			Unit groundTerrain = myTerrainFactory.getTerrainLibrary().getTerrainByName("GroundTerrain");
 			List<Position> pos = new ArrayList<>();
 			pos.add(new Position(0, 0));
@@ -200,7 +201,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 			groundTerrain.setTTL(Integer.MAX_VALUE);
 			terrain.add(groundTerrain);
 		}
-		
+
 		return terrain;
 	}
 
