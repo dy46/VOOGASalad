@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 import game_engine.handlers.BranchHandler;
+import game_engine.interfaces.IBranchHandler;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
@@ -16,7 +17,7 @@ public class BFSTuple {
 	private HashSet<Position> myVisited;
 	private HashMap<Position, Position> myEdges;
 	private HashMap<Position, Integer> myDistances;
-	private BranchHandler myBranchHandler;
+	private IBranchHandler myBranchHandler;
 
 	public BFSTuple(List<Branch> engineBranches, HashSet<Position> visited,
 			HashMap<Position, Position> edges, HashMap<Position, Integer> distances) {
