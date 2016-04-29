@@ -44,5 +44,9 @@ public class EnemyController {
 		placedUnits.stream().filter(e -> getCurrentWave().getPlacingUnits().contains(e) && e.isAlive() && e.isVisible());
 		return placedUnits;
 	}
+
+	public BoundingController getBoundingController() {
+		return myBoundingController;
+	}
 	
 }

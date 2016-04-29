@@ -11,7 +11,7 @@ public class BoundingController {
 	
 	public BoundingController(EnemyController enemyController){
 		this.myEnemyController = enemyController;
-		this.maxBoundingQueue = new PriorityQueue<Unit>(50, new BoundsComparator());
+		this.maxBoundingQueue = new PriorityQueue<Unit>(myEnemyController.getBoundingEnemies().size(), new BoundsComparator());
 		setupBoundingQueue();
 	}
 	

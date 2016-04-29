@@ -1,7 +1,7 @@
 package game_engine.affectors;
 
 import game_engine.game_elements.Unit;
-import game_engine.physics.DirectionHandler;
+import game_engine.handlers.DirectionHandler;
 import game_engine.properties.Position;
 
 

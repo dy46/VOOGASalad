@@ -258,15 +258,5 @@ public class Unit extends GameElement {
             }
         }
     }
-    
-    public void turnAround () {
-        Movement myMovement = this.myProperties.getMovement();
-        Branch currBranch = myMovement.getCurrentBranch();
-        Position movingTowards = myMovement.getMovingTowards();
-        myMovement.setMovingTowards(currBranch.getFirstPosition().equals(movingTowards) ? currBranch
-                .getLastPosition() : currBranch.getFirstPosition());
-        double nextDir = myMovement.getNextDirection();
-        this.myProperties.getVelocity().setDirection(nextDir);
-    }
 
 }
