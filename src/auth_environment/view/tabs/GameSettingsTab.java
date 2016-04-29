@@ -10,6 +10,7 @@ import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -117,6 +118,14 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		Button play = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
 		play.setOnAction(e -> myMainView.displayPlayer());
 		return myNodeFactory.centerNode(play); 
+	}
+	
+	private Node buildScoreComboBox() {
+		ComboBox chooseScore = new ComboBox();
+		ComboBox chooseWaveGoal = new ComboBox();
+		ComboBox choosePlaceValidation = new ComboBox(); 
+		
+		
 	}
 
 	//	public void writeToGameData() {

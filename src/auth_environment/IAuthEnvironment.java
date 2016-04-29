@@ -9,7 +9,10 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.wave_goals.WaveGoal;
 
 /**
  * This interface is the external API for the Auth Environment (excluding Factory calls). 
@@ -28,6 +31,18 @@ public interface IAuthEnvironment {
 	public void setSplashScreen(String fileName); 
 	
 	public String getSplashScreen(); 
+	
+	public void setWaveGoal(WaveGoal goal); 
+	
+	public WaveGoal getWaveGoal();
+	
+	public void setScoreUpdate(ScoreUpdate update); 
+	
+	public ScoreUpdate getScoreUpdate();
+	
+	public void setPlaceValidation(PlaceValidation validation);
+	
+	public PlaceValidation getPlaceValidation(); 
 	
 	// Path Tab - Brian
 	
