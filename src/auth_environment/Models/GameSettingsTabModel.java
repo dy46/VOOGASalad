@@ -1,11 +1,17 @@
 package auth_environment.Models;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
 import game_data.AuthSerializer;
+import game_engine.place_validations.PlaceValidation;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.wave_goals.WaveGoal;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -18,6 +24,9 @@ import game_data.AuthSerializer;
 // TODO: check that loading GameData is reflected at AuthViewModel level (one level above this Model) 
 
 public class GameSettingsTabModel implements IGameSettingsTabModel {
+	
+	private static final String SETTINGS_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle mySettingsBundle = ResourceBundle.getBundle(SETTINGS_PACKAGE);
 	
 	private IAuthModel myAuthModel;
 	
@@ -61,35 +70,47 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 
 	@Override
 	public List<String> getScoreUpdateNames() {
-		return null;
+		return Arrays.asList(mySettingsBundle.getString("scoreUpdateTypes").split(" ")); 
 	}
 
 	@Override
 	public List<String> getWaveGoalNames() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(mySettingsBundle.getString("waveGoalTypes").split(" ")); 
 	}
 
 	@Override
 	public List<String> getPlaceValidationNames() {
-		// TODO Auto-generated method stub
-		return null;
+		return Arrays.asList(mySettingsBundle.getString("placeValidationTypes").split(" ")); 
 	}
 
 	@Override
 	public void chooseScoreUpdate(String selectedItem) {
-		
+		try {
+			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName(selectedItem + "ScoreUpdate").getConstructor().newInstance());
+		} catch (Exception e) {
+			// TODO: remove 
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void chooseWaveGoal(String selectedItem) {
-		// TODO Auto-generated method stub
-		
+		try {
+			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName(selectedItem + "WaveGoal").getConstructor().newInstance());
+		} catch (Exception e) {
+			// TODO: remove 
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void choosePlaceValidation(String selectedItem) {
-		// TODO Auto-generated method stub
+		try {
+			myAuthModel.getIAuthEnvironment().setPlaceValidation( (PlaceValidation) Class.forName(selectedItem + "PlaceValidation").getConstructor().newInstance());
+		} catch (Exception e) {
+			// TODO: remove
+			e.printStackTrace();
+		}
 		
 	}
 }
