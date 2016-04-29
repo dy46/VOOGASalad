@@ -31,4 +31,9 @@ public class Mass extends Property{
 		return new Mass(myMass);
 	}
 
+	@Override
+	public boolean isBaseProperty() {
+		return true;
+	}
+
 }
