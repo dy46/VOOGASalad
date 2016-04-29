@@ -280,11 +280,12 @@ public class ElementTab extends Tab{
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
     	AnimationLoaderTab newAnimation = new AnimationLoaderTab(unit);
-    	Scene scene = new Scene(newAnimation.getRoot());
-    	Stage stage = new Stage();
-    	stage.setScene(scene);
-    	stage.show();
-    	
+        myUnitFactory.getUnitLibrary().addUnit(unit);
+//    	Scene scene = new Scene(newAnimation.getRoot());
+//    	Stage stage = new Stage();
+//    	stage.setScene(scene);
+//    	stage.show();
+//    	
     	myPane.getChildren().clear();
     	init();
 	}

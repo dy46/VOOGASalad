@@ -92,7 +92,7 @@ public class UnitFactory {
 
     private Unit createUnit (String name, UnitProperties unitProperties, int numFrames) {
         Unit unit = new Unit(name, unitProperties, numFrames);
-        myUnitLibrary.addUnit(unit);
+//        myUnitLibrary.addUnit(unit);
         return unit;
     }
 
