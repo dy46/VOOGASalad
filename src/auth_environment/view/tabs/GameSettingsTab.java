@@ -121,11 +121,12 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	}
 	
 	private Node buildScoreComboBox() {
-		ComboBox chooseScore = new ComboBox();
-		ComboBox chooseWaveGoal = new ComboBox();
-		ComboBox choosePlaceValidation = new ComboBox(); 
+		ComboBox<String> chooseScore = new ComboBox<String>();
+		ComboBox<String> chooseWaveGoal = new ComboBox<String>();
+		ComboBox<String> choosePlaceValidation = new ComboBox<String>(); 
 		
-		
+//		chooseScore.getItems().add(e)
+		return null; 
 	}
 
 	//	public void writeToGameData() {
