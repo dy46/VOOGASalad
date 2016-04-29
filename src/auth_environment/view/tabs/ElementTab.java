@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.text.Font;
@@ -122,24 +123,26 @@ public class ElementTab extends Tab{
 		index++;
 		
 		Button projectileButton = new Button("+ Add New Projectile");
-		projectileButton.setOnAction(e-> addNewProjectileSpace(currentInt, newTableInfo, projectileButton, cbox, 2, Projectiles, unitNames));
+		projectileButton.setOnAction(e-> addNewProjectileSpace(currentInt, newTableInfo, projectileButton, cbox, 2, Projectiles, unitNames, new VBox()));
 		newTableInfo.add(projectileButton, 2, index);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String affectors = "Affector(s) For Unit";
 		newTableInfo.add(new Text(affectors), 1, index);
+		VBox vbox1 = new VBox();
 		ComboBox<String> cbox1 = new ComboBox<String>();
+		vbox1.getChildren().add(cbox1);
 		
 		cbox1.getItems().addAll(affectorNames);
-		newTableInfo.add(cbox1, 2, index);
+		newTableInfo.add(vbox1, 2, index);
 		affectorsToUnit.add(cbox1);
 		int currentInt1 = index;
 		index++;
 		//labels stuff
 		
 		Button newAffectorButton = new Button("+ Add New Affector");
-		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox1, 2, affectorsToUnit, affectorNames));
+		newAffectorButton.setOnAction(e-> addNewAffectorSpace(currentInt1, newTableInfo, newAffectorButton, cbox1, 2, affectorsToUnit, affectorNames, vbox1));
 		newTableInfo.add(newAffectorButton, 2, index);
 		index++;
 
@@ -158,26 +161,28 @@ public class ElementTab extends Tab{
 		//labels stuff
 		
 		Button newApplyAffectorButton = new Button("+ Add Apply Affector");
-		newApplyAffectorButton.setOnAction(e-> addNewAffectorApplySpace(currentInt2, newTableInfo, newApplyAffectorButton, cbox2, 2, affectorsToApply, affectorNames));
+		newApplyAffectorButton.setOnAction(e-> addNewAffectorApplySpace(currentInt2, newTableInfo, newApplyAffectorButton, cbox2, 2, affectorsToApply, affectorNames, vbox1));
 		newTableInfo.add(newApplyAffectorButton, 2, index);
 		index++;
        
 		this.setContent(myPane);
 	}
 
-	private void addNewAffectorApplySpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
+	private void addNewAffectorApplySpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names, VBox vbox) {
 		if(cbox.getValue() != null){
 			int newcol = col + 1;		
+			newTableInfo.getRowConstraints().add(new RowConstraints(30));
 			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
 			ComboBox<String> newcbox = new ComboBox<String>();
 			newcbox.getItems().addAll(names);
-			newTableInfo.add(newcbox, newcol, row);
+			vbox.getChildren().add(newcbox);
+			//newTableInfo.add(newcbox, newcol, row);
 			list.add(newcbox);
-			button.setOnAction(e -> addNewAffectorApplySpace(row, newTableInfo, button, newcbox, newcol, list, names));
+			button.setOnAction(e -> addNewAffectorApplySpace(row, newTableInfo, button, newcbox, newcol, list, names, vbox));
 		}
 	}
 
-	private void addNewAffectorSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
+	private void addNewAffectorSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names, VBox vbox1) {
 //		if(cbox.getValue() != null){
 //			int newcol = col + 1;	
 //			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
@@ -187,11 +192,11 @@ public class ElementTab extends Tab{
 //			list.add(newcbox);
 //			button.setOnAction(e -> addNewAffectorSpace(row, newTableInfo, button, newcbox, newcol, list));
 //		}
-		addNewAffectorApplySpace(row, newTableInfo, button, cbox, col, list, names);
+		addNewAffectorApplySpace(row, newTableInfo, button, cbox, col, list, names, vbox1);
 		
 	}
 	
-	private void addNewProjectileSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
+	private void addNewProjectileSpace(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names, VBox vbox) {
 //		if(cbox.getValue() != null){
 //			int newcol = col + 1;	
 //			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
@@ -201,7 +206,7 @@ public class ElementTab extends Tab{
 //			list.add(newcbox);
 //			button.setOnAction(e -> addNewProjectileSpace(row, newTableInfo, button, newcbox, newcol, list));
 //		}
-		addNewAffectorApplySpace(row, newTableInfo, button, cbox, col, list, names);
+		addNewAffectorApplySpace(row, newTableInfo, button, cbox, col, list, names,vbox);
 		
 	}
 	
@@ -224,6 +229,7 @@ public class ElementTab extends Tab{
 		//typeButton.setOnAction(e -> setYnitType(myTextField.getText(), iterationNum, newTableInfo));
 		
 		List<String> myFields = new ArrayList<String>();
+		
 		myFields.add("Unit Type");
 		myFields.add("Death Delay");
 		myFields.add("Type");
