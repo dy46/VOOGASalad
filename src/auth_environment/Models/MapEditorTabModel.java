@@ -13,13 +13,15 @@ import game_engine.properties.Position;
 public class MapEditorTabModel implements IMapEditorTabModel{
 
 	private IAuthEnvironment myAuthData;  
-	private Map<Position, Unit> myMap = new HashMap<Position, Unit>();
+	private Map<Position, Unit> myPositionMap = new HashMap<Position, Unit>();
+	private Map<Unit, Position> myUnitMap = new HashMap<Unit, Position>();
 	private List<Unit> myTerrains;
+	private List<Unit> allTerrains;
 	
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;
 		this.myTerrains = new ArrayList<Unit>(); 
-		
+		this.allTerrains = new ArrayList<Unit>();
 	}
 
 //	public List<Unit> getSampleUnits() {
@@ -38,15 +40,15 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	public void addTerrain(double xPos, double yPos, Unit element){
 		element.getProperties().getPosition().setX(xPos);
 		element.getProperties().getPosition().setY(yPos);
-		myMap.put(new Position(xPos, yPos), element);
+		myPositionMap.put(new Position(xPos, yPos), element);
 	}
 	
 	public void deleteTerrain(double xPos, double yPos){
-		myMap.remove(new Position(xPos, yPos));
+		myPositionMap.remove(new Position(xPos, yPos));
 	}
 	
 	public void deleteTerrain(Unit element){
-		myMap.remove(element.getProperties().getPosition());
+		myPositionMap.remove(element.getProperties().getPosition());
 	}
 	
 	public void updateTerrainList(List<Unit> update){
@@ -55,6 +57,11 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	
 	public List<Unit> getTerrains(){
 		return myTerrains;
+	}
+	
+	public List<Unit> getAllTerrains(){
+		allTerrains.addAll(myPositionMap.values());
+		return allTerrains;
 	}
 
 }

@@ -126,11 +126,9 @@ public void setUpNodeTarget(MapPane target, UnitPicker myPicker) {
 //					System.out.println(db.getImage());
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
-					System.out.println(imv);
-					System.out.println(imv.getFitHeight());
 					target.adjustUnitViewScale(imv);
 					target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
-					target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
+					System.out.println("After Scale " + imv.getFitHeight());
 					System.out.println("X: " + event.getSceneX());
 					System.out.println("Y: " + event.getSceneY());
 					System.out.println("Grid X: " + imv.getX());
@@ -138,6 +136,9 @@ public void setUpNodeTarget(MapPane target, UnitPicker myPicker) {
 					System.out.println(myPicker.myEditInfo.getChildren());
 					imv.addContextMenu(target, imv);
 					target.addToPane(imv);
+					System.out.println(imv.getY());
+					System.out.println(imv.getX());
+					target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
 //					imv.setOnMouseClicked(new EventHandler<MouseEvent>(){
 //						@Override
 //						public void handle(MouseEvent event) {

@@ -93,8 +93,8 @@ public class UnitView extends ImageView implements IUnitView {
 	 private ContextMenu buildContextMenu(MapPane tempPane){
 	    	ContextMenu cm = new ContextMenu();
 	    	MenuItem cmItem1 = new MenuItem("Delete Image");
-	    	cmItem1.setOnAction(e-> {tempPane.getChildren().remove(this);
-	    	tempPane.getModel().deleteTerrain(this.getUnit());
+	    	cmItem1.setOnAction(e-> {tempPane.getRoot().getChildren().remove(this);
+	    		tempPane.getModel().deleteTerrain(this.getUnit());
 	    	});
 	    	cm.getItems().add(cmItem1);
 	    	return cm;

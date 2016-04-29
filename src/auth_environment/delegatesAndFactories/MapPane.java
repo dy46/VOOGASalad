@@ -23,7 +23,6 @@ public class MapPane extends Pane {
 	
 	public void adjustUnitViewScale(UnitView uv){
 		uv.setFitWidth(this.getRoot().getHeight()/adjustFactor);
-		System.out.println(uv.getFitWidth());
 		uv.setFitHeight(this.getRoot().getWidth()/adjustFactor);
 	}
 	
@@ -36,8 +35,18 @@ public class MapPane extends Pane {
 		return myModel;
 	}
 	
+	public void addEverything(){
+		myModel.getAllTerrains().stream().forEach(u -> {
+			UnitView uv = new UnitView(u, u.toString() + ".png");
+			uv.setX(u.getProperties().getPosition().getX());
+			uv.setY(u.getProperties().getPosition().getY());
+			this.addToPane(uv);
+		});
+	}
+	
 	public void addToPane(UnitView uv){
-		this.getRoot().getChildren().add(uv);
+		this.getChildren().add(uv);
+		System.out.println("Added" + " X: " + uv.getX() + " Y: " + uv.getY());
 	}
 	
 //	public void remove(UnitView uv){

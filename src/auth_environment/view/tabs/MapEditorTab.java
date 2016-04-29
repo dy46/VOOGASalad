@@ -7,6 +7,7 @@ import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.GridMapPane;
+import auth_environment.delegatesAndFactories.MapPane;
 import auth_environment.view.UnitPicker;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -14,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -40,6 +42,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
 	private GridMapPane myCanvasPane;
+	private MapPane myCanvasPane2;
 	private UnitPicker myPicker;
 	private DragDelegate myDragDelegate;
 	private MapEditorTabModel myModel;
@@ -95,7 +98,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		myMapPane.setText("Grid");
 //        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
 //        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        myCanvasPane = new GridMapPane();
+        myCanvasPane = new GridMapPane(myModel);
         myCanvasPane.getRoot().setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         myCanvasPane.getRoot().setGridLinesVisible(true);
@@ -117,6 +120,21 @@ public class MapEditorTab extends Tab implements IWorkspace {
         this.myMapPane.setContent(myCanvasPane.getRoot()); 
 	}
 	
+	private void updateGridMapPane(){
+
+		this.myMapPane.setContent(myCanvasPane.getRoot());
+		this.myBorderPane.setLeft(this.myMapPane);
+	}
+	
+	private void buildFreeMapPane(){
+		myCanvasPane2 = new MapPane(myModel);
+		 myCanvasPane2.getRoot().setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+	        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
+		 myCanvasPane2.addEverything();
+		this.myDragDelegate.setUpNodeTarget(myCanvasPane2, myPicker);
+		this.myMapPane.setContent(myCanvasPane2.getRoot());
+		this.myBorderPane.setLeft(myMapPane);
+	}
 //To be refactor out
 	
 //    public void setUpNodeTarget(GridPane target) {
@@ -214,16 +232,21 @@ public class MapEditorTab extends Tab implements IWorkspace {
     	return gridSwitch;
     }
     
-    
-    private ContextMenu buildContextMenu(UnitView imv, Pane tempPane){
-    	ContextMenu cm = new ContextMenu();
-    	MenuItem cmItem1 = new MenuItem("Delete Image");
-    	cmItem1.setOnAction(e-> {tempPane.getChildren().remove(imv);
-    	myModel.deleteTerrain(imv.getUnit());
+    private Button buildGridModeButton(){
+    	Button gridMode = new Button("Free");
+    	gridMode.setOnAction( e-> {
+    		if(gridMode.getText().equals("Free")){
+    			gridMode.setText("Grid");
+    			buildFreeMapPane();
+    		}else{
+    			gridMode.setText("Free");
+    			updateGridMapPane();
+    		}
     	});
-    	cm.getItems().add(cmItem1);
-    	return cm;
+    	
+    	return gridMode;
     }
+    
     
 	
 	 private HBox buildHBox() {
@@ -233,9 +256,9 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
         Button clearButton = buildClearButton();
         CheckBox gridSwitchBox = buildGridSwitchBox();
+        Button gridModeButton = buildGridModeButton();
         
-        
-        hbox.getChildren().addAll(clearButton,gridSwitchBox);
+        hbox.getChildren().addAll(clearButton,gridSwitchBox, gridModeButton);
         return hbox;
     }
 	
