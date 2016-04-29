@@ -17,14 +17,7 @@ import javafx.stage.Stage;
 
 public class MainView implements IMainView {
 
-    private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-    private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-
-    private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-    private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
     private Stage myStage;
-    private Scene myScene;
 
     public MainView (Stage stage) {
         myStage = stage;
