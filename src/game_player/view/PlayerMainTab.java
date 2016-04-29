@@ -23,9 +23,9 @@ import main.IMainView;
 public class PlayerMainTab implements IPlayerTab {
     
     private static final int TOP_PADDING = 5;
-    private static final int RIGHT_PADDING = 10;
+    private static final int RIGHT_PADDING = 5;
     private static final int BOTTOM_PADDING = 5;
-    private static final int LEFT_PADDING = 10;
+    private static final int LEFT_PADDING = 5;
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
     private static final String PACKAGE_NAME = "game_player.";
     private static final int PANEL_PADDING = 10;
@@ -134,14 +134,15 @@ public class PlayerMainTab implements IPlayerTab {
     }
 
     private void configurePanels () {
+    	Insets panelInsets = new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING,
+    	        LEFT_PADDING);
         Label configurationLabel = new Label(myResources.getString("Configuration"));
         configurationLabel.setFont(new Font("Arial", 20));
         configurationPanel.setAlignment(Pos.TOP_CENTER);
 //        configurationPanel.getChildren().add(configurationLabel);
-        // configurationPanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING,
-        // LEFT_PADDING));
-        configurationPanel.getStyleClass().add("vbox");
-        gamePanel.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
+        configurationPanel.setPadding(panelInsets);
+        gamePanel.setPadding(panelInsets);
+        towerPanel.setPadding(panelInsets);
         gamePanel.getStyleClass().add("hbox");
     }
 
