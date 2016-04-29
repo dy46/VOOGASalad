@@ -55,6 +55,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myGoals = auth.getGoals();
 		myGoals.add(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		this.mySpawns = auth.getSpawns();
+		mySpawns.add(new Position(0,0));
 		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getGoals());
 		this.myLevels = auth.getLevels(); 
 	}
@@ -124,7 +125,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void addNewGoal(double x, double y) {
-		this.myGoals.add(new Position(x, y));
+		myGoals.add(new Position(x,y));
 	}
 
 	@Override
@@ -195,6 +196,7 @@ public class PathTabModel implements IPathTabModel {
 	public void addGoalToActiveLevel(Position goal) {
 		if (this.currentLevel!=null) {
 			currentLevel.addGoal(goal);
+			myMapHandler.addGoal(goal);
 		}
 	}
 
