@@ -3,19 +3,20 @@ package auth_environment.view.tabs;
 import java.io.File;
 import java.util.ResourceBundle;
 
-import auth_environment.IAuthEnvironment;
-import auth_environment.Models.GlobalGameTabModel;
+import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.Models.Interfaces.IGlobalGameTabModel;
+import auth_environment.Models.Interfaces.IGameSettingsTabModel;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.IMainView;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -25,7 +26,7 @@ import javafx.scene.layout.VBox;
  * in so that it can be saved/loaded. 
  */
 
-public class GlobalGameTab implements IWorkspace {
+public class GameSettingsTab extends Tab implements IWorkspace {
 
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
@@ -37,25 +38,26 @@ public class GlobalGameTab implements IWorkspace {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	private NodeFactory myNodeFactory = new NodeFactory(); 
+	private IMainView myMainView; 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private ImageView mySplashPreview; 
 	private TextField myGameNameField;
 	
-	private IGlobalGameTabModel myModel;
+	private IGameSettingsTabModel myGameSettingsTabModel;
 	
-	public GlobalGameTab(IAuthModel authModel) {
+	public GameSettingsTab(String name, IAuthModel authModel, IMainView mainView) {
+		super(name); 
 		this.setupBorderPane();
-		this.myModel = new GlobalGameTabModel(authModel); 
+		this.myMainView = mainView; 
+		this.myGameSettingsTabModel = new GameSettingsTabModel(authModel); 
 	}
 
 	private void setupBorderPane() {
-
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		
 		this.myBorderPane.setCenter(this.buildCenter());
-		
+		this.setContent(this.myBorderPane);
 	}
 	
 	private Node buildCenter() {
@@ -65,7 +67,8 @@ public class GlobalGameTab implements IWorkspace {
 				this.buildTextInput(),
 				this.buildSplashChooser(),
 				this.buildSaveButton(),
-				this.buildLoadButton());
+				this.buildLoadButton(),
+				this.buildPlayButton());
 		return center; 
 	}
 	
@@ -100,14 +103,20 @@ public class GlobalGameTab implements IWorkspace {
 	
 	private HBox buildSaveButton() {
 		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> this.myModel.saveToFile());
+		save.setOnAction(e -> this.myGameSettingsTabModel.saveToFile());
 		return myNodeFactory.centerNode(save); 
 	}
 	
 	private HBox buildLoadButton() {
 		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
-		load.setOnAction(e -> this.myModel.loadFromFile());
+		load.setOnAction(e -> this.myGameSettingsTabModel.loadFromFile());
 		return myNodeFactory.centerNode(load); 
+	}
+	
+	private Node buildPlayButton() {
+		Button play = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
+		play.setOnAction(e -> myMainView.displayPlayer());
+		return myNodeFactory.centerNode(play); 
 	}
 
 	//	public void writeToGameData() {
@@ -120,7 +129,7 @@ public class GlobalGameTab implements IWorkspace {
 	
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
-			this.myModel.setGameName(input.getText());
+			this.myGameSettingsTabModel.setGameName(input.getText());
 			input.clear();
 		}
 	}
@@ -129,7 +138,7 @@ public class GlobalGameTab implements IWorkspace {
 		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
 		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
 		this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
-		this.myModel.setSplashFile(splash.getName());
+		this.myGameSettingsTabModel.setSplashFile(splash.getName());
 	}
 	
 	private boolean checkValidInput(TextField input) {

@@ -38,4 +38,9 @@ public class Team extends Property {
         this.myTeam = values.get(0);
 
     }
+
+	@Override
+	public boolean isBaseProperty() {
+		return true;
+	}
 }

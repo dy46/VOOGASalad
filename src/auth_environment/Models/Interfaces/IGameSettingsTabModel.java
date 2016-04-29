@@ -8,7 +8,7 @@ package auth_environment.Models.Interfaces;
  * in so that it can be saved/loaded. 
  */
 
-public interface IGlobalGameTabModel {
+public interface IGameSettingsTabModel {
 	
 	public void setGameName(String name); 
 	

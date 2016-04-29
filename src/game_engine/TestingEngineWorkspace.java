@@ -13,6 +13,9 @@ import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -180,14 +183,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-//		mh.createGrid();
 		myBranches = mh.getEngineBranches();
-//		for(Branch b : myBranches){
-//			System.out.println(b+ " Neighbors: " + b.getNeighbors());
-//		}
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
-		System.out.println("GOALS: " + mh.getGoals());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 		Unit AI1 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
 		Unit AI2 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
@@ -630,6 +628,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public ILevelDisplayer getLevelDisplay() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EnemyController getEnemyController() {
 		// TODO Auto-generated method stub
 		return null;
 	}

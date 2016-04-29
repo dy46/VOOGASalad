@@ -45,5 +45,10 @@ public class State extends Property{
     public void setValues (List<Double> values) {
         state = values.get(0);
     }
+
+	@Override
+	public boolean isBaseProperty() {
+		return true;
+	}
     
 }

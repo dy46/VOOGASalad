@@ -192,4 +192,13 @@ public class PathTabModel implements IPathTabModel {
 		return this.myActiveUnit;
 	}
 
+	
+	// TODO: ask if we should add Goals to Waves instead of Levels
+	@Override
+	public void addGoalToActiveLevel(Position goal) {
+		if (this.currentLevel!=null) {
+			currentLevel.addGoal(goal);
+		}
+	}
+
 }

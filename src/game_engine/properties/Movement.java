@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
-import game_engine.physics.DirectionHandler;
+import game_engine.handlers.DirectionHandler;
 
 public class Movement {
 

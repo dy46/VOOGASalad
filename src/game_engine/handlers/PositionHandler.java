@@ -1,4 +1,4 @@
-package auth_environment.paths;
+package game_engine.handlers;
 
 import java.util.ArrayList;
 import java.util.Arrays;

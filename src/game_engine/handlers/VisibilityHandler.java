@@ -1,4 +1,4 @@
-package game_engine.AI;
+package game_engine.handlers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,10 +76,13 @@ public class VisibilityHandler {
 		List<Branch> engineBranches = myEngine.getBranches();
 		List<Position> copyPos = getPosCopyList(getEndPoints(engineBranches));
 		List<Unit> copyObstacles = getUnitCopyList(obstacles);
+		double boundsExtension = myEngine.getEnemyController().getMaxBoundingDistance();
 		for (Unit o : copyObstacles) {
 			for (Position pos : copyPos) {
-				if (EncapsulationChecker.encapsulates(Arrays.asList(pos), o.getProperties()
-						.getBounds().getUseableBounds(o.getProperties().getPosition()))) {
+				List<Position> useableBounds = o.getProperties()
+						.getBounds().getUseableBounds(o.getProperties().getPosition());
+				List<Position> extendedBounds = BoundsHandler.getExtendedBounds(useableBounds, boundsExtension);
+				if (EncapsulationChecker.encapsulates(Arrays.asList(pos), extendedBounds)) {
 					removalList.add(pos);
 				}
 			}
