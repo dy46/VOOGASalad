@@ -54,6 +54,7 @@ public class MapHandler {
 	}
 
 	public void createGrid(){
+		System.out.println("call create grid");
 		double screenWidth = 500;
 		double screenHeight = 500;
 		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));

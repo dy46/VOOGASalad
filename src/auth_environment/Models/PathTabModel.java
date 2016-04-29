@@ -53,8 +53,9 @@ public class PathTabModel implements IPathTabModel {
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 		this.myCurrentBranch = new ArrayList<Position>(); 
 		this.myGoals = auth.getGoals();
+		myGoals.add(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		this.mySpawns = auth.getSpawns();
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getSpawns());
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getGoals());
 		this.myLevels = auth.getLevels(); 
 	}
 
@@ -63,7 +64,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myCurrentBranch.clear();
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getSpawns());
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getSpawns(), auth.getGoals());
 		this.myLevels = auth.getLevels(); 
 	}
 
