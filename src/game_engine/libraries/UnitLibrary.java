@@ -3,6 +3,7 @@ package game_engine.libraries;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import auth_environment.dialogs.ConfirmationDialog;
 import exceptions.WompException;
@@ -34,7 +35,7 @@ public class UnitLibrary {
 	public Unit getUnitByName(String name){
 		for(Unit unit : myUnits){
 			if(unit.getName().equals(name)){
-				return unit;
+				return unit.copyUnit();
 			}
 		}
 		return null;
@@ -79,5 +80,7 @@ public class UnitLibrary {
 		}
 		this.myProperties.put(type, newProperties);
 	}
+	
+
 	
 }

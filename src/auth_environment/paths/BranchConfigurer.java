@@ -6,7 +6,7 @@ import java.util.List;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
-public class BranchHandler {
+public class BranchConfigurer {
 
 	public void configureBranch(Branch newBranch, PathGraph myPath){
 		if(!myPath.getBranches().contains(newBranch)){

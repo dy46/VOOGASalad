@@ -56,7 +56,7 @@ public class TowerFactory {
 		Affector move = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
 		move.setTTL(Integer.MAX_VALUE);
 		Unit p =
-				new Unit("TackProjectile", Arrays.asList(move), 3);
+				new Unit("Tack_Projectile", Arrays.asList(move), 3);
 		p.setDeathDelay(30);
 		p.setTTL(60);
 		Velocity velocity = new Velocity(0.5, 180);

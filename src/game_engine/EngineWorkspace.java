@@ -2,13 +2,20 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.ILevelDisplayer;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
@@ -23,9 +30,10 @@ public class EngineWorkspace implements GameEngineInterface {
     private List<Branch> myBranches;
     private List<Affector> myAffectors;
     private LevelController myLevelController;
-    private CollisionDetector myCollider;
+    private ICollisionDetector myCollider;
     private EncapsulationDetector myEncapsulator;
     private UnitController myUnitController;
+    private EnemyController myEnemyController;
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
     private List<Unit> unitsToRemove;
@@ -34,7 +42,7 @@ public class EngineWorkspace implements GameEngineInterface {
     private AISimulator myAISimulator;
 	private AISearcher myAISearcher;
 
-    public void setUpEngine (TestingGameData data) {
+    public void setUpEngine (IAuthEnvironment data) {
         unitsToRemove = new ArrayList<>();
         myAISearcher = new AISearcher(this);
         myAIHandler = new AIHandler(this);
@@ -47,12 +55,13 @@ public class EngineWorkspace implements GameEngineInterface {
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
         myLevelController =
-                new LevelController(data.getLevels(), data.getScore(), data.getPaused());
+                new LevelController(data.getLevels(), 0, false);
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
                 new UnitController(data.getPlacedUnits(), myPlaceValidations,
                                    data.getStore(), unitsToRemove);
+        myEnemyController = new EnemyController(myLevelController, myUnitController);
         updateAIBranches();
     }
 
@@ -143,6 +152,11 @@ public class EngineWorkspace implements GameEngineInterface {
     }
     
     @Override
+    public ILevelDisplayer getLevelDisplay(){
+    	return myLevelController;
+    }
+    
+    @Override
 	public AIHandler getAIHandler() {
 		return myAIHandler;
 	}
@@ -154,6 +168,11 @@ public class EngineWorkspace implements GameEngineInterface {
 	
 	public AISimulator getAISimulator(){
 		return myAISimulator;
+	}
+
+	@Override
+	public EnemyController getEnemyController() {
+		return myEnemyController;
 	}
 
 }

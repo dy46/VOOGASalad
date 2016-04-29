@@ -56,4 +56,7 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public Unit getActiveUnit(); 
 	
 	public void addGoalToActiveLevel(Position goal); 
+	
+	public void addSpawnToActiveLevel(Position spawn); 
+	
 }
