@@ -87,7 +87,7 @@ public class UnitFactory {
     }
 
     private String getName (String type, String unitType) {
-        return type + " " + unitType;
+        return type + "_" + unitType;
     }
 
     private Unit createUnit (String name, UnitProperties unitProperties, int numFrames) {
