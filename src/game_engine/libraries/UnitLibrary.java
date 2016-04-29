@@ -34,7 +34,7 @@ public class UnitLibrary {
 	public Unit getUnitByName(String name){
 		for(Unit unit : myUnits){
 			if(unit.getName().equals(name)){
-				return unit;
+				return unit.copyUnit();
 			}
 		}
 		return null;
