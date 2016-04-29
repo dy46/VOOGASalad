@@ -26,7 +26,7 @@ public class AffectorLibrary {
 	}
 	
 	public Affector getAffector(String name) {
-	    Affector a = myAffectors.get(name);
+	    Affector a = namesToAffector.get(name);
 	    allAffectors.add(a);
 	    return a;
 	}

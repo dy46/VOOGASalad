@@ -60,6 +60,7 @@ public class PlayerGUI {
     private IAuthEnvironment readData () {
         AuthSerializer writer = new AuthSerializer();
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
+        System.out.println("SETTING BREAKPOINT");
         return gameData;
     }
 

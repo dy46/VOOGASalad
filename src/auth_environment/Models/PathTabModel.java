@@ -157,8 +157,12 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public List<Unit> getWaveUnits(String selectedWave) {
-		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
-		return this.currentWave.getSpawningUnits();
+		if(selectedWave == null) {
+			System.out.println("Selected Wave is null");
+			return new ArrayList<Unit>(); 
+		}
+ 		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+ 		return this.currentWave.getSpawningUnits();
 		// TODO: get this working with getSpawningUnitsLeft() method 
 	}
 
