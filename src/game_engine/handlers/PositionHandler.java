@@ -1,9 +1,11 @@
-package auth_environment.paths;
+package game_engine.handlers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 public class PositionHandler {

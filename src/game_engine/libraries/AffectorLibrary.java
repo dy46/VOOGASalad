@@ -52,4 +52,5 @@ public class AffectorLibrary {
 	    return namesToAffector.keySet().stream().collect(Collectors.toList());
 	}
 	
+	
 }

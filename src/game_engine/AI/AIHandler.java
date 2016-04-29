@@ -1,17 +1,15 @@
 package game_engine.AI;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import game_engine.GameEngineInterface;
 import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
-import game_engine.physics.DirectionHandler;
-import game_engine.properties.Movement;
 import game_engine.properties.Position;
 
 
@@ -28,16 +26,10 @@ public class AIHandler {
 
 	private GameEngineInterface myEngine;
 	private AISearcher mySearcher;
-	private HashMap<Position, List<Branch>> cachedPosPaths;
-	private HashMap<Branch, List<Branch>> cachedBranchPaths;
-	private HashMap<Unit, List<Branch>> cachedUnitPaths;
 
 	public AIHandler(GameEngineInterface engine){
 		this.myEngine = engine;
 		this.mySearcher = engine.getAISearcher();
-		cachedPosPaths = new HashMap<>();
-		cachedBranchPaths = new HashMap<>();
-		cachedUnitPaths = new HashMap<>();
 	}
 
 	public void updateAIBranches() {
@@ -47,59 +39,6 @@ public class AIHandler {
 			if(currentPath.size() == 0){
 				updateBranches(u);
 			}
-			else{
-				cachedUnitPaths.put(u, currentPath);
-				cachedPosPaths.put(u.getProperties().getPosition(), currentPath);
-				cachedBranchPaths.put(u.getProperties().getMovement().getCurrentBranch(), currentPath);
-			}
-		}
-	}
-	
-	public void updatePathMaps(HashMap<Unit, List<Branch>> unitPaths, HashMap<Branch, List<Branch>> branchPaths,
-			HashMap<Position, List<Branch>> posPaths) {
-		this.updateBranchPaths(branchPaths);
-		this.updatePosPaths(posPaths);
-		this.updateUnitPaths(unitPaths);
-	}
-
-	public void updateUnitPaths(HashMap<Unit, List<Branch>> unitPaths){
-		this.cachedUnitPaths = unitPaths;
-		Iterator<Unit> it = unitPaths.keySet().iterator();
-		while(it.hasNext()){
-			Unit next = it.next();
-			next.getProperties().getMovement().setBranches(unitPaths.get(next));
-		}
-	}
-	
-	public void updateBranchPaths(HashMap<Branch, List<Branch>> branchPaths){
-		this.cachedBranchPaths = branchPaths;
-		Iterator<Branch> it = branchPaths.keySet().iterator();
-		while(it.hasNext()){
-			updateUnitsWithBranch(it.next());
-		}
-	}
-	
-	private void updateUnitsWithBranch(Branch branch){
-		for(Unit u : this.getActiveAIEnemies()){
-			if(u.getProperties().getMovement().getBranches().contains(branch)){
-				u.getProperties().getMovement().setBranches(cachedBranchPaths.get(branch));
-			}
-		}
-	}
-	
-	private void updateUnitsAtPos(Position pos){
-		for(Unit u : this.getActiveAIEnemies()){
-			if(u.getProperties().getPosition().equals(pos)){
-				u.getProperties().getMovement().setBranches(cachedPosPaths.get(pos));
-			}
-		}
-	}
-	
-	public void updatePosPaths(HashMap<Position, List<Branch>> posPaths){
-		this.cachedPosPaths = posPaths;
-		Iterator<Position> it = posPaths.keySet().iterator();
-		while(it.hasNext()){
-			updateUnitsAtPos(it.next());
 		}
 	}
 
@@ -108,54 +47,10 @@ public class AIHandler {
 		Position currPos = u.getProperties().getPosition();
 		if(currPos == null){
 			currPos = myEngine.getLevelController().getCurrentLevel().getSpawns().get(0);
-			if(currPos == null)
-				return;
 		}
-		Branch currBranch = u.getProperties().getMovement().getCurrentBranch();
-		if(cachedPosPaths.containsKey(currPos)){
-			newBranches = cachedPosPaths.get(currPos);
-		}
-		else if(cachedBranchPaths.containsKey(currPos)){
-			newBranches = cachedBranchPaths.get(currBranch);
-		}
-		else{
-			newBranches = mySearcher.getShortestPath(currPos);
-			cachedPosPaths.put(currPos, newBranches);
-			cachedBranchPaths.put(currBranch, newBranches);
-		}
+		newBranches = mySearcher.getPath(currPos);
 		if(newBranches != null){
-			cachedUnitPaths.put(u, newBranches);
-			configureMovement(u, newBranches);
-		}
-	}
-
-	private void configureMovement (Unit u, List<Branch> newBranches) {
-		Movement myMovement = u.getProperties().getMovement();
-		List<Branch> currentBranches = myMovement.getBranches();
-		Position currentPosition = u.getProperties().getPosition();
-		if (currentPosition == null) {
-			return;
-		}
-		else if (currentBranches == null || currentBranches.size() == 0) {
-			if (newBranches != null) {
-				myMovement.setBranches(newBranches);
-				myMovement.initializeCurrentBranch(newBranches.get(0));
-				myMovement.initializeMovingTowards();
-			}
-			return;
-		}
-		if (newBranches.get(0).equals(currentBranches.get(0))) {
-			if (!newBranches.get(1).equals(currentBranches.get(1))) {
-				Position newBranchFirstPos = newBranches.get(1).getFirstPosition();
-				Position newBranchLastPos = newBranches.get(1).getLastPosition();
-				double dirToFirstPos =
-						DirectionHandler.getDirection(currentPosition, newBranchFirstPos);
-				double dirToLastPos =
-						DirectionHandler.getDirection(currentPosition, newBranchLastPos);
-				double currDir = u.getProperties().getVelocity().getDirection();
-				if (currDir == dirToFirstPos || currDir == dirToLastPos)
-					u.turnAround();
-			}
+			u.getProperties().getMovement().setBranches(newBranches);
 		}
 	}
 
@@ -188,16 +83,11 @@ public class AIHandler {
 		return branches;
 	}
 
-	public HashMap<Unit, List<Branch>> getUnitPaths() {
-		return cachedUnitPaths;
-	}
-
-	public HashMap<Branch, List<Branch>> getBranchPaths() {
-		return cachedBranchPaths;
-	}
-
-	public HashMap<Position, List<Branch>> getPositionPaths() {
-		return cachedPosPaths;
+	public Branch getGoalBranch(Position goal) {
+		List<Branch> branches = getBranchesAtPos(goal);
+		if(branches.size() == 0)
+			return null;
+		return branches.stream().filter(b -> b.getPositions().size() == 1).collect(Collectors.toList()).get(0);
 	}
 
 }

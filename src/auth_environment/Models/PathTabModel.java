@@ -1,12 +1,20 @@
 package auth_environment.Models;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.paths.MapHandler;
+import auth_environment.view.BoundLine;
 import game_engine.game_elements.Branch;
+import game_engine.game_elements.Level;
+import game_engine.game_elements.Unit;
+import game_engine.game_elements.Wave;
 import game_engine.properties.Position;
 
 /**
@@ -28,17 +36,38 @@ public class PathTabModel implements IPathTabModel {
 	private List<Position> myCurrentBranch;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
+	
+	// TODO: reselect a branch by clicking on the corresponding BoundLine (GUI element) 
+	private Map<BoundLine, Branch> myBranchMap; 
+	
+	// ComboBox contents
+	private List<Level> myLevels;
+	private Level currentLevel;
+	private Wave currentWave; 
+	private Unit myActiveUnit; 
 
 	private double myPathWidth;
 
 	public PathTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth; 
-		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
-		this.myVisualBranches = auth.getVisualBranches();
+		this.myBranchMap = new HashMap<BoundLine, Branch>(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
-		this.myCurrentBranch = new ArrayList<>();
+		this.myCurrentBranch = new ArrayList<Position>(); 
+		this.myVisualBranches = auth.getVisualBranches();
 		this.myGoals = auth.getGoals();
 		this.mySpawns = auth.getSpawns();
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myLevels = auth.getLevels(); 
+	}
+
+	@Override
+	public void refresh(IAuthEnvironment auth) {
+		this.myCurrentBranch.clear();
+		this.myVisualBranches = auth.getVisualBranches();
+		this.myGoals = auth.getGoals();
+		this.mySpawns = auth.getSpawns();
+		this.myMapHandler = new MapHandler(auth.getEngineBranches(), auth.getGridBranches(), auth.getVisualBranches());
+		this.myLevels = auth.getLevels(); 
 	}
 
 	// TODO: should all Paths have the same width? Where to set this? 
@@ -54,10 +83,9 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void submitBranch() {
-		System.out.println("My current branch: " + myCurrentBranch);
 		this.myMapHandler.processPositions(myCurrentBranch);
 		myCurrentBranch.clear();
-		this.loadBranches();
+		this.submit(); 
 	}
 
 	@Override
@@ -67,8 +95,7 @@ public class PathTabModel implements IPathTabModel {
 //		}
 	}
 
-	@Override
-	public void loadBranches() {
+	private void submit() {
 		this.myAuthData.setEngineBranches(this.myMapHandler.getEngineBranches());
 		this.myAuthData.setVisualBranches(this.myVisualBranches);
 		this.myAuthData.setGridBranches(this.myMapHandler.getGridBranches());
@@ -117,6 +144,52 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Position> getSpawns() {
 		return mySpawns;
+	}
+	
+	public List<String> getLevelNames() {
+		return this.myLevels.stream().map(level -> level.getName()).collect(Collectors.toList());
+	}
+	
+	public List<String> getWaveNames(String selectedLevel) {
+		this.currentLevel = this.myLevels.stream().filter(l -> l.getName().equals(selectedLevel)).collect(Collectors.toList()).get(0);
+		return this.currentLevel.getWaves().stream().map(wave -> wave.toString()).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Unit> getWaveUnits(String selectedWave) {
+		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+		return this.currentWave.getSpawningUnits();
+		// TODO: get this working with getSpawningUnitsLeft() method 
+	}
+
+	// TODO: can Units repeat the same branch? 
+	@Override
+	public Branch reselectBranch(BoundLine line) {
+		if (this.myActiveUnit!=null) {
+			this.myActiveUnit.getProperties().getMovement().getBranches().add(this.myBranchMap.get(line));
+//			System.out.println("Current branches " + this.myActiveUnit.getProperties().getMovement().getBranches());
+		}
+		return this.myBranchMap.get(line); 
+	}
+
+	@Override
+	public void saveBranch(BoundLine line, Branch branch) {
+		this.myBranchMap.put(line, branch); 
+	}
+
+	@Override
+	public Set<BoundLine> getBoundLines() {
+		return this.myBranchMap.keySet();
+	}
+
+	@Override
+	public void setActiveUnit(Unit unit) {
+		this.myActiveUnit = unit; 
+	}
+
+	@Override
+	public Unit getActiveUnit() {
+		return this.myActiveUnit;
 	}
 
 }

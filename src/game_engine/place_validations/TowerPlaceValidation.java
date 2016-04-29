@@ -18,9 +18,10 @@ public class TowerPlaceValidation extends PlaceValidation {
     private AISimulator mySimulator;
 
     public boolean validate (Unit unit, double posX, double posY) {
+    	System.out.println("CLICK: " + posX+ " " + posY);
         Unit copy = unit.copyShallowUnit();
         copy.getProperties().setPosition(new Position(posX, posY));
-        return mySimulator.simulateEnemyPathFollowing(copy);
+        return mySimulator.simulateTowerPlacement(copy);
     }
 
     public void setEngine (GameEngineInterface myEngine) {

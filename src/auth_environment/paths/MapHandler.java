@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
+import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
 public class MapHandler {
 
 	private PathGraphFactory myPGF;
-	private GridFactory myGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myEngineBranches;
 	private List<Branch> myGridBranches;
@@ -19,12 +19,12 @@ public class MapHandler {
 
 	public MapHandler(){
 		myPGF = new PathGraphFactory();
-		myGF = new GridFactory();
 		myPositionHandler = new PositionHandler();
 		myEngineBranches = new ArrayList<>();
 		myGridBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
+		createGrid();
 //		insertTestBranches();
 	}
 
@@ -32,7 +32,6 @@ public class MapHandler {
 		myEngineBranches = engineBranches;
 		myGridBranches = gridBranches;
 		myVisualBranches = visualBranches;
-		myGF = new GridFactory();
 		myPGF = new PathGraphFactory(engineBranches);
 		myPositionHandler = new PositionHandler();
 		//		insertTestBranches();
@@ -54,21 +53,20 @@ public class MapHandler {
 	
 	public void addGoal(Position goal){
 		this.myGoals.add(goal);
+		processPositions(myPositionHandler.getInterpolatedPositions(Arrays.asList(goal), false));
 	}
 
-	public List<Branch> createGrid(){
+	public void createGrid(){
 		double screenWidth = 500;
 		double screenHeight = 500;
-		PathGraph grid = myGF.createUnlimitedPathGraph(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
-		myGridBranches = grid.getBranches();
-		myEngineBranches.addAll(grid.getBranches());
-		mySpawns = Arrays.asList(myGridBranches.get(0).getFirstPosition());
-		myGoals = Arrays.asList(new Position(500, 500));
-		return myGridBranches;
+		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
+		mySpawns = new ArrayList<Position>();
+		mySpawns.add(myPGF.getBranches().get(0).getFirstPosition());
+		addGoal(new Position(500, 500));
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/2500;
+		return screenWidth*screenHeight/12500;
 	}
 
 	public void insertTestBranches(){
@@ -109,10 +107,6 @@ public class MapHandler {
 
 	public PathGraphFactory getPGF(){
 		return myPGF;
-	}
-
-	public GridFactory getGF(){
-		return myGF;
 	}
 
 	public List<Branch> getEngineBranches() {
