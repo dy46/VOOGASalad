@@ -60,6 +60,7 @@ public class UnitFactory {
 		l1.add(new Position(-20, 20));
         Bounds b = new Bounds(l1);
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);
+        System.out.println("bounds set " + b.toString());
         unitProperties.setBounds(b);
         Unit unit =
                 createUnit(getName(type, unitType), unitProperties,
