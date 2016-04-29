@@ -9,7 +9,7 @@ public class MapPane extends Pane {
 	
 	private int adjustFactor;
 	private MapEditorTabModel myModel;
-
+	
 	public MapPane(MapEditorTabModel model) {
 		// TODO Auto-generated constructor stub
 		this.myModel = model;
@@ -22,8 +22,9 @@ public class MapPane extends Pane {
 	}
 	
 	public void adjustUnitViewScale(UnitView uv){
-		uv.setFitWidth(this.getHeight()/adjustFactor);
-		uv.setFitHeight(this.getWidth()/adjustFactor);
+		uv.setFitWidth(this.getRoot().getHeight()/adjustFactor);
+		System.out.println(uv.getFitWidth());
+		uv.setFitHeight(this.getRoot().getWidth()/adjustFactor);
 	}
 	
 	public void adjustUnitViewXY(UnitView uv, double x, double y){
@@ -36,7 +37,7 @@ public class MapPane extends Pane {
 	}
 	
 	public void addToPane(UnitView uv){
-		this.getChildren().add(uv);
+		this.getRoot().getChildren().add(uv);
 	}
 	
 //	public void remove(UnitView uv){

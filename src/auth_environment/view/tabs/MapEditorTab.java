@@ -39,10 +39,8 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
-	private Canvas myCanvas;
 	private GridMapPane myCanvasPane;
 	private UnitPicker myPicker;
-	private ContextMenu myContextMenu;
 	private DragDelegate myDragDelegate;
 	private MapEditorTabModel myModel;
 	private IAuthModel myAuthModel;
@@ -98,7 +96,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 //        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
 //        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         myCanvasPane = new GridMapPane();
-        myCanvasPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+        myCanvasPane.getRoot().setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
         myCanvasPane.getRoot().setGridLinesVisible(true);
         for (int i = 0; i < numCols; i++) {
@@ -116,7 +114,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 //        myCanvasPane.getChildren().add(myCanvas);
         System.out.println(myCanvasPane);
         this.myDragDelegate.setUpNodeTarget(myCanvasPane, myPicker);
-        this.myMapPane.setContent(myCanvasPane); 
+        this.myMapPane.setContent(myCanvasPane.getRoot()); 
 	}
 	
 //To be refactor out

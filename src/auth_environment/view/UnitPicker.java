@@ -53,6 +53,8 @@ public class UnitPicker{
 		this.myUnitViews.clear();
 		this.myEditInfo.getChildren().clear();
 		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + ".png")));
+		if(!myUnitViews.isEmpty())
+			System.out.print(myUnitViews.get(0).getFitHeight());
 		this.myEditInfo.getChildren().addAll(this.myUnitViews);
 		setDragable();
 	}

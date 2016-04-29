@@ -11,7 +11,6 @@ public class GridMapPane extends MapPane {
 	private int gridWidth;
 	public GridMapPane() {
 		myPane = new GridPane();
-		myPane.setGridLinesVisible(true);
 		gridWidth = 10;
 	}
 
@@ -22,13 +21,13 @@ public class GridMapPane extends MapPane {
 	
 	@Override
 	public void adjustUnitViewScale(UnitView uv){
-		uv.setFitWidth(this.getHeight()/gridWidth-3);
-		uv.setFitHeight(this.getWidth()/gridWidth-3);
+		uv.setFitWidth(this.getRoot().getHeight()/gridWidth-3);
+		uv.setFitHeight(this.getRoot().getWidth()/gridWidth-3);
 	}
 	
 	@Override
 	public void adjustUnitViewXY(UnitView uv, double x, double y){
-		uv.setX((int)(x/(this.getWidth()/gridWidth)));
+		uv.setX((int)(x/(this.getRoot().getWidth()/gridWidth)));
 		uv.setY((int)((y-uv.getFitHeight())/(this.getHeight()/gridWidth)));
 	}
 	
@@ -36,10 +35,12 @@ public class GridMapPane extends MapPane {
 		this.gridWidth = gw;
 	}
 	
+	@Override
 	public void addToPane(UnitView uv){
 		myPane.add(uv, (int)uv.getX(), (int)uv.getY());
 	}
 	
+	@Override
 	public GridPane getRoot(){
 		return this.myPane;
 	}
