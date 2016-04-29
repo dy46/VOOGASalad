@@ -131,8 +131,17 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level makeDummyLevel() {
 
 		Level l = new Level("Dummy level", 20);
-		MapHandler mh = new MapHandler();
-		mh.createGrid();
+		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
+		
+		List<Position> path = new ArrayList<>();
+		for(int i = 0; i < 100; i++)
+			path.add(new Position(i * 2, 200));
+		
+		
+		mh.processPositions(path);
+		mh.addSpawn(path.get(0));
+		mh.addGoal(path.get(path.size() - 1));
+		
 		myBranches = mh.getEngineBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());

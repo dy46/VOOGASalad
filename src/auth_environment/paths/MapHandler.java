@@ -34,6 +34,8 @@ public class MapHandler {
 		myVisualBranches = visualBranches;
 		myPGF = new PathGraphFactory(engineBranches);
 		myPositionHandler = new PositionHandler();
+		mySpawns = new ArrayList<>();
+		myGoals = new ArrayList<>();
 		//		insertTestBranches();
 	}
 
