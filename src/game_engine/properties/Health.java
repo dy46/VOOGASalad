@@ -40,4 +40,9 @@ public class Health extends Property {
         myHealth = values.get(0);
     }
 
+	@Override
+	public boolean isBaseProperty() {
+		return false;
+	}
+
 }

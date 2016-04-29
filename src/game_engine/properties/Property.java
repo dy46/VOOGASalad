@@ -8,6 +8,6 @@ public abstract class Property {
 
 	public abstract void setValues(List<Double> values);
 	
-	
+	public abstract boolean isBaseProperty();
 	
 }
