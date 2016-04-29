@@ -181,41 +181,27 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	private List<Unit> makeDummyTerrains() {
-		List<Unit> ice = makeDummyIceTerrain();
-		// Unit spike = makeDummySpike();
-		List<Unit> terrains = new ArrayList<>();
-		// terrains.addAll(ice);
-		// terrains.add(spike);
-		return terrains;
+		return makeTerrain();
 	}
 
-	private List<Unit> makeDummyIceTerrain() {
-		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
-		List<Position> pos = new ArrayList<>();
-		pos.add(new Position(0, 0));
-		pos.add(new Position(60, 0));
-		pos.add(new Position(60, 60));
-		pos.add(new Position(0, 60));
-		ice1.getProperties().setPosition(185, 155);
-		ice1.getProperties().setBounds(pos);
-		ice1.setTTL(Integer.MAX_VALUE);
-
-		Unit ice2 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
-		ice2.getProperties().setPosition(185, 185);
-		ice2.getProperties().setBounds(pos);
-		ice2.setTTL(Integer.MAX_VALUE);
-
-		Unit ice3 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
-		ice3.getProperties().setPosition(185, 185);
-		ice3.getProperties().setBounds(pos);
-		ice3.setTTL(Integer.MAX_VALUE);
-
-		Unit ice4 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
-		ice4.getProperties().setPosition(215, 185);
-		ice4.getProperties().setBounds(pos);
-		ice4.setTTL(Integer.MAX_VALUE);
-
-		return new ArrayList<>(Arrays.asList(new Unit[] { ice1, ice2, ice3, ice4 }));
+	private List<Unit> makeTerrain() {
+		
+		List<Unit> terrain = new ArrayList<>();
+		for(int i = 0; i < 10; i++)
+		{
+			Unit groundTerrain = myTerrainFactory.getTerrainLibrary().getTerrainByName("GroundTerrain");
+			List<Position> pos = new ArrayList<>();
+			pos.add(new Position(0, 0));
+			pos.add(new Position(60, 0));
+			pos.add(new Position(60, 60));
+			pos.add(new Position(0, 60));
+			groundTerrain.getProperties().setBounds(pos);
+			groundTerrain.getProperties().setPosition(10, i * 10);
+			groundTerrain.setTTL(Integer.MAX_VALUE);
+			terrain.add(groundTerrain);
+		}
+		
+		return terrain;
 	}
 
 	public String getGameStatus() {
