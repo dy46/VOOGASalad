@@ -51,7 +51,6 @@ public class Welcome {
 				);
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
-//				this.buildTextInput(), 
 				this.buildSelectionButtons(),
 				this.buildAnimation()
 				);
