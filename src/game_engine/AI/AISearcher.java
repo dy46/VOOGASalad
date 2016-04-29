@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Queue;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
+import game_engine.handlers.VisibilityHandler;
 import game_engine.properties.Position;
 
 /**

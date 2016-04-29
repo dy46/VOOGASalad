@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import auth_environment.paths.PositionHandler;
+import game_engine.handlers.PositionHandler;
 import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 import javafx.embed.swing.SwingFXUtils;

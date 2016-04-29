@@ -9,7 +9,7 @@ public class EncapsulationChecker {
 
     public static boolean encapsulates (List<Position> inner, List<Position> outer) {
         for (Position pos : inner) {
-            if (!insidePolygon(outer, pos)) {
+            if (!insideConvexHull(outer, pos)) {
                 return false;
             }
         }
@@ -20,9 +20,9 @@ public class EncapsulationChecker {
         return EncapsulationChecker.encapsulates(pos, outer.getPositions());
     }
 
-    private static boolean insidePolygon (List<Position> bounds, Position p) {
+    private static boolean insideConvexHull(List<Position> bounds, Position p) {
         int counter = 0;
-        double xinters;
+        double xIntersections;
         Position p1 = bounds.get(0);
         int numPos = bounds.size();
         for (int i = 1; i <= numPos; i++) {
@@ -31,10 +31,10 @@ public class EncapsulationChecker {
                 if (p.getY() <= Math.max(p1.getY(), p2.getY())) {
                     if (p.getX() <= Math.max(p1.getX(), p2.getX())) {
                         if (p1.getY() != p2.getY()) {
-                            xinters =
+                        	xIntersections =
                                     (p.getY() - p1.getY()) * (p2.getX() - p1.getX()) /
                                       (p2.getY() - p1.getY()) + p1.getX();
-                            if (p1.getX() == p2.getX() || p.getX() <= xinters)
+                            if (p1.getX() == p2.getX() || p.getX() <= xIntersections)
                                 counter++;
                         }
                     }
