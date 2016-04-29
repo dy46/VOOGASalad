@@ -50,7 +50,7 @@ public class AuthView implements IAuthView {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
+    	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel, "Edit Map"); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
     	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));

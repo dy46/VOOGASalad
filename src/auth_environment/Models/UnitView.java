@@ -1,10 +1,17 @@
 package auth_environment.Models;
 
 import auth_environment.Models.Interfaces.IUnitView;
+import auth_environment.delegatesAndFactories.MapPane;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.game_elements.Unit;
+import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  * Created by BrianLin on 4/20/16
@@ -19,6 +26,7 @@ import javafx.scene.image.ImageView;
 
 public class UnitView extends ImageView implements IUnitView {
 	
+	private ContextMenu myContextMenu;
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	private Unit myUnit;
 	
@@ -63,5 +71,33 @@ public class UnitView extends ImageView implements IUnitView {
 	public Unit getUnit() {
 		return this.myUnit;
 	}
+	
+	public void setScale(MapPane target, int gridWidth){
+		target.adjustUnitViewScale(this);
+		this.setFitHeight(target.getHeight()/gridWidth-3);
+		this.setFitWidth(target.getWidth()/gridWidth-3);
+	}
+	
+	public void addContextMenu(MapPane target, UnitView uv){
+		this.addEventHandler(MouseEvent.MOUSE_CLICKED,
+			    new EventHandler<MouseEvent>() {
+			        @Override public void handle(MouseEvent e) {
+			            if (e.getButton() == MouseButton.SECONDARY){ 
+			            	myContextMenu = buildContextMenu(target);
+			            	 myContextMenu.show(uv, e.getScreenX(), e.getScreenY());
+			            }
+			        }
+			});
+	}
+	
+	 private ContextMenu buildContextMenu(MapPane tempPane){
+	    	ContextMenu cm = new ContextMenu();
+	    	MenuItem cmItem1 = new MenuItem("Delete Image");
+	    	cmItem1.setOnAction(e-> {tempPane.getChildren().remove(this);
+	    	tempPane.getModel().deleteTerrain(this.getUnit());
+	    	});
+	    	cm.getItems().add(cmItem1);
+	    	return cm;
+	    }
 
 }
