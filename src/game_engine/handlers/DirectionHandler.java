@@ -12,7 +12,7 @@ public class DirectionHandler {
     }
     
     public static double getActualDirection(Position from, Position to){
-    	return Math.atan2((getdy(from, to)), getdx(from, to));
+    	return Math.atan((getdy(from, to)) / getdx(from, to));
     }
     
     public static double getdx(Position from, Position to) {
