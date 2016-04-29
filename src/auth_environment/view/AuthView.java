@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
+import auth_environment.view.tabs.ElementCreationTab;
 import auth_environment.view.tabs.GlobalGameTab;
 import auth_environment.view.tabs.PathTab;
 import auth_environment.view.tabs.LevelOverviewTab;
@@ -50,7 +51,8 @@ public class AuthView implements IAuthView {
     	PathTab pathTab = new PathTab(this.globalAuthModel); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
-    	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
+    	ElementCreationTab creationTab = new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), this.globalAuthModel, myNamesBundle);
+    	tabs.add(creationTab.getRoot());
 //    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab(myNamesBundle.getString("pathTabTitle"), pathTab.getRoot()));
     	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));

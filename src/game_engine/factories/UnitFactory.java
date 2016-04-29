@@ -50,7 +50,8 @@ public class UnitFactory {
         String unitType = getUnitType(inputs.get("Unit Type"));
         UnitProperties newProperties = new UnitProperties();
         newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
-//        newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+        newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+        newProperties.setVelocity(Double.parseDouble(inputs.get("Speed")), Double.parseDouble(inputs.get("Direction")));
 //        newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
         newProperties.setStateProp(getUnitState(inputs.get("State")));
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);

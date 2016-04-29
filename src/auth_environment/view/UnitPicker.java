@@ -46,6 +46,14 @@ public class UnitPicker{
 		myEditPane.setCollapsible(false);
 	}
 	
+	public void addUnits(List<Unit> units, ElementTab elementTab){
+		myUnitPickerModel = new UnitPickerModel();
+		for(UnitView uv: myUnitPickerModel.setUnits(units)){
+			myEditInfo.getChildren().add(uv);
+			uv.setOnMouseClicked(e -> elementTab.updateMenu(uv.getUnit()));
+		}
+	}
+	
 	private void addUnits(List<Unit> units){
 		myUnitPickerModel = new UnitPickerModel();
 		//for(UnitView uv: myUnitPickerModel.setUnits(units)){
@@ -53,12 +61,13 @@ public class UnitPicker{
 		//}
 	}
 	
-	public void add(Unit unit, ElementTab elementTab){
-		UnitView uv = new UnitView(unit,"unicornCat.gif");
-		myEditInfo.getChildren().add(uv);
-		uv.setOnMouseClicked(e -> elementTab.updateMenu(unit));
-	}
-	
+//	public void add(Unit unit, ElementTab elementTab){
+//		//UnitView uv = new UnitView(unit,"unicornCat.gif");
+//		UnitView uv = new UnitView(unit, unit.getImgName());
+//		myEditInfo.getChildren().add(uv);
+//
+//	}
+//	
 	
 	
 	
