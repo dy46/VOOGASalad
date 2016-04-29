@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_engine.TestingEngineWorkspace;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
@@ -29,14 +26,12 @@ import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
-import game_engine.place_validations.EnemySpawnPointPlaceValidation;
-import game_engine.place_validations.PlaceValidation;
-import game_engine.place_validations.TowerPlaceValidation;
 import game_engine.physics.EncapsulationDetector;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
 import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Pair;
 import game_engine.store_elements.Store;
 import game_engine.wave_goals.EnemyNumberWaveGoal;
 import game_engine.wave_goals.WaveGoal;
@@ -47,7 +42,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private boolean pause;
 	private List<Level> myLevels;
 	private List<Branch> myBranches;
-	private List<PlaceValidation> myPlaceValidations;
 	private List<Unit> unitsToRemove;
 	private Position cursorPos;
 
@@ -64,8 +58,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level myCurrentLevel;
 	private double myBalance;
 	private Store myStore;
-	private double score;
-
 	private FunctionFactory myFunctionFactory;
 	private AffectorFactory myAffectorFactory;
 	private EnemyFactory myEnemyFactory;
@@ -87,9 +79,8 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		myAISimulator = new AISimulator(this);
 		myAISearcher = new AISearcher(this);
 		myAIHandler = new AIHandler(this);
-		score = 0;
 		unitsToRemove = new ArrayList<>();
-		myPlaceValidations = new ArrayList<>();
+		new ArrayList<>();
 		// myPlaceValidations.add(new TowerPlaceValidation(this));
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
@@ -103,7 +94,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		myEnemys = new ArrayList<>();
 		myTowerFactory = new TowerFactory(myAffectorFactory.getAffectorLibrary());
 		myTowers = new ArrayList<>();
-		myStore = new Store(50000000);
+		myStore = new Store(500000);
 		myTerrainFactory = new TerrainFactory(myAffectorFactory.getAffectorLibrary());
 		myTerrains = makeDummyTerrains();
 		myCollider = new CollisionDetector(this);
@@ -118,19 +109,26 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		this.makeDummyUpgrades();
 	}
 
-	private List<Unit> makeDummyTowers() {
+	private List<Unit> makeTowers(Wave w) {
 		Position position2 = new Position(200, 300);
 		Unit t = myTowerFactory.createHomingTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers),
 				position2, myStore);
-
-		// myStore.addBuyableTower(t, 100, 1);
-		// myStore.addBuyableTower(t2, 300, 1);
+		
+		Pair<Unit, Integer> towerPair = new Pair<Unit, Integer>(t, 100);
+		List<Pair<Unit, Integer>> towers = new ArrayList<Pair<Unit, Integer>>();
+		
+		towers.add(towerPair);
+		
+		for(Pair<Unit, Integer> p : towers)
+			w.addPlacingUnit((Unit) p.getLeft());
+		
+		myStore.addBuyableUnit(towers);
 		return new ArrayList<>(Arrays.asList(new Unit[] { t }));
 	}
 
 	private Level makeDummyLevel() {
 
-		Level l = new Level("Dummy level", 20);
+		Level l = new Level("Platformer Tower Defense", 20);
 		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
 
 		List<Position> path = new ArrayList<>();
@@ -157,9 +155,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 			w.addSpawningUnit(u, i * 30);
 		}
 
-		List<Unit> list = makeDummyTowers();
-		w.addPlacingUnit(list.get(0));
-		// w.addPlacingUnit(list.get(1));
+		List<Unit> list = makeTowers(w);
 		l.addWave(w);
 
 		// Affector affector =
@@ -390,7 +386,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	public void setScore(double score) {
-		this.score = score;
 	}
 
 	@Override
