@@ -5,11 +5,16 @@ import java.util.ResourceBundle;
 import auth_environment.Models.LevelTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
+import game_engine.game_elements.Level;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 
@@ -25,9 +30,12 @@ public class LevelTab extends Tab{
 	private String myName; 
 	private LevelTabModel myLevelTabModel;
 	private ILevelOverviewTabModel myLevelOverviewTabModel; 
+	private Level level;
+	private TextField lifeField;
 	
 	public LevelTab(String name, int levelIndex, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		super(name);
+		this.level = new Level(name, Integer.parseInt(myDimensionsBundle.getString("defaultLives")));
 		this.myLevelTabModel = new LevelTabModel(levelIndex); 
 		this.myAuthModel = authModel;
 		this.myLevelOverviewTabModel = levelOverview; 
@@ -37,6 +45,17 @@ public class LevelTab extends Tab{
 	
 	private void init() {
 		this.myBorderPane = new BorderPane();
+		myBorderPane.setPadding(new Insets(15, 12, 15, 12));
+		Label lifeLabel = new Label("Lives: ");
+		lifeLabel.setTextFill(Color.RED);
+		lifeField = new TextField();
+		lifeField.setPromptText("10");
+
+		HBox lifeHB = new HBox();
+		lifeHB.getChildren().addAll(lifeLabel, lifeField);
+		lifeHB.setSpacing(10);
+		myBorderPane.setTop(lifeHB);
+
 		this.setRefresh();
 		this.createWaveList();
 		this.setContent(myBorderPane);
@@ -53,6 +72,11 @@ public class LevelTab extends Tab{
 	
 	private void refresh() {
 		this.myLevelOverviewTabModel.changeEditedLevel(this.myLevelTabModel.getLevelIndex());
+//		System.out.println(lifeField.getText());
+		if(lifeField.getText() != null && !lifeField.getText().equals("")){
+			System.out.println(Integer.parseInt(lifeField.getText()));
+			level.setMyLives(Integer.parseInt(lifeField.getText()));
+		}
 	}
 	
 	private void createWaveList() { 
