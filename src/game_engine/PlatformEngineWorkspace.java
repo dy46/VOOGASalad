@@ -151,7 +151,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
 
 		for (int i = 0; i < 100; i++) {
-			Unit u = myEnemyFactory.createAIEnemy("Enemy", l.getSpawns().get(0));
+			Unit u = myEnemyFactory.createAIEnemy("GooEnemy", l.getSpawns().get(0));
 			u.getProperties().setHealth(100);
 
 			w.addSpawningUnit(u, i * 30);
