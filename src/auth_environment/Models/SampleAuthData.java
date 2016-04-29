@@ -13,7 +13,10 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.wave_goals.WaveGoal;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -51,6 +54,9 @@ public class SampleAuthData implements IAuthEnvironment {
 	private List<Unit> myPlacedUnits; 
 	private List<Position> mySpawns;
 	private List<Position> myGoals; 
+	private WaveGoal myWaveGoal;
+	private ScoreUpdate myScoreUpdate;
+	private PlaceValidation myPlaceValidation; 
 	
 	// TODO: Factory class variables... remove eventually
 	private UnitFactory myUnitFactory; 
@@ -75,7 +81,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
 		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
-		this.setupDummyValues();
+//		this.setupDummyValues();
 	}
 
 	private void setupDummyValues() {
@@ -274,6 +280,36 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setAffectorFactory(AffectorFactory factory) {
 		this.myAffectorFactory = factory; 
+	}
+
+	@Override
+	public void setWaveGoal(WaveGoal goal) {
+		this.myWaveGoal = goal;
+	}
+
+	@Override
+	public WaveGoal getWaveGoal() {
+		return this.myWaveGoal;
+	}
+
+	@Override
+	public void setScoreUpdate(ScoreUpdate update) {
+		this.myScoreUpdate = update; 
+	}
+
+	@Override
+	public ScoreUpdate getScoreUpdate() {
+		return this.myScoreUpdate;
+	}
+
+	@Override
+	public void setPlaceValidation(PlaceValidation validation) {
+		this.myPlaceValidation = validation; 
+	}
+
+	@Override
+	public PlaceValidation getPlaceValidation() {
+		return this.myPlaceValidation;
 	}
 	
 }
