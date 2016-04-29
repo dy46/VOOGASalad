@@ -29,7 +29,7 @@ public class MainView implements IMainView {
     }
 
     public void displayAuth () {
-        AuthView authView = new AuthView(this.myStage);
+        AuthView authView = new AuthView(this.myStage, this);
         this.display();
     }
 

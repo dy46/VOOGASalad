@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import main.IMainView;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -36,6 +37,7 @@ public class GameSettingsTab implements IWorkspace {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	private NodeFactory myNodeFactory = new NodeFactory(); 
+	private IMainView myMainView; 
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private ImageView mySplashPreview; 
@@ -43,18 +45,16 @@ public class GameSettingsTab implements IWorkspace {
 	
 	private IGameSettingsTabModel myGameSettingsTabModel;
 	
-	public GameSettingsTab(IAuthModel authModel) {
+	public GameSettingsTab(IAuthModel authModel, IMainView mainView) {
 		this.setupBorderPane();
+		this.myMainView = mainView; 
 		this.myGameSettingsTabModel = new GameSettingsTabModel(authModel); 
 	}
 
 	private void setupBorderPane() {
-
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		
 		this.myBorderPane.setCenter(this.buildCenter());
-		
 	}
 	
 	private Node buildCenter() {
@@ -64,7 +64,8 @@ public class GameSettingsTab implements IWorkspace {
 				this.buildTextInput(),
 				this.buildSplashChooser(),
 				this.buildSaveButton(),
-				this.buildLoadButton());
+				this.buildLoadButton(),
+				this.buildPlayButton());
 		return center; 
 	}
 	
@@ -107,6 +108,12 @@ public class GameSettingsTab implements IWorkspace {
 		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
 		load.setOnAction(e -> this.myGameSettingsTabModel.loadFromFile());
 		return myNodeFactory.centerNode(load); 
+	}
+	
+	private Node buildPlayButton() {
+		Button play = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
+		play.setOnAction(e -> myMainView.displayPlayer());
+		return myNodeFactory.centerNode(play); 
 	}
 
 	//	public void writeToGameData() {

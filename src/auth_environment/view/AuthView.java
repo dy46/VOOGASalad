@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import main.IMainView;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -35,19 +36,21 @@ public class AuthView implements IAuthView {
 
     private Stage myStage;
     private Scene myScene; 
-    private TabPane myTabs = new TabPane();
+    private IMainView myMainView; 
+    private TabPane myTabs;
     private IAuthModel globalAuthModel;
 
-    public AuthView (Stage stage) {
+    public AuthView (Stage stage, IMainView mainView) {
         myStage = stage;
-        this.globalAuthModel = new AuthModel(); 
+        myMainView = mainView; 
+        globalAuthModel = new AuthModel(); 
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GameSettingsTab globalGameTab = new GameSettingsTab(this.globalAuthModel); 
+    	GameSettingsTab globalGameTab = new GameSettingsTab(this.globalAuthModel, myMainView); 
     	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
@@ -61,6 +64,7 @@ public class AuthView implements IAuthView {
     }
 
 	private void setupApperance() {
+    	myTabs = new TabPane();
 		myScene = new Scene(myTabs);
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
@@ -70,5 +74,5 @@ public class AuthView implements IAuthView {
 
     public void display() {
     	this.myStage.show();
-    }
+    } 
 }
