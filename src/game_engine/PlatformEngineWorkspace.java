@@ -13,6 +13,9 @@ import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.EnemyFactory;
 import game_engine.factories.FunctionFactory;
@@ -22,6 +25,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
@@ -143,11 +147,11 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 		List<Unit> list = makeDummyTowers();
 		w.addPlacingUnit(list.get(0));
-		w.addPlacingUnit(list.get(1));
+		//w.addPlacingUnit(list.get(1));
 		l.addWave(w);
 
-		Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
-		myStore.addUpgrade(list.get(1), affector, 100);
+		//Affector affector = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
+		//myStore.addUpgrade(list.get(1), affector, 100);
 		Affector affector2 = this.myAffectorFactory.getAffectorLibrary().getAffector("Constant", "HealthDamage");
 		myStore.addUpgrade(list.get(0), affector2, 100);
 		return l;
@@ -203,47 +207,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 		return new ArrayList<>(Arrays.asList(new Unit[] { ice1, ice2, ice3, ice4 }));
 	}
-
-	// private Terrain makeDummyPoisonSpike () {
-	// Terrain poisonSpike =
-	// myTerrainFactory.getTerrainLibrary().getTerrainByName("PoisonSpikesTerrain");
-	// List<Position> pos = new ArrayList<>();
-	// pos.add(new Position(95, -25));
-	// pos.add(new Position(275, -25));
-	// pos.add(new Position(275, 150));
-	// pos.add(new Position(95, 150));
-	// poisonSpike.getProperties().setPosition(185, 62.5);
-	// poisonSpike.getProperties().setBounds(pos);
-	// poisonSpike.setTTL(Integer.MAX_VALUE);
-	// return poisonSpike;
-	// }
-
-	private Unit makeDummySpike() {
-		Unit spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("SpikesTerrain");
-		List<Position> pos = new ArrayList<>();
-		pos.add(new Position(0, 0));
-		pos.add(new Position(0, 30));
-		pos.add(new Position(30, 30));
-		pos.add(new Position(30, 0));
-		spike.getProperties().setPosition(185, 70);
-		spike.getProperties().setBounds(pos);
-		spike.setTTL(Integer.MAX_VALUE);
-		return spike;
-	}
-
-	// public void updateLives () {
-	// int livesToSubtract = 0;
-	// for (int i = 0; i < myEnemys.size(); i++) {
-	// if
-	// (myEnemys.get(i).getProperties().getMovement().isUnitAtLastPosition(myEnemys.get(i)))
-	// {
-	// livesToSubtract++;
-	// myEnemys.get(i).setElapsedTimeToDeath();
-	// }
-	// }
-	// myCurrentLevel.setMyLives(myCurrentLevel.getStartingLives() -
-	// livesToSubtract);
-	// }
 
 	public String getGameStatus() {
 		if (myCurrentLevel.getMyLives() <= 0) {
@@ -487,5 +450,18 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	public AISimulator getAISimulator() {
 		return myAISimulator;
 	}
+
+	@Override
+	public ILevelDisplayer getLevelDisplay() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EnemyController getEnemyController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 }
