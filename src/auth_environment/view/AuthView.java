@@ -8,8 +8,9 @@ import java.util.ResourceBundle;
 import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.Interfaces.IAuthView;
-import auth_environment.view.tabs.GlobalGameTab;
 import auth_environment.view.tabs.PathTab;
+import auth_environment.view.tabs.ElementCreationTab;
+import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.LevelOverviewTab;
 import auth_environment.view.tabs.MapEditorTab;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import main.IMainView;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -35,23 +37,25 @@ public class AuthView implements IAuthView {
 
     private Stage myStage;
     private Scene myScene; 
-    private TabPane myTabs = new TabPane();
+    private IMainView myMainView; 
+    private TabPane myTabs;
     private IAuthModel globalAuthModel;
 
-    public AuthView (Stage stage) {
+    public AuthView (Stage stage, IMainView mainView) {
         myStage = stage;
-        this.globalAuthModel = new AuthModel(); 
+        myMainView = mainView; 
+        globalAuthModel = new AuthModel(); 
         setupApperance();
     }
     
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	GlobalGameTab globalGameTab = new GlobalGameTab(this.globalAuthModel); 
     	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
-    	tabs.add(new Tab(myNamesBundle.getString("mainTabTitle"), globalGameTab.getRoot()));
-    	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
+    	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
+    	ElementCreationTab creationTab = new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), this.globalAuthModel, myNamesBundle);
+    	tabs.add(creationTab.getRoot());
 //    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab("Edit Map", mapEditorTab.getRoot())); 
     	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), this.globalAuthModel));
@@ -61,6 +65,7 @@ public class AuthView implements IAuthView {
     }
 
 	private void setupApperance() {
+    	myTabs = new TabPane();
 		myScene = new Scene(myTabs);
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
         myStage.setScene(myScene);
@@ -70,5 +75,5 @@ public class AuthView implements IAuthView {
 
     public void display() {
     	this.myStage.show();
-    }
+    } 
 }

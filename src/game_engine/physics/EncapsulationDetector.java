@@ -6,10 +6,11 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.properties.Bounds;
 
 
-public class EncapsulationDetector {
+public class EncapsulationDetector implements IEncapsulationDetector{
 
     private GameEngineInterface myEngine;
 
@@ -21,7 +22,7 @@ public class EncapsulationDetector {
         myEngine.getUnitController().getUnitType("Enemy").forEach(t -> terrainHandling(t, terrains));
         myEngine.getUnitController().getUnitType("Tower").forEach(t -> terrainHandling(t, terrains));
     }
-
+    // not entirely sure what this is used for
     public List<Unit> getUnitsInRange (Bounds range) {
         List<Unit> units = myEngine.getUnitController().getPlacedUnits();
         List<Unit> inRange = new ArrayList<>();

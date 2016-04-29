@@ -25,6 +25,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -167,13 +168,21 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private HBox buildTextInput() {
+		VBox vb = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
+		
+		HBox hb0 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		
+		HBox hb1 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
+		
 		// TODO: duplicate code with GlobalGameTab
 		this.myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
 		this.myPathWidthField.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
-
-		//		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
-		//		submitNameButton.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
-
+		
+		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
+		submitBranchButton.setOnAction(e -> this.submitBranch());
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
 		drawPathButton.setOnAction(e -> this.updateDrawIndex(0));
 		Button drawGoalButton = myNodeFactory.buildButton(myNamesBundle.getString("drawGoal"));
@@ -181,14 +190,12 @@ public class PathTab extends Tab implements IWorkspace {
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
 		drawSpawnButton.setOnAction(e -> this.updateDrawIndex(2));
 
-		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
-		submitBranchButton.setOnAction(e -> this.submitBranch());
-
-		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(this.myPathWidthField, 
-				submitBranchButton, drawPathButton, drawGoalButton, drawSpawnButton);
-		return this.myNodeFactory.centerNode(hb); 
+		hb0.getChildren().addAll(this.myPathWidthField, 
+				submitBranchButton);
+		hb1.getChildren().addAll(drawPathButton, drawGoalButton, drawSpawnButton);
+		vb.getChildren().addAll(hb0, hb1);
+		
+		return this.myNodeFactory.centerNode(vb); 
 	}
 
 	private void updateDrawIndex(int index) {
@@ -302,6 +309,15 @@ public class PathTab extends Tab implements IWorkspace {
 		PathPoint point = new PathPoint(p, this.myPathTabModel.getPathWidth()); 
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
+		point.getCircle().setOnMouseClicked(e -> {
+			if(e.getButton().equals(MouseButton.PRIMARY)){
+	            if(e.getClickCount() == 2){
+	            	this.displayClickedPoint(p);
+	    			this.addPosition(point.getPosition().getX(), point.getPosition().getY());
+	    			this.currentBranch.add(point.getPosition());
+	            }
+	        }
+		});
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
@@ -324,6 +340,13 @@ public class PathTab extends Tab implements IWorkspace {
 		PathPoint point = new PathPoint(goal, this.myPathTabModel.getPathWidth()); 
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREEN);
+		point.getCircle().setOnMouseClicked(e -> {
+			 if(e.getButton().equals(MouseButton.PRIMARY)){
+		            if(e.getClickCount() == 2){
+		            	this.myPathTabModel.addGoalToActiveLevel(point.getPosition());
+		            }
+		        }
+		});
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
 
@@ -378,7 +401,6 @@ public class PathTab extends Tab implements IWorkspace {
 					Position pos = pathPoint.getPosition(); 
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
-//					System.out.println("Spawn set as: " + uv.getUnit().getProperties().getPosition());
 					success = true;
 				}
 				event.setDropCompleted(success);

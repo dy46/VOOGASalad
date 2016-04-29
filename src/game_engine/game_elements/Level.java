@@ -26,6 +26,8 @@ public class Level extends GameElement {
         this.startingLives = myLives;
         myWaves = new ArrayList<>();
         myBranches = new ArrayList<>();
+        myGoals = new ArrayList<>(); 
+        mySpawns = new ArrayList<>(); 
     }
 
     /*
