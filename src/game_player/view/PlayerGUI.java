@@ -14,6 +14,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import main.IMainView;
 
 
 public class PlayerGUI {
@@ -28,10 +29,12 @@ public class PlayerGUI {
     private TabPane myTabs;
     private ResourceBundle myResources;
     private GameEngineInterface gameEngine;
+    private IMainView myMainView;
 
-    public PlayerGUI (int windowWidth, int windowHeight) {
+    public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        this.myMainView = main;
         this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
     }
 
@@ -73,7 +76,7 @@ public class PlayerGUI {
         gameEngine = new EngineWorkspace();
         TestingGameData testData = new TestingGameData();
         gameEngine.setUpEngine(testData);
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene,
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView,
                                     myResources.getString("TabName") + (myTabs.getTabs().size() + 1))
                                                                               .getTab();
         myTabs.getTabs().add(tab);

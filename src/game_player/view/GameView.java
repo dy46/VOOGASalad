@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import main.IMainView;
 
 
 public class GameView implements IGameView {
@@ -161,5 +162,9 @@ public class GameView implements IGameView {
 
     public void restartGame () {
         // TODO Auto-generated method stub
+    }
+    
+    public IMainView getMainView() {
+    	return myTab.getMainView();
     }
 }

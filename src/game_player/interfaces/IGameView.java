@@ -4,6 +4,7 @@ import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
 import javafx.scene.Scene;
+import main.IMainView;
 
 
 /**
@@ -39,5 +40,7 @@ public interface IGameView {
     void setCanPlaceUnit(boolean canPlaceUnit);
     
     Scene getScene();
+    
+    IMainView getMainView();
     
 }

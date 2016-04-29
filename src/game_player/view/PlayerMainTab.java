@@ -18,6 +18,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import main.IMainView;
 
 public class PlayerMainTab implements IPlayerTab {
     
@@ -28,6 +29,7 @@ public class PlayerMainTab implements IPlayerTab {
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
     private static final String PACKAGE_NAME = "game_player.";
     private static final int PANEL_PADDING = 10;
+    private static final int CONFIGURATION_PANEL_PADDING = 20;
     private Tab myTab;
     private BorderPane myRoot;
     private ResourceBundle myResources;
@@ -38,6 +40,7 @@ public class PlayerMainTab implements IPlayerTab {
     private GameCanvas myCanvas;
     private GameHUD myHUD;
     private Scene myScene;
+    private IMainView myMainView;
     private String tabName;
     private VBox gameSection;
     private VBox configurationPanel;
@@ -50,6 +53,7 @@ public class PlayerMainTab implements IPlayerTab {
     public PlayerMainTab (GameEngineInterface engine,
                           ResourceBundle r,
                           Scene scene,
+                          IMainView main,
                           String tabName) {
         this.gameEngine = engine;
         this.myResources = r;
@@ -57,6 +61,7 @@ public class PlayerMainTab implements IPlayerTab {
         this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
         this.gameData = new GameDataSource();
         this.myScene = scene;
+        this.myMainView = main;
         this.tabName = tabName;
         this.gameData.setDoubleValue("High Score", 0);
     }
@@ -113,7 +118,7 @@ public class PlayerMainTab implements IPlayerTab {
 
     private void createUISections () {
         gameSection = new VBox();
-        configurationPanel = new VBox(PANEL_PADDING);
+        configurationPanel = new VBox(CONFIGURATION_PANEL_PADDING);
         gameMenu = new VBox(PANEL_PADDING);
         gamePanel = new VBox(PANEL_PADDING);
         towerPanel = new VBox(PANEL_PADDING);
@@ -164,5 +169,9 @@ public class PlayerMainTab implements IPlayerTab {
 
     protected void addToGamePanel (Node element) {
         gamePanel.getChildren().add(element);
+    }
+    
+    protected IMainView getMainView() {
+    	return myMainView;
     }
 }

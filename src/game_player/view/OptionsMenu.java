@@ -94,4 +94,8 @@ public class OptionsMenu extends PlayerMenu {
             ex.printStackTrace();
         }
     }
+    
+    protected void returnToAuth() {
+    	myView.getMainView().displayAuth();
+    }
 }
