@@ -1,5 +1,7 @@
 package auth_environment.Models;
 
+import java.util.List;
+
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
@@ -55,5 +57,39 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	@Override
 	public String getSplashFile() {
 		return this.myAuthModel.getIAuthEnvironment().getSplashScreen();
+	}
+
+	@Override
+	public List<String> getScoreUpdateNames() {
+		return null;
+	}
+
+	@Override
+	public List<String> getWaveGoalNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getPlaceValidationNames() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void chooseScoreUpdate(String selectedItem) {
+		
+	}
+
+	@Override
+	public void chooseWaveGoal(String selectedItem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void choosePlaceValidation(String selectedItem) {
+		// TODO Auto-generated method stub
+		
 	}
 }
