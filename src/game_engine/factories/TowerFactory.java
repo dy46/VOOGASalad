@@ -56,15 +56,15 @@ public class TowerFactory {
 		Affector move = myAffectorLibrary.getAffector("RangeConstantPosition", "Move");
 		move.setTTL(Integer.MAX_VALUE);
 		Unit p =
-				new Unit("TackProjectile", Arrays.asList(move), 3);
+				new Unit("Tack_Projectile", Arrays.asList(move), 3);
 		p.setDeathDelay(30);
 		p.setTTL(60);
 		Velocity velocity = new Velocity(0.5, 180);
 		List<Position> l1 = new ArrayList<>();
-		l1.add(new Position(-30, -30));
-		l1.add(new Position(30, -30));
-		l1.add(new Position(30, 30));
-		l1.add(new Position(-30, 30));
+		l1.add(new Position(-20, -20));
+		l1.add(new Position(20, -20));
+		l1.add(new Position(20, 20));
+		l1.add(new Position(-20, 20));
 		Bounds b = new Bounds(l1);
 		State st = new State(2);
 		Branch p2 = new Branch();
@@ -185,11 +185,10 @@ public class TowerFactory {
 			Position startingPosition,
 			Store myStore) {
 		List<Unit> myProjectiles = new ArrayList<>();
-//		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
-		Affector move = myAffectorLibrary.getAffector("Cursor", "Direction");
+		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
+//		Affector move = myAffectorLibrary.getAffector("Cursor", "Direction");
 		move.setTTL(Integer.MAX_VALUE);
-		Unit p =
-				new Unit("Projectile",
+		Unit p = new Unit("Projectile",
 						Arrays.asList(move), 3);
 		Affector increase = myAffectorLibrary.getAffector("Increase", "Range");
 		myStore.addUpgrade(p, increase, 100);
@@ -197,10 +196,10 @@ public class TowerFactory {
 		p.setTTL(1000000);
 		Velocity velocity = new Velocity(2, 90);
 		List<Position> l1 = new ArrayList<>();
-		l1.add(new Position(-30, -30));
-		l1.add(new Position(30, -30));
-		l1.add(new Position(30, 30));
-		l1.add(new Position(-30, 30));
+		l1.add(new Position(-20, -20));
+		l1.add(new Position(20, -20));
+		l1.add(new Position(20, 20));
+		l1.add(new Position(-20, 20));
 		Bounds b = new Bounds(l1);
 		State st = new State(2);
 		Branch p2 = new Branch();
@@ -237,10 +236,10 @@ public class TowerFactory {
 		t.setChildren(myProjectiles);
 		myProjectiles.stream().forEach(p -> p.addParent(t));
 		List<Position> l1 = new ArrayList<>();
-		l1.add(new Position(-30, -30));
-		l1.add(new Position(30, -30));
-		l1.add(new Position(30, 30));
-		l1.add(new Position(-30, 30));
+		l1.add(new Position(-20, -20));
+		l1.add(new Position(20, -20));
+		l1.add(new Position(20, 20));
+		l1.add(new Position(-20, 20));
 		Bounds b = new Bounds(l1);
 		Health health2 = new Health(50);
 		Velocity velocity2 = new Velocity(0, 180);

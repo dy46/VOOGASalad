@@ -3,6 +3,7 @@ package auth_environment.delegatesAndFactories;
 import java.io.File;
 
 import javafx.scene.control.ContextMenu;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -22,11 +23,21 @@ public class FileChooserDelegate {
     	return this.fileFromWindow(this.addXMLFilter(this.initChooser(title)));
     }
     
+    public File chooseDirectory(String title) {
+    	return this.directoryFromWindow(this.initDirectoryChooser(title));
+    }
+    
     // TODO: refactor
     public File save(String title) {
     	ContextMenu prefWindow = new ContextMenu();
         File file = this.initChooser(title).showSaveDialog(prefWindow.getOwnerWindow());
         return file;
+    }
+    
+    private File directoryFromWindow(DirectoryChooser d) {
+    	ContextMenu prefWindow = new ContextMenu();
+    	File dir = d.showDialog(prefWindow.getOwnerWindow()); 
+    	return dir; 
     }
     
     private File fileFromWindow(FileChooser f) {
@@ -39,6 +50,12 @@ public class FileChooserDelegate {
     	FileChooser f = new FileChooser();
     	f.setTitle(title);
     	return f; 
+    }
+    
+    private DirectoryChooser initDirectoryChooser(String title) {
+    	DirectoryChooser d = new DirectoryChooser(); 
+    	d.setTitle(title);
+    	return d; 
     }
     
     private FileChooser addImageFilter(FileChooser f) {

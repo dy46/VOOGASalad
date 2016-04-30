@@ -25,40 +25,30 @@ public interface IAuthEnvironment extends IGameData {
 	// GlobalGameTab
 	
 	public String getGameName(); 
-
 	public void setGameName(String name);
 		
 	public String getSplashScreen(); 
-
 	public void setSplashScreen(String fileName); 	
 	
 	// Path Tab
 	
-	public List<Position> getGoals();
-	
-	public void setGoals(List<Position> goals);
-	
-	public List<Position> getSpawns();
-	
-	public void setSpawns(List<Position> spawns); 
-	
-	// Unit / Affector Creator Tab
-	
 	public List<Unit> getTowers(); 
-
 	public void setTowers(List<Unit> towers); 
 	
 	public List<Unit> getTerrains(); 
-
 	public void setTerrains(List<Unit> terrains); 
 		
 	public List<Unit> getEnemies(); 
-
 	public void setEnemies(List<Unit> enemies); 	
 	
     public List<Unit> getProjectiles();
-
 	public void setProjectiles(List<Unit> projectiles); 
+	
+	public List<Position> getGoals();
+	public void setGoals(List<Position> goals);
+
+	public List<Position> getSpawns();
+	public void setSpawns(List<Position> spawns);
 	    	
 	// For UnitCreation integration, issue 190
 	

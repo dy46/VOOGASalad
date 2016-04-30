@@ -1,7 +1,6 @@
 package auth_environment.Models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,8 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;
-		myTerrains = auth.getTerrains();
+		this.myTerrains = new ArrayList<Unit>(); 
+		
 	}
 
 //	public List<Unit> getSampleUnits() {
@@ -30,9 +30,15 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 //	       return Arrays.asList(unit);
 //	   }
 	
+	public void refresh(IAuthEnvironment auth) {
+		this.myAuthData = auth; 
+		this.myTerrains = auth.getUnitFactory().getUnitLibrary().getUnits();
+	}
+	
 	public void addTerrain(double xPos, double yPos, Unit element){
 		element.getProperties().getPosition().setX(xPos);
 		element.getProperties().getPosition().setY(yPos);
+		myAuthData.getPlacedUnits().add(element); 
 		myMap.put(new Position(xPos, yPos), element);
 	}
 	

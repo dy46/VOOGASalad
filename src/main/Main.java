@@ -3,6 +3,7 @@ package main;
 import game_player.view.PlayerGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import utility.CloudStorageFrontend;
 
 public class Main extends Application {
 
@@ -19,4 +20,5 @@ public class Main extends Application {
 //		primaryStage.setScene(myView.createPlayerScene());
 //		primaryStage.show();
 	}
+	
 }

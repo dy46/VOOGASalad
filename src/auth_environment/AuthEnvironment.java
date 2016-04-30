@@ -56,15 +56,14 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 
 	@Override
+	public String getGameName() {
+		return this.myName; 
+	}
+	@Override
 	public void setGameName(String name) {
 		this.myName = name; 
 	}
 
-	@Override
-	public String getGameName() {
-		return this.myName; 
-	}
-	
 	@Override
 	public String getSplashScreen() {
 		return this.mySplashFileName;
@@ -235,7 +234,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public MapHandler getMapHandler() {
 		return myMapHandler; 
 	}
-
 	@Override
 	public void setMapHandler(MapHandler mapHandler) {
 		myMapHandler = mapHandler;

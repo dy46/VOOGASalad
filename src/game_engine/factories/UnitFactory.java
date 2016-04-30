@@ -50,16 +50,26 @@ public class UnitFactory {
         String unitType = getUnitType(inputs.get("Unit Type"));
         UnitProperties newProperties = new UnitProperties();
         newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
-        // newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
-        // newProperties.setMassProp(getUnitMass(inputs.get("Mass")));
+        newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
+        newProperties.setVelocity(Double.parseDouble(inputs.get("Speed")), Double.parseDouble(inputs.get("Direction")));
         newProperties.setStateProp(getUnitState(inputs.get("State")));
+        List<Position> l1 = new ArrayList<>();
+        l1.add(new Position(-20, -20));
+		l1.add(new Position(20, -20));
+		l1.add(new Position(20, 20));
+		l1.add(new Position(-20, 20));
+        Bounds b = new Bounds(l1);
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);
+        System.out.println("bounds set " + b.toString());
+        unitProperties.setBounds(b);
         Unit unit =
                 createUnit(getName(type, unitType), unitProperties,
                            Integer.parseInt(inputs.get("NumFrames")));
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));
+        System.out.println("AFFECTORS ARE");
+        System.out.println(unit.getAffectors());
         unit.setDeathDelay(Integer.parseInt(inputs.get("Death Delay")));
         return unit;
     }
@@ -78,7 +88,12 @@ public class UnitFactory {
             return new ArrayList<>();
         }
         List<Affector> affectors = new ArrayList<>();
-        names.stream().forEach(n -> affectors.add(myAffectorLibrary.getAffector(n)));
+        System.out.println("AFFECTOR NAMES ARE" + names);
+        names.stream().forEach(n -> {
+        	affectors.add(myAffectorLibrary.getAffector(n));
+        	System.out.println(n);
+        });
+        System.out.println(affectors);
         return affectors;
     }
 
@@ -87,7 +102,7 @@ public class UnitFactory {
     }
 
     private String getName (String type, String unitType) {
-        return type + unitType;
+        return type + "_" + unitType;
     }
 
     private Unit createUnit (String name, UnitProperties unitProperties, int numFrames) {

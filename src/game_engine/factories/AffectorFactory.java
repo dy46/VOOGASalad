@@ -37,6 +37,7 @@ public class AffectorFactory {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		affector.setTTL(Integer.MAX_VALUE);
 		myAffectorLibrary.addAffector(property, effect, affector);
 	}
 	

@@ -1,13 +1,11 @@
 package auth_environment.view.tabs;
 
-import java.util.List;
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
-import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -44,7 +42,6 @@ public class MapEditorTab implements IWorkspace {
 	private ContextMenu myContextMenu;
 	
 	private MapEditorTabModel myModel;
-	private List<Unit> myTerrains;
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myAuth;
 	
@@ -55,7 +52,6 @@ public class MapEditorTab implements IWorkspace {
 		this.myAuthModel = auth;
 		this.myAuth = auth.getIAuthEnvironment();
 		this.myModel = new MapEditorTabModel(myAuth); 
-		this.myTerrains = myModel.getTerrains();
 		this.buildTerrainChooser();
 		this.buildMapPane();
 		this.setupBorderPane();
@@ -75,16 +71,18 @@ public class MapEditorTab implements IWorkspace {
 	
 	private void refresh(){
 		this.myAuth = myAuthModel.getIAuthEnvironment();
-		this.myModel = new MapEditorTabModel(myAuthModel.getIAuthEnvironment());
+		this.myModel.refresh(this.myAuth);
+		System.out.println("Test " + this.myModel.getTerrains());
+		this.myPicker.setUnits(this.myModel.getTerrains());
 	}
 	
 	public void buildTerrainChooser(){
-		if(myTerrains.equals(null)){
+		if(this.myModel.getTerrains().equals(null)){
 			myPicker = new UnitPicker("Terrains");
 			System.out.println("WIEOJROIEJTET");
 		}
 		else{
-			myPicker = new UnitPicker("Terrains", myTerrains);
+			myPicker = new UnitPicker("Terrains", this.myModel.getTerrains());
 		}
 	}
 	
@@ -156,7 +154,6 @@ public class MapEditorTab implements IWorkspace {
 //					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
 //					System.out.println(db.getImage());
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
-					
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 					if(target.getClass().getName().equals("Pane")){
 						

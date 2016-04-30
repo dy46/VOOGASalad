@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.handlers.VisibilityHandler;
+import game_engine.interfaces.ICollisionDetector;
 import game_engine.physics.CollisionDetector;
 import game_engine.properties.Position;
 
@@ -26,7 +28,7 @@ public class AISimulator {
 	private AISearcher myAISearcher;
 	private AIHandler myAIHandler;
 	private VisibilityHandler myVisibility;
-	private CollisionDetector collisionDetector;
+	private ICollisionDetector collisionDetector;
 
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;
@@ -36,60 +38,35 @@ public class AISimulator {
 		collisionDetector = new CollisionDetector(engine);
 	}
 
-	public boolean simulateEnemyPathFollowing(Unit obstacle) {
-		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
-		HashMap<Branch, List<Branch>> newBranchPaths = new HashMap<>();
-		HashMap<Position, List<Branch>> newPosPaths = new HashMap<>();
-		HashMap<Unit, List<Branch>> newUnitPaths = new HashMap<>();
-		HashMap<Branch, List<Branch>> cachednewBranchPaths = myAIHandler.getBranchPaths();
-		HashMap<Position, List<Branch>> cachednewPosPaths = myAIHandler.getPositionPaths();
-		HashMap<Unit, List<Branch>> cachednewUnitPaths = myAIHandler.getUnitPaths();
-		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
+	public boolean simulateTowerPlacement(Unit obstacle) {
+		List<Position> visibleNodes = myVisibility.getVisibleNodes(obstacle);
+		List<Unit> activeAI = myAIHandler.getActiveAIEnemies();
+		if(activeAI.size() == 0){
+			return true;
+		}
+		List<Position> goals = myEngine.getLevelController().getCurrentLevel().getGoals();
+		BFSTuple myBFS = myAISearcher.getBFSTuple(goals, visibleNodes);
+		if(!myAISearcher.isValidSearch(myBFS)){
 			return false;
 		}
-		for(Unit e : myAIHandler.getActiveAIEnemies()){
-			Position currPos = e.getProperties().getPosition();
+		HashMap<Unit, List<Branch>> newPaths = new HashMap<>();
+		for(Unit e : activeAI){
 			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
-			List<Branch> oldShortestPath = cachednewUnitPaths.get(e);
-			for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
-				if(continueSearch(oldShortestPath, visibilityBranches)){
-					List<Branch> cachedBranchPath = cachednewBranchPaths.get(currBranch);
-					if(continueSearch(cachedBranchPath, visibilityBranches)){
-						List<Branch> cachedPosPath = cachednewPosPaths.get(currPos);
-						if(continueSearch(cachedPosPath, visibilityBranches)){
-							List<Branch> newShortestPath = myAISearcher.getShortestPathToGoal(currPos, goal, visibilityBranches);
-							if(newShortestPath == null || simulateEnemyBranchCollisions(e, newShortestPath, obstacle)){
-								System.out.println("SIMULATION FAILS");
-								return false;
-							}
-							else{
-								newPosPaths.put(currPos, newShortestPath);
-								newBranchPaths.put(currBranch, newShortestPath);
-								newUnitPaths.put(e, newShortestPath);
-							}
-						}
-						else{
-							newPosPaths.put(currPos, cachedBranchPath);
-						}
-					}
-					else{
-						newBranchPaths.put(currBranch, cachedBranchPath);
-					}
-				}
-				else{
-					newUnitPaths.put(e, oldShortestPath);
-				}
+			Position currPos = e.getProperties().getPosition();
+			Position movingTowards = e.getProperties().getMovement().getMovingTowards();
+			List<Branch> newPath = movingTowards.equals(currBranch.getLastPosition()) ? myBFS.getPathTo(currBranch.getFirstPosition(), currBranch, currPos) : myBFS.getPathTo(currBranch.getLastPosition(), currBranch, currPos);
+			if(newPath == null || simulatedCollision(e, newPath, obstacle)){
+				return false;
+			}
+			else{
+				newPaths.put(e, newPath);
 			}
 		}
-		myAIHandler.updatePathMaps(newUnitPaths, newBranchPaths, newPosPaths);
+		myAIHandler.getActiveAIEnemies().stream().forEach(e -> e.getProperties().getMovement().setBranches(newPaths.get(e)));
 		return true;
 	}
 
-	private boolean continueSearch(List<Branch> path, List<Branch> visibility){
-		return path == null || !myAISearcher.isValidSearchProblem(path, visibility);
-	}
-
-	private boolean simulateEnemyBranchCollisions (Unit enemy, List<Branch> newBranches, Unit obstacle) {
+	private boolean simulatedCollision (Unit enemy, List<Branch> newBranches, Unit obstacle) {
 		List<Unit> obstacles = myEngine.getUnitController().getUnitType("Tower");
 		List<Unit> obstaclesCopy =
 				obstacles.stream().map(o -> o.copyShallowUnit()).collect(Collectors.toList());

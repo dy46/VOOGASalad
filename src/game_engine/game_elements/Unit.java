@@ -21,6 +21,7 @@ public class Unit extends GameElement {
 
     private List<Unit> parents;
     private UnitProperties myProperties;
+    private UnitProperties myBaseProperties;
     private List<Affector> myAffectors;
     private List<Affector> myAffectorsToApply;
     private int TTL;
@@ -35,32 +36,39 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = new UnitProperties();
+        myBaseProperties = myProperties.copyUnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
         addAffectors(affectors);
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
+        this.TTL = Integer.MAX_VALUE;
     }
-
     public Unit (String name, UnitProperties unitProperties, int numFrames) {
         super(name);
         initialize();
         myProperties = unitProperties;
+        myBaseProperties = unitProperties.copyUnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
+        this.TTL = Integer.MAX_VALUE;
     }
 
     public Unit (String name, int numFrames) {
         super(name);
         initialize();
         myProperties = new UnitProperties();
+        myBaseProperties = myProperties.copyUnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
+        this.TTL = Integer.MAX_VALUE;
     }
-
+    public String getType(){
+    	return this.getName().split("\\s+")[0];
+    }
     public Unit copyUnit () {
         Unit copy = this.copyShallowUnit();
         List<Unit> copiedChildren =
@@ -257,16 +265,6 @@ public class Unit extends GameElement {
                 x--;
             }
         }
-    }
-    
-    public void turnAround () {
-        Movement myMovement = this.myProperties.getMovement();
-        Branch currBranch = myMovement.getCurrentBranch();
-        Position movingTowards = myMovement.getMovingTowards();
-        myMovement.setMovingTowards(currBranch.getFirstPosition().equals(movingTowards) ? currBranch
-                .getLastPosition() : currBranch.getFirstPosition());
-        double nextDir = myMovement.getNextDirection();
-        this.myProperties.getVelocity().setDirection(nextDir);
     }
 
 }
