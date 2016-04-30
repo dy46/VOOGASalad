@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.handlers.VisibilityHandler;
+import game_engine.interfaces.ICollisionDetector;
 import game_engine.physics.CollisionDetector;
 import game_engine.properties.Position;
 
@@ -26,7 +28,7 @@ public class AISimulator {
 	private AISearcher myAISearcher;
 	private AIHandler myAIHandler;
 	private VisibilityHandler myVisibility;
-	private CollisionDetector collisionDetector;
+	private ICollisionDetector collisionDetector;
 
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;
@@ -37,24 +39,30 @@ public class AISimulator {
 	}
 
 	public boolean simulateTowerPlacement(Unit obstacle) {
-		List<Branch> visibilityBranches = myVisibility.getVisibilityBranches(obstacle);
-		if(!myAISearcher.isValidSearchProblem(visibilityBranches)){
+		List<Position> visibleNodes = myVisibility.getVisibleNodes(obstacle);
+		List<Unit> activeAI = myAIHandler.getActiveAIEnemies();
+		if(activeAI.size() == 0){
+			return true;
+		}
+		List<Position> goals = myEngine.getLevelController().getCurrentLevel().getGoals();
+		BFSTuple myBFS = myAISearcher.getBFSTuple(goals, visibleNodes);
+		if(!myAISearcher.isValidSearch(myBFS)){
 			return false;
 		}
-		HashMap<Unit, List<Branch>> newShortestPaths = new HashMap<>();
-		for(Unit e : myAIHandler.getActiveAIEnemies()){
+		HashMap<Unit, List<Branch>> newPaths = new HashMap<>();
+		for(Unit e : activeAI){
+			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
 			Position currPos = e.getProperties().getPosition();
-			for(Position goal : myEngine.getLevelController().getCurrentLevel().getGoals()){
-				List<Branch> newShortestPath = myAISearcher.getBFSPath(currPos, goal, visibilityBranches);
-				if(newShortestPath == null || simulatedCollision(e, newShortestPath, obstacle)){
-					return false;
-				}
-				else{
-					newShortestPaths.put(e, newShortestPath);
-				}
+			Position movingTowards = e.getProperties().getMovement().getMovingTowards();
+			List<Branch> newPath = movingTowards.equals(currBranch.getLastPosition()) ? myBFS.getPathTo(currBranch.getFirstPosition(), currBranch, currPos) : myBFS.getPathTo(currBranch.getLastPosition(), currBranch, currPos);
+			if(newPath == null || simulatedCollision(e, newPath, obstacle)){
+				return false;
+			}
+			else{
+				newPaths.put(e, newPath);
 			}
 		}
-		myAIHandler.getActiveAIEnemies().stream().forEach(e -> e.getProperties().getMovement().setBranches(newShortestPaths.get(e)));
+		myAIHandler.getActiveAIEnemies().stream().forEach(e -> e.getProperties().getMovement().setBranches(newPaths.get(e)));
 		return true;
 	}
 

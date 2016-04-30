@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import game_engine.game_elements.Branch;
+import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
 
@@ -10,17 +11,17 @@ public class PathGraphFactory {
 
 	private PathLibrary myPathLibrary;
 	private PositionHandler myPositionHandler;
-	private BranchHandler myBranchHandler;
+	private BranchConfigurer myBranchHandler;
 
 	public PathGraphFactory(){
 		myPositionHandler = new PositionHandler();
 		myPathLibrary = new PathLibrary();
-		myBranchHandler = new BranchHandler();
+		myBranchHandler = new BranchConfigurer();
 	}
 
 	public PathGraphFactory(List<Branch> branches){
 		this.myPathLibrary = new PathLibrary(branches);
-		myBranchHandler = new BranchHandler();
+		myBranchHandler = new BranchConfigurer();
 		myPositionHandler = new PositionHandler();
 	}
 
@@ -82,7 +83,7 @@ public class PathGraphFactory {
 		}
 		return branchPosLists;
 	}
-
+	
 	private Position[][] createPosGrid(double width, double length, double sideLength){
 		int numSquareCols = (int)Math.floor(width/sideLength) + 1;
 		int numSquareRows = (int)Math.floor(length/sideLength) + 1;
@@ -106,5 +107,11 @@ public class PathGraphFactory {
 	public List<Branch> getBranches(){
 		return myPathLibrary.getBranches();
 	}
-
+	
+	//TODO REFACTOR OUT THIS IS UGLY
+	public List<Branch> getGravityDefenseGameBranches()
+	{
+		
+		return null;
+	}
 }

@@ -18,11 +18,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+/*
+ * Example code demonstrating how to integrate cloud storage with front-end
+ */
 public class CloudStorageFrontend {
 	
     private static final String MESSAGE = "new files have been uploaded!";
-
+    private static final String RESOURCE_PATH = "utility/recvlist";
+    private static final String MY_NUMBER = "+12056600267";
+    private static final String ACCOUNT_SID = "AC7fc35c31998ec586534822716579d284";
+    private static final String AUTH_TOKEN = "09a2ae71719093f892ee57a320eba40f";
 	private Scene myScene;
 	private VBox myRoot;
 	private TextField myKeyInput; 
@@ -108,6 +113,7 @@ public class CloudStorageFrontend {
 			this.myDevKey = this.myKeyInput.getText();
 			try {
 				this.c = new CloudStorage(this.myDevKey);
+				this.c.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
 			} catch (Exception e1) {
 				System.out.println("Invalid developer token"); 
 			}
@@ -118,6 +124,8 @@ public class CloudStorageFrontend {
 			this.myDevKey = this.myKeyInput.getText();
 			try {
 				this.c = new CloudStorage(this.myDevKey);
+				this.c.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
+
 			} catch (Exception e1) {
 				System.out.println("Invalid developer token"); 
 			}

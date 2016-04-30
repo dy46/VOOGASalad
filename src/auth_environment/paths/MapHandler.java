@@ -4,15 +4,36 @@ import java.util.Arrays;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
+import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
 public class MapHandler {
+	
+	/*
+	 * In order to make a path using this class.... Patrick Grady 2:45PM 4/29/2016
+	 * 
+	 * 	
+	 	MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
+		List<Position> path = new ArrayList<>();
 
+		path.add(new Position(500, 200));
+		path.add(new Position(200, 200));
+		path.add(new Position(150, 400));
+		path.add(new Position(50, 400));
+		path.add(new Position(500, 401));
+
+		mh.processPositions(path);
+		mh.addSpawn(path.get(0));
+		mh.addGoal(path.get(path.size() - 1));
+
+		myBranches = mh.getEngineBranches();
+		l.setGoals(mh.getGoals());
+		l.setSpawns(mh.getSpawns());
+	 */
+	
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myEngineBranches;
-	private List<Branch> myGridBranches;
-	private List<Branch> myVisualBranches;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
 
@@ -20,19 +41,20 @@ public class MapHandler {
 		myPGF = new PathGraphFactory();
 		myPositionHandler = new PositionHandler();
 		myEngineBranches = new ArrayList<>();
-		myGridBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
 		createGrid();
 //		insertTestBranches();
 	}
 
-	public MapHandler(List<Branch> engineBranches, List<Branch> gridBranches, List<Branch> visualBranches){
+	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){
 		myEngineBranches = engineBranches;
-		myGridBranches = gridBranches;
-		myVisualBranches = visualBranches;
+		this.mySpawns = spawns; 
+		this.myGoals = goals; 
 		myPGF = new PathGraphFactory(engineBranches);
 		myPositionHandler = new PositionHandler();
+		mySpawns = new ArrayList<>();
+		myGoals = new ArrayList<>();
 		//		insertTestBranches();
 	}
 
@@ -56,16 +78,16 @@ public class MapHandler {
 	}
 
 	public void createGrid(){
+		System.out.println("call create grid");
 		double screenWidth = 500;
 		double screenHeight = 500;
-		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
-		mySpawns = new ArrayList<Position>();
-		mySpawns.add(myPGF.getBranches().get(0).getFirstPosition());
 		addGoal(new Position(500, 500));
+		addSpawn(new Position(0, 0));
+		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/2500;
+		return screenWidth*screenHeight/5000;
 	}
 
 	public void insertTestBranches(){
@@ -111,14 +133,6 @@ public class MapHandler {
 	public List<Branch> getEngineBranches() {
 		myEngineBranches.addAll(myPGF.getBranches());
 		return myEngineBranches;
-	}
-
-	public List<Branch> getGridBranches(){
-		return myGridBranches;
-	}
-	
-	public List<Branch> getVisualBranches(){
-		return myVisualBranches;
 	}
 
 	public List<Position> getGoals() {

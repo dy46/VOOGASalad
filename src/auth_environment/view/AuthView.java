@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
 
 import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.view.Interfaces.IAuthView;
 import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.PathTab;
+import auth_environment.view.tabs.ElementCreationTab;
 import auth_environment.view.tabs.LevelOverviewTab;
 import auth_environment.view.tabs.MapEditorTab;
 import javafx.scene.Scene;
@@ -26,7 +26,7 @@ import main.IMainView;
  * This is the most general frontend/view class and contains a reference to the main Stage and tabs. 
  */
 
-public class AuthView implements IAuthView {
+public class AuthView  {
 	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
@@ -53,7 +53,8 @@ public class AuthView implements IAuthView {
     	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel, "Edit Map"); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
-    	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
+    	ElementCreationTab creationTab = new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), this.globalAuthModel, myNamesBundle);
+    	tabs.add(creationTab.getRoot());
 //    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab("Edit Map", mapEditorTab.getRoot())); 
     	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), this.globalAuthModel));
@@ -71,7 +72,7 @@ public class AuthView implements IAuthView {
 		myTabs.getTabs().addAll(this.defaultTabs());
     }
 
-    public void display() {
-    	this.myStage.show();
-    } 
+//    public void display() {
+//    	this.myStage.show();
+//    } 
 }

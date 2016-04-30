@@ -1,10 +1,11 @@
-package game_engine;
+package game_engine.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.IStore;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.store_elements.Store;
@@ -14,7 +15,7 @@ public class UnitController {
 
     private List<Unit> myPlacedUnits;
     private List<PlaceValidation> myPlaceValidations;
-    private Store myStore;
+    private IStore myStore;
     private List<Unit> unitsToRemove;
 
     public UnitController (List<Unit> myPlacedUnits,
@@ -99,7 +100,7 @@ public class UnitController {
         return myPlacedUnits;
     }
 
-    public Store getStore () {
+    public IStore getStore () {
         return myStore;
     }
 }

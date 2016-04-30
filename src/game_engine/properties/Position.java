@@ -94,4 +94,9 @@ public class Position extends Property implements Serializable{
 		return 15;
 	}
 
+	@Override
+	public boolean isBaseProperty() {
+		return false;
+	}
+
 }
