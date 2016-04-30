@@ -6,6 +6,7 @@ import auth_environment.paths.MapHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -111,5 +112,9 @@ public interface IAuthEnvironment {
 	public List<Position> getGoals();
 
 	public List<Position> getSpawns();
+	
+	public StoreFactory getStoreFactory();
+	
+	public void setStoreFactory(StoreFactory factory); 
 	
 }

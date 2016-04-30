@@ -9,6 +9,7 @@ import game_engine.TestingEngineWorkspace;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -59,6 +60,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	private UnitFactory myUnitFactory; 
 	private FunctionFactory myFunctionFactory; 
 	private AffectorFactory myAffectorFactory;
+	private StoreFactory myStoreFactory; 
 
 	public SampleAuthData() {
 		this.myName = "sampleGame";
@@ -73,6 +75,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
 		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory);
+		this.myStoreFactory = new StoreFactory(this.myUnitFactory.getUnitLibrary(), this.myAffectorFactory.getAffectorLibrary()); 
 		this.myMapHandler = new MapHandler(); 
 		this.setupDummyValues();
 	}
@@ -279,6 +282,16 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public MapHandler getMapHandler() {
 		return myMapHandler; 
+	}
+
+	@Override
+	public StoreFactory getStoreFactory() {
+		return this.myStoreFactory;
+	}
+
+	@Override
+	public void setStoreFactory(StoreFactory factory) {
+		this.myStoreFactory = factory; 
 	}
 	
 }
