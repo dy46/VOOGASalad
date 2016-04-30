@@ -48,19 +48,17 @@ public class AuthView  {
         setupApperance();
     }
     
+    // TODO: refactor
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
-    	// TODO: cleanup
-    	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
-//    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
+    	
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
-    	ElementCreationTab creationTab = new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), this.globalAuthModel, myNamesBundle);
-    	tabs.add(creationTab.getRoot());
-//    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
-    	tabs.add(new Tab("Edit Map", mapEditorTab.getRoot())); 
-    	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), this.globalAuthModel));
-    	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));
-    	tabs.add(new StoreTab(myNamesBundle.getString("storeTabTitle"), this.globalAuthModel));
+    	tabs.add(new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), globalAuthModel, myNamesBundle));
+    	tabs.add(new MapEditorTab(myNamesBundle.getString("mapTabTitle"), globalAuthModel));
+    	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), globalAuthModel));
+    	tabs.add(new LevelOverviewTab("Level", globalAuthModel));
+    	tabs.add(new StoreTab(myNamesBundle.getString("storeTabTitle"), globalAuthModel));
+    	
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
@@ -68,13 +66,10 @@ public class AuthView  {
 	private void setupApperance() {
     	myTabs = new TabPane();
 		myScene = new Scene(myTabs);
-        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); // TODO: allow Developer to toggle stylesheets
+        myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); 
         myStage.setScene(myScene);
 		myStage.setTitle(myNamesBundle.getString("wompTitle"));
-		myTabs.getTabs().addAll(this.defaultTabs());
+		myTabs.getTabs().addAll(defaultTabs());
     }
 
-//    public void display() {
-//    	this.myStage.show();
-//    } 
 }

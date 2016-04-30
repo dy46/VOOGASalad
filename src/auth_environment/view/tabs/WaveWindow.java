@@ -42,8 +42,7 @@ public class WaveWindow {
 	private Scene newScene;
 	
 	private NodeFactory myNodeFactory; 
-	
-	//TODO: Add Unit Library to WaveWindow constructor	
+		
 	public WaveWindow(String level, String wave, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		this.myAuthModel = authModel;
 		this.myLevelOverviewTabModel = levelOverview; 

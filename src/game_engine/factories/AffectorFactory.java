@@ -41,22 +41,43 @@ public class AffectorFactory {
 		myAffectorLibrary.addAffector(property, effect, affector);
 	}
 	
-	public Affector constructAffector(String name, String className, List<String> properties, List<List<Double>> functions) {
-	       List<List<Function>> doubleList = new ArrayList<>();
-	       for(int i = 0; i < functions.size(); i++) {
-	            List<Function> singleList = functions.get(i).stream()
-	                    .map(f -> myFunctionFactory.createConstantFunction(f))
-	                    .collect(Collectors.toList());
-	            doubleList.add(singleList);
+	public List<Function> convertToFunctions(List<String> functionNames, List<Double> functionValues) {
+	    List<Function> functionList = new ArrayList<>();
+	    for(int i = 0; i < functionNames.size(); i++) {
+	        if(functionNames.get(i).equals("Constant")) {
+	            System.out.println("hi");
+	            functionList.add(myFunctionFactory.createConstantFunction(functionValues.get(i)));	           	            
+	        }
+	    }
+	    return functionList;
+	}
+	
+	public Affector constructAffector(String name, String className, String property, int TTL, List<String> functionNames, List<Double> functionValues) {
+	       List<String> propertyList = new ArrayList<>();
+	       List<List<Function>> functionList = new ArrayList<>();
+	       functionNames.removeIf(f -> f == null);
+	       functionValues.removeIf(f -> f== null);
+	       AffectorData newData = null;
+	       if(property == null) {
+	           if(functionNames.size() == 0) {
+	               newData = new AffectorData();
+	           }
+	           else {
+	               functionList.add(convertToFunctions(functionNames, functionValues));
+	               propertyList.add(null);
+	           }
 	       }
-	       AffectorData newData = new AffectorData(doubleList, properties);
+	       else if (functionNames.size() == 0){
+	            propertyList.add(property);
+	            functionList.add(null);
+	       }
+	       else {
+	    	   propertyList.add(property);
+	    	   functionList.add(convertToFunctions(functionNames, functionValues));
+	       }
+	       newData = new AffectorData(functionList, propertyList);	       
 	       Affector newAffector = null;
 	       try {
-//	    	   System.out.println(className);
-//	    	   BasicDecrementAffector womp = new BasicDecrementAffector(newData);
-//				Class<?> c = womp.getClass();
-//				System.out.println(c.getName());
-	    	   
 	            newAffector =  (Affector) Class.forName(className).getConstructor(AffectorData.class)
 	                    .newInstance(newData);
 	       }
@@ -64,9 +85,13 @@ public class AffectorFactory {
 	           e.printStackTrace();
 	       }
 	       newAffector.setName(name);
+	       newAffector.setTTL(TTL);
 	       myAffectorLibrary.addAffector(name, newAffector);
+	       System.out.println(myAffectorLibrary.getAffectorNames());
 	       return newAffector;
 	    }
+	
+	
 
 	public void setDefaultAffectors(FunctionFactory myFunctionFactory){
 

@@ -18,12 +18,11 @@ public class GameSpeedSlider implements IGUIObject {
     private static final int SLIDER_DEFAULT = 1;
     private static final int SLIDER_MIN = 0;
     private static final double SLIDER_MAX = 4;
-    private static final int PADDING = 10;
     private static final int VBOX_SPACING = 5;
     private ResourceBundle myResources;
     private IGameView myView;
 
-    public GameSpeedSlider (ResourceBundle r, GameDataSource gameData, IGameView view) {
+    public GameSpeedSlider (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myView = view;
     }
@@ -43,7 +42,6 @@ public class GameSpeedSlider implements IGUIObject {
         animationSpeed.valueProperty().addListener(event -> setSpeed(animationSpeed.getValue()));
         sliderBox.setAlignment(Pos.TOP_CENTER);
         sliderBox.getChildren().addAll(sliderLabel, animationSpeed);
-        sliderBox.setPadding(new Insets(PADDING, PADDING, PADDING, PADDING));
         return sliderBox;
     }
 

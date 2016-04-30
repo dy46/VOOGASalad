@@ -10,7 +10,6 @@ public class AffectorTabModel implements IAffectorTabModel {
 	
 	public AffectorTabModel(IAuthEnvironment auth) {
 		this.myAffectorFactory = auth.getAffectorFactory();
-		this.myAffectorFactory.setDefaultAffectors(auth.getFunctionFactory());
 	}
 
 	@Override
