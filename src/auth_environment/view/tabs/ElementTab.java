@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import auth_environment.IAuthEnvironment;
 import auth_environment.Models.ElementTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IElementTabModel;
