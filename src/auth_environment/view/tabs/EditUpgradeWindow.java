@@ -19,11 +19,12 @@ public class EditUpgradeWindow {
 	private BorderPane mainPane = new BorderPane();
 	private GridPane upgradePane = new GridPane();
 	private IAuthModel authModel;
+	private String unitName;
 	private NodeFactory nodeFactory = new NodeFactory();
 
-	public EditUpgradeWindow(IAuthModel iAuthModel) {
+	public EditUpgradeWindow(String unitName, IAuthModel iAuthModel) {
 		authModel = iAuthModel;
-
+		this.unitName = unitName;
 		Stage stage = new Stage();
 		Group root = new Group();
 		mainPane.setCenter(upgradePane);
