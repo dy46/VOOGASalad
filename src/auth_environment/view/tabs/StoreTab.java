@@ -12,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 
 public class StoreTab extends Tab implements IWorkspace {
 
-	private BorderPane mainPane = new BorderPane();
+	private BorderPane myRoot;
 	private StoreTabModel myStoreTabModel;
 	private IStoreTabModel myStoreTabModelInterface;
 	private IAuthModel myAuthModel;
@@ -21,11 +21,21 @@ public class StoreTab extends Tab implements IWorkspace {
 	public StoreTab(String name, IAuthModel authModel) {
 		super(name);
 		myAuthModel = authModel;
-		setContent(mainPane);
+		init();
+	}
+	
+	private void init(){
+		myRoot = new BorderPane();
+		
+		setContent(myRoot);
+	}
+	
+	private void createProductList(){
+		
 	}
 
 	public Node getRoot() {
-		return mainPane;
+		return myRoot;
 	}
 
 }
