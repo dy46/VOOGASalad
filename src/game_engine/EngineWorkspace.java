@@ -51,7 +51,7 @@ public class EngineWorkspace implements GameEngineInterface {
         myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
-        myBranches = data.getBranches();
+        myBranches = data.getEngineBranches();
         myAffectors = data.getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
@@ -74,7 +74,7 @@ public class EngineWorkspace implements GameEngineInterface {
         List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
         myUnitController.getStore().clearBuyableUnits();
         // TODO: store should not be updated here
-        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
+//        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
         nextWaveTimer++;
         waveProgression(myCurrentLevel);
         myUnitController.getUnitType("Projectile").forEach(p -> p.update());

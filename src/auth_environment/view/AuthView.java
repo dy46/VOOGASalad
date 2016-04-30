@@ -10,7 +10,6 @@ import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.PathTab;
 import auth_environment.view.tabs.ElementCreationTab;
-import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.LevelOverviewTab;
 import auth_environment.view.tabs.MapEditorTab;
 import javafx.scene.Scene;
