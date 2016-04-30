@@ -31,7 +31,6 @@ public class AnimationLoaderTab{
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
 	private NodeFactory myNodeFactory;
-	private UnitFactory myUnitFactory;
 	
 	private Stage myStage;
 
@@ -40,12 +39,16 @@ public class AnimationLoaderTab{
 	private IAnimationTabModel myModel; 
 
 	// TODO: create abstract borderpane tab class
-	public AnimationLoaderTab(Unit unit, UnitFactory myUnitFactory) {
-		this.myUnitFactory = myUnitFactory;
+	public AnimationLoaderTab() {
 		this.myNodeFactory = new NodeFactory();
-		this.myModel = new AnimationTabModel(unit); 
+		this.myModel = new AnimationTabModel(); 
 		this.myHBox = new HBox();
 		this.setUpScene();
+	}
+	
+	public void setUnit(Unit unit){
+		this.myModel.setUnit(unit);
+		saveImages();
 	}
 	
 	private void setUpScene(){
@@ -53,8 +56,11 @@ public class AnimationLoaderTab{
 		Scene scene = new Scene(bp);
     	Stage stage = new Stage();
     	stage.setScene(scene);
-    	stage.show();
     	myStage = stage;
+	}
+	
+	public void show(){
+    	myStage.show();
 	}
 
 	private BorderPane setupBorderPane() {
@@ -72,13 +78,16 @@ public class AnimationLoaderTab{
 
 	private HBox makeDoneButton() {
 		Button done = this.myNodeFactory.buildButton(this.myNamesBundle.getString("doneImageButton"));
-		done.setOnAction(e -> this.saveImages());
+		done.setOnAction(e -> this.closeScene());
 		return this.myNodeFactory.centerNode(done);
 	}
 
 	private void saveImages(){
 		this.myModel.saveFiles();
-		myStage.close();
+	}
+	
+	private void closeScene(){
+		myStage.hide();
 	}
 
 	private HBox makeAddImageButton() {

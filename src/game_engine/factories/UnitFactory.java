@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import exceptions.CorrectableException;
 import exceptions.WompException;
 import game_engine.affectors.Affector;
@@ -42,7 +44,7 @@ public class UnitFactory {
     }
 
     // Pass field inputs here
-    public Unit createUnit (HashMap<String, String> inputs,
+    public Unit createUnit (Map<String, String> inputs,
                             List<String> children,
                             List<String> affectors,
                             List<String> affectorsToApply) {
@@ -117,6 +119,7 @@ public class UnitFactory {
     private String getUnitType (String str) {
         String type = str;
         if (type == null) {
+        	System.out.println("what");
             CorrectableException we =
                     new CorrectableException("Invalid name. Please enter a name.", String.class);
             type = we.getResult();
