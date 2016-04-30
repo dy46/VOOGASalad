@@ -43,7 +43,7 @@ public class MapHandler {
 		myEngineBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-		createGrid();
+//		createGrid();
 //		insertTestBranches();
 	}
 

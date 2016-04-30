@@ -81,8 +81,8 @@ public class SampleAuthData implements IAuthEnvironment {
 	}
 
 	private void setupDummyValues() {
-		TestingEngineWorkspace test = new TestingEngineWorkspace();
-		test.setUpEngine(this);
+//		TestingEngineWorkspace test = new TestingEngineWorkspace();
+//		test.setUpEngine(this);
 		this.myStore = new Store(1000);
 //		this.setTerrains(test.getTerrains());
 //		this.setTowers(test.getTowers());
