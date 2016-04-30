@@ -27,14 +27,14 @@ public abstract class GUIComboBox implements IGUIObject {
 	private String promptText;
 	private ObservableList<String> options;
 	
-	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view) {
+	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;
     }
 	
-	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, String text) {
-        this(r, gameData, view);
+	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, String text, PlayerGUI GUI) {
+        this(r, gameData, view, GUI);
         promptText = text;
     }
 	

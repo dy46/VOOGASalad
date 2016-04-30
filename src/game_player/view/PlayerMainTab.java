@@ -49,6 +49,7 @@ public class PlayerMainTab implements IPlayerTab {
     private IMainView myMainView;
     private String tabName;
     private MediaPlayer myMusic;
+    private PlayerGUI myGUI;
     private VBox gameSection;
     private VBox configurationPanel;
     private VBox gameMenu;
@@ -61,6 +62,7 @@ public class PlayerMainTab implements IPlayerTab {
                           ResourceBundle r,
                           Scene scene,
                           IMainView main,
+                          PlayerGUI GUI,
                           String tabName) {
         this.gameEngine = engine;
         this.myResources = r;
@@ -69,6 +71,7 @@ public class PlayerMainTab implements IPlayerTab {
         this.gameData = new GameDataSource();
         this.myScene = scene;
         this.myMainView = main;
+        this.myGUI = GUI;
         this.tabName = tabName;
         this.gameData.setDoubleValue("High Score", 0);
     }
@@ -103,8 +106,8 @@ public class PlayerMainTab implements IPlayerTab {
             String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
             try {
                 newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
-                        .getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class)
-                        .newInstance(myResources, gameData, gameView);
+                        .getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class, PlayerGUI.class)
+                        .newInstance(myResources, gameData, gameView, myGUI);
                 gameElements.add(newElement);
 
                 placeElement(newElement, keyAndPosition[1].trim());

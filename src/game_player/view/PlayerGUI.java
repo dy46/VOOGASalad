@@ -73,18 +73,27 @@ public class PlayerGUI {
         return gameData;
     }
 
-    private void createNewTab () {
+    protected void createNewTab () {
 //        gameEngine = new TestingEngineWorkspace();
 //        gameEngine.setUpEngine(null);
-        gameEngine = new EngineWorkspace();
-//        TestingGameData testData = new TestingGameData();
-        gameEngine.setUpEngine(readData());
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView,
+    	createNewEngine();
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
                                                                               .getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
     }
-
+    
+    private void createNewEngine() {
+        gameEngine = new EngineWorkspace();
+//        TestingGameData testData = new TestingGameData();
+        gameEngine.setUpEngine(readData());
+    }
+    
+    public void loadNewTab() {
+    	Tab tab = myTabs.getSelectionModel().getSelectedItem();
+    	myTabs.getTabs().remove(tab);
+    	createNewTab();
+    }
 }

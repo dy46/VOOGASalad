@@ -6,6 +6,7 @@ import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import game_player.view.GameCanvas;
+import game_player.view.PlayerGUI;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ public class PreferencesScrollPaneSize implements IGUIObject{
 	private TextField widthField;
 	private TextField heightField;
 	
-	public PreferencesScrollPaneSize(ResourceBundle r, GameDataSource gameData, IGameView view) {
+	public PreferencesScrollPaneSize(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;

@@ -6,6 +6,7 @@ import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import game_player.view.GUIComboBox;
+import game_player.view.PlayerGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -26,8 +27,8 @@ public class PreferencesDifficulty extends GUIComboBox {
 	private ComboBox<String> comboBox;
 	private Button comboBoxButton;
 	
-	public PreferencesDifficulty(ResourceBundle r, GameDataSource gameData, IGameView view) {
-		super(r, gameData, view, r.getString("DifficultyLabel"));
+	public PreferencesDifficulty(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
+		super(r, gameData, view, r.getString("DifficultyLabel"), GUI);
         myResources = r;
         myGameData = gameData;
         myView = view;

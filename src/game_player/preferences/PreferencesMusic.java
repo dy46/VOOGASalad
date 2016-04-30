@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
+import game_player.view.PlayerGUI;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -24,7 +25,7 @@ public class PreferencesMusic implements IGUIObject {
 	private IGameView myView;
 	private MediaPlayer myMusic;
 	
-	public PreferencesMusic(ResourceBundle r, GameDataSource gameData, IGameView view) {
+	public PreferencesMusic(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;
