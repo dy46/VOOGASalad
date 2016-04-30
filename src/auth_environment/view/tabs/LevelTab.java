@@ -32,6 +32,8 @@ public class LevelTab extends Tab{
 	private ILevelOverviewTabModel myLevelOverviewTabModel; 
 	private Level level;
 	private TextField lifeField;
+	private final int COLUMN_INDEX = 2;
+	
 	
 	public LevelTab(String name, int levelIndex, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		super(name);
@@ -62,11 +64,11 @@ public class LevelTab extends Tab{
 	}
 	
 	private void setRefresh() {
-		this.myBorderPane.setOnMouseEntered(e -> {
-			this.refresh();
+		myBorderPane.setOnMouseEntered(e -> {
+			refresh();
 		});
-		this.setOnSelectionChanged(e -> {
-			this.refresh();
+		setOnSelectionChanged(e -> {
+			refresh();
 		});
 	}
 	
@@ -100,12 +102,12 @@ public class LevelTab extends Tab{
 		String waveName = "Wave " + waveNum;
 		Button wave = new Button(waveName);
 		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel, this.myLevelOverviewTabModel));
-		newTableInfo.add(wave, 2, index);
+		newTableInfo.add(wave, COLUMN_INDEX, index);
 		index++;
 		Button newWaveButton = new Button("+ Add Wave");
 		int num = index;
 		newWaveButton.setOnAction(e -> addNewWaveSpace(num, newTableInfo, newWaveButton));
-		newTableInfo.add(newWaveButton, 2, index);
+		newTableInfo.add(newWaveButton, COLUMN_INDEX, index);
 	}
 	
 	public int getIndex() {
