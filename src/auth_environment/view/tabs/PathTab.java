@@ -75,9 +75,9 @@ public class PathTab extends Tab implements IWorkspace {
 
 	// TODO: decide whether to keep 
 	private void addConfirmationDialog() {
-		String gridHeaderText = "You have the option to have a default grid for extension.";
-		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
-		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
+		boolean confirmation = new ConfirmationDialog().getConfirmation(
+				myNamesBundle.getString("gridHeaderText"),
+				myNamesBundle.getString("gridContextText"));
 		if(confirmation) {
 			myPathTabModel.createGrid();
 		}
