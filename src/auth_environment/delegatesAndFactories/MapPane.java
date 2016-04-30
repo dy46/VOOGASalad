@@ -40,6 +40,7 @@ public class MapPane extends Pane {
 			UnitView uv = new UnitView(u, u.toString() + ".png");
 			uv.setX(u.getProperties().getPosition().getX());
 			uv.setY(u.getProperties().getPosition().getY());
+			System.out.println(u.getProperties().getPosition().getX());
 			this.addToPane(uv);
 		});
 	}

@@ -61,6 +61,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	
 	public List<Unit> getAllTerrains(){
 		allTerrains.addAll(myPositionMap.values());
+		System.out.println(allTerrains);
 		return allTerrains;
 	}
 
