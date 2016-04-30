@@ -35,14 +35,11 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
-	private NodeFactory myNodeFactory = new NodeFactory(); 
+	private NodeFactory myNodeFactory;
 	private IMainView myMainView; 
 	
-	private BorderPane myBorderPane = new BorderPane(); 
-	private ImageView mySplashPreview; 
+	private BorderPane myBorderPane;
 	private TextField myGameNameField;
 	
 	private IGameSettingsTabModel myGameSettingsTabModel;
@@ -51,11 +48,16 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		super(name); 
 		myMainView = mainView; 
 		myGameSettingsTabModel = new GameSettingsTabModel(authModel); 
+		init(); 
+	}
+	
+	private void init() {
+		myNodeFactory = new NodeFactory(); 
 		setupBorderPane();
-
 	}
 
 	private void setupBorderPane() {
+		myBorderPane = new BorderPane(); 
 		myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		myBorderPane.setCenter(buildCenter());
@@ -66,9 +68,9 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	private Node buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		center.getChildren().addAll(buildWompImage(),
+		center.getChildren().addAll(
+				buildWompImage(),
 				buildTextInput(),
-				buildSplashChooser(),
 				buildSaveButton(),
 				buildLoadButton(),
 				buildPlayButton());
@@ -98,18 +100,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildSplashChooser() {
-		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
-				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
-				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
-		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
-		splashButton.setOnAction(e -> chooseSplash());
-		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(mySplashPreview, splashButton); 
-		return myNodeFactory.centerNode(hb); 
-	}
-	
 	private HBox buildSaveButton() {
 		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
 		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
@@ -130,7 +120,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	private Node buildChooseScore() {
 		VBox vb = new VBox(); 
-		vb.getChildren().add(myNodeFactory.buildLabel("Score Update Type"));
+		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("scoreUpdateLabel")));
 		ComboBox<String> chooseScore = new ComboBox<String>();
 		chooseScore.getItems().addAll(myGameSettingsTabModel.getScoreUpdateNames());
 		chooseScore.setOnAction(event -> {
@@ -144,7 +134,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	private Node buildChooseWaveGoal() {
 		VBox vb = new VBox(); 
-		vb.getChildren().add(myNodeFactory.buildLabel("Wave Goal Type"));
+		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("waveGoalLabel")));
 		ComboBox<String> chooseWaveGoal = new ComboBox<String>();
 		chooseWaveGoal.getItems().addAll(myGameSettingsTabModel.getWaveGoalNames());
 		chooseWaveGoal.setOnAction(event -> {
@@ -158,7 +148,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	private Node buildChoosePlaceValidation() {
 		VBox vb = new VBox(); 
-		vb.getChildren().add(myNodeFactory.buildLabel("Place Validation Type"));
+		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("placeValidationLabel")));
 		ComboBox<String> choosePlaceValidation = new ComboBox<String>(); 
 		choosePlaceValidation.getItems().addAll(myGameSettingsTabModel.getPlaceValidationNames());
 		choosePlaceValidation.setOnAction(event -> {
@@ -175,13 +165,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 			myGameSettingsTabModel.setGameName(input.getText());
 			input.clear();
 		}
-	}
-	
-	private void chooseSplash() {
-		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
-		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
-		mySplashPreview.setImage(myNodeFactory.buildImage(splash.getName()));
-		myGameSettingsTabModel.setSplashFile(splash.getName());
 	}
 	
 	private boolean checkValidInput(TextField input) {
