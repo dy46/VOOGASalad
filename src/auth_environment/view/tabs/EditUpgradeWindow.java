@@ -72,7 +72,7 @@ public class EditUpgradeWindow extends Observable {
 	private void saveAndClose() {
 		for(int i = 0; i < comboBoxes.size(); i++)
 		{
-			if(comboBoxes.get(i).getValue() != null || textFields.get(i).getText().length() == 0)
+			if(comboBoxes.get(i).getValue() == null || textFields.get(i).getText().length() == 0)
 				continue;
 			
 			String affectorName = comboBoxes.get(i).getValue();
