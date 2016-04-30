@@ -63,6 +63,7 @@ public class PathTab extends Tab implements IWorkspace {
 	
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
+		addConfirmationDialog(); 
 		myNodeFactory = new NodeFactory(); 
 		myTerrains = new ArrayList<UnitView>();
 		myPathPane = new Pane();
@@ -202,8 +203,8 @@ public class PathTab extends Tab implements IWorkspace {
 		drawSpawnButton.setOnAction(e -> updateDrawIndex(2));
 		hb1.getChildren().addAll(
 				drawPathButton, 
-				drawGoalButton, 
-				drawSpawnButton);
+				drawSpawnButton,
+				drawGoalButton);
 		return hb1;
 	}
 
@@ -211,7 +212,6 @@ public class PathTab extends Tab implements IWorkspace {
 		drawingIndex = index;
 	}
 
-	// TODO: make this protected in an abstract class 
 	private void submitPathWidth(TextField input) {
 		if (checkValidInput(input)) {
 			myPathTabModel.setPathWidth(Double.parseDouble(input.getText()));
@@ -330,7 +330,6 @@ public class PathTab extends Tab implements IWorkspace {
 		myPathTabModel.addNewGoal(x, y);
 	}
 
-	// TODO: extract constants
 	private void displayEndPoint(Position p) {
 		PathPoint point = new PathPoint(p, myPathTabModel.getPathWidth()); 
 		point.getCircle().setStroke(Color.BLACK);
