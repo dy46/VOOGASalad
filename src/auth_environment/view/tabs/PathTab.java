@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import game_engine.game_elements.Branch;
-import game_engine.properties.Movement;
 import game_engine.properties.Position;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.PathTabModel;
@@ -18,22 +17,17 @@ import auth_environment.view.BoundLine;
 import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class PathTab extends Tab implements IWorkspace {
 
@@ -70,7 +64,7 @@ public class PathTab extends Tab implements IWorkspace {
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
 		myNodeFactory = new NodeFactory(); 
-		myTerrains = new ArrayList();
+		myTerrains = new ArrayList<UnitView>();
 		myPathPane = new Pane();
 		setupBorderPane();
 		currentBranch = new ArrayList<>();
@@ -78,11 +72,12 @@ public class PathTab extends Tab implements IWorkspace {
 		setContent(getRoot());
 	}
 
+	// TODO: decide whether to keep 
 	private void addConfirmationDialog() {
 		String gridHeaderText = "You have the option to have a default grid for extension.";
 		String gridContextText = "Do you want this? Cancel if you want to start with a blank slate.";
 		boolean confirmation = new ConfirmationDialog().getConfirmation(gridHeaderText, gridContextText);
-		if(confirmation){
+		if(confirmation) {
 			myPathTabModel.createGrid();
 		}
 	}
@@ -238,7 +233,7 @@ public class PathTab extends Tab implements IWorkspace {
 		displayEndPoint(branch.getFirstPosition());
 		displayEndPoint(branch.getLastPosition());
 		Position lastPosDrawn = branch.getFirstPosition();
-		for(Position currPos : branch.getPositions()){
+		for(Position currPos : branch.getPositions()) {
 			addBoundLine(
 					lastPosDrawn.getX(), 
 					lastPosDrawn.getY(), 
@@ -250,7 +245,7 @@ public class PathTab extends Tab implements IWorkspace {
 		}
 	}
 
-	private void clearMap(){
+	private void clearMap() {
 		myPathPane.getChildren().clear();
 	}
 
@@ -264,8 +259,8 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 	
 	// TODO: remove print statements
-	private void drawTerrains(){
-		if(!myAuthEnvironment.getPlacedUnits().isEmpty()){
+	private void drawTerrains() {
+		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
 				System.out.println(e.toString());
 				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
@@ -278,7 +273,7 @@ public class PathTab extends Tab implements IWorkspace {
 		}
 	}
 
-	private void drawBranches(){
+	private void drawBranches() {
 		myPathTabModel.getEngineBranches().stream().forEach(b -> drawBranch(b));
 	}
 
@@ -304,14 +299,14 @@ public class PathTab extends Tab implements IWorkspace {
 	private void addClickHandlers() {
 		myPathPane.setOnMouseClicked(e -> {
 			if (e.isControlDown()) {
-				if(drawingIndex == 0){
+				if(drawingIndex == 0) {
 					addPosition(e.getX(), e.getY());
 					currentBranch.add(new Position(e.getX(), e.getY()));
 				}
-				else if (drawingIndex == 1){
+				else if (drawingIndex == 1) {
 					addGoalPoint(e.getX(), e.getY());
 				}
-				else if (drawingIndex == 2){
+				else if (drawingIndex == 2) {
 					addSpawnPoint(e.getX(), e.getY());
 				}
 				drawMap();
@@ -327,11 +322,11 @@ public class PathTab extends Tab implements IWorkspace {
 		myPathTabModel.addNewPosition(x, y);
 	}
 
-	private void addSpawnPoint(double x, double y){
+	private void addSpawnPoint(double x, double y) {
 		myPathTabModel.addNewSpawn(x, y);
 	}
 
-	private void addGoalPoint(double x, double y){
+	private void addGoalPoint(double x, double y) {
 		myPathTabModel.addNewGoal(x, y);
 	}
 
@@ -341,8 +336,8 @@ public class PathTab extends Tab implements IWorkspace {
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREY);
 		point.getCircle().setOnMouseClicked(e -> {
-			if(e.getButton().equals(MouseButton.PRIMARY)){
-				if(e.getClickCount() == 2){
+			if(e.getButton().equals(MouseButton.PRIMARY)) {
+				if(e.getClickCount() == 2) {
 					displayClickedPoint(p);
 					addPosition(point.getPosition().getX(), point.getPosition().getY());
 					currentBranch.add(point.getPosition());
@@ -373,8 +368,8 @@ public class PathTab extends Tab implements IWorkspace {
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREEN);
 		point.getCircle().setOnMouseClicked(e -> {
-			if(e.getButton().equals(MouseButton.PRIMARY)){
-				if(e.getClickCount() == 2){
+			if(e.getButton().equals(MouseButton.PRIMARY)) {
+				if(e.getClickCount() == 2) {
 					myPathTabModel.addGoalToActiveLevel(point.getPosition());
 				}
 			}
