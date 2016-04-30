@@ -110,7 +110,7 @@ public class PlayerMainTab implements IPlayerTab {
         Enumeration<String> resourceKeys = elements.getKeys();
         while (resourceKeys.hasMoreElements()) {
             String currentKey = resourceKeys.nextElement();
-            String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
+            String[] keyAndPosition = elements.getObject(currentKey).toString().split(",");
             try {
                 newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
                         .getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class, PlayerGUI.class)

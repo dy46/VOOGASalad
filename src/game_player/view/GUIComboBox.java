@@ -41,6 +41,7 @@ public abstract class GUIComboBox implements IGUIObject {
 			String options,
 			PlayerGUI GUI) {
         this(r, gameData, view, GUI);
+        promptText = text;
         optionsString = options;
     }
 	

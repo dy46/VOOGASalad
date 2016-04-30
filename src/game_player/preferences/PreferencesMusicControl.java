@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
+import game_player.view.PlayerGUI;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 
 public class PreferencesMusicControl implements IGUIObject {
 	
@@ -24,7 +26,7 @@ public class PreferencesMusicControl implements IGUIObject {
 	private IGameView myView;
 	private MediaPlayer myMusic;
 	
-	public PreferencesMusicControl(ResourceBundle r, GameDataSource gameData, IGameView view) {
+	public PreferencesMusicControl(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;
@@ -50,12 +52,10 @@ public class PreferencesMusicControl implements IGUIObject {
 	}
 	
 	private void switchGameMusic() {
-		if (myMusic.isAutoPlay()) {
-			myMusic.setAutoPlay(false);
-			myMusic.pause();
-		} else {
-			myMusic.setAutoPlay(true);
+		if (myMusic.getStatus() == Status.PAUSED) {
 			myMusic.play();
+		} else {
+			myMusic.pause();
 		}
 	}
 

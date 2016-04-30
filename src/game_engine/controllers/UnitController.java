@@ -76,9 +76,11 @@ public class UnitController {
                         .filter(c -> namesOfChildren.contains(c.toString()))
                         .collect(Collectors.toList()));
         u.setInvisible();
-        u.update();
-        unitsToRemove.add(u);
-        myStore.sellUnit(u);
+        if(unitsToRemove.size() > 0) {
+            u.update();
+            unitsToRemove.add(u);
+            myStore.sellUnit(u);
+        }
     }
 
     public void applyUpgrade (Unit unitToUpgrade, Affector affector) {

@@ -98,10 +98,12 @@ public class GameHUD {
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
-        for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
-        	Affector affector = engine.getUnitController().getUpgrades(u).get(i);
-        	theUpgrades.add(affector);
-        }
+    	try {
+	        for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
+	        	Affector affector = engine.getUnitController().getUpgrades(u).get(i);
+	        	theUpgrades.add(affector);
+	        }
+    	} catch (Exception e) {}
         upgradesList.setItems(theUpgrades);
         upgradesList.setCellFactory(cellFactory -> new UpgradeCell());
         upgradesList.setOnMouseClicked(e -> {
