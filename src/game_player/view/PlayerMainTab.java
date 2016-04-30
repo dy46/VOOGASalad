@@ -89,7 +89,7 @@ public class PlayerMainTab implements IPlayerTab {
 
     private void initializeCanvas () {
         myCanvas = new GameCanvas(myResources);
-        myHUD = new GameHUD(myResources);
+        myHUD = new GameHUD(myResources, myCanvas);
         gameSection.getChildren().addAll(myCanvas.createCanvas(), myHUD.createNode());
         gameView = new GameView(gameEngine, myCanvas, myHUD, myScene, this);
         gameView.playGame(0);

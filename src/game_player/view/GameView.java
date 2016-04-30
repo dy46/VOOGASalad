@@ -40,6 +40,7 @@ public class GameView implements IGameView {
     private AnimationTimer AT;
     private boolean timerStatus;
     private boolean isPlaying;
+    private GameCanvas myCanvas;
 
     public GameView (GameEngineInterface engine,
                      GameCanvas canvas,
@@ -47,6 +48,7 @@ public class GameView implements IGameView {
                      Scene scene,
                      PlayerMainTab tab) {
     	this.myScene = scene;
+    	this.myCanvas = canvas;
         this.myPane = canvas.getRoot();
         this.playerEngineInterface = engine;
         this.rangeDisplayView = new RangeDisplayView(this, myPane);
@@ -185,5 +187,9 @@ public class GameView implements IGameView {
     
     public MediaPlayer getMusic() {
     	return myTab.getMusic();
+    }
+    
+    public GameCanvas getCanvas() {
+    	return myCanvas;
     }
 }

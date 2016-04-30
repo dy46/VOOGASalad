@@ -39,10 +39,12 @@ public class GameHUD {
     private HBox HUDBox;
     private GameEngineInterface engine;
     private IGameView gameView;
+    private GameCanvas myCanvas;
     private TabPane myUpgradesTab;
 
-    public GameHUD (ResourceBundle r) {
+    public GameHUD (ResourceBundle r, GameCanvas canvas) {
         myResources = r;
+        myCanvas = canvas;
         myUpgradesTab = new TabPane();
     }
 
@@ -116,7 +118,7 @@ public class GameHUD {
 
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
-    	Rectangle rect = new Rectangle(400, 150);
+    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), 150);
     	rect.setOpacity(0);
     	HUDBox.getChildren().add(rect);
         if (gameView != null) {
