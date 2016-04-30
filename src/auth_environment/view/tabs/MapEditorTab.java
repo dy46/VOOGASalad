@@ -1,6 +1,10 @@
 package auth_environment.view.tabs;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -25,6 +29,9 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
@@ -76,16 +83,16 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private void refresh(){
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myModel.refresh(this.myAuth);
-		System.out.println("Test " + this.myModel.getTerrains());
+//		System.out.println("Test " + this.myModel.getTerrains());
 		this.myPicker.setUnits(this.myModel.getTerrains());
 	}
 	
 	public void buildTerrainChooser(){
 		if(this.myModel.getTerrains().equals(null)){
-			myPicker = new UnitPicker("Terrains");
+			myPicker = new UnitPicker(myNamesBundle.getString("terrainsLabel"));
 		}
 		else{
-			myPicker = new UnitPicker("Terrains", this.myModel.getTerrains());
+			myPicker = new UnitPicker(myNamesBundle.getString("terrainsLabel"), this.myModel.getTerrains());
 		}
 	}
 	
@@ -114,7 +121,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	}
 	
     private Button buildClearButton() {
-		Button clear = new Button("Clear");
+		Button clear = new Button(myNamesBundle.getString("clearButtonLabel"));
 		clear.setOnAction(e -> {
 			this.myGridMapPane.getChildren().clear();
 			this.myModel.clear();
@@ -123,7 +130,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	}
     
     private CheckBox buildGridSwitchBox(){
-    	CheckBox gridSwitch = new CheckBox("Grid Line");
+    	CheckBox gridSwitch = new CheckBox(myNamesBundle.getString("gridLineLabel"));
     	gridSwitch.setTextFill(Color.WHITE);
         gridSwitch.setSelected(true);
         gridSwitch.setOnAction(e -> this.myGridMapPane.setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
@@ -131,33 +138,35 @@ public class MapEditorTab extends Tab implements IWorkspace {
     }
     
     private Button buildGridModeButton(){
-    	Button gridMode = new Button("Grid");
-    	gridMode.setOnAction( e-> {
-    		if(gridMode.getText().equals("Grid")){
-    			gridMode.setText("Free");
+    	Button gridMode = new Button(myNamesBundle.getString("gridLabel"));
+    	gridMode.setOnAction(e -> {
+    		if (gridMode.getText().equals(myNamesBundle.getString("gridLabel"))){
+    			gridMode.setText(myNamesBundle.getString("freeLabel"));
     			myModel.convert(myGridMapPane);
-    			this.updateMapPane(myGridMapPane, "Grid");
-    		}else{
-    			gridMode.setText("Grid");
+    			this.updateMapPane(myGridMapPane, myNamesBundle.getString("gridLabel"));
+    		}
+    		else{
+    			gridMode.setText(myNamesBundle.getString("gridLabel"));
     			myModel.convert(myFreeMapPane);
-    			this.updateMapPane(myFreeMapPane, "Free");
+    			this.updateMapPane(myFreeMapPane, myNamesBundle.getString("freeLabel"));
     		}
     	});
-    	
     	return gridMode;
     }
     
 	 private HBox buildInitialHBox() {
 	        HBox hbox = new HBox();
-	        hbox.setPadding(new Insets(15, 12, 15, 12));
-	        hbox.setSpacing(10);
+	        List<Double> insets = Arrays.asList(myDimensionsBundle.getString("mapEditorInsets")
+	        		.split(" ")).stream().map(s -> Double.parseDouble(s)).collect(Collectors.toList());
+	        hbox.setPadding(new Insets(insets.get(0), insets.get(1), insets.get(2), insets.get(3)));
+	        hbox.setSpacing(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 
 	        Button gridOption = buildGridOptionButton();
 	        Button freeOption = buildFreeOptionButton();
 	        
 	        hbox.getChildren().addAll(gridOption, freeOption);
 	        return hbox;
-	    }
+	 }
 	 
 	 private Button buildGridOptionButton(){
 		 Button gridOption = new Button("Grid");
@@ -170,8 +179,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		 freeOption.setOnAction(e -> this.updateMapPane(myFreeMapPane, "Free"));
 		 return freeOption;
 	 }
-	 
-	 
 	 
 	 private HBox buildHBox() {
         HBox hbox = new HBox();
