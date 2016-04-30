@@ -16,7 +16,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 public class StoreTab extends Tab implements IWorkspace {
-
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
 	private BorderPane myRoot;
 	private GridPane myGrid;
 	private StoreTabModel myStoreTabModel;
@@ -43,28 +45,26 @@ public class StoreTab extends Tab implements IWorkspace {
 		myStoreTabModel = new StoreTabModel(myAuthModel);
 		setRefresh();
 		int index = 0;
-		Button dummyButton = new Button("Lol why do i exist");
+		Button dummyButton = new Button("");
 		ComboBox dummyCBox = new ComboBox();
 		dummyCBox.setValue("test");
 		createProductList(index, myGrid, dummyButton, dummyCBox);
 		myRoot.setLeft(myGrid);
-		done = new Button("Done");
+		done = new Button(myNamesBundle.getString("storeDoneButton"));
 		doneAction();
 		myRoot.setBottom(done);
 		setContent(myRoot);
 	}
 
 	private void setRefresh() {
-		// this.myRoot.setOnMouseEntered(e -> refresh());
 		this.setOnSelectionChanged(e -> refresh());
 	}
 
 	private void refresh() {
-		for (ComboBox unitBox : unitList) {
-			unitBox.getItems().clear();
-			unitBox.getItems()
-					.addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
-		}
+		unitList.stream().forEach(s -> {
+			s.getItems().clear();
+			s.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
+		});
 	}
 
 	private void createProductList(int index, GridPane newTableInfo, Button dButton, ComboBox dCBox) {
@@ -74,10 +74,10 @@ public class StoreTab extends Tab implements IWorkspace {
 				.addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 		newTableInfo.add(createCostBox(newCBox), 2, index);
 		index++;
-		Button newAffectorButton = new Button("+ Add New Product");
+		Button newProductButton = new Button(myNamesBundle.getString("storeAddNewProduct"));
 		int num = index;
-		newAffectorButton.setOnAction(e -> createProductList(num, newTableInfo, newAffectorButton, newCBox));
-		newTableInfo.add(newAffectorButton, 2, index);
+		newProductButton.setOnAction(e -> createProductList(num, newTableInfo, newProductButton, newCBox));
+		newTableInfo.add(newProductButton, 2, index);
 		unitList.add(newCBox);
 
 	}
@@ -85,7 +85,7 @@ public class StoreTab extends Tab implements IWorkspace {
 	private Node createCostBox(ComboBox cBox) {
 		HBox hbox = new HBox();
 		hbox.getChildren().add(cBox);
-		TextField input = this.myNodeFactory.buildTextFieldWithPrompt("Cost");
+		TextField input = this.myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("storePromptCost"));
 		input.setMaxWidth(65);
 		input.setMinHeight(25);
 		hbox.setMinWidth(200);
@@ -96,7 +96,7 @@ public class StoreTab extends Tab implements IWorkspace {
 	}
 
 	private Node createEditButton(ComboBox newCBox) {
-		Button edit = new Button("Edit Affectors");
+		Button edit = new Button(myNamesBundle.getString("storeEditAffectors"));
 		String name = (String) newCBox.getValue();
 		edit.setOnAction(e -> checkContent(newCBox, name));
 		return edit;
