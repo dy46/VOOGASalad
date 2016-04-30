@@ -50,7 +50,7 @@ public class AuthView  {
     private List<Tab> defaultTabs() {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	// TODO: cleanup
-    	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
+    	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel, "Edit Map"); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
     	ElementCreationTab creationTab = new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), this.globalAuthModel, myNamesBundle);

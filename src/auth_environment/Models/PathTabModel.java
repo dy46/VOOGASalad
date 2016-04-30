@@ -29,15 +29,12 @@ public class PathTabModel implements IPathTabModel {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
-	// TODO: Add a PathLibrary to AuthData 
 	private IAuthEnvironment myAuthData;  
 	private MapHandler myMapHandler; 
 	private List<Position> myCurrentBranch;
 	
-	// TODO: reselect a branch by clicking on the corresponding BoundLine (GUI element) 
 	private Map<BoundLine, Branch> myBranchMap; 
 	
-	// ComboBox contents
 	private List<Level> myLevels;
 	private Level currentLevel;
 	private Wave currentWave; 
@@ -46,48 +43,48 @@ public class PathTabModel implements IPathTabModel {
 	private double myPathWidth;
 
 	public PathTabModel(IAuthEnvironment auth) {
-		this.myAuthData = auth; 
-		this.myBranchMap = new HashMap<BoundLine, Branch>(); 
-		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
-		this.myCurrentBranch = new ArrayList<Position>(); 
-		this.myMapHandler = auth.getMapHandler();
-		this.myLevels = auth.getLevels(); 
+		myAuthData = auth; 
+		myBranchMap = new HashMap<BoundLine, Branch>(); 
+		myPathWidth = Double.parseDouble(myDimensionsBundle.getString("defaultPathWidth"));
+		myCurrentBranch = new ArrayList<Position>(); 
+		myMapHandler = auth.getMapHandler();
+		myMapHandler.addGoal(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
+		myLevels = auth.getLevels(); 
 	}
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
-		this.myCurrentBranch.clear();
-		this.myMapHandler = auth.getMapHandler();
-		this.myLevels = auth.getLevels(); 
+		myCurrentBranch.clear();
+		myMapHandler = auth.getMapHandler();
+		myLevels = auth.getLevels(); 
 	}
 
-	// TODO: should all Paths have the same width? Where to set this? 
 	@Override
 	public void setPathWidth(double width) {
-		this.myPathWidth = width; 
+		myPathWidth = width; 
 	}
 
 	@Override
 	public double getPathWidth() {
-		return this.myPathWidth;
+		return myPathWidth;
 	}
 
 	@Override
 	public void submitBranch() {
-		this.myMapHandler.processPositions(myCurrentBranch);
+		myMapHandler.processPositions(myCurrentBranch);
 		myCurrentBranch.clear();
-		this.submit();
+		submit();
 	}
 
 	@Override
 	public void printCurrentPositions() {
-//		for(Branch b : myEngineBranches){
-//			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
-//		}
+		for(Branch b : myMapHandler.getEngineBranches()){
+			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
+		}
 	}
 
 	private void submit() {
-		this.myAuthData.setMapHandler(myMapHandler);
+		myAuthData.setMapHandler(myMapHandler);
 	}
 
 	@Override
@@ -106,69 +103,67 @@ public class PathTabModel implements IPathTabModel {
 	}
 	
 	public List<String> getLevelNames() {
-		return this.myLevels.stream().map(level -> level.getName()).collect(Collectors.toList());
+		return myLevels.stream().map(level -> level.getName()).collect(Collectors.toList());
 	}
 	
 	public List<String> getWaveNames(String selectedLevel) {
-		this.currentLevel = this.myLevels.stream().filter(l -> l.getName().equals(selectedLevel)).collect(Collectors.toList()).get(0);
-		return this.currentLevel.getWaves().stream().map(wave -> wave.toString()).collect(Collectors.toList());
+		currentLevel = myLevels.stream().filter(l -> l.getName().equals(selectedLevel)).collect(Collectors.toList()).get(0);
+		return currentLevel.getWaves().stream().map(wave -> wave.toString()).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<Unit> getWaveUnits(String selectedWave) {
 		if(selectedWave == null) {
-			System.out.println("Selected Wave is null");
 			return new ArrayList<Unit>(); 
 		}
- 		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
- 		return this.currentWave.getSpawningUnits();
-		// TODO: get this working with getSpawningUnitsLeft() method 
+ 		currentWave = currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+ 		return currentWave.getSpawningUnits();
 	}
 
-	// TODO: can Units repeat the same branch? 
 	@Override
 	public Branch reselectBranch(BoundLine line) {
-		if (this.myActiveUnit!=null) {
-			Branch b = this.myBranchMap.get(line);
-			this.myActiveUnit.getProperties().getMovement().getBranches().add(b);
-			this.currentLevel.addBranch(b);
-//			System.out.println("Current branches " + this.myActiveUnit.getProperties().getMovement().getBranches());
+		if (myActiveUnit!=null) {
+			Branch b = myBranchMap.get(line);
+			List<Branch> branches = myActiveUnit.getProperties().getMovement().getBranches();
+			branches.add(b);
+			myActiveUnit.getProperties().getMovement().setBranches(branches);
+			currentLevel.addBranch(b);
+			System.out.println("Current branches " + myActiveUnit.getProperties().getMovement().getBranches());
 		}
-		return this.myBranchMap.get(line); 
+		return myBranchMap.get(line); 
 	}
 
 	@Override
 	public void saveBranch(BoundLine line, Branch branch) {
-		this.myBranchMap.put(line, branch); 
+		myBranchMap.put(line, branch); 
 	}
 
 	@Override
 	public Set<BoundLine> getBoundLines() {
-		return this.myBranchMap.keySet();
+		return myBranchMap.keySet();
 	}
 
 	@Override
 	public void setActiveUnit(Unit unit) {
-		this.myActiveUnit = unit; 
+		myActiveUnit = unit; 
 	}
 
 	@Override
 	public Unit getActiveUnit() {
-		return this.myActiveUnit;
+		return myActiveUnit;
 	}
 	
-	// TODO: ask if we should add Goals to Waves instead of Levels
 	@Override
 	public void addGoalToActiveLevel(Position goal) {
 		myMapHandler.addGoal(goal);
-		if (this.currentLevel!=null) {
+		if (currentLevel!=null) {
 			currentLevel.addGoal(goal);
 		}
 	}
 
 	@Override
 	public void addSpawnToActiveLevel(Position spawn) {
-		if (this.currentLevel!=null) {
+		if (currentLevel!=null) {
 			currentLevel.addSpawn(spawn);
 		}
 	}
