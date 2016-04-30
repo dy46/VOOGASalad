@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 import game_player.GameDataSource;
 import game_player.interfaces.IGameView;
 import game_player.view.GUIComboBox;
+import game_player.view.PlayerGUI;
 import javafx.collections.ObservableList;
 
 
@@ -12,8 +13,8 @@ public class PreferencesColorTheme extends GUIComboBox {
     private ResourceBundle myResources;
     private IGameView myView;
 
-    public PreferencesColorTheme (ResourceBundle r, GameDataSource gameData, IGameView view) {
-    	super(r, gameData, view, r.getString("ColorThemeLabel"), r.getString("ColorThemeOptions"));
+    public PreferencesColorTheme (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
+    	super(r, gameData, view, r.getString("ColorThemeLabel"), r.getString("ColorThemeOptions"), GUI);
         myResources = r;
         myView = view;
     }

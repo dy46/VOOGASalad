@@ -27,6 +27,9 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	private static final String SETTINGS_PACKAGE = "auth_environment/properties/gameSettings";
 	private ResourceBundle mySettingsBundle = ResourceBundle.getBundle(SETTINGS_PACKAGE);
 	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
 	private IAuthModel myAuthModel;
 	
 	// TODO: are type arguments necessary? 
@@ -58,16 +61,6 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	}
 
 	@Override
-	public void setSplashFile(String name) {
-		this.myAuthModel.getIAuthEnvironment().setSplashScreen(name);
-	}
-
-	@Override
-	public String getSplashFile() {
-		return this.myAuthModel.getIAuthEnvironment().getSplashScreen();
-	}
-
-	@Override
 	public List<String> getScoreUpdateNames() {
 		return Arrays.asList(mySettingsBundle.getString("scoreUpdateTypes").split(" "));
 	}
@@ -87,8 +80,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName("game_engine.score_updates." + selectedItem + "ScoreUpdate").getConstructor().newInstance());
 		} catch (Exception e) {
-			// TODO: remove 
-			e.printStackTrace();
+			System.out.println(myNamesBundle.getString("scoreUpdateError"));
 		}
 	}
 
@@ -97,8 +89,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName("game_engine.wave_goals." + selectedItem + "WaveGoal").getConstructor().newInstance());
 		} catch (Exception e) {
-			// TODO: remove 
-			e.printStackTrace();
+			System.out.println(myNamesBundle.getString("waveGoalError"));
 		}
 	}
 
@@ -107,8 +98,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().getPlaceValidations().add( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
 		} catch (Exception e) {
-			// TODO: remove
-			e.printStackTrace();
+			System.out.println(myNamesBundle.getString("placeValidationError"));
 		}
 		
 	}

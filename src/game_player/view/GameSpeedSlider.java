@@ -22,7 +22,7 @@ public class GameSpeedSlider implements IGUIObject {
     private ResourceBundle myResources;
     private IGameView myView;
 
-    public GameSpeedSlider (ResourceBundle r, GameDataSource gameData, IGameView view) {
+    public GameSpeedSlider (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myView = view;
     }

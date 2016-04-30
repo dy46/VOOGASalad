@@ -5,10 +5,6 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_data.GameData;
-import game_data.IGameData;
-import game_engine.TestingEngineWorkspace;
-import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
@@ -16,7 +12,6 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
-import game_engine.libraries.UnitLibrary;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
@@ -30,17 +25,19 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private String mySplashFileName;
 	
 	private List<Level> myLevels = new ArrayList<Level>();
-	private List<Branch> myBranches = new ArrayList<Branch>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
 	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
-	private Store myStore;
-	private double myScore;
+	private Store myStore = new Store(1000);
+	private double myScore = 0;
+	private int myCurrentWaveIndex = 0;
+	private MapHandler myMapHandler = new MapHandler();
 	
-	private AffectorFactory myAffectorFactory;
-	private UnitFactory myUnitFactory;
+	private FunctionFactory myFunctionFactory = new FunctionFactory();
+	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
+	private UnitFactory myUnitFactory = new UnitFactory();
 	
 	private List<Unit> myTowers = new ArrayList<Unit>();
 	private List<Unit> myEnemies = new ArrayList<Unit>();
@@ -48,8 +45,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Unit> myProjectiles = new ArrayList<Unit>();
 	private List<Position> mySpawns = new ArrayList<Position>();
 	private List<Position> myGoals = new ArrayList<Position>();
-	private FunctionFactory myFunctionFactory = new FunctionFactory();
-	private MapHandler myMapHandler = new MapHandler();
 
 	public AuthEnvironment() { 
 		
@@ -147,11 +142,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Branch> getBranches() {
-		return myBranches;
-	}
-	@Override
-	public void setBranches(List<Branch> branches) {
-		myBranches = branches;
+		return myMapHandler.getBranches();
 	}
 	
 	@Override
@@ -228,6 +219,15 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setUnitFactory(UnitFactory unitFactory) {
 		myUnitFactory = unitFactory;
+	}
+	
+	@Override
+	public int getCurrentWaveIndex() {
+		return myCurrentWaveIndex;
+	}
+	@Override
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		myCurrentWaveIndex = currentWaveIndex;
 	}
 	
 	@Override

@@ -65,7 +65,7 @@ public class FileChooserDelegate {
     }
     
     private FileChooser addXMLFilter(FileChooser f) {
-    	f.getExtensionFilters().add(new ExtensionFilter("*.xml")); 
+    	f.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml")); 
     	return f; 
     }
 

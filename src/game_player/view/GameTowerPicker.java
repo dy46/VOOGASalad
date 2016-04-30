@@ -38,7 +38,7 @@ public class GameTowerPicker implements IGUIObject {
     private ObservableList<Unit> myTowers;
     private Label myMoney;
 
-    public GameTowerPicker (ResourceBundle r, GameDataSource data, IGameView view) {
+    public GameTowerPicker (ResourceBundle r, GameDataSource data, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myData = data;
         myView = view;

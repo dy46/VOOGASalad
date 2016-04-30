@@ -1,4 +1,4 @@
-package game_engine.affectors;
+package game_engine;
 
 import java.util.function.BinaryOperator;
 
