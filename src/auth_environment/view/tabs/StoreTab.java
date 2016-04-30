@@ -26,7 +26,8 @@ public class StoreTab extends Tab implements IWorkspace {
 	private List<TextField> costList;
 	private NodeFactory myNodeFactory;
 	private Button done;
-	
+	private List<NameAffectorCostSet> nameAffectorCostSets = new ArrayList<>();
+
 	public StoreTab(String name, IAuthModel authModel) {
 		super(name);
 		myAuthModel = authModel;
@@ -35,8 +36,8 @@ public class StoreTab extends Tab implements IWorkspace {
 		myNodeFactory = new NodeFactory();
 		init();
 	}
-	
-	private void init(){
+
+	private void init() {
 		myRoot = new BorderPane();
 		myGrid = new GridPane();
 		myStoreTabModel = new StoreTabModel(myAuthModel);
@@ -44,7 +45,7 @@ public class StoreTab extends Tab implements IWorkspace {
 		int index = 0;
 		Button dummyButton = new Button("Lol why do i exist");
 		ComboBox dummyCBox = new ComboBox();
-		dummyCBox.setValue("test");	
+		dummyCBox.setValue("test");
 		createProductList(index, myGrid, dummyButton, dummyCBox);
 		myRoot.setLeft(myGrid);
 		done = new Button("Done");
@@ -52,23 +53,25 @@ public class StoreTab extends Tab implements IWorkspace {
 		myRoot.setBottom(done);
 		setContent(myRoot);
 	}
-	
-	private void setRefresh(){
-//		this.myRoot.setOnMouseEntered(e -> refresh());
+
+	private void setRefresh() {
+		// this.myRoot.setOnMouseEntered(e -> refresh());
 		this.setOnSelectionChanged(e -> refresh());
 	}
-	
-	private void refresh(){
-		for(ComboBox unitBox: unitList){
+
+	private void refresh() {
+		for (ComboBox unitBox : unitList) {
 			unitBox.getItems().clear();
-			unitBox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
+			unitBox.getItems()
+					.addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 		}
 	}
-	
-	private void createProductList(int index, GridPane newTableInfo, Button dButton, ComboBox dCBox){
+
+	private void createProductList(int index, GridPane newTableInfo, Button dButton, ComboBox dCBox) {
 		newTableInfo.getChildren().remove(dButton);
 		ComboBox<String> newCBox = new ComboBox<String>();
-		newCBox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
+		newCBox.getItems()
+				.addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 		newTableInfo.add(createCostBox(newCBox), 2, index);
 		index++;
 		Button newAffectorButton = new Button("+ Add New Product");
@@ -78,8 +81,8 @@ public class StoreTab extends Tab implements IWorkspace {
 		unitList.add(newCBox);
 
 	}
-	
-	private Node createCostBox(ComboBox cBox){
+
+	private Node createCostBox(ComboBox cBox) {
 		HBox hbox = new HBox();
 		hbox.getChildren().add(cBox);
 		TextField input = this.myNodeFactory.buildTextFieldWithPrompt("Cost");
@@ -91,40 +94,58 @@ public class StoreTab extends Tab implements IWorkspace {
 		costList.add(input);
 		return hbox;
 	}
-	
-	private Node createEditButton(ComboBox newCBox){
+
+	private Node createEditButton(ComboBox newCBox) {
 		Button edit = new Button("Edit Affectors");
 		String name = (String) newCBox.getValue();
 		edit.setOnAction(e -> checkContent(newCBox, name));
 		return edit;
 	}
-	
-	private void checkContent(ComboBox newCBox, String name){
-		if(newCBox.getValue() != null){
-			EditUpgradeWindow eWindow = new EditUpgradeWindow(name, myAuthModel);
+
+	private void checkContent(ComboBox<String> newCBox, String name) {
+		if (newCBox.getValue() != null) {
+			NameAffectorCostSet n = new NameAffectorCostSet();
+			n.name = (String) newCBox.getValue();
+			nameAffectorCostSets.add(n);
+			EditUpgradeWindow eWindow = new EditUpgradeWindow(myAuthModel, n);
 		}
 	}
-	
-	private void doneAction(){
+
+	private void doneAction() {
 		done.setOnAction(e -> updateBuyables());
 	}
-	
-	//THIS NEEDS TO BE CHANGED
-	private void updateBuyables(){
-		List<String> names = new ArrayList<String>();
-		List<Integer> costs = new ArrayList<Integer>();
-		for(int i = 0; i < unitList.size(); i++){
-			System.out.println("Store test: " + unitList.get(i).getValue());
-			names.add(unitList.get(i).getValue());
-			costs.add(Integer.parseInt(costList.get(i).getText()));
+
+	// THIS NEEDS TO BE CHANGED
+	private void updateBuyables() {
+		/*
+		 * List<String> names = new ArrayList<String>(); List<Integer> costs =
+		 * new ArrayList<Integer>(); for(int i = 0; i < unitList.size(); i++){
+		 * System.out.println("Store test: " + unitList.get(i).getValue());
+		 * names.add(unitList.get(i).getValue());
+		 * costs.add(Integer.parseInt(costList.get(i).getText())); }
+		 * myStoreTabModel.addBuyableUnits(names, costs); System.out.println(
+		 * "Values updated to back-end");
+		 */
+
+		for (NameAffectorCostSet nacs : nameAffectorCostSets) {
+			if (nacs.affectorCost.size() == 0)
+				continue;
+			
+			List<String> nameList = new ArrayList<>();
+			for(int i = 0; i < nacs.affectorCost.size(); i++)
+				nameList.add(nacs.name);
+				
+			myStoreTabModel.addBuyableUpgrades(nameList, nacs.affectorNames, nacs.affectorCost);
 		}
-		myStoreTabModel.addBuyableUnits(names, costs);
-		System.out.println("Values updated to back-end");
 	}
-	
 
 	public Node getRoot() {
 		return myRoot;
 	}
-	
+
+	public static class NameAffectorCostSet {
+		public String name;
+		public List<String> affectorNames = new ArrayList<>();
+		public List<Integer> affectorCost = new ArrayList<>();
+	}
 }

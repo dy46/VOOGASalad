@@ -6,6 +6,7 @@ import java.util.Observable;
 
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import auth_environment.view.tabs.StoreTab.NameAffectorCostSet;
 import game_engine.affectors.Affector;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,18 +21,17 @@ public class EditUpgradeWindow extends Observable {
 	private BorderPane mainPane = new BorderPane();
 	private GridPane upgradePane = new GridPane();
 	private IAuthModel authModel;
-	private String unitName;
 	private NodeFactory nodeFactory = new NodeFactory();
 	private int rowIndex = 0;
-	private List<String> affectorNames;
-	private List<Integer> affectorCosts;
+	private List<ComboBox<String>> comboBoxes = new ArrayList<>();
+	private List<TextField> textFields = new ArrayList<>();
+	private NameAffectorCostSet NACS;
+	private Stage stage;
 
-	public EditUpgradeWindow(String unitName, IAuthModel iAuthModel, List<String> affectorNames, List<Integer> affectorCosts) {
+	public EditUpgradeWindow(IAuthModel iAuthModel, StoreTab.NameAffectorCostSet nacs) {
+		NACS = nacs;
 		authModel = iAuthModel;
-		this.unitName = unitName;
-		this.affectorCosts = affectorCosts;
-		this.affectorNames = affectorNames;
-		Stage stage = new Stage();
+		stage = new Stage();
 		Group root = new Group();
 		mainPane.setCenter(upgradePane);
 		root.getChildren().add(mainPane);
@@ -56,6 +56,7 @@ public class EditUpgradeWindow extends Observable {
 	private void addUpgradeSlot() {
 		ComboBox<String> combo = new ComboBox<>();
 		List<String> affectorNames = new ArrayList<String>();
+		
 		for (Affector a : authModel.getIAuthEnvironment().getAffectors())
 			affectorNames.add(a.getClass().toString());
 
@@ -63,10 +64,23 @@ public class EditUpgradeWindow extends Observable {
 		TextField cost = nodeFactory.buildTextFieldWithPrompt("Upgrade cost");
 
 		upgradePane.addRow(rowIndex++, combo, cost);
+		
+		comboBoxes.add(combo);
+		textFields.add(cost);
 	}
 
 	private void saveAndClose() {
-		// addUpgradeSlot();// this isn't where this should go
-
+		for(int i = 0; i < comboBoxes.size(); i++)
+		{
+			if(comboBoxes.get(i).getValue() != null || textFields.get(i).getText().length() == 0)
+				continue;
+			
+			String affectorName = comboBoxes.get(i).getValue();
+			int upgradeCost = Integer.parseInt(textFields.get(i).getText());
+			
+			NACS.affectorCost.add(upgradeCost);
+			NACS.affectorNames.add(affectorName);
+		}
+		stage.close();
 	}
 }
