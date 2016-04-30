@@ -5,9 +5,10 @@ import auth_environment.IAuthEnvironment;
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.GridMapPane;
-import auth_environment.delegatesAndFactories.MapPane;
+import auth_environment.delegatesAndFactories.FreeMapPane;
 import auth_environment.view.UnitPicker;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -41,11 +42,13 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	
 	private BorderPane myBorderPane = new BorderPane(); 
 	private TitledPane myMapPane;
-	private GridMapPane myCanvasPane;
-	private MapPane myCanvasPane2;
+	private GridMapPane myGridMapPane;
+	private FreeMapPane myFreeMapPane;
+	
 	private UnitPicker myPicker;
 	private DragDelegate myDragDelegate;
 	private MapEditorTabModel myModel;
+	private MapEditorTabModel myGridModel;
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myAuth;
 	
@@ -60,12 +63,13 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		this.myDragDelegate = new DragDelegate();
 		this.buildTerrainChooser();
 		this.buildMapPane();
+		this.buildGridMapPane();
+		this.buildFreeMapPane();
 		this.setupBorderPane();
 		this.setContent(this.getRoot());
 	}
 
 	private void setupBorderPane() {
-		
 		this.myBorderPane.setOnMouseEntered(e-> this.refresh());
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
@@ -73,7 +77,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		this.myBorderPane.setRight(myPicker.getRoot());
 		this.myBorderPane.setLeft(myMapPane);
 		this.myBorderPane.setBottom(buildHBox());
-		
 	}
 	
 	private void refresh(){
@@ -86,7 +89,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	public void buildTerrainChooser(){
 		if(this.myModel.getTerrains().equals(null)){
 			myPicker = new UnitPicker("Terrains");
-			System.out.println("WIEOJROIEJTET");
 		}
 		else{
 			myPicker = new UnitPicker("Terrains", this.myModel.getTerrains());
@@ -95,158 +97,65 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	
 	private void buildMapPane(){
 		myMapPane = new TitledPane();
-		myMapPane.setText("Grid");
-//        myCanvas = new Canvas(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
-//        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        myCanvasPane = new GridMapPane(myModel);
-        myCanvasPane.getRoot().setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+	}
+	
+	private void addToMapPane(IMapPane mapPane, String name){
+		myMapPane.setText(name);
+		myMapPane.setContent(mapPane.getRoot());
+	}
+	
+	private void buildGridMapPane(){
+        myGridMapPane = new GridMapPane(myModel);
+        myGridMapPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        myCanvasPane.getRoot().setGridLinesVisible(true);
-        for (int i = 0; i < numCols; i++) {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100.0 / numCols);
-            myCanvasPane.getRoot().getColumnConstraints().add(colConst);
-        }
-        for (int i = 0; i < numRows; i++) {
-            RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(100.0 / numRows);
-            myCanvasPane.getRoot().getRowConstraints().add(rowConst);         
-        }
-//        myCanvasPane.setScaleX(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")));
-//        myCanvasPane.setScaleY(Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-//        myCanvasPane.getChildren().add(myCanvas);
-        System.out.println(myCanvasPane);
-        this.myDragDelegate.setUpNodeTarget(myCanvasPane, myPicker);
-        this.myMapPane.setContent(myCanvasPane.getRoot()); 
+        myGridMapPane.getRoot().setGridLinesVisible(true);
+        myGridMapPane.setNumColsRows(numCols, numRows);
+        this.myDragDelegate.setUpNodeTarget(myGridMapPane, myPicker);
+        this.addToMapPane(myGridMapPane, "Grid");
 	}
 	
 	private void updateGridMapPane(){
-
-		this.myMapPane.setContent(myCanvasPane.getRoot());
+		this.myMapPane.setContent(myGridMapPane.getRoot());
 		this.myBorderPane.setLeft(this.myMapPane);
 	}
 	
 	private void buildFreeMapPane(){
-		myCanvasPane2 = new MapPane(myModel);
-		 myCanvasPane2.getRoot().setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
-	        		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-		 myCanvasPane2.addEverything();
-		this.myDragDelegate.setUpNodeTarget(myCanvasPane2, myPicker);
-		this.myMapPane.setContent(myCanvasPane2.getRoot());
-		this.myBorderPane.setLeft(myMapPane);
+		myFreeMapPane = new FreeMapPane(myModel);
+		myFreeMapPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
+				Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
+		this.myDragDelegate.setUpNodeTarget(myFreeMapPane, myPicker);
+		this.addToMapPane(myFreeMapPane, "Free");
 	}
-//To be refactor out
 	
-//    public void setUpNodeTarget(GridPane target) {
-//		
-//		target.setOnDragOver(new EventHandler<DragEvent>() {
-//			public void handle(DragEvent event) {
-////				System.out.println("Dragging over Node...");
-//					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-//				event.consume();
-//			}
-//		});
-//		
-//		target.setOnDragEntered(new EventHandler<DragEvent>() {
-//			public void handle(DragEvent event) {
-////				System.out.println("Drag entered...");
-////				if (event.getGestureSource() != target &&
-////						event.getDragboard().hasString()) {
-////				}
-//				event.consume();
-//			}
-//		});
-//		
-//		target.setOnDragExited(new EventHandler<DragEvent>() {
-//			public void handle(DragEvent event) {
-//				/* mouse moved away, remove the graphical cues */
-////				System.out.println("Drag exited...");
-//				event.consume();
-//			}
-//		});
-//		
-//		target.setOnDragDropped(new EventHandler<DragEvent>() {
-//			public void handle(DragEvent event) {
-//				event.acceptTransferModes(TransferMode.COPY);
-////				System.out.println("Drag dropped...");
-//				Dragboard db = event.getDragboard();
-//				boolean success = false;
-//				if (db.hasString()) {
-////					System.out.println("Name: " + db.getString());
-////					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
-////					System.out.println(db.getImage());
-////					System.out.println(myPicker.getRoot().lookup(db.getString()));
-//					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
-//					if(target.getClass().getName().equals("Pane")){
-//						
-//					}
-//					imv.setFitHeight(target.getHeight()/10-3);
-//					imv.setFitWidth(target.getWidth()/10-3);
-//					imv.setX(event.getSceneX());
-//					imv.setY(event.getSceneY() - imv.getFitHeight());
-//					myModel.addTerrain(event.getSceneX(), event.getSceneY(), imv.getUnit());
-//					System.out.println("X: " + event.getSceneX());
-//					System.out.println("Y: " + event.getSceneY());
-//					int i = (int)((event.getSceneY()-imv.getFitHeight())/(target.getHeight()/10));
-//					int j = (int)(event.getSceneX()/(target.getWidth()/10));
-//					target.add(imv, j, i);
-//					System.out.println("Grid X: " + i);
-//					System.out.println("Grid Y: " + j);
-//					System.out.println(myPicker.myEditInfo.getChildren());
-//					imv.addEventHandler(MouseEvent.MOUSE_CLICKED,
-//						    new EventHandler<MouseEvent>() {
-//						        @Override public void handle(MouseEvent e) {
-//						            if (e.getButton() == MouseButton.SECONDARY){ 
-//						            	myContextMenu = buildContextMenu(imv, target);
-//						                myContextMenu.show(imv, e.getScreenX(), e.getScreenY());
-//						            }
-//						        }
-//						});
-//					imv.setOnMouseClicked(new EventHandler<MouseEvent>(){
-//						@Override
-//						public void handle(MouseEvent event) {
-//							target.getChildren().remove(imv);
-//						}
-//					});
-//					UnitView uv = new UnitView(db.getImage());
-//					target.getChildren().addAll(uv);
-//					myModel.addTerrain(uv.getX(), uv.getY(), uv.getUnit());
-//					success = true;
-//				}
-//				event.setDropCompleted(success);
-//				event.consume();
-//			}
-//		});
-//	}
-    
     private Button buildClearButton() {
 		Button clear = new Button("Clear");
-		clear.setOnAction(e -> this.myCanvasPane.getChildren().clear());
+		clear.setOnAction(e -> this.myGridMapPane.getChildren().clear());
 		return clear;
 	}
     
     private CheckBox buildGridSwitchBox(){
     	CheckBox gridSwitch = new CheckBox("Grid Line");
         gridSwitch.setSelected(true);
-        gridSwitch.setOnAction(e -> this.myCanvasPane.getRoot().setGridLinesVisible(!myCanvasPane.getRoot().isGridLinesVisible()));
+        gridSwitch.setOnAction(e -> this.myGridMapPane.getRoot().setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
     	return gridSwitch;
     }
     
     private Button buildGridModeButton(){
-    	Button gridMode = new Button("Free");
+    	Button gridMode = new Button("Grid");
     	gridMode.setOnAction( e-> {
-    		if(gridMode.getText().equals("Free")){
-    			gridMode.setText("Grid");
-    			buildFreeMapPane();
-    		}else{
+    		if(gridMode.getText().equals("Grid")){
     			gridMode.setText("Free");
-    			updateGridMapPane();
+    			myModel.convert(myGridMapPane);
+    			this.addToMapPane(myGridMapPane, "Grid");
+    		}else{
+    			gridMode.setText("Grid");
+    			myModel.convert(myFreeMapPane);
+    			this.addToMapPane(myFreeMapPane, "Free");
     		}
     	});
     	
     	return gridMode;
     }
-    
     
 	
 	 private HBox buildHBox() {
@@ -270,9 +179,11 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	        hbox.getChildren().addAll(speedlabel, textField);
 	    }
 	 
-	 
 	public Node getRoot() {
 		return myBorderPane;
 	}
 
+	public Node getFreeMapPane(){
+		return this.myFreeMapPane;
+	}
 }

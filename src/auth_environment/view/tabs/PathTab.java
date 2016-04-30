@@ -51,13 +51,15 @@ public class PathTab extends Tab implements IWorkspace {
 	private ComboBox<String> levelComboBox;
 	private ComboBox<String> waveComboBox; 
 	private UnitPicker myUnitPicker; 
-
+	private List<UnitView> myTerrains;
+	
 	private IPathTabModel myPathTabModel;
 	private IAuthEnvironment myAuth;
 	private IAuthModel myAuthModel;
-
+	private MapEditorTab myMapEditorTab;
 	private int drawingIndex;
 	private List<Position> currentBranch;
+
 
 	public PathTab(String name, IAuthModel auth) {
 		super(name); 
@@ -66,7 +68,10 @@ public class PathTab extends Tab implements IWorkspace {
 		this.myPathTabModel = new PathTabModel(this.myAuth); 
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
-		this.canvasPane = new Pane(); 
+		this.myTerrains = new ArrayList();
+		this.myMapEditorTab = new MapEditorTab(this.myAuthModel, "Fuck this shit");
+		this.canvasPane = new Pane();
+		canvasPane.getChildren().add(myMapEditorTab.getFreeMapPane());
 		this.setupBorderPane();
 		this.currentBranch = new ArrayList<>();
 		this.drawMap();
@@ -87,6 +92,7 @@ public class PathTab extends Tab implements IWorkspace {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myPathTabModel.refresh(this.myAuth);
 		this.buildLevelComboBox();
+		
 		this.drawMap();
 	}
 
@@ -97,7 +103,7 @@ public class PathTab extends Tab implements IWorkspace {
 		this.myBorderPane.setCenter(this.buildCenter());
 		this.myBorderPane.setRight(this.buildRight());
 	}
-
+	
 	private Node buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
@@ -106,7 +112,6 @@ public class PathTab extends Tab implements IWorkspace {
 				this.buildTextInput(),
 				this.canvasPane); 
 		this.addClickHandlers();
-
 		return center; 
 	}
 
@@ -248,10 +253,25 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void drawMap() {
 		clearMap();
+		drawTerrains();
 		drawBranches();
 		drawSpawns();
 		drawGoals();
 		drawCurrentBranch();
+	}
+	
+	private void drawTerrains(){
+		if(!this.myAuth.getPlacedUnits().isEmpty()){
+			this.myAuth.getPlacedUnits().stream().forEach(e->{
+				System.out.println(e.toString());
+				UnitView temp = new UnitView (e, e.toString() + ".png");
+				temp.setY(temp.getY()-50);
+				myTerrains.add(temp);
+				System.out.println("X: " + e.getProperties().getPosition().getX());
+				System.out.println("Y: " + e.getProperties().getPosition().getY());
+			});
+			canvasPane.getChildren().addAll(myTerrains);
+		}
 	}
 
 	private void drawBranches(){

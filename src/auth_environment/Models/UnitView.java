@@ -1,7 +1,8 @@
 package auth_environment.Models;
 
+import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.Models.Interfaces.IUnitView;
-import auth_environment.delegatesAndFactories.MapPane;
+import auth_environment.delegatesAndFactories.FreeMapPane;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
@@ -46,20 +47,24 @@ public class UnitView extends ImageView implements IUnitView {
 		super();
 		this.myUnit = unit;
 		this.setImage(this.myNodeFactory.buildImage(unit.toString()));
+		this.setXY();
 	}
 	
 	public UnitView(Unit unit, Image image) {
 		super(image); 
 		this.myUnit = unit; 
+		this.setXY();
 	}
 	
 	public UnitView(Unit unit, String imageName) {
 		this.myUnit = unit;
 		this.setImage(this.myNodeFactory.buildImage(imageName));
+		this.setXY();
 	}
 	
 	public UnitView clone(){
 		UnitView uv = new UnitView(myUnit.copyUnit(), this.getImage());
+		uv.setXY();
 		return uv;
 	}
 	
@@ -73,13 +78,13 @@ public class UnitView extends ImageView implements IUnitView {
 		return this.myUnit;
 	}
 	
-	public void setScale(MapPane target, int gridWidth){
+	public void setScale(FreeMapPane target, int gridWidth){
 		target.adjustUnitViewScale(this);
 		this.setFitHeight(target.getHeight()/gridWidth-3);
 		this.setFitWidth(target.getWidth()/gridWidth-3);
 	}
 	
-	public void addContextMenu(MapPane target, UnitView uv){
+	public void addContextMenu(IMapPane target, UnitView uv){
 		this.addEventHandler(MouseEvent.MOUSE_CLICKED,
 			    new EventHandler<MouseEvent>() {
 			        @Override public void handle(MouseEvent e) {
@@ -91,14 +96,18 @@ public class UnitView extends ImageView implements IUnitView {
 			});
 	}
 	
-	 private ContextMenu buildContextMenu(MapPane tempPane){
+	 private ContextMenu buildContextMenu(IMapPane target){
 	    	ContextMenu cm = new ContextMenu();
 	    	MenuItem cmItem1 = new MenuItem("Delete Image");
-	    	cmItem1.setOnAction(e-> {tempPane.getRoot().getChildren().remove(this);
-	    		tempPane.getModel().deleteTerrain(this.getUnit());
+	    	cmItem1.setOnAction(e-> {target.getRoot().getChildren().remove(this);
+	    		target.getModel().deleteTerrain(this.getUnit());
 	    	});
 	    	cm.getItems().add(cmItem1);
 	    	return cm;
 	    }
-
+	 
+	 public void setXY(){
+		 this.setX(this.getUnit().getProperties().getPosition().getX());
+		 this.setY(this.getUnit().getProperties().getPosition().getY());
+	 }
 }

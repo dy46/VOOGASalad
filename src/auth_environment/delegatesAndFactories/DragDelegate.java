@@ -1,6 +1,7 @@
 package auth_environment.delegatesAndFactories;
 
 import auth_environment.Models.UnitView;
+import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.view.UnitPicker;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -61,7 +62,7 @@ public class DragDelegate {
 	
 	//Set up Target
 	
-public void setUpNodeTarget(MapPane target, UnitPicker myPicker) {
+public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
 		
 		Pane targetPane = target.getRoot();
 		targetPane.setOnDragOver(new EventHandler<DragEvent>() {
@@ -94,25 +95,24 @@ public void setUpNodeTarget(MapPane target, UnitPicker myPicker) {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-					System.out.println(db.getString());
-					System.out.println("I got this!");
+//					System.out.println(db.getString());
+//					System.out.println("I got this!");
 //					System.out.println("Name: " + db.getString());
-//					myCanvasPane.getChildren().addAll(new ImageView(db.getImage()));
 //					System.out.println(db.getImage());
 //					System.out.println(myPicker.getRoot().lookup(db.getString()));
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 					target.adjustUnitViewScale(imv);
 					target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
-					System.out.println("After Scale " + imv.getFitHeight());
-					System.out.println("X: " + event.getSceneX());
-					System.out.println("Y: " + event.getSceneY());
-					System.out.println("Grid X: " + imv.getX());
-					System.out.println("Grid Y: " + imv.getY());
-					System.out.println(myPicker.myEditInfo.getChildren());
+//					System.out.println("After Scale " + imv.getFitHeight());
+//					System.out.println("X: " + event.getSceneX());
+//					System.out.println("Y: " + event.getSceneY());
+//					System.out.println("Grid X: " + imv.getX());
+//					System.out.println("Grid Y: " + imv.getY());
+//					System.out.println(myPicker.myEditInfo.getChildren());
 					imv.addContextMenu(target, imv);
 					target.addToPane(imv);
-					System.out.println(imv.getY());
-					System.out.println(imv.getX());
+//					System.out.println(imv.getY());
+//					System.out.println(imv.getX());
 					target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
 					success = true;
 				}

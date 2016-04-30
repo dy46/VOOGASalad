@@ -7,6 +7,8 @@ import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IMapEditorTabModel;
+import auth_environment.Models.Interfaces.IMapPane;
+import auth_environment.delegatesAndFactories.GridMapPane;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
@@ -17,11 +19,11 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	private Map<Unit, Position> myUnitMap = new HashMap<Unit, Position>();
 	private List<Unit> myTerrains;
 	private List<Unit> allTerrains;
-	
+
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		this.myAuthData = auth;
-		this.myTerrains = new ArrayList<Unit>(); 
-		this.allTerrains = new ArrayList<Unit>();
+//		this.myTerrains = new ArrayList<Unit>(); 
+//		this.allTerrains = new ArrayList<Unit>();
 	}
 
 //	public List<Unit> getSampleUnits() {
@@ -37,11 +39,22 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 		this.myTerrains = auth.getUnitFactory().getUnitLibrary().getUnits();
 	}
 	
+	
+//	public void changeMode(IMapPane inputMapPane){
+//		myAuthData.getPlacedUnits().clear();
+//	}
+	
 	public void addTerrain(double xPos, double yPos, Unit element){
-		element.getProperties().getPosition().setX(xPos);
-		element.getProperties().getPosition().setY(yPos);
-		myPositionMap.put(new Position(xPos, yPos), element);
-		myAuthData.getPlacedUnits().add(element); 
+		Unit newUnit = element.copyUnit();
+		newUnit.getProperties().setPosition(xPos, yPos);
+//		System.out.println("XPOS" + xPos);
+//		System.out.println("YPOS" + yPos);
+		myAuthData.getPlacedUnits().add(newUnit);
+//		element.getProperties().getPosition().setX(xPos);
+//		element.getProperties().getPosition().setY(yPos);
+//		myPositionMap.put(new Position(xPos, yPos), element);
+//		System.out.println("MapEditorModel X:" + element.getProperties().getPosition().getX());
+//		myAuthData.getPlacedUnits().add(element.copyUnit()); 
 	}
 	
 	public void deleteTerrain(double xPos, double yPos){
@@ -49,6 +62,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	}
 	
 	public void deleteTerrain(Unit element){
+		myAuthData.getPlacedUnits().remove(element);
 		myPositionMap.remove(element.getProperties().getPosition());
 	}
 	
@@ -57,13 +71,24 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	}
 	
 	public List<Unit> getTerrains(){
-		return myTerrains;
+		return myAuthData.getUnitFactory().getUnitLibrary().getUnits();
 	}
 	
-	public List<Unit> getAllTerrains(){
-		allTerrains.addAll(myPositionMap.values());
-		System.out.println(allTerrains);
-		return allTerrains;
+	public void convert(IMapPane mapPane){
+		myTerrains = myAuthData.getPlacedUnits();
+		myTerrains.stream().forEach( e-> {
+			mapPane.getRoot().getChildren().clear();
+			UnitView tempUnitView = new UnitView(e.copyUnit(), e.toString() + ".png");
+			mapPane.addToPane(tempUnitView);
+		});
+		
 	}
+	
+
+//	public List<Unit> getAllTerrains(){
+//		allTerrains.addAll(myPositionMap.values());
+//		System.out.println(allTerrains);
+//		return allTerrains;
+//	}
 
 }
