@@ -81,10 +81,10 @@ public class StoreTab extends Tab implements IWorkspace {
 	
 	private Node createEditButton(ComboBox newCBox){
 		Button edit = new Button("Edit Affectors");
-		if(newCBox.getValue() != null){
+		//if(newCBox.getValue() != null){
 			String name = (String) newCBox.getValue();
 			edit.setOnAction(e -> new EditUpgradeWindow(name, myAuthModel));
-		}
+		//}
 		return edit;
 	}
 	
