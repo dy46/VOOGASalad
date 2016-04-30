@@ -14,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 public class LevelOverviewTab extends Tab {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
 	private BorderPane myRoot;
 	private TabPane myTabs;
 	private IAuthModel myAuthModel;

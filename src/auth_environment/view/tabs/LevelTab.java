@@ -45,17 +45,17 @@ public class LevelTab extends Tab{
 	
 	private void init() {
 		this.myBorderPane = new BorderPane();
-		myBorderPane.setPadding(new Insets(15, 12, 15, 12));
-		Label lifeLabel = new Label("Lives: ");
-		lifeLabel.setTextFill(Color.RED);
+		myBorderPane.setPadding(new Insets(Double.parseDouble(myDimensionsBundle.getString("waveListPaddingTop")), 
+				Double.parseDouble(myDimensionsBundle.getString("waveListPaddingRight")), 
+				Double.parseDouble(myDimensionsBundle.getString("waveListPaddingBottom")), 
+				Double.parseDouble(myDimensionsBundle.getString("waveListPaddingLeft"))));
+		Label lifeLabel = new Label(myNamesBundle.getString("lifeLabel") + " ");
 		lifeField = new TextField();
-		lifeField.setPromptText("10");
-
+		lifeField.setPromptText(myNamesBundle.getString("lifeLabelPrompt"));
 		HBox lifeHB = new HBox();
 		lifeHB.getChildren().addAll(lifeLabel, lifeField);
-		lifeHB.setSpacing(10);
+		lifeHB.setSpacing(Double.parseDouble(myDimensionsBundle.getString("lifeHBSpacing")));
 		myBorderPane.setTop(lifeHB);
-
 		this.setRefresh();
 		this.createWaveList();
 		this.setContent(myBorderPane);
@@ -72,9 +72,7 @@ public class LevelTab extends Tab{
 	
 	private void refresh() {
 		this.myLevelOverviewTabModel.changeEditedLevel(this.myLevelTabModel.getLevelIndex());
-//		System.out.println(lifeField.getText());
 		if(lifeField.getText() != null && !lifeField.getText().equals("")){
-			System.out.println(Integer.parseInt(lifeField.getText()));
 			level.setMyLives(Integer.parseInt(lifeField.getText()));
 		}
 	}
