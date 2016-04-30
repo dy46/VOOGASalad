@@ -23,6 +23,7 @@ import game_engine.wave_goals.WaveGoal;
 public class AuthEnvironment implements IAuthEnvironment {
 
 	private String myName;
+	private String mySplashScreen; 
 	
 	private List<Level> myLevels = new ArrayList<Level>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
@@ -236,6 +237,16 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public StoreFactory getStoreFactory() {
 		return myStoreFactory; 
+	}
+
+	@Override
+	public void setSplashScreen(String fileName) {
+		mySplashScreen = fileName;
+	}
+
+	@Override
+	public String getSplashScreen() {
+		return mySplashScreen;
 	}
 	
 }

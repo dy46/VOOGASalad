@@ -16,6 +16,9 @@ public interface IAuthEnvironment extends IGameData {
 	public String getGameName(); 
 	public void setGameName(String name);
 	
+	public void setSplashScreen(String fileName); 
+	public String getSplashScreen(); 	
+	
 	// Path Tab
 	
 	public List<Unit> getTowers(); 
