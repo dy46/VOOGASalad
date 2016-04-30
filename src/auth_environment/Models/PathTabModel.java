@@ -78,7 +78,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void printCurrentPositions() {
-		for(Branch b : myMapHandler.getEngineBranches()){
+		for(Branch b : myMapHandler.getBranches()){
 			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
 		}
 	}

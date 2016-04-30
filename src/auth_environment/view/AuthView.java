@@ -9,6 +9,7 @@ import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.PathTab;
+import auth_environment.view.tabs.StoreTab;
 import auth_environment.view.tabs.ElementCreationTab;
 import auth_environment.view.tabs.LevelOverviewTab;
 import auth_environment.view.tabs.MapEditorTab;
@@ -59,6 +60,7 @@ public class AuthView  {
     	tabs.add(new Tab("Edit Map", mapEditorTab.getRoot())); 
     	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), this.globalAuthModel));
     	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));
+    	tabs.add(new StoreTab(myNamesBundle.getString("storeTabTitle"), this.globalAuthModel));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
