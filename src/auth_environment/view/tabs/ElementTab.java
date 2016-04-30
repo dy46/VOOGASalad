@@ -330,7 +330,7 @@ public class ElementTab extends Tab{
 		List<Affector> ata = unit.getAffectorsToApply();
 		List<Unit> children = unit.getChildren();
 		
-		//affectorsToUnit
+//		affectorToUnit.clear();
 //		for(int a = 0; a < affectors.size(); a++){
 //			affectorsToUnit
 //		}
