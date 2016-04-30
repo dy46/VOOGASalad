@@ -6,6 +6,7 @@ import auth_environment.Models.StoreTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IStoreTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -84,10 +85,13 @@ public class StoreTab extends Tab implements IWorkspace {
 
 	private Node createCostBox(ComboBox cBox) {
 		HBox hbox = new HBox();
+		hbox.setPadding(new Insets(10));
+		hbox.setSpacing(10);
+		cBox.setMinWidth(150);
 		hbox.getChildren().add(cBox);
 		TextField input = this.myNodeFactory.buildTextFieldWithPrompt("Cost");
 		input.setMaxWidth(65);
-		input.setMinHeight(25);
+		input.setMinHeight(23);
 		hbox.setMinWidth(200);
 		hbox.getChildren().add(input);
 		hbox.getChildren().add(createEditButton(cBox));
@@ -96,7 +100,7 @@ public class StoreTab extends Tab implements IWorkspace {
 	}
 
 	private Node createEditButton(ComboBox newCBox) {
-		Button edit = new Button("Edit Affectors");
+		Button edit = new Button("Edit Upgrades");
 		String name = (String) newCBox.getValue();
 		edit.setOnAction(e -> checkContent(newCBox, name));
 		return edit;
