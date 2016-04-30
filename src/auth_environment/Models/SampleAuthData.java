@@ -29,15 +29,7 @@ import game_engine.wave_goals.WaveGoal;
  * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
  */
 
-/**
- * Created by BrianLin on 4/19/16
- * Team member responsible: Brian
- *
- * This class holds the highest level of Auth Environment backend data. Most important is a single instance
- * of IEngineWorkspace.java (all of our data). 
- * 
- * This class should ALSO implement the Game Player's Interface once Auth testing is complete.
- */
+// TODO: consider deprecation
 
 public class SampleAuthData implements IAuthEnvironment {
 
@@ -252,6 +244,72 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public MapHandler getMapHandler() {
 		return myMapHandler; 
+	}
+
+	@Override
+	public List<Branch> getBranches() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPlaceValidations(List<PlaceValidation> placeValidations) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setStore(Store store) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getScore() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setScore(double score) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getCurrentWaveIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getSplashScreen() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSplashScreen(String fileName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setGoals(List<Position> goals) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSpawns(List<Position> spawns) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
