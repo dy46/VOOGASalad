@@ -1,19 +1,15 @@
 package auth_environment.view.tabs;
 
-import java.io.File;
 import java.util.ResourceBundle;
-
 import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
-import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
