@@ -51,13 +51,12 @@ public class EngineWorkspace implements GameEngineInterface {
         myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
-        myBranches = data.getEngineBranches();
+        myBranches = data.getBranches();
         myAffectors = data.getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
-        myLevelController =
-                new LevelController(data.getLevels(), 0, false);
+        myLevelController = new LevelController(data.getLevels(), data.getScore());
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =

@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
-import game_data.AuthSerializer;
+import game_data.Serializer;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.wave_goals.WaveGoal;
@@ -30,7 +30,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	private IAuthModel myAuthModel;
 	
 	// TODO: are type arguments necessary? 
-	private AuthSerializer writer = new AuthSerializer();
+	private Serializer writer = new Serializer();
 
 	public GameSettingsTabModel(IAuthModel authModel) {
 		this.myAuthModel = authModel;
