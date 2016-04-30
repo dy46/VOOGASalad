@@ -93,16 +93,20 @@ public class Movement {
 
 	public void initializeMovingTowards(){
 		if(myPosition != null && myCurrentBranch != null){
-			if(myPosition.equals(myCurrentBranch.getFirstPosition())){
+			System.out.println("FIRST POSITION" + myCurrentBranch.getFirstPosition());
+			System.out.println("LAST POSITION" + myCurrentBranch.getLastPosition());
+			if(myPosition.roughlyEquals((myCurrentBranch.getFirstPosition()))){
 				movingTowards = myCurrentBranch.getLastPosition();
 			}
-			else if(myPosition.equals(myCurrentBranch.getLastPosition())){
+			else if(myPosition.roughlyEquals(myCurrentBranch.getLastPosition())){
 				movingTowards = myCurrentBranch.getFirstPosition();
 			}
 			else{
 				
 			}
 		}
+		System.out.println("POSITION" + myPosition);
+		System.out.println("MOVING TOWARDS" + movingTowards);
 	}
 
 	public void setPosition(Position position){
