@@ -6,7 +6,6 @@ import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.UnitFactory;
-import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.score_updates.ScoreUpdate;
@@ -16,9 +15,6 @@ import game_engine.wave_goals.WaveGoal;
 public interface IGameData {
     public List<Level> getLevels();
     public void setLevels(List<Level> levels);
-
-    public List<Branch> getBranches();
-    public void setBranches(List<Branch> branches);
     
     public List<Unit> getPlacedUnits();
     public void setPlacedUnits(List<Unit> units);

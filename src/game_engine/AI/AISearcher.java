@@ -54,7 +54,7 @@ public class AISearcher {
 		}
 		while(!queue.isEmpty()){
 			Position next = queue.poll();
-			for(Position adjacent : myVisibility.getVisibleNeighbors(next, myEngine.getBranches(), visibleNodes)){
+			for(Position adjacent : myVisibility.getVisibleNeighbors(next, getLevelBranches(), visibleNodes)){
 				if(!visited.contains(adjacent)){
 					edges.put(adjacent, next);
 					distances.put(adjacent, distances.get(next) + 1);
@@ -63,7 +63,7 @@ public class AISearcher {
 				}
 			}
 		}
-		return new BFSTuple(myEngine.getBranches(), visited, edges, distances);
+		return new BFSTuple(getLevelBranches(), visited, edges, distances);
 	}
 
 	public boolean isValidSearch(BFSTuple myBFS){
@@ -78,6 +78,10 @@ public class AISearcher {
 
 	private List<Position> getGoals(){
 		return myEngine.getLevelController().getCurrentLevel().getGoals();
+	}
+	
+	private List<Branch> getLevelBranches(){
+		return myEngine.getLevelController().getCurrentBranches();
 	}
 
 }

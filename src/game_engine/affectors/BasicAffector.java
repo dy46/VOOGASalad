@@ -3,6 +3,7 @@ package game_engine.affectors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+import game_engine.Operator;
 import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Property;

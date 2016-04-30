@@ -61,7 +61,7 @@ public class VisibilityHandler {
 	}
 
 	private List<Position> getFilteredNodes (List<Position> nodesToFilter) {
-		HashSet<Position> copyVisibleNodes = new HashSet<Position>(getPosCopyList(getEndPoints(myEngine.getBranches())));
+		HashSet<Position> copyVisibleNodes = new HashSet<Position>(getPosCopyList(getEndPoints(getLevelBranches())));
 		List<Position> nodes = new ArrayList<>(copyVisibleNodes);
 		for(Position nodeToFilter : nodesToFilter){
 			while(nodes.contains(nodeToFilter)){
@@ -73,8 +73,8 @@ public class VisibilityHandler {
 
 	private List<Position> getNodesToFilter (List<Unit> obstacles) {
 		Set<Position> removalList = new HashSet<>();
-		List<Branch> engineBranches = myEngine.getBranches();
-		List<Position> copyPos = getPosCopyList(getEndPoints(engineBranches));
+		List<Branch> levelBranches = getLevelBranches();
+		List<Position> copyPos = getPosCopyList(getEndPoints(levelBranches));
 		List<Unit> copyObstacles = getUnitCopyList(obstacles);
 		double boundsExtension = myEngine.getEnemyController().getMaxBoundingDistance();
 		for (Unit o : copyObstacles) {
@@ -86,7 +86,7 @@ public class VisibilityHandler {
 					removalList.add(pos);
 				}
 			}
-			for(Branch branch : engineBranches){
+			for(Branch branch : levelBranches){
 				for(Position pos : branch.getPositions()){
 					if (midBranchObstacle(o, branch, pos)){
 						removalList.add(branch.getFirstPosition());
@@ -158,6 +158,10 @@ public class VisibilityHandler {
 				branchesAtPos.add(b);
 		}
 		return branchesAtPos;
+	}
+	
+	private List<Branch> getLevelBranches(){
+		return myEngine.getLevelController().getCurrentBranches();
 	}
 
 }

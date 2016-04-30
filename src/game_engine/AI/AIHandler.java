@@ -29,7 +29,7 @@ public class AIHandler {
 
 	public AIHandler(GameEngineInterface engine){
 		this.myEngine = engine;
-		this.mySearcher = engine.getAISearcher();
+		this.mySearcher = engine.getAIController().getAISearcher();
 	}
 
 	public void updateAIBranches() {
@@ -75,7 +75,7 @@ public class AIHandler {
 
 	public List<Branch> getBranchesAtPos (Position pos) {
 		List<Branch> branches = new ArrayList<>();
-		for (Branch b : myEngine.getBranches()) {
+		for (Branch b : myEngine.getLevelController().getCurrentBranches()) {
 			if(b.getPositions().contains(pos)){
 				branches.add(b);
 			}

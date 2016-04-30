@@ -98,17 +98,9 @@ public class Level extends GameElement {
     public int getStartingLives () {
         return startingLives;
     }
-
-    public void addBranch (Branch branch) {
-        myBranches.add(branch);
-    }
-
-    public void addAllPaths (List<Branch> branches) {
-        myBranches.addAll(branches);
-    }
-
-    public List<Branch> getPaths () {
-        return myBranches;
+    
+    public void setBranches(List<Branch> branches){
+    	this.myBranches = branches;
     }
 
     public void decrementLife () {
@@ -150,13 +142,14 @@ public class Level extends GameElement {
     public void addGoals (List<Position> goals) {
         this.myGoals.addAll(goals);
     }
-
-    public void addWaves (List<Wave> waves) {
-        this.myWaves.addAll(waves);
-    }
+    
 
     public List<Position> getGoals () {
         return myGoals;
+    }
+
+    public void addWaves (List<Wave> waves) {
+        this.myWaves.addAll(waves);
     }
 
     public boolean isGoal (Position goal) {
@@ -166,11 +159,17 @@ public class Level extends GameElement {
     }
 
     public boolean isEnemyAtGoal (Unit e) {
-        for (Position p : this.getGoals()) {
+    	if(myGoals == null)
+    		return false;
+        for (Position p : this.myGoals) {
             if (e.getProperties().getPosition().roughlyEquals(p)) {
                 return true;
             }
         }
         return false;
     }
+
+	public List<Branch> getBranches() {
+		return myBranches;
+	}
 }

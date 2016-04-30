@@ -1,6 +1,8 @@
 package game_engine.controllers;
 
 import java.util.List;
+
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.interfaces.ILevelDisplayer;
 
@@ -20,6 +22,10 @@ public class LevelController implements ILevelDisplayer {
     
     public Level getCurrentLevel() {
         return myCurrentLevel;
+    }
+    
+    public List<Branch> getCurrentBranches(){
+    	return myCurrentLevel.getBranches();
     }
     
     public void setCurrentLevel(Level currentLevel) {

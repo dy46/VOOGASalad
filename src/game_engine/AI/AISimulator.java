@@ -32,8 +32,8 @@ public class AISimulator {
 
 	public AISimulator(GameEngineInterface engine){
 		this.myEngine = engine;
-		this.myAISearcher = engine.getAISearcher();
-		this.myAIHandler = engine.getAIHandler();
+		this.myAISearcher = engine.getAIController().getAISearcher();
+		this.myAIHandler = engine.getAIController().getAIHandler();
 		this.myVisibility = new VisibilityHandler(engine);
 		collisionDetector = new CollisionDetector(engine);
 	}
