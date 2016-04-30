@@ -65,7 +65,7 @@ public class UnitFactory {
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));       
-        unit.setDeathDelay(inputs.get("Death Delay").get(0).intValue());
+        unit.setDeathDelay(inputs.get("DeathDelay").get(0).intValue());
         return unit;
     }
 
