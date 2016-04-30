@@ -45,7 +45,7 @@ public class UnitFactory {
 
     // Pass field inputs here
 
-    public Unit createUnit (String type, String unitType, HashMap<String, List<Double>> inputs,
+    public Unit createUnit (String type, String unitType, Map<String, List<Double>> inputs,
                             List<String> children,
                             List<String> affectors,
                             List<String> affectorsToApply) {

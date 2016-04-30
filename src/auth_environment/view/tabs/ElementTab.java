@@ -96,12 +96,12 @@ public class ElementTab extends Tab{
 		newBorderPane.setTop(newAnimationInfo.getRoot());
 		
         GridPane newTableInfo = new GridPane();
-        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(100),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
+        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("colConstraintSize"))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("colConstraintSize2"))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("colConstraintSize3"))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
         newTableInfo.getRowConstraints().addAll(new RowConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
-        newTableInfo.setPrefSize(600, 200);
+        newTableInfo.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")), Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));
 		newBorderPane.setLeft(newTableInfo);
 		GridPane bottomInfo = new GridPane();
-		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(530), new ColumnConstraints(90), new ColumnConstraints(70));
+		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("bottomInfoCol"))), new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("bottomInfoCol2"))), new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("bottomInfoCol3"))));
 		Button ok = new Button("OK");
 		ComboBox<String> unitType = addTextFields(newTableInfo);
 		ok.setOnAction(e -> createNewUnit(unitType, newAnimationInfo));
@@ -184,10 +184,6 @@ public class ElementTab extends Tab{
 		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
 	}
 	
-	private void addComboBox(){
-		
-	}
-
 	private ComboBox<String> addTextFields(GridPane newTableInfo) {
 		ComboBox<String> cb = new ComboBox<String>();;
 		for(String s: myUnitBundle.keySet()){
@@ -209,13 +205,19 @@ public class ElementTab extends Tab{
 	}
 
 	private void createNewUnit(ComboBox<String> unitType, AnimationPane newAnimationInfo) {
-		Map<String, String> strToStrMap = new HashMap<String, String>();
+		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();
+		
+	String name = strTextMap.get("Type").getText();
+	strTextMap.remove("Type");
     	for(String str: strTextMap.keySet()){
-    			strToStrMap.put(str, strTextMap.get(str).getText());
-    			strTextMap.get(str).clear();
+    		List<Double> val = new ArrayList<Double>();  		
+    		String[] strings = strTextMap.get(str).getText().trim().split("\\s+");
+    		for(String s: strings){
+    		    System.out.println(s);
+    			val.add(Double.parseDouble(s));
+    		}
+    		strToDoubleMap.put(str, val);
     	}
-    	
-    	strToStrMap.put(myUnitBundle.getString("unitText"), unitType.getValue());
     	
     	List<String> ata = new ArrayList<String>();
     	List<String> atu = new ArrayList<String>();
@@ -232,7 +234,7 @@ public class ElementTab extends Tab{
     	}
    
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-    	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
+	        Unit unit = myUnitFactory.createUnit(name, unitType.getValue(),strToDoubleMap, proj, atu, ata);
     	
     	newAnimationInfo.getAnimationLoaderTab().setUnit(unit);
         myUnitFactory.getUnitLibrary().addUnit(unit);
@@ -256,9 +258,9 @@ public class ElementTab extends Tab{
 		List<Affector> ata = unit.getAffectorsToApply();
 		List<Unit> children = unit.getChildren();
 		
-		//affectorsToUnit
-//		for(int a = 0; a < affectors.size(); a++){
-//			affectorsToUnit
+//		affectorsToUnit.get(0).setValue(affectors.get(0).getName());
+//		for(int i = 1; i < affectors.size(); i++){
+//			addNewComboBox()
 //		}
 		
 //		private List<ComboBox<String>> affectorsToUnit;

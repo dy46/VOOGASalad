@@ -52,7 +52,7 @@ public class AffectorFactory {
 	    return functionList;
 	}
 	
-	public Affector constructAffector(String name, String className, String property, List<String> functionNames, List<Double> functionValues) {
+	public Affector constructAffector(String name, String className, String property, int TTL, List<String> functionNames, List<Double> functionValues) {
 	       List<String> propertyList = new ArrayList<>();
 	       List<List<Function>> functionList = new ArrayList<>();
 	       functionNames.removeIf(f -> f == null);
@@ -81,6 +81,7 @@ public class AffectorFactory {
 	           e.printStackTrace();
 	       }
 	       newAffector.setName(name);
+	       newAffector.setTTL(TTL);
 	       myAffectorLibrary.addAffector(name, newAffector);
 	       System.out.println(myAffectorLibrary.getAffectorNames());
 	       return newAffector;
