@@ -5,7 +5,7 @@ import auth_environment.Models.UnitView;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class MapPane extends Pane {
+public class MapPane extends Pane{
 	
 	private int adjustFactor;
 	private MapEditorTabModel myModel;
