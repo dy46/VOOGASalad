@@ -49,6 +49,7 @@ public class ImageViewPicker extends UnitImageView {
         currState = state;
         currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
         getImageView().setImage(new Image(getName() + state + currFrame + EXTENSION));
+        
     }
     
     public void setDirection() {

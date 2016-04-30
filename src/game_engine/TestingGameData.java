@@ -35,7 +35,8 @@ public class TestingGameData {
         this.myPlaceValidations = new ArrayList<>();
         this.myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
         this.myPlaceValidations.add(new TowerPlaceValidation());
-        TestingEngineWorkspace engine = new TestingEngineWorkspace();
+        //TestingEngineWorkspace engine = new TestingEngineWorkspace();
+        PlatformEngineWorkspace engine = new PlatformEngineWorkspace();
         engine.setUpEngine(null);
         this.myPlacedUnits = engine.getAllUnits();
         this.myStore = engine.getStore();

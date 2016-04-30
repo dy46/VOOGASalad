@@ -185,11 +185,10 @@ public class TowerFactory {
 			Position startingPosition,
 			Store myStore) {
 		List<Unit> myProjectiles = new ArrayList<>();
-//		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
-		Affector move = myAffectorLibrary.getAffector("Cursor", "Direction");
+		Affector move = myAffectorLibrary.getAffector("Homing", "Move");
+//		Affector move = myAffectorLibrary.getAffector("Cursor", "Direction");
 		move.setTTL(Integer.MAX_VALUE);
-		Unit p =
-				new Unit("Projectile",
+		Unit p = new Unit("Projectile",
 						Arrays.asList(move), 3);
 		Affector increase = myAffectorLibrary.getAffector("Increase", "Range");
 		myStore.addUpgrade(p, increase, 100);
