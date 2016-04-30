@@ -263,7 +263,7 @@ public class PathTab extends Tab implements IWorkspace {
 		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
 				System.out.println(e.toString());
-				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
+				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
 				temp.setY(temp.getY() - 50);
 				myTerrains.add(temp);
 				System.out.println("X: " + e.getProperties().getPosition().getX());
