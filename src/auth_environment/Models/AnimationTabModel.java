@@ -21,10 +21,9 @@ public class AnimationTabModel implements IAnimationTabModel {
 	
 	private StateImageSaver mySaver;
 	
-	public AnimationTabModel(Unit unit) {
+	public AnimationTabModel() {
 		this.mySaver = new StateImageSaver(this.myURLSBundle.getString("saveImageLocation"), SUFFIX); 
 		this.myFiles = new ArrayList<File>();
-		this.myUnit = unit;
 	}
 
 	@Override
@@ -32,9 +31,13 @@ public class AnimationTabModel implements IAnimationTabModel {
 		this.myFiles.add(file);
 	}
 	
+	public void setUnit(Unit unit){
+		this.myUnit = unit;
+	}
+	
 	public void saveFiles(){
 		System.out.println("name:"+this.myUnit.getType());
 		System.out.println(this.myUnit.getName());
-		this.mySaver.saveFiles(this.myUnit.getName(), this.myFiles);
+		this.mySaver.saveFiles(this.myUnit.getName(), this.myUnit.getType(), this.myFiles);
 	}
 }

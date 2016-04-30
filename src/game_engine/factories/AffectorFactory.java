@@ -45,6 +45,7 @@ public class AffectorFactory {
 	    List<Function> functionList = new ArrayList<>();
 	    for(int i = 0; i < functionNames.size(); i++) {
 	        if(functionNames.get(i).equals("Constant")) {
+	            System.out.println("hi");
 	            functionList.add(myFunctionFactory.createConstantFunction(functionValues.get(i)));	           	            
 	        }
 	    }
@@ -52,7 +53,7 @@ public class AffectorFactory {
 	}
 	
 	public Affector constructAffector(String name, String className, String property, List<String> functionNames, List<Double> functionValues) {
-	       List<String> propertyList = Arrays.asList(property);
+	       List<String> propertyList = new ArrayList<>();
 	       List<List<Function>> functionList = new ArrayList<>();
 	       functionNames.removeIf(f -> f == null);
 	       functionValues.removeIf(f -> f== null);
@@ -67,8 +68,8 @@ public class AffectorFactory {
 	           }
 	       }
 	       else {
-	            propertyList.add(property);
-	            functionList.add(null);
+	            propertyList.add(null);
+	            functionList.add(convertToFunctions(functionNames, functionValues));
 	       }
 	       newData = new AffectorData(functionList, propertyList);	       
 	       Affector newAffector = null;
@@ -81,6 +82,7 @@ public class AffectorFactory {
 	       }
 	       newAffector.setName(name);
 	       myAffectorLibrary.addAffector(name, newAffector);
+	       System.out.println(myAffectorLibrary.getAffectorNames());
 	       return newAffector;
 	    }
 	
