@@ -8,6 +8,7 @@ import game_engine.properties.Position;
 import game_player.interfaces.IGameView;
 import game_player.utilties.PolygonUtility;
 import game_player.utilties.UnitTypeResourceBundleProcessor;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -21,7 +22,7 @@ public class RangeDisplayView extends UnitDisplayView {
     private Shape unionRange;
     private UnitTypeResourceBundleProcessor myPreferencesBundle;
 
-    public RangeDisplayView (IGameView gameView, Pane root) {
+    public RangeDisplayView (IGameView gameView, ScrollPane root) {
         super(gameView, root);
         this.unionRange = new Polygon();
         this.myPreferencesBundle = new UnitTypeResourceBundleProcessor();

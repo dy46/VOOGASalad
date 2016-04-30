@@ -5,11 +5,12 @@ import java.util.stream.Collectors;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.ImageViewPicker;
 import game_player.interfaces.IGameView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 public class UnitDisplayView extends DisplayView {
         
-    public UnitDisplayView (IGameView gameView, Pane root) {
+    public UnitDisplayView (IGameView gameView, ScrollPane root) {
         super(gameView, root);
     }
 

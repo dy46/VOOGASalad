@@ -5,6 +5,7 @@ import java.util.List;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
 import game_player.interfaces.IGameView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 
 
@@ -12,9 +13,9 @@ public abstract class DisplayView {
 
     private List<UnitImageView> imageViews;
     private IGameView gameView;
-    private Pane root;
+    private ScrollPane root;
 
-    public DisplayView (IGameView gameView, Pane root) {
+    public DisplayView (IGameView gameView, ScrollPane root) {
         this.imageViews = new ArrayList<UnitImageView>();
         this.gameView = gameView;
         this.root = root;
@@ -39,7 +40,7 @@ public abstract class DisplayView {
         return gameView;
     }
 
-    public Pane getRoot () {
+    public ScrollPane getRoot () {
         return root;
     }
 

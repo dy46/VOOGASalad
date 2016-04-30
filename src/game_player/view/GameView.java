@@ -12,6 +12,7 @@ import game_player.display_views.RangeDisplayView;
 import game_player.interfaces.IGameView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -24,7 +25,7 @@ public class GameView implements IGameView {
     private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
     private Scene myScene;
-    private Pane root;
+    private ScrollPane root;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
     private RangeDisplayView rangeDisplayView;

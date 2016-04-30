@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -21,19 +22,19 @@ public class GameCanvas {
     private Canvas myCanvas;
     private GraphicsContext myGC;
     private ResourceBundle myResources;
-    private Pane myRoot;
+    private ScrollPane myRoot;
 
     public GameCanvas (ResourceBundle r) {
         myResources = r;
-        myRoot = new Pane();
+        myRoot = new ScrollPane();
         myRoot.setPrefSize(CANVAS_WIDTH, CANVAS_LENGTH);
     }
 
-    public Pane createCanvas () {
+    public ScrollPane createCanvas () {
         myCanvas = new Canvas(CANVAS_LENGTH, CANVAS_WIDTH);
         myGC = myCanvas.getGraphicsContext2D();
         myGC.drawImage(new Image("background.png"), 0, 0);
-        myRoot.getChildren().add(myCanvas);
+        myRoot.setContent(myCanvas);
         return myRoot;
     }
 
@@ -46,7 +47,7 @@ public class GameCanvas {
         return myCanvas;
     }
 
-    public Pane getRoot () {
+    public ScrollPane getRoot () {
         return myRoot;
     }
 }
