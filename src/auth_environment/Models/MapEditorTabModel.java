@@ -38,6 +38,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	public void addTerrain(double xPos, double yPos, Unit element){
 		element.getProperties().getPosition().setX(xPos);
 		element.getProperties().getPosition().setY(yPos);
+		myAuthData.getPlacedUnits().add(element); 
 		myMap.put(new Position(xPos, yPos), element);
 	}
 	

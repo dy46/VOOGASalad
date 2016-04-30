@@ -13,7 +13,11 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
+import game_engine.wave_goals.WaveGoal;
 
 /**
  * Created by BrianLin on 4/19/16
@@ -39,18 +43,17 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
-	private List<Branch> myVisualBranches;
-	private List<Branch> myEngineBranches;
-	private List<Branch> myGridBranches;
 	private List<Level> myLevels;
-	private List<Unit> myTowers; 
-	private List<Unit> myEnemies;
-	private List<Unit> myTerrains;
-	private List<Unit> myProjectiles; 
-	private List<Affector> myAffectors; // Will eventually be replaced with a Library
-	private List<Unit> myPlacedUnits; 
-	private List<Position> mySpawns;
-	private List<Position> myGoals; 
+	private List<Unit> myTowers; // TODO: remove 
+	private List<Unit> myEnemies; // TODO: remove
+	private List<Unit> myTerrains; // TODO: remove
+	private List<Unit> myProjectiles; // TODO: remove
+	private List<Unit> myPlacedUnits; // TODO: remove
+	private MapHandler myMapHandler; 
+	private List<PlaceValidation> myPlaceValidations; 
+	private WaveGoal myWaveGoal;
+	private ScoreUpdate myScoreUpdate;
+	private Store myStore; 
 	
 	// TODO: Factory class variables... remove eventually
 	private UnitFactory myUnitFactory; 
@@ -60,38 +63,36 @@ public class SampleAuthData implements IAuthEnvironment {
 	public SampleAuthData() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
-		this.myEngineBranches = new ArrayList<>();
-		this.myVisualBranches = new ArrayList<>();
-		this.myGridBranches = new ArrayList<>();
 		this.myLevels = new ArrayList<>();
 		this.myTowers = new ArrayList<>();
 		this.myEnemies = new ArrayList<>();
 		this.myTerrains = new ArrayList<>();
 		this.myProjectiles = new ArrayList<>();
-		this.myAffectors = new ArrayList<>(); 
 		this.myPlacedUnits = new ArrayList<>(); 
-		this.mySpawns = new ArrayList<>();
-		this.myGoals = new ArrayList<>(); 
+		this.myPlaceValidations = new ArrayList<>(); 
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
-		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory); 
+		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory);
+		this.myMapHandler = new MapHandler(); 
 		this.setupDummyValues();
 	}
 
 	private void setupDummyValues() {
-		TestingEngineWorkspace test = new TestingEngineWorkspace();
-		test.setUpEngine(null);
+//		TestingEngineWorkspace test = new TestingEngineWorkspace();
+//		test.setUpEngine(this);
+		this.myStore = new Store(1000);
 //		this.setTerrains(test.getTerrains());
 //		this.setTowers(test.getTowers());
 //		this.setLevels(test.getLevels());
 //		this.setProjectiles(test.getProjectiles());
 //		this.setAffectors(test.getAffectors());
 //		this.setEnemies(test.getEnemies());
-		MapHandler mh = new MapHandler();
+//		MapHandler mh = new MapHandler();
+//		this.myBranches = mh.getEngineBranches();
 //		List<Branch> branches = mh.getEngineBranches();
 //		this.setEngineBranches(mh.getEngineBranches());
-		this.setGoals(mh.getGoals());
-		this.setSpawns(mh.getSpawns());
+//		this.setGoals(mh.getGoals());
+//		this.setSpawns(mh.getSpawns());
 		//		Unit tower = test.getTerrains().get(0); 
 		//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
@@ -158,7 +159,7 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public List<Affector> getAffectors() {
-		return this.myAffectors;
+		return this.myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 
 	@Override
@@ -188,62 +189,26 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public void setAffectors(List<Affector> affectors) {
-		this.myAffectors = affectors; 
 	}
 
 	@Override
 	public List<Branch> getEngineBranches() {
-		return this.myEngineBranches;
-	}
-
-	@Override
-	public void setEngineBranches(List<Branch> branches) {
-		this.myEngineBranches = branches; 
+		return this.myMapHandler.getEngineBranches();
 	}
 
 	@Override
 	public List<Position> getGoals() {
-		return this.myGoals;
+		return this.myMapHandler.getGoals();
 	}
-
-	@Override
-	public void setGoals(List<Position> goals) {
-		this.myGoals = goals; 
-	}
-
+	
 	@Override
 	public List<Position> getSpawns() {
-		return this.mySpawns;
-	}
-
-	@Override
-	public void setSpawns(List<Position> spawns) {
-		this.mySpawns = spawns; 
+		return this.myMapHandler.getSpawns();
 	}
 
 	@Override
 	public void setLevels(List<Level> levels) {
 		this.myLevels = levels; 
-	}
-
-	@Override
-	public List<Branch> getVisualBranches() {
-		return this.myVisualBranches;
-	}
-
-	@Override
-	public void setVisualBranches(List<Branch> branches) {
-		this.myVisualBranches = branches;
-	}
-
-	@Override
-	public void setGridBranches(List<Branch> gridBranches) {
-		myGridBranches = gridBranches;
-	}
-
-	@Override
-	public List<Branch> getGridBranches() {
-		return myGridBranches;
 	}
 
 	@Override
@@ -274,6 +239,46 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public void setAffectorFactory(AffectorFactory factory) {
 		this.myAffectorFactory = factory; 
+	}
+
+	@Override
+	public void setWaveGoal(WaveGoal goal) {
+		this.myWaveGoal = goal;
+	}
+
+	@Override
+	public WaveGoal getWaveGoal() {
+		return this.myWaveGoal;
+	}
+
+	@Override
+	public void setScoreUpdate(ScoreUpdate update) {
+		this.myScoreUpdate = update; 
+	}
+
+	@Override
+	public ScoreUpdate getScoreUpdate() {
+		return this.myScoreUpdate;
+	}
+
+	@Override
+	public Store getStore() {
+		return this.myStore;
+	}
+
+	@Override
+	public List<PlaceValidation> getPlaceValidations() {
+		return this.myPlaceValidations;
+	}
+
+	@Override
+	public void setMapHandler(MapHandler mh) {
+		myMapHandler = mh;
+	}
+
+	@Override
+	public MapHandler getMapHandler() {
+		return myMapHandler; 
 	}
 	
 }

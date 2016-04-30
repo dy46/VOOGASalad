@@ -11,13 +11,13 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class AuthSerializer<T> implements IDataConverter<T> {
+public class Serializer<T> implements IDataConverter<T> {
 	
 	private FileChooserDelegate chooser = new FileChooserDelegate(); 
 	
 	// TODO: force write as XML
 	
-	public void saveElement(T o) {
+	public void saveElement(Object o) {
 		
 		File f = this.chooser.save("Choose a file to save game data to");
 //		File f = pickFile(true);

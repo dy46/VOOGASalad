@@ -1,5 +1,7 @@
 package auth_environment.Models.Interfaces;
 
+import java.util.List;
+
 /**
  * Created by BrianLin on 4/19/16
  * Team member responsible: Brian
@@ -18,10 +20,20 @@ public interface IGameSettingsTabModel {
 	
 	public String getSplashFile(); 
 	
-	// Saves IAuthViewModel's instance of IEngineWorkspace
 	public void saveToFile(); 
 	
-	// Loads GameData from file and setsGIAuthViewModel's instance of IEngineWorkspace 
 	public void loadFromFile(); 
+	
+	public List<String> getScoreUpdateNames();
+	
+	public List<String> getWaveGoalNames();
+	
+	public List<String> getPlaceValidationNames();
+	
+	public void chooseScoreUpdate(String selectedItem);
+	
+	public void chooseWaveGoal(String selectedItem);
+	
+	public void choosePlaceValidation(String selectedItem); 
 	
 }

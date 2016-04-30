@@ -2,7 +2,7 @@ package game_player.view;
 
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
-import game_data.AuthSerializer;
+import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
 import game_engine.TestingEngineWorkspace;
@@ -67,8 +67,9 @@ public class PlayerGUI {
     }
 
     private IAuthEnvironment readData () {
-        AuthSerializer writer = new AuthSerializer();
+        Serializer writer = new Serializer();
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
+        System.out.println("SETTING BREAKPOINT");
         return gameData;
     }
 
@@ -76,10 +77,11 @@ public class PlayerGUI {
 //        gameEngine = new TestingEngineWorkspace();
 //        gameEngine.setUpEngine(null);
         gameEngine = new EngineWorkspace();
-        TestingGameData testData = new TestingGameData();
-        gameEngine.setUpEngine(testData);
+//        TestingGameData testData = new TestingGameData();
+        gameEngine.setUpEngine(readData());
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView,
-                                    myResources.getString("TabName") + (myTabs.getTabs().size() + 1))
+                                    myResources.getString("TabName") +
+                                                                      (myTabs.getTabs().size() + 1))
                                                                               .getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);

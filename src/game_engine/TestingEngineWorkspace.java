@@ -127,7 +127,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 						Collections.unmodifiableList(myTowers),
 						position2, myStore);
 		Unit t2 =
-				myTowerFactory.createTackTower("TackTower", myProjectiles,
+				myTowerFactory.createTackTower("Tack_Tower", myProjectiles,
 						Collections.unmodifiableList(myTowers),
 						position2, myStore);
 		// myStore.addBuyableTower(t, 100, 1);
@@ -187,14 +187,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
-		Unit AI1 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
-		Unit AI2 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
+		Unit AI1 = myEnemyFactory.createAIEnemy("Moab_Enemy", l.getSpawns().get(0));
+		Unit AI2 = myEnemyFactory.createAIEnemy("Moab_Enemy", l.getSpawns().get(0));
 		Unit e1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e3 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit e4 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
-		Unit AI3 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
-		Unit AI4 = myEnemyFactory.createAIEnemy("MoabEnemy", l.getSpawns().get(0));
+		Unit AI3 = myEnemyFactory.createAIEnemy("Moab_Enemy", l.getSpawns().get(0));
+		Unit AI4 = myEnemyFactory.createAIEnemy("Moab_Enemy", l.getSpawns().get(0));
 		Unit rand1 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit rand2 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		Unit rand3 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
@@ -209,12 +209,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		Unit rand12 = myEnemyFactory.createRandomEnemy("Enemy", l.getSpawns().get(0));
 		e1.getProperties().setHealth(50);
 		e2.getProperties().setHealth(50);
-		e3.getProperties().setHealth(50);
-		e4.getProperties().setHealth(50);
-		AI1.getProperties().setHealth(50);
-		AI2.getProperties().setHealth(50);
-		AI3.getProperties().setHealth(50);
-		AI4.getProperties().setHealth(50);
+		e3.getProperties().setHealth(1000);
+		e4.getProperties().setHealth(1000);
+		AI1.getProperties().setHealth(1000);
+		AI2.getProperties().setHealth(1000);
+		AI3.getProperties().setHealth(1000);
+		AI4.getProperties().setHealth(1000);
 		rand1.getProperties().setHealth(50);
 		rand2.getProperties().setHealth(50);
 		rand3.getProperties().setHealth(50);
@@ -232,9 +232,9 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// w.addSpawningUnit(e3, 60);
 		// w.addSpawningUnit(e4, 60);
 		w.addSpawningUnit(AI1, 60);
-//		w.addSpawningUnit(AI2, 60);
-//		w.addSpawningUnit(AI3, 60);
-//		w.addSpawningUnit(AI4, 60);
+		w.addSpawningUnit(AI2, 60);
+		w.addSpawningUnit(AI3, 60);
+		w.addSpawningUnit(AI4, 60);
 		// w.addSpawningUnit(rand1, 60);
 		// w.addSpawningUnit(rand2, 60);
 		// w.addSpawningUnit(rand3, 60);
@@ -314,7 +314,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 //	}
 
 	private List<Unit> makeDummyIceTerrain () {
-		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
+		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice_Terrain");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
 		pos.add(new Position(60, 0));
@@ -324,17 +324,17 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		ice1.getProperties().setBounds(pos);
 		ice1.setTTL(Integer.MAX_VALUE);
 
-		Unit ice2 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
+		Unit ice2 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice_Terrain");
 		ice2.getProperties().setPosition(185, 185);
 		ice2.getProperties().setBounds(pos);
 		ice2.setTTL(Integer.MAX_VALUE);
 
-		Unit ice3 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
+		Unit ice3 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice_Terrain");
 		ice3.getProperties().setPosition(185, 185);
 		ice3.getProperties().setBounds(pos);
 		ice3.setTTL(Integer.MAX_VALUE);
 
-		Unit ice4 = myTerrainFactory.getTerrainLibrary().getTerrainByName("IceTerrain");
+		Unit ice4 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice_Terrain");
 		ice4.getProperties().setPosition(215, 185);
 		ice4.getProperties().setBounds(pos);
 		ice4.setTTL(Integer.MAX_VALUE);
@@ -357,7 +357,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	// }
 
 	private Unit makeDummySpike () {
-		Unit spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("SpikesTerrain");
+		Unit spike = myTerrainFactory.getTerrainLibrary().getTerrainByName("Spikes_Terrain");
 		List<Position> pos = new ArrayList<>();
 		pos.add(new Position(0, 0));
 		pos.add(new Position(0, 30));
@@ -636,6 +636,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	public EnemyController getEnemyController() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void setUpEngine(IAuthEnvironment data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

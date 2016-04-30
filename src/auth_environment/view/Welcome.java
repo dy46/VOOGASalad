@@ -34,7 +34,6 @@ public class Welcome {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
 	private NodeFactory myNodeFactory = new NodeFactory();
-	private TextField gameNameInput;
 	private Stage myStage = new Stage(); 
 	private Scene welcomeScene; 
 	private VBox myRoot;
@@ -51,7 +50,6 @@ public class Welcome {
 				);
 		this.welcomeScene = new Scene(this.myRoot);
 		this.myRoot.getChildren().addAll(this.buildWompImage(), 
-//				this.buildTextInput(), 
 				this.buildSelectionButtons(),
 				this.buildAnimation()
 				);

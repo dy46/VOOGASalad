@@ -83,7 +83,7 @@ public class PathGraphFactory {
 		}
 		return branchPosLists;
 	}
-
+	
 	private Position[][] createPosGrid(double width, double length, double sideLength){
 		int numSquareCols = (int)Math.floor(width/sideLength) + 1;
 		int numSquareRows = (int)Math.floor(length/sideLength) + 1;
@@ -107,5 +107,11 @@ public class PathGraphFactory {
 	public List<Branch> getBranches(){
 		return myPathLibrary.getBranches();
 	}
-
+	
+	//TODO REFACTOR OUT THIS IS UGLY
+	public List<Branch> getGravityDefenseGameBranches()
+	{
+		
+		return null;
+	}
 }
