@@ -239,6 +239,7 @@ public class ElementTab extends Tab{
 		myFields.add("Price");
 		myFields.add("State");
 		myFields.add("Health");
+		myFields.add("TTL");
 		//UnitProperties unitProp =myUnitFactory.getUnitLibrary().getPropertyByType(type);
 		for(String s: myFields){
 			newTableInfo.getRowConstraints().add(new RowConstraints(30));
