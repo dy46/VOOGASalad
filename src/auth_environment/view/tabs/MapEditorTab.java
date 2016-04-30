@@ -3,37 +3,22 @@ package auth_environment.view.tabs;
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.MapEditorTabModel;
-import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.GridMapPane;
 import auth_environment.delegatesAndFactories.FreeMapPane;
 import auth_environment.view.UnitPicker;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 
 public class MapEditorTab extends Tab implements IWorkspace {	
@@ -66,7 +51,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		this.buildMapPane();
 		this.buildGridMapPane();
 		this.buildFreeMapPane();
-//		this.updateMapPane(this.myFreeMapPane, "Free");
 		this.setupInitialBorderPane();
 		this.setContent(this.getRoot());
 	}
@@ -140,7 +124,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
     
     private CheckBox buildGridSwitchBox(){
     	CheckBox gridSwitch = new CheckBox("Grid Line");
-    	gridSwitch.setTextFill(Color.GREEN);
+    	gridSwitch.setTextFill(Color.WHITE);
         gridSwitch.setSelected(true);
         gridSwitch.setOnAction(e -> this.myGridMapPane.setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
     	return gridSwitch;

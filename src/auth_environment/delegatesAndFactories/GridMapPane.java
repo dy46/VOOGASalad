@@ -1,16 +1,10 @@
 package auth_environment.delegatesAndFactories;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
-import game_engine.properties.Position;
-import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 
 public class GridMapPane extends GridPane implements IMapPane {
@@ -18,6 +12,7 @@ public class GridMapPane extends GridPane implements IMapPane {
 	private int numCols;
 	private int numRows;
 	private MapEditorTabModel myModel;
+	
 	public GridMapPane(MapEditorTabModel model, int cols, int rows) {
 		this.myModel = model;
 		this.setNumColsRows(cols, rows);
@@ -51,7 +46,6 @@ public class GridMapPane extends GridPane implements IMapPane {
         }
 	}
 	
-
 	public MapEditorTabModel getModel(){
 		return myModel;
 	}
@@ -61,7 +55,6 @@ public class GridMapPane extends GridPane implements IMapPane {
 		double originalY = uv.getY();
 		convertToGridPosition(uv);
 		this.add(uv, convertToColumn(originalX), convertToRow(originalY));
-
 	}
 	
 	public void convertToGridPosition(UnitView uv){

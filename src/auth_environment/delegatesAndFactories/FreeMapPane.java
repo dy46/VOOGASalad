@@ -3,7 +3,6 @@ package auth_environment.delegatesAndFactories;
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class FreeMapPane extends Pane implements IMapPane{
