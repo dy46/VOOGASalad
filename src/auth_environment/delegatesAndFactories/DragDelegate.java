@@ -95,24 +95,11 @@ public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
 				Dragboard db = event.getDragboard();
 				boolean success = false;
 				if (db.hasString()) {
-//					System.out.println(db.getString());
-//					System.out.println("I got this!");
-//					System.out.println("Name: " + db.getString());
-//					System.out.println(db.getImage());
-//					System.out.println(myPicker.getRoot().lookup(db.getString()));
 					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 					target.adjustUnitViewScale(imv);
 					target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
-//					System.out.println("After Scale " + imv.getFitHeight());
-//					System.out.println("X: " + event.getSceneX());
-//					System.out.println("Y: " + event.getSceneY());
-//					System.out.println("Grid X: " + imv.getX());
-//					System.out.println("Grid Y: " + imv.getY());
-//					System.out.println(myPicker.myEditInfo.getChildren());
 					imv.addContextMenu(target, imv);
 					target.addToPane(imv);
-//					System.out.println(imv.getY());
-//					System.out.println(imv.getX());
 					target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
 					success = true;
 				}

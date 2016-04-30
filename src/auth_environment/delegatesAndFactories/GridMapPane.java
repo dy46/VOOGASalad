@@ -18,10 +18,10 @@ public class GridMapPane extends GridPane implements IMapPane {
 	private int numCols;
 	private int numRows;
 	private MapEditorTabModel myModel;
-	private Map<UnitView, Position> myMap;
-	public GridMapPane(MapEditorTabModel model) {
+	public GridMapPane(MapEditorTabModel model, int cols, int rows) {
 		this.myModel = model;
-		myMap = new HashMap<UnitView, Position>();
+		this.setNumColsRows(cols, rows);
+		this.setGridLinesVisible(true);
 	}
 	
 
@@ -31,11 +31,10 @@ public class GridMapPane extends GridPane implements IMapPane {
 		System.out.println(uv.getFitHeight());
 	}
 	
-
-//	public void adjustUnitViewXY(UnitView uv, double x, double y){
-//		uv.setX((int)(x/(this.getRoot().getWidth()/gridWidth)));
-//		uv.setY((int)((y-uv.getFitHeight())/(this.getRoot().getHeight()/gridWidth)));
-//	}
+	public void adjustUnitViewXY(UnitView uv, double x, double y){
+		uv.setX(x);
+		uv.setY(y - uv.getFitHeight());
+	}
 	
 	public void setNumColsRows(int cols, int rows){
 		this.numCols = cols;
@@ -57,15 +56,19 @@ public class GridMapPane extends GridPane implements IMapPane {
 		return myModel;
 	}
 	
-
 	public void addToPane(UnitView uv){
-		this.add(uv, convertToColumn(uv.getX()), convertToRow(uv.getY()));
-		this.myMap.put(uv, new Position(uv.getX(), uv.getY()));
+		double originalX= uv.getX();
+		double originalY = uv.getY();
+		convertToGridPosition(uv);
+		this.add(uv, convertToColumn(originalX), convertToRow(originalY));
+
 	}
 	
-	public Map<UnitView, Position> getMap(){
-		return this.myMap;
+	public void convertToGridPosition(UnitView uv){
+		uv.setX(uv.getFitWidth()*(convertToColumn(uv.getX())));
+		uv.setY(uv.getFitHeight()*(convertToRow(uv.getY())));
 	}
+	
 	private int convertToColumn(double x){
 		return ((int)(x/(this.getWidth()/numCols)));
 	}
@@ -74,19 +77,12 @@ public class GridMapPane extends GridPane implements IMapPane {
 		return ((int)(y/(this.getHeight()/numRows)));
 	}
 
-
 	public GridPane getRoot(){
 		return this;
 	}
 	
 	public void setModel(MapEditorTabModel model){
 		this.myModel = model;
-	}
-
-
-	public void adjustUnitViewXY(UnitView uv, double x, double y) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 }

@@ -56,7 +56,6 @@ public class PathTab extends Tab implements IWorkspace {
 	private IPathTabModel myPathTabModel;
 	private IAuthEnvironment myAuth;
 	private IAuthModel myAuthModel;
-	private MapEditorTab myMapEditorTab;
 	private int drawingIndex;
 	private List<Position> currentBranch;
 
@@ -69,9 +68,7 @@ public class PathTab extends Tab implements IWorkspace {
 		this.myBorderPane = new BorderPane(); 
 		this.myNodeFactory = new NodeFactory(); 
 		this.myTerrains = new ArrayList();
-		this.myMapEditorTab = new MapEditorTab(this.myAuthModel, "Fuck this shit");
 		this.canvasPane = new Pane();
-		canvasPane.getChildren().add(myMapEditorTab.getFreeMapPane());
 		this.setupBorderPane();
 		this.currentBranch = new ArrayList<>();
 		this.drawMap();

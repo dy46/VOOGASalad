@@ -65,19 +65,28 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		this.buildMapPane();
 		this.buildGridMapPane();
 		this.buildFreeMapPane();
-		this.setupBorderPane();
+//		this.updateMapPane(this.myFreeMapPane, "Free");
+		this.setupInitialBorderPane();
 		this.setContent(this.getRoot());
 	}
-
-	private void setupBorderPane() {
+	
+	private void setupInitialBorderPane(){
 		this.myBorderPane.setOnMouseEntered(e-> this.refresh());
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-		
 		this.myBorderPane.setRight(myPicker.getRoot());
-		this.myBorderPane.setLeft(myMapPane);
+		this.myBorderPane.setLeft(buildInitialHBox());
 		this.myBorderPane.setBottom(buildHBox());
 	}
+
+//	private void setupBorderPane() {
+//		this.myBorderPane.setOnMouseEntered(e-> this.refresh());
+//		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
+//				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
+//		this.myBorderPane.setRight(myPicker.getRoot());
+//		this.myBorderPane.setLeft(myMapPane);
+//		this.myBorderPane.setBottom(buildHBox());
+//	}
 	
 	private void refresh(){
 		this.myAuth = myAuthModel.getIAuthEnvironment();
@@ -99,24 +108,17 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		myMapPane = new TitledPane();
 	}
 	
-	private void addToMapPane(IMapPane mapPane, String name){
+	private void updateMapPane(IMapPane mapPane, String name){
 		myMapPane.setText(name);
 		myMapPane.setContent(mapPane.getRoot());
+		this.myBorderPane.setLeft(myMapPane);
 	}
 	
 	private void buildGridMapPane(){
-        myGridMapPane = new GridMapPane(myModel);
+        myGridMapPane = new GridMapPane(myModel, numCols, numRows);
         myGridMapPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
         		Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
-        myGridMapPane.getRoot().setGridLinesVisible(true);
-        myGridMapPane.setNumColsRows(numCols, numRows);
         this.myDragDelegate.setUpNodeTarget(myGridMapPane, myPicker);
-        this.addToMapPane(myGridMapPane, "Grid");
-	}
-	
-	private void updateGridMapPane(){
-		this.myMapPane.setContent(myGridMapPane.getRoot());
-		this.myBorderPane.setLeft(this.myMapPane);
 	}
 	
 	private void buildFreeMapPane(){
@@ -124,19 +126,21 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		myFreeMapPane.setPrefSize(Double.parseDouble(this.myDimensionsBundle.getString("canvasWidth")), 
 				Double.parseDouble(this.myDimensionsBundle.getString("canvasHeight")));
 		this.myDragDelegate.setUpNodeTarget(myFreeMapPane, myPicker);
-		this.addToMapPane(myFreeMapPane, "Free");
 	}
 	
     private Button buildClearButton() {
 		Button clear = new Button("Clear");
-		clear.setOnAction(e -> this.myGridMapPane.getChildren().clear());
+		clear.setOnAction(e -> {
+			this.myGridMapPane.getChildren().clear();
+			this.myModel.clear();
+		});
 		return clear;
 	}
     
     private CheckBox buildGridSwitchBox(){
     	CheckBox gridSwitch = new CheckBox("Grid Line");
         gridSwitch.setSelected(true);
-        gridSwitch.setOnAction(e -> this.myGridMapPane.getRoot().setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
+        gridSwitch.setOnAction(e -> this.myGridMapPane.setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
     	return gridSwitch;
     }
     
@@ -146,18 +150,43 @@ public class MapEditorTab extends Tab implements IWorkspace {
     		if(gridMode.getText().equals("Grid")){
     			gridMode.setText("Free");
     			myModel.convert(myGridMapPane);
-    			this.addToMapPane(myGridMapPane, "Grid");
+    			this.updateMapPane(myGridMapPane, "Grid");
     		}else{
     			gridMode.setText("Grid");
     			myModel.convert(myFreeMapPane);
-    			this.addToMapPane(myFreeMapPane, "Free");
+    			this.updateMapPane(myFreeMapPane, "Free");
     		}
     	});
     	
     	return gridMode;
     }
     
-	
+	 private HBox buildInitialHBox() {
+	        HBox hbox = new HBox();
+	        hbox.setPadding(new Insets(15, 12, 15, 12));
+	        hbox.setSpacing(10);
+
+	        Button gridOption = buildGridOptionButton();
+	        Button freeOption = buildFreeOptionButton();
+	        
+	        hbox.getChildren().addAll(gridOption, freeOption);
+	        return hbox;
+	    }
+	 
+	 private Button buildGridOptionButton(){
+		 Button gridOption = new Button("Grid");
+		 gridOption.setOnAction(e -> this.updateMapPane(myGridMapPane, "Grid"));
+		 return gridOption;
+	 }
+	 
+	 private Button buildFreeOptionButton(){
+		 Button freeOption = new Button("Free");
+		 freeOption.setOnAction(e -> this.updateMapPane(myFreeMapPane, "Free"));
+		 return freeOption;
+	 }
+	 
+	 
+	 
 	 private HBox buildHBox() {
         HBox hbox = new HBox();
         hbox.setPadding(new Insets(15, 12, 15, 12));
