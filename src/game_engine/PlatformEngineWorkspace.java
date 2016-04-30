@@ -113,9 +113,11 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		Position position2 = new Position(200, 300);
 		Unit t = myTowerFactory.createHomingTower("Cannon_Tower", myProjectiles, Collections.unmodifiableList(myTowers),
 				position2, myStore);
-		
-		/*Unit t = myTowerFactory.createHomingTower("Tower", myProjectiles, Collections.unmodifiableList(myTowers),
-				position2, myStore);*/
+
+		/*
+		 * Unit t = myTowerFactory.createHomingTower("Tower", myProjectiles,
+		 * Collections.unmodifiableList(myTowers), position2, myStore);
+		 */
 		Pair<Unit, Integer> towerPair = new Pair<Unit, Integer>(t, 100);
 		List<Pair<Unit, Integer>> towers = new ArrayList<Pair<Unit, Integer>>();
 
@@ -187,22 +189,36 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	private List<Unit> makeTerrain() {
-
+		
+		List<Position> terrainPositions = new ArrayList<>();
+		for(int i = 0; i < 7; i++)//horizontal top wall
+			terrainPositions.add(new Position(200 + 48 * i, 200));
+		
+		for(int i = 0; i < 11; i++)//bottom wall
+			terrainPositions.add(new Position(0 + 48 * i, 400));
+		
+		terrainPositions.add(new Position(0, 400 - 48));
+		
 		List<Unit> terrain = new ArrayList<>();
-		for (int i = 0; i < 10; i++) {
+		for (Position p : terrainPositions) {
 			Unit groundTerrain = myTerrainFactory.getTerrainLibrary().getTerrainByName("GroundTerrain");
-			List<Position> pos = new ArrayList<>();
-			pos.add(new Position(0, 0));
-			pos.add(new Position(60, 0));
-			pos.add(new Position(60, 60));
-			pos.add(new Position(0, 60));
-			groundTerrain.getProperties().setBounds(pos);
-			groundTerrain.getProperties().setPosition(10, i * 10);
+
+			groundTerrain.getProperties().setBounds(getBoundingBox(48, 48));
+			groundTerrain.getProperties().setPosition(p);
 			groundTerrain.setTTL(Integer.MAX_VALUE);
 			terrain.add(groundTerrain);
 		}
 
 		return terrain;
+	}
+
+	private List<Position> getBoundingBox(int x, int y) {
+		List<Position> pos = new ArrayList<>();
+		pos.add(new Position(0, 0));
+		pos.add(new Position(x, 0));
+		pos.add(new Position(x, y));
+		pos.add(new Position(0, y));
+		return pos;
 	}
 
 	public String getGameStatus() {
