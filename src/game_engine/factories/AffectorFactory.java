@@ -67,9 +67,13 @@ public class AffectorFactory {
 	               propertyList.add(null);
 	           }
 	       }
+	       else if (functionNames.size() == 0){
+	            propertyList.add(property);
+	            functionList.add(null);
+	       }
 	       else {
-	            propertyList.add(null);
-	            functionList.add(convertToFunctions(functionNames, functionValues));
+	    	   propertyList.add(property);
+	    	   functionList.add(convertToFunctions(functionNames, functionValues));
 	       }
 	       newData = new AffectorData(functionList, propertyList);	       
 	       Affector newAffector = null;
