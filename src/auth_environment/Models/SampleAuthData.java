@@ -43,16 +43,12 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	private String myName;
 	private String mySplashFileName;
-	private List<Branch> myEngineBranches;
-	private List<Branch> myBranches; 
 	private List<Level> myLevels;
 	private List<Unit> myTowers; // TODO: remove 
 	private List<Unit> myEnemies; // TODO: remove
 	private List<Unit> myTerrains; // TODO: remove
 	private List<Unit> myProjectiles; // TODO: remove
 	private List<Unit> myPlacedUnits; // TODO: remove
-	private List<Position> myGoals;
-	private List<Position> mySpawns;
 	private MapHandler myMapHandler; 
 	private List<PlaceValidation> myPlaceValidations; 
 	private WaveGoal myWaveGoal;
@@ -67,15 +63,12 @@ public class SampleAuthData implements IAuthEnvironment {
 	public SampleAuthData() {
 		this.myName = "sampleGame";
 		this.mySplashFileName = "smackCat.gif";
-		this.myEngineBranches = new ArrayList<>();
 		this.myLevels = new ArrayList<>();
 		this.myTowers = new ArrayList<>();
 		this.myEnemies = new ArrayList<>();
 		this.myTerrains = new ArrayList<>();
 		this.myProjectiles = new ArrayList<>();
 		this.myPlacedUnits = new ArrayList<>(); 
-		this.mySpawns = new ArrayList<>();
-		this.myGoals = new ArrayList<>(); 
 		this.myPlaceValidations = new ArrayList<>(); 
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
@@ -200,32 +193,17 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public List<Branch> getEngineBranches() {
-		return this.myEngineBranches;
-	}
-
-	@Override
-	public void setEngineBranches(List<Branch> branches) {
-		this.myEngineBranches = branches; 
+		return this.myMapHandler.getEngineBranches();
 	}
 
 	@Override
 	public List<Position> getGoals() {
-		return this.myGoals;
+		return this.myMapHandler.getGoals();
 	}
-
-	@Override
-	public void setGoals(List<Position> goals) {
-		this.myGoals = goals; 
-	}
-
+	
 	@Override
 	public List<Position> getSpawns() {
-		return this.mySpawns;
-	}
-
-	@Override
-	public void setSpawns(List<Position> spawns) {
-		this.mySpawns = spawns; 
+		return this.myMapHandler.getSpawns();
 	}
 
 	@Override
@@ -281,11 +259,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public ScoreUpdate getScoreUpdate() {
 		return this.myScoreUpdate;
-	}
-
-	@Override
-	public List<Branch> getBranches() {
-		return this.getMapHandler().getEngineBranches();
 	}
 
 	@Override
