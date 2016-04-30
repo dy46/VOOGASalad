@@ -52,7 +52,7 @@ public class LevelOverviewTab extends Tab {
 	private Tab addLevelTab() {
 		int newLevelIndex = this.myTabs.getTabs().size() + 1; 
 		String newLevelName = "Level " + newLevelIndex;
-		myLevelOverviewTabModel.addLevel(newLevelName, 10); // TODO: Not hardcode number of lives
+		myLevelOverviewTabModel.addLevel(newLevelName, Integer.parseInt(myNamesBundle.getString("levelDefaultLife")));
 		Tab tab = new LevelTab(newLevelName, 
 				newLevelIndex, 
 				myAuthModel, 
