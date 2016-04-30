@@ -196,5 +196,32 @@ public class UnitProperties {
     public void setPosition (Position newPos) {
         this.myMovement.setPosition(newPos);
     }
+    
+    public void setPropertiesToBase(UnitProperties base){
+    	for(Field f : this.getClass().getDeclaredFields()){
+    		if(f.getName().matches("my[A-Za-z]*") && f.getName().equals("myMovement") == false){
+    			try {
+					Property p = (Property) f.get(this);
+					if(p.isBaseProperty()){
+						Property replace = (Property) f.get(base);
+						p.setValues(replace.getValues());
+					}
+				} catch(Exception e){
+					e.printStackTrace();
+				}
+    		}
+    	}
+    }
+    public static void main(String[] args){
+    	UnitProperties p = new UnitProperties();
+    	UnitProperties p1 = p.copyUnitProperties();
+    	p1.setMass(123.4);
+    	p1.setVelocity(40, 40);
+    	System.out.println(p1.getMass().getValues());
+    	System.out.println(p1.getVelocity().getValues());
+    	p1.setPropertiesToBase(p);
+    	System.out.println(p1.getMass().getValues());
+    	System.out.println(p1.getVelocity().getValues());
+    }
 
 }

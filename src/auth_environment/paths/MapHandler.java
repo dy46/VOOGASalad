@@ -8,7 +8,29 @@ import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
 public class MapHandler {
+	
+	/*
+	 * In order to make a path using this class.... Patrick Grady 2:45PM 4/29/2016
+	 * 
+	 * 	
+	 	MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
+		List<Position> path = new ArrayList<>();
 
+		path.add(new Position(500, 200));
+		path.add(new Position(200, 200));
+		path.add(new Position(150, 400));
+		path.add(new Position(50, 400));
+		path.add(new Position(500, 401));
+
+		mh.processPositions(path);
+		mh.addSpawn(path.get(0));
+		mh.addGoal(path.get(path.size() - 1));
+
+		myBranches = mh.getEngineBranches();
+		l.setGoals(mh.getGoals());
+		l.setSpawns(mh.getSpawns());
+	 */
+	
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myEngineBranches;
@@ -21,7 +43,7 @@ public class MapHandler {
 		myEngineBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-		createGrid();
+//		createGrid();
 //		insertTestBranches();
 	}
 
@@ -31,6 +53,8 @@ public class MapHandler {
 		this.myGoals = goals; 
 		myPGF = new PathGraphFactory(engineBranches);
 		myPositionHandler = new PositionHandler();
+		mySpawns = new ArrayList<>();
+		myGoals = new ArrayList<>();
 		//		insertTestBranches();
 	}
 

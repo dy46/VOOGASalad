@@ -21,6 +21,7 @@ public class Unit extends GameElement {
 
     private List<Unit> parents;
     private UnitProperties myProperties;
+    private UnitProperties myBaseProperties;
     private List<Affector> myAffectors;
     private List<Affector> myAffectorsToApply;
     private int TTL;
@@ -35,6 +36,7 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = new UnitProperties();
+        myBaseProperties = myProperties.copyUnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
         addAffectors(affectors);
@@ -42,11 +44,11 @@ public class Unit extends GameElement {
         parents = new ArrayList<>();
         this.TTL = Integer.MAX_VALUE;
     }
-
     public Unit (String name, UnitProperties unitProperties, int numFrames) {
         super(name);
         initialize();
         myProperties = unitProperties;
+        myBaseProperties = unitProperties.copyUnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
@@ -57,13 +59,16 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = new UnitProperties();
+        myBaseProperties = myProperties.copyUnitProperties();
         elapsedTime = 0;
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
         this.TTL = Integer.MAX_VALUE;
     }
-
+    public String getType(){
+    	return this.getName().split("\\s+")[0];
+    }
     public Unit copyUnit () {
         Unit copy = this.copyShallowUnit();
         List<Unit> copiedChildren =

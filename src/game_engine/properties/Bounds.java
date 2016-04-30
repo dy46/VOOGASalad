@@ -74,4 +74,9 @@ public class Bounds extends Property {
 		maxBoundingDistance = BoundsHandler.getMaxBoundingDistance(myPositions);
 	}
 
+	@Override
+	public boolean isBaseProperty() {
+		return false;
+	}
+
 }

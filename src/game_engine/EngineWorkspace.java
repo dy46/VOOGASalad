@@ -15,7 +15,9 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
+import game_engine.interfaces.IStore;
 import game_engine.physics.CollisionDetector;
 import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
@@ -31,7 +33,7 @@ public class EngineWorkspace implements GameEngineInterface {
     private List<Affector> myAffectors;
     private LevelController myLevelController;
     private ICollisionDetector myCollider;
-    private EncapsulationDetector myEncapsulator;
+    private IEncapsulationDetector myEncapsulator;
     private UnitController myUnitController;
     private EnemyController myEnemyController;
     private WaveGoal waveGoal;
@@ -68,11 +70,11 @@ public class EngineWorkspace implements GameEngineInterface {
     @Override
     public void update () {
         Level myCurrentLevel = myLevelController.getCurrentLevel();
-        Store myStore = myUnitController.getStore();
+        IStore myStore = myUnitController.getStore();
         List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
         myUnitController.getStore().clearBuyableUnits();
         // TODO: store should not be updated here
-        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
+//        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
         nextWaveTimer++;
         waveProgression(myCurrentLevel);
         myUnitController.getUnitType("Projectile").forEach(p -> p.update());

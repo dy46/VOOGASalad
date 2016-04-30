@@ -67,25 +67,20 @@ public class UnitFactory {
     }
 
     public List<Unit> getUnitsFromString (List<String> names) {
-        if (names.contains(null)) {
-            return new ArrayList<>();
-        }
+    	names.removeIf(n -> n == null);
         List<Unit> units = new ArrayList<>();
         names.stream().forEach(n -> units.add(myUnitLibrary.getUnitByName(n)));
         return units;
     }
 
     public List<Affector> getAffectorsFromString (List<String> names) {
-        if (names.contains(null)) {
-            return new ArrayList<>();
-        }
+    	names.removeIf(n -> n == null);
         List<Affector> affectors = new ArrayList<>();
         System.out.println("AFFECTOR NAMES ARE" + names);
         names.stream().forEach(n -> {
         	affectors.add(myAffectorLibrary.getAffector(n));
         	System.out.println(n);
         });
-        System.out.println(affectors);
         return affectors;
     }
 
