@@ -99,8 +99,6 @@ public class AffectorTab extends Tab{
 		
 		String property = effects.remove(0).getValue();
 		List<String> eff = new ArrayList<String>();
-		List<List<Double>> funct = new ArrayList<List<Double>>();
-
 		
 		for(ComboBox<String> e: effects){
 			eff.add(e.getValue());
@@ -111,7 +109,7 @@ public class AffectorTab extends Tab{
 			values.add(Double.parseDouble(f.getText()));
 		}
 		
-		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, eff, funct);
+		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, eff, values);
 
 		myPane.getChildren().clear();
 		init();

@@ -184,10 +184,6 @@ public class ElementTab extends Tab{
 		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
 	}
 	
-	private void addComboBox(){
-		
-	}
-
 	private ComboBox<String> addTextFields(GridPane newTableInfo) {
 		ComboBox<String> cb = new ComboBox<String>();;
 		for(String s: myUnitBundle.keySet()){
@@ -209,13 +205,15 @@ public class ElementTab extends Tab{
 	}
 
 	private void createNewUnit(ComboBox<String> unitType, AnimationPane newAnimationInfo) {
-		Map<String, String> strToStrMap = new HashMap<String, String>();
+		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();
     	for(String str: strTextMap.keySet()){
-    			strToStrMap.put(str, strTextMap.get(str).getText());
-    			strTextMap.get(str).clear();
+    		List<Double> val = new ArrayList<Double>();
+    		String[] strings = strTextMap.get(str).getText().split("//s+");
+    		for(String s: strings){
+    			val.add(Double.parseDouble(s));
+    		}
+    		strToDoubleMap.put(str, val);
     	}
-    	
-    	strToStrMap.put(myUnitBundle.getString("unitText"), unitType.getValue());
     	
     	List<String> ata = new ArrayList<String>();
     	List<String> atu = new ArrayList<String>();
@@ -232,7 +230,7 @@ public class ElementTab extends Tab{
     	}
    
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-    	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
+    	Unit unit = myUnitFactory.createUnit(unitType.getValue(), strToDoubleMap, proj, atu, ata);
     	
     	newAnimationInfo.getAnimationLoaderTab().setUnit(unit);
         myUnitFactory.getUnitLibrary().addUnit(unit);
