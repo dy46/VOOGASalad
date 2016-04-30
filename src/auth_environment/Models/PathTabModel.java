@@ -33,8 +33,6 @@ public class PathTabModel implements IPathTabModel {
 	private IAuthEnvironment myAuthData;  
 	private MapHandler myMapHandler; 
 	private List<Position> myCurrentBranch;
-	private List<Position> myGoals;
-	private List<Position> mySpawns;
 	
 	// TODO: reselect a branch by clicking on the corresponding BoundLine (GUI element) 
 	private Map<BoundLine, Branch> myBranchMap; 
@@ -52,21 +50,14 @@ public class PathTabModel implements IPathTabModel {
 		this.myBranchMap = new HashMap<BoundLine, Branch>(); 
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 		this.myCurrentBranch = new ArrayList<Position>(); 
-		this.myGoals = auth.getGoals();
-		myGoals.add(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
-		myGoals.add(new Position(500, 500));
-		this.mySpawns = auth.getSpawns();
-		mySpawns.add(new Position(0,0));
 		this.myMapHandler = auth.getMapHandler();
 		this.myLevels = auth.getLevels(); 
 	}
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
-//		this.myCurrentBranch.clear();
-//		this.myGoals = auth.getGoals();
-//		this.mySpawns = auth.getSpawns();
-//		this.myMapHandler = auth.getMapHandler();
+		this.myCurrentBranch.clear();
+		this.myMapHandler = auth.getMapHandler();
 		this.myLevels = auth.getLevels(); 
 	}
 
@@ -85,7 +76,7 @@ public class PathTabModel implements IPathTabModel {
 	public void submitBranch() {
 		this.myMapHandler.processPositions(myCurrentBranch);
 		myCurrentBranch.clear();
-		this.submit(); 
+		this.submit();
 	}
 
 	@Override
@@ -96,12 +87,7 @@ public class PathTabModel implements IPathTabModel {
 	}
 
 	private void submit() {
-		this.myAuthData.setEngineBranches(this.myMapHandler.getEngineBranches());
-	}
-
-	@Override
-	public List<Branch> getEngineBranches() {
-		return this.myAuthData.getEngineBranches();
+		this.myAuthData.setMapHandler(myMapHandler);
 	}
 
 	@Override
@@ -117,26 +103,6 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public void createGrid() {
 		myMapHandler.createGrid();
-	}
-
-	@Override
-	public void addNewSpawn(double x, double y) {
-		this.mySpawns.add(new Position(x, y));
-	}
-
-	@Override
-	public void addNewGoal(double x, double y) {
-		myGoals.add(new Position(x,y));
-	}
-
-	@Override
-	public List<Position> getGoals() {
-		return myGoals;
-	}
-
-	@Override
-	public List<Position> getSpawns() {
-		return mySpawns;
 	}
 	
 	public List<String> getLevelNames() {
@@ -190,14 +156,13 @@ public class PathTabModel implements IPathTabModel {
 	public Unit getActiveUnit() {
 		return this.myActiveUnit;
 	}
-
 	
 	// TODO: ask if we should add Goals to Waves instead of Levels
 	@Override
 	public void addGoalToActiveLevel(Position goal) {
+		myMapHandler.addGoal(goal);
 		if (this.currentLevel!=null) {
 			currentLevel.addGoal(goal);
-			myMapHandler.addGoal(goal);
 		}
 	}
 
@@ -206,6 +171,31 @@ public class PathTabModel implements IPathTabModel {
 		if (this.currentLevel!=null) {
 			currentLevel.addSpawn(spawn);
 		}
+	}
+
+	@Override
+	public List<Branch> getEngineBranches() {
+		return myMapHandler.getEngineBranches();
+	}
+
+	@Override
+	public void addNewSpawn(double x, double y) {
+		myMapHandler.addSpawn(new Position(x, y));
+	}
+
+	@Override
+	public void addNewGoal(double x, double y) {
+		myMapHandler.addGoal(new Position(x, y));
+	}
+
+	@Override
+	public List<Position> getGoals() {
+		return myMapHandler.getGoals();
+	}
+
+	@Override
+	public List<Position> getSpawns() {
+		return myMapHandler.getSpawns();
 	}
 
 }

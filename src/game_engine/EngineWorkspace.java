@@ -49,7 +49,7 @@ public class EngineWorkspace implements GameEngineInterface {
         myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
-        myBranches = data.getBranches();
+        myBranches = data.getEngineBranches();
         myAffectors = data.getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);

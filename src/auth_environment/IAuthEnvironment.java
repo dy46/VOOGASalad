@@ -48,14 +48,6 @@ public interface IAuthEnvironment {
 	
 	// Path Tab - Brian
 	
-	public List<Position> getGoals();
-	
-	public void setGoals(List<Position> goals);
-	
-	public List<Position> getSpawns();
-	
-	public void setSpawns(List<Position> spawns); 
-	
 	// All Levels Tab - Cody
 	
 	public void setLevels(List<Level> levels); 
@@ -95,12 +87,6 @@ public interface IAuthEnvironment {
     public void setAffectors(List<Affector> affectors); 
     
     public List<Affector> getAffectors();
-
-	public List<Branch> getEngineBranches();
-	
-	public void setEngineBranches(List<Branch> branches);
-
-	public List<Branch> getBranches(); 
 	
 	public void setMapHandler(MapHandler mh);
 	
@@ -118,5 +104,12 @@ public interface IAuthEnvironment {
 	
 	public AffectorFactory getAffectorFactory();
 	
-	public void setAffectorFactory(AffectorFactory factory); 
+	public void setAffectorFactory(AffectorFactory factory);
+
+	public List<Branch> getEngineBranches();
+
+	public List<Position> getGoals();
+
+	public List<Position> getSpawns();
+	
 }
