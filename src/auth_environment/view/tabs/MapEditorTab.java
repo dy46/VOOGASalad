@@ -34,6 +34,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 
 public class MapEditorTab extends Tab implements IWorkspace {	
 	
@@ -139,6 +140,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
     
     private CheckBox buildGridSwitchBox(){
     	CheckBox gridSwitch = new CheckBox("Grid Line");
+    	gridSwitch.setTextFill(Color.GREEN);
         gridSwitch.setSelected(true);
         gridSwitch.setOnAction(e -> this.myGridMapPane.setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
     	return gridSwitch;
@@ -194,9 +196,9 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
         Button clearButton = buildClearButton();
         CheckBox gridSwitchBox = buildGridSwitchBox();
-        Button gridModeButton = buildGridModeButton();
+//        Button gridModeButton = buildGridModeButton();
         
-        hbox.getChildren().addAll(clearButton,gridSwitchBox, gridModeButton);
+        hbox.getChildren().addAll(clearButton,gridSwitchBox);
         return hbox;
     }
 	
