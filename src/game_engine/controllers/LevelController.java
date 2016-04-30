@@ -11,11 +11,11 @@ public class LevelController implements ILevelDisplayer {
     private double score;
     private boolean paused;
     
-    public LevelController(List<Level> levels, double score) {
+    public LevelController(List<Level> levels, double score, int myCurrentLevelIndex) {
         this.myLevels = levels;
         this.score = score;
         this.paused = false;
-        this.myCurrentLevel = this.myLevels.get(0);
+        this.myCurrentLevel = this.myLevels.get(myCurrentLevelIndex);
     }
     
     public Level getCurrentLevel() {

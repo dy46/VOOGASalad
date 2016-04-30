@@ -5,8 +5,6 @@ import auth_environment.IAuthEnvironment;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
-import game_engine.TestingEngineWorkspace;
-import game_engine.TestingGameData;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;

@@ -3,6 +3,7 @@ package game_data;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
@@ -16,13 +17,16 @@ import game_engine.wave_goals.WaveGoal;
 
 public class GameData implements IGameData {
 	private List<Level> myLevels = new ArrayList<Level>();
-	private List<Branch> myBranches = new ArrayList<Branch>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>();
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
 	private Store myStore;
 	private double myScore;
+	private int myCurrentLevelIndex = 0;
+	
+	private MapHandler myMapHandler = new MapHandler();
+
 	
 	private AffectorFactory myAffectorFactory;
 	private UnitFactory myUnitFactory;
@@ -38,11 +42,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public List<Branch> getBranches() {
-		return myBranches;
-	}
-	@Override
-	public void setBranches(List<Branch> branches) {
-		myBranches = branches;
+		return myMapHandler.getBranches();
 	}
 	
 	@Override
@@ -119,5 +119,23 @@ public class GameData implements IGameData {
 	@Override
 	public void setUnitFactory(UnitFactory unitFactory) {
 		myUnitFactory = unitFactory;
+	}
+	
+	@Override
+	public int getCurrentLevelIndex() {
+		return myCurrentLevelIndex;
+	}
+	@Override
+	public void setCurrentLevelIndex(int currentLevelIndex) {
+		myCurrentLevelIndex = currentLevelIndex;
+	}
+	
+	@Override
+	public MapHandler getMapHandler() {
+		return myMapHandler;
+	}
+	@Override
+	public void setMapHandler(MapHandler mapHandler) {
+		myMapHandler = mapHandler;
 	}
 }

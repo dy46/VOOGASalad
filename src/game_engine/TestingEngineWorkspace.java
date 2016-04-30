@@ -183,7 +183,7 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
-		myBranches = mh.getEngineBranches();
+		myBranches = mh.getBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);

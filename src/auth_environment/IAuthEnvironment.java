@@ -56,39 +56,4 @@ public interface IAuthEnvironment extends IGameData {
 	
 	public void setFunctionFactory(FunctionFactory factory); 
 	
-	// IGameData Methods
-	
-	public List<Level> getLevels();
-    public void setLevels(List<Level> levels);
-
-    public List<Branch> getBranches();
-    public void setBranches(List<Branch> branches);
-    
-    public List<Unit> getPlacedUnits();
-    public void setPlacedUnits(List<Unit> units);
-
-    public List<Affector> getAffectors();
-	public AffectorFactory getAffectorFactory();
-	public void setAffectorFactory(AffectorFactory factory); 
-
-    public List<PlaceValidation> getPlaceValidations();
-    public void setPlaceValidations(List<PlaceValidation> placeValidations);
-    
-    public WaveGoal getWaveGoal();
-    public void setWaveGoal(WaveGoal waveGoal);
-    
-    public ScoreUpdate getScoreUpdate();
-    public void setScoreUpdate(ScoreUpdate scoreUpdate);
-
-    public Store getStore();
-    public void setStore(Store store);
-    
-    public double getScore();
-    public void setScore(double score);
-	
-	public UnitFactory getUnitFactory();
-	public void setUnitFactory(UnitFactory factory); 
-	
-	public MapHandler getMapHandler();
-	public void setMapHandler(MapHandler mapHandler);
 }
