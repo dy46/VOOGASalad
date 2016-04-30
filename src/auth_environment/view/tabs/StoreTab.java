@@ -38,6 +38,7 @@ public class StoreTab extends Tab implements IWorkspace {
 	private void init(){
 		myRoot = new BorderPane();
 		myGrid = new GridPane();
+		setRefresh();
 		int index = 0;
 		Button dummyButton = new Button("Lol why do i exist");
 		ComboBox dummyCBox = new ComboBox();
@@ -47,6 +48,18 @@ public class StoreTab extends Tab implements IWorkspace {
 		Button done = new Button("Done");
 		myRoot.setBottom(done);
 		setContent(myRoot);
+	}
+	
+	private void setRefresh(){
+		this.myRoot.setOnMouseEntered(e -> refresh());
+		this.setOnSelectionChanged(e -> refresh());
+	}
+	
+	private void refresh(){
+		for(ComboBox unitBox: unitList){
+			unitBox.getItems().clear();
+			unitBox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
+		}
 	}
 	
 	private void createProductList(int index, GridPane newTableInfo, Button dButton, ComboBox dCBox){
@@ -87,6 +100,10 @@ public class StoreTab extends Tab implements IWorkspace {
 		if(newCBox.getValue() != null){
 			EditUpgradeWindow eWindow = new EditUpgradeWindow(name, myAuthModel);
 		}
+	}
+	
+	private void updateBuyables(){
+		
 	}
 	
 
