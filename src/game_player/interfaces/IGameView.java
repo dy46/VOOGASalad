@@ -50,6 +50,8 @@ public interface IGameView {
     
     MediaPlayer getMusic();
     
+    void setMusic(String song);
+    
     GameCanvas getCanvas();
     
 }

@@ -33,13 +33,17 @@ public class PlayerMainTab implements IPlayerTab {
     private static final int BOTTOM_PADDING = 5;
     private static final int LEFT_PADDING = 5;
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
+    private static final String PREFERENCES_ELEMENTS = "game_player/resources/PreferencesElements";
+    private static final String PREFERENCES = "game_player/resources/Preferences";
     private static final String PACKAGE_NAME = "game_player.";
     private static final int PANEL_PADDING = 10;
     private static final int CONFIGURATION_PANEL_PADDING = 20;
     private Tab myTab;
     private BorderPane myRoot;
-    private ResourceBundle myResources;
+    private ResourceBundle myGUIResources;
+    private ResourceBundle myPreferencesResources;
     private ResourceBundle elementsResources;
+    private ResourceBundle preferencesResources;
     private GameDataSource gameData;
     private List<IGUIObject> gameElements;
     private IGameView gameView;
@@ -63,9 +67,11 @@ public class PlayerMainTab implements IPlayerTab {
                           IMainView main,
                           String tabName) {
         this.gameEngine = engine;
-        this.myResources = r;
+        this.myGUIResources = r;
+        this.myPreferencesResources = ResourceBundle.getBundle(PREFERENCES);
         this.gameElements = new ArrayList<>();
         this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
+        this.preferencesResources = ResourceBundle.getBundle(PREFERENCES_ELEMENTS);
         this.gameData = new GameDataSource();
         this.myScene = scene;
         this.myMainView = main;
@@ -77,10 +83,11 @@ public class PlayerMainTab implements IPlayerTab {
     public Tab getTab () {
         myTab = new Tab();
         myRoot = new BorderPane();
-        setMusic(myResources.getString("Audio"));
+        setMusic(myGUIResources.getString("Audio"));
         createUISections();
         initializeCanvas();
-        initializeElements();
+        initializeElements(elementsResources, myGUIResources);
+        initializeElements(preferencesResources, myPreferencesResources);
         placeUISections();
         myTab.setContent(myRoot);
         myTab.setText(tabName);
@@ -88,23 +95,23 @@ public class PlayerMainTab implements IPlayerTab {
     }
 
     private void initializeCanvas () {
-        myCanvas = new GameCanvas(myResources);
-        myHUD = new GameHUD(myResources, myCanvas);
+        myCanvas = new GameCanvas(myGUIResources);
+        myHUD = new GameHUD(myGUIResources, myCanvas);
         gameSection.getChildren().addAll(myCanvas.createCanvas(), myHUD.createNode());
         gameView = new GameView(gameEngine, myCanvas, myHUD, myScene, this);
         gameView.playGame(0);
     }
 
-    private void initializeElements () {
+    private void initializeElements (ResourceBundle elements, ResourceBundle resource) {
         IGUIObject newElement = null;
-        Enumeration<String> resourceKeys = elementsResources.getKeys();
+        Enumeration<String> resourceKeys = elements.getKeys();
         while (resourceKeys.hasMoreElements()) {
             String currentKey = resourceKeys.nextElement();
             String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
             try {
                 newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
                         .getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class)
-                        .newInstance(myResources, gameData, gameView);
+                        .newInstance(resource, gameData, gameView);
                 gameElements.add(newElement);
 
                 placeElement(newElement, keyAndPosition[1].trim());
@@ -144,7 +151,7 @@ public class PlayerMainTab implements IPlayerTab {
     private void configurePanels () {
     	Insets panelInsets = new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING,
     	        LEFT_PADDING);
-        Label configurationLabel = new Label(myResources.getString("Configuration"));
+        Label configurationLabel = new Label(myGUIResources.getString("Configuration"));
         configurationLabel.setFont(new Font("Arial", 20));
         configurationPanel.setAlignment(Pos.TOP_CENTER);
 //        configurationPanel.getChildren().add(configurationLabel);

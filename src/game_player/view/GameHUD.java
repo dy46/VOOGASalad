@@ -26,10 +26,10 @@ import javafx.util.Callback;
 
 public class GameHUD {
 	
+	private static final int HUD_HEIGHT = 150;
+	private static final int UPGRADES_LISTVIEW_HEIGHT = 100;
 	private static final int IMAGEVIEW_HEIGHT = 30;
-
 	private static final String PNG_EXTENSION = ".png";
-
 	private static final int PANEL_SPACING = 5;
 
     private ResourceBundle myResources;
@@ -70,7 +70,8 @@ public class GameHUD {
         unitImage = new ImageView();
         unitType = new Label();
         sellButton = new Button();
-        unitStuff.getChildren().addAll(new Label(myResources.getString("SelectedUnit")), unitType, unitImage, sellButton);
+        unitStuff.getChildren().addAll(new Label(myResources.getString("SelectedUnit")),
+        		unitType, unitImage, sellButton);
         HUDBox.getChildren().addAll(unitStuff, myUpgradesTab);
         HUDBox.setAlignment(Pos.CENTER_LEFT);
     }
@@ -93,7 +94,7 @@ public class GameHUD {
 
     public void addUpgrades (Unit u) {
     	ListView<Affector> upgradesList = new ListView<>();
-    	upgradesList.setPrefHeight(100);
+    	upgradesList.setPrefHeight(UPGRADES_LISTVIEW_HEIGHT);
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
@@ -118,7 +119,7 @@ public class GameHUD {
 
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
-    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), 150);
+    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), HUD_HEIGHT);
     	rect.setOpacity(0);
     	HUDBox.getChildren().add(rect);
         if (gameView != null) {

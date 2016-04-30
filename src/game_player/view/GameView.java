@@ -189,6 +189,10 @@ public class GameView implements IGameView {
     	return myTab.getMusic();
     }
     
+    public void setMusic(String song) {
+    	myTab.setMusic(song);
+    }
+    
     public GameCanvas getCanvas() {
     	return myCanvas;
     }
