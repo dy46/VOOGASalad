@@ -155,6 +155,7 @@ public class PathTabModel implements IPathTabModel {
 	
 	@Override
 	public void addGoalToActiveLevel(Position goal) {
+		System.out.println("GOAL " + goal);
 		myMapHandler.addGoal(goal);
 		if (currentLevel!=null) {
 			currentLevel.addGoal(goal);
