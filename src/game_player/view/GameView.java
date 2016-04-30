@@ -53,7 +53,6 @@ public class GameView implements IGameView {
         setUpEventHandlers(scene);
         setUpSpeed();
         setUpHUD();
-        setCSS(DEFAULT_CSS);
     }
 
     private void setUpEventHandlers (Scene scene) {

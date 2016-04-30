@@ -19,6 +19,8 @@ import main.IMainView;
 
 public class PlayerGUI {
 
+	private static final String DEFAULT_CSS = "PlayerTheme1.css";
+    private static final String DEFAULT_PACKAGE = "game_player/view/";
     private static final double TABS_OFFSET = 0;
     private static final double NEWTAB_OFFSET = 33;
     private static final String GUI_RESOURCE = "game_player/resources/GUI";
@@ -55,6 +57,9 @@ public class PlayerGUI {
         AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
         AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
         AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
+
+        myScene.getStylesheets().add(DEFAULT_PACKAGE + DEFAULT_CSS);
+        myScene.getRoot().getStyleClass().add("background");
 
         myRoot.getChildren().addAll(myTabs, newTabButton);
 
