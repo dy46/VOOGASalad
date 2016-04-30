@@ -110,18 +110,18 @@ public class StoreTab extends Tab implements IWorkspace {
 	}
 	
 	//THIS NEEDS TO BE CHANGED
-//	private void updateBuyables(){
-//		List<String> names = new ArrayList<String>();
-//		List<Integer> costs = new ArrayList<Integer>();
-//		for(int i = 0; i < unitList.size(); i++){
-//			System.out.println("Store test: " + unitList.get(i).getValue());
-//			names.add(unitList.get(i).getValue());
-//			costs.add(Integer.parseInt(costList.get(i).getText()));
-//		}
-//		myStoreTabModel.addBuyableUnits(names, costs);
-//		System.out.println("Values updated to back-end");
-//	}
-//	
+	private void updateBuyables(){
+		List<String> names = new ArrayList<String>();
+		List<Integer> costs = new ArrayList<Integer>();
+		for(int i = 0; i < unitList.size(); i++){
+			System.out.println("Store test: " + unitList.get(i).getValue());
+			names.add(unitList.get(i).getValue());
+			costs.add(Integer.parseInt(costList.get(i).getText()));
+		}
+		myStoreTabModel.addBuyableUnits(names, costs);
+		System.out.println("Values updated to back-end");
+	}
+	
 
 	public Node getRoot() {
 		return myRoot;
