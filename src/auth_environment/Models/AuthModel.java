@@ -1,5 +1,6 @@
 package auth_environment.Models;
 
+import auth_environment.AuthEnvironment;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 
@@ -19,7 +20,7 @@ public class AuthModel implements IAuthModel {
 	
 	public AuthModel() {
 		// Start with empty EngineWorkspace. Can load one from file however. 
-		authInterface = new SampleAuthData(); 
+		authInterface = new AuthEnvironment(); 
 	}
 
 	@Override

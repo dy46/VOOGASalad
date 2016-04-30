@@ -130,7 +130,7 @@ public class MapHandler {
 		return myPGF;
 	}
 
-	public List<Branch> getEngineBranches() {
+	public List<Branch> getBranches() {
 		myEngineBranches.addAll(myPGF.getBranches());
 		return myEngineBranches;
 	}

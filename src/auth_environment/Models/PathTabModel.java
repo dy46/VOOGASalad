@@ -170,7 +170,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public List<Branch> getEngineBranches() {
-		return myMapHandler.getEngineBranches();
+		return myMapHandler.getBranches();
 	}
 
 	@Override

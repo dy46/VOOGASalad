@@ -26,11 +26,11 @@ import game_engine.properties.Position;
 
 public interface GameEngineInterface {
 
-	List<String> saveGame ();
+	public void saveGame ();
 
-	void update ();
+	public void update ();
 
-	void setUpEngine (IAuthEnvironment data);
+	public void setUpEngine (IAuthEnvironment data);
 
 	public UnitController getUnitController ();
 
@@ -54,7 +54,7 @@ public interface GameEngineInterface {
 
 	public AISimulator getAISimulator();
 
-	ILevelDisplayer getLevelDisplay();
+	public ILevelDisplayer getLevelDisplay();
 
 	public EnemyController getEnemyController ();
 
