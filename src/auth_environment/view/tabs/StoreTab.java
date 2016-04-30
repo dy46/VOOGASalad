@@ -50,20 +50,17 @@ public class StoreTab extends Tab implements IWorkspace {
 	}
 	
 	private void createProductList(int index, GridPane newTableInfo, Button dButton, ComboBox dCBox){
-		if (dCBox.getValue() != null) {
-			newTableInfo.getChildren().remove(dButton);
-			ComboBox<String> newCBox = new ComboBox<String>();
-			newCBox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
-			newTableInfo.add(createCostBox(newCBox), 2, index);
-			index++;
-			Button newAffectorButton = new Button("+ Add New Product");
-			int num = index;
-			newAffectorButton
-			.setOnAction(e -> createProductList(num, newTableInfo, newAffectorButton,
-					newCBox));
-			newTableInfo.add(newAffectorButton, 2, index);
-			unitList.add(newCBox);
-		}
+		newTableInfo.getChildren().remove(dButton);
+		ComboBox<String> newCBox = new ComboBox<String>();
+		newCBox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
+		newTableInfo.add(createCostBox(newCBox), 2, index);
+		index++;
+		Button newAffectorButton = new Button("+ Add New Product");
+		int num = index;
+		newAffectorButton.setOnAction(e -> createProductList(num, newTableInfo, newAffectorButton, newCBox));
+		newTableInfo.add(newAffectorButton, 2, index);
+		unitList.add(newCBox);
+
 	}
 	
 	private Node createCostBox(ComboBox cBox){
