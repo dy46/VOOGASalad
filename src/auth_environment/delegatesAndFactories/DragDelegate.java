@@ -2,7 +2,11 @@ package auth_environment.delegatesAndFactories;
 
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
+import auth_environment.Models.Interfaces.IPathTabModel;
+import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
+import game_engine.properties.Movement;
+import game_engine.properties.Position;
 import javafx.event.EventHandler;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
@@ -10,6 +14,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 /**
  * Created by BrianLin on 4/11/2016
@@ -97,6 +102,36 @@ public class DragDelegate {
 				event.setDropCompleted(success);
 				event.consume();
 			}
+		});
+	}
+	
+	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, IPathTabModel pathModel) {
+		Circle target = pathPoint.getCircle(); 
+		
+		target.setOnDragOver(e -> {
+			e.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+			e.consume();
+		});
+		
+		target.setOnDragEntered(e -> e.consume());
+
+		target.setOnDragExited(e -> e.consume());
+		
+		target.setOnDragDropped(e -> {
+			e.acceptTransferModes(TransferMode.COPY);
+			Dragboard db = e.getDragboard();
+			boolean success = false;
+			if (db.hasString()) {
+				UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
+				pathModel.setActiveUnit(uv.getUnit());
+				Position pos = pathPoint.getPosition(); 
+				pathModel.addSpawnToActiveLevel(pos);
+				uv.getUnit().getProperties().setMovement(new Movement(pos));
+				uv.getUnit().getProperties().setPosition(pos);
+				success = true;
+			}
+			e.setDropCompleted(success);
+			e.consume();
 		});
 	}
 }
