@@ -3,6 +3,12 @@ package auth_environment;
 import java.util.List;
 
 import auth_environment.paths.MapHandler;
+import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
+import game_engine.factories.UnitFactory;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -88,6 +94,10 @@ public interface IAuthEnvironment extends IGameData {
 	
 	public UnitFactory getUnitFactory();
 	public void setUnitFactory(UnitFactory factory); 
+	
+	public StoreFactory getStoreFactory();
+	
+	public void setStoreFactory(StoreFactory factory); 
 	
 	public MapHandler getMapHandler();
 	public void setMapHandler(MapHandler mapHandler);

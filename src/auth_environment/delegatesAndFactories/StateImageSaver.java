@@ -28,8 +28,9 @@ public class StateImageSaver {
 	 * @param	unit is the developer create string that determines which speicific unit is being created
 	 * @param	images is the list of file images to be renamed
 	 */
-	public void saveFiles(String type, String unit, List<File> images){
-		String prefix = type + "_" + unit;
+	public void saveFiles(String name, List<File> images){
+		String prefix = name;
+//		System.out.println(name);
 		for(int i = 1;i <= images.size();i++){
 			String rename = prefix + i;
 			try{
@@ -54,13 +55,13 @@ public class StateImageSaver {
 	/*
 	 * Takes in a list of file locations instead of actual files and renames/saves them
 	 */
-	public void saveFileLocations(String type, String unit, List<String> imageLocations) throws IOException{
+	public void saveFileLocations(String name, List<String> imageLocations) throws IOException{
 		List<File> files = new ArrayList<File>();
 		for(String s :imageLocations){
 			File f = new File(s);
 			files.add(f);
 		}
-		this.saveFiles(type, unit, files);
+		this.saveFiles(name, files);
 	}
 	
 }
