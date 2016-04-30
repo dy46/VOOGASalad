@@ -96,12 +96,12 @@ public class ElementTab extends Tab{
 		newBorderPane.setTop(newAnimationInfo.getRoot());
 		
         GridPane newTableInfo = new GridPane();
-        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(100),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
+        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("colConstraintSize"))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("colConstraintSize2"))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("colConstraintSize3"))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
         newTableInfo.getRowConstraints().addAll(new RowConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
-        newTableInfo.setPrefSize(600, 200);
+        newTableInfo.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")), Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));
 		newBorderPane.setLeft(newTableInfo);
 		GridPane bottomInfo = new GridPane();
-		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(530), new ColumnConstraints(90), new ColumnConstraints(70));
+		bottomInfo.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("bottomInfoCol"))), new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("bottomInfoCol2"))), new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("bottomInfoCol3"))));
 		Button ok = new Button("OK");
 		ComboBox<String> unitType = addTextFields(newTableInfo);
 		ok.setOnAction(e -> createNewUnit(unitType, newAnimationInfo));
@@ -254,10 +254,10 @@ public class ElementTab extends Tab{
 		List<Affector> ata = unit.getAffectorsToApply();
 		List<Unit> children = unit.getChildren();
 		
-		//affectorsToUnit
-//		for(int a = 0; a < affectors.size(); a++){
-//			affectorsToUnit
-//		}
+		affectorsToUnit.get(0).setValue(affectors.get(0).getName());
+		for(int i = 1; i < affectors.size(); i++){
+			addNewComboBox()
+		}
 		
 //		private List<ComboBox<String>> affectorsToUnit;
 //		private List<ComboBox<String>> affectorsToApply;

@@ -95,7 +95,7 @@ public class AffectorTab extends Tab{
 	private void createNewAffector() {
 		String name = strTextMap.get("Name").getText();
 		String type = "game_engine.affectors.Basic" + strDropMap.get("Iteration Type?").getValue() + "Affector";
-		strTextMap.remove("Name");
+		double ttl = Double.parseDouble(strTextMap.get("TTL").getText());
 		
 		String property = effects.remove(0).getValue();
 		List<String> eff = new ArrayList<String>();
@@ -109,7 +109,7 @@ public class AffectorTab extends Tab{
 			values.add(Double.parseDouble(f.getText()));
 		}
 		
-		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, eff, values);
+		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl, eff, values);
 
 		myPane.getChildren().clear();
 		init();
@@ -122,6 +122,14 @@ public class AffectorTab extends Tab{
 		TextField myTextField = new TextField();
 		newTableInfo.add(myTextField, 2, index);
 		strTextMap.put(s, myTextField);
+		index++;
+		
+		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+		String s1 = "TTL";
+		newTableInfo.add(new Text(s), 1, index);
+		TextField myTextField1 = new TextField();
+		newTableInfo.add(myTextField1, 2, index);
+		strTextMap.put(s1, myTextField1);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
