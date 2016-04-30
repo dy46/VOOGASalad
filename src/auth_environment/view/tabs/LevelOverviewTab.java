@@ -2,20 +2,14 @@ package auth_environment.view.tabs;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
-
 import java.util.ResourceBundle;
-
 import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import game_engine.game_elements.Level;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 
 public class LevelOverviewTab extends Tab {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
@@ -34,21 +28,8 @@ public class LevelOverviewTab extends Tab {
 	
 	private void init() {
 		this.myRoot = new BorderPane();
-		
-		Label lifeLabel = new Label("Lives: ");
-		lifeLabel.setTextFill(Color.RED);
-		
-//		TextField lifeField = new TextField();
-//		lifeField.setPromptText("10");
-//		
-//		HBox lifeHB = new HBox();
-//		lifeHB.getChildren().addAll(lifeLabel, lifeField);
-//		lifeHB.setSpacing(10);
-//		myRoot.setTop(lifeHB);
-		
 		this.myTabs = new TabPane();
 		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
-		this.setRefresh();
 		this.setUpLevelTabs();
 		this.setupBorderPane();
 		this.setContent(myRoot);
@@ -57,20 +38,6 @@ public class LevelOverviewTab extends Tab {
 	private void setupBorderPane() {
 		myRoot.setRight(this.buildNewLevelButton());
 		myRoot.setLeft(myTabs);
-//		Tab addTabButton = new Tab("+ Level");
-//		addTabButton.setOnSelectionChanged(e -> addLevelTab());
-//		myTabs.getTabs().addAll(addTabButton);
-	}
-	
-	private void setRefresh() {
-		this.myRoot.setOnMouseEntered(e -> this.refresh());
-//		this.setOnSelectionChanged(e -> this.refresh()); 
-	}
-	
-	private void refresh() {
-//		this.myLevelOverviewTabModel.refresh(this.myAuthModel.getIAuthEnvironment());
-		System.out.println("refresh in level overview");
-//		this.setUpLevelTabs();
 	}
 	
 	private void setUpLevelTabs() {
@@ -84,7 +51,6 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private Tab addLevelTab() {
-//		int newLevelIndex = ((LevelTab)myTabs.getTabs().get(myTabs.getTabs().size()-1)).getIndex() + 1;
 		int newLevelIndex = this.myTabs.getTabs().size() + 1; 
 		String newLevelName = "Level " + newLevelIndex;
 		myLevelOverviewTabModel.addLevel(newLevelName, 10); // TODO: Not hardcode number of lives
