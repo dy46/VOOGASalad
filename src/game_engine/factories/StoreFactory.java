@@ -62,5 +62,9 @@ public class StoreFactory {
 		}
 	}
 	
+	public Store getStore(){
+		return this.myStore;
+	}
+	
 	
 }
