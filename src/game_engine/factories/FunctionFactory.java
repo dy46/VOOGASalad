@@ -60,6 +60,7 @@ public class FunctionFactory {
 		return myFunctionLibrary.addFunction(new Function(getName(type, str), terms));
 	}
 
+
 	public Function createConstantFunction(double constant){
 		return new Function(Arrays.asList(new Term(new Constant(constant))));
 	}

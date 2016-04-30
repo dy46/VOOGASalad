@@ -2,6 +2,7 @@ package game_data;
 
 import java.util.List;
 
+import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
@@ -16,9 +17,8 @@ import game_engine.wave_goals.WaveGoal;
 public interface IGameData {
     public List<Level> getLevels();
     public void setLevels(List<Level> levels);
-
+    
     public List<Branch> getBranches();
-    public void setBranches(List<Branch> branches);
     
     public List<Unit> getPlacedUnits();
     public void setPlacedUnits(List<Unit> units);
@@ -44,4 +44,10 @@ public interface IGameData {
     
     public UnitFactory getUnitFactory();
 	public void setUnitFactory(UnitFactory unitFactory);
+	   
+    public int getCurrentWaveIndex();
+    public void setCurrentWaveIndex(int currentWaveIndex);
+    
+	public MapHandler getMapHandler();
+	public void setMapHandler(MapHandler mapHandler);
 }
