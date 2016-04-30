@@ -34,8 +34,6 @@ public class MapHandler {
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myEngineBranches;
-	private List<Branch> myGridBranches;
-	private List<Branch> myVisualBranches;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
 
@@ -43,17 +41,16 @@ public class MapHandler {
 		myPGF = new PathGraphFactory();
 		myPositionHandler = new PositionHandler();
 		myEngineBranches = new ArrayList<>();
-		myGridBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
 		createGrid();
 //		insertTestBranches();
 	}
 
-	public MapHandler(List<Branch> engineBranches, List<Branch> gridBranches, List<Branch> visualBranches){
+	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){
 		myEngineBranches = engineBranches;
-		myGridBranches = gridBranches;
-		myVisualBranches = visualBranches;
+		this.mySpawns = spawns; 
+		this.myGoals = goals; 
 		myPGF = new PathGraphFactory(engineBranches);
 		myPositionHandler = new PositionHandler();
 		mySpawns = new ArrayList<>();
@@ -81,12 +78,12 @@ public class MapHandler {
 	}
 
 	public void createGrid(){
+		System.out.println("call create grid");
 		double screenWidth = 500;
 		double screenHeight = 500;
-		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
-		mySpawns = new ArrayList<Position>();
-		mySpawns.add(myPGF.getBranches().get(0).getFirstPosition());
 		addGoal(new Position(500, 500));
+		addSpawn(new Position(0, 0));
+		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
 	}
 
 	private double getGridSquareSize(double screenWidth, double screenHeight){
@@ -136,14 +133,6 @@ public class MapHandler {
 	public List<Branch> getEngineBranches() {
 		myEngineBranches.addAll(myPGF.getBranches());
 		return myEngineBranches;
-	}
-
-	public List<Branch> getGridBranches(){
-		return myGridBranches;
-	}
-	
-	public List<Branch> getVisualBranches(){
-		return myVisualBranches;
 	}
 
 	public List<Position> getGoals() {

@@ -2,6 +2,8 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
@@ -42,20 +44,20 @@ public class EngineWorkspace implements GameEngineInterface {
     private AISimulator myAISimulator;
 	private AISearcher myAISearcher;
 
-    public void setUpEngine (TestingGameData data) {
+    public void setUpEngine (IAuthEnvironment data) {
         unitsToRemove = new ArrayList<>();
         myAISearcher = new AISearcher(this);
         myAIHandler = new AIHandler(this);
         myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
-        myBranches = data.getBranches();
+        myBranches = data.getEngineBranches();
         myAffectors = data.getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
         myLevelController =
-                new LevelController(data.getLevels(), data.getScore(), data.getPaused());
+                new LevelController(data.getLevels(), 0, false);
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =

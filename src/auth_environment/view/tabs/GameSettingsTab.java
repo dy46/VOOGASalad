@@ -10,6 +10,7 @@ import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -36,7 +37,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
+	
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	private IMainView myMainView; 
 	
@@ -48,15 +49,17 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	public GameSettingsTab(String name, IAuthModel authModel, IMainView mainView) {
 		super(name); 
-		this.setupBorderPane();
 		this.myMainView = mainView; 
 		this.myGameSettingsTabModel = new GameSettingsTabModel(authModel); 
+		this.setupBorderPane();
+
 	}
 
 	private void setupBorderPane() {
 		this.myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		this.myBorderPane.setCenter(this.buildCenter());
+		this.myBorderPane.setBottom(this.buildBottom());
 		this.setContent(this.myBorderPane);
 	}
 	
@@ -70,6 +73,12 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				this.buildLoadButton(),
 				this.buildPlayButton());
 		return center; 
+	}
+	
+	private Node buildBottom() {
+		HBox bottom = myNodeFactory.buildHBox(10, 10);
+		bottom.getChildren().addAll(this.buildChooseScore(), this.buildChooseWaveGoal(), this.buildChoosePlaceValidation());
+		return bottom; 
 	}
 	
 	private HBox buildWompImage() {
@@ -103,13 +112,13 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	private HBox buildSaveButton() {
 		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> this.myGameSettingsTabModel.saveToFile());
+		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
 		return myNodeFactory.centerNode(save); 
 	}
 	
 	private HBox buildLoadButton() {
 		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
-		load.setOnAction(e -> this.myGameSettingsTabModel.loadFromFile());
+		load.setOnAction(e -> myGameSettingsTabModel.loadFromFile());
 		return myNodeFactory.centerNode(load); 
 	}
 	
@@ -118,14 +127,48 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		play.setOnAction(e -> myMainView.displayPlayer());
 		return myNodeFactory.centerNode(play); 
 	}
-
-	//	public void writeToGameData() {
-	////		gameData.setLevels(myPicker.getLevels());
-	//		gameData.setEnemies(myPicker.getEnemies());
-	//		gameData.setTerrains(myPicker.getTerrains());
-	//		gameData.setTowerTypes(myPicker.getTowers());
-	//		gameData.setPaths(myDisplay.getGrid().getPathGraphFactory().getPaths());
-	//	}
+	
+	private Node buildChooseScore() {
+		VBox vb = new VBox(); 
+		vb.getChildren().add(myNodeFactory.buildLabel("Score Update Type"));
+		ComboBox<String> chooseScore = new ComboBox<String>();
+		chooseScore.getItems().addAll(this.myGameSettingsTabModel.getScoreUpdateNames());
+		chooseScore.setOnAction(event -> {
+			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+			myGameSettingsTabModel.chooseScoreUpdate(selectedItem);
+			event.consume();
+		});
+		vb.getChildren().add(chooseScore);  
+		return vb;
+	}
+	
+	private Node buildChooseWaveGoal() {
+		VBox vb = new VBox(); 
+		vb.getChildren().add(myNodeFactory.buildLabel("Wave Goal Type"));
+		ComboBox<String> chooseWaveGoal = new ComboBox<String>();
+		chooseWaveGoal.getItems().addAll(this.myGameSettingsTabModel.getWaveGoalNames());
+		chooseWaveGoal.setOnAction(event -> {
+			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+			myGameSettingsTabModel.chooseWaveGoal(selectedItem);
+			event.consume();
+		});
+		vb.getChildren().add(chooseWaveGoal); 
+		return vb; 
+	}
+	
+	private Node buildChoosePlaceValidation() {
+		VBox vb = new VBox(); 
+		vb.getChildren().add(myNodeFactory.buildLabel("Place Validation Type"));
+		ComboBox<String> choosePlaceValidation = new ComboBox<String>(); 
+		choosePlaceValidation.getItems().addAll(this.myGameSettingsTabModel.getPlaceValidationNames());
+		choosePlaceValidation.setOnAction(event -> {
+			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+			myGameSettingsTabModel.choosePlaceValidation(selectedItem);
+			event.consume();
+		});
+		vb.getChildren().add(choosePlaceValidation);
+		return vb; 
+	}
 	
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
