@@ -62,7 +62,6 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	public SampleAuthData() {
 		this.myName = "sampleGame";
-		this.mySplashFileName = "smackCat.gif";
 		this.myLevels = new ArrayList<>();
 		this.myTowers = new ArrayList<>();
 		this.myEnemies = new ArrayList<>();
@@ -78,23 +77,7 @@ public class SampleAuthData implements IAuthEnvironment {
 	}
 
 	private void setupDummyValues() {
-//		TestingEngineWorkspace test = new TestingEngineWorkspace();
-//		test.setUpEngine(this);
 		this.myStore = new Store(1000);
-//		this.setTerrains(test.getTerrains());
-//		this.setTowers(test.getTowers());
-//		this.setLevels(test.getLevels());
-//		this.setProjectiles(test.getProjectiles());
-//		this.setAffectors(test.getAffectors());
-//		this.setEnemies(test.getEnemies());
-//		MapHandler mh = new MapHandler();
-//		this.myBranches = mh.getEngineBranches();
-//		List<Branch> branches = mh.getEngineBranches();
-//		this.setEngineBranches(mh.getEngineBranches());
-//		this.setGoals(mh.getGoals());
-//		this.setSpawns(mh.getSpawns());
-		//		Unit tower = test.getTerrains().get(0); 
-		//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
 
 	@Override
@@ -105,16 +88,6 @@ public class SampleAuthData implements IAuthEnvironment {
 	@Override
 	public String getGameName() {
 		return this.myName; 
-	}
-
-	@Override
-	public void setSplashScreen(String fileName) {
-		this.mySplashFileName = fileName;
-	}
-
-	@Override
-	public String getSplashScreen() {
-		return this.mySplashFileName;
 	}
 
 	@Override
