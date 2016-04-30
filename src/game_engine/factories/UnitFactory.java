@@ -44,35 +44,28 @@ public class UnitFactory {
     }
 
     // Pass field inputs here
-    public Unit createUnit (Map<String, String> inputs,
+
+    public Unit createUnit (String type, String unitType, Map<String, List<Double>> inputs,
                             List<String> children,
                             List<String> affectors,
                             List<String> affectorsToApply) {
-        String type = getType(inputs.get("Type"));
-        String unitType = getUnitType(inputs.get("Unit Type"));
         UnitProperties newProperties = new UnitProperties();
-        newProperties.setHealthProp(getUnitHealth(inputs.get("Health")));
-        newProperties.setPriceProp(getUnitPrice(inputs.get("Price")));
-        newProperties.setVelocity(Double.parseDouble(inputs.get("Speed")), Double.parseDouble(inputs.get("Direction")));
-        newProperties.setStateProp(getUnitState(inputs.get("State")));
-        List<Position> l1 = new ArrayList<>();
-        l1.add(new Position(-20, -20));
-		l1.add(new Position(20, -20));
-		l1.add(new Position(20, 20));
-		l1.add(new Position(-20, 20));
-        Bounds b = new Bounds(l1);
+        newProperties.getHealth().setValues(inputs.get("Health"));
+        newProperties.getPrice().setValues(inputs.get("Price"));
+        newProperties.getMass().setValues(inputs.get("Mass"));     
+        newProperties.getState().setValues(inputs.get("State"));
+        newProperties.getBounds().setValues(inputs.get("Bounds"));
+        newProperties.getRange().setValues(inputs.get("Range"));
+        List<Double> velocityList = new ArrayList<>();
+        velocityList.addAll(inputs.get("Speed"));
+        velocityList.addAll(inputs.get("Direction"));
+        newProperties.getVelocity().setValues(velocityList);
         UnitProperties unitProperties = createPropertiesByType(type, newProperties);
-        System.out.println("bounds set " + b.toString());
-        unitProperties.setBounds(b);
-        Unit unit =
-                createUnit(getName(type, unitType), unitProperties,
-                           Integer.parseInt(inputs.get("NumFrames")));
+        Unit unit = createUnit(getName(type, unitType), unitProperties, inputs.get("NumFrames").get(0).intValue());
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
-        unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));
-        System.out.println("AFFECTORS ARE");
-        System.out.println(unit.getAffectors());
-        unit.setDeathDelay(Integer.parseInt(inputs.get("Death Delay")));
+        unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));       
+        unit.setDeathDelay(inputs.get("Death Delay").get(0).intValue());
         return unit;
     }
 

@@ -206,10 +206,14 @@ public class ElementTab extends Tab{
 
 	private void createNewUnit(ComboBox<String> unitType, AnimationPane newAnimationInfo) {
 		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();
+		
+	String name = strTextMap.get("Type").getText();
+	strTextMap.remove("Type");
     	for(String str: strTextMap.keySet()){
-    		List<Double> val = new ArrayList<Double>();
-    		String[] strings = strTextMap.get(str).getText().split("//s+");
+    		List<Double> val = new ArrayList<Double>();  		
+    		String[] strings = strTextMap.get(str).getText().trim().split("\\s+");
     		for(String s: strings){
+    		    System.out.println(s);
     			val.add(Double.parseDouble(s));
     		}
     		strToDoubleMap.put(str, val);
@@ -230,7 +234,7 @@ public class ElementTab extends Tab{
     	}
    
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-    	Unit unit = myUnitFactory.createUnit(unitType.getValue(), strToDoubleMap, proj, atu, ata);
+	        Unit unit = myUnitFactory.createUnit(name, unitType.getValue(),strToDoubleMap, proj, atu, ata);
     	
     	newAnimationInfo.getAnimationLoaderTab().setUnit(unit);
         myUnitFactory.getUnitLibrary().addUnit(unit);
@@ -254,10 +258,10 @@ public class ElementTab extends Tab{
 		List<Affector> ata = unit.getAffectorsToApply();
 		List<Unit> children = unit.getChildren();
 		
-		affectorsToUnit.get(0).setValue(affectors.get(0).getName());
-		for(int i = 1; i < affectors.size(); i++){
-			addNewComboBox()
-		}
+//		affectorsToUnit.get(0).setValue(affectors.get(0).getName());
+//		for(int i = 1; i < affectors.size(); i++){
+//			addNewComboBox()
+//		}
 		
 //		private List<ComboBox<String>> affectorsToUnit;
 //		private List<ComboBox<String>> affectorsToApply;

@@ -94,8 +94,9 @@ public class AffectorTab extends Tab{
 	
 	private void createNewAffector() {
 		String name = strTextMap.get("Name").getText();
-		String type = "game_engine.affectors.Basic" + strDropMap.get("Iteration Type?").getValue() + "Affector";
-		double ttl = Double.parseDouble(strTextMap.get("TTL").getText());
+		String type = "game_engine.affectors." + strDropMap.get("Iteration Type?").getValue() + "Affector";
+		strTextMap.remove("Name");
+		int ttl = Integer.parseInt(strTextMap.get("TTL").getText());
 		
 		String property = effects.remove(0).getValue();
 		List<String> eff = new ArrayList<String>();
@@ -108,7 +109,6 @@ public class AffectorTab extends Tab{
 		for(TextField f: functions){
 			values.add(Double.parseDouble(f.getText()));
 		}
-		
 		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl, eff, values);
 
 		myPane.getChildren().clear();
@@ -133,18 +133,23 @@ public class AffectorTab extends Tab{
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String s1 = "Iteration Type?";
-		newTableInfo.add(new Text(s1), 1, index);
+		String s2 = "Iteration Type?";
+		newTableInfo.add(new Text(s2), 1, index);
 		ComboBox<String> dropit = new ComboBox<String>();
 		newTableInfo.add(dropit, 2, index);
 		// TODO: extract to properties file
-		dropit.getItems().addAll("Increment", "Decrement", "Set");
-		strDropMap.put(s1, dropit);
+		dropit.getItems().addAll("AIPathFollow", "BasicSet", "BasicDecrement",
+		                         "BasicIncrement", "BasicSet", "CursorDirection", 
+		                         "FiringChildren", "HomingMove", "PathFollow", 
+		                         "PathFollowPositionMove", "PositionHoming", "PositionMove", 
+		                         "RandomPathFollow", "RangeConstantPositionMove", 
+		                         "RangePathFollowPositionMove", "SingleTrackRange");
+		strDropMap.put(s2, dropit);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String s2 = "Effects";
-		newTableInfo.add(new Text(s2), 1, index);
+		String s3 = "Effects";
+		newTableInfo.add(new Text(s3), 1, index);
 		ComboBox<String> txtfld = new ComboBox<String>();
 		for(String key: myNamesBundle.keySet()){
 			txtfld.getItems().add(myNamesBundle.getString(key));
