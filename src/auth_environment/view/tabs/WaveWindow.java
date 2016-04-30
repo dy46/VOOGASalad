@@ -1,6 +1,7 @@
 package auth_environment.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import auth_environment.Models.WaveWindowModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -21,6 +22,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private GridPane myLeftGridPane;
 	private GridPane myRightGridPane;
@@ -50,7 +53,7 @@ public class WaveWindow {
 		String title = level + ", " + wave;
 		showWindow(level, wave, title);
 		int index = 0;
-		Button dummyButton = new Button("Lol why do i exist");
+		Button dummyButton = new Button();
 		ComboBox dummyCBox = new ComboBox(); 
 		dummyCBox.setValue("test");
 		addNewElementSpace(index, myLeftGridPane, dummyButton, dummyCBox, true);
@@ -89,15 +92,10 @@ public class WaveWindow {
 		List<String> sn = new ArrayList<String>();
 		List<Integer> st = new ArrayList<Integer>();
 		List<String> pn = new ArrayList<String>();
-		for(ComboBox<String> cb: spawningNames){
-			sn.add(cb.getValue());
-		}
-		for(ComboBox<String> cb: placingNames){
-			pn.add(cb.getValue());
-		}
-		for(TextField hb: spawningTimes){
-			st.add(Integer.parseInt(hb.getText()));
-		}
+		
+		spawningNames.stream().forEach(s -> sn.add(s.getValue()));
+		placingNames.stream().forEach(s -> pn.add(s.getValue()));
+		spawningTimes.stream().forEach(s -> st.add(Integer.parseInt(s.getText())));
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4); 
 	}
 
@@ -117,7 +115,7 @@ public class WaveWindow {
 			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 			newTableInfo.add(addSpawnTimeHBox(makeInputField, newcbox), 2, index);
 			index++;
-			Button newAffectorButton = new Button("+ Add New Element");
+			Button newAffectorButton = new Button(myNamesBundle.getString("waveAddNewElement"));
 			int num = index;
 			newAffectorButton
 			.setOnAction(e -> addNewElementSpace(num, newTableInfo, newAffectorButton,
