@@ -12,6 +12,7 @@ import game_player.display_views.RangeDisplayView;
 import game_player.interfaces.IGameView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -24,7 +25,7 @@ public class GameView implements IGameView {
     private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
     private Scene myScene;
-    private Pane root;
+    private Pane myPane;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
     private RangeDisplayView rangeDisplayView;
@@ -44,9 +45,9 @@ public class GameView implements IGameView {
                      Scene scene,
                      PlayerMainTab tab) {
     	this.myScene = scene;
-        this.root = canvas.getRoot();
+        this.myPane = canvas.getRoot();
         this.playerEngineInterface = engine;
-        this.rangeDisplayView = new RangeDisplayView(this, root);
+        this.rangeDisplayView = new RangeDisplayView(this, myPane);
         this.paths = new ArrayList<>();
         this.myTab = tab;
         this.myHUD = hud;
@@ -56,7 +57,7 @@ public class GameView implements IGameView {
     }
 
     private void setUpEventHandlers (Scene scene) {
-        this.eventHandler = new GameViewEventHandler(playerEngineInterface, this, root);
+        this.eventHandler = new GameViewEventHandler(playerEngineInterface, this, myPane);
         this.eventHandler.setEventHandlers(scene);
     }
 
@@ -113,7 +114,7 @@ public class GameView implements IGameView {
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth() / 2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight() / 2);
-            root.getChildren().add(imgView);
+            myPane.getChildren().add(imgView);
             imgView.toFront();
             paths.add(imgView);
         }
@@ -176,7 +177,7 @@ public class GameView implements IGameView {
     	return myTab.getMainView();
     }
     
-    public void clearCSS() {
+    private void clearCSS() {
     	myScene.getStylesheets().clear();
     }
 }
