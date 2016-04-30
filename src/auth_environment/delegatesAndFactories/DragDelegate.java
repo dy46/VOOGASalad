@@ -61,48 +61,33 @@ public class DragDelegate {
 	public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
 
 		Pane targetPane = target.getRoot();
-		targetPane.setOnDragOver(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				System.out.println("Dragging over Node...");
-				event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-				event.consume();
+		
+		targetPane.setOnDragOver(event -> {
+			event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+			event.consume();
+		});
+		
+		targetPane.setOnDragEntered(event -> event.consume());
+		
+		targetPane.setOnDragExited(event -> event.consume());
+		
+		targetPane.setOnDragDropped(event -> {
+			event.acceptTransferModes(TransferMode.COPY);
+			Dragboard db = event.getDragboard();
+			boolean success = false;
+			if (db.hasString()) {
+				UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
+				target.adjustUnitViewScale(imv);
+				target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
+				imv.addContextMenu(target, imv);
+				target.addToPane(imv);
+				target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
+				success = true;
 			}
+			event.setDropCompleted(success);
+			event.consume();
 		});
 
-		targetPane.setOnDragEntered(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				System.out.println("Drag entered...");
-				event.consume();
-			}
-		});
-
-		targetPane.setOnDragExited(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				/* mouse moved away, remove the graphical cues */
-				System.out.println("Drag exited...");
-				event.consume();
-			}
-		});
-
-		targetPane.setOnDragDropped(new EventHandler<DragEvent>() {
-			public void handle(DragEvent event) {
-				event.acceptTransferModes(TransferMode.COPY);
-				System.out.println("Drag dropped...");
-				Dragboard db = event.getDragboard();
-				boolean success = false;
-				if (db.hasString()) {
-					UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
-					target.adjustUnitViewScale(imv);
-					target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
-					imv.addContextMenu(target, imv);
-					target.addToPane(imv);
-					target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
-					success = true;
-				}
-				event.setDropCompleted(success);
-				event.consume();
-			}
-		});
 	}
 	
 	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, IPathTabModel pathModel) {
