@@ -41,7 +41,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private IAuthModel myAuthModel;
 	private IAuthEnvironment myAuth;
 
-	public MapEditorTab(IAuthModel auth, String name) {
+	public MapEditorTab(String name, IAuthModel auth) {
 		super(name);
 		myAuthModel = auth;
 		myAuth = auth.getIAuthEnvironment();
