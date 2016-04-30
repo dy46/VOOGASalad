@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.AffectorTabModel;
@@ -30,8 +31,11 @@ public class AffectorTab extends Tab{
 	
 	private Map<String, TextField> strTextMap;
 	private Map<String, ComboBox<String>> strDropMap;
-	private List<TextField> effects = new ArrayList<TextField>();
+	private List<ComboBox<String>> effects = new ArrayList<ComboBox<String>>();
 	private List<TextField> functions = new ArrayList<TextField>();
+	
+	private static final String NAME_PACKAGE = "auth_environment/properties/property_name";
+	private static final ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAME_PACKAGE);
 	
 	private int index;
 	
@@ -156,8 +160,8 @@ public class AffectorTab extends Tab{
 		List<List<Double>> funct = new ArrayList<List<Double>>();
 
 		
-		for(TextField e: effects){
-			eff.add(e.getText());
+		for(ComboBox<String> e: effects){
+			eff.add(e.getValue());
 		}
 		
 		for(TextField f: functions){
@@ -230,16 +234,18 @@ public class AffectorTab extends Tab{
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		String s2 = "Effects";
 		newTableInfo.add(new Text(s2), 1, index);
-		TextField txtfld = new TextField();
+		ComboBox<String> txtfld = new ComboBox<String>();
+		for(String key: myNamesBundle.keySet()){
+			txtfld.getItems().add(myNamesBundle.getString(key));
+		}
 		newTableInfo.add(txtfld, 2, index);
 		effects.add(txtfld);
-		index++;
 		
-		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String s3 = "Function";
-		newTableInfo.add(new Text(s3), 1, index);
+//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+//		String s3 = "Function";
+//		newTableInfo.add(new Text(s3), 1, index);
 		TextField txtfld2 = new TextField();
-		newTableInfo.add(txtfld2, 2, index);
+		newTableInfo.add(txtfld2, 3, index);
 		functions.add(txtfld2);
 		index++;
 		
@@ -247,35 +253,33 @@ public class AffectorTab extends Tab{
 		Button buuton = new Button("New Thing");	//change
 		buuton.setOnAction(e -> newThing(buuton, newTableInfo, txtfld, txtfld2));		//change
 		newTableInfo.add(buuton, 2, index);
-		index++;
 	
 		//possibly just make index global MAKE INDEX GLOBAL
 	}
 
-	private void newThing(Button buuton, GridPane newTableInfo, TextField txtfld3, TextField txtfld4) {
-		if(!txtfld3.getText().equals("") && !txtfld4.getText().equals("")){
+	private void newThing(Button buuton, GridPane newTableInfo, ComboBox<String> txtfld3, TextField txtfld4) {
+		if(txtfld3.getValue() != null && !txtfld4.getText().equals("")){
 		newTableInfo.getChildren().remove(buuton);
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		
-		String s2 = "Effects";
-		newTableInfo.add(new Text(s2), 1, index);
-		TextField txtfld = new TextField();
+		ComboBox<String> txtfld = new ComboBox<String>();
 		newTableInfo.add(txtfld, 2, index);
+		for(String key: myNamesBundle.keySet()){
+			txtfld.getItems().add(myNamesBundle.getString(key));
+		}
 		effects.add(txtfld);
-		index++;
 		
-		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String s3 = "Function";
-		newTableInfo.add(new Text(s3), 1, index);
+//		newTableInfo.getRowConstraints().add(new RowConstraints(30));
+	//	String s3 = "Function";
+		//newTableInfo.add(new Text(s3), 1, index);
 		TextField txtfld2 = new TextField();
-		newTableInfo.add(txtfld2, 2, index);
+		newTableInfo.add(txtfld2, 3, index);
 		functions.add(txtfld2);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
 		newTableInfo.add(buuton, 2, index);
 		
-		index++;
 		}
 	}
 }

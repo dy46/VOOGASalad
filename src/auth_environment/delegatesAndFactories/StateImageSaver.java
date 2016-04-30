@@ -28,7 +28,6 @@ public class StateImageSaver {
 	 * @param	unit is the developer create string that determines which speicific unit is being created
 	 * @param	images is the list of file images to be renamed
 	 */
-	
 	public void saveFiles(String type, String unit, List<File> images){
 		String prefix = type + "_" + unit;
 		for(int i = 1;i <= images.size();i++){
