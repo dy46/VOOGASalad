@@ -125,11 +125,11 @@ public class AffectorTab extends Tab{
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
-		String s1 = "TTL";
-		newTableInfo.add(new Text(s), 1, index);
+		String s0 = "TTL";
+		newTableInfo.add(new Text(s0), 1, index);
 		TextField myTextField1 = new TextField();
 		newTableInfo.add(myTextField1, 2, index);
-		strTextMap.put(s1, myTextField1);
+		strTextMap.put(s0, myTextField1);
 		index++;
 		
 		newTableInfo.getRowConstraints().add(new RowConstraints(30));
