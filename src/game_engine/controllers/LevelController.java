@@ -11,10 +11,10 @@ public class LevelController implements ILevelDisplayer {
     private double score;
     private boolean paused;
     
-    public LevelController(List<Level> levels, double score, boolean paused) {
+    public LevelController(List<Level> levels, double score) {
         this.myLevels = levels;
         this.score = score;
-        this.paused = paused;
+        this.paused = false;
         this.myCurrentLevel = this.myLevels.get(0);
     }
     
@@ -24,6 +24,12 @@ public class LevelController implements ILevelDisplayer {
     
     public void setCurrentLevel(Level currentLevel) {
         this.myCurrentLevel = currentLevel;
+    }
+    
+    public void setCurrentWave(int waveIndex) {
+    	if (myCurrentLevel.getWaves().size() > waveIndex) {
+    		myCurrentLevel.setCurrentWave(waveIndex);
+    	}
     }
     
     public String getGameStatus () {

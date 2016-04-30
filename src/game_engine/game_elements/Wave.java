@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Wave extends GameElement {
 
     private List<Unit> mySpawningUnits;

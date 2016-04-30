@@ -147,7 +147,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		mh.addSpawn(path.get(0));
 		mh.addGoal(path.get(path.size() - 1));
 
-		myBranches = mh.getEngineBranches();
+		myBranches = mh.getBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);

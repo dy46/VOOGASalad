@@ -21,7 +21,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class ElementTab extends UnitTab{

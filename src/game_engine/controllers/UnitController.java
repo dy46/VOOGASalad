@@ -3,6 +3,8 @@ package game_engine.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import game_engine.interfaces.IStore;
@@ -17,6 +19,7 @@ public class UnitController {
     private List<PlaceValidation> myPlaceValidations;
     private IStore myStore;
     private List<Unit> unitsToRemove;
+    private UnitUtilities myUnitUtility;
 
     public UnitController (List<Unit> myPlacedUnits,
                            List<PlaceValidation> placeValidations,
@@ -26,6 +29,8 @@ public class UnitController {
         this.myPlaceValidations = placeValidations;
         this.myStore = store;
         this.unitsToRemove = unitsToRemove;
+        
+        myUnitUtility = new UnitUtilities();
     }
 
     public void clearProjectiles () {
@@ -85,15 +90,7 @@ public class UnitController {
     }
 
     public List<Unit> getUnitType (String type) {
-        return myPlacedUnits.stream().filter(u -> u.toString().contains(type))
-                .collect(Collectors.toList());
-    }
-
-    public void removeUnitType (String type, Unit unitToRemove) {
-        List<Unit> units = getUnitType(type);
-        if (units.contains(unitToRemove)) {
-            units.remove(unitToRemove);
-        }
+        return myUnitUtility.getUnitsWithType(myPlacedUnits, type);
     }
 
     public List<Unit> getPlacedUnits () {

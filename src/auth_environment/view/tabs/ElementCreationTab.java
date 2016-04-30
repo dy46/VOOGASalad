@@ -7,11 +7,9 @@ import auth_environment.view.tabs.ElementTab;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class ElementCreationTab{
-	private Tab myTab;
-
+public class ElementCreationTab extends Tab{
 	public ElementCreationTab(String name, IAuthModel authModel, ResourceBundle myNamesBundle){
-		this.myTab = new Tab(name);
+		super(name);
 		init(authModel, myNamesBundle);
 	}
 	
@@ -20,11 +18,8 @@ public class ElementCreationTab{
 		myTabs.getTabs().addAll(new ElementTab(myNamesBundle.getString("unitTabLabel"), authModel), new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
 		//myTabs.getTabs().addAll(new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
 
-		myTab.setContent(myTabs);
+		this.setContent(myTabs);
 	}
 	
-	public Tab getRoot(){
-		return myTab;
-	}
 }
 

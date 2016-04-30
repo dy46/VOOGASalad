@@ -28,17 +28,17 @@ public class StateImageSaver {
 		this.myLocation = location;
 		this.suffix = suffix;
 	}
-	/*
+	
+	/**
 	 * Saves files with new names so that game-player can use the images
 	 * 
 	 * @param	type is the developer created string that determines the type of unit being created
-	 * @param	unit is the developer create string that determines which speicific unit is being created
+	 * @param	unit is the developer created string that determines which specific unit is being created
 	 * @param	images is the list of file images to be renamed
 	 */
-	public void saveFiles(String prefix, String unit, List<File> images){
-		if(images.size() > 0){
-			saveFile(prefix, images.get(0));
-		}
+	
+	public void saveFiles(String type, String unit, List<File> images){
+		String prefix = type + "_" + unit;
 		for(int i = 1;i <= images.size();i++){
 			saveFile( prefix+i, images.get(i-1));
 		}
@@ -61,14 +61,6 @@ public class StateImageSaver {
 		catch(IOException e){
 			return;
 		}
-//		for(IProject project: ResourcesPlugin.getWorkspace().getRoot().getProjects()){
-//			try {
-//				project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-//			} catch (CoreException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 	}
 	
 	

@@ -2,31 +2,52 @@ package game_data;
 
 import java.util.List;
 
-import auth_environment.IAuthEnvironment;
+import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
+import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
-import game_engine.properties.Position;
+import game_engine.place_validations.PlaceValidation;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
+import game_engine.wave_goals.WaveGoal;
 
-// TODO: make this also extend the Game Player's interface
+public interface IGameData {
+    public List<Level> getLevels();
+    public void setLevels(List<Level> levels);
+    
+    public List<Branch> getBranches();
+    
+    public List<Unit> getPlacedUnits();
+    public void setPlacedUnits(List<Unit> units);
 
-public interface IGameData extends IAuthEnvironment {
-	
-	public void setLevels(List<Level> levels);
-	public void addLevel(Level levelToAdd);
-	public void setEnemies(List<Unit> enemies);
-	public void setTerrains(List<Unit> terrains);
-	public void setProjectiles(List<Unit> projectiles);
-	public void addPositions(List<Position> list); 
+    public List<Affector> getAffectors();
+    public AffectorFactory getAffectorFactory();
+    public void setAffectorFactory(AffectorFactory affectorFactory);
 
-	public List<List<Position>> getPositions();
+    public List<PlaceValidation> getPlaceValidations();
+    public void setPlaceValidations(List<PlaceValidation> placeValidations);
+    
+    public WaveGoal getWaveGoal();
+    public void setWaveGoal(WaveGoal waveGoal);
+    
+    public ScoreUpdate getScoreUpdate();
+    public void setScoreUpdate(ScoreUpdate scoreUpdate);
 
-	//Getters
-	public List<Level> getLevels();
-	public List<Unit> getTowerTypes();
-	public List<Branch> getPaths();
-	public List<Unit> getEnemies();
-	public List<Unit> getTerrains();
-	public List<Unit> getProjectiles();
-	
+    public Store getStore();
+    public void setStore(Store store);
+    
+    public double getScore();
+    public void setScore(double score);    
+    
+    public UnitFactory getUnitFactory();
+	public void setUnitFactory(UnitFactory unitFactory);
+	   
+    public int getCurrentWaveIndex();
+    public void setCurrentWaveIndex(int currentWaveIndex);
+    
+	public MapHandler getMapHandler();
+	public void setMapHandler(MapHandler mapHandler);
 }

@@ -1,120 +1,142 @@
 package game_data;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import auth_environment.IAuthEnvironment;
-import game_engine.affectors.Affector;
+import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
+import game_engine.affectors.Affector;
+import game_engine.factories.AffectorFactory;
+import game_engine.factories.UnitFactory;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.place_validations.PlaceValidation;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
+import game_engine.wave_goals.WaveGoal;
 
-public class GameData {
+public class GameData implements IGameData {
+	private List<Level> myLevels = new ArrayList<Level>();
+	private List<Unit> myPlacedUnits = new ArrayList<Unit>();
+	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
+	private WaveGoal myWaveGoal;
+	private ScoreUpdate myScoreUpdate;
+	private Store myStore;
+	private double myScore;
+	private int myCurrentWaveIndex = 0;
 	
-	private String myName;
-	private String mySplashFileName;
-	private List<Level> myLevels;
-	private List<Unit> myTowers;
-	private List<Unit> myEnemies;
-	private List<Unit> myTerrains;
-	private List<Unit> myProjectiles; 
-	private List<Affector> myAffectors; 
-	private List<Unit> myPlacedUnits; 
-	
-	public GameData() {
-		
-	}
-
-	
-	public void setGameName(String name) {
-		this.myName = name; 
-	}
+	private MapHandler myMapHandler = new MapHandler();
 
 	
-	public String getGameName() {
-		return this.myName; 
-	}
-
+	private AffectorFactory myAffectorFactory;
+	private UnitFactory myUnitFactory;
 	
-	public void setSplashScreen(String fileName) {
-		this.mySplashFileName = fileName;
-	}
-
-	
-	public String getSplashScreen() {
-		return this.mySplashFileName;
-	}
-
-	
+	@Override
 	public List<Level> getLevels() {
-		return this.myLevels;
+		return myLevels;
+	}
+	@Override
+	public void setLevels(List<Level> levels) {
+		myLevels = levels;
 	}
 
-	
-	public void addLevel(Level level) {
-		this.myLevels.add(level); 
+	@Override
+	public List<Branch> getBranches() {
+		return myMapHandler.getBranches();
 	}
-
 	
+	@Override
 	public List<Unit> getPlacedUnits() {
-		return this.myPlacedUnits;
+		return myPlacedUnits;
+	}
+	@Override
+	public void setPlacedUnits(List<Unit> placedUnits) {
+		myPlacedUnits = placedUnits;
 	}
 
-	
-	public void placeUnit(Unit unit) {
-		this.myPlacedUnits.add(unit); 
-	}
-
-	
-	public List<Unit> getTowers() {
-		return this.myTowers;
-	}
-
-	
-	public List<Unit> getTerrains() {
-		return this.myTerrains;
-	}
-
-	
-	public List<Unit> getEnemies() {
-		return this.myEnemies;
-	}
-
-	
-	public List<Unit> getProjectiles() {
-		return this.myProjectiles;
-	}
-
-	
+	@Override
 	public List<Affector> getAffectors() {
-		return this.myAffectors;
+		return myAffectorFactory == null? null : myAffectorFactory.getAffectorLibrary().getAffectors();
+	}
+	@Override
+	public AffectorFactory getAffectorFactory() {
+		return myAffectorFactory;
+	}
+	@Override
+	public void setAffectorFactory(AffectorFactory affectorFactory) {
+		myAffectorFactory = affectorFactory;
 	}
 
-	
-	public void setPlacedUnits(List<Unit> units) {
-		this.myPlacedUnits = units; 
+	@Override
+	public List<PlaceValidation> getPlaceValidations() {
+		return myPlaceValidations;
+	}
+	@Override
+	public void setPlaceValidations(List<PlaceValidation> placeValidations) {
+		myPlaceValidations = placeValidations;
 	}
 
+	@Override
+	public WaveGoal getWaveGoal() {
+		return myWaveGoal;
+	}
+	@Override
+    public void setWaveGoal(WaveGoal waveGoal) {
+    	myWaveGoal = waveGoal;
+    }
+
+	@Override
+	public ScoreUpdate getScoreUpdate() {
+		return myScoreUpdate;
+	}
+	@Override
+    public void setScoreUpdate(ScoreUpdate scoreUpdate) {
+    	myScoreUpdate = scoreUpdate;
+    }
+
+	@Override
+	public Store getStore() {
+		return myStore;
+	}
+	@Override
+    public void setStore(Store store) {
+    	myStore = store;
+    }
+   
+	@Override
+	public double getScore() {
+		return myScore;
+	}
+	@Override
+    public void setScore(double score) {
+    	myScore = score;
+    }
+ 
+	@Override
+	public UnitFactory getUnitFactory() {
+		return myUnitFactory;
+	}
+	@Override
+	public void setUnitFactory(UnitFactory unitFactory) {
+		myUnitFactory = unitFactory;
+	}
 	
-	public void setTowers(List<Unit> towers) {
-		this.myTowers = towers; 
+	@Override
+	public int getCurrentWaveIndex() {
+		return myCurrentWaveIndex;
+	}
+	@Override
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		myCurrentWaveIndex = currentWaveIndex;
+	}
+	
+	@Override
+	public MapHandler getMapHandler() {
+		return myMapHandler;
+	}
+	@Override
+	public void setMapHandler(MapHandler mapHandler) {
+		myMapHandler = mapHandler;
 	}
 
-	
-	public void setTerrains(List<Unit> terrains) {
-		this.myTerrains = terrains;
-	}
-
-	
-	public void setEnemies(List<Unit> enemies) {
-		this.myEnemies = enemies; 
-	}
-
-	
-	public void setProjectiles(List<Unit> projectiles) {
-		this.myProjectiles = projectiles; 
-	}
-
-	
-	public void setAffectors(List<Affector> affectors) {
-		this.myAffectors = affectors; 
-	}
 }

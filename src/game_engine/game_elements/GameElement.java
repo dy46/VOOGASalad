@@ -14,9 +14,8 @@ public abstract class GameElement {
 		this.myName = name;
 	}
 	
-	/*
-	 * Returns a String representation of the element to display in PeriodicTable on front-end
-	 * Allows game developer to choose from various game elements
+	/**
+	 * Returns a String representation of the element
 	 */
 	public String toString(){
 		return myName;
