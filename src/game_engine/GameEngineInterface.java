@@ -1,6 +1,8 @@
 package game_engine;
 
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
@@ -28,7 +30,7 @@ public interface GameEngineInterface {
 
 	void update ();
 
-	void setUpEngine (TestingGameData data);
+	void setUpEngine (IAuthEnvironment data);
 
 	public UnitController getUnitController ();
 

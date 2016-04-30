@@ -65,6 +65,14 @@
     -fx-background-color: transparent, derive(#1d1d1d,20%);
 }
 
+.pane {
+	-fx-background-color: #292929;
+}
+
+.tab-pane {
+	-fx-background-color: #292929;
+} 
+
 .split-pane {
     -fx-padding: 1 0 0 0;
 }

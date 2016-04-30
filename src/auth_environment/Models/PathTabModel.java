@@ -157,8 +157,12 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public List<Unit> getWaveUnits(String selectedWave) {
-		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
-		return this.currentWave.getSpawningUnits();
+		if(selectedWave == null) {
+			System.out.println("Selected Wave is null");
+			return new ArrayList<Unit>(); 
+		}
+ 		this.currentWave = this.currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+ 		return this.currentWave.getSpawningUnits();
 		// TODO: get this working with getSpawningUnitsLeft() method 
 	}
 
@@ -166,7 +170,9 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public Branch reselectBranch(BoundLine line) {
 		if (this.myActiveUnit!=null) {
-			this.myActiveUnit.getProperties().getMovement().getBranches().add(this.myBranchMap.get(line));
+			Branch b = this.myBranchMap.get(line);
+			this.myActiveUnit.getProperties().getMovement().getBranches().add(b);
+			this.currentLevel.addBranch(b);
 //			System.out.println("Current branches " + this.myActiveUnit.getProperties().getMovement().getBranches());
 		}
 		return this.myBranchMap.get(line); 
@@ -198,6 +204,13 @@ public class PathTabModel implements IPathTabModel {
 	public void addGoalToActiveLevel(Position goal) {
 		if (this.currentLevel!=null) {
 			currentLevel.addGoal(goal);
+		}
+	}
+
+	@Override
+	public void addSpawnToActiveLevel(Position spawn) {
+		if (this.currentLevel!=null) {
+			currentLevel.addSpawn(spawn);
 		}
 	}
 

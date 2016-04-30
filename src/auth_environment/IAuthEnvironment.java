@@ -9,7 +9,11 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
+import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
+import game_engine.wave_goals.WaveGoal;
 
 /**
  * This interface is the external API for the Auth Environment (excluding Factory calls). 
@@ -29,6 +33,18 @@ public interface IAuthEnvironment {
 	
 	public String getSplashScreen(); 
 	
+	public void setWaveGoal(WaveGoal goal); 
+	
+	public WaveGoal getWaveGoal();
+	
+	public void setScoreUpdate(ScoreUpdate update); 
+	
+	public ScoreUpdate getScoreUpdate();
+	
+	public List<PlaceValidation> getPlaceValidations(); 
+	
+	public Store getStore(); 
+	
 	// Path Tab - Brian
 	
 	public List<Position> getGoals();
@@ -39,7 +55,7 @@ public interface IAuthEnvironment {
 	
 	public void setSpawns(List<Position> spawns); 
 	
-	// All Levels Tab - Austin
+	// All Levels Tab - Cody
 	
 	public void setLevels(List<Level> levels); 
 	
@@ -90,6 +106,8 @@ public interface IAuthEnvironment {
 	public void setGridBranches(List<Branch> gridBranches);
 	
 	public List<Branch> getGridBranches();
+	
+	public List<Branch> getBranches(); 
 	
 	// For UnitCreation integration, issue 190
 	

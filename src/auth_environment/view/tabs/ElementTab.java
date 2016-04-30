@@ -279,7 +279,7 @@ public class ElementTab extends Tab{
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
     	Unit unit = myUnitFactory.createUnit(strToStrMap, proj, atu, ata);
     	
-    	AnimationLoaderTab newAnimation = new AnimationLoaderTab(unit);
+    	AnimationLoaderTab newAnimation = new AnimationLoaderTab(unit, myUnitFactory);
         myUnitFactory.getUnitLibrary().addUnit(unit);
 //    	Scene scene = new Scene(newAnimation.getRoot());
 //    	Stage stage = new Stage();

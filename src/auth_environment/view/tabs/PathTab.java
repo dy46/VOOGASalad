@@ -86,7 +86,7 @@ public class PathTab extends Tab implements IWorkspace {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myPathTabModel.refresh(this.myAuth);
 		this.buildLevelComboBox();
-//		this.drawMap();
+		//		this.drawMap();
 	}
 
 	private void setupBorderPane() {
@@ -131,7 +131,7 @@ public class PathTab extends Tab implements IWorkspace {
 		vb.getChildren().addAll(this.levelComboBox, this.waveComboBox, this.myUnitPicker.getRoot()); 
 		return vb; 
 	}
-	
+
 	private void clearComboBoxes() {
 		this.levelComboBox.getItems().clear();
 		this.waveComboBox.getItems().clear();
@@ -154,13 +154,18 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void buildWaveComboBox(String levelName) {
 		this.waveComboBox.getItems().clear();
-		this.waveComboBox.getItems().addAll(this.myPathTabModel.getWaveNames(levelName));
-		this.waveComboBox.setOnAction(event -> {
-			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-			System.out.println("Wave combo box used " + selectedItem + "!");
-			this.buildUnitPicker(selectedItem);
-			event.consume();
-		});
+		System.out.println(levelName);
+		if (this.myPathTabModel.getWaveNames(levelName)!=null) {
+			this.waveComboBox.getItems().addAll(this.myPathTabModel.getWaveNames(levelName));
+			this.waveComboBox.setOnAction(event -> {
+				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+				System.out.println("Wave combo box used " + selectedItem + "!");
+				if (selectedItem!=null) {
+					this.buildUnitPicker(selectedItem);
+				}
+				event.consume();
+			});
+		}
 	}
 
 	private void buildUnitPicker(String waveName) {
@@ -170,17 +175,17 @@ public class PathTab extends Tab implements IWorkspace {
 	private HBox buildTextInput() {
 		VBox vb = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		
+
 		HBox hb0 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		
+
 		HBox hb1 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		
+
 		// TODO: duplicate code with GlobalGameTab
 		this.myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
 		this.myPathWidthField.setOnAction(e -> this.submitPathWidth(this.myPathWidthField));
-		
+
 		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
 		submitBranchButton.setOnAction(e -> this.submitBranch());
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
@@ -194,7 +199,7 @@ public class PathTab extends Tab implements IWorkspace {
 				submitBranchButton);
 		hb1.getChildren().addAll(drawPathButton, drawGoalButton, drawSpawnButton);
 		vb.getChildren().addAll(hb0, hb1);
-		
+
 		return this.myNodeFactory.centerNode(vb); 
 	}
 
@@ -311,12 +316,12 @@ public class PathTab extends Tab implements IWorkspace {
 		point.getCircle().setFill(Color.GREY.deriveColor(1, 1, 1, 0.7));
 		point.getCircle().setOnMouseClicked(e -> {
 			if(e.getButton().equals(MouseButton.PRIMARY)){
-	            if(e.getClickCount() == 2){
-	            	this.displayClickedPoint(p);
-	    			this.addPosition(point.getPosition().getX(), point.getPosition().getY());
-	    			this.currentBranch.add(point.getPosition());
-	            }
-	        }
+				if(e.getClickCount() == 2){
+					this.displayClickedPoint(p);
+					this.addPosition(point.getPosition().getX(), point.getPosition().getY());
+					this.currentBranch.add(point.getPosition());
+				}
+			}
 		});
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
@@ -341,11 +346,11 @@ public class PathTab extends Tab implements IWorkspace {
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREEN);
 		point.getCircle().setOnMouseClicked(e -> {
-			 if(e.getButton().equals(MouseButton.PRIMARY)){
-		            if(e.getClickCount() == 2){
-		            	this.myPathTabModel.addGoalToActiveLevel(point.getPosition());
-		            }
-		        }
+			if(e.getButton().equals(MouseButton.PRIMARY)){
+				if(e.getClickCount() == 2){
+					this.myPathTabModel.addGoalToActiveLevel(point.getPosition());
+				}
+			}
 		});
 		this.canvasPane.getChildren().add(point.getCircle());
 	}
@@ -399,6 +404,7 @@ public class PathTab extends Tab implements IWorkspace {
 					UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
 					pathModel.setActiveUnit(uv.getUnit());
 					Position pos = pathPoint.getPosition(); 
+					pathModel.addSpawnToActiveLevel(pos);
 					uv.getUnit().getProperties().setMovement(new Movement(pos));
 					uv.getUnit().getProperties().setPosition(pos);
 					success = true;
