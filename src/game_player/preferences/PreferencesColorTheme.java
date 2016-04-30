@@ -13,19 +13,10 @@ public class PreferencesColorTheme extends GUIComboBox {
     private IGameView myView;
 
     public PreferencesColorTheme (ResourceBundle r, GameDataSource gameData, IGameView view) {
-    	super(r, gameData, view, r.getString("ColorThemeLabel"));
+    	super(r, gameData, view, r.getString("ColorThemeLabel"), r.getString("ColorThemeOptions"));
         myResources = r;
         myView = view;
     }
-
-	@Override
-	public ObservableList<String> populateOptions(ObservableList<String> list) {
-        String[] themeOptions = myResources.getString("ColorThemeOptions").split(",");
-        for (String s : themeOptions) {
-            list.add(s);
-        }
-		return list;
-	}
 	
     public void performAction () {
         myView.setCSS(super.getComboBox().getValue());

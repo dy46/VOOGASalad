@@ -25,6 +25,7 @@ public abstract class GUIComboBox implements IGUIObject {
 	private ComboBox<String> comboBox;
 	private Button comboBoxButton;
 	private String promptText;
+	private String optionsString;
 	private ObservableList<String> options;
 	
 	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view) {
@@ -33,16 +34,17 @@ public abstract class GUIComboBox implements IGUIObject {
         myView = view;
     }
 	
-	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, String text) {
+	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, String text, String options) {
         this(r, gameData, view);
         promptText = text;
+        optionsString = options;
     }
 	
 	@Override
 	public Node createNode() {
         HBox difficultyBox = new HBox(PANEL_SPACING);
         options = FXCollections.observableArrayList();
-        options = populateOptions(options);
+        populateOptions();
         comboBox = new ComboBox<>(options);
         configureComboBox();
         comboBoxButton = new Button(myResources.getString("GoText"));
@@ -62,7 +64,12 @@ public abstract class GUIComboBox implements IGUIObject {
         comboBox.setPromptText(promptText);
     }
 	
-	public abstract ObservableList<String> populateOptions(ObservableList<String> list);
+	public void populateOptions() {
+		String[] difficulties = optionsString.trim().split(",");
+		for (String s: difficulties) {
+			options.add(s);
+		}
+	}
 	
 	public abstract void performAction();
 	

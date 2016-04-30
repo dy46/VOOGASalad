@@ -27,19 +27,11 @@ public class PreferencesDifficulty extends GUIComboBox {
 	private Button comboBoxButton;
 	
 	public PreferencesDifficulty(ResourceBundle r, GameDataSource gameData, IGameView view) {
-		super(r, gameData, view, r.getString("DifficultyLabel"));
+		super(r, gameData, view, r.getString("DifficultyLabel"), r.getString("DifficultyOptions"));
         myResources = r;
         myGameData = gameData;
         myView = view;
     }
-	
-	public ObservableList<String> populateOptions(ObservableList<String> list) {
-		String[] difficulties = myResources.getString("DifficultyOptions").trim().split(",");
-		for (String s: difficulties) {
-			list.add(s);
-		}
-		return list;
-	}
 	
 	public void performAction() {
 		

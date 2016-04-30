@@ -17,20 +17,12 @@ public class PreferencesMusic extends GUIComboBox{
 	private Scene myScene;
 	
 	public PreferencesMusic(ResourceBundle r, GameDataSource gameData, IGameView view) {
-		super(r, gameData, view, r.getString("MusicLabel"));
+		super(r, gameData, view, r.getString("MusicLabel"), r.getString("MusicOptions"));
         myResources = r;
         myGameData = gameData;
         myView = view;
         myScene = view.getScene();
     }
-	
-	public ObservableList<String> populateOptions(ObservableList<String> list) {
-		String[] musicChoices = myResources.getString("MusicOptions").trim().split(",");
-		for (String s: musicChoices) {
-			list.add(s);
-		}
-		return list;
-	}
 	
 	public void performAction() {
 		myView.setMusic(super.getComboBox().getValue());

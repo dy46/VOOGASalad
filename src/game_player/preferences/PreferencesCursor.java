@@ -18,20 +18,12 @@ public class PreferencesCursor extends GUIComboBox {
 	private Scene myScene;
 	
 	public PreferencesCursor(ResourceBundle r, GameDataSource gameData, IGameView view) {
-		super(r, gameData, view, r.getString("CursorLabel"));
+		super(r, gameData, view, r.getString("CursorLabel"), r.getString("CursorOptions"));
         myResources = r;
         myGameData = gameData;
         myView = view;
         myScene = view.getScene();
     }
-	
-	public ObservableList<String> populateOptions(ObservableList<String> list) {
-		String[] difficulties = myResources.getString("CursorOptions").trim().split(",");
-		for (String s: difficulties) {
-			list.add(s);
-		}
-		return list;
-	}
 	
 	public void performAction() {
 		myScene.setCursor(new ImageCursor(new Image(super.getComboBox().getValue())));
