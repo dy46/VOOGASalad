@@ -8,7 +8,6 @@ import javafx.scene.layout.BorderPane;
 public class StoreTab extends Tab implements IWorkspace {
 
 	BorderPane mainPane = new BorderPane();
-	ComboBox<String> 
 
 	public StoreTab(String name) {
 		super(name);
