@@ -4,18 +4,12 @@ import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.view.UnitPicker;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
 
 /**
  * Created by BrianLin on 4/11/2016
@@ -25,13 +19,11 @@ import javafx.scene.shape.Shape;
  */
 
 public class DragDelegate {
-	
-	private static final DataFormat unitViewFormat = new DataFormat("UnitView"); // need help extracting  
-			
+
 	public DragDelegate() {
-		
+
 	}
-	
+
 	//Set up Source
 	public void addUnitViewSource(UnitView source) {
 		source.setOnDragDetected(new EventHandler<MouseEvent>() {
@@ -47,23 +39,22 @@ public class DragDelegate {
 				event.consume();
 			}
 		});
-	
+
 		source.setOnDragDone(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				if (event.getTransferMode() == TransferMode.COPY) {
 					System.out.println("Drag completed for source");
-					
 				}
 				event.consume();
 			}
 		});
 	}
-	
-	
+
+
 	//Set up Target
-	
-public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
-		
+
+	public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
+
 		Pane targetPane = target.getRoot();
 		targetPane.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
@@ -72,14 +63,14 @@ public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
 				event.consume();
 			}
 		});
-		
+
 		targetPane.setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				System.out.println("Drag entered...");
 				event.consume();
 			}
 		});
-		
+
 		targetPane.setOnDragExited(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				/* mouse moved away, remove the graphical cues */
@@ -87,7 +78,7 @@ public void setUpNodeTarget(IMapPane target, UnitPicker myPicker) {
 				event.consume();
 			}
 		});
-		
+
 		targetPane.setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent event) {
 				event.acceptTransferModes(TransferMode.COPY);

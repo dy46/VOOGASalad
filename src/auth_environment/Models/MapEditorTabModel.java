@@ -1,34 +1,37 @@
 package auth_environment.Models;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IMapEditorTabModel;
 import auth_environment.Models.Interfaces.IMapPane;
-import auth_environment.delegatesAndFactories.GridMapPane;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
+
 /*
  * This class now serves as a controller between MapEditorTab and the backend data instead of a backend model.
  * @Author: Alexander Tseng
  */
 public class MapEditorTabModel implements IMapEditorTabModel{
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
 	private IAuthEnvironment myAuthData;  
-	private Map<Position, Unit> myPositionMap = new HashMap<Position, Unit>();
+	private Map<Position, Unit> myPositionMap;
 
 	public MapEditorTabModel(IAuthEnvironment auth) {
-		this.myAuthData = auth;
+		myAuthData = auth;
+		myPositionMap = new HashMap<Position, Unit>();
 	}
 	
 	public void refresh(IAuthEnvironment auth) {
-		this.myAuthData = auth; 
+		myAuthData = auth; 
 	}
-	
 	
 	public void addTerrain(double xPos, double yPos, Unit element){
 		Unit newUnit = element.copyUnit();
@@ -52,7 +55,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	public void convert(IMapPane mapPane){
 		mapPane.getRoot().getChildren().clear();
 		myAuthData.getPlacedUnits().forEach( e-> {
-			UnitView tempUnitView = new UnitView(e.copyUnit(), e.toString() + ".png");
+			UnitView tempUnitView = new UnitView(e.copyUnit(), e.toString() + myNamesBundle.getString("defaultImageExtensions"));
 			tempUnitView.addContextMenu(mapPane, tempUnitView);
 			mapPane.addToPane(tempUnitView);
 			Unit tempUnit = e.copyUnit();
@@ -70,12 +73,5 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 		// TODO Auto-generated method stub
 		
 	}
-	
-
-//	public List<Unit> getAllTerrains(){
-//		allTerrains.addAll(myPositionMap.values());
-//		System.out.println(allTerrains);
-//		return allTerrains;
-//	}
 
 }
