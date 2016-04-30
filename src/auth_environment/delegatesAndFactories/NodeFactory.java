@@ -1,8 +1,10 @@
 package auth_environment.delegatesAndFactories;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -136,4 +138,10 @@ public class NodeFactory {
 	public Font titleFont() {
 		return this.fontLarge;
 	}
+	
+	 public Insets getInsetsFromProperties(String values, String regex) {
+		 List<Double> insets = Arrays.asList(values
+	        		.split(regex)).stream().map(s -> Double.parseDouble(s)).collect(Collectors.toList());
+		 return new Insets(insets.get(0), insets.get(1), insets.get(2), insets.get(3));
+	 }
 }
