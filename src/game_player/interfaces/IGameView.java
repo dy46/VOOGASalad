@@ -4,6 +4,8 @@ import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
 import javafx.scene.Scene;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
 import main.IMainView;
 
 
@@ -44,5 +46,7 @@ public interface IGameView {
     IMainView getMainView();
     
     void setCSS(String fileName);
+    
+    MediaPlayer getMusic();
     
 }

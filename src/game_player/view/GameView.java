@@ -16,6 +16,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
 import main.IMainView;
 
 
@@ -179,5 +181,9 @@ public class GameView implements IGameView {
     
     private void clearCSS() {
     	myScene.getStylesheets().clear();
+    }
+    
+    public MediaPlayer getMusic() {
+    	return myTab.getMusic();
     }
 }

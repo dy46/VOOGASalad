@@ -4,6 +4,8 @@ import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import game_player.interfaces.IPlayerTab;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -17,11 +19,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import main.IMainView;
 
 public class PlayerMainTab implements IPlayerTab {
     
+	private static final int NUMBER_OF_PLAY_CYCLES = -1;
     private static final int TOP_PADDING = 5;
     private static final int RIGHT_PADDING = 5;
     private static final int BOTTOM_PADDING = 5;
@@ -42,6 +48,7 @@ public class PlayerMainTab implements IPlayerTab {
     private Scene myScene;
     private IMainView myMainView;
     private String tabName;
+    private MediaPlayer myMusic;
     private VBox gameSection;
     private VBox configurationPanel;
     private VBox gameMenu;
@@ -70,6 +77,7 @@ public class PlayerMainTab implements IPlayerTab {
     public Tab getTab () {
         myTab = new Tab();
         myRoot = new BorderPane();
+        setMusic(myResources.getString("Audio"));
         createUISections();
         initializeCanvas();
         initializeElements();
@@ -174,5 +182,15 @@ public class PlayerMainTab implements IPlayerTab {
     
     protected IMainView getMainView() {
     	return myMainView;
+    }
+    
+    public void setMusic(String name) {
+		myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
+		myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
+		myMusic.setAutoPlay(true);
+    }
+    
+    public MediaPlayer getMusic() {
+    	return myMusic;
     }
 }

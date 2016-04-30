@@ -17,9 +17,15 @@ public class BoundingController {
 	
 	public double getMaxBounding(){
 		Unit unit = maxBoundingQueue.peek();
+		if (unit == null) {
+			return 0;
+		}
 		while(!unit.isAlive() || !unit.isVisible()){
 			maxBoundingQueue.remove();
 			unit = maxBoundingQueue.peek();
+			if (unit == null) {
+				return 0;
+			}
 		}
 		return unit.getProperties().getBounds().getMaxBoundingDistance();
 	}

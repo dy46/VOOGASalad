@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
 
 public class PreferencesMusic implements IGUIObject {
 	
@@ -20,11 +22,13 @@ public class PreferencesMusic implements IGUIObject {
 	private ResourceBundle myResources;
 	private GameDataSource myGameData;
 	private IGameView myView;
+	private MediaPlayer myMusic;
 	
 	public PreferencesMusic(ResourceBundle r, GameDataSource gameData, IGameView view) {
         myResources = r;
         myGameData = gameData;
         myView = view;
+        myMusic = myView.getMusic();
     }
 
 	@Override
@@ -46,7 +50,13 @@ public class PreferencesMusic implements IGUIObject {
 	}
 	
 	private void switchGameMusic() {
-		
+		if (myMusic.isAutoPlay()) {
+			myMusic.setAutoPlay(false);
+			myMusic.pause();
+		} else {
+			myMusic.setAutoPlay(true);
+			myMusic.play();
+		}
 	}
 
 }
