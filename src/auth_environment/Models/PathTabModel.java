@@ -51,6 +51,7 @@ public class PathTabModel implements IPathTabModel {
 		this.myPathWidth = Double.parseDouble(this.myDimensionsBundle.getString("defaultPathWidth"));
 		this.myCurrentBranch = new ArrayList<Position>(); 
 		this.myMapHandler = auth.getMapHandler();
+		this.myMapHandler.addGoal(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		this.myLevels = auth.getLevels(); 
 	}
 
