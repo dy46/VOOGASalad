@@ -86,7 +86,7 @@ public class PathTab extends Tab implements IWorkspace {
 		this.myAuth = myAuthModel.getIAuthEnvironment();
 		this.myPathTabModel.refresh(this.myAuth);
 		this.buildLevelComboBox();
-		//		this.drawMap();
+		this.drawMap();
 	}
 
 	private void setupBorderPane() {
@@ -246,6 +246,7 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void drawMap() {
+		System.out.println("draw map clears");
 		clearMap();
 		drawBranches();
 		drawSpawns();
@@ -277,6 +278,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void addClickHandlers() {
 		this.canvasPane.setOnMouseClicked(e -> {
+			System.out.println("click");
 			if (e.isControlDown()) {
 				if(drawingIndex == 0){
 					this.addPosition(e.getX(), e.getY());

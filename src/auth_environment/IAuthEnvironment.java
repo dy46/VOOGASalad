@@ -2,6 +2,7 @@ package auth_environment;
 
 import java.util.List;
 
+import auth_environment.paths.MapHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
@@ -47,14 +48,6 @@ public interface IAuthEnvironment {
 	
 	// Path Tab - Brian
 	
-	public List<Position> getGoals();
-	
-	public void setGoals(List<Position> goals);
-	
-	public List<Position> getSpawns();
-	
-	public void setSpawns(List<Position> spawns); 
-	
 	// All Levels Tab - Cody
 	
 	public void setLevels(List<Level> levels); 
@@ -94,20 +87,10 @@ public interface IAuthEnvironment {
     public void setAffectors(List<Affector> affectors); 
     
     public List<Affector> getAffectors();
-
-	public List<Branch> getEngineBranches();
 	
-	public void setEngineBranches(List<Branch> branches);
-
-	public void setVisualBranches(List<Branch> branches);
-
-	public List<Branch> getVisualBranches();
-
-	public void setGridBranches(List<Branch> gridBranches);
+	public void setMapHandler(MapHandler mh);
 	
-	public List<Branch> getGridBranches();
-	
-	public List<Branch> getBranches(); 
+	public MapHandler getMapHandler(); 
 	
 	// For UnitCreation integration, issue 190
 	
@@ -121,5 +104,12 @@ public interface IAuthEnvironment {
 	
 	public AffectorFactory getAffectorFactory();
 	
-	public void setAffectorFactory(AffectorFactory factory); 
+	public void setAffectorFactory(AffectorFactory factory);
+
+	public List<Branch> getEngineBranches();
+
+	public List<Position> getGoals();
+
+	public List<Position> getSpawns();
+	
 }
