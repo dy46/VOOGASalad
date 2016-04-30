@@ -60,7 +60,7 @@ public class AuthView  {
     	tabs.add(new Tab("Edit Map", mapEditorTab.getRoot())); 
     	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), this.globalAuthModel));
     	tabs.add(new LevelOverviewTab("Level", this.globalAuthModel));
-    	tabs.add(new StoreTab(myNamesBundle.getString("storeTabTitle")));
+    	tabs.add(new StoreTab(myNamesBundle.getString("storeTabTitle"), this.globalAuthModel));
     	tabs.stream().forEach(s -> s.setClosable(false));
     	return tabs; 
     }
