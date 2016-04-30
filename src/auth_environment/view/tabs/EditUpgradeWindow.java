@@ -21,6 +21,7 @@ public class EditUpgradeWindow {
 	private IAuthModel authModel;
 	private String unitName;
 	private NodeFactory nodeFactory = new NodeFactory();
+	private int rowIndex = 0;
 
 	public EditUpgradeWindow(String unitName, IAuthModel iAuthModel) {
 		authModel = iAuthModel;
@@ -32,10 +33,13 @@ public class EditUpgradeWindow {
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setTitle("Edit Upgrades");
+		stage.show();
 
 		Button ok = new Button("Ok");
 		ok.setOnAction(e -> saveAndClose());
 		mainPane.setBottom(ok);
+		
+		addUpgradeSlot();
 	}
 
 	private void addUpgradeSlot() {
@@ -48,7 +52,7 @@ public class EditUpgradeWindow {
 		TextField cost = nodeFactory.buildTextFieldWithPrompt("Cost");
 		TextField maxCount = nodeFactory.buildTextFieldWithPrompt("Max count");
 
-		upgradePane.addRow(1, combo, cost, maxCount);
+		upgradePane.addRow(rowIndex++, combo, cost, maxCount);
 	}
 
 	private void saveAndClose() {
