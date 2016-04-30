@@ -45,8 +45,8 @@ public interface IGameData {
     public UnitFactory getUnitFactory();
 	public void setUnitFactory(UnitFactory unitFactory);
 	   
-    public int getCurrentLevelIndex();
-    public void setCurrentLevelIndex(int currentLevelIndex);
+    public int getCurrentWaveIndex();
+    public void setCurrentWaveIndex(int currentWaveIndex);
     
 	public MapHandler getMapHandler();
 	public void setMapHandler(MapHandler mapHandler);

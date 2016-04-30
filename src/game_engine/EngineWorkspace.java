@@ -62,6 +62,7 @@ public class EngineWorkspace implements GameEngineInterface {
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
         myLevelController = new LevelController(data.getLevels(), data.getScore());
+        myLevelController.setCurrentWave(data.getCurrentWaveIndex());
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
@@ -110,6 +111,8 @@ public class EngineWorkspace implements GameEngineInterface {
     }
 
     public void saveGame() {
+    	Level currentLevel = myLevelController.getCurrentLevel();
+    	myData.setCurrentWaveIndex( currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()) );
         Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
         writer.saveElement(myData);
     }

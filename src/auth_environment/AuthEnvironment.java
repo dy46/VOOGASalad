@@ -5,10 +5,6 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_data.GameData;
-import game_data.IGameData;
-import game_engine.TestingEngineWorkspace;
-import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
@@ -16,7 +12,6 @@ import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
-import game_engine.libraries.UnitLibrary;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
@@ -37,7 +32,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private WaveGoal myWaveGoal;
 	private Store myStore = new Store(1000);
 	private double myScore = 0;
-	private int myCurrentLevelIndex = 0;
+	private int myCurrentWaveIndex = 0;
 	private MapHandler myMapHandler = new MapHandler();
 	
 	private FunctionFactory myFunctionFactory = new FunctionFactory();
@@ -227,12 +222,12 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 	
 	@Override
-	public int getCurrentLevelIndex() {
-		return myCurrentLevelIndex;
+	public int getCurrentWaveIndex() {
+		return myCurrentWaveIndex;
 	}
 	@Override
-	public void setCurrentLevelIndex(int currentLevelIndex) {
-		myCurrentLevelIndex = currentLevelIndex;
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		myCurrentWaveIndex = currentWaveIndex;
 	}
 	
 	@Override

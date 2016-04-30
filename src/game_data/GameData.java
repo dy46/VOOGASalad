@@ -23,7 +23,7 @@ public class GameData implements IGameData {
 	private ScoreUpdate myScoreUpdate;
 	private Store myStore;
 	private double myScore;
-	private int myCurrentLevelIndex = 0;
+	private int myCurrentWaveIndex = 0;
 	
 	private MapHandler myMapHandler = new MapHandler();
 
@@ -122,12 +122,12 @@ public class GameData implements IGameData {
 	}
 	
 	@Override
-	public int getCurrentLevelIndex() {
-		return myCurrentLevelIndex;
+	public int getCurrentWaveIndex() {
+		return myCurrentWaveIndex;
 	}
 	@Override
-	public void setCurrentLevelIndex(int currentLevelIndex) {
-		myCurrentLevelIndex = currentLevelIndex;
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		myCurrentWaveIndex = currentWaveIndex;
 	}
 	
 	@Override
@@ -138,4 +138,5 @@ public class GameData implements IGameData {
 	public void setMapHandler(MapHandler mapHandler) {
 		myMapHandler = mapHandler;
 	}
+
 }
