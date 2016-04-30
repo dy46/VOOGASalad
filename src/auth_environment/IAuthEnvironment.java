@@ -5,7 +5,7 @@ import java.util.List;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.factories.FunctionFactory;
-
+import game_engine.factories.StoreFactory;
 import game_data.IGameData;
 
 
@@ -15,9 +15,6 @@ public interface IAuthEnvironment extends IGameData {
 	
 	public String getGameName(); 
 	public void setGameName(String name);
-		
-	public String getSplashScreen(); 
-	public void setSplashScreen(String fileName); 	
 	
 	// Path Tab
 	
@@ -42,5 +39,7 @@ public interface IAuthEnvironment extends IGameData {
 	public FunctionFactory getFunctionFactory();
 	
 	public void setFunctionFactory(FunctionFactory factory); 
+	
+	public StoreFactory getStoreFactory(); 
 	
 }

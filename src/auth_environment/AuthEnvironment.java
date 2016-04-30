@@ -8,6 +8,7 @@ import auth_environment.paths.MapHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -22,7 +23,6 @@ import game_engine.wave_goals.WaveGoal;
 public class AuthEnvironment implements IAuthEnvironment {
 
 	private String myName;
-	private String mySplashFileName;
 	
 	private List<Level> myLevels = new ArrayList<Level>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
@@ -38,6 +38,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private FunctionFactory myFunctionFactory = new FunctionFactory();
 	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
 	private UnitFactory myUnitFactory = new UnitFactory();
+	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
 	
 	private List<Unit> myTowers = new ArrayList<Unit>();
 	private List<Unit> myEnemies = new ArrayList<Unit>();
@@ -54,24 +55,17 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public String getGameName() {
 		return this.myName; 
 	}
+	
 	@Override
 	public void setGameName(String name) {
 		this.myName = name; 
 	}
 
 	@Override
-	public String getSplashScreen() {
-		return this.mySplashFileName;
-	}
-	@Override
-	public void setSplashScreen(String fileName) {
-		this.mySplashFileName = fileName;
-	}
-
-	@Override
 	public List<Position> getGoals() {
 		return myGoals;
 	}
+	
 	@Override
 	public void setGoals(List<Position> goals) {
 		myGoals = goals;
@@ -237,6 +231,11 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setMapHandler(MapHandler mapHandler) {
 		myMapHandler = mapHandler;
+	}
+
+	@Override
+	public StoreFactory getStoreFactory() {
+		return myStoreFactory; 
 	}
 	
 }
