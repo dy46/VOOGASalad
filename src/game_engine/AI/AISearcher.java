@@ -11,6 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeMap;
 import game_engine.GameEngineInterface;
+import game_engine.UnitUtilities;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
@@ -78,7 +79,8 @@ public class AISearcher {
 		return null;
 	}
 
-	public boolean isValidSearchProblem(List<Branch> visibilityBranches){
+	public boolean isValidSearchProblem(List<Branch> visibilityBranches) {
+		UnitUtilities util = new UnitUtilities();
 		for(Unit u : this.myEngine.getUnitController().getUnitType("Enemy")){
 			Branch currentBranch = u.getProperties().getMovement().getCurrentBranch();
 			if(!visibilityBranches.contains(currentBranch)){

@@ -8,6 +8,7 @@ import auth_environment.paths.MapHandler;
 import game_data.GameData;
 import game_data.IGameData;
 import game_engine.TestingEngineWorkspace;
+import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
@@ -28,18 +29,18 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private String myName;
 	private String mySplashFileName;
 	
-//	private List<Level> myLevels = new ArrayList<Level>();
-//	private List<Branch> myBranches = new ArrayList<Branch>();
-//	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
-//	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
-//	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
-//	private ScoreUpdate myScoreUpdate;
-//	private WaveGoal myWaveGoal;
-//	private Store myStore;
-//	private double myScore;
-//	
-//	private AffectorFactory myAffectorFactory;
-//	private UnitFactory myUnitFactory;
+	private List<Level> myLevels = new ArrayList<Level>();
+	private List<Branch> myBranches = new ArrayList<Branch>();
+	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
+	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
+	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
+	private ScoreUpdate myScoreUpdate;
+	private WaveGoal myWaveGoal;
+	private Store myStore;
+	private double myScore;
+	
+	private AffectorFactory myAffectorFactory;
+	private UnitFactory myUnitFactory;
 	
 	private List<Unit> myTowers = new ArrayList<Unit>();
 	private List<Unit> myEnemies = new ArrayList<Unit>();
@@ -47,35 +48,11 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Unit> myProjectiles = new ArrayList<Unit>();
 	private List<Position> mySpawns = new ArrayList<Position>();
 	private List<Position> myGoals = new ArrayList<Position>();
-	private FunctionFactory myFunctionFactory;
-	
-	private IGameData myGameData = new GameData();
+	private FunctionFactory myFunctionFactory = new FunctionFactory();
+	private MapHandler myMapHandler = new MapHandler();
 
 	public AuthEnvironment() { 
 		
-	}
-	public AuthEnvironment(IGameData gameData) {
-		myGameData = gameData;
-		
-		myTowers = myGameData.getUnitFactory().getUnitLibrary().getUnits();
-	}
-
-	private void setupDummyValues() {
-		TestingEngineWorkspace test = new TestingEngineWorkspace();
-		test.setUpEngine(null);
-		this.setTerrains(test.getTerrains());
-		this.setTowers(test.getTowers());
-		this.setLevels(test.getLevels());
-		this.setProjectiles(test.getProjectiles());
-		this.setAffectors(test.getAffectors());
-		this.setEnemies(test.getEnemies());
-		MapHandler mh = new MapHandler();
-		List<Branch> branches = mh.getEngineBranches();
-		this.setEngineBranches(mh.getEngineBranches());
-		this.setGoals(mh.getGoals());
-		this.setSpawns(mh.getSpawns());
-		//		Unit tower = test.getTerrains().get(0); 
-		//		UnitView uv = new UnitView(tower, "smackCat.gif"); 
 	}
 
 	@Override
@@ -162,114 +139,106 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Level> getLevels() {
-		// TODO Auto-generated method stub
-		return null;
+		return myLevels;
 	}
 	@Override
 	public void setLevels(List<Level> levels) {
-		// TODO Auto-generated method stub
-		
+		myLevels = levels;
 	}
+	
 	@Override
 	public List<Branch> getBranches() {
-		// TODO Auto-generated method stub
-		return null;
+		return myBranches;
 	}
 	@Override
 	public void setBranches(List<Branch> branches) {
-		// TODO Auto-generated method stub
-		
+		myBranches = branches;
 	}
+	
 	@Override
 	public List<Unit> getPlacedUnits() {
-		// TODO Auto-generated method stub
-		return null;
+		return myPlacedUnits;
 	}
 	@Override
 	public void setPlacedUnits(List<Unit> units) {
-		// TODO Auto-generated method stub
-		
+		myPlacedUnits = units;
 	}
+	
 	@Override
 	public List<Affector> getAffectors() {
-		// TODO Auto-generated method stub
-		return null;
+		return myAffectors;
 	}
 	@Override
 	public AffectorFactory getAffectorFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return myAffectorFactory;
 	}
 	@Override
-	public void setAffectorFactory(AffectorFactory factory) {
-		// TODO Auto-generated method stub
-		
+	public void setAffectorFactory(AffectorFactory affectorFactory) {
+		myAffectorFactory = affectorFactory;
 	}
+	
 	@Override
 	public List<PlaceValidation> getPlaceValidations() {
-		// TODO Auto-generated method stub
-		return null;
+		return myPlaceValidations;
 	}
 	@Override
 	public void setPlaceValidations(List<PlaceValidation> placeValidations) {
-		// TODO Auto-generated method stub
-		
+		myPlaceValidations = placeValidations;
 	}
+	
 	@Override
 	public WaveGoal getWaveGoal() {
-		// TODO Auto-generated method stub
-		return null;
+		return myWaveGoal;
 	}
 	@Override
 	public void setWaveGoal(WaveGoal waveGoal) {
-		// TODO Auto-generated method stub
-		
+		myWaveGoal = waveGoal;
 	}
+	
 	@Override
 	public ScoreUpdate getScoreUpdate() {
-		// TODO Auto-generated method stub
-		return null;
+		return myScoreUpdate;
 	}
 	@Override
 	public void setScoreUpdate(ScoreUpdate scoreUpdate) {
-		// TODO Auto-generated method stub
-		
+		myScoreUpdate = scoreUpdate;
 	}
+	
 	@Override
 	public Store getStore() {
-		// TODO Auto-generated method stub
-		return null;
+		return myStore;
 	}
 	@Override
 	public void setStore(Store store) {
-		// TODO Auto-generated method stub
-		
+		myStore = store;
 	}
+	
 	@Override
 	public double getScore() {
-		// TODO Auto-generated method stub
-		return 0;
+		return myScore;
 	}
 	@Override
 	public void setScore(double score) {
-		// TODO Auto-generated method stub
-		
+		myScore = score;
 	}
+	
 	@Override
 	public UnitFactory getUnitFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return myUnitFactory;
 	}
 	@Override
-	public void setUnitFactory(UnitFactory factory) {
-		// TODO Auto-generated method stub
-		
+	public void setUnitFactory(UnitFactory unitFactory) {
+		myUnitFactory = unitFactory;
 	}
+	
 	@Override
-	public IGameData getGameData() {
-		// TODO Auto-generated method stub
-		return null;
+	public MapHandler getMapHandler() {
+		return myMapHandler; 
 	}
 
+	@Override
+	public void setMapHandler(MapHandler mapHandler) {
+		myMapHandler = mapHandler;
+	}
 	
 }

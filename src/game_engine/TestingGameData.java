@@ -18,7 +18,7 @@ import game_engine.wave_goals.EnemyNumberWaveGoal;
 import game_engine.wave_goals.WaveGoal;
 
 
-public class TestingGameData implements IGameData{
+public class TestingGameData{
 
     private List<Level> myLevels;
     private List<PlaceValidation> myPlaceValidations;

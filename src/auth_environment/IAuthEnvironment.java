@@ -2,6 +2,7 @@ package auth_environment;
 
 import java.util.List;
 
+import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -98,7 +99,6 @@ public interface IAuthEnvironment extends IGameData {
 	public UnitFactory getUnitFactory();
 	public void setUnitFactory(UnitFactory factory); 
 	
-    // Not in IGameData
-	public IGameData getGameData();
-
+	public MapHandler getMapHandler();
+	public void setMapHandler(MapHandler mapHandler);
 }

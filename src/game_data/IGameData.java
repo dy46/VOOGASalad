@@ -14,7 +14,6 @@ import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 public interface IGameData {
-	
     public List<Level> getLevels();
     public void setLevels(List<Level> levels);
 
@@ -44,5 +43,5 @@ public interface IGameData {
     public void setScore(double score);    
     
     public UnitFactory getUnitFactory();
-	void setUnitFactory(UnitFactory unitFactory);
+	public void setUnitFactory(UnitFactory unitFactory);
 }
