@@ -4,9 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import game_engine.game_elements.Branch;
+import game_engine.interfaces.IBranchHandler;
 import game_engine.properties.Position;
 
-public class BranchHandler {
+public class BranchHandler implements IBranchHandler {
 	
 	public Branch updateBranch(List<Position> newPos, Branch branch){
 		Branch copyBranch = branch.copyBranch();

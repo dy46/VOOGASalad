@@ -50,5 +50,10 @@ public class Velocity extends Property {
 		this.myDirection = velocity.getDirection();
 	}
 
+	@Override
+	public boolean isBaseProperty() {
+		return true;
+	}
+
 
 }

@@ -5,12 +5,13 @@ import java.util.List;
 
 import game_engine.game_elements.Branch;
 import game_engine.handlers.BranchHandler;
+import game_engine.interfaces.IBranchHandler;
 import game_engine.properties.Position;
 
 public class SearchHandler {
 	
 	private List<Branch> myEngineBranches;
-	private BranchHandler myBranchHandler;
+	private IBranchHandler myBranchHandler;
 	
 	public SearchHandler(List<Branch> engineBranches){
 		this.myEngineBranches = engineBranches;

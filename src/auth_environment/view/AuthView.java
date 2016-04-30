@@ -9,6 +9,7 @@ import auth_environment.Models.AuthModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.tabs.GameSettingsTab;
 import auth_environment.view.tabs.PathTab;
+import auth_environment.view.tabs.ElementCreationTab;
 import auth_environment.view.tabs.LevelOverviewTab;
 import auth_environment.view.tabs.MapEditorTab;
 import javafx.scene.Scene;
@@ -52,7 +53,8 @@ public class AuthView  {
     	MapEditorTab mapEditorTab = new MapEditorTab(this.globalAuthModel); 
 //    	AnimationLoaderTab at = new AnimationLoaderTab(new Unit("Tower", new UnitProperties()));
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
-    	tabs.add(new VAsTesterTab("WOOOO", this.globalAuthModel));
+    	ElementCreationTab creationTab = new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), this.globalAuthModel, myNamesBundle);
+    	tabs.add(creationTab.getRoot());
 //    	tabs.add(new Tab("Stringgoeshere", at.getRoot())); 
     	tabs.add(new Tab("Edit Map", mapEditorTab.getRoot())); 
     	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), this.globalAuthModel));

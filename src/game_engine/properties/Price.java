@@ -34,4 +34,9 @@ public class Price extends Property {
         this.myPrice = values.get(0);
     }
 
+	@Override
+	public boolean isBaseProperty() {
+		return true;
+	}
+
 }

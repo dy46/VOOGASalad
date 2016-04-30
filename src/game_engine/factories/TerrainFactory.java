@@ -30,6 +30,9 @@ public class TerrainFactory {
 		Unit ice = new Unit("Ice Terrain", new ArrayList<>(), 2);
 		ice.addAffectorsToApply(affectors);
 		myTerrainLibrary.addTerrain(ice);
+		
+		Unit ground = new Unit("GroundTerrain", new ArrayList<>(), 2);
+		myTerrainLibrary.addTerrain(ground);
 
 		//		List<Affector> affectors2 = new ArrayList<>();
 		//		Affector expIncrDamage = myAffectorLibrary.getAffector("RandomPoison", "HealthDamage");
