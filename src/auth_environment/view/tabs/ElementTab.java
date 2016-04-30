@@ -32,6 +32,7 @@ public class ElementTab extends UnitTab{
 	private List<ComboBox<String>> myProjectiles;
 	private List<String> affectorNames;
 	private List<String> unitNames;
+	AnimationPane myAnimationPane;
 	
 	private IElementTabModel myElementTabModel;
 
@@ -42,6 +43,7 @@ public class ElementTab extends UnitTab{
 		affectorsToUnit = new ArrayList<ComboBox<String>>();
 		affectorsToApply = new ArrayList<ComboBox<String>>();
 		myProjectiles = new ArrayList<ComboBox<String>>();
+		myAnimationPane = new AnimationPane();
 		
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
 		addRefresh();
@@ -66,8 +68,7 @@ public class ElementTab extends UnitTab{
 	}
 	
 	public void setUpAnimation(BorderPane gp){
-		AnimationPane newAnimationInfo = new AnimationPane();
-		gp.setTop(newAnimationInfo.getRoot());
+		gp.setTop(myAnimationPane.getRoot());
 	}
 
 	private void addNewComboBox(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
@@ -134,7 +135,7 @@ public class ElementTab extends UnitTab{
     	
     	newAnimationInfo.getAnimationLoaderTab().setUnit(unit);
         myUnitFactory.getUnitLibrary().addUnit(unit);
-    	init();
+    	setUp();
 	}
 
 	public void updateMenu(Unit unit) {
@@ -155,6 +156,7 @@ public class ElementTab extends UnitTab{
 	@Override
 	public void createNewElement() {
 		// TODO Auto-generated method stub
+		createNewElement(myAnimationPane);
 		
 	}
 
