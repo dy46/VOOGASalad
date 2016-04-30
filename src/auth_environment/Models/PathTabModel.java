@@ -63,10 +63,10 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
-		this.myCurrentBranch.clear();
-		this.myGoals = auth.getGoals();
-		this.mySpawns = auth.getSpawns();
-		this.myMapHandler = auth.getMapHandler();
+//		this.myCurrentBranch.clear();
+//		this.myGoals = auth.getGoals();
+//		this.mySpawns = auth.getSpawns();
+//		this.myMapHandler = auth.getMapHandler();
 		this.myLevels = auth.getLevels(); 
 	}
 

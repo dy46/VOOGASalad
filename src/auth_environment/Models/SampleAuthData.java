@@ -80,7 +80,7 @@ public class SampleAuthData implements IAuthEnvironment {
 		this.myUnitFactory = new UnitFactory();
 		this.myFunctionFactory = new FunctionFactory(); 
 		this.myAffectorFactory = new AffectorFactory(this.myFunctionFactory);
-		this.myMapHandler = new MapHandler(this.myEngineBranches, this.mySpawns, this.myGoals); 
+		this.myMapHandler = new MapHandler(); 
 		this.setupDummyValues();
 	}
 
@@ -285,7 +285,7 @@ public class SampleAuthData implements IAuthEnvironment {
 
 	@Override
 	public List<Branch> getBranches() {
-		return this.myBranches;
+		return this.getMapHandler().getEngineBranches();
 	}
 
 	@Override
