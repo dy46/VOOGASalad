@@ -22,14 +22,15 @@ public class StoreTab extends Tab implements IWorkspace {
 	private StoreTabModel myStoreTabModel;
 	private IStoreTabModel myStoreTabModelInterface;
 	private IAuthModel myAuthModel;
-	private List<ComboBox> unitList;
+	private List<ComboBox<String>> unitList;
 	private List<TextField> costList;
 	private NodeFactory myNodeFactory;
-
+	private Button done;
+	
 	public StoreTab(String name, IAuthModel authModel) {
 		super(name);
 		myAuthModel = authModel;
-		unitList = new ArrayList<ComboBox>();
+		unitList = new ArrayList<ComboBox<String>>();
 		costList = new ArrayList<TextField>();
 		myNodeFactory = new NodeFactory();
 		init();
@@ -38,6 +39,7 @@ public class StoreTab extends Tab implements IWorkspace {
 	private void init(){
 		myRoot = new BorderPane();
 		myGrid = new GridPane();
+		myStoreTabModel = new StoreTabModel(myAuthModel);
 		setRefresh();
 		int index = 0;
 		Button dummyButton = new Button("Lol why do i exist");
@@ -45,13 +47,14 @@ public class StoreTab extends Tab implements IWorkspace {
 		dummyCBox.setValue("test");	
 		createProductList(index, myGrid, dummyButton, dummyCBox);
 		myRoot.setLeft(myGrid);
-		Button done = new Button("Done");
+		done = new Button("Done");
+		doneAction();
 		myRoot.setBottom(done);
 		setContent(myRoot);
 	}
 	
 	private void setRefresh(){
-		this.myRoot.setOnMouseEntered(e -> refresh());
+//		this.myRoot.setOnMouseEntered(e -> refresh());
 		this.setOnSelectionChanged(e -> refresh());
 	}
 	
@@ -102,10 +105,23 @@ public class StoreTab extends Tab implements IWorkspace {
 		}
 	}
 	
-	private void updateBuyables(){
-		
+	private void doneAction(){
+		done.setOnAction(e -> updateBuyables());
 	}
 	
+	//THIS NEEDS TO BE CHANGED
+//	private void updateBuyables(){
+//		List<String> names = new ArrayList<String>();
+//		List<Integer> costs = new ArrayList<Integer>();
+//		for(int i = 0; i < unitList.size(); i++){
+//			System.out.println("Store test: " + unitList.get(i).getValue());
+//			names.add(unitList.get(i).getValue());
+//			costs.add(Integer.parseInt(costList.get(i).getText()));
+//		}
+//		myStoreTabModel.addBuyableUnits(names, costs);
+//		System.out.println("Values updated to back-end");
+//	}
+//	
 
 	public Node getRoot() {
 		return myRoot;

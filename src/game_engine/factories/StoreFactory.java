@@ -25,6 +25,7 @@ public class StoreFactory {
 		for(String name : al.getAffectorNames()){
 			myUpgrades.put(name,  al.getAffector(name));
 		}
+		myStore = new Store(0);
 	}
 	public StoreFactory(Map<String, Unit> units, Map<String, Affector> upgrades){
 		myStore = null;
