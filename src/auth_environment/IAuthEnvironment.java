@@ -30,10 +30,6 @@ public interface IAuthEnvironment {
 	
 	public String getGameName(); 
 	
-	public void setSplashScreen(String fileName); 
-	
-	public String getSplashScreen(); 
-	
 	public void setWaveGoal(WaveGoal goal); 
 	
 	public WaveGoal getWaveGoal();
