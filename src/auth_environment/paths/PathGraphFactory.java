@@ -8,6 +8,14 @@ import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
 
+/**
+ * This class is a factory for creating path graphs. Path graphs are a set of branches that represent a set of positions.
+ * Branches have neighbors and end points are used as nodes in search problems. 
+ * 
+ * @author adamtache
+ *
+ */
+
 public class PathGraphFactory {
 
 	private PathLibrary myPathLibrary;

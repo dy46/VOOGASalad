@@ -6,12 +6,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import exceptions.WompException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -33,7 +35,6 @@ import javafx.scene.text.Text;
 
 public class NodeFactory {
 
-	// TODO: do these properties need to be extracted?
 	private Font fontLabels = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 12);
 	private Font fontLarge = Font.font("Adobe Caslon Pro", FontWeight.BOLD, 20);
 
@@ -76,9 +77,16 @@ public class NodeFactory {
 		b.setOnAction(eventHandler);
 		return b;
 	}
+
+	public ComboBox<String> buildComboBoxWithEventHandler(List<String> values, EventHandler<ActionEvent> eventHandler ){
+		ComboBox<String> cbox = new ComboBox<String>();
+		cbox.getItems().addAll(values);
+		cbox.setOnAction(eventHandler);
+		return cbox;
+	}
 	
 	public HBox centerNode(Node node) {
-		List<Node> nodes = new ArrayList<Node>();
+		List<Node> nodes = new ArrayList<>();
 		nodes.add(node);
 		return centerNodes(nodes);
 	}
@@ -125,8 +133,7 @@ public class NodeFactory {
 		try {
 			return new Image(getClass().getClassLoader().getResourceAsStream(imageName));
 		} catch (NullPointerException e) {
-			System.out.println("Can't load file " + imageName);
-			e.printStackTrace();
+			new WompException("Can't load file " + imageName).displayMessage();
 			return null;
 		}
 	}

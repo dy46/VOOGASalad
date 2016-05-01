@@ -50,7 +50,7 @@ public class AuthView  {
     
     // TODO: refactor
     private List<Tab> defaultTabs() {
-    	List<Tab> tabs = new ArrayList<Tab>(); 
+    	List<Tab> tabs = new ArrayList<>(); 
     	
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
     	tabs.add(new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), globalAuthModel, myNamesBundle));

@@ -4,11 +4,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import exceptions.WompException;
 import game_engine.functions.Constant;
 import game_engine.functions.Function;
 import game_engine.functions.Term;
 import game_engine.functions.Variable;
 import game_engine.libraries.FunctionLibrary;
+
+/**
+ * This class is a factory for construction of functions. 
+ * More information on functions can be found in the Game_Engine/Functions package.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class FunctionFactory {
 
@@ -28,10 +37,6 @@ public class FunctionFactory {
 		setupDefaultTypes();
 	}
 
-	public void createFunction(String equation){
-
-	}
-
 	public Function createFunction(String type, String str){
 		String name = getName(type, str);
 		if(myFunctionLibrary.getFunction(name) != null){
@@ -42,11 +47,13 @@ public class FunctionFactory {
 		typeAndStr.add(str);
 		List<Term> terms = myFunctionLibrary.getFunctionType(type);
 		if(terms == null){
-			// TODO: throw Womp error "Function type not implemented yet"
+			new WompException("Function type not implemented yet").displayMessage();
+			return null;
 		}
 		Constant strength = myFunctionLibrary.getStrength(str);
 		if(strength == null){
-			// TODO: throw Womp error "Strength type not implemented yet"
+			new WompException("Strength type not implemented yet").displayMessage();
+			return null;
 		}
 		for(Term term : terms){
 			List<Constant> constants = copyConstantList(term.getConstants());
@@ -124,15 +131,14 @@ public class FunctionFactory {
 		else if(sign == -1)
 			type = "ExpDecr";
 		else{
-			// TODO: throw Womp Exception "Only exponentially increasing and decreasing functions supported"
+			new WompException("Only exponentially increasing and decreasing functions supported").displayMessage();
 		}
 		myFunctionLibrary.addFunctionType(type, expTerms);
-		if(sign==1){
+		if(sign == 1){
 			Function expIncr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expIncr);
-//			System.out.println(expIncr);
 		}
-		if(sign==-1){
+		if(sign == -1){
 			Function expDecr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expDecr);
 		}

@@ -23,7 +23,6 @@ public class Test1 {
         c.goToFolder("main");
         c.uploadFolder("src/utility");
         c.uploadFile("src/utility/Test1.java", "Test4.java");
-        System.out.println(c.getCurrentFiles());
         c.listFolders();
         c.goToRootFolder();
         c.downloadFromCurrent("main", "~/Downloads");

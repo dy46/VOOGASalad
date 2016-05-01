@@ -74,7 +74,6 @@ public class PlayerGUI {
         writer = new Serializer<>();
         currentGame = writer.chooseXMLFile();
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
-        System.out.println("SETTING BREAKPOINT");
         return gameData;
     }
 
@@ -114,7 +113,7 @@ public class PlayerGUI {
     }
     
     public void loadNextLevel() {
-    	NextLevelScreen screen = new NextLevelScreen(myResources, this);
+    	new NextLevelScreen(myResources, this);
     }
     
     public void setMusic(String name) {

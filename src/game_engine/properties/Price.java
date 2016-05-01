@@ -3,6 +3,11 @@ package game_engine.properties;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Price is a unit property representing the value of a unit in the store and in general.
+ * 
+ *
+ */
 
 public class Price extends Property {
 

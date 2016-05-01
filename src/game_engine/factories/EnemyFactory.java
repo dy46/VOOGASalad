@@ -17,7 +17,6 @@ import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;
 
-
 public class EnemyFactory {
 
     private AffectorLibrary myAffectorLibrary;
@@ -48,9 +47,7 @@ public class EnemyFactory {
     public Unit createSpecifiedEnemy (String name, String behavior, String property) {
         Affector moveAffector = myAffectorLibrary.getAffector(behavior, property);
         moveAffector.setTTL(Integer.MAX_VALUE);
-        // Field[] fields = Unit.class.getDeclaredFields();
         Unit e1 = new Unit(name, Arrays.asList(moveAffector), 3);
-        // forward.addEndEvent(new EndEvent(getFieldByName(fields, "hasCollided"), e1, 1, "=="));
         Health health = new Health(50);
         Velocity velocity = new Velocity(0.5, 90);
         List<Position> l1 = new ArrayList<>();

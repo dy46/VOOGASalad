@@ -9,6 +9,12 @@ import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.UnitLibrary;
 import game_engine.properties.UnitProperties;
 
+/**
+ * This class is a factory for construction of Units, which are constructed based on types and UnitProperties and children.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class UnitFactory {
 
@@ -56,10 +62,8 @@ public class UnitFactory {
     public List<Affector> getAffectorsFromString (List<String> names) {
     	names.removeIf(n -> n == null);
         List<Affector> affectors = new ArrayList<>();
-        System.out.println("AFFECTOR NAMES ARE" + names);
         names.stream().forEach(n -> {
         	affectors.add(myAffectorLibrary.getAffector(n));
-        	System.out.println(n);
         });
         return affectors;
     }

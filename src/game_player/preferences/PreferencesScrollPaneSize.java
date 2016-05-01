@@ -42,7 +42,6 @@ public class PreferencesScrollPaneSize implements IGUIObject{
 
 	@Override
 	public void updateNode() {
-		// TODO Auto-generated method stub
 
 	}
 	

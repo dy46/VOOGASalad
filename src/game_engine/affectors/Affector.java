@@ -8,6 +8,14 @@ import game_engine.functions.Function;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Property;
 
+/**
+ * An Affector is a utility for affecting Units based on their UnitProperties and operates through AffectorData.
+ * There are three core types of affectors: BasicSetAffector, BasicDecrementAffector, and BasicIncrementAffector.
+ * Affectors operate based on TTL, which is "time to live" meaning in-game ticks for affecting Units.
+ * Affectors have access to the engine workspace in order to affect in-game elements.
+ * 
+ *
+ */
 
 public abstract class Affector {
 
@@ -42,8 +50,6 @@ public abstract class Affector {
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("WORKSPACE TO COPY");
-        System.out.println(this.getWorkspace());
         copy.setTTL(this.getTTL());
         return copy;
     }

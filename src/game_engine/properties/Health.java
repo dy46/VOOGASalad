@@ -3,6 +3,11 @@ package game_engine.properties;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Health is a unit property representing hit-points or life-points of a Unit for taking damage and staying alive.
+ * 
+ *
+ */
 
 public class Health extends Property {
 

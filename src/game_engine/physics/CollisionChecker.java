@@ -2,6 +2,12 @@ package game_engine.physics;
 
 import game_engine.properties.Position;
 
+/**
+ * CollisionChecker checks for collisions of units based on positions
+ * 
+ * @author Paul
+ *
+ */
 
 public class CollisionChecker {
 

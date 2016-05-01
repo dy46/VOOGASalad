@@ -2,14 +2,13 @@ package game_engine.factories;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
 import game_engine.functions.Function;
 import game_engine.libraries.AffectorLibrary;
 
-
 public class AffectorFactory {
-
     public static final String CONSTANT = "Constant";
     private AffectorLibrary myAffectorLibrary;
     private FunctionFactory myFunctionFactory;

@@ -43,7 +43,6 @@ public class PreferencesMusicControl implements IGUIObject {
 
 	@Override
 	public void updateNode() {
-		// TODO Auto-generated method stub
 
 	}
 	

@@ -7,6 +7,13 @@ import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
+/**
+ * A path graph is a List of Branches, which in term have neighbor Branches. This class allows for accessing branches in various ways.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class PathGraph implements Serializable{
 
 	/**
