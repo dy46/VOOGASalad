@@ -7,21 +7,14 @@ import com.twilio.sdk.TwilioRestException;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 /*
  * Example code demonstrating how to integrate cloud storage with front-end
@@ -41,7 +34,7 @@ public class CloudStorageFrontend {
 	private Pane myRoot;
 	private VBox myVBox;
 	private TextField myKeyInput; 
-	private ListView myBoxContents; 
+	private ListView<String> myBoxContents; 
 	private String location; 
 	private String myDevKey = "";
 	private CloudStorage myCloudStorage; 
