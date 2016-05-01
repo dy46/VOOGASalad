@@ -4,7 +4,6 @@ import java.util.*;
 
 import auth_environment.Models.StoreTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.Models.Interfaces.IStoreTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
