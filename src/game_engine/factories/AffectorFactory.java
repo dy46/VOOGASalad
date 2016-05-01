@@ -3,7 +3,6 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import game_engine.affectors.Affector;
 import game_engine.affectors.AffectorData;
@@ -44,7 +43,6 @@ public class AffectorFactory {
 	    List<Function> functionList = new ArrayList<>();
 	    for(int i = 0; i < functionNames.size(); i++) {
 	        if(functionNames.get(i).equals("Constant")) {
-	            System.out.println("hi");
 	            functionList.add(myFunctionFactory.createConstantFunction(functionValues.get(i)));	           	            
 	        }
 	    }
@@ -88,7 +86,6 @@ public class AffectorFactory {
 	       newAffector.setName(name);
 	       newAffector.setTTL(TTL);
 	       myAffectorLibrary.addAffector(name, newAffector);
-	       System.out.println(myAffectorLibrary.getAffectorNames());
 	       return newAffector;
 	    }
 	
@@ -211,11 +208,7 @@ public class AffectorFactory {
 		basic3.setTTL(Integer.MAX_VALUE);
 		myAffectorLibrary.addAffector(pr15, e15, basic3);
 		Unit u = new Unit("String", new ArrayList<>(), 6);
-//		System.out.println(u);
-//		System.out.println(u.getProperties().getVelocity().getValues());
 		basic3.apply(u);
-//		System.out.println("this should be different");
-//		System.out.println(u.getProperties().getVelocity().getValues());
 		
 		String pr16 = "Increase";
                 String e16 ="Range";

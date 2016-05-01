@@ -149,7 +149,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Affector> getAffectors() {
-	    System.out.println(myAffectorFactory.getAffectorLibrary().getAffectors());
 		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 	

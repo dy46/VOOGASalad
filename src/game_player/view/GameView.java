@@ -93,8 +93,6 @@ public class GameView implements IGameView {
                     timer++;
                     updateEngine();
                     placePath();
-//                    System.out.println("BEFORE RANGE DISPLAY");
-//                    System.out.println(playerEngineInterface.getUnitController().getPlacedUnits().stream().filter(u -> u.isVisible()).collect(Collectors.toList()));
                     rangeDisplayView.display(playerEngineInterface.getUnitController().getPlacedUnits(), timer);
                 }
             }

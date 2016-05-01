@@ -60,10 +60,8 @@ public class UnitFactory {
     public List<Affector> getAffectorsFromString (List<String> names) {
     	names.removeIf(n -> n == null);
         List<Affector> affectors = new ArrayList<>();
-        System.out.println("AFFECTOR NAMES ARE" + names);
         names.stream().forEach(n -> {
         	affectors.add(myAffectorLibrary.getAffector(n));
-        	System.out.println(n);
         });
         return affectors;
     }

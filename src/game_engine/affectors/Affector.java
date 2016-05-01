@@ -42,8 +42,6 @@ public abstract class Affector {
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("WORKSPACE TO COPY");
-        System.out.println(this.getWorkspace());
         copy.setTTL(this.getTTL());
         return copy;
     }

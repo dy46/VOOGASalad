@@ -108,10 +108,9 @@ public class PathGraphFactory {
 		return myPathLibrary.getBranches();
 	}
 	
-	//TODO REFACTOR OUT THIS IS UGLY
+	//TODO Refactor
 	public List<Branch> getGravityDefenseGameBranches()
 	{
-		
 		return null;
 	}
 }

@@ -7,7 +7,6 @@ import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
-import game_engine.TestingGameData;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -75,13 +74,10 @@ public class PlayerGUI {
         writer = new Serializer<>();
         currentGame = writer.chooseXMLFile();
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
-        System.out.println("SETTING BREAKPOINT");
         return gameData;
     }
 
     protected void createNewTab (IAuthEnvironment data) {
-//        gameEngine = new TestingEngineWorkspace();
-//        gameEngine.setUpEngine(null);
     	createNewEngine(data);
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
                                     myResources.getString("TabName") +
@@ -93,7 +89,6 @@ public class PlayerGUI {
     
     private void createNewEngine(IAuthEnvironment data) {
         gameEngine = new EngineWorkspace();
-//        TestingGameData testData = new TestingGameData();
         gameEngine.setUpEngine(data);
     }
     
@@ -118,7 +113,7 @@ public class PlayerGUI {
     }
     
     public void loadNextLevel() {
-    	NextLevelScreen screen = new NextLevelScreen(myResources, this);
+    	new NextLevelScreen(myResources, this);
     }
     
     public void setMusic(String name) {

@@ -12,10 +12,9 @@ import com.box.sdk.BoxAPIConnection;
 import com.box.sdk.BoxFile;
 import com.box.sdk.BoxFolder;
 import com.box.sdk.BoxItem;
-import com.box.sdk.BoxUser;
 import com.twilio.sdk.TwilioRestException;
 
-/*
+/**
  * CloudStorage class contains useable API that can upload and download files, and notify others about
  * access to the box account.
  */
@@ -38,7 +37,7 @@ public class CloudStorage {
         tb = null;
     }
 
-    /*
+    /**
      * Sets up text bot so that notifications can be sent.
      * 
      * @param	resources is the file path to the resource file with listings of numbers to be texted
@@ -51,13 +50,13 @@ public class CloudStorage {
     public void setUpNotifications(String resources, String accountSID, String authToken, String number){
     	this.tb = new TextBot(resources, accountSID, authToken, number);
     }
-    /*
+    /**
      * Non-recursive method that lists the folders in the current directory.
      */
     public void listFolders () {
         listFolder(this.currentFolder, 0);
     }
-    /*
+    /**
      * Recurisvely lists folders in the Box account. Primarily used for debugging.
      * 
      * @param	folder is the BoxFolder from which to start listing files.
@@ -69,7 +68,6 @@ public class CloudStorage {
             for (int i = 0; i < depth; i++) {
                 indent += INDENT_APPEND;
             }
-            System.out.println(indent + itemInfo.getName());
             if (itemInfo instanceof BoxFolder.Info) {
                 BoxFolder childFolder = (BoxFolder) itemInfo.getResource();
                 listFolder(childFolder, depth + 1);
@@ -77,7 +75,7 @@ public class CloudStorage {
         }
     }
 
-    /*
+    /**
      * creates a new folder in the Box account
      * 
      * @param	String name is the name that the folder should be given.
@@ -85,7 +83,8 @@ public class CloudStorage {
     public void createNewFolder (String name) {
         this.currentFolder.createFolder(name);
     }
-    /*
+    
+    /**
      * Uploads a local file to the Box account in a specific folder
      * 
      * @param	String filePath determines the path to the local folder that should be uploaded
@@ -103,23 +102,20 @@ public class CloudStorage {
         f.uploadFile(is, name);
     }
 
-    /*
-     * 
-     */
     public void uploadFile (String filePath, String name) throws FileNotFoundException {
         File f = new File(filePath);
         InputStream is = new FileInputStream(f);
         currentFolder.uploadFile(is, name);
     }
     
-    /*
+    /**
      * Sets the current folder back to the root of the Box account
      */
     public void goToRootFolder(){
     	this.currentFolder = this.rootFolder;
     }
     
-    /*
+    /**
      * Returns a specific folder in the Box account
      * 
      * @param	String name is the name of the folder that is returned
@@ -129,7 +125,7 @@ public class CloudStorage {
         return this.getFolder(rootFolder, name);
     }
 
-    /*
+    /**
      * Recursively searches through the Box account in order to find a folder.
      * 
      * @param	current is the Box directory from which the search is started.
@@ -153,7 +149,7 @@ public class CloudStorage {
         }
     }
 
-    /*
+    /**
      * Changes the current Box directory to the folder specified.
      * 
      * @param	String name indicates which folder to move to in the Box account
@@ -166,7 +162,7 @@ public class CloudStorage {
         this.currentFolder = f;
     }
 
-    /*
+    /**
      * public method that the user can call in order to upload a folder.
      * 
      * @param	String folder is the name of the folder to be uploaded (full file path)
@@ -176,7 +172,7 @@ public class CloudStorage {
         uploadFolder(this.currentFolder, f);
     }
     
-    /*
+    /**
      * Sends a text message to all of the numbers stored in the properties file.
      * 
      * @param	String message is the text that will be sent.
@@ -185,7 +181,7 @@ public class CloudStorage {
     	tb.sendTextToAll(message);
     }
     
-    /*
+    /**
      * Recursively uploads files to Box account
      * 
      * @param	current is the Box directory that the files should be uploaded to
@@ -203,7 +199,7 @@ public class CloudStorage {
         }
     }
 
-    /*
+    /**
      * Deletes a folder from the Box account
      * 
      * @param	name is the name of the folder to be deleted.
@@ -216,7 +212,7 @@ public class CloudStorage {
         f.delete(true);
     }
     
-    /*
+    /**
      * Returns a list of names for the files and folders in the current Box directory
      * 
      * @return	List<String> contains names of the files in the Box folder. Directory names are also
@@ -234,7 +230,7 @@ public class CloudStorage {
     	return files;
     }
     
-    /*
+    /**
      * downloads a folder or file from the current directory
      * 
      * @param	name is the name of the file/folder to be downloaded from Box
@@ -243,7 +239,6 @@ public class CloudStorage {
     public void downloadFromCurrent(String name, String location) throws FileNotFoundException{
     	File f = new File(location+"/"+name);
     	for (BoxItem.Info itemInfo : this.currentFolder) {
-    		System.out.println(itemInfo.getName());
     	    if (itemInfo instanceof BoxFile.Info && itemInfo.getName().equals(name)) {
     	        BoxFile.Info fileInfo = (BoxFile.Info) itemInfo;
     	        fileInfo.getResource().download(new FileOutputStream(f));

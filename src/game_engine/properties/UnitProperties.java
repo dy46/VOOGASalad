@@ -3,6 +3,8 @@ package game_engine.properties;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import exceptions.WompException;
 import game_engine.game_elements.Branch;
 
 
@@ -64,7 +66,7 @@ public class UnitProperties {
                     }
                 }
                 catch (Exception e) {
-                    e.printStackTrace();
+                	new WompException(e.getMessage()).displayMessage();
                 }
 
             }
@@ -207,21 +209,10 @@ public class UnitProperties {
 						p.setValues(replace.getValues());
 					}
 				} catch(Exception e){
-					e.printStackTrace();
+					new WompException(e.getMessage()).displayMessage();
 				}
     		}
     	}
-    }
-    public static void main(String[] args){
-    	UnitProperties p = new UnitProperties();
-    	UnitProperties p1 = p.copyUnitProperties();
-    	p1.setMass(123.4);
-    	p1.setVelocity(40, 40);
-    	System.out.println(p1.getMass().getValues());
-    	System.out.println(p1.getVelocity().getValues());
-    	p1.setPropertiesToBase(p);
-    	System.out.println(p1.getMass().getValues());
-    	System.out.println(p1.getVelocity().getValues());
     }
 
 }

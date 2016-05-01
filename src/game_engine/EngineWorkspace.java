@@ -59,8 +59,6 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 				new UnitController(data.getPlacedUnits(), myPlaceValidations,
 						data.getStore(), unitsToRemove);
 		myEnemyController = new EnemyController(myLevelController, myUnitController);
-		System.out.println(myLevelController.getCurrentLevel().getCurrentWave().getSpawningUnits());
-		System.out.println(myLevelController.getCurrentLevel().getCurrentWave().getPlacingUnits());
 		setWorkspaceForAffectors(data.getPlacedUnits(), data.getLevels());
 		myAIController = new AIController(this);
 	}

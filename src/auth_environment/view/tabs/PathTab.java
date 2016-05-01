@@ -148,12 +148,10 @@ public class PathTab extends Tab implements IWorkspace {
 	@SuppressWarnings("unchecked")
 	private void buildWaveComboBox(String levelName) {
 		myWaveComboBox.getItems().clear();
-		System.out.println(levelName);
 		if (myPathTabModel.getWaveNames(levelName)!=null) {
 			myWaveComboBox.getItems().addAll(myPathTabModel.getWaveNames(levelName));
 			myWaveComboBox.setOnAction(event -> {
 				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-				System.out.println("Wave combo box used " + selectedItem + "!");
 				if (selectedItem!=null) {
 					buildUnitPicker(selectedItem);
 				}
