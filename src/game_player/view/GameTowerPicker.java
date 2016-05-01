@@ -19,9 +19,7 @@ import javafx.scene.layout.VBox;
 
 
 public class GameTowerPicker implements IGUIObject {
-
-    private static final int LISTVIEW_OFFSET = 100;
-	private static final int LISTVIEW_WIDTH = 150;
+	
     private static final int PANEL_SPACING = 10;
 	private static final int TOP_PADDING = 10;
 	private static final int RIGHT_PADDING = 0;
@@ -54,7 +52,7 @@ public class GameTowerPicker implements IGUIObject {
         myListView.setOnMouseClicked(e -> {
             myView.setUnitToPlace(myListView.getSelectionModel().getSelectedItem().toString());
         });
-        myListView.setPrefWidth(LISTVIEW_WIDTH);
+        myListView.setPrefWidth(Double.valueOf(myResources.getString("ListViewWidth")));
         updateNode();
         box.getChildren().addAll(myMoney, myListView);
         box.setAlignment(Pos.CENTER);
@@ -67,7 +65,8 @@ public class GameTowerPicker implements IGUIObject {
     public void updateNode () {
         updateTowerList();
 		myMoney.setText(String.valueOf(myResources.getString("Money") + myEngine.getUnitController().getStore().getMoney()));
-		myListView.setPrefHeight(myView.getCanvas().getScrollPaneHeight() - LISTVIEW_OFFSET);
+		myListView.setPrefHeight(myView.getCanvas().getScrollPaneHeight() - 
+				Double.valueOf(myResources.getString("ListViewOffset")));
     }
 
     private void updateTowerList () {
@@ -85,7 +84,8 @@ public class GameTowerPicker implements IGUIObject {
     }
 
     public double transformDirection (Unit u) {
-        return -u.getProperties().getVelocity().getDirection() + 90;
+        return -u.getProperties().getVelocity().getDirection() + 
+        		Double.valueOf(myResources.getString("RotationAngle"));
     }
 
     public boolean hasUnitImageView (Unit u, List<Unit> imageViews) {

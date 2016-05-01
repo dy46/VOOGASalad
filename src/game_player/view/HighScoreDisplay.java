@@ -29,7 +29,6 @@ public class HighScoreDisplay implements IGUIObject {
     public Node createNode () {
         myEngine = myView.getGameEngine();
         highScoreLabel = new Label();
-        highScoreLabel.setFont(new Font("Arial", 20));
         updateText();
         return highScoreLabel;
     }

@@ -64,7 +64,11 @@ public class LevelController implements ILevelDisplayer {
     }
     
     public boolean isGameOver () {
-        return myLevels.get(myLevels.size() - 1).wavesLeft() == 0 || myCurrentLevel.getMyLives() <= 0;
+        return isGameWon() || myCurrentLevel.getMyLives() <= 0;
+    }
+    
+    public boolean isGameWon() {
+    	return myLevels.get(myLevels.size() - 1).wavesLeft() == 0;
     }
     
     public List<Level> getLevels () {

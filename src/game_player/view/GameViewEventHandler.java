@@ -12,11 +12,12 @@ import javafx.scene.layout.Pane;
 
 
 public class GameViewEventHandler {
+	
+    private final static int DEFAULT_MOVE_SPEED = 1;
 
     private GameEngineInterface playerEngineInterface;
     private IGameView gameView;
     private Pane root;
-    private int DEFAULT_MOVE_SPEED = 1;
     private int moveSpeed;
     private Unit specificUnitIsSelected;
     private String unitToPlace;

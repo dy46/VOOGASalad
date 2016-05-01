@@ -23,10 +23,6 @@ import javafx.scene.shape.Rectangle;
 
 public class GameHUD {
 	
-	private static final int HUD_HEIGHT = 150;
-	private static final int UPGRADES_LISTVIEW_HEIGHT = 100;
-	private static final int IMAGEVIEW_HEIGHT = 30;
-	private static final String PNG_EXTENSION = ".png";
 	private static final int PANEL_SPACING = 5;
 
     private ResourceBundle myResources;
@@ -77,7 +73,7 @@ public class GameHUD {
     	addToHUD();
         gameView.setSpecificUnitIsSelected(tower);
         unitType.setText(tower.getName());
-        unitImage.setImage(new Image(tower.toString() + PNG_EXTENSION));
+        unitImage.setImage(new Image(tower.toString() + myResources.getString("PNGExtension")));
         sellButton.setText(myResources.getString("HUDSellButton"));
         sellButton.setOnMouseClicked(e -> engine.getUnitController().sellUnit(tower));
         removeUpgrades();
@@ -91,7 +87,7 @@ public class GameHUD {
 
     public void addUpgrades (Unit u) {
     	ListView<Affector> upgradesList = new ListView<>();
-    	upgradesList.setPrefHeight(UPGRADES_LISTVIEW_HEIGHT);
+    	upgradesList.setPrefHeight(Double.valueOf(myResources.getString("UpgradesListViewHeight")));
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
@@ -118,7 +114,7 @@ public class GameHUD {
 
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
-    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), HUD_HEIGHT);
+    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), Double.valueOf(myResources.getString("HUDHeight")));
     	rect.setOpacity(0);
     	HUDBox.getChildren().add(rect);
         if (gameView != null) {
@@ -127,8 +123,8 @@ public class GameHUD {
     }
     
     private ImageView createImageView (Unit unit) {
-        ImageView imageView = new ImageView(new Image(unit.toString() + PNG_EXTENSION));
-        imageView.setFitHeight(IMAGEVIEW_HEIGHT);
+        ImageView imageView = new ImageView(new Image(unit.toString() + myResources.getString("PNGExtension")));
+        imageView.setFitHeight(Double.valueOf(myResources.getString("ImageViewHeight")));
         imageView.setPreserveRatio(true);
         return imageView;
     }

@@ -3,8 +3,6 @@ package game_player.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import auth_environment.IAuthEnvironment;
-import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -17,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.MediaPlayer;
 import main.IMainView;
 
 
@@ -25,13 +22,13 @@ public class GameView implements IGameView {
 
     private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
+	
     private Scene myScene;
     private Pane myPane;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
     private RangeDisplayView rangeDisplayView;
     private List<ImageView> paths;
-    private IAuthEnvironment authEnvironment;
     private PlayerMainTab myTab;
     private GameHUD myHUD;
     private int timer;
@@ -90,7 +87,7 @@ public class GameView implements IGameView {
         AT = new AnimationTimer() {
             public void handle (long currentNanoTime) {
                 if (isPlaying) {
-                	if (playerEngineInterface.getLevelController().isGameOver()) {
+                	if (playerEngineInterface.getLevelController().isGameWon()) {
                 		AT.stop();
                 		playNextLevel();
                 	}
@@ -143,7 +140,7 @@ public class GameView implements IGameView {
     }
     
     public void playNextLevel() {
-    	
+    	myGUI.loadNextLevel();
     }
 
     public void changeGameSpeed (double gameSpeed) {

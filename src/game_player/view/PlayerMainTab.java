@@ -33,12 +33,12 @@ public class PlayerMainTab implements IPlayerTab {
     private static final int RIGHT_PADDING = 5;
     private static final int BOTTOM_PADDING = 5;
     private static final int LEFT_PADDING = 5;
+    private static final int PANEL_SPACING = 10;
+    private static final int CONFIGURATION_PANEL_SPACING = 20;
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
     private static final String PREFERENCES_ELEMENTS = "game_player/resources/PreferencesElements";
     private static final String PREFERENCES = "game_player/resources/Preferences";
     private static final String PACKAGE_NAME = "game_player.";
-    private static final int PANEL_PADDING = 10;
-    private static final int CONFIGURATION_PANEL_PADDING = 20;
     private Tab myTab;
     private BorderPane myRoot;
     private ResourceBundle myGUIResources;
@@ -135,10 +135,10 @@ public class PlayerMainTab implements IPlayerTab {
 
     private void createUISections () {
         gameSection = new VBox();
-        configurationPanel = new VBox(CONFIGURATION_PANEL_PADDING);
-        gameMenu = new VBox(PANEL_PADDING);
-        gamePanel = new VBox(PANEL_PADDING);
-        towerPanel = new VBox(PANEL_PADDING);
+        configurationPanel = new VBox(CONFIGURATION_PANEL_SPACING);
+        gameMenu = new VBox(PANEL_SPACING);
+        gamePanel = new VBox(PANEL_SPACING);
+        towerPanel = new VBox(PANEL_SPACING);
         this.configurePanels();
     }
 

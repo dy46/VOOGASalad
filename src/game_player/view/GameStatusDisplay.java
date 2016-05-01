@@ -28,7 +28,6 @@ public class GameStatusDisplay implements IGUIObject {
     public Node createNode () {
         myEngine = myView.getGameEngine();
         statusLabel = new Label();
-        statusLabel.setFont(new Font("Arial", 20));
         updateText();
         return statusLabel;
     }

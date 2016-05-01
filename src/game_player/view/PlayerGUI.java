@@ -21,11 +21,10 @@ import main.IMainView;
 
 public class PlayerGUI {
 
+	private static final String BACKGROUND = "background";
 	private static final int NUMBER_OF_PLAY_CYCLES = -1;
 	private static final String DEFAULT_CSS = "PlayerTheme1.css";
     private static final String DEFAULT_PACKAGE = "game_player/view/";
-    private static final double TABS_OFFSET = 0;
-    private static final double NEWTAB_OFFSET = 33;
     private static final String GUI_RESOURCE = "game_player/resources/GUI";
     private int windowWidth;
     private int windowHeight;
@@ -59,12 +58,12 @@ public class PlayerGUI {
         createNewTab(readData());
         setMusic(myResources.getString("Audio"));
 
-        AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
-        AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
-        AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
+        AnchorPane.setTopAnchor(myTabs, Double.valueOf(myResources.getString("TabsOffset")));
+        AnchorPane.setTopAnchor(newTabButton, Double.valueOf(myResources.getString("NewTabOffset")));
+        AnchorPane.setRightAnchor(newTabButton, Double.valueOf(myResources.getString("TabsOffset")));
 
         myScene.getStylesheets().add(DEFAULT_PACKAGE + DEFAULT_CSS);
-        myScene.getRoot().getStyleClass().add("background");
+        myScene.getRoot().getStyleClass().add(BACKGROUND);
 
         myRoot.getChildren().addAll(myTabs, newTabButton);
 
@@ -110,6 +109,15 @@ public class PlayerGUI {
     public void restartGame() {
     	deleteCurrentTab();
     	createNewTab(writer.loadFromFile(currentGame));
+    }
+    
+    public void loadFromXML(File file) {
+    	deleteCurrentTab();
+    	createNewTab(writer.loadFromFile(file));
+    }
+    
+    public void loadNextLevel() {
+    	NextLevelScreen screen = new NextLevelScreen(myResources, this);
     }
     
     public void setMusic(String name) {

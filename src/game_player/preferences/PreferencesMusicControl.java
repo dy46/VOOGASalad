@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 
@@ -22,15 +21,11 @@ public class PreferencesMusicControl implements IGUIObject {
 	private static final int PANEL_SPACING = 10;
 	
 	private ResourceBundle myResources;
-	private GameDataSource myGameData;
-	private IGameView myView;
 	private MediaPlayer myMusic;
 	private PlayerGUI myGUI;
 	
 	public PreferencesMusicControl(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
-        myGameData = gameData;
-        myView = view;
         myGUI = GUI;
     }
 

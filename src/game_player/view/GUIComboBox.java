@@ -14,8 +14,6 @@ import javafx.scene.layout.HBox;
 
 public abstract class GUIComboBox implements IGUIObject {
 	
-	private static final int VISIBLE_ROW_COUNT = 3;
-	private static final int COMBOBOX_WIDTH = 150;
 	private static final int PANEL_SPACING = 5;
 	
 	private ResourceBundle myResources;
@@ -63,8 +61,8 @@ public abstract class GUIComboBox implements IGUIObject {
 	}
 	
 	public void configureComboBox () {
-        comboBox.setVisibleRowCount(VISIBLE_ROW_COUNT);
-        comboBox.setPrefWidth(COMBOBOX_WIDTH);
+        comboBox.setVisibleRowCount(Integer.valueOf(myResources.getString("VisibleRowCount")));
+        comboBox.setPrefWidth(Double.valueOf(myResources.getString("ComboBoxWidth")));
         comboBox.setPromptText(promptText);
     }
 	
