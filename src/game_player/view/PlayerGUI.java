@@ -75,11 +75,11 @@ public class PlayerGUI {
         writer = new Serializer<>();
         currentGame = writer.chooseXMLFile();
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
-        System.out.println("SETTING BREAKPOINT");
         return gameData;
     }
 
     protected void createNewTab (IAuthEnvironment data) {
+    	//Uncomment these to go to the hardcoded version!!!
 //        gameEngine = new TestingEngineWorkspace();
 //        gameEngine.setUpEngine(null);
     	createNewEngine(data);
