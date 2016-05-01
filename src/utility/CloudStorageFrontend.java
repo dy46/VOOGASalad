@@ -41,7 +41,6 @@ public class CloudStorageFrontend {
 	private FileChooserDelegate myChooser; 
 	private NodeFactory myNodeFactory; 
 
-
 	public CloudStorageFrontend () {
 		init(); 
 	}
