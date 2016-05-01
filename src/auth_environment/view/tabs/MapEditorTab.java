@@ -14,9 +14,7 @@ import auth_environment.view.UnitPicker;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -74,10 +72,9 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private void refresh(){
 		myAuth = myAuthModel.getIAuthEnvironment();
 		myModel.refresh(myAuth);
-		//		System.out.println("Test " + myModel.getTerrains());
 		myPicker.setUnits(myModel.getTerrains());
-		this.myFreeMapPane.refresh();
-		this.myGridMapPane.refresh();
+		refreshCanvasPane(myFreeMapPane);
+		refreshCanvasPane(myGridMapPane);
 	}
 
 	public void buildTerrainChooser(){
@@ -110,7 +107,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	}
 
 	private void buildFreeMapPane(){
-		myFreeMapPane = new FreeMapPane(myModel);
+		myFreeMapPane = new FreeMapPane(myModel, Integer.parseInt(myDimensionsBundle.getString("mapEditorCols")));
 		myFreeMapPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("canvasWidth")), 
 				Double.parseDouble(myDimensionsBundle.getString("canvasHeight")));
 		myDragDelegate.setUpNodeTarget(myFreeMapPane, myPicker);
@@ -119,6 +116,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private Button buildClearButton() {
 		Button clear = new Button(myNamesBundle.getString("clearButtonLabel"));
 		clear.setOnAction(e -> {
+			myFreeMapPane.getChildren().clear();
 			myGridMapPane.getChildren().clear();
 			myModel.clear();
 		});
@@ -131,24 +129,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		gridSwitch.setSelected(true);
 		gridSwitch.setOnAction(e -> myGridMapPane.setGridLinesVisible(!myGridMapPane.getRoot().isGridLinesVisible()));
 		return gridSwitch;
-	}
-
-	// TODO: consider removing
-	private Button buildGridModeButton(){
-		Button gridMode = new Button(myNamesBundle.getString("gridLabel"));
-		gridMode.setOnAction(e -> {
-			if (gridMode.getText().equals(myNamesBundle.getString("gridLabel"))){
-				gridMode.setText(myNamesBundle.getString("freeLabel"));
-				myModel.convert(myGridMapPane);
-				updateMapPane(myGridMapPane, myNamesBundle.getString("gridLabel"));
-			}
-			else{
-				gridMode.setText(myNamesBundle.getString("gridLabel"));
-				myModel.convert(myFreeMapPane);
-				updateMapPane(myFreeMapPane, myNamesBundle.getString("freeLabel"));
-			}
-		});
-		return gridMode;
 	}
 
 	private HBox buildInitialHBox() {
@@ -185,19 +165,9 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
 		Button clearButton = buildClearButton();
 		CheckBox gridSwitchBox = buildGridSwitchBox();
-		//        Button gridModeButton = buildGridModeButton();
 
 		hbox.getChildren().addAll(clearButton,gridSwitchBox);
 		return hbox;
-	}
-
-	// TODO: consider removing
-	private void createTextField(HBox hbox){
-		Label speedlabel = new Label("Columns: ");
-		TextField textField = new TextField();
-		textField.setMaxWidth(50);
-		textField.setPromptText("int");
-		hbox.getChildren().addAll(speedlabel, textField);
 	}
 
 	public Node getRoot() {
@@ -206,5 +176,16 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
 	public Node getFreeMapPane(){
 		return myFreeMapPane;
+	}
+	
+	public void refreshCanvasPane(IMapPane tempMapPane){
+		if(!this.myModel.getPlacedUnits().isEmpty()) {
+			tempMapPane.getRoot().getChildren().clear();
+			this.myModel.getPlacedUnits().stream().forEach(e -> {
+				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
+				temp.addContextMenu(tempMapPane, temp);
+				tempMapPane.addToPane(temp);
+			});
+		}
 	}
 }

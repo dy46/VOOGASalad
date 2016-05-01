@@ -35,27 +35,29 @@ public class AffectorTab extends ElementTab{
 	}
 	
 	public UnitPicker setUpUnitPicker(){
-	     return new UnitPicker("Edit");    
+	     return new UnitPicker(getLabelsBundle().getString("editLabel"));    
 	}
 	
 	public void setUpAnimation(BorderPane bp){}
 	
 	public void createNewElement() {
-		String name = strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[0]).getText();
-		String type = getLabelsBundle().getString("packageName") +
+		try{
+			String name = strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[0]).getText();
+			String type = getLabelsBundle().getString("packageName") +
 				strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[0]).getValue() +
 				getLabelsBundle().getString("affectorText");
-		int ttl = Integer.parseInt(strTextMap.get(getLabelsBundle().
+			int ttl = Integer.parseInt(strTextMap.get(getLabelsBundle().
 				getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[1]).getText());
-		String property = strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").
+			String property = strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").
 				split(getLabelsBundle().getString("regex"))[1]).getValue();
 		
-		List<Double> values = new ArrayList<Double>();
-    	functions.stream().forEach(s -> {if(s.getText() != null)values.add(Double.parseDouble(s.getText()));});
-    	
-		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl,
-				comboListToStringList(effects), values);
-		setUp();
+			this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl,
+				comboListToStringList(effects), textFieldListToStringList(functions));
+			setUp();
+		}
+		catch(NumberFormatException e){
+			return;
+		}
 	}
 
 	public void addFields(GridPane gp) {
