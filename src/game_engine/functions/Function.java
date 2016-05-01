@@ -13,15 +13,12 @@ import java.util.List;
 public class Function {
 	private static final double DEFAULT_DX = 0.001;
 	private List<Term> myTerms;
-//	private engineWorkspace myWorkspace;
 	private String myName;
 	private double[] domain;
 	private double dx;
 	
 	public Function(String type, String strength){
 		myTerms = new ArrayList<>();
-//		this.myWorkspace = workspace;
-//		myTerms = myWorkspace.getFunctionLibrary().getTerms(type, strength);
 		domain = new double[2];
 		dx = DEFAULT_DX;
 	}
