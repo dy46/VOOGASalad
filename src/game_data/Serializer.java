@@ -19,44 +19,49 @@ public class Serializer<T> implements IDataConverter<T> {
 		chooser = new FileChooserDelegate(); 
 	}
 	
-	public void saveElement(Object o) {
-		
+	public File saveElement(Object o) {
 		File f = this.chooser.save(myNamesBundle.getString("chooseLocationMessage"));
 		if (f != null) {
 			XStream xstream = new XStream();
 			String xml = xstream.toXML(o);
-
 			try {
 				FileWriter writer = new FileWriter(f);
 				writer.write(xml);
 				writer.flush();
 				writer.close();
+				return f;
 			} catch (IOException e) {
 				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
 			}
 		}
 		else {
+			// TODO: Open dialog window instead of printing to console
 			System.out.println(myNamesBundle.getString("nullFileMessage"));
 		}
-		
+		return null;
 	}
 	
-	public T loadElement() {
+	public File chooseXMLFile() {
+		return chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T loadFromFile(File file) {
 		try {
-			File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
-			if (f != null) {
+			if (file != null) {
 				XStream xstream = new XStream();
-				return (T) xstream.fromXML(f);
+				return (T) xstream.fromXML(file);
 			}
 			else {
+				// TODO: Open dialog window instead of printing to console
 				System.out.println(myNamesBundle.getString("nullFileError"));
-				return null;
 			}
 		}
 		catch (ClassCastException e) {
+			// TODO: Open dialog window instead of printing to console
 			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
-			return null;
 		}
+		return null;
 	}
 
 }
