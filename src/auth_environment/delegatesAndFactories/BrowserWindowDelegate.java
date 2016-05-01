@@ -65,11 +65,8 @@ public class BrowserWindowDelegate {
                             if (initStage.isShowing()) {
                   	          setupTransition(initStage);
                   	        }
-
                         }
-                        
                     }
-
 			});
 	}
 	
@@ -79,8 +76,8 @@ public class BrowserWindowDelegate {
 		  progressText.setText(myNamesBundle.getString("finishedLoadingText"));
 		  browserStage.setIconified(false);
 		  initStage.toFront();
-		  FadeTransition fadeSplash = new FadeTransition(Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))),
-				  										loadingPane);
+		  FadeTransition fadeSplash = new FadeTransition(
+			Duration.seconds(Double.parseDouble(myDimensionsBundle.getString("browserTransitionTime"))), loadingPane);
 		  fadeSplash.setFromValue(1.0);
 		  fadeSplash.setToValue(0.0);
 		  fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
