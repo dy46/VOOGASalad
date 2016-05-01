@@ -38,20 +38,20 @@ public class MapHandler {
 	}
 
 	public void addSpawn(Position spawn){
-		Position validSpawn = filterValidPos(spawn, mySpawns, 5);
+		Position validSpawn = filterValidPos(spawn, 20);
 		if(validSpawn == null)
 			return;
 		this.mySpawns.add(spawn);
 	}
 
 	public void addGoal(Position goal){
-		Position validGoal = filterValidPos(goal, myGoals, 5);
+		Position validGoal = filterValidPos(goal, 20);
 		if(validGoal == null)
 			return;
 		this.myGoals.add(goal);
 		processPositions(Arrays.asList(goal));
 	}
-	
+
 	public void setInitGoal(Position pos) {
 		myGoals.add(pos);
 	}
@@ -60,18 +60,20 @@ public class MapHandler {
 		myPGF.insertGrid();
 	}
 
-	private Position filterValidPos(Position pos, List<Position> positions, double radius){
+	private Position filterValidPos(Position pos, double radius){
 		if(myPGF.getBranches() == null){
 			return null;
 		}
 		boolean match = false;
 		Position nearby = null;
-		for(Position spawn : positions){
-			if(pos.equals(spawn)){
-				match = true;
-			}
-			if(pos.distanceTo(spawn) < radius ){
-				nearby = spawn;
+		for(Branch b : this.myBranches){
+			for(Position branchPos : b.getPositions()){
+				if(pos.equals(branchPos)){
+					match = true;
+				}
+				if(pos.distanceTo(branchPos) < radius){
+					nearby = branchPos;
+				}
 			}
 		}
 		if(match){

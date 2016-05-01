@@ -111,7 +111,6 @@ public class WaveWindow {
 		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 		stage.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("waveStageHeight")));
 		stage.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("waveStageWidth")));
-		
 	}
 	
 	private void addNewElementSpace(int index, GridPane newTableInfo, Button dButton, ComboBox<String> cBox, boolean makeInputField){
