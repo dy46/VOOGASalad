@@ -57,11 +57,11 @@ public class WaveWindow {
 		showWindow(level, wave, title);
 		int index = 0;
 		Button dummyButton = new Button();
-		ComboBox dummyCBox = new ComboBox(); 
-		dummyCBox.setValue("test");
+		ComboBox<String> dummyCBox = new ComboBox<>(); 
+		dummyCBox.setValue(myNamesBundle.getString("waveDummyBox"));
 		addNewElementSpace(index, myLeftGridPane, dummyButton, dummyCBox, true);
 		addNewElementSpace(index, myRightGridPane, dummyButton, dummyCBox, false);
-		Button ok = new Button("Ok");
+		Button ok = new Button(myNamesBundle.getString("waveOk"));
 		myBorderPane.setBottom(ok);
 		String levelNum = level.split(" ")[1]; 
 		String waveNum = wave.split(" ")[1];
@@ -106,8 +106,8 @@ public class WaveWindow {
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
 		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-		stage.setMinHeight(500);
-		stage.setMinWidth(500);
+		stage.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("waveStageHeight")));
+		stage.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("waveStageWidth")));
 		
 	}
 	
