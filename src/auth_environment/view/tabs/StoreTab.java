@@ -18,6 +18,9 @@ import javafx.scene.layout.HBox;
 public class StoreTab extends Tab implements IWorkspace {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
 	private BorderPane myRoot;
 	private GridPane myGrid;
@@ -86,15 +89,15 @@ public class StoreTab extends Tab implements IWorkspace {
 	private Node createCostBox(NameAffectorCostSet n) {
 		ComboBox<String> cBox = n.getComboBox();
 		HBox hbox = new HBox();
-		hbox.setPadding(new Insets(10));
-		hbox.setSpacing(10);
-		cBox.setMinWidth(150);
+		hbox.setPadding(new Insets(Double.parseDouble(myDimensionsBundle.getString("storeBoxPadding"))));
+		hbox.setSpacing(Double.parseDouble(myDimensionsBundle.getString("storeBoxPadding")));
+		cBox.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("storeBoxWidth")));
 		hbox.getChildren().add(cBox);
 		TextField input = this.myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("storePromptCost"));
 		n.setTextFieldCost(input);
-		input.setMaxWidth(65);
-		input.setMinHeight(23);
-		hbox.setMinWidth(200);
+		input.setMaxWidth(Double.parseDouble(myDimensionsBundle.getString("storeInputWidth")));
+		input.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("storeInputHeight")));
+		hbox.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("storeBoxMinWidth")));
 		hbox.getChildren().add(input);
 		hbox.getChildren().add(createEditButton(n));
 		costList.add(input);

@@ -1,4 +1,4 @@
-package game_data.exceptions;
+package exceptions;
 
 public class SerializerException extends RuntimeException {
 

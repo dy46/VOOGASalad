@@ -3,7 +3,6 @@ import java.util.ResourceBundle;
 
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.tabs.AffectorTab;
-import auth_environment.view.tabs.ElementTab;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -15,7 +14,7 @@ public class ElementCreationTab extends Tab{
 	
 	private void init(IAuthModel authModel, ResourceBundle myNamesBundle){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new ElementTab(myNamesBundle.getString("unitTabLabel"), authModel), new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
+		myTabs.getTabs().addAll(new UnitTab(myNamesBundle.getString("unitTabLabel"), authModel), new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
 		//myTabs.getTabs().addAll(new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
 
 		this.setContent(myTabs);

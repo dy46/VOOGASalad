@@ -2,7 +2,8 @@ package game_data;
 
 import com.thoughtworks.xstream.XStream;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
-import game_data.exceptions.SerializerException;
+import exceptions.SerializerException;
+import exceptions.WompException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,12 +33,13 @@ public class Serializer<T> implements IDataConverter<T> {
 				writer.close();
 				return f;
 			} catch (IOException e) {
-				throw new SerializerException(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
+				new WompException(myNamesBundle.getString("saveErrorMessage")).displayMessage();
 			}
 		}
 		else {
-			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
+			new WompException(myNamesBundle.getString("nullFileMessage")).displayMessage();;
 		}
+		return null;
 	}
 	
 	public File chooseXMLFile() {
@@ -52,12 +54,13 @@ public class Serializer<T> implements IDataConverter<T> {
 				return (T) xstream.fromXML(file);
 			}
 			catch(ClassCastException e){
-				throw new SerializerException(myNamesBundle.getString("wrongFormatMessage"));
+				new WompException(myNamesBundle.getString("wrongFormatMessage")).displayMessage();
 			}
 		}
 		else{
-			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
+			new WompException(myNamesBundle.getString("nullFileMessage")).displayMessage();
 		}
+		return null;
 	}
 
 }
