@@ -9,7 +9,6 @@ import game_engine.properties.Position;
 
 public class MapHandler {
 	
-	
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myBranches;
@@ -22,7 +21,7 @@ public class MapHandler {
 		myBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-		createGrid();
+
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){

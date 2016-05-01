@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import auth_environment.IAuthEnvironment;
 import game_engine.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,19 +29,22 @@ import main.IMainView;
 
 public class PlayerMainTab implements IPlayerTab {
     
-	private static final int NUMBER_OF_PLAY_CYCLES = -1;
     private static final int TOP_PADDING = 5;
     private static final int RIGHT_PADDING = 5;
     private static final int BOTTOM_PADDING = 5;
     private static final int LEFT_PADDING = 5;
+    private static final int PANEL_SPACING = 10;
+    private static final int CONFIGURATION_PANEL_SPACING = 20;
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
+    private static final String PREFERENCES_ELEMENTS = "game_player/resources/PreferencesElements";
+    private static final String PREFERENCES = "game_player/resources/Preferences";
     private static final String PACKAGE_NAME = "game_player.";
-    private static final int PANEL_PADDING = 10;
-    private static final int CONFIGURATION_PANEL_PADDING = 20;
     private Tab myTab;
     private BorderPane myRoot;
-    private ResourceBundle myResources;
+    private ResourceBundle myGUIResources;
+    private ResourceBundle myPreferencesResources;
     private ResourceBundle elementsResources;
+    private ResourceBundle preferencesResources;
     private GameDataSource gameData;
     private List<IGUIObject> gameElements;
     private IGameView gameView;
@@ -48,7 +53,6 @@ public class PlayerMainTab implements IPlayerTab {
     private Scene myScene;
     private IMainView myMainView;
     private String tabName;
-    private MediaPlayer myMusic;
     private PlayerGUI myGUI;
     private VBox gameSection;
     private VBox configurationPanel;
@@ -65,9 +69,11 @@ public class PlayerMainTab implements IPlayerTab {
                           PlayerGUI GUI,
                           String tabName) {
         this.gameEngine = engine;
-        this.myResources = r;
+        this.myGUIResources = r;
+        this.myPreferencesResources = ResourceBundle.getBundle(PREFERENCES);
         this.gameElements = new ArrayList<>();
         this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
+        this.preferencesResources = ResourceBundle.getBundle(PREFERENCES_ELEMENTS);
         this.gameData = new GameDataSource();
         this.myScene = scene;
         this.myMainView = main;
@@ -80,10 +86,10 @@ public class PlayerMainTab implements IPlayerTab {
     public Tab getTab () {
         myTab = new Tab();
         myRoot = new BorderPane();
-        setMusic(myResources.getString("Audio"));
         createUISections();
         initializeCanvas();
-        initializeElements();
+        initializeElements(elementsResources, myGUIResources);
+        initializeElements(preferencesResources, myPreferencesResources);
         placeUISections();
         myTab.setContent(myRoot);
         myTab.setText(tabName);
@@ -91,23 +97,23 @@ public class PlayerMainTab implements IPlayerTab {
     }
 
     private void initializeCanvas () {
-        myCanvas = new GameCanvas(myResources);
-        myHUD = new GameHUD(myResources, myCanvas);
+        myCanvas = new GameCanvas(myGUIResources);
+        myHUD = new GameHUD(myGUIResources, myCanvas);
         gameSection.getChildren().addAll(myCanvas.createCanvas(), myHUD.createNode());
-        gameView = new GameView(gameEngine, myCanvas, myHUD, myScene, this);
+        gameView = new GameView(gameEngine, myCanvas, myHUD, myScene, this, myGUI);
         gameView.playGame(0);
     }
 
-    private void initializeElements () {
+    private void initializeElements (ResourceBundle elements, ResourceBundle resource) {
         IGUIObject newElement = null;
-        Enumeration<String> resourceKeys = elementsResources.getKeys();
+        Enumeration<String> resourceKeys = elements.getKeys();
         while (resourceKeys.hasMoreElements()) {
             String currentKey = resourceKeys.nextElement();
-            String[] keyAndPosition = elementsResources.getObject(currentKey).toString().split(",");
+            String[] keyAndPosition = elements.getObject(currentKey).toString().split(",");
             try {
                 newElement = (IGUIObject) Class.forName(PACKAGE_NAME + keyAndPosition[0].trim())
                         .getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class, PlayerGUI.class)
-                        .newInstance(myResources, gameData, gameView, myGUI);
+                        .newInstance(resource, gameData, gameView, myGUI);
                 gameElements.add(newElement);
 
                 placeElement(newElement, keyAndPosition[1].trim());
@@ -129,10 +135,10 @@ public class PlayerMainTab implements IPlayerTab {
 
     private void createUISections () {
         gameSection = new VBox();
-        configurationPanel = new VBox(CONFIGURATION_PANEL_PADDING);
-        gameMenu = new VBox(PANEL_PADDING);
-        gamePanel = new VBox(PANEL_PADDING);
-        towerPanel = new VBox(PANEL_PADDING);
+        configurationPanel = new VBox(CONFIGURATION_PANEL_SPACING);
+        gameMenu = new VBox(PANEL_SPACING);
+        gamePanel = new VBox(PANEL_SPACING);
+        towerPanel = new VBox(PANEL_SPACING);
         this.configurePanels();
     }
 
@@ -147,7 +153,7 @@ public class PlayerMainTab implements IPlayerTab {
     private void configurePanels () {
     	Insets panelInsets = new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING,
     	        LEFT_PADDING);
-        Label configurationLabel = new Label(myResources.getString("Configuration"));
+        Label configurationLabel = new Label(myGUIResources.getString("Configuration"));
         configurationLabel.setFont(new Font("Arial", 20));
         configurationPanel.setAlignment(Pos.TOP_CENTER);
 //        configurationPanel.getChildren().add(configurationLabel);
@@ -185,15 +191,5 @@ public class PlayerMainTab implements IPlayerTab {
     
     protected IMainView getMainView() {
     	return myMainView;
-    }
-    
-    public void setMusic(String name) {
-		myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
-		myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
-		myMusic.setAutoPlay(true);
-    }
-    
-    public MediaPlayer getMusic() {
-    	return myMusic;
     }
 }

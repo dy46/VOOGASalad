@@ -21,12 +21,10 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
-	private IAuthEnvironment myAuthData;  
-	private Map<Position, Unit> myPositionMap;
+	private IAuthEnvironment myAuthData; 
 
 	public MapEditorTabModel(IAuthEnvironment auth) {
 		myAuthData = auth;
-		myPositionMap = new HashMap<Position, Unit>();
 	}
 	
 	public void refresh(IAuthEnvironment auth) {
@@ -34,18 +32,20 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	}
 	
 	public void addTerrain(double xPos, double yPos, Unit element){
-		Unit newUnit = element.copyUnit();
-		newUnit.getProperties().setPosition(xPos, yPos);
-		myAuthData.getPlacedUnits().add(newUnit);
-	}
-	
-	public void deleteTerrain(double xPos, double yPos){
-		myPositionMap.remove(new Position(xPos, yPos));
+//		Unit newUnit = element.copyUnit();
+//		newUnit.getProperties().setPosition(xPos, yPos);
+		element.getProperties().setPosition(xPos, yPos);
+		myAuthData.getPlacedUnits().add(element);
 	}
 	
 	public void deleteTerrain(Unit element){
-		myAuthData.getPlacedUnits().remove(element);
-		myPositionMap.remove(element.getProperties().getPosition());
+		System.out.println(myAuthData.getPlacedUnits().remove(element));
+		
+		myAuthData.getPlacedUnits().stream().forEach( e-> System.out.println("Attempt to print:" + e.toString()));
+	}
+	
+	public List<Unit> getPlacedUnits(){
+		return myAuthData.getPlacedUnits();
 	}
 	
 	public List<Unit> getTerrains(){
@@ -54,7 +54,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	
 	public void convert(IMapPane mapPane){
 		mapPane.getRoot().getChildren().clear();
-		myAuthData.getPlacedUnits().forEach( e-> {
+		myAuthData.getPlacedUnits().stream().forEach( e-> {
 			UnitView tempUnitView = new UnitView(e.copyUnit(), e.toString() + myNamesBundle.getString("defaultImageExtensions"));
 			tempUnitView.addContextMenu(mapPane, tempUnitView);
 			mapPane.addToPane(tempUnitView);
@@ -68,10 +68,5 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 		myAuthData.getPlacedUnits().clear();
 	}
 
-	@Override
-	public void updateTerrainList(List<Unit> update) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
