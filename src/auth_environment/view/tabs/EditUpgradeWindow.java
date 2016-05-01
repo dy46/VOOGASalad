@@ -3,6 +3,7 @@ package auth_environment.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.ResourceBundle;
 
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
@@ -18,6 +19,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class EditUpgradeWindow extends Observable {
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
 	private BorderPane mainPane = new BorderPane();
 	private GridPane upgradePane = new GridPane();
 	private IAuthModel authModel;
@@ -40,7 +44,7 @@ public class EditUpgradeWindow extends Observable {
 		stage.setTitle("Edit Upgrades");
 		stage.show();
 
-		Button addNew = new Button("Add new upgrade");
+		Button addNew = new Button(myNamesBundle.getString("storeUpgradeButton"));
 		Button ok = new Button("Ok");
 		ok.setOnAction(e -> saveAndClose());
 		addNew.setOnAction(e -> addUpgradeSlot());
@@ -78,8 +82,8 @@ public class EditUpgradeWindow extends Observable {
 			String affectorName = comboBoxes.get(i).getValue();
 			int upgradeCost = Integer.parseInt(textFields.get(i).getText());
 			
-			NACS.affectorCost.add(upgradeCost);
-			NACS.affectorNames.add(affectorName);
+			NACS.getAffectorCost().add(upgradeCost);
+			NACS.getAffectorNames().add(affectorName);
 		}
 		stage.close();
 	}

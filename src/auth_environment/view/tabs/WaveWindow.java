@@ -22,6 +22,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
+	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
@@ -79,9 +80,9 @@ public class WaveWindow {
 	
 	private void init(){
 		this.myNodeFactory = new NodeFactory(); 
-		this.spawningNames = new ArrayList<ComboBox<String>>();
-		this.placingNames = new ArrayList<ComboBox<String>>();
-		this.spawningTimes = new ArrayList<TextField>();
+		this.spawningNames = new ArrayList<>();
+		this.placingNames = new ArrayList<>();
+		this.spawningTimes = new ArrayList<>();
 		stage = new Stage();
 		root = new Group();
 		newScene = new Scene(root);
@@ -103,16 +104,13 @@ public class WaveWindow {
 		st.removeIf(e -> e == null);
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, timeBeforeWave); 
 	}
-	
-	
-	
+
 	private void centerStage(Stage stage){
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
 		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
 		stage.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("waveStageHeight")));
 		stage.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("waveStageWidth")));
-		
 	}
 	
 	private void addNewElementSpace(int index, GridPane newTableInfo, Button dButton, ComboBox<String> cBox, boolean makeInputField){
@@ -153,4 +151,5 @@ public class WaveWindow {
 			return cBox;
 		}	
 	}
+	
 }
