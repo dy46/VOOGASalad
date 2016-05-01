@@ -10,6 +10,7 @@ import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
 import game_engine.game_elements.Level;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 public class LevelOverviewTab extends Tab {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
@@ -18,6 +19,8 @@ public class LevelOverviewTab extends Tab {
 	private TabPane myTabs;
 	private IAuthModel myAuthModel;
 	private ILevelOverviewTabModel myLevelOverviewTabModel;
+	
+	private Button loadButton = new Button("Refresh from XML");
 	
 	public LevelOverviewTab(String name, IAuthModel authModel){
 		super(name);
@@ -32,11 +35,24 @@ public class LevelOverviewTab extends Tab {
 		this.setUpLevelTabs();
 		this.setupBorderPane();
 		this.setContent(myRoot);
+		setRefresh();
 	}
 	
 	private void setupBorderPane() {
-		myRoot.setRight(this.buildNewLevelButton());
+		HBox customize = new HBox();
+		customize.getChildren().addAll(this.buildNewLevelButton(), loadButton);
+		myRoot.setRight(customize);
+		loadButton.setOnAction(e -> setUpLevelTabs());
 		myRoot.setLeft(myTabs);
+	}
+	
+	private void setRefresh(){
+		this.setOnSelectionChanged(e -> refresh());
+	}
+	
+	private void refresh(){
+		myLevelOverviewTabModel.refresh(myAuthModel.getIAuthEnvironment());
+		System.out.println("refresh");
 	}
 	
 	private void setUpLevelTabs() {
@@ -62,7 +78,7 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private void addLevelTab(Level level) {
-		Tab tab = new LevelTab("Level " + (this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level)),
+		Tab tab = new LevelTab("Level " + (this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level) + 1),
 				this.myLevelOverviewTabModel.getCreatedLevels().indexOf(level),
 				myAuthModel, 
 				this.myLevelOverviewTabModel);
