@@ -5,14 +5,14 @@ import java.util.List;
 
 import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
-import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.score_updates.ScoreUpdate;
-import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 public class GameData implements IGameData {
@@ -21,15 +21,16 @@ public class GameData implements IGameData {
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
-	private Store myStore;
-	private double myScore;
+	private double myScore = 0;
+	private int myCurrentLevelIndex = 0;
 	private int myCurrentWaveIndex = 0;
 	
 	private MapHandler myMapHandler = new MapHandler();
 
-	
-	private AffectorFactory myAffectorFactory;
-	private UnitFactory myUnitFactory;
+	private FunctionFactory myFunctionFactory = new FunctionFactory();
+	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
+	private UnitFactory myUnitFactory = new UnitFactory();
+	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
 	
 	@Override
 	public List<Level> getLevels() {
@@ -54,10 +55,6 @@ public class GameData implements IGameData {
 		myPlacedUnits = placedUnits;
 	}
 
-	@Override
-	public List<Affector> getAffectors() {
-		return myAffectorFactory == null? null : myAffectorFactory.getAffectorLibrary().getAffectors();
-	}
 	@Override
 	public AffectorFactory getAffectorFactory() {
 		return myAffectorFactory;
@@ -93,15 +90,6 @@ public class GameData implements IGameData {
     public void setScoreUpdate(ScoreUpdate scoreUpdate) {
     	myScoreUpdate = scoreUpdate;
     }
-
-	@Override
-	public Store getStore() {
-		return myStore;
-	}
-	@Override
-    public void setStore(Store store) {
-    	myStore = store;
-    }
    
 	@Override
 	public double getScore() {
@@ -122,6 +110,19 @@ public class GameData implements IGameData {
 	}
 	
 	@Override
+	public MapHandler getMapHandler() {
+		return myMapHandler;
+	}
+	@Override
+	public void setMapHandler(MapHandler mapHandler) {
+		myMapHandler = mapHandler;
+	}
+	@Override
+	public StoreFactory getStoreFactory() {
+		return myStoreFactory;
+	}
+	
+	@Override
 	public int getCurrentWaveIndex() {
 		return myCurrentWaveIndex;
 	}
@@ -129,14 +130,13 @@ public class GameData implements IGameData {
 	public void setCurrentWaveIndex(int currentWaveIndex) {
 		myCurrentWaveIndex = currentWaveIndex;
 	}
-	
 	@Override
-	public MapHandler getMapHandler() {
-		return myMapHandler;
+	public int getCurrentLevelIndex() {
+		return myCurrentLevelIndex;
 	}
 	@Override
-	public void setMapHandler(MapHandler mapHandler) {
-		myMapHandler = mapHandler;
+	public void setCurrentLevelIndex(int currentLevelIndex) {
+		myCurrentLevelIndex = currentLevelIndex;
 	}
 
 }
