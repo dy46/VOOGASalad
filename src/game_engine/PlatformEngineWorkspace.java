@@ -76,8 +76,9 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	public PlatformEngineWorkspace() {
 	};
-
-	public void setUpEngine(TestingGameData test) {
+	
+	public void setUpEngine(IAuthEnvironment test) {
+	//public void setUpEngine(TestingGameData test) {
 		myAISimulator = new AISimulator(this);
 		myAISearcher = new AISearcher(this);
 		myAIHandler = new AIHandler(this);
@@ -135,8 +136,9 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level makeDummyLevel() {
 
 		Level l = new Level("Platformer Tower Defense", 20);
-//		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
-		MapHandler mh = new MapHandler();
+
+		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Position>(), new ArrayList<Position>());
+
 		List<Position> path = new ArrayList<>();
 
 		path.add(new Position(500, 200));
@@ -322,8 +324,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		return myTerrains;
 	}
 
-	
-
 	public void playLevel(int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
 		pause = false;
@@ -480,10 +480,5 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		
 	}
 
-	@Override
-	public void setUpEngine(IAuthEnvironment data) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
