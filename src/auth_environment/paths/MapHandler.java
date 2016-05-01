@@ -9,28 +9,6 @@ import game_engine.properties.Position;
 
 public class MapHandler {
 	
-	/*
-	 * In order to make a path using this class.... Patrick Grady 2:45PM 4/29/2016
-	 * 
-	 * 	
-	 	MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
-		List<Position> path = new ArrayList<>();
-
-		path.add(new Position(500, 200));
-		path.add(new Position(200, 200));
-		path.add(new Position(150, 400));
-		path.add(new Position(50, 400));
-		path.add(new Position(500, 401));
-
-		mh.processPositions(path);
-		mh.addSpawn(path.get(0));
-		mh.addGoal(path.get(path.size() - 1));
-
-		myBranches = mh.getEngineBranches();
-		l.setGoals(mh.getGoals());
-		l.setSpawns(mh.getSpawns());
-	 */
-	
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myBranches;
@@ -43,8 +21,7 @@ public class MapHandler {
 		myBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-		createGrid();
-//		insertTestBranches();
+
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){
@@ -55,7 +32,6 @@ public class MapHandler {
 		myPositionHandler = new PositionHandler();
 		mySpawns = new ArrayList<>();
 		myGoals = new ArrayList<>();
-		//		insertTestBranches();
 	}
 
 	public void processPositions(List<Position> positions){
@@ -84,37 +60,6 @@ public class MapHandler {
 		return screenWidth*screenHeight/5000;
 	}
 
-	public void insertTestBranches(){
-		Position p1 = new Position(0, 30);
-		Position p3 = new Position(200, 30);
-		List<Position> b1 = Arrays.asList(p1, p3);
-		processPositions(b1);
-		addSpawn(p1);
-
-		Position p4 = new Position(200, 30);
-		Position p5 = new Position(400, 30);
-		Position p6 = new Position(400, 200);
-		List<Position> b2 = Arrays.asList(p4, p5, p6);
-		processPositions(b2);
-
-		Position p7 = new Position(200, 30);
-		Position p8 = new Position(200, 200);
-		Position p9 = new Position(400, 200);
-		List<Position> b3 = Arrays.asList(p7, p8, p9);
-		processPositions(b3);
-
-		Position p10 = new Position(400, 200);
-		Position p11 = new Position(400, 525);
-		List<Position> b4 = Arrays.asList(p10, p11);
-		processPositions(b4);
-
-		Position p12 = new Position(100, 30);
-		Position p13 = new Position(100, 200);
-		List<Position> b5 = Arrays.asList(p12, p13);
-		processPositions(b5);
-		
-		addGoal(p11);
-	}
 
 	public PathGraphFactory getPGF(){
 		return myPGF;

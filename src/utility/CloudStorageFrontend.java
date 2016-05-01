@@ -1,41 +1,43 @@
 package utility;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 
 import com.twilio.sdk.TwilioRestException;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 /*
  * Example code demonstrating how to integrate cloud storage with front-end
  */
 public class CloudStorageFrontend {
 	
-    private static final String MESSAGE = "new files have been uploaded!";
-    private static final String RESOURCE_PATH = "utility/recvlist";
-    private static final String MY_NUMBER = "+12056600267";
-    private static final String ACCOUNT_SID = "AC7fc35c31998ec586534822716579d284";
-    private static final String AUTH_TOKEN = "09a2ae71719093f892ee57a320eba40f";
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
+	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
+	
 	private Scene myScene;
-	private VBox myRoot;
+	private VBox myVBox;
 	private TextField myKeyInput; 
-	private ListView myBoxContents; 
+	private ListView<String> myBoxContents; 
+	private String location; 
 	private String myDevKey = "";
 	private CloudStorage myCloudStorage; 
-
+	private FileChooserDelegate myChooser; 
+	private NodeFactory myNodeFactory; 
 
 	public CloudStorageFrontend () {
 		init(); 
@@ -43,132 +45,152 @@ public class CloudStorageFrontend {
 
 	private void init() {
 		Stage myStage = new Stage(); 
-		myRoot = new VBox();
-		myRoot.setSpacing(10);
-		myRoot.setPadding(new Insets(10));
-		myScene = new Scene(myRoot);
-		myRoot.getChildren().addAll( 
+		myChooser = new FileChooserDelegate(); 
+		myNodeFactory = new NodeFactory(); 
+		myVBox = new VBox(); 
+		myScene = new Scene(myVBox);
+		myVBox.getChildren().addAll( 
 				buildBoxImage(),
 				buildKeyInput(),
 				buildFileButton(),
-				buildAnimation()
+				buildViewButton(),
+				buildViewContents()
 				);
-		myRoot.setStyle("-fx-background-color: #292929;");
-		myRoot.setPrefSize(600, 600); 
+		myVBox.setStyle(myDimensionsBundle.getString("greyBackgroundStyle"));
+		myVBox.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("boxWidth")), 
+				Double.parseDouble(myDimensionsBundle.getString("boxHeight"))); 
 		myStage.setScene(myScene);
 		myStage.show();
-		myStage.toFront();
 	}
 	
 	private Node buildFileButton() {
-		Button chooseFile = new Button("Choose a File");
+		Button chooseFile = new Button(myNamesBundle.getString("fileChooserTitle"));
 		chooseFile.setOnAction(e -> uploadFile());
 		
-		Button chooseFolder = new Button("Choose a Folder"); 
+		Button chooseFolder = new Button(myNamesBundle.getString("chooseFolderMessage")); 
 		chooseFolder.setOnAction(e -> uploadFolder());
 		
-		HBox hb = new HBox(); 
-		hb.setSpacing(10);
-		hb.setPadding(new Insets(10));
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(chooseFile, chooseFolder); 
-		hb.setAlignment(Pos.CENTER);
-		
-		return hb;
+		return myNodeFactory.centerNode(hb); 
 	}
 	
-	// TODO: refactor by combining with uploadFile() 
 	private void uploadFolder() {
-		DirectoryChooser chooser = new DirectoryChooser(); 
-		try {
-			ContextMenu prefWindow = new ContextMenu(); 
-			File dir = chooser.showDialog(prefWindow.getOwnerWindow());
-			if (dir != null) {
-				String path = dir.getPath(); 
+		File f = this.myChooser.chooseDirectory(myNamesBundle.getString("chooseFolderMessage")); 
+		if (f!=null) {
+			String path = f.getPath(); 
+			try {
 				myCloudStorage.uploadFolder(path);
-				printResults(myCloudStorage);
-//				c.notify(MESSAGE);
+			} catch (FileNotFoundException e) {
+				System.out.println(myNamesBundle.getString("nullFileMessage"));
+			} catch (TwilioRestException e) {
+				System.out.println(myNamesBundle.getString("twilioErrorMessage"));
 			}
-		} catch (FileNotFoundException | TwilioRestException e) {
-			System.out.println("Invalid developer token"); 
+			printResults(myCloudStorage);
 		}
 	}
 	
 	private void uploadFile() {
-		FileChooser chooser = new FileChooser(); 
+		File f = myChooser.chooseFile(myNamesBundle.getString("fileChooserTitle")); 
+		if (f != null) {
+	        try {
+				myCloudStorage.uploadFile(f.getAbsolutePath(), f.getName());
+			} catch (FileNotFoundException e) {
+				System.out.println(myNamesBundle.getString("nullFileMessage"));
+			}
+	        printResults(myCloudStorage);
+        }
+	}
+	
+	private void checkDevKey() {
+		myDevKey = myKeyInput.getText();
 		try {
-			ContextMenu prefWindow = new ContextMenu();
-		    File f = chooser.showOpenDialog(prefWindow.getOwnerWindow());
-	        if (f != null) {
-		        myCloudStorage.uploadFile(f.getAbsolutePath(), f.getName());
-		        printResults(myCloudStorage);
-//		        c.notify(MESSAGE);
-	        }
+			myCloudStorage = new CloudStorage(myDevKey);
+			myCloudStorage.setUpNotifications(
+					myNamesBundle.getString("utilPath"), 
+					myNamesBundle.getString("accountSID"), 
+					myNamesBundle.getString("authToken"), 
+					myNamesBundle.getString("twilioNumber"));
 		} catch (Exception e) {
-			System.out.println("Invalid developer token"); 
+			System.out.println(myNamesBundle.getString("invalidKeyMessage")); 
 		}
 	}
 	
-	private HBox buildKeyInput() {
-		myKeyInput = new TextField();
-		myKeyInput.setPromptText("Enter account key");
-		myKeyInput.setOnAction(e -> {
-			myDevKey = myKeyInput.getText();
-			try {
-				myCloudStorage = new CloudStorage(myDevKey);
-				myCloudStorage.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
-			} catch (Exception e1) {
-				System.out.println("Invalid developer token"); 
-			}
-		});
+	private Node buildKeyInput() {
+		myKeyInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("accountKeyMessage"));
+		myKeyInput.setOnAction(e -> checkDevKey());
 		
-		Button submitButton = new Button("Submit");
-		submitButton.setOnAction(e -> {
-			myDevKey = myKeyInput.getText();
-			try {
-				myCloudStorage = new CloudStorage(myDevKey);
-				myCloudStorage.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
-
-			} catch (Exception e1) {
-				System.out.println("Invalid developer token"); 
-			}
-		});
+		Button submitButton = new Button(myNamesBundle.getString("submitButtonLabel"));
+		submitButton.setOnAction(e -> checkDevKey());
 		
-		HBox hb = new HBox(); 
-		hb.setPadding(new Insets(10));
-		hb.setSpacing(10);
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(myKeyInput, submitButton);
-		hb.setAlignment(Pos.CENTER);
-		
-		return hb;
+		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildBoxImage() {
+	private Node buildBoxImage() {
 		HBox hb = new HBox();
-		hb.setAlignment(Pos.CENTER);
-		hb.getChildren().add(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("boxLogo.png"))));
-		return hb; 
+		hb.getChildren().add(myNodeFactory.buildImageView(myURLSBundle.getString("boxLogo")));
+		return myNodeFactory.centerNode(hb); 
 	}
 	
 	private void printResults (CloudStorage c) {
         System.out.println(c.getCurrentFiles());
         c.listFolders();
         try {
-			c.notify(MESSAGE);
+			c.notify(myNamesBundle.getString("newFilesMessage"));
 		} catch (TwilioRestException e) {
-			System.out.println("Twilio API error");
+			System.out.println(myNamesBundle.getString("twilioErrorMessage"));
 		}
 	}
 	
-	private ImageView buildAnimation() {
-		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("drippyDrops.gif")));
-		animation.setFitWidth(800);
-		return animation;
+	private Node buildViewButton() {
+		HBox hb = new HBox(); 
+		Button view = new Button(myNamesBundle.getString("viewContentsMessage")); 
+		view.setOnAction(e -> populateViewContents());
+		Button choose = new Button(myNamesBundle.getString("chooseSaveMessage")); 
+		choose.setOnAction(e -> {
+			File f = myChooser.chooseDirectory(myNamesBundle.getString("chooseSaveMessage")); 
+			if (f!=null) {
+				this.location = f.getAbsolutePath();
+			}
+		});
+		TextField field = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("saveLocationMessage"));
+		field.setOnAction(e -> this.location = field.getText());
+		hb.getChildren().addAll(view, choose, field);
+		return hb; 
 	}
 
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
-//		myBoxContents.
-		return null;
+		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.toString()!=null) {
+				System.out.println(newValue.toString());
+				try {
+					this.myCloudStorage.downloadFromCurrent(processName(newValue.toString()), this.location);
+				} catch (Exception e) {
+					System.out.println(myNamesBundle.getString("boxErrorMessage"));
+					e.printStackTrace();
+				}
+			}
+		});
+		return myBoxContents; 
 	}
- 	
+	
+	private String processName(String in) {
+		if (in.toLowerCase().contains(myNamesBundle.getString("folderDelimiter"))) {
+			return in.split(myNamesBundle.getString("folderDelimiter"))[0].trim(); 
+		}
+		else {
+			return in;
+		}
+	}
+	
+	private void populateViewContents() {
+		myBoxContents.getItems().clear();
+		myBoxContents.getItems().addAll(this.myCloudStorage.getCurrentFiles());
+	}
+	
 }

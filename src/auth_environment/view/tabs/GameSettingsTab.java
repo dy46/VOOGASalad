@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.IMainView;
+import utility.CloudStorageFrontend;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -74,14 +75,14 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				buildWompImage(),
 				buildTextInput(),
 				buildSplashChooser(), 
-				buildSaveButton(),
-				buildLoadButton(),
-				buildPlayButton());
+				buildButtonRow()
+				);
 		return center; 
 	}
 	
 	private Node buildBottom() {
-		HBox bottom = myNodeFactory.buildHBox(10, 10);
+		HBox bottom = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		bottom.getChildren().addAll(buildChooseScore(), buildChooseWaveGoal(), buildChoosePlaceValidation());
 		return bottom; 
 	}
@@ -94,8 +95,8 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		myGameNameField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
 		myGameNameField.setOnAction(e -> submitButtonPressed(myGameNameField));
 		
-		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
-		submitNameButton.setOnAction(e -> submitButtonPressed(myGameNameField));
+		Button submitNameButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("submitButtonLabel"), 
+				e -> submitButtonPressed(myGameNameField));
 		
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
@@ -103,34 +104,45 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildSplashChooser() {
+	private Node buildSplashChooser() {
 		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
-		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
-		splashButton.setOnAction(e -> this.chooseSplash());
+		Button splashButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("chooseSplashLabel"), 
+				e -> this.chooseSplash());
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(mySplashPreview, splashButton); 
 		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildSaveButton() {
-		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
-		return myNodeFactory.centerNode(save); 
+	private Node buildButtonRow() {
+		HBox hb = new HBox();
+		hb.getChildren().addAll(buildSaveButton(), buildLoadButton(), buildPlayButton(), buildCloudStorage());
+		return myNodeFactory.centerNode(hb);
 	}
 	
-	private HBox buildLoadButton() {
-		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
-		load.setOnAction(e -> myGameSettingsTabModel.loadFromFile());
-		return myNodeFactory.centerNode(load); 
+	private Node buildCloudStorage() {
+		Button cloud = myNodeFactory.buildButton(myNamesBundle.getString("cloudButtonLabel"));
+		cloud.setOnAction(e -> {
+			CloudStorageFrontend c = new CloudStorageFrontend(); 
+		});
+		return cloud;
+	}
+	
+	private Node buildSaveButton() {
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("saveItemLabel"), 
+				e -> myGameSettingsTabModel.saveToFile());
+	}
+	
+	private Node buildLoadButton() {
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("loadItemLabel"), 
+				e -> myGameSettingsTabModel.loadFromFile());
 	}
 	
 	private Node buildPlayButton() {
-		Button play = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
-		play.setOnAction(e -> myMainView.displayPlayer());
-		return myNodeFactory.centerNode(play); 
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("playButtonLabel"), 
+				e -> myMainView.displayPlayer());
 	}
 	
 	private Node buildChooseScore() {
@@ -182,7 +194,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 			this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
 			this.myGameSettingsTabModel.setSplashFile(splash.getName());
 		}
-
 	}
 	
 	private void submitButtonPressed(TextField input) {

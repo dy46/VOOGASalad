@@ -16,7 +16,7 @@ import javafx.scene.shape.Circle;
 /**
  * Created by BrianLin on 4/11/2016
  * Team member responsible: Brian
- *
+ * @author Xander, Brian
  * This delegate class adds dragging functions. Woowee dongerino. 
  */
 
@@ -80,7 +80,7 @@ public class DragDelegate {
 
 	}
 	
-	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, IPathTabModel pathModel) {
+	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, UnitPicker picker0, IPathTabModel pathModel) {
 		Circle target = pathPoint.getCircle(); 
 		
 		target.setOnDragOver(e -> {
@@ -97,7 +97,13 @@ public class DragDelegate {
 			Dragboard db = e.getDragboard();
 			boolean success = false;
 			if (db.hasString()) {
-				UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
+				UnitView uv = new UnitView(); 
+				if (((UnitView)(picker.getRoot().lookup("#" + db.getString())))!=null) {
+					uv = (UnitView)(picker.getRoot().lookup("#" + db.getString()));
+				}
+				else {
+					uv = (UnitView)(picker0.getRoot().lookup("#" + db.getString()));
+				}
 				pathModel.setActiveUnit(uv.getUnit());
 				Position pos = pathPoint.getPosition(); 
 				pathModel.addSpawnToActiveLevel(pos);
