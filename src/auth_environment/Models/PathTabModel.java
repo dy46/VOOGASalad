@@ -76,13 +76,6 @@ public class PathTabModel implements IPathTabModel {
 		submit();
 	}
 
-	@Override
-	public void printCurrentPositions() {
-		for(Branch b : myMapHandler.getBranches()){
-			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
-		}
-	}
-
 	private void submit() {
 		myAuthData.setMapHandler(myMapHandler);
 	}
@@ -133,7 +126,6 @@ public class PathTabModel implements IPathTabModel {
 			return new ArrayList<Unit>(); 
 		}
 		getCurrentWaveFromString(selectedWave); 
-		System.out.println("Path: " + currentWave.getPlacingUnits().get(0));
  		return currentWave.getPlacingUnits();
 	}
 
@@ -145,7 +137,6 @@ public class PathTabModel implements IPathTabModel {
 			branches.add(b);
 			myActiveUnit.getProperties().getMovement().setBranches(branches);
 			currentLevel.addBranch(b);
-			System.out.println("Current branches " + myActiveUnit.getProperties().getMovement().getBranches());
 		}
 		return myBranchMap.get(line); 
 	}
@@ -172,7 +163,6 @@ public class PathTabModel implements IPathTabModel {
 	
 	@Override
 	public void addGoalToActiveLevel(Position goal) {
-		System.out.println("GOAL " + goal);
 		myMapHandler.addGoal(goal);
 		if (currentLevel!=null) {
 			currentLevel.addGoal(goal);
