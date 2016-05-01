@@ -3,6 +3,7 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import auth_environment.IAuthEnvironment;
 import game_data.IGameData;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Branch;
@@ -37,7 +38,7 @@ public class TestingGameData{
         this.myPlaceValidations.add(new TowerPlaceValidation());
         //TestingEngineWorkspace engine = new TestingEngineWorkspace();
         PlatformEngineWorkspace engine = new PlatformEngineWorkspace();
-        engine.setUpEngine(null);
+        engine.setUpEngine((IAuthEnvironment)null);
         this.myPlacedUnits = engine.getAllUnits();
         this.myStore = engine.getStore();
         this.myLevels = engine.getLevels();

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
@@ -133,8 +135,8 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level makeDummyLevel() {
 
 		Level l = new Level("Platformer Tower Defense", 20);
-		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
-
+//		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
+		MapHandler mh = new MapHandler();
 		List<Position> path = new ArrayList<>();
 
 		path.add(new Position(500, 200));
@@ -320,10 +322,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		return myTerrains;
 	}
 
-	public List<String> saveGame() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	public void playLevel(int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
@@ -473,6 +472,18 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	public EnemyController getEnemyController() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void saveGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUpEngine(IAuthEnvironment data) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
