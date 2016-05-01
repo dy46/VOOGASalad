@@ -36,7 +36,7 @@ public class StoreTab extends Tab implements IWorkspace {
 		super(name);
 		myAuthModel = authModel;
 		unitList = new ArrayList<ComboBox<String>>();
-		costList = new ArrayList<TextField>();
+		costList = new ArrayList<>();
 		myNodeFactory = new NodeFactory();
 		init();
 	}
