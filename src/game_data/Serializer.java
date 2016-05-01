@@ -33,13 +33,10 @@ public class Serializer<T> implements IDataConverter<T> {
 				return f;
 			} catch (IOException e) {
 				throw new SerializerException(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
-//				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
 			}
 		}
 		else {
-//			System.out.println(myNamesBundle.getString("nullFileMessage"));
 			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
-
 		}
 	}
 	
