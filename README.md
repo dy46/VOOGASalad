@@ -33,6 +33,8 @@ Paul (paulcruz74) - Back-end stores, waves, levels
 
 Patrick (hmpfa) - Store front-end, general back-end
 
+Xander (xanderyst) - MapEditor (Terrain Placements), Integration of Map with Paths
+
 ##Game Engine:
 
 Andy (ownzandy) - Towers and projectiles, general affectors, special homing and cursor shooting affectors, non-AI path following, general units, range, levels, scores, and waves integration
