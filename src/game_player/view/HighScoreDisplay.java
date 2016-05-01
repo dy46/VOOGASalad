@@ -12,17 +12,18 @@ import javafx.scene.text.Font;
 
 public class HighScoreDisplay implements IGUIObject {
 
-    private static final String HIGH_SCORE = "High Score";
     private ResourceBundle myResources;
     private Label highScoreLabel;
     private GameDataSource myGameData;
     private IGameView myView;
     private GameEngineInterface myEngine;
+    private PlayerGUI myGUI;
 
     public HighScoreDisplay (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;
+        myGUI = GUI;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class HighScoreDisplay implements IGUIObject {
 
     private void updateText () {
         highScoreLabel.setText(myResources.getString("HighScore") +
-                               myGameData.getDoubleValue(HIGH_SCORE));
+                               myGameData.getDoubleValue(myGUI.getFile().toString()));
     }
 
 }

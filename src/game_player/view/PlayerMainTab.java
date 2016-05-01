@@ -53,6 +53,7 @@ public class PlayerMainTab implements IPlayerTab {
     private Scene myScene;
     private IMainView myMainView;
     private String tabName;
+    private File gameFile;
     private PlayerGUI myGUI;
     private VBox gameSection;
     private VBox configurationPanel;
@@ -66,6 +67,7 @@ public class PlayerMainTab implements IPlayerTab {
                           ResourceBundle r,
                           Scene scene,
                           IMainView main,
+                          File gameFile,
                           PlayerGUI GUI,
                           String tabName) {
         this.gameEngine = engine;
@@ -77,6 +79,7 @@ public class PlayerMainTab implements IPlayerTab {
         this.gameData = new GameDataSource();
         this.myScene = scene;
         this.myMainView = main;
+        this.gameFile = gameFile;
         this.myGUI = GUI;
         this.tabName = tabName;
         this.gameData.setDoubleValue("High Score", 0);
@@ -167,6 +170,12 @@ public class PlayerMainTab implements IPlayerTab {
         for (IGUIObject object : gameElements) {
             object.updateNode();
         }
+    }
+    
+    protected void updateHighScore() {
+    	if (gameData.getDoubleValue(gameFile.toString()) < gameEngine.getLevelController().getScore()) { 
+    		gameData.setDoubleValue(gameFile.toString(), gameEngine.getLevelController().getScore());
+    	}
     }
 
     protected void addToTowerPanel (Node element) {

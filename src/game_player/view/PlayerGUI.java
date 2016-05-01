@@ -83,7 +83,7 @@ public class PlayerGUI {
 //        gameEngine = new TestingEngineWorkspace();
 //        gameEngine.setUpEngine(null);
     	createNewEngine(data);
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, currentGame, this,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
                                                                               .getTab();
@@ -129,5 +129,9 @@ public class PlayerGUI {
     
     public MediaPlayer getMusic() {
     	return myMusic;
+    }
+    
+    public File getFile() {
+    	return currentGame;
     }
 }
