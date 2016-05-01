@@ -4,10 +4,10 @@ import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import java.util.ResourceBundle;
+
 import game_engine.GameEngineInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 
 
 public class HighScoreDisplay implements IGUIObject {
@@ -18,7 +18,6 @@ public class HighScoreDisplay implements IGUIObject {
     private IGameView myView;
     private GameEngineInterface myEngine;
     private PlayerGUI myGUI;
-
     public HighScoreDisplay (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
@@ -28,7 +27,7 @@ public class HighScoreDisplay implements IGUIObject {
 
     @Override
     public Node createNode () {
-        myEngine = myView.getGameEngine();
+        myView.getGameEngine();
         highScoreLabel = new Label();
         updateText();
         return highScoreLabel;

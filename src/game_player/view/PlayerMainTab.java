@@ -11,7 +11,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import auth_environment.IAuthEnvironment;
 import game_engine.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,9 +20,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import main.IMainView;
 

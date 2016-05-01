@@ -6,6 +6,13 @@ import game_engine.controllers.LevelController;
 import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
 
+/**
+ * The AI Workspace interface supplies AI search problems specific information required from the main workspace.
+ * 
+ * @author adamtache
+ *
+ */
+
 public interface AIWorkspace {
 
 	public List<Branch> getBranches();

@@ -7,6 +7,14 @@ import game_engine.game_elements.Branch;
 import game_engine.interfaces.IBranchHandler;
 import game_engine.properties.Position;
 
+/**
+ * The branch handler is responsible for manipulating position and neighbor information for Unit bounds.
+ * This includes utility functions such as reversing the branch to ensure proper branching for units.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class BranchHandler implements IBranchHandler {
 	
 	public Branch updateBranch(List<Position> newPos, Branch branch){

@@ -7,7 +7,6 @@ import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
-import game_engine.TestingGameData;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -80,8 +79,6 @@ public class PlayerGUI {
     }
 
     protected void createNewTab (IAuthEnvironment data) {
-//        gameEngine = new TestingEngineWorkspace();
-//        gameEngine.setUpEngine(null);
     	createNewEngine(data);
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, currentGame, this,
                                     myResources.getString("TabName") +
@@ -93,7 +90,6 @@ public class PlayerGUI {
     
     private void createNewEngine(IAuthEnvironment data) {
         gameEngine = new EngineWorkspace();
-//        TestingGameData testData = new TestingGameData();
         gameEngine.setUpEngine(data);
     }
     

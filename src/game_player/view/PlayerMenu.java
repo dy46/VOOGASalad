@@ -3,8 +3,6 @@ package game_player.view;
 import java.util.ResourceBundle;
 import game_player.interfaces.IGameView;
 import javafx.scene.control.Menu;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 
 public abstract class PlayerMenu {
@@ -12,14 +10,9 @@ public abstract class PlayerMenu {
     private ResourceBundle myResources;
     private MenuMaker menuMaker;
     private Menu myMenu;
-    private GridPane myRoot;
-    private SwitchWindow mySwitchWindow;
-    private IGameView myView;
-
     public PlayerMenu (ResourceBundle r, IGameView view) {
         myResources = r;
         menuMaker = new MenuMaker(r);
-        myView = view;
     }
 
     protected abstract Menu createMenu ();
