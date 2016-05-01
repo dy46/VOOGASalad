@@ -1,5 +1,8 @@
 package auth_environment.view.tabs;
 
+//refactor the addCombo and addTextFields, they are the same for unit and affector tab
+
+
 import java.util.*;
 
 import auth_environment.Models.ElementTabModel;
