@@ -1,12 +1,7 @@
 package auth_environment.view.tabs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import auth_environment.FrontEndCreator;
 import auth_environment.Models.AffectorTabModel;
 import auth_environment.Models.Interfaces.IAffectorTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -49,56 +44,72 @@ public class AffectorTab extends UnitTab{
 	
 	public void createNewElement() {
 		String name = strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[0]).getText();
-		String type = getLabelsBundle().getString("packageName") + strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[0]).getValue() + getLabelsBundle().getString("affectorText");
-		int ttl = Integer.parseInt(strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[1]).getText());
-		String property = strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[1]).getValue();
-		
-		List<String> eff = new ArrayList<String>();
-    	effects.stream().forEach(s -> eff.add(s.getValue()));
+		String type = getLabelsBundle().getString("packageName") +
+				strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[0]).getValue() +
+				getLabelsBundle().getString("affectorText");
+		int ttl = Integer.parseInt(strTextMap.get(getLabelsBundle().
+				getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[1]).getText());
+		String property = strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").
+				split(getLabelsBundle().getString("regex"))[1]).getValue();
 		
 		List<Double> values = new ArrayList<Double>();
     	functions.stream().forEach(s -> {if(s.getText() != null)values.add(Double.parseDouble(s.getText()));});
     	
-		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl, eff, values);
+		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl,
+				comboListToStringList(effects), values);
 		setUp();
 	}
 
-	public void addFields(GridPane gp, FrontEndCreator creator) {
+	public void addFields(GridPane gp) {
+		addTextFields(gp);
+		addComboBoxes(gp);
+		addComboTextButtonTrio(gp);
+	}
+	
+	private void addTextFields(GridPane gp){
 		for(String s: Arrays.asList(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex")))){
-			creator.createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-			strTextMap.put(s, creator.createTextField(gp, getIndex(), 2));
+			getCreator().createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			strTextMap.put(s, getCreator().createTextField(gp, getIndex(), 2));
 			iterateIndex();
 		}
-		
+	}
+	
+	private void addComboBoxes(GridPane gp){
 		for(String s: Arrays.asList(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex")))){
-			creator.createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-			strDropMap.put(s, creator.createStringComboBox(gp, Arrays.asList(getLabelsBundle().getString(s).split(getLabelsBundle().getString("regex"))), getIndex(), 2));
+			getCreator().createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			strDropMap.put(s, getCreator().createStringComboBox(gp, Arrays.asList(
+					getLabelsBundle().getString(s).split(getLabelsBundle().getString("regex"))), getIndex(), 2));
 			iterateIndex();
 		}
-		
-		ComboBox<String> effectsCBox = creator.createStringComboBox(gp, Arrays.asList(getLabelsBundle().getString("Functions").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
+	}
+	
+	private ComboBox<String> addEffects(GridPane gp){
+		ComboBox<String> effectsCBox = getCreator().createStringComboBox(gp, Arrays.asList(
+				getLabelsBundle().getString("Functions").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
 		effects.add(effectsCBox);
-		
-		TextField txtfld = creator.createTextField(gp, getIndex(), 3);
-		functions.add(txtfld);
+		return effectsCBox;
+	}
+	
+	private TextField addFunction(GridPane gp){
+		TextField functionText = getCreator().createTextField(gp, getIndex(), 3);
+		functions.add(functionText);
 		iterateIndex();
-		
-		Button button = creator.createButton(gp, getLabelsBundle().getString("addEffectText"), getIndex(), 2);
-		button.setOnAction(e -> addNewEffect(button, gp, effectsCBox, txtfld, creator));		//change
+		return functionText;
+	}
+	
+	private void createEffectButton(GridPane gp, ComboBox<String> effectsCBox, TextField functionText){
+		Button button = getCreator().createButton(gp, getLabelsBundle().getString("addEffectText"), getIndex(), 2);
+		button.setOnAction(e -> addNewEffect(button, gp, effectsCBox, functionText));
+	}
+	
+	private void addComboTextButtonTrio(GridPane gp){
+		createEffectButton(gp, addEffects(gp), addFunction(gp));
 	}
 
-	private void addNewEffect(Button button, GridPane gp, ComboBox<String> cbox, TextField txtfld, FrontEndCreator creator) {
+	private void addNewEffect(Button button, GridPane gp, ComboBox<String> cbox, TextField txtfld) {
 		if(cbox.getValue() != null && !txtfld.getText().equals("")){
 			gp.getChildren().remove(button);
-		
-			ComboBox<String> newcbox = creator.createStringComboBox(gp, Arrays.asList(getLabelsBundle().getString("Functions").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
-			effects.add(newcbox);
-			TextField newText = creator.createTextField(gp, getIndex(), 3);
-			functions.add(newText);
-			iterateIndex();
-		
-			button.setOnAction(e -> addNewEffect(button, gp, newcbox, newText, creator));
-			gp.add(button, 2, getIndex());
+			addComboTextButtonTrio(gp);
 		}
 	}
 }

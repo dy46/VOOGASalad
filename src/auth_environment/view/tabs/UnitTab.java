@@ -1,19 +1,12 @@
 package auth_environment.view.tabs;
 
-import java.util.ResourceBundle;
+import java.util.*;
 
 import auth_environment.FrontEndCreator;
 import auth_environment.view.UnitPicker;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.*;
 
 public abstract class UnitTab extends Tab{
 	
@@ -29,36 +22,50 @@ public abstract class UnitTab extends Tab{
 
 	public UnitTab(String name) {
 		super(name);
+		init();
+	}
+	
+	private void init(){
 		this.myPane = new BorderPane();
 		this.setContent(myPane);
+		myCreator = new FrontEndCreator();
+	    this.setClosable(false);
 	}
 	
 	public void setUp(){
 		reset();
 		refresh();
-		
 		index = 1;
-		this.setClosable(false);
-		myCreator = new FrontEndCreator();
-	    this.setClosable(false);
-	    
 	    myPane.setRight(setUpUnitPicker().getRoot());
 	    
 		BorderPane newBorderPane = new BorderPane();
 	    myPane.setLeft(setUpTitledPane(newBorderPane));
 	    setUpAnimation(newBorderPane);
-	    
+        setUpTableInfo(newBorderPane);
+        setUpBottomPane(newBorderPane);
+	}
+	
+	private void setUpTableInfo(BorderPane bp){
         GridPane newTableInfo = setUpGridPane(myLabelsBundle.getString("newTablePaneDim"));
-		newBorderPane.setLeft(newTableInfo);
-		
-        Text propertiesTitle = new Text("Properties");
-        propertiesTitle.setFont(new Font(20));
-        newTableInfo.add(propertiesTitle, 0, 0);
-        addFields(newTableInfo, myCreator);
-		
+		bp.setLeft(newTableInfo);
+		addPropertiesTitle(newTableInfo);
+        addFields(newTableInfo);	
+	}
+	
+	private void setUpBottomPane(BorderPane bp){
 		GridPane bottomInfo = setUpPane(myLabelsBundle.getString("bottomInfoDim"));
- 		newBorderPane.setBottom(bottomInfo);
- 		Button ok = myCreator.createButton(bottomInfo, myLabelsBundle.getString("okText"), 0, 2);
+ 		bp.setBottom(bottomInfo);
+ 		addOkButton(bottomInfo);
+	}
+	
+	private void addPropertiesTitle(GridPane gp){
+        Text propertiesTitle = new Text(myLabelsBundle.getString("propertiesText"));
+        propertiesTitle.setFont(new Font(20));
+        gp.add(propertiesTitle, 0, 0);
+	}
+	
+	private void addOkButton(GridPane gp){
+ 		Button ok = myCreator.createButton(gp, myLabelsBundle.getString("okText"), 0, 2);
 		ok.setOnAction(e -> createNewElement());
 	}
 	
@@ -66,7 +73,7 @@ public abstract class UnitTab extends Tab{
 	
 	public abstract void setUpAnimation(BorderPane bp);
 	
-	public abstract void addFields(GridPane gp, FrontEndCreator creator);
+	public abstract void addFields(GridPane gp);
 	
 	public void reset(){
 		myPane.getChildren().clear();
@@ -103,7 +110,8 @@ public abstract class UnitTab extends Tab{
 	public GridPane setUpGridPane(String s){
         GridPane gridPane = setUpPane(s);
         gridPane.getRowConstraints().addAll(new RowConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
-        gridPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")), Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));	
+        gridPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")),
+        		Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));	
 		return gridPane;
 	}
 	
@@ -112,7 +120,8 @@ public abstract class UnitTab extends Tab{
 		TitledPane titledPane= new TitledPane();
 		titledPane.setText(myLabelsBundle.getString("newLabel"));
 		titledPane.setContent(sp);
-		titledPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newPaneWidth")), Double.parseDouble(myDimensionsBundle.getString("newPaneHeight")));
+		titledPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newPaneWidth")),
+				Double.parseDouble(myDimensionsBundle.getString("newPaneHeight")));
 		titledPane.setCollapsible(false);
 		sp.setContent(bp);
 		return titledPane;
@@ -120,7 +129,22 @@ public abstract class UnitTab extends Tab{
 	
 	public GridPane setUpPane(String s){
 		GridPane gridPane = new GridPane();
-        gridPane.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+0))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+1))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+2))));
+        gridPane.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s))),
+        		new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+0))),
+        		new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+1))),
+        		new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+2))));
 		return gridPane;
 	}	
+	
+	public List<String> comboListToStringList(List<ComboBox<String>> comboList){
+		List<String> list = new ArrayList<String>();
+		comboList.stream().forEach(s-> list.add(s.getValue()));
+		return list;
+	}
+	
+	public List<Double> textFieldListToStringList(List<TextField> textFieldList){
+		List<Double> list = new ArrayList<Double>();
+    	textFieldList.stream().forEach(s -> {if(!s.getText().equals(""))list.add(Double.parseDouble(s.getText()));});
+    	return list;
+	}
 }

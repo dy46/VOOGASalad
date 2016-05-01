@@ -1,26 +1,15 @@
 package auth_environment.view.tabs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import auth_environment.FrontEndCreator;
 import auth_environment.Models.ElementTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 public class ElementTab extends UnitTab{
 	 
 	private Map<String, TextField> strTextMap;
@@ -62,7 +51,8 @@ public class ElementTab extends UnitTab{
 	}
 	
 	public UnitPicker setUpUnitPicker(){
-	    UnitPicker up = new UnitPicker(getLabelsBundle().getString("editLabel"), this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits());
+	    UnitPicker up = new UnitPicker(getLabelsBundle().getString("editLabel"),
+	    		this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits());
 	    up.setClickable(this);
 	    return up;
 	}
@@ -71,24 +61,30 @@ public class ElementTab extends UnitTab{
 		gp.setTop(myAnimationPane.getRoot());
 	}
 	
-	private void addTextFields(GridPane newTableInfo, FrontEndCreator creator){
+	private void addTextFields(GridPane gp){
 		for(String s: Arrays.asList(getLabelsBundle().getString("unitTextProperties").split(getLabelsBundle().getString("regex")))){
-			creator.createTextLabels(newTableInfo, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-			strTextMap.put(s, creator.createTextField(newTableInfo, getIndex(), 2));
+			getCreator().createTextLabels(gp, s, getIndex(), 1,
+					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			strTextMap.put(s, getCreator().createTextField(gp, getIndex(), 2));
 			iterateIndex();
 		}
+	}
+	
+	private void addComboFields(GridPane gp){
 		for(String s: Arrays.asList(getLabelsBundle().getString("unitComboProperties").split(getLabelsBundle().getString("regex")))){
-			creator.createTextLabels(newTableInfo, s , getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-			ComboBox<String> cb = creator.createStringComboBox(newTableInfo, Arrays.asList(getLabelsBundle().getString("elementTypes").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
+			getCreator().createTextLabels(gp, s , getIndex(), 1,
+					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			ComboBox<String> cb = getCreator().createStringComboBox(gp, Arrays.asList(getLabelsBundle()
+					.getString("elementTypes").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
 			strComboMap.put(s, cb);
 			iterateIndex();
 		}
-
 	}
+	
 
 	public void createNewElement() {
 		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();	
-		String name = strTextMap.remove("Type").getText();
+		String name = strTextMap.remove(getLabelsBundle().getString("typeText")).getText();
 
     	for(String str: strTextMap.keySet()){
     		List<Double> val = new ArrayList<Double>();  		
@@ -96,53 +92,54 @@ public class ElementTab extends UnitTab{
     		Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
     		strToDoubleMap.put(str, val);
     	}
-    	
-    	List<String> ata = new ArrayList<String>();
-    	List<String> atu = new ArrayList<String>();
-    	List<String> projectiles = new ArrayList<String>();
-    	
-    	affectorsToApply.stream().forEach(s -> ata.add(s.getValue()));
-    	affectorsToUnit.stream().forEach(s -> atu.add(s.getValue()));
-    	myProjectiles.stream().forEach(s -> projectiles.add(s.getValue()));
-   
-		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-	    Unit unit = myUnitFactory.createUnit(name, strComboMap.get("UnitType").getValue(), strToDoubleMap, projectiles, atu, ata);
-    	
-    	myAnimationPane.getAnimationLoaderTab().setUnit(unit);
-        myUnitFactory.getUnitLibrary().addUnit(unit);
-    	init();
-	}
-
-	@Override
-	public void addFields(GridPane gp, FrontEndCreator creator) {
-		addTextFields(gp, creator);
-		addTextComboButtonTrio(gp, creator, unitNames, myProjectiles, getLabelsBundle().getString("childButton") ,getLabelsBundle().getString("childText"));
-		addTextComboButtonTrio(gp, creator, affectorNames, affectorsToUnit, getLabelsBundle().getString("affectorsButton"), getLabelsBundle().getString("affectorsText"));
-		addTextComboButtonTrio(gp, creator, affectorNames, affectorsToApply, getLabelsBundle().getString("applyButton"), getLabelsBundle().getString("applyText"));		
+  	
+    	createUnit(name, strToDoubleMap, comboListToStringList(myProjectiles),
+    			comboListToStringList(affectorsToUnit), comboListToStringList(affectorsToApply));
+    	setUp();
 	}
 	
-	private void addTextComboButtonTrio(GridPane gp, FrontEndCreator creator, List<String> listOfNames, List<ComboBox<String>> comboList, String buttonText, String labelText){
-		creator.createTextLabels(gp, labelText, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-		ComboBox<String> cbox = creator.createStringComboBox(gp, listOfNames, getIndex(), 2);
+	private void createUnit(String name, Map<String, List<Double>> map, List<String> projectiles, List<String> atu, List<String> ata){
+		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
+	    Unit unit = myUnitFactory.createUnit(name,
+	    		strComboMap.get(getLabelsBundle().getString("unitComboProperties")).getValue(), map, projectiles, atu, ata);
+    	myAnimationPane.getAnimationLoaderTab().setUnit(unit);
+        myUnitFactory.getUnitLibrary().addUnit(unit);
+	}
+
+	public void addFields(GridPane gp) {
+		addTextFields(gp);
+		addComboFields(gp);
+		addTextComboButtonTrio(gp, unitNames, myProjectiles,
+				getLabelsBundle().getString("childButton"), getLabelsBundle().getString("childText"));
+		addTextComboButtonTrio(gp, affectorNames, affectorsToUnit,
+				getLabelsBundle().getString("affectorsButton"), getLabelsBundle().getString("affectorsText"));
+		addTextComboButtonTrio(gp, affectorNames, affectorsToApply,
+				getLabelsBundle().getString("applyButton"), getLabelsBundle().getString("applyText"));		
+	}
+	
+	private void addTextComboButtonTrio(GridPane gp, List<String> listOfNames, List<ComboBox<String>> comboList, String buttonText, String labelText){
+		getCreator().createTextLabels(gp, labelText, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+		ComboBox<String> cbox = getCreator().createStringComboBox(gp, listOfNames, getIndex(), 2);
 		comboList.add(cbox);
 		int currentInt = getIndex();
 		iterateIndex();
 		
-		Button button = creator.createButton(gp, buttonText, getIndex(), 2);
-		button.setOnAction(e-> addNewComboBox(currentInt, gp, button, cbox, 2, comboList, listOfNames, creator));
+		Button button = getCreator().createButton(gp, buttonText, getIndex(), 2);
+		button.setOnAction(e-> addNewComboBox(currentInt, gp, button, cbox, 2, comboList, listOfNames));
 		iterateIndex();
 	}
 	
-	private void addNewComboBox(int row, GridPane gp, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names, FrontEndCreator creator) {
+	
+	private void addNewComboBox(int row, GridPane gp, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
 		if(cbox.getValue() != null){
 			int newcol = col + 1;		
 			gp.getRowConstraints().add(new RowConstraints(Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize"))));
 			gp.getColumnConstraints().add(new ColumnConstraints(150));
-			ComboBox<String> newcbox = creator.createStringComboBox(gp, names, row, newcol);
+			ComboBox<String> newcbox = getCreator().createStringComboBox(gp, names, row, newcol);
 			list.add(newcbox);
-			button.setOnAction(e -> addNewComboBox(row, gp, button, newcbox, newcol, list, names, creator));
+			button.setOnAction(e -> addNewComboBox(row, gp, button, newcbox, newcol, list, names));
 		}
 	}
-
+	
 	public void updateMenu(Unit unit) {}
 }
