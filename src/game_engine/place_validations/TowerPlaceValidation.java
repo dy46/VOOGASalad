@@ -4,10 +4,12 @@ import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
 /**
- * This class checks for valid tower placement using an AI Simulator to run a simulated enemy path
- * following obstacle test after adding an obstacle at the position selected (the tower being placed).
+ * This class first checks for valid tower placement using an AIsearcher to ensure a valid search is available from AI units to goals after the tower is placed.
+ * This is done using visibility graphs to filter out the obstacle from the search problem.
+ * Then, if a valid search is available, it performs a simulated path following obstacle collision test to ensure the largest enemy wouldn't collide if the tower is placed.
  * 
- * This incldues using maximum bounding distance from the largest current active Unit to avoid its collision.
+ * This uses maximum bounding distance from the largest current active Unit to ensure no collision would happen.
+ * 
  * 
  * @author adamtache
  *
