@@ -9,6 +9,12 @@ import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.UnitLibrary;
 import game_engine.properties.UnitProperties;
 
+/**
+ * This class is a factory for construction of Units, which are constructed based on types and UnitProperties and children.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class UnitFactory {
 

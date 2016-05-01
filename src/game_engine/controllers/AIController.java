@@ -5,6 +5,13 @@ import game_engine.handlers.AIHandler;
 import game_engine.interfaces.AIWorkspace;
 import game_engine.AI.BFSSearcher;
 
+/**
+ * This class is a controller for Artificial Intelligence and allows for access to various AI utilities.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class AIController{
 
 	private AIHandler myAIHandler;

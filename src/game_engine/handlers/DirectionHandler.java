@@ -2,6 +2,12 @@ package game_engine.handlers;
 
 import game_engine.properties.Position;
 
+/**
+ * This class handles directions between positions with the correct orientation.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class DirectionHandler {
     

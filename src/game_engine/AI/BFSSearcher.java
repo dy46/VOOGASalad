@@ -11,8 +11,7 @@ import game_engine.interfaces.AIWorkspace;
 import game_engine.properties.Position;
 
 /**
- * This class is a utility Artificial Intelligence searcher that allows for search problems.
- * A search problem is composed of a list of branches, which compose a "path graph".
+ * This class is a utility Artificial Intelligence searcher that allows for BFS search problems.
  * 
  * @author adamtache
  *
