@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -75,6 +76,13 @@ public class NodeFactory {
 		Button b = new Button(text);
 		b.setOnAction(eventHandler);
 		return b;
+	}
+	
+	public ComboBox<String> buildComboBoxWithEventHandler(List<String> values, EventHandler<ActionEvent> eventHandler ){
+		ComboBox<String> cbox = new ComboBox<String>();
+		cbox.getItems().addAll(values);
+		cbox.setOnAction(eventHandler);
+		return cbox;
 	}
 	
 	public HBox centerNode(Node node) {
