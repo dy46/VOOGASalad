@@ -14,9 +14,7 @@ import auth_environment.view.UnitPicker;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -74,12 +72,9 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private void refresh(){
 		myAuth = myAuthModel.getIAuthEnvironment();
 		myModel.refresh(myAuth);
-		//		System.out.println("Test " + myModel.getTerrains());
 		myPicker.setUnits(myModel.getTerrains());
 		refreshCanvasPane(myFreeMapPane);
 		refreshCanvasPane(myGridMapPane);
-//		this.myFreeMapPane.refresh();
-//		this.myGridMapPane.refresh();
 	}
 
 	public void buildTerrainChooser(){
@@ -136,24 +131,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		return gridSwitch;
 	}
 
-	// TODO: consider removing
-	private Button buildGridModeButton(){
-		Button gridMode = new Button(myNamesBundle.getString("gridLabel"));
-		gridMode.setOnAction(e -> {
-			if (gridMode.getText().equals(myNamesBundle.getString("gridLabel"))){
-				gridMode.setText(myNamesBundle.getString("freeLabel"));
-				myModel.convert(myGridMapPane);
-				updateMapPane(myGridMapPane, myNamesBundle.getString("gridLabel"));
-			}
-			else{
-				gridMode.setText(myNamesBundle.getString("gridLabel"));
-				myModel.convert(myFreeMapPane);
-				updateMapPane(myFreeMapPane, myNamesBundle.getString("freeLabel"));
-			}
-		});
-		return gridMode;
-	}
-
 	private HBox buildInitialHBox() {
 		HBox hbox = buildDefaulHBox();
 
@@ -194,15 +171,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		return hbox;
 	}
 
-	// TODO: consider removing
-	private void createTextField(HBox hbox){
-		Label speedlabel = new Label("Columns: ");
-		TextField textField = new TextField();
-		textField.setMaxWidth(50);
-		textField.setPromptText("int");
-		hbox.getChildren().addAll(speedlabel, textField);
-	}
-
 	public Node getRoot() {
 		return myBorderPane;
 	}
@@ -215,7 +183,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		if(!this.myModel.getPlacedUnits().isEmpty()) {
 			tempMapPane.getRoot().getChildren().clear();
 			this.myModel.getPlacedUnits().stream().forEach(e -> {
-				UnitView temp = new UnitView (e, e.toString() + ".png");
+				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
 				temp.addContextMenu(tempMapPane, temp);
 				tempMapPane.addToPane(temp);
 			});

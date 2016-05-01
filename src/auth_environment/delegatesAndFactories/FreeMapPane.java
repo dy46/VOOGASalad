@@ -1,9 +1,5 @@
 package auth_environment.delegatesAndFactories;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
@@ -13,9 +9,6 @@ public class FreeMapPane extends Pane implements IMapPane{
 	
 	private int adjustFactor;
 	private MapEditorTabModel myModel;
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
 	
 	public FreeMapPane(MapEditorTabModel model) {
 		this.myModel = model;
