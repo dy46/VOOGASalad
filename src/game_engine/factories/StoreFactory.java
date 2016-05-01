@@ -37,22 +37,6 @@ public class StoreFactory {
 		myStore = new Store(money);
 	}	
 	
-	public void addBuyableUnit(String name, int cost){
-		myStore.addBuyableUnit(myUnits.get(name), cost);
-	}
-	
-	public void addBuyableUnits(List<Pair<String, Integer>> unitsWithPrices){
-		for(Pair p : unitsWithPrices){
-			myStore.addBuyableUnit(myUnits.get(p.getLeft()),(Integer) p.getRight());
-		}
-	}
-	
-	public void addBuyableUnits(List<String> names, List<Integer> prices){
-		for(int i = 0;i < names.size();i++){
-			this.addBuyableUnit(names.get(i), prices.get(i));
-		}
-	}
-	
 	public void addUpgrade(String unitName,String upgradeName, int cost){
 		myStore.addUpgrade(myUnits.get(unitName), myUpgrades.get(upgradeName), cost);
 	}
