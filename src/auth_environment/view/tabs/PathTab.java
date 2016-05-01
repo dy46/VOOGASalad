@@ -265,7 +265,6 @@ public class PathTab extends Tab implements IWorkspace {
 		drawCurrentBranch();
 	}
 	
-	// TODO: remove print statements
 	private void drawTerrains() {
 		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
