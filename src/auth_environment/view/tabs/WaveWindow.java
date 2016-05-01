@@ -22,6 +22,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
+	
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
@@ -103,9 +104,7 @@ public class WaveWindow {
 		st.removeIf(e -> e == null);
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, timeBeforeWave); 
 	}
-	
-	
-	
+
 	private void centerStage(Stage stage){
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
@@ -153,4 +152,5 @@ public class WaveWindow {
 			return cBox;
 		}	
 	}
+	
 }

@@ -2,13 +2,12 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
 public class MapHandler {
-	
+
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myBranches;
@@ -23,7 +22,7 @@ public class MapHandler {
 		mySpawns = new ArrayList<>();
 	}
 
-	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){
+	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals){
 		myBranches = engineBranches;
 		this.mySpawns = spawns; 
 		this.myGoals = goals; 
@@ -31,65 +30,54 @@ public class MapHandler {
 		myPositionHandler = new PositionHandler();
 		mySpawns = new ArrayList<>();
 		myGoals = new ArrayList<>();
-		//		insertTestBranches();
 	}
 
 	public void processPositions(List<Position> positions){
 		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);
 	}
-	
+
 	public void addSpawn(Position spawn){
+		Position validSpawn = filterValidPos(spawn, mySpawns, 5);
+		if(validSpawn == null)
+			return;
 		this.mySpawns.add(spawn);
 	}
-	
+
 	public void addGoal(Position goal){
+		Position validGoal = filterValidPos(goal, myGoals, 5);
+		if(validGoal == null)
+			return;
 		this.myGoals.add(goal);
-		processPositions(myPositionHandler.getInterpolatedPositions(Arrays.asList(goal), false));
+		processPositions(Arrays.asList(goal));
+	}
+	
+	public void setInitGoal(Position pos) {
+		myGoals.add(pos);
 	}
 
 	public void createGrid(){
-		double screenWidth = 500;
-		double screenHeight = 500;
-		addGoal(new Position(500, 500));
-		addSpawn(new Position(0, 0));
-		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
+		myPGF.insertGrid();
 	}
 
-	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/5000;
-	}
-
-	public void insertTestBranches(){
-		Position p1 = new Position(0, 30);
-		Position p3 = new Position(200, 30);
-		List<Position> b1 = Arrays.asList(p1, p3);
-		processPositions(b1);
-		addSpawn(p1);
-
-		Position p4 = new Position(200, 30);
-		Position p5 = new Position(400, 30);
-		Position p6 = new Position(400, 200);
-		List<Position> b2 = Arrays.asList(p4, p5, p6);
-		processPositions(b2);
-
-		Position p7 = new Position(200, 30);
-		Position p8 = new Position(200, 200);
-		Position p9 = new Position(400, 200);
-		List<Position> b3 = Arrays.asList(p7, p8, p9);
-		processPositions(b3);
-
-		Position p10 = new Position(400, 200);
-		Position p11 = new Position(400, 525);
-		List<Position> b4 = Arrays.asList(p10, p11);
-		processPositions(b4);
-
-		Position p12 = new Position(100, 30);
-		Position p13 = new Position(100, 200);
-		List<Position> b5 = Arrays.asList(p12, p13);
-		processPositions(b5);
-		
-		addGoal(p11);
+	private Position filterValidPos(Position pos, List<Position> positions, double radius){
+		if(myPGF.getBranches() == null){
+			return null;
+		}
+		boolean match = false;
+		Position nearby = null;
+		for(Position spawn : positions){
+			if(pos.equals(spawn)){
+				match = true;
+			}
+			if(pos.distanceTo(spawn) < radius ){
+				nearby = spawn;
+			}
+		}
+		if(match){
+			return pos;
+		}
+		return nearby;
 	}
 
 	public PathGraphFactory getPGF(){
@@ -104,7 +92,7 @@ public class MapHandler {
 	public List<Position> getGoals() {
 		return myGoals;
 	}
-	
+
 	public List<Position> getSpawns() {
 		return mySpawns;
 	}
