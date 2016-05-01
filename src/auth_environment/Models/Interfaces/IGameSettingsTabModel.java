@@ -16,6 +16,10 @@ public interface IGameSettingsTabModel {
 	
 	public String getGameName(); 
 	
+	public void setSplashFile(String name);
+	
+	public String getSplashFile(); 
+	
 	public void saveToFile(); 
 	
 	public void loadFromFile(); 
