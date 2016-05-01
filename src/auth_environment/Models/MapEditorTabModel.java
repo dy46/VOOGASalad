@@ -44,6 +44,10 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 		myAuthData.getPlacedUnits().stream().forEach( e-> System.out.println("Attempt to print:" + e.toString()));
 	}
 	
+	public List<Unit> getPlacedUnits(){
+		return myAuthData.getPlacedUnits();
+	}
+	
 	public List<Unit> getTerrains(){
 		return myAuthData.getUnitFactory().getUnitLibrary().getUnits();
 	}
