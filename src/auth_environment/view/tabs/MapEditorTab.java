@@ -3,6 +3,7 @@ package auth_environment.view.tabs;
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.MapEditorTabModel;
+import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
@@ -70,21 +71,13 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		myBorderPane.setBottom(buildSwitchHBox());
 	}
 
-	// TODO: consider removing
-	//	private void setupBorderPane() {
-	//		myBorderPane.setOnMouseEntered(e-> refresh());
-	//		myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
-	//				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
-	//		myBorderPane.setRight(myPicker.getRoot());
-	//		myBorderPane.setLeft(myMapPane);
-	//		myBorderPane.setBottom(buildHBox());
-	//	}
-
 	private void refresh(){
 		myAuth = myAuthModel.getIAuthEnvironment();
 		myModel.refresh(myAuth);
 		//		System.out.println("Test " + myModel.getTerrains());
 		myPicker.setUnits(myModel.getTerrains());
+		this.myFreeMapPane.refresh();
+		this.myGridMapPane.refresh();
 	}
 
 	public void buildTerrainChooser(){

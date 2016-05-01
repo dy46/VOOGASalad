@@ -64,7 +64,6 @@ public class PathTab extends Tab implements IWorkspace {
 	
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
-		addConfirmationDialog(); 
 		myNodeFactory = new NodeFactory(); 
 		myTerrains = new ArrayList<UnitView>();
 		myPathPane = new Pane();
@@ -72,16 +71,6 @@ public class PathTab extends Tab implements IWorkspace {
 		currentBranch = new ArrayList<>();
 		drawMap();
 		setContent(getRoot());
-	}
-
-	// TODO: decide whether to keep 
-	private void addConfirmationDialog() {
-		boolean confirmation = new ConfirmationDialog().getConfirmation(
-				myNamesBundle.getString("gridHeaderText"),
-				myNamesBundle.getString("gridContextText"));
-		if(confirmation) {
-			myPathTabModel.createGrid();
-		}
 	}
 
 	private void refresh() {
@@ -172,6 +161,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void buildUnitPicker(String waveName) {
 		mySpawningUnitPicker.setUnits(myPathTabModel.getSpawningUnits(waveName));
+		myPlacingUnitPicker.setUnits(myPathTabModel.getPlacingUnits(waveName));
 	}
 	
 	private VBox buildDefaultVBox() {
@@ -251,6 +241,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void clearMap() {
 		myPathPane.getChildren().clear();
+		myTerrains.clear();
 	}
 
 	private void drawMap() {
@@ -268,10 +259,7 @@ public class PathTab extends Tab implements IWorkspace {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
 				System.out.println(e.toString());
 				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
-				temp.setY(temp.getY() - 50);
 				myTerrains.add(temp);
-				System.out.println("X: " + e.getProperties().getPosition().getX());
-				System.out.println("Y: " + e.getProperties().getPosition().getY());
 			});
 			myPathPane.getChildren().addAll(myTerrains);
 		}

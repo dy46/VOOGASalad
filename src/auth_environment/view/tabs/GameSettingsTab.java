@@ -84,7 +84,8 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	}
 	
 	private Node buildBottom() {
-		HBox bottom = myNodeFactory.buildHBox(10, 10);
+		HBox bottom = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		bottom.getChildren().addAll(buildChooseScore(), buildChooseWaveGoal(), buildChoosePlaceValidation());
 		return bottom; 
 	}
