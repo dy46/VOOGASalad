@@ -5,22 +5,21 @@ import java.util.ResourceBundle;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.IMainView;
 
-/**
+/*
  * Created by BrianLin on 4/6/16.
  * 
  * Team member responsible: Brian
  * 
  * First (interactive) screen displayed to the Developer. Asks for Game name. 
  * 
- * TODO: Allow for segue back to main screen. 
  */
+// TODO: Allow for segue back to main screen. 
 
 public class Welcome {
 
@@ -66,8 +65,7 @@ public class Welcome {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
 
-	private HBox buildSelectionButtons() {
-		
+	private HBox buildSelectionButtons() {	
 		// TODO: refactor this 
 		Button authButton = myNodeFactory.buildButton(myNamesBundle.getString("authButtonLabel"));
 		authButton.setOnAction(e -> this.authButtonPressed());

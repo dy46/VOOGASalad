@@ -56,6 +56,7 @@ public class BrowserWindowDelegate {
 		loadingPane.setEffect(new DropShadow());
 	}
 
+	@SuppressWarnings("rawtypes") 
 	private void addLoadingListener(Stage initStage) {
 		browser.getEngine().getLoadWorker().stateProperty().addListener(
                 new ChangeListener<State>() {

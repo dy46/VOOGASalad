@@ -19,7 +19,8 @@ import java.util.List;
 public class StateImageSaver {
 	private String myLocation;
 	private String suffix;
-	/*
+	
+	/**
 	 * Constructor for the StateImageSaver Object
 	 * 
 	 * @param	location is the file path for where to save the new files
@@ -36,7 +37,6 @@ public class StateImageSaver {
 	 * @param	unit is the developer created string that determines which specific unit is being created
 	 * @param	images is the list of file images to be renamed
 	 */
-	
 	public void saveFiles(String type, String unit, List<File> images){
 		String prefix = type + "_" + unit;
 		for(int i = 1;i <= images.size();i++){
@@ -56,6 +56,7 @@ public class StateImageSaver {
 				else{
 					break;
 				}
+				fin.close(); fout.close();
 			}
 		}
 		catch(IOException e){
@@ -63,8 +64,7 @@ public class StateImageSaver {
 		}
 	}
 	
-	
-	/*
+	/**
 	 * Takes in a list of file locations instead of actual files and renames/saves them
 	 */
 	public void saveFileLocations(String type, String unit, List<String> imageLocations) throws IOException{

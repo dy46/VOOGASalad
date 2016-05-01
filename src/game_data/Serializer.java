@@ -20,8 +20,7 @@ public class Serializer<T> implements IDataConverter<T> {
 		chooser = new FileChooserDelegate(); 
 	}
 	
-	public void saveElement(Object o) {
-		
+	public File saveElement(Object o) {
 		File f = this.chooser.save(myNamesBundle.getString("chooseLocationMessage"));
 		if (f != null) {
 			XStream xstream = new XStream();
@@ -31,6 +30,7 @@ public class Serializer<T> implements IDataConverter<T> {
 				writer.write(xml);
 				writer.flush();
 				writer.close();
+				return f;
 			} catch (IOException e) {
 				throw new SerializerException(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
 //				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
@@ -39,33 +39,20 @@ public class Serializer<T> implements IDataConverter<T> {
 		else {
 //			System.out.println(myNamesBundle.getString("nullFileMessage"));
 			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
+
 		}
-		
+	}
+	
+	public File chooseXMLFile() {
+		return chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T loadElement() {
-//		try {
-//			File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
-//			if (f != null) {
-//				XStream xstream = new XStream();
-//				return (T) xstream.fromXML(f);
-//			}
-//			else {
-//				System.out.println(myNamesBundle.getString("nullFileError"));
-//				return null;
-//			}
-//		}
-//		catch (ClassCastException e) {
-//			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
-//			return null;
-//		}
-		File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
-		if(f != null){
-			XStream xstream = new XStream();
-			Object o = xstream.fromXML(f);
+	public T loadFromFile(File file) {
+		if(file != null){
 			try{
-				return ((T) o);
+				XStream xstream = new XStream();
+				return (T) xstream.fromXML(file);
 			}
 			catch(ClassCastException e){
 				throw new SerializerException(myNamesBundle.getString("wrongFormatMessage"));
