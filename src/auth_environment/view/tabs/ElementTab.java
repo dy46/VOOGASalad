@@ -87,17 +87,13 @@ public class ElementTab extends UnitTab{
 	}
 
 	public void createNewElement() {
-		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();
-		
-		String name = strTextMap.get("Type").getText();
-		strTextMap.remove("Type");
+		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();	
+		String name = strTextMap.remove("Type").getText();
 
     	for(String str: strTextMap.keySet()){
     		List<Double> val = new ArrayList<Double>();  		
     		String[] strings = strTextMap.get(str).getText().trim().split(getLabelsBundle().getString("regex"));
-    		for(String s: strings){
-    			val.add(Double.parseDouble(s));
-    		}
+    		Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
     		strToDoubleMap.put(str, val);
     	}
     	
@@ -147,4 +143,6 @@ public class ElementTab extends UnitTab{
 			button.setOnAction(e -> addNewComboBox(row, gp, button, newcbox, newcol, list, names, creator));
 		}
 	}
+
+	public void updateMenu(Unit unit) {}
 }

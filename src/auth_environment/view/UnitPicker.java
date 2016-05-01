@@ -75,9 +75,9 @@ public class UnitPicker{
 	}
 
 	public void setClickable(ElementTab elementTab) {
-//		myUnitViews.stream().forEach(e -> {
-//			e.setOnMouseClicked(l -> elementTab.updateMenu(e.getUnit()));
-//		});
+		myUnitViews.stream().forEach(e -> {
+			e.setOnMouseClicked(l -> elementTab.updateMenu(e.getUnit()));
+		});
 		
 	}
 }
