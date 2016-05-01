@@ -3,7 +3,6 @@ package game_engine.factories;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import exceptions.WompException;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
@@ -24,8 +23,6 @@ public class UnitFactory {
         this.myUnitLibrary = unitLibrary;
     }
 
-    // Pass field inputs here
-
     public Unit createUnit (String type, String unitType, Map<String, List<Double>> inputs,
                             List<String> children,
                             List<String> affectors,
@@ -41,8 +38,7 @@ public class UnitFactory {
         velocityList.addAll(inputs.get("Speed"));
         velocityList.addAll(inputs.get("Direction"));
         newProperties.getVelocity().setValues(velocityList);
-        UnitProperties unitProperties = createPropertiesByType(type, newProperties);
-        Unit unit = createUnit(getName(type, unitType), unitProperties, inputs.get("NumFrames").get(0).intValue());
+        Unit unit = createUnit(getName(type, unitType), newProperties, inputs.get("NumFrames").get(0).intValue());
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));       
@@ -78,25 +74,7 @@ public class UnitFactory {
 
     private Unit createUnit (String name, UnitProperties unitProperties, int numFrames) {
         Unit unit = new Unit(name, unitProperties, numFrames);
-//        myUnitLibrary.addUnit(unit);
         return unit;
-    }
-
-    public UnitProperties createPropertiesByType (String type, UnitProperties properties) {
-        return myUnitLibrary.addPropertiesByType(type, properties);
-    }
-
-    public void changePropertiesByType (String type,
-                                        UnitProperties newProperties) throws WompException {
-        this.myUnitLibrary.changePropertiesType(type, newProperties);
-    }
-
-    public UnitProperties createProperties (String type) {
-        UnitProperties libraryProp = myUnitLibrary.getPropertyByType(type);
-        if (libraryProp == null) {
-            return new UnitProperties();
-        }
-        return libraryProp;
     }
 
     public void setAffectorLibrary (AffectorLibrary library) {

@@ -98,11 +98,16 @@ public class UnitTab extends ElementTab{
 	}
 	
 	private void createUnit(String name, Map<String, List<Double>> map, List<String> projectiles, List<String> atu, List<String> ata){
-		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-	    Unit unit = myUnitFactory.createUnit(name,
+		try{
+			UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
+			Unit unit = myUnitFactory.createUnit(name,
 	    		strComboMap.get(getLabelsBundle().getString("unitComboProperties")).getValue(), map, projectiles, atu, ata);
-    	myAnimationPane.getAnimationLoaderTab().setUnit(unit);
-        myUnitFactory.getUnitLibrary().addUnit(unit);
+			myAnimationPane.getAnimationLoaderTab().setUnit(unit);
+			myUnitFactory.getUnitLibrary().addUnit(unit);
+		}
+		catch(NumberFormatException e){
+			return;
+		}
 	}
 
 	public void addFields(GridPane gp) {
