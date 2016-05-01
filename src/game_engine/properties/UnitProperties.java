@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import game_engine.game_elements.Branch;
 
+/**
+ * UnitProperties are the properties for a Unit and include Health, Team, Velocity, Bounds, Range, Price, State, Movement, Mass
+ * Properties are affected by Affectors which control what happens to the Unit.
+ * 
+ *
+ */
 
 public class UnitProperties {
 

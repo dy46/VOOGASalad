@@ -8,6 +8,12 @@ import game_engine.game_elements.Unit;
 import game_engine.interfaces.ICollisionDetector;
 import game_engine.properties.Position;
 
+/**
+ * CollisionDetector controls unit collisions based on bounds and positions.
+ * 
+ * @author paul
+ *
+ */
 
 public class CollisionDetector implements ICollisionDetector{
 

@@ -7,6 +7,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
 
+/**
+ * This class is a library that allows for access of created Affectors.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class AffectorLibrary {
 
 	private HashMap<List<String>, Affector> myAffectors;
