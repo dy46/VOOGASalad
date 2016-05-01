@@ -76,8 +76,10 @@ public class MapEditorTab extends Tab implements IWorkspace {
 		myModel.refresh(myAuth);
 		//		System.out.println("Test " + myModel.getTerrains());
 		myPicker.setUnits(myModel.getTerrains());
-		this.myFreeMapPane.refresh();
-		this.myGridMapPane.refresh();
+		refreshCanvasPane(myFreeMapPane);
+		refreshCanvasPane(myGridMapPane);
+//		this.myFreeMapPane.refresh();
+//		this.myGridMapPane.refresh();
 	}
 
 	public void buildTerrainChooser(){
@@ -119,6 +121,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	private Button buildClearButton() {
 		Button clear = new Button(myNamesBundle.getString("clearButtonLabel"));
 		clear.setOnAction(e -> {
+			myFreeMapPane.getChildren().clear();
 			myGridMapPane.getChildren().clear();
 			myModel.clear();
 		});
@@ -206,5 +209,16 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
 	public Node getFreeMapPane(){
 		return myFreeMapPane;
+	}
+	
+	public void refreshCanvasPane(IMapPane tempMapPane){
+		if(!this.myModel.getPlacedUnits().isEmpty()) {
+			tempMapPane.getRoot().getChildren().clear();
+			this.myModel.getPlacedUnits().stream().forEach(e -> {
+				UnitView temp = new UnitView (e, e.toString() + ".png");
+				temp.addContextMenu(tempMapPane, temp);
+				tempMapPane.addToPane(temp);
+			});
+		}
 	}
 }

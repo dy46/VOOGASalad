@@ -13,7 +13,6 @@ public class FreeMapPane extends Pane implements IMapPane{
 	
 	private int adjustFactor;
 	private MapEditorTabModel myModel;
-	private List<UnitView> myTerrains;
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
@@ -21,7 +20,6 @@ public class FreeMapPane extends Pane implements IMapPane{
 	public FreeMapPane(MapEditorTabModel model) {
 		this.myModel = model;
 		this.adjustFactor = 10;
-		myTerrains = new ArrayList<UnitView>();
 	}
 	
 	public void adjustUnitViewScale(UnitView uv){
@@ -39,25 +37,13 @@ public class FreeMapPane extends Pane implements IMapPane{
 	}
 	
 	public void addToPane(UnitView uv){
-		this.myTerrains.add(uv);
+		uv.addContextMenu(this, uv);
 		this.getChildren().add(uv);
 		System.out.println("Added" + " X: " + uv.getX() + " Y: " + uv.getY());
 	}
 	
 	public Pane getRoot(){
 		return this;
-	}
-	
-	public void refresh(){
-		if(!this.myModel.getPlacedUnits().isEmpty()) {
-			this.getChildren().clear();
-			this.myModel.getPlacedUnits().stream().forEach(e -> {
-				System.out.println(e.toString());
-				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
-				temp.addContextMenu(this, temp);
-				this.addToPane(temp);
-			});
-		}
 	}
 	
 }

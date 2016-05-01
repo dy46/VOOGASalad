@@ -69,7 +69,6 @@ public class DragDelegate {
 				UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 				target.adjustUnitViewScale(imv);
 				target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
-				imv.addContextMenu(target, imv);
 				target.addToPane(imv);
 				target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
 				success = true;

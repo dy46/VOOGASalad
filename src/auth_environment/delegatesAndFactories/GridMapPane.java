@@ -16,7 +16,6 @@ public class GridMapPane extends GridPane implements IMapPane {
 	private int numCols;
 	private int numRows;
 	private MapEditorTabModel myModel;
-	private List<UnitView> myTerrains;
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
@@ -24,7 +23,6 @@ public class GridMapPane extends GridPane implements IMapPane {
 		this.myModel = model;
 		this.setNumColsRows(cols, rows);
 		this.setGridLinesVisible(true);
-		myTerrains = new ArrayList<UnitView>();
 	}
 	
 
@@ -59,11 +57,11 @@ public class GridMapPane extends GridPane implements IMapPane {
 	}
 	
 	public void addToPane(UnitView uv){
+		uv.addContextMenu(this, uv);
 		double originalX= uv.getX();
 		double originalY = uv.getY();
 		convertToGridPosition(uv);
 		this.add(uv, convertToColumn(originalX), convertToRow(originalY));
-		myTerrains.add(uv);
 	}
 	
 	public void convertToGridPosition(UnitView uv){
@@ -85,18 +83,6 @@ public class GridMapPane extends GridPane implements IMapPane {
 	
 	public void setModel(MapEditorTabModel model){
 		this.myModel = model;
-	}
-	
-	public void refresh(){
-		if(!this.myModel.getPlacedUnits().isEmpty()) {
-			this.getChildren().clear();
-			this.myModel.getPlacedUnits().stream().forEach(e -> {
-				System.out.println(e.toString());
-				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
-				temp.addContextMenu(this, temp);
-				this.addToPane(temp);
-			});
-		}
 	}
 	
 }
