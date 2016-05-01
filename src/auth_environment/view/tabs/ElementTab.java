@@ -137,13 +137,13 @@ public abstract class ElementTab extends Tab{
 	}	
 	
 	public List<String> comboListToStringList(List<ComboBox<String>> comboList){
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		comboList.stream().forEach(s-> list.add(s.getValue()));
 		return list;
 	}
 	
 	public List<Double> textFieldListToStringList(List<TextField> textFieldList){
-		List<Double> list = new ArrayList<Double>();
+		List<Double> list = new ArrayList<>();
     	textFieldList.stream().forEach(s -> {if(!s.getText().equals(""))list.add(Double.parseDouble(s.getText()));});
     	return list;
 	}

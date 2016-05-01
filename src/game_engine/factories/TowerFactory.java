@@ -27,26 +27,6 @@ public class TowerFactory {
 		this.myAffectorLibrary = affectorLibrary;
 	}
 
-	//    public Unit defineTowerModel (BuildingBlock block) {
-	////        TowerBuildingBlock tBlock = (TowerBuildingBlock) block;
-	////        List<Affector> affectors = new ArrayList<>();
-	////        Unit t =
-	////                new Unit(tBlock.getMyName(), Arrays.asList(new AffectorTimeline(affectors)), null,
-	////                          null, null, 2);
-	////        List<Position> l1 = new ArrayList<>();
-	////        Health hp = tBlock.getMyHealth();
-	////        Velocity velo = tBlock.getMyVelocity();
-	////        State towerState = new State("Stationary");
-	////        Movement movement = new Movement(Arrays.asList(new Branch("Something here")));
-	////        UnitProperties towerProp =
-	////                new UnitProperties(hp, null, null, velo, null, null, null, null, towerState,
-	////                                   movement);
-	////        t.setProperties(towerProp);
-	////        t.setTTL(1000000);
-	////        t.setDeathDelay(100);
-	////        return t;
-	//    }
-
 	public Unit createTackTower (String name,
 			List<Unit> allProjectiles,
 			List<Unit> myTowers,

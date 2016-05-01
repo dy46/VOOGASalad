@@ -40,9 +40,9 @@ public class UnitTab extends ElementTab{
 	private void init(){
 		strComboMap = new HashMap<String, ComboBox<String>>();
 		strTextMap = new HashMap<String, TextField>();
-		affectorsToUnit = new ArrayList<ComboBox<String>>();
-		affectorsToApply = new ArrayList<ComboBox<String>>();
-		myProjectiles = new ArrayList<ComboBox<String>>();
+		affectorsToUnit = new ArrayList<>();
+		affectorsToApply = new ArrayList<>();
+		myProjectiles = new ArrayList<>();
 		myAnimationPane = new AnimationPane();
 	}
 	
@@ -86,7 +86,7 @@ public class UnitTab extends ElementTab{
 		String name = strTextMap.remove(getLabelsBundle().getString("typeText")).getText();
 
     	for(String str: strTextMap.keySet()){
-    		List<Double> val = new ArrayList<Double>();  		
+    		List<Double> val = new ArrayList<>();  		
     		String[] strings = strTextMap.get(str).getText().trim().split(getLabelsBundle().getString("regex"));
     		Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
     		strToDoubleMap.put(str, val);

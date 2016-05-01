@@ -46,7 +46,7 @@ public class PathTabModel implements IPathTabModel {
 		myAuthData = auth; 
 		myBranchMap = new HashMap<BoundLine, Branch>(); 
 		myPathWidth = Double.parseDouble(myDimensionsBundle.getString("defaultPathWidth"));
-		myCurrentBranch = new ArrayList<Position>(); 
+		myCurrentBranch = new ArrayList<>(); 
 		myMapHandler = auth.getMapHandler();
 		myMapHandler.addGoal(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		myLevels = auth.getLevels(); 
@@ -121,7 +121,7 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Unit> getSpawningUnits(String selectedWave) {
 		if(selectedWave == null) {
-			return new ArrayList<Unit>(); 
+			return new ArrayList<>(); 
 		}
 		getCurrentWaveFromString(selectedWave); 
  		return currentWave.getSpawningUnits();
@@ -130,7 +130,7 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Unit> getPlacingUnits(String selectedWave) {
 		if(selectedWave == null) {
-			return new ArrayList<Unit>(); 
+			return new ArrayList<>(); 
 		}
 		getCurrentWaveFromString(selectedWave); 
 		System.out.println("Path: " + currentWave.getPlacingUnits().get(0));

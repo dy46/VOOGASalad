@@ -23,8 +23,8 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private String myName;
 	private String mySplashScreenName;
 	
-	private List<Level> myLevels = new ArrayList<Level>();
-	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
+	private List<Level> myLevels = new ArrayList<>();
+	private List<Unit> myPlacedUnits = new ArrayList<>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
@@ -38,12 +38,12 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private UnitFactory myUnitFactory = new UnitFactory();
 	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
 	
-	private List<Unit> myTowers = new ArrayList<Unit>();
-	private List<Unit> myEnemies = new ArrayList<Unit>();
-	private List<Unit> myTerrains = new ArrayList<Unit>();
-	private List<Unit> myProjectiles = new ArrayList<Unit>();
-	private List<Position> mySpawns = new ArrayList<Position>();
-	private List<Position> myGoals = new ArrayList<Position>();
+	private List<Unit> myTowers = new ArrayList<>();
+	private List<Unit> myEnemies = new ArrayList<>();
+	private List<Unit> myTerrains = new ArrayList<>();
+	private List<Unit> myProjectiles = new ArrayList<>();
+	private List<Position> mySpawns = new ArrayList<>();
+	private List<Position> myGoals = new ArrayList<>();
 
 	@Override
 	public String getGameName() {

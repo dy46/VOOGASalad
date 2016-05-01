@@ -30,8 +30,8 @@ public class AffectorTab extends ElementTab{
 	}
 	
 	public void refresh(){
-		effects = new ArrayList<ComboBox<String>>();
-		functions = new ArrayList<TextField>();
+		effects = new ArrayList<>();
+		functions = new ArrayList<>();
 	}
 	
 	public UnitPicker setUpUnitPicker(){

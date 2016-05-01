@@ -24,7 +24,6 @@ public class UnitFactory {
         this.myUnitLibrary = unitLibrary;
     }
 
-    // Pass field inputs here
 
     public Unit createUnit (String type, String unitType, Map<String, List<Double>> inputs,
                             List<String> children,
