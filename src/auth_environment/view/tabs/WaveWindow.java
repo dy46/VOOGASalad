@@ -35,6 +35,9 @@ public class WaveWindow {
 	private List<ComboBox<String>> spawningNames;
 	private List<ComboBox<String>> placingNames;
 	private List<TextField> spawningTimes;
+	private List<String> sn = new ArrayList<>();
+	private List<Integer> st = new ArrayList<>();
+	private List<String> pn = new ArrayList<>();
 	
 	private IAuthModel myAuthModel;
 	private IWaveWindowModel myWaveWindowModel; 
@@ -92,16 +95,17 @@ public class WaveWindow {
 	}
 	
 	private void createNewWave(String title, String level) {
-		List<String> sn = new ArrayList<String>();
-		List<Integer> st = new ArrayList<Integer>();
-		List<String> pn = new ArrayList<String>();
-		
 		spawningNames.stream().forEach(s -> sn.add(s.getValue()));
 		placingNames.stream().forEach(s -> pn.add(s.getValue()));
 		spawningTimes.stream().forEach(s -> st.add(Integer.parseInt(s.getText())));
+		sn.removeIf(e -> e == null);
+		pn.removeIf(e -> e == null);
+		st.removeIf(e -> e == null);
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, timeBeforeWave); 
 	}
-
+	
+	
+	
 	private void centerStage(Stage stage){
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
