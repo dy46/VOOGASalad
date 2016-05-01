@@ -6,6 +6,7 @@ import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -23,9 +24,11 @@ public interface IGameData {
     public List<Unit> getPlacedUnits();
     public void setPlacedUnits(List<Unit> units);
 
-    public List<Affector> getAffectors();
     public AffectorFactory getAffectorFactory();
     public void setAffectorFactory(AffectorFactory affectorFactory);
+    public default List<Affector> getAffectors() {
+    	return getAffectorFactory().getAffectorLibrary().getAffectors();
+    }
 
     public List<PlaceValidation> getPlaceValidations();
     public void setPlaceValidations(List<PlaceValidation> placeValidations);
@@ -35,19 +38,23 @@ public interface IGameData {
     
     public ScoreUpdate getScoreUpdate();
     public void setScoreUpdate(ScoreUpdate scoreUpdate);
-
-    public Store getStore();
-    public void setStore(Store store);
     
     public double getScore();
     public void setScore(double score);    
     
     public UnitFactory getUnitFactory();
 	public void setUnitFactory(UnitFactory unitFactory);
-	   
-    public int getCurrentWaveIndex();
-    public void setCurrentWaveIndex(int currentWaveIndex);
     
 	public MapHandler getMapHandler();
 	public void setMapHandler(MapHandler mapHandler);
+	
+	public StoreFactory getStoreFactory(); 
+	public default Store getStore() {
+		return getStoreFactory().getStore();
+	}
+	
+    public int getCurrentWaveIndex();
+    public void setCurrentWaveIndex(int currentWaveIndex);
+    public int getCurrentLevelIndex();
+    public void setCurrentLevelIndex(int currentLevelIndex);
 }

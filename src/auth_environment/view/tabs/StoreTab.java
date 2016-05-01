@@ -6,6 +6,7 @@ import auth_environment.Models.StoreTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IStoreTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -18,7 +19,7 @@ import javafx.scene.layout.HBox;
 public class StoreTab extends Tab implements IWorkspace {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
+
 	private BorderPane myRoot;
 	private GridPane myGrid;
 	private StoreTabModel myStoreTabModel;
@@ -46,9 +47,9 @@ public class StoreTab extends Tab implements IWorkspace {
 		setRefresh();
 		int index = 0;
 		Button dummyButton = new Button("");
-		ComboBox dummyCBox = new ComboBox();
-		dummyCBox.setValue("test");
-		createProductList(index, myGrid, dummyButton, dummyCBox);
+		// ComboBox dummyCBox = new ComboBox();
+		// dummyCBox.setValue("test");
+		createProductList(index, myGrid, dummyButton);
 		myRoot.setLeft(myGrid);
 		done = new Button(myNamesBundle.getString("storeDoneButton"));
 		doneAction();
@@ -63,50 +64,55 @@ public class StoreTab extends Tab implements IWorkspace {
 	private void refresh() {
 		unitList.stream().forEach(s -> {
 			s.getItems().clear();
-			s.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
+			s.getItems()
+					.addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
 		});
 	}
 
-	private void createProductList(int index, GridPane newTableInfo, Button dButton, ComboBox dCBox) {
+	private void createProductList(int index, GridPane newTableInfo, Button dButton) {
 		newTableInfo.getChildren().remove(dButton);
-		ComboBox<String> newCBox = new ComboBox<String>();
+
+		NameAffectorCostSet n = new NameAffectorCostSet();
+
+		ComboBox<String> newCBox = n.getComboBox();
 		newCBox.getItems()
 				.addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
-		newTableInfo.add(createCostBox(newCBox), 2, index);
+		newTableInfo.add(createCostBox(n), 2, index);
 		index++;
 		Button newProductButton = new Button(myNamesBundle.getString("storeAddNewProduct"));
 		int num = index;
-		newProductButton.setOnAction(e -> createProductList(num, newTableInfo, newProductButton, newCBox));
+		newProductButton.setOnAction(e -> createProductList(num, newTableInfo, newProductButton));
 		newTableInfo.add(newProductButton, 2, index);
 		unitList.add(newCBox);
-
+		nameAffectorCostSets.add(n);
 	}
 
-	private Node createCostBox(ComboBox cBox) {
+	private Node createCostBox(NameAffectorCostSet n) {
+		ComboBox<String> cBox = n.getComboBox();
 		HBox hbox = new HBox();
+		hbox.setPadding(new Insets(10));
+		hbox.setSpacing(10);
+		cBox.setMinWidth(150);
 		hbox.getChildren().add(cBox);
 		TextField input = this.myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("storePromptCost"));
+		n.setTextFieldCost(input);
 		input.setMaxWidth(65);
-		input.setMinHeight(25);
+		input.setMinHeight(23);
 		hbox.setMinWidth(200);
 		hbox.getChildren().add(input);
-		hbox.getChildren().add(createEditButton(cBox));
+		hbox.getChildren().add(createEditButton(n));
 		costList.add(input);
 		return hbox;
 	}
 
-	private Node createEditButton(ComboBox newCBox) {
+	private Node createEditButton(NameAffectorCostSet n) {
 		Button edit = new Button(myNamesBundle.getString("storeEditAffectors"));
-		String name = (String) newCBox.getValue();
-		edit.setOnAction(e -> checkContent(newCBox, name));
+		edit.setOnAction(e -> checkContent(n));
 		return edit;
 	}
 
-	private void checkContent(ComboBox<String> newCBox, String name) {
-		if (newCBox.getValue() != null) {
-			NameAffectorCostSet n = new NameAffectorCostSet();
-			n.name = (String) newCBox.getValue();
-			nameAffectorCostSets.add(n);
+	private void checkContent(NameAffectorCostSet n) {
+		if (n.getName() != null) {
 			EditUpgradeWindow eWindow = new EditUpgradeWindow(myAuthModel, n);
 		}
 	}
@@ -128,13 +134,14 @@ public class StoreTab extends Tab implements IWorkspace {
 		 */
 
 		for (NameAffectorCostSet nacs : nameAffectorCostSets) {
-			if (nacs.affectorCost.size() == 0)
+			if (nacs.getName() == null)
 				continue;
-			
+
 			List<String> nameList = new ArrayList<>();
-			for(int i = 0; i < nacs.affectorCost.size(); i++)
-				nameList.add(nacs.name);
-				
+			for (int i = 0; i < nacs.affectorCost.size(); i++)
+				nameList.add(nacs.getName());
+
+			myStoreTabModel.addBuyableUnit(nacs.getName(), nacs.getCost());
 			myStoreTabModel.addBuyableUpgrades(nameList, nacs.affectorNames, nacs.affectorCost);
 		}
 	}
@@ -144,8 +151,34 @@ public class StoreTab extends Tab implements IWorkspace {
 	}
 
 	public static class NameAffectorCostSet {
-		public String name;
+		// public String name;
+		private ComboBox<String> comboBox = new ComboBox<>();
+		private TextField cost;
 		public List<String> affectorNames = new ArrayList<>();
 		public List<Integer> affectorCost = new ArrayList<>();
+
+		public void setTextFieldCost(TextField c) {
+			cost = c;
+		}
+
+		public TextField getTextFieldCost() {
+			return cost;
+		}
+
+		public ComboBox<String> getComboBox() {
+			return comboBox;
+		}
+
+		public String getName() {
+			return comboBox.getValue();
+		}
+
+		public int getCost() {
+			try {
+				return Integer.parseInt(cost.getText());
+			} catch (Exception e) {
+				return 0;
+			}
+		}
 	}
 }

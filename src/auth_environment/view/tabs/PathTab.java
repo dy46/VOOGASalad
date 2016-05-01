@@ -44,7 +44,8 @@ public class PathTab extends Tab implements IWorkspace {
 	private Pane myPathPane;
 	private ComboBox<String> myLevelComboBox;
 	private ComboBox<String> myWaveComboBox; 
-	private UnitPicker myUnitPicker; 
+	private UnitPicker mySpawningUnitPicker; 
+	private UnitPicker myPlacingUnitPicker; 
 	private List<UnitView> myTerrains;
 	
 	private IPathTabModel myPathTabModel;
@@ -63,7 +64,6 @@ public class PathTab extends Tab implements IWorkspace {
 	
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
-		addConfirmationDialog(); 
 		myNodeFactory = new NodeFactory(); 
 		myTerrains = new ArrayList<UnitView>();
 		myPathPane = new Pane();
@@ -71,16 +71,6 @@ public class PathTab extends Tab implements IWorkspace {
 		currentBranch = new ArrayList<>();
 		drawMap();
 		setContent(getRoot());
-	}
-
-	// TODO: decide whether to keep 
-	private void addConfirmationDialog() {
-		boolean confirmation = new ConfirmationDialog().getConfirmation(
-				myNamesBundle.getString("gridHeaderText"),
-				myNamesBundle.getString("gridContextText"));
-		if(confirmation) {
-			myPathTabModel.createGrid();
-		}
 	}
 
 	private void refresh() {
@@ -114,18 +104,21 @@ public class PathTab extends Tab implements IWorkspace {
 		right.getChildren().addAll(buildComboBoxes());
 		return right; 
 	}
-
+	
 	// Called once, when Tab is first constructed 
 	private Node buildComboBoxes() {
 		VBox vb = buildDefaultVBox(); 
 		myLevelComboBox = new ComboBox<String>();
 		myWaveComboBox = new ComboBox<String>(); 
-		myUnitPicker = new UnitPicker(myNamesBundle.getString("spawnUnitsLabel")); 
+		mySpawningUnitPicker = new UnitPicker(myNamesBundle.getString("spawnUnitsLabel")); 
+		myPlacingUnitPicker = new UnitPicker(myNamesBundle.getString("placeUnitsLabel"));
 		buildLevelComboBox();
 		vb.getChildren().addAll(
 				myLevelComboBox, 
 				myWaveComboBox, 
-				myUnitPicker.getRoot()); 
+				mySpawningUnitPicker.getRoot(),
+				myPlacingUnitPicker.getRoot()
+				); 
 		return vb; 
 	}
 
@@ -167,7 +160,8 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void buildUnitPicker(String waveName) {
-		myUnitPicker.setUnits(myPathTabModel.getWaveUnits(waveName));
+		mySpawningUnitPicker.setUnits(myPathTabModel.getSpawningUnits(waveName));
+		myPlacingUnitPicker.setUnits(myPathTabModel.getPlacingUnits(waveName));
 	}
 	
 	private VBox buildDefaultVBox() {
@@ -247,6 +241,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void clearMap() {
 		myPathPane.getChildren().clear();
+		myTerrains.clear();
 	}
 
 	private void drawMap() {
@@ -264,10 +259,7 @@ public class PathTab extends Tab implements IWorkspace {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
 				System.out.println(e.toString());
 				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
-				temp.setY(temp.getY() - 50);
 				myTerrains.add(temp);
-				System.out.println("X: " + e.getProperties().getPosition().getX());
-				System.out.println("Y: " + e.getProperties().getPosition().getY());
 			});
 			myPathPane.getChildren().addAll(myTerrains);
 		}
@@ -358,7 +350,7 @@ public class PathTab extends Tab implements IWorkspace {
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.BLUE);
 		DragDelegate drag = new DragDelegate();
-		drag.setUpNodeTarget(point, myUnitPicker, myPathTabModel);
+		drag.setUpNodeTarget(point, mySpawningUnitPicker, myPathTabModel);
 		myPathPane.getChildren().add(point.getCircle());
 	}
 

@@ -5,22 +5,18 @@ import java.util.List;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.factories.FunctionFactory;
-import game_engine.factories.StoreFactory;
+
 import game_data.IGameData;
 
 
 public interface IAuthEnvironment extends IGameData {
-	
-	// GlobalGameTab
-	
+		
 	public String getGameName(); 
 	public void setGameName(String name);
-	
-	public void setSplashScreen(String fileName); 
-	public String getSplashScreen(); 	
-	
-	// Path Tab
-	
+		
+	public String getSplashScreen(); 
+	public void setSplashScreen(String fileName); 	
+		
 	public List<Unit> getTowers(); 
 	public void setTowers(List<Unit> towers); 
 	
@@ -38,11 +34,8 @@ public interface IAuthEnvironment extends IGameData {
 
 	public List<Position> getSpawns();
 	public void setSpawns(List<Position> spawns);
-	    	
+
 	public FunctionFactory getFunctionFactory();
-	
 	public void setFunctionFactory(FunctionFactory factory); 
-	
-	public StoreFactory getStoreFactory(); 
 	
 }
