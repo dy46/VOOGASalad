@@ -2,20 +2,25 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
 
+/**
+ * This class is a factory for creating path graphs. Path graphs are a set of branches that represent a set of positions.
+ * Branches have neighbors and end points are used as nodes in search problems. 
+ * 
+ * @author adamtache
+ *
+ */
+
 public class PathGraphFactory {
 
 	private PathLibrary myPathLibrary;
 	private PositionHandler myPositionHandler;
 	private BranchConfigurer myBranchHandler;
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
-	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
 	public PathGraphFactory(){
 		myPositionHandler = new PositionHandler();
@@ -56,7 +61,7 @@ public class PathGraphFactory {
 	}
 	
 	public void insertGrid(){
-		Position[][] positionGrid = createPosGrid(Double.parseDouble(myDimensionsBundle.getString("canvasWidth")), Double.parseDouble(myDimensionsBundle.getString("canvasHeight")), Double.parseDouble(myDimensionsBundle.getString("gridSideLength")));
+		Position[][] positionGrid = createPosGrid(600, 600, 30);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());

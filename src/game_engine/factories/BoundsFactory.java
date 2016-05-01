@@ -11,6 +11,13 @@ import game_engine.properties.Position;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+/**
+ * This class is a factory for constructing bounds of an enemy based on the non-transparent pixels of its image file.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class BoundsFactory {
 	
 	private PositionHandler myPH;

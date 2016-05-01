@@ -50,7 +50,6 @@ public class GameSpeedSlider implements IGUIObject {
 
     @Override
     public void updateNode () {
-        // TODO Auto-generated method stub
 
     }
 

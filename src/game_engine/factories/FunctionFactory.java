@@ -11,6 +11,14 @@ import game_engine.functions.Term;
 import game_engine.functions.Variable;
 import game_engine.libraries.FunctionLibrary;
 
+/**
+ * This class is a factory for construction of functions. 
+ * More information on functions can be found in the Game_Engine/Functions package.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class FunctionFactory {
 
 	private FunctionLibrary myFunctionLibrary;
@@ -29,10 +37,6 @@ public class FunctionFactory {
 		setupDefaultTypes();
 	}
 
-	public void createFunction(String equation){
-
-	}
-
 	public Function createFunction(String type, String str){
 		String name = getName(type, str);
 		if(myFunctionLibrary.getFunction(name) != null){
@@ -43,11 +47,13 @@ public class FunctionFactory {
 		typeAndStr.add(str);
 		List<Term> terms = myFunctionLibrary.getFunctionType(type);
 		if(terms == null){
-			// TODO: throw Womp error "Function type not implemented yet"
+			new WompException("Function type not implemented yet").displayMessage();
+			return null;
 		}
 		Constant strength = myFunctionLibrary.getStrength(str);
 		if(strength == null){
-			// TODO: throw Womp error "Strength type not implemented yet"
+			new WompException("Strength type not implemented yet").displayMessage();
+			return null;
 		}
 		for(Term term : terms){
 			List<Constant> constants = copyConstantList(term.getConstants());
@@ -125,15 +131,15 @@ public class FunctionFactory {
 		else if(sign == -1)
 			type = "ExpDecr";
 		else{
-			// TODO: throw Womp Exception "Only exponentially increasing and decreasing functions supported"
+
 			new WompException("Only exponentially increasing and decreasing functions supported").displayMessage();
 		}
 		myFunctionLibrary.addFunctionType(type, expTerms);
-		if(sign==1){
+		if(sign == 1){
 			Function expIncr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expIncr);
 		}
-		if(sign==-1){
+		if(sign == -1){
 			Function expDecr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expDecr);
 		}

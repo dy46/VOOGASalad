@@ -17,8 +17,6 @@ public abstract class GUIComboBox implements IGUIObject {
 	private static final int PANEL_SPACING = 5;
 	
 	private ResourceBundle myResources;
-	private GameDataSource myGameData;
-	private IGameView myView;
 	private ComboBox<String> comboBox;
 	private Button comboBoxButton;
 	private String promptText;
@@ -27,8 +25,6 @@ public abstract class GUIComboBox implements IGUIObject {
 	
 	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
-        myGameData = gameData;
-        myView = view;
     }
 	
 	public GUIComboBox (ResourceBundle r,

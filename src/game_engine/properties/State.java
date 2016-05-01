@@ -3,6 +3,13 @@ package game_engine.properties;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * State is a unit property representing the state of the unit.
+ * States affect the front-end image and back-end representation of the unit's current state.
+ * 
+ *
+ */
+
 public class State extends Property{
     
     private String[] states = {"Stationary", "Disappearing", "Moving", "Initializing", "Receiving_Damage", "Dying"};

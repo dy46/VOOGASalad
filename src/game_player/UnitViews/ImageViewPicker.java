@@ -3,6 +3,8 @@ package game_player.UnitViews;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import exceptions.WompException;
 import game_engine.game_elements.Unit;
 import game_player.image_processing.CornerElementImageViewProcessing;
 import game_player.image_processing.HealthImageViewProcessing;
@@ -52,8 +54,7 @@ public class ImageViewPicker extends UnitImageView {
 		try {
 			getImageView().setImage(new Image(file));
 		} catch (IllegalArgumentException e) {
-			System.out.println("IllegalArgumentException, couldn't find this file: " + file);
-			e.printStackTrace();
+			new WompException("IllegalArgumentException, couldn't find file: " + file).displayMessage();
 		}
 
 	}

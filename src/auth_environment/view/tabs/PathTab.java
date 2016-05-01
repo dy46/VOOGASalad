@@ -68,7 +68,7 @@ public class PathTab extends Tab implements IWorkspace {
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
 		myNodeFactory = new NodeFactory(); 
-		myTerrains = new ArrayList<UnitView>();
+		myTerrains = new ArrayList<>();
 		myPathPane = new Pane();
 		setupBorderPane();
 		currentBranch = new ArrayList<>();
@@ -129,6 +129,7 @@ public class PathTab extends Tab implements IWorkspace {
 		myWaveComboBox.getItems().clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildLevelComboBox() {
 		myLevelComboBox.getItems().clear();
 		if (!myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
@@ -144,14 +145,13 @@ public class PathTab extends Tab implements IWorkspace {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildWaveComboBox(String levelName) {
 		myWaveComboBox.getItems().clear();
-		System.out.println(levelName);
 		if (myPathTabModel.getWaveNames(levelName)!=null) {
 			myWaveComboBox.getItems().addAll(myPathTabModel.getWaveNames(levelName));
 			myWaveComboBox.setOnAction(event -> {
 				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-				System.out.println("Wave combo box used " + selectedItem + "!");
 				if (selectedItem!=null) {
 					buildUnitPicker(selectedItem);
 				}
@@ -268,7 +268,6 @@ public class PathTab extends Tab implements IWorkspace {
 	private void drawTerrains() {
 		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
-				System.out.println(e.toString());
 				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
 				myTerrains.add(temp);
 			});

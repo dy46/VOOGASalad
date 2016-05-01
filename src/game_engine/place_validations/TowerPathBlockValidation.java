@@ -8,6 +8,13 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
+/**
+ * This class ensures towers do not block paths that Path following (non-AI) Units are to follow.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class TowerPathBlockValidation extends PlaceValidation {
 
 	@Override

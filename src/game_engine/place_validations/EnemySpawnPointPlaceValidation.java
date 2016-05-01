@@ -3,6 +3,11 @@ package game_engine.place_validations;
 import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 
+/**
+ * This class validates the spawn point of an enemy.
+ * 
+ *
+ */
 
 public class EnemySpawnPointPlaceValidation extends PlaceValidation {
 

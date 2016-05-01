@@ -7,6 +7,7 @@ import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
+import exceptions.WompException;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Wave;
 
@@ -20,7 +21,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     
     public LevelOverviewTabModel(IAuthEnvironment authEnv){
     	this.myAuthEnvironment = authEnv; 
-    	this.myCreatedLevels = new ArrayList<Level>(); 
+    	this.myCreatedLevels = new ArrayList<>(); 
         this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
         this.myCurrentLevelIndex = 0; 
     }
@@ -33,7 +34,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     }
     
     private void clear() {
-    	this.myCreatedLevels = new ArrayList<Level>();//.clear();
+    	this.myCreatedLevels = new ArrayList<>();//.clear();
     	this.myCreatedWaves.clear();
         this.myCurrentLevelIndex = 0; 
     }
@@ -53,7 +54,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     @Override
     public void changeEditedLevel(int editLevel){
         if(!this.checkBounds(editLevel-1)){
-            // TODO: throw an exception for the front-end
+        	new WompException("Out of bounds").displayMessage();
         }
         this.myCurrentLevelIndex = editLevel-1;
     }
@@ -78,21 +79,21 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     
     @Override
     public List<String> getLevelNames(){
-        List<String> levelNames = new ArrayList<String>();
+        List<String> levelNames = new ArrayList<>();
         this.myCreatedLevels.forEach(l -> levelNames.add(l.getName()));
         return levelNames;
     }
     
     @Override
     public List<String> getCurrentLevelWaveNames(){
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         this.myCreatedLevels.get(this.myCurrentLevelIndex).getWaves().forEach(w -> names.add(w.getName()));
         return names;
     }
     
     @Override
     public List<Level> getCreatedLevels(){
-        return new ArrayList<Level>(this.myCreatedLevels);
+        return new ArrayList<>(this.myCreatedLevels);
     }
     
     // example of levelPlusWaveName: Level 1 Wave 1 
@@ -100,7 +101,6 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
         this.myCreatedWaves.put(levelPlusWaveName, wave);
         int levelNum = Integer.parseInt(levelPlusWaveName.split(" ")[0]); 
         this.getCreatedLevels().get(levelNum-1).addWave(wave);
-//        System.out.println("New wave " + wave.toString() + " added to level " + levelNum);
         this.submit();
     }
 

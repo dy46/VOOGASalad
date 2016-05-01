@@ -16,9 +16,9 @@ import game_engine.score_updates.ScoreUpdate;
 import game_engine.wave_goals.WaveGoal;
 
 public class GameData implements IGameData {
-	private List<Level> myLevels = new ArrayList<Level>();
-	private List<Unit> myPlacedUnits = new ArrayList<Unit>();
-	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
+	private List<Level> myLevels = new ArrayList<>();
+	private List<Unit> myPlacedUnits = new ArrayList<>();
+	private List<PlaceValidation> myPlaceValidations = new ArrayList<>();
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
 	private double myScore = 0;

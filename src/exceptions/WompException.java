@@ -2,7 +2,6 @@ package exceptions;
 
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 
 public class WompException extends Exception{
 
@@ -15,12 +14,13 @@ public class WompException extends Exception{
 	}
 	
 	public void displayMessage(){
-		Dialog alert = new Dialog();
-		alert.setTitle("WOMP EXCEPTION");
-		alert.setHeaderText("ERROR: " + myMessage);
+		Dialog<?> alert = new Dialog<Object>();
+//		alert.setTitle("WOMP EXCEPTION");
+//		alert.setHeaderText("ERROR: " + myMessage);
+		alert.setTitle("Error");
+		alert.setHeaderText(myMessage);
 		ButtonType buttonTypeOk = new ButtonType("Okay");
 		alert.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		DialogPane dialogPane = alert.getDialogPane();
 		alert.showAndWait();
 	}
 

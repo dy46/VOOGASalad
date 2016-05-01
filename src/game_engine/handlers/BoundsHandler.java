@@ -6,12 +6,33 @@ import java.util.stream.Collectors;
 
 import game_engine.properties.Position;
 
+/**
+ * This class handles unit bounds for tower placement and allows for extended bounds and max bounding distance access.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class BoundsHandler {
 	
+	/*
+	 * Takes in a list of positions and returns the maximum bounding distance.
+	 * The max bounding distance is the maximum distance between any two positions in a list of positions.
+	 * 
+	 * @param	positions is list of positions
+	 * @return	the list of extended bounds positions
+	 */
 	public static double getMaxBoundingDistance(List<Position> positions){
 		return getMaxDistanceBetween(positions, getBoundsCenter(positions));
 	}
 
+	/*
+	 * Takes in a list of bounds and extension amount. Extends all positions based on extension in correct direction.
+	 * 
+	 * @param	bounds is list of positions to be extended
+	 * @param	extension is distance for extension
+	 * @return	the list of extended bounds positions
+	 */
 	public static List<Position> getExtendedBounds(List<Position> bounds, double extension){
 		List<Position> copyPos = bounds.stream().map(p -> p.copyPosition()).collect(Collectors.toList());
 		List<Position> extendedPos = new ArrayList<>();
@@ -41,7 +62,7 @@ public class BoundsHandler {
 	private static double getMaxDistanceBetween(List<Position> positions, Position center){
 		double maxDistance = Integer.MIN_VALUE;
 		for(Position pos : positions){
-			double distance = getManhattanDistance(center.getX(), center.getY(), pos);
+			double distance = getEuclideanDistance(center.getX(), center.getY(), pos);
 			if(distance > maxDistance){
 				maxDistance = distance;
 			}
@@ -49,7 +70,7 @@ public class BoundsHandler {
 		return maxDistance;
 	}
 
-	private static double getManhattanDistance(double x, double y, Position pos){
+	private static double getEuclideanDistance(double x, double y, Position pos){
 		return Math.sqrt(Math.pow(getDx(pos, x), 2) + Math.pow(getDy(pos, y), 2));
 	}
 

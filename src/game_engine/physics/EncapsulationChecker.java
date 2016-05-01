@@ -4,6 +4,12 @@ import java.util.List;
 import game_engine.properties.Bounds;
 import game_engine.properties.Position;
 
+/**
+ * EncapsulationChecker creates a convex hull from a list of bounds and checks for complete encapsulations of positions inside the hull.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class EncapsulationChecker {
 
