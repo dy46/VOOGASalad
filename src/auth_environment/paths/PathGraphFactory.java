@@ -2,7 +2,6 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
@@ -20,18 +19,12 @@ public class PathGraphFactory {
 
 	private PathLibrary myPathLibrary;
 	private PositionHandler myPositionHandler;
-	private BranchConfigurer myBranchHandler;
+	private BranchConfigurer myBranchConfigurer;
 
 	public PathGraphFactory(){
 		myPositionHandler = new PositionHandler();
 		myPathLibrary = new PathLibrary();
-		myBranchHandler = new BranchConfigurer();
-	}
-
-	public PathGraphFactory(List<Branch> branches){
-		this.myPathLibrary = new PathLibrary(branches);
-		myBranchHandler = new BranchConfigurer();
-		myPositionHandler = new PositionHandler();
+		myBranchConfigurer = new BranchConfigurer();
 	}
 
 	/**
@@ -45,12 +38,12 @@ public class PathGraphFactory {
 		Branch newBranch = new Branch(branchPos);
 		Branch currentBranch = myPathLibrary.getPathGraph().getBranchByPos(branchPos.get(0));
 		if(currentBranch != null){
-			myBranchHandler.configureBranch(newBranch, myPathLibrary.getPathGraph());
+			myBranchConfigurer.configureBranch(newBranch, myPathLibrary.getPathGraph());
 		}
 		else{
 			currentBranch = myPathLibrary.getPathGraph().getBranchByPos(branchPos.get(branchPos.size()-1));
 			if(currentBranch != null){
-				myBranchHandler.configureBranch(newBranch, myPathLibrary.getPathGraph());
+				myBranchConfigurer.configureBranch(newBranch, myPathLibrary.getPathGraph());
 			}
 		}
 		if(myPathLibrary.getPathGraph().getBranch(newBranch) == null){
@@ -66,11 +59,18 @@ public class PathGraphFactory {
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
 		}
+		List<Branch> gridBranches = myPathLibrary.getPathGraph().getBranches();
+		myPathLibrary.setAuthVisualFilters(gridBranches);
+		List<Position> gridVisualNodes = new ArrayList<>();
+		for(Branch gridBranch : gridBranches){
+			gridVisualNodes.addAll(gridBranch.getEndPoints());
+		}
+		myPathLibrary.setGridVisualNodes(gridVisualNodes);
 	}
 
 	private void insertBranchInPath(List<Position> branchPos, PathGraph path){
 		Branch newBranch = new Branch(branchPos);
-		myBranchHandler.configureBranch(newBranch, path);
+		myBranchConfigurer.configureBranch(newBranch, path);
 	}
 
 	private List<List<Position>> createBranchPosLists(Position[][] grid){
@@ -113,8 +113,16 @@ public class PathGraphFactory {
 		return myPathLibrary;
 	}
 	
-	public List<Branch> getBranches(){
-		return myPathLibrary.getBranches();
+	public List<Branch> getEngineBranches(){
+		return myPathLibrary.getEngineBranches();
+	}
+	
+	public List<Branch> getAuthBranches(){
+		return myPathLibrary.getAuthBranches();
+	}
+	
+	public List<Branch> getAuthGrid(){
+		return myPathLibrary.getAuthGrid();
 	}
 	
 }
