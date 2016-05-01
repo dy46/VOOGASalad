@@ -171,7 +171,7 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void buildUnitPicker(String waveName) {
-		mySpawningUnitPicker.setUnits(myPathTabModel.getWaveUnits(waveName));
+		mySpawningUnitPicker.setUnits(myPathTabModel.getSpawningUnits(waveName));
 	}
 	
 	private VBox buildDefaultVBox() {
