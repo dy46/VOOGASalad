@@ -59,6 +59,16 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	public String getGameName() {
 		return this.myAuthModel.getIAuthEnvironment().getGameName();
 	}
+	
+	@Override
+	public void setSplashFile(String name) {
+		this.myAuthModel.getIAuthEnvironment().setSplashScreen(name);
+	}
+
+	@Override
+	public String getSplashFile() {
+		return this.myAuthModel.getIAuthEnvironment().getSplashScreen();
+	}
 
 	@Override
 	public List<String> getScoreUpdateNames() {

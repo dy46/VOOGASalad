@@ -1,7 +1,6 @@
 package game_data;
 
 import com.thoughtworks.xstream.XStream;
-
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import game_data.exceptions.SerializerException;
 
