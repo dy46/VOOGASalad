@@ -1,6 +1,5 @@
 package game_player.view;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
 import game_player.GameDataSource;
@@ -15,8 +14,6 @@ import javafx.scene.layout.HBox;
 
 public abstract class GUIComboBox implements IGUIObject {
 	
-	private static final int VISIBLE_ROW_COUNT = 3;
-	private static final int COMBOBOX_WIDTH = 150;
 	private static final int PANEL_SPACING = 5;
 	
 	private ResourceBundle myResources;
@@ -25,6 +22,7 @@ public abstract class GUIComboBox implements IGUIObject {
 	private ComboBox<String> comboBox;
 	private Button comboBoxButton;
 	private String promptText;
+	private String optionsString;
 	private ObservableList<String> options;
 	
 	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
@@ -33,16 +31,22 @@ public abstract class GUIComboBox implements IGUIObject {
         myView = view;
     }
 	
-	public GUIComboBox (ResourceBundle r, GameDataSource gameData, IGameView view, String text, PlayerGUI GUI) {
+	public GUIComboBox (ResourceBundle r,
+			GameDataSource gameData,
+			IGameView view,
+			String text,
+			String options,
+			PlayerGUI GUI) {
         this(r, gameData, view, GUI);
         promptText = text;
+        optionsString = options;
     }
 	
 	@Override
 	public Node createNode() {
         HBox difficultyBox = new HBox(PANEL_SPACING);
         options = FXCollections.observableArrayList();
-        options = populateOptions(options);
+        populateOptions();
         comboBox = new ComboBox<>(options);
         configureComboBox();
         comboBoxButton = new Button(myResources.getString("GoText"));
@@ -57,12 +61,17 @@ public abstract class GUIComboBox implements IGUIObject {
 	}
 	
 	public void configureComboBox () {
-        comboBox.setVisibleRowCount(VISIBLE_ROW_COUNT);
-        comboBox.setPrefWidth(COMBOBOX_WIDTH);
+        comboBox.setVisibleRowCount(Integer.valueOf(myResources.getString("VisibleRowCount")));
+        comboBox.setPrefWidth(Double.valueOf(myResources.getString("ComboBoxWidth")));
         comboBox.setPromptText(promptText);
     }
 	
-	public abstract ObservableList<String> populateOptions(ObservableList<String> list);
+	public void populateOptions() {
+		String[] difficulties = optionsString.trim().split(",");
+		for (String s: difficulties) {
+			options.add(s);
+		}
+	}
 	
 	public abstract void performAction();
 	

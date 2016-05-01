@@ -1,7 +1,9 @@
 package game_player.view;
 
+import java.io.File;
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
+import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
@@ -13,81 +15,119 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import main.IMainView;
 
 
 public class PlayerGUI {
 
+	private static final String BACKGROUND = "background";
+	private static final int NUMBER_OF_PLAY_CYCLES = -1;
 	private static final String DEFAULT_CSS = "PlayerTheme1.css";
-	private static final String DEFAULT_PACKAGE = "game_player/view/";
-	private static final double TABS_OFFSET = 0;
-	private static final double NEWTAB_OFFSET = 33;
-	private static final String GUI_RESOURCE = "game_player/resources/GUI";
-	private int windowWidth;
-	private int windowHeight;
-	private Scene myScene;
-	private AnchorPane myRoot;
-	private TabPane myTabs;
-	private ResourceBundle myResources;
-	private GameEngineInterface gameEngine;
-	private IMainView myMainView;
+    private static final String DEFAULT_PACKAGE = "game_player/view/";
+    private static final String GUI_RESOURCE = "game_player/resources/GUI";
+    private int windowWidth;
+    private int windowHeight;
+    private Scene myScene;
+    private AnchorPane myRoot;
+    private TabPane myTabs;
+    private ResourceBundle myResources;
+    private GameEngineInterface gameEngine;
+    private IMainView myMainView;
+    private File currentGame;
+    private MediaPlayer myMusic;
+    private IDataConverter<IAuthEnvironment> writer;
 
-	public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
-		this.windowWidth = windowWidth;
-		this.windowHeight = windowHeight;
-		this.myMainView = main;
-		this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
-	}
+    public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+        this.myMainView = main;
+        this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
+    }
 
-	public Scene createPlayerScene () {
-		myRoot = new AnchorPane();
-		myTabs = new TabPane();
+    public Scene createPlayerScene () {
+        myRoot = new AnchorPane();
+        myTabs = new TabPane();
 
-		myScene = new Scene(myRoot, windowWidth, windowHeight);
+        myScene = new Scene(myRoot, windowWidth, windowHeight);
+        myScene.setCursor(new ImageCursor(new Image("mousecursor.png")));
 
-		myScene.setCursor(new ImageCursor(new Image("mousecursor.png")));
+        Button newTabButton = new Button(myResources.getString("NewTabText"));
+        newTabButton.setOnAction(event -> createNewTab(readData()));
 
-		// TODO: Create resource file for UI text.
-		Button newTabButton = new Button(myResources.getString("NewTabText"));
-		newTabButton.setOnAction(event -> createNewTab());
+        createNewTab(readData());
+        setMusic(myResources.getString("Audio"));
 
-		createNewTab();
+        AnchorPane.setTopAnchor(myTabs, Double.valueOf(myResources.getString("TabsOffset")));
+        AnchorPane.setTopAnchor(newTabButton, Double.valueOf(myResources.getString("NewTabOffset")));
+        AnchorPane.setRightAnchor(newTabButton, Double.valueOf(myResources.getString("TabsOffset")));
 
-		AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
-		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
-		AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
+        myScene.getStylesheets().add(DEFAULT_PACKAGE + DEFAULT_CSS);
+        myScene.getRoot().getStyleClass().add(BACKGROUND);
 
-		myScene.getStylesheets().add(DEFAULT_PACKAGE + DEFAULT_CSS);
-		myScene.getRoot().getStyleClass().add("background");
+        myRoot.getChildren().addAll(myTabs, newTabButton);
 
-		myRoot.getChildren().addAll(myTabs, newTabButton);
+        return myScene;
+    }
 
-		return myScene;
-	}
+    private IAuthEnvironment readData () {
+        writer = new Serializer<>();
+        currentGame = writer.chooseXMLFile();
+        IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
+        System.out.println("SETTING BREAKPOINT");
+        return gameData;
+    }
 
-	private IAuthEnvironment readData () {
-		Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
-		IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
-		return gameData;
-	}
-
-	protected void createNewTab () {
-		createNewEngine();
-		Tab tab = new PlayerMainTab( gameEngine, myResources, myScene, myMainView, this,
-				myResources.getString("TabName") + (myTabs.getTabs().size() + 1) ).getTab();
-		myTabs.getTabs().add(tab);
-		myTabs.getSelectionModel().select(tab);
-	}
-
-	private void createNewEngine() {
-		gameEngine = new EngineWorkspace();
-		//        TestingGameData testData = new TestingGameData();
-		gameEngine.setUpEngine(readData());
-	}
-
-	public void loadNewTab() {
-		Tab tab = myTabs.getSelectionModel().getSelectedItem();
-		myTabs.getTabs().remove(tab);
-		createNewTab();
-	}
+    protected void createNewTab (IAuthEnvironment data) {
+//        gameEngine = new TestingEngineWorkspace();
+//        gameEngine.setUpEngine(null);
+    	createNewEngine(data);
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
+                                    myResources.getString("TabName") +
+                                                                      (myTabs.getTabs().size() + 1))
+                                                                              .getTab();
+        myTabs.getTabs().add(tab);
+        myTabs.getSelectionModel().select(tab);
+    }
+    
+    private void createNewEngine(IAuthEnvironment data) {
+        gameEngine = new EngineWorkspace();
+//        TestingGameData testData = new TestingGameData();
+        gameEngine.setUpEngine(data);
+    }
+    
+    public void deleteCurrentTab() {
+    	Tab tab = myTabs.getSelectionModel().getSelectedItem();
+    	myTabs.getTabs().remove(tab);
+    }
+    
+    public void loadNewTab() {
+    	deleteCurrentTab();
+    	createNewTab(readData());
+    }
+    
+    public void restartGame() {
+    	deleteCurrentTab();
+    	createNewTab(writer.loadFromFile(currentGame));
+    }
+    
+    public void loadFromXML(File file) {
+    	deleteCurrentTab();
+    	createNewTab(writer.loadFromFile(file));
+    }
+    
+    public void loadNextLevel() {
+    	NextLevelScreen screen = new NextLevelScreen(myResources, this);
+    }
+    
+    public void setMusic(String name) {
+		myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
+		myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
+		myMusic.setAutoPlay(true);
+    }
+    
+    public MediaPlayer getMusic() {
+    	return myMusic;
+    }
 }
