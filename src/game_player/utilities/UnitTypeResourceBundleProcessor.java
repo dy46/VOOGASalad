@@ -1,4 +1,4 @@
-package game_player.utilties;
+package game_player.utilities;
 
 import java.util.Enumeration;
 import java.util.HashMap;

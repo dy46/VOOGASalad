@@ -52,7 +52,7 @@ public abstract class UnitTab extends Tab{
         Text propertiesTitle = new Text("Properties");
         propertiesTitle.setFont(new Font(20));
         newTableInfo.add(propertiesTitle, 0, 0);
-        addTextFields(newTableInfo, myCreator);
+        addFields(newTableInfo, myCreator);
 		
 		GridPane bottomInfo = setUpPane(myLabelsBundle.getString("bottomInfoDim"));
  		newBorderPane.setBottom(bottomInfo);
@@ -60,11 +60,11 @@ public abstract class UnitTab extends Tab{
 		ok.setOnAction(e -> createNewElement());
 	}
 	
-	public void refresh(){}
+	public abstract void refresh();
 	
 	public abstract void setUpAnimation(BorderPane bp);
 	
-	public abstract void addTextFields(GridPane gp, FrontEndCreator creator);
+	public abstract void addFields(GridPane gp, FrontEndCreator creator);
 	
 	public void reset(){
 		myPane.getChildren().clear();

@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 
 /**
  * Created by BrianLin on 4/20/16
@@ -99,7 +98,7 @@ public class UnitView extends ImageView implements IUnitView {
 	 private ContextMenu buildContextMenu(IMapPane target){
 	    	ContextMenu cm = new ContextMenu();
 	    	MenuItem cmItem1 = new MenuItem("Delete Image");
-	    	cmItem1.setOnAction(e-> {target.getRoot().getChildren().remove(this);
+	    	cmItem1.setOnAction( e-> { target.getRoot().getChildren().remove(this);
 	    		target.getModel().deleteTerrain(this.getUnit());
 	    	});
 	    	cm.getItems().add(cmItem1);

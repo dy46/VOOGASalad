@@ -9,6 +9,10 @@ import game_engine.properties.Position;
 
 public class PathGraph implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Branch> myBranches;
 
 	public PathGraph(List<Branch> branches){
@@ -65,13 +69,13 @@ public class PathGraph implements Serializable{
 
 	public List<Branch> getBranchesByEdgePosition(Position pos){
 		return myBranches.stream().filter(
-				n -> n.getPositions().size() > 0 && (n.getPositions().get(0).roughlyEquals(pos) || n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)))
+				n -> n.getPositions().size() > 0 && (n.getPositions().get(0).equals(pos) || n.getPositions().get(n.getPositions().size()-1).equals(pos)))
 				.collect(Collectors.toList());
 	}
 
 	public List<Branch> getBranchesByMidPosition(Position pos){
 		return myBranches.stream().filter(
-				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).roughlyEquals(pos) && !n.getPositions().get(n.getPositions().size()-1).roughlyEquals(pos)).collect(Collectors.toList());
+				n-> n.getPositions().contains(pos) && !n.getPositions().get(0).equals(pos) && !n.getPositions().get(n.getPositions().size()-1).equals(pos)).collect(Collectors.toList());
 	}
 
 	public PathGraph copyGraph(){

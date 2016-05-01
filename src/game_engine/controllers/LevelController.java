@@ -1,7 +1,13 @@
 package game_engine.controllers;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+
+import game_engine.affectors.Affector;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
+import game_engine.game_elements.Unit;
 import game_engine.interfaces.ILevelDisplayer;
 
 public class LevelController implements ILevelDisplayer {
@@ -20,6 +26,10 @@ public class LevelController implements ILevelDisplayer {
     
     public Level getCurrentLevel() {
         return myCurrentLevel;
+    }
+    
+    public List<Branch> getCurrentBranches(){
+    	return myCurrentLevel.getBranches();
     }
     
     public void setCurrentLevel(Level currentLevel) {
@@ -90,5 +100,24 @@ public class LevelController implements ILevelDisplayer {
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
+    
+    public List<Unit> getActiveUnitsWithAffector(Class<?> cls){
+		HashSet<Unit> units = new HashSet<>();
+		List<Unit> activeEnemies = myCurrentLevel.getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myCurrentLevel.getCurrentWave().getSpawningUnits();
+		for(Unit e : allEnemies){
+			if(e.isAlive() && e.isAlive() && e.isVisible() && !activeEnemies.contains(e)){
+				activeEnemies.add(e);
+			}
+		}
+		for(Unit e : activeEnemies){
+			for(Affector a : e.getAffectors()){
+				if(a.getClass().equals(cls)){
+					units.add(e);
+				}
+			}
+		}
+		return new ArrayList<>(units);
+	}
     
 }

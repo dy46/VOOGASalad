@@ -5,12 +5,18 @@ import java.io.File;
 public interface IDataConverter<T> {
 	
 	/**
-	 * Returns a string representing the file that the data was saved to.
+	 * @return File that the data was saved to
 	 */
 	public File saveElement(T data);
 	
+	/**
+	 * @return XML file the user selected
+	 */
 	public File chooseXMLFile();
 	
+	/**
+	 * @return The object loaded from file
+	 */
 	public T loadFromFile(File file);
 	
 	public default T loadElement() {

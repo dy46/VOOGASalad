@@ -164,10 +164,5 @@ public class CloudStorageFrontend {
 		animation.setFitWidth(800);
 		return animation;
 	}
-	
-//	private Node buildViewContents() {
-//		myBoxContents = new ListView();
-////		myBoxContents.
-//	}
  	
 }

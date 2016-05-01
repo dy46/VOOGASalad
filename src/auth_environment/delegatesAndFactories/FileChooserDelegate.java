@@ -8,9 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileChooserDelegate {
-	
-	public FileChooserDelegate() {}
-	
+		
     public File chooseFile(String title) {
 		return this.fileFromWindow(this.initChooser(title));
     }

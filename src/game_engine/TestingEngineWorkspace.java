@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
 import game_engine.TestingEngineWorkspace;
-import game_engine.AI.AIHandler;
-import game_engine.AI.AISearcher;
-import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
 import game_engine.controllers.LevelController;
 import game_engine.controllers.UnitController;
@@ -25,13 +22,14 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.interfaces.AIWorkspace;
+import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
 import game_engine.physics.CollisionDetector;
-import game_engine.place_validations.EnemySpawnPointPlaceValidation;
 import game_engine.place_validations.PlaceValidation;
-import game_engine.place_validations.TowerPlaceValidation;
 import game_engine.physics.EncapsulationDetector;
 import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
@@ -42,7 +40,7 @@ import game_engine.wave_goals.EnemyNumberWaveGoal;
 import game_engine.wave_goals.WaveGoal;
 
 
-public class TestingEngineWorkspace implements GameEngineInterface {
+public class TestingEngineWorkspace implements GameEngineInterface, AIWorkspace {
 
 	private int nextWaveTimer;
 	private boolean pause;
@@ -77,20 +75,15 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
-	private AIHandler myAIHandler;
-	private AISimulator myAISimulator;
-	private AISearcher myAISearcher;
+	private AIController myAIController;
 
 	public TestingEngineWorkspace () {
 	};
 
-	public void setUpEngine (TestingGameData test) {
-		myAISimulator = new AISimulator(this);
-		myAISearcher = new AISearcher(this);
-		myAIHandler = new AIHandler(this);
+	public void setUpEngine (IAuthEnvironment test) {
 		score = 0;
 		unitsToRemove = new ArrayList<>();
-		myPlaceValidations = new ArrayList<>();
+		myPlaceValidations = test.getPlaceValidations();
 		// myPlaceValidations.add(new TowerPlaceValidation(this));
 		waveGoal = new EnemyNumberWaveGoal();
 		scoreUpdate = new EnemyDeathScoreUpdate();
@@ -130,8 +123,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 				myTowerFactory.createTackTower("Tack_Tower", myProjectiles,
 						Collections.unmodifiableList(myTowers),
 						position2, myStore);
-		// myStore.addBuyableTower(t, 100, 1);
-		// myStore.addBuyableTower(t2, 300, 1);
+		myStore.addBuyableUnit(t, (Integer)100);
+		myStore.addBuyableUnit(t2, 300);
 		return new ArrayList<>(Arrays.asList(new Unit[] { t, t2 }));
 	}
 
@@ -304,14 +297,14 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		// myStore.addItem(u, 10);
 	}
 
-//	private List<Unit> makeDummyTerrains () {
-//		List<Unit> ice = makeDummyIceTerrain();
-//		// Unit spike = makeDummySpike();
-//		List<Unit> terrains = new ArrayList<>();
-//		terrains.addAll(ice);
-//		// terrains.add(spike);
-//		return terrains;
-//	}
+	//	private List<Unit> makeDummyTerrains () {
+	//		List<Unit> ice = makeDummyIceTerrain();
+	//		// Unit spike = makeDummySpike();
+	//		List<Unit> terrains = new ArrayList<>();
+	//		terrains.addAll(ice);
+	//		// terrains.add(spike);
+	//		return terrains;
+	//	}
 
 	private List<Unit> makeDummyIceTerrain () {
 		Unit ice1 = myTerrainFactory.getTerrainLibrary().getTerrainByName("Ice_Terrain");
@@ -482,6 +475,10 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return myTerrains;
 	}
 
+	public void saveGame () {
+		// TODO Auto-generated method stub
+	}
+
 	public void playLevel (int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
 		pause = false;
@@ -577,17 +574,8 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		}
 	}
 
-	@Override
-	public List<Branch> getBranchesAtPos (Position pos) {
-		return myAIHandler.getBranchesAtPos(pos);
-	}
-
 	public int getMoney () {
 		return myStore.getMoney();
-	}
-
-	public void updateAIBranches () {
-		myAIHandler.updateAIBranches();
 	}
 
 	@Override
@@ -607,21 +595,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 	}
 
 	@Override
-	public AIHandler getAIHandler() {
-		return myAIHandler;
-	}
-
-	@Override
-	public AISearcher getAISearcher() {
-		return myAISearcher;
-	}
-
-	@Override
-	public AISimulator getAISimulator() {
-		return myAISimulator;
-	}
-
-	@Override
 	public ILevelDisplayer getLevelDisplay() {
 		// TODO Auto-generated method stub
 		return null;
@@ -633,16 +606,20 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return null;
 	}
 
-	@Override
-	public void setUpEngine(IAuthEnvironment data) {
-		// TODO Auto-generated method stub
-		
+	public AIController getAIController(){
+		return null;
 	}
 
 	@Override
-	public void saveGame() {
+	public ICollisionDetector getCollisionDetector() {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public IEncapsulationDetector getEncapsulationDetector() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
