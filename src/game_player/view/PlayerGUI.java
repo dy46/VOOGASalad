@@ -3,6 +3,7 @@ package game_player.view;
 import java.io.File;
 import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
+import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
@@ -34,8 +35,9 @@ public class PlayerGUI {
     private ResourceBundle myResources;
     private GameEngineInterface gameEngine;
     private IMainView myMainView;
-    private IAuthEnvironment currentGame;
+    private File currentGame;
     private MediaPlayer myMusic;
+    private IDataConverter<IAuthEnvironment> writer;
 
     public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
         this.windowWidth = windowWidth;
@@ -70,9 +72,9 @@ public class PlayerGUI {
     }
 
     private IAuthEnvironment readData () {
-        Serializer writer = new Serializer();
-        IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
-        currentGame = gameData;
+        writer = new Serializer<>();
+        currentGame = writer.chooseXMLFile();
+        IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
         System.out.println("SETTING BREAKPOINT");
         return gameData;
     }
@@ -81,7 +83,7 @@ public class PlayerGUI {
 //        gameEngine = new TestingEngineWorkspace();
 //        gameEngine.setUpEngine(null);
     	createNewEngine(data);
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, currentGame, this,
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
                                                                               .getTab();
@@ -107,7 +109,7 @@ public class PlayerGUI {
     
     public void restartGame() {
     	deleteCurrentTab();
-    	createNewTab(currentGame);
+    	createNewTab(writer.loadFromFile(currentGame));
     }
     
     public void setMusic(String name) {

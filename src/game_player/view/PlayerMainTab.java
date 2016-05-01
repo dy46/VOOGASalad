@@ -53,7 +53,6 @@ public class PlayerMainTab implements IPlayerTab {
     private Scene myScene;
     private IMainView myMainView;
     private String tabName;
-    private IAuthEnvironment authEnvironment;
     private PlayerGUI myGUI;
     private VBox gameSection;
     private VBox configurationPanel;
@@ -67,7 +66,6 @@ public class PlayerMainTab implements IPlayerTab {
                           ResourceBundle r,
                           Scene scene,
                           IMainView main,
-                          IAuthEnvironment data,
                           PlayerGUI GUI,
                           String tabName) {
         this.gameEngine = engine;
@@ -79,7 +77,6 @@ public class PlayerMainTab implements IPlayerTab {
         this.gameData = new GameDataSource();
         this.myScene = scene;
         this.myMainView = main;
-        this.authEnvironment = data;
         this.myGUI = GUI;
         this.tabName = tabName;
         this.gameData.setDoubleValue("High Score", 0);

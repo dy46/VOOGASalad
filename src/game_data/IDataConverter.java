@@ -1,10 +1,20 @@
 package game_data;
 
+import java.io.File;
+
 public interface IDataConverter<T> {
 	
-	public void saveElement(T gameElement);
+	/**
+	 * Returns a string representing the file that the data was saved to.
+	 */
+	public File saveElement(T data);
 	
-	public T loadElement();
+	public File chooseXMLFile();
 	
+	public T loadFromFile(File file);
+	
+	public default T loadElement() {
+		return loadFromFile(chooseXMLFile());
+	}
 	
 }
