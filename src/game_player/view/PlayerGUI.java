@@ -19,76 +19,75 @@ import main.IMainView;
 public class PlayerGUI {
 
 	private static final String DEFAULT_CSS = "PlayerTheme1.css";
-    private static final String DEFAULT_PACKAGE = "game_player/view/";
-    private static final double TABS_OFFSET = 0;
-    private static final double NEWTAB_OFFSET = 33;
-    private static final String GUI_RESOURCE = "game_player/resources/GUI";
-    private int windowWidth;
-    private int windowHeight;
-    private Scene myScene;
-    private AnchorPane myRoot;
-    private TabPane myTabs;
-    private ResourceBundle myResources;
-    private GameEngineInterface gameEngine;
-    private IMainView myMainView;
+	private static final String DEFAULT_PACKAGE = "game_player/view/";
+	private static final double TABS_OFFSET = 0;
+	private static final double NEWTAB_OFFSET = 33;
+	private static final String GUI_RESOURCE = "game_player/resources/GUI";
+	private int windowWidth;
+	private int windowHeight;
+	private Scene myScene;
+	private AnchorPane myRoot;
+	private TabPane myTabs;
+	private ResourceBundle myResources;
+	private GameEngineInterface gameEngine;
+	private IMainView myMainView;
 
-    public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
-        this.windowWidth = windowWidth;
-        this.windowHeight = windowHeight;
-        this.myMainView = main;
-        this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
-    }
+	public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
+		this.windowWidth = windowWidth;
+		this.windowHeight = windowHeight;
+		this.myMainView = main;
+		this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
+	}
 
-    public Scene createPlayerScene () {
-        myRoot = new AnchorPane();
-        myTabs = new TabPane();
+	public Scene createPlayerScene () {
+		myRoot = new AnchorPane();
+		myTabs = new TabPane();
 
-        myScene = new Scene(myRoot, windowWidth, windowHeight);
-        
-        myScene.setCursor(new ImageCursor(new Image("mousecursor.png")));
+		myScene = new Scene(myRoot, windowWidth, windowHeight);
 
-        // TODO: Create resource file for UI text.
-        Button newTabButton = new Button(myResources.getString("NewTabText"));
-        newTabButton.setOnAction(event -> createNewTab());
+		myScene.setCursor(new ImageCursor(new Image("mousecursor.png")));
 
-        createNewTab();
+		// TODO: Create resource file for UI text.
+		Button newTabButton = new Button(myResources.getString("NewTabText"));
+		newTabButton.setOnAction(event -> createNewTab());
 
-        AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
-        AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
-        AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
+		createNewTab();
 
-        myScene.getStylesheets().add(DEFAULT_PACKAGE + DEFAULT_CSS);
-        myScene.getRoot().getStyleClass().add("background");
+		AnchorPane.setTopAnchor(myTabs, TABS_OFFSET);
+		AnchorPane.setTopAnchor(newTabButton, NEWTAB_OFFSET);
+		AnchorPane.setRightAnchor(newTabButton, TABS_OFFSET);
 
-        myRoot.getChildren().addAll(myTabs, newTabButton);
+		myScene.getStylesheets().add(DEFAULT_PACKAGE + DEFAULT_CSS);
+		myScene.getRoot().getStyleClass().add("background");
 
-        return myScene;
-    }
+		myRoot.getChildren().addAll(myTabs, newTabButton);
 
-    private IAuthEnvironment readData () {
-        Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
-        IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
-        return gameData;
-    }
+		return myScene;
+	}
 
-    protected void createNewTab () {
-    	createNewEngine();
-        Tab tab = new PlayerMainTab( gameEngine, myResources, myScene, myMainView, this,
-                                    myResources.getString("TabName") + (myTabs.getTabs().size() + 1) ).getTab();
-        myTabs.getTabs().add(tab);
-        myTabs.getSelectionModel().select(tab);
-    }
-    
-    private void createNewEngine() {
-        gameEngine = new EngineWorkspace();
-        TestingGameData testData = new TestingGameData();
-//        gameEngine.setUpEngine(readData());
-        gameEngine.setUpEngine(testData);
-    }
-    
-    public void loadNewTab() {
-    	Tab tab = myTabs.getSelectionModel().getSelectedItem();
-    	myTabs.getTabs().remove(tab);
-    	createNewTab();
-    }
+	private IAuthEnvironment readData () {
+		Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
+		IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
+		return gameData;
+	}
+
+	protected void createNewTab () {
+		createNewEngine();
+		Tab tab = new PlayerMainTab( gameEngine, myResources, myScene, myMainView, this,
+				myResources.getString("TabName") + (myTabs.getTabs().size() + 1) ).getTab();
+		myTabs.getTabs().add(tab);
+		myTabs.getSelectionModel().select(tab);
+	}
+
+	private void createNewEngine() {
+		gameEngine = new EngineWorkspace();
+		//        TestingGameData testData = new TestingGameData();
+		gameEngine.setUpEngine(readData());
+	}
+
+	public void loadNewTab() {
+		Tab tab = myTabs.getSelectionModel().getSelectedItem();
+		myTabs.getTabs().remove(tab);
+		createNewTab();
+	}
 }

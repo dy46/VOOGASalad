@@ -91,6 +91,9 @@ public class UnitController {
     }
 
     public List<Unit> getUnitType (String type) {
+    	if(myPlacedUnits == null){
+    		return new ArrayList<>();
+    	}
         return myUnitUtility.getUnitsWithType(myPlacedUnits, type);
     }
 

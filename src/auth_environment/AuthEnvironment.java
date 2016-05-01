@@ -5,6 +5,7 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
+import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.StoreFactory;
@@ -144,6 +145,12 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setPlacedUnits(List<Unit> units) {
 		myPlacedUnits = units;
+	}
+	
+	@Override
+	public List<Affector> getAffectors() {
+	    System.out.println(myAffectorFactory.getAffectorLibrary().getAffectors());
+		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 	
 	@Override

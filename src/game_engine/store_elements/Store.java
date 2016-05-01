@@ -33,8 +33,8 @@ public class Store implements IStore{
     }
     
     @Override
-    public void addBuyableUnit (Unit t, Integer cost) {
-        buyableUnits.put(t, cost);
+    public void addBuyableUnit (Unit t, double cost) {
+        buyableUnits.put(t, new Integer((int) cost));
         nameToOriginalInstance.put(t.toString(), t);
     }
     

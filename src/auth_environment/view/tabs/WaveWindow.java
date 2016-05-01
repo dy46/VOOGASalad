@@ -53,8 +53,8 @@ public class WaveWindow {
 		showWindow(level, wave, title);
 		int index = 0;
 		Button dummyButton = new Button();
-		ComboBox dummyCBox = new ComboBox(); 
-		dummyCBox.setValue("test");
+		ComboBox<String> dummyCBox = new ComboBox<>(); 
+		dummyCBox.setValue("");
 		addNewElementSpace(index, myLeftGridPane, dummyButton, dummyCBox, true);
 		addNewElementSpace(index, myRightGridPane, dummyButton, dummyCBox, false);
 		Button ok = new Button("Ok");
@@ -107,7 +107,7 @@ public class WaveWindow {
 		
 	}
 	
-	private void addNewElementSpace(int index, GridPane newTableInfo, Button dButton, ComboBox cBox, boolean makeInputField){
+	private void addNewElementSpace(int index, GridPane newTableInfo, Button dButton, ComboBox<String> cBox, boolean makeInputField){
 		if(cBox.getValue() != null){
 			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
@@ -129,7 +129,7 @@ public class WaveWindow {
 		}
 	}
 	
-	private Node addSpawnTimeHBox(boolean makeSTBox, ComboBox cBox){
+	private Node addSpawnTimeHBox(boolean makeSTBox, ComboBox<String> cBox){
 		if(makeSTBox){
 			HBox hbox = new HBox();
 			hbox.getChildren().add(cBox);
