@@ -4,10 +4,7 @@ import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
 import game_player.view.GameCanvas;
-import game_player.view.PlayerMainTab;
 import javafx.scene.Scene;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.MediaPlayer;
 import main.IMainView;
 
 
