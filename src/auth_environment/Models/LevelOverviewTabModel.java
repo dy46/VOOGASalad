@@ -7,6 +7,7 @@ import java.util.Map;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
+import exceptions.WompException;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Wave;
 
@@ -53,7 +54,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     @Override
     public void changeEditedLevel(int editLevel){
         if(!this.checkBounds(editLevel-1)){
-            // TODO: throw an exception for the front-end
+        	new WompException("Out of bounds").displayMessage();
         }
         this.myCurrentLevelIndex = editLevel-1;
     }
@@ -100,7 +101,6 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
         this.myCreatedWaves.put(levelPlusWaveName, wave);
         int levelNum = Integer.parseInt(levelPlusWaveName.split(" ")[0]); 
         this.getCreatedLevels().get(levelNum-1).addWave(wave);
-//        System.out.println("New wave " + wave.toString() + " added to level " + levelNum);
         this.submit();
     }
 

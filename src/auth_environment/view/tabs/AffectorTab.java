@@ -56,7 +56,7 @@ public class AffectorTab extends ElementTab{
                         setUp();
                 }
                 catch(NumberFormatException e){
-                        return;
+                    return;
                 }
         }
 

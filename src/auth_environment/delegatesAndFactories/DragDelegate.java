@@ -22,29 +22,19 @@ import javafx.scene.shape.Circle;
 
 public class DragDelegate {
 
-	public DragDelegate() {
-	}
-
 	public void addUnitViewSource(UnitView source) {
 		
-		// TODO: remove print statements
 		source.setOnDragDetected(event -> {
 			Dragboard db = source.startDragAndDrop(TransferMode.COPY);
 			ClipboardContent content = new ClipboardContent();
 			source.setId(this.getClass().getSimpleName() + System.currentTimeMillis());
 			content.putImage(source.getImage());
 			content.putString(source.getId());
-			System.out.println(source.getId());
 			db.setContent(content);
 			event.consume();
 		});
 		
-		source.setOnDragDone(event -> {
-			if (event.getTransferMode() == TransferMode.COPY) {
-				System.out.println("Drag completed for source");
-			}
-			event.consume();
-		});
+		source.setOnDragDone(event -> event.consume());
 
 	}
 

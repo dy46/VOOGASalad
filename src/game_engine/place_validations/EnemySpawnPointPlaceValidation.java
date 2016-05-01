@@ -6,7 +6,6 @@ import game_engine.properties.Position;
 /**
  * This class validates the spawn point of an enemy.
  * 
- * @author adamtache
  *
  */
 

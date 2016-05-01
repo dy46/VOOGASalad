@@ -7,6 +7,7 @@ import com.twilio.sdk.TwilioRestException;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import exceptions.WompException;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -83,9 +84,9 @@ public class CloudStorageFrontend {
 			try {
 				myCloudStorage.uploadFolder(path);
 			} catch (FileNotFoundException e) {
-				System.out.println(myNamesBundle.getString("nullFileMessage"));
+				new WompException(myNamesBundle.getString("nullFileMessage")).displayMessage();
 			} catch (TwilioRestException e) {
-				System.out.println(myNamesBundle.getString("twilioErrorMessage"));
+				new WompException(myNamesBundle.getString("twilioErrorMessage")).displayMessage();
 			}
 			printResults(myCloudStorage);
 		}
@@ -97,7 +98,7 @@ public class CloudStorageFrontend {
 	        try {
 				myCloudStorage.uploadFile(f.getAbsolutePath(), f.getName());
 			} catch (FileNotFoundException e) {
-				System.out.println(myNamesBundle.getString("nullFileMessage"));
+				new WompException(myNamesBundle.getString("nullFileMessage")).displayMessage();
 			}
 	        printResults(myCloudStorage);
         }
@@ -113,7 +114,7 @@ public class CloudStorageFrontend {
 					myNamesBundle.getString("authToken"), 
 					myNamesBundle.getString("twilioNumber"));
 		} catch (Exception e) {
-			System.out.println(myNamesBundle.getString("invalidKeyMessage")); 
+			new WompException(myNamesBundle.getString("invalidKeyMessage")).displayMessage();
 		}
 	}
 	
@@ -137,12 +138,11 @@ public class CloudStorageFrontend {
 	}
 	
 	private void printResults (CloudStorage c) {
-        System.out.println(c.getCurrentFiles());
         c.listFolders();
         try {
 			c.notify(myNamesBundle.getString("newFilesMessage"));
 		} catch (TwilioRestException e) {
-			System.out.println(myNamesBundle.getString("twilioErrorMessage"));
+			new WompException(myNamesBundle.getString("twilioErrorMessage")).displayMessage();
 		}
 	}
 	
@@ -164,15 +164,13 @@ public class CloudStorageFrontend {
 	}
 
 	private Node buildViewContents() {
-		myBoxContents = new ListView();
+		myBoxContents = new ListView<String>();
 		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.toString()!=null) {
-				System.out.println(newValue.toString());
 				try {
 					this.myCloudStorage.downloadFromCurrent(processName(newValue.toString()), this.location);
 				} catch (Exception e) {
-					System.out.println(myNamesBundle.getString("boxErrorMessage"));
-					e.printStackTrace();
+					new WompException(myNamesBundle.getString("boxErrorMessage")).displayMessage();
 				}
 			}
 		});

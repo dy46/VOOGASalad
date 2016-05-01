@@ -13,7 +13,7 @@ import game_engine.interfaces.ILevelDisplayer;
 /**
  * This class is a controller for the levels in games.
  * 
- * @author adamtache
+ * @author andy
  *
  */
 
@@ -28,7 +28,7 @@ public class LevelController implements ILevelDisplayer {
         this.myLevels = levels;
         this.score = score;
         this.paused = false;
-        this.myCurrentLevel = this.myLevels.get(currentLevelIndex);
+        this.myCurrentLevel = this.myLevels.get(0);
     }
     
     public Level getCurrentLevel() {

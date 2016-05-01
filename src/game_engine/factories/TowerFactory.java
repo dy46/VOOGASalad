@@ -12,7 +12,6 @@ import game_engine.properties.Health;
 import game_engine.properties.Mass;
 import game_engine.properties.Movement;
 import game_engine.properties.Position;
-import game_engine.properties.Price;
 import game_engine.properties.State;
 import game_engine.properties.UnitProperties;
 import game_engine.properties.Velocity;

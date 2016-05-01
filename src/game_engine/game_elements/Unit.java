@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.properties.Movement;
-import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
@@ -14,7 +12,6 @@ import game_engine.properties.UnitProperties;
  * It represents any physical game unit and holds its ID, UnitProperties, and list of current
  * Affectors to be applied.
  * 
- * @author adamtache
  *
  */
 public class Unit extends GameElement {
@@ -36,39 +33,38 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = new UnitProperties();
-        myBaseProperties = myProperties.copyUnitProperties();
+        setMyBaseProperties(myProperties.copyUnitProperties());
         elapsedTime = 0;
         this.numFrames = numFrames;
         addAffectors(affectors);
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
-        this.TTL = Integer.MAX_VALUE;
     }
     public Unit (String name, UnitProperties unitProperties, int numFrames) {
         super(name);
         initialize();
         myProperties = unitProperties;
-        myBaseProperties = unitProperties.copyUnitProperties();
+        setMyBaseProperties(unitProperties.copyUnitProperties());
         elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
-        this.TTL = Integer.MAX_VALUE;
     }
 
     public Unit (String name, int numFrames) {
         super(name);
         initialize();
         myProperties = new UnitProperties();
-        myBaseProperties = myProperties.copyUnitProperties();
+        setMyBaseProperties(myProperties.copyUnitProperties());
         elapsedTime = 0;
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
-        this.TTL = Integer.MAX_VALUE;
     }
+    
     public String getType(){
     	return this.getName().split("\\s+")[0];
     }
+    
     public Unit copyUnit () {
         Unit copy = this.copyShallowUnit();
         List<Unit> copiedChildren =
@@ -106,7 +102,6 @@ public class Unit extends GameElement {
     }
 
     public void update () {
-//        System.out.println(myAffectors);
         myChildren.stream().forEach(p -> p.incrementElapsedTime(1));
         if (isVisible()) {
             elapsedTime++;
@@ -170,7 +165,10 @@ public class Unit extends GameElement {
     }
 
     public boolean isVisible () {
-        return this.getTTL() >= this.getElapsedTime();
+        if(this.getElapsedTime() == Integer.MAX_VALUE) {
+            return false;
+        }
+        return this.getTTL() > this.getElapsedTime();
     }
 
     public void incrementElapsedTime (int i) {
@@ -266,5 +264,12 @@ public class Unit extends GameElement {
             }
         }
     }
+    
+	public UnitProperties getMyBaseProperties() {
+		return myBaseProperties;
+	}
+	public void setMyBaseProperties(UnitProperties myBaseProperties) {
+		this.myBaseProperties = myBaseProperties;
+	}
 
 }

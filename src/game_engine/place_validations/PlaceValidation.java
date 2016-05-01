@@ -6,7 +6,7 @@ import game_engine.game_elements.Unit;
 /**
  * This is an abstract class allowing for place validation checks of any kind.
  * 
- * @author adamtache
+ * @Andy
  *
  */
 

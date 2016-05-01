@@ -26,10 +26,10 @@ public abstract class ElementTab extends Tab{
         }
         
         private void init(){
-                this.myPane = new BorderPane();
-                this.setContent(myPane);
-                myCreator = new FrontEndCreator();
-            this.setClosable(false);
+        	this.myPane = new BorderPane();
+        	this.setContent(myPane);
+        	myCreator = new FrontEndCreator();
+        	this.setClosable(false);
         }
         
         public void setUp(){
@@ -137,7 +137,7 @@ public abstract class ElementTab extends Tab{
 	}	
 	
 	public List<String> comboListToStringList(List<ComboBox<String>> comboList){
-		List<String> list = new ArrayList<>();
+		List<String> list = new ArrayList<String>();
 		comboList.stream().forEach(s-> list.add(s.getValue()));
 		return list;
 	}

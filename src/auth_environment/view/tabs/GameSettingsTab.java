@@ -126,7 +126,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	private Node buildCloudStorage() {
 		Button cloud = myNodeFactory.buildButton(myNamesBundle.getString("cloudButtonLabel"));
 		cloud.setOnAction(e -> {
-			CloudStorageFrontend c = new CloudStorageFrontend(); 
+			new CloudStorageFrontend(); 
 		});
 		return cloud;
 	}
@@ -146,6 +146,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				e -> myMainView.displayPlayer());
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Node buildChooseScore() {
 		ComboBox<String> chooseScore = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getScoreUpdateNames(),
 				event -> {
@@ -156,6 +157,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return addToVBox(chooseScore, myNamesBundle.getString("scoreUpdateLabel"));
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Node buildChooseWaveGoal() {
 		ComboBox<String> chooseWaveGoal = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getWaveGoalNames(), event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
@@ -164,6 +166,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return addToVBox(chooseWaveGoal, myNamesBundle.getString("waveGoalLabel"));
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Node buildChoosePlaceValidation() {
 		ComboBox<String> choosePlaceValidation = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getPlaceValidationNames(),
 				event -> {

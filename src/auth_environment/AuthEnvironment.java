@@ -149,7 +149,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Affector> getAffectors() {
-	    System.out.println(myAffectorFactory.getAffectorLibrary().getAffectors());
 		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 	
@@ -220,7 +219,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public StoreFactory getStoreFactory() {
 		return myStoreFactory; 
 	}
-	
+
 	@Override
 	public int getCurrentWaveIndex() {
 		return myCurrentWaveIndex;

@@ -76,13 +76,6 @@ public class PathTabModel implements IPathTabModel {
 		submit();
 	}
 
-	@Override
-	public void printCurrentPositions() {
-		for(Branch b : myMapHandler.getBranches()){
-			b.getPositions().stream().forEach(s -> System.out.println(s.getX() + " " + s.getY()));
-		}
-	}
-
 	private void submit() {
 		myAuthData.setMapHandler(myMapHandler);
 	}

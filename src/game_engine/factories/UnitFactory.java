@@ -45,6 +45,7 @@ public class UnitFactory {
         velocityList.addAll(inputs.get("Direction"));
         newProperties.getVelocity().setValues(velocityList);
         Unit unit = createUnit(getName(type, unitType), newProperties, inputs.get("NumFrames").get(0).intValue());
+        unit.setTTL(inputs.get("TTL").get(0).intValue());
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));       
@@ -62,10 +63,8 @@ public class UnitFactory {
     public List<Affector> getAffectorsFromString (List<String> names) {
     	names.removeIf(n -> n == null);
         List<Affector> affectors = new ArrayList<>();
-        System.out.println("AFFECTOR NAMES ARE" + names);
         names.stream().forEach(n -> {
         	affectors.add(myAffectorLibrary.getAffector(n));
-        	System.out.println(n);
         });
         return affectors;
     }

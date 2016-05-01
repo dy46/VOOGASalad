@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
+import exceptions.WompException;
 import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.place_validations.PlaceValidation;
@@ -20,9 +21,6 @@ import game_engine.wave_goals.WaveGoal;
  * This Tab is for customizing Global Game settings + Saving/Loading. Will need the entire IEngineWorkspace passed
  * in so that it can be saved/loaded. 
  */
-
-//TODO: Better Error Checking
-// TODO: check that loading GameData is reflected at AuthViewModel level (one level above this Model) 
 
 public class GameSettingsTabModel implements IGameSettingsTabModel {
 	
@@ -47,7 +45,6 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 
 	@Override
 	public void loadFromFile() {
-		// TODO: add error checking
 		this.myAuthModel.setIAuthEnvironment((IAuthEnvironment) writer.loadElement());
 	}
 
@@ -91,7 +88,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName("game_engine.score_updates." + selectedItem + "ScoreUpdate").getConstructor().newInstance());
 		} catch (Exception e) {
-			System.out.println(myNamesBundle.getString("scoreUpdateError"));
+			new WompException(myNamesBundle.getString("scoreUpdateError")).displayMessage();
 		}
 	}
 
@@ -100,7 +97,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName("game_engine.wave_goals." + selectedItem + "WaveGoal").getConstructor().newInstance());
 		} catch (Exception e) { 
-			System.out.println(myNamesBundle.getString("waveGoalError"));
+			new WompException(myNamesBundle.getString("waveGoalError")).displayMessage();
 		}
 	}
 
@@ -109,7 +106,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().getPlaceValidations().add( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
 		} catch (Exception e) {
-			System.out.println(myNamesBundle.getString("placeValidationError"));
+			new WompException(myNamesBundle.getString("placeValidationError")).displayMessage();
 		}
 		
 	}

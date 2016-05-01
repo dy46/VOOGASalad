@@ -15,13 +15,18 @@ import game_engine.properties.Position;
 
 import java.util.List;
 
-/*
- * Internal API that will be used in order to represent paths 
- * for enemy movements.
+/**
+ * A Branch a list of positions and a list of neighbors.
+ * Branches are data structures for search problems.
+ * A search problem runs on a list of branches, with nodes as the end points and edges as positions in between.
+ * Branches are bidirectional and allow units to turn around mid-edge in the graph.
+ *
+ * @author adamtache
  */
 
 public class Branch implements Serializable{
-
+	private static final long serialVersionUID = 1L;
+	
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;
@@ -75,6 +80,12 @@ public class Branch implements Serializable{
 		setNextPositions();
 	}
 	
+	/*
+	 * Takes in a list of positions, generates the interpolated points, and adds them to next position maps.
+	 * Allows for bi-directional traveling on the Branch.
+	 * 
+	 * @author Paul
+	 */
 	private void setNextPositions(){
 		int size = cycle ? myPositions.size() : myPositions.size() - 1;
 		if(myPositions.size() < 1){
@@ -111,6 +122,8 @@ public class Branch implements Serializable{
 	 * an Enemy needs to move in next.
 	 *
 	 * @return	The next Position in the list of Positions that represent the path being taken.
+	 * 
+	 * @author Paul
 	 */
 	public Position getNextPosition(Position currentPosition, Position moveTowards){
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){
@@ -227,6 +240,11 @@ public class Branch implements Serializable{
 		return 16;
 	}
 
+	/*
+	 * Serializes the Branch object.
+	 * Branch is part of a graph as it holds a list of neighbors which are also Branches and required a deep copy.
+	 * 
+	 */
 	public Branch copyBranch() {
 		Branch obj = null;
 		try {

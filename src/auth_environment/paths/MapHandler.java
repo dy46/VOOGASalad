@@ -6,6 +6,14 @@ import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
+/**
+ * The MapHandler allows for creation of a "map" on the authoring environment to be passed into the game engine.
+ * A map is represented by a list of branches, goals, and spawn points for Units to interact with.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class MapHandler {
 
 	private PathGraphFactory myPGF;
@@ -20,7 +28,6 @@ public class MapHandler {
 		myBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
-
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals){
