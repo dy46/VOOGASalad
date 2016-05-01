@@ -33,14 +33,14 @@ public class MapHandler {
 	
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
-	private List<Branch> myEngineBranches;
+	private List<Branch> myBranches;
 	private List<Position> myGoals;
 	private List<Position> mySpawns;
 
 	public MapHandler(){
 		myPGF = new PathGraphFactory();
 		myPositionHandler = new PositionHandler();
-		myEngineBranches = new ArrayList<>();
+		myBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
 		createGrid();
@@ -48,7 +48,7 @@ public class MapHandler {
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){
-		myEngineBranches = engineBranches;
+		myBranches = engineBranches;
 		this.mySpawns = spawns; 
 		this.myGoals = goals; 
 		myPGF = new PathGraphFactory(engineBranches);
@@ -61,11 +61,6 @@ public class MapHandler {
 	public void processPositions(List<Position> positions){
 		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);
-	}
-
-	public void splinePositions(List<Position> positions){
-		List<Position> splinedPoints = getSplinedPoints(positions);
-		myPGF.insertBranch(splinedPoints);
 	}
 	
 	public void addSpawn(Position spawn){
@@ -121,17 +116,13 @@ public class MapHandler {
 		addGoal(p11);
 	}
 
-	private List<Position> getSplinedPoints(List<Position> positions){
-		return null;
-	}
-
 	public PathGraphFactory getPGF(){
 		return myPGF;
 	}
 
-	public List<Branch> getEngineBranches() {
-		myEngineBranches.addAll(myPGF.getBranches());
-		return myEngineBranches;
+	public List<Branch> getBranches() {
+		myBranches.addAll(myPGF.getBranches());
+		return myBranches;
 	}
 
 	public List<Position> getGoals() {

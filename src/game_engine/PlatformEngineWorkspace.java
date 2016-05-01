@@ -25,6 +25,8 @@ import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 import game_engine.handlers.AIHandler;
+import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
@@ -71,17 +73,10 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
-	private AIHandler myAIHandler;
-	private AISimulator myAISimulator;
-	private BFSSearcher myAISearcher;
-
 	public PlatformEngineWorkspace() {
 	};
 
 	public void setUpEngine(TestingGameData test) {
-		myAISimulator = new AISimulator(this);
-		myAISearcher = new BFSSearcher(this);
-		myAIHandler = new AIHandler(this);
 		unitsToRemove = new ArrayList<>();
 		new ArrayList<>();
 		// myPlaceValidations.add(new TowerPlaceValidation(this));
@@ -136,7 +131,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level makeDummyLevel() {
 
 		Level l = new Level("Platformer Tower Defense", 20);
-		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Branch>(), new ArrayList<Branch>());
+		MapHandler mh = new MapHandler(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		List<Position> path = new ArrayList<>();
 
@@ -150,7 +145,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		mh.addSpawn(path.get(0));
 		mh.addGoal(path.get(path.size() - 1));
 
-		myBranches = mh.getEngineBranches();
+		myBranches = mh.getBranches();
 		l.setGoals(mh.getGoals());
 		l.setSpawns(mh.getSpawns());
 		Wave w = new Wave("I'm not quite sure what goes here", 0);
@@ -323,9 +318,8 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		return myTerrains;
 	}
 
-	public List<String> saveGame() {
+	public void saveGame() {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public void playLevel(int levelNumber) {
@@ -422,17 +416,8 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		}
 	}
 
-	@Override
-	public List<Branch> getBranchesAtPos(Position pos) {
-		return myAIHandler.getBranchesAtPos(pos);
-	}
-
 	public int getMoney() {
 		return myStore.getMoney();
-	}
-
-	public void updateAIBranches() {
-		myAIHandler.updateAIBranches();
 	}
 
 	@Override
@@ -449,21 +434,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	public Store getStore() {
 		return myStore;
-	}
-
-	@Override
-	public AIHandler getAIHandler() {
-		return myAIHandler;
-	}
-
-	@Override
-	public BFSSearcher getAISearcher() {
-		return myAISearcher;
-	}
-
-	@Override
-	public AISimulator getAISimulator() {
-		return myAISimulator;
 	}
 
 	@Override
@@ -486,6 +456,18 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public AIController getAIController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ICollisionDetector getCollisionDetector() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IEncapsulationDetector getEncapsulationDetector() {
 		// TODO Auto-generated method stub
 		return null;
 	}

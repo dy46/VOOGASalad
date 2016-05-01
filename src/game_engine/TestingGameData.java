@@ -5,10 +5,10 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_data.IGameData;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
@@ -237,12 +237,6 @@ public class TestingGameData implements IAuthEnvironment{
 	}
 
 	@Override
-	public void setBranches(List<Branch> branches) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public AffectorFactory getAffectorFactory() {
 		// TODO Auto-generated method stub
 		return null;
@@ -280,6 +274,36 @@ public class TestingGameData implements IAuthEnvironment{
 
 	@Override
 	public void setMapHandler(MapHandler mapHandler) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public StoreFactory getStoreFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getCurrentWaveIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getCurrentLevelIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setCurrentLevelIndex(int currentLevelIndex) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import game_data.IDataConverter;
+import game_data.Serializer;
 import game_engine.affectors.Affector;
 import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
@@ -39,6 +41,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
     private ScoreUpdate scoreUpdate;
     private List<Unit> unitsToRemove;
     private Position cursorPos;
+    private IAuthEnvironment myData;
 
     public void setUpEngine (IAuthEnvironment data) {
         unitsToRemove = new ArrayList<>();
@@ -49,12 +52,12 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
-        myLevelController = new LevelController(data.getLevels(), data.getScore());
+        myLevelController = new LevelController(data.getLevels(), data.getScore(), data.getCurrentLevelIndex());
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
                 new UnitController(data.getPlacedUnits(), myPlaceValidations,
-                                   data.getStore(), unitsToRemove);
+                					data.getStore(), unitsToRemove);
         myEnemyController = new EnemyController(myLevelController, myUnitController);
         myAIController = new AIController(this);
     }
@@ -66,7 +69,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
         List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
         myUnitController.getStore().clearBuyableUnits();
         placingUnits.stream()
-        .forEach(u -> myStore.addBuyableUnit(u, u.getProperties().getPrice().getValue()));
+        .forEach(u -> myStore.addBuyableUnit(u, 100));
         nextWaveTimer++;
         waveProgression(myCurrentLevel);
         myUnitController.getUnitType("Projectile").forEach(p -> p.update());
@@ -97,9 +100,12 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
         }
     }
 
-    public List<String> saveGame () {
-        // TODO Auto-generated method stub
-        return null;
+    public void saveGame() {
+    	Level currentLevel = myLevelController.getCurrentLevel();
+    	myData.setCurrentLevelIndex( myLevelController.getLevels().indexOf(currentLevel) );
+    	myData.setCurrentWaveIndex( currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()) );
+        IDataConverter<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
+        writer.saveElement(myData);
     }
 
     public List<Affector> getAffectors () {

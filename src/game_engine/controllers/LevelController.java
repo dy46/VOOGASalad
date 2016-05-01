@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import game_engine.affectors.Affector;
+import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.interfaces.ILevelDisplayer;
@@ -16,15 +17,19 @@ public class LevelController implements ILevelDisplayer {
     private double score;
     private boolean paused;
     
-    public LevelController(List<Level> levels, double score) {
+    public LevelController(List<Level> levels, double score, int currentLevelIndex) {
         this.myLevels = levels;
         this.score = score;
         this.paused = false;
-        this.myCurrentLevel = this.myLevels.get(0);
+        this.myCurrentLevel = this.myLevels.get(currentLevelIndex);
     }
     
     public Level getCurrentLevel() {
         return myCurrentLevel;
+    }
+    
+    public List<Branch> getCurrentBranches(){
+    	return myCurrentLevel.getBranches();
     }
     
     public void setCurrentLevel(Level currentLevel) {
