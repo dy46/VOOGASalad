@@ -113,7 +113,8 @@ public class PlayerGUI {
     }
     
     public void loadNextLevel() {
-    	new NextLevelScreen(myResources, this);
+    	NextLevelScreen nextLevel = new NextLevelScreen(myResources, this);
+    	nextLevel.displayScreen();
     }
     
     public void setMusic(String name) {
