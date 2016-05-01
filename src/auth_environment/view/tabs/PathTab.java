@@ -105,7 +105,6 @@ public class PathTab extends Tab implements IWorkspace {
 		return right; 
 	}
 	
-	// Called once, when Tab is first constructed 
 	private Node buildComboBoxes() {
 		VBox vb = buildDefaultVBox(); 
 		myLevelComboBox = new ComboBox<String>();
@@ -142,7 +141,6 @@ public class PathTab extends Tab implements IWorkspace {
 		}
 	}
 
-	// TODO: remove print statements
 	private void buildWaveComboBox(String levelName) {
 		myWaveComboBox.getItems().clear();
 		System.out.println(levelName);
