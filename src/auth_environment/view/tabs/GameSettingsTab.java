@@ -95,8 +95,8 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		myGameNameField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
 		myGameNameField.setOnAction(e -> submitButtonPressed(myGameNameField));
 		
-		Button submitNameButton = myNodeFactory.buildButton(myNamesBundle.getString("submitButtonLabel"));
-		submitNameButton.setOnAction(e -> submitButtonPressed(myGameNameField));
+		Button submitNameButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("submitButtonLabel"), 
+				e -> submitButtonPressed(myGameNameField));
 		
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
@@ -108,8 +108,8 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
-		Button splashButton = myNodeFactory.buildButton(myNamesBundle.getString("chooseSplashLabel"));
-		splashButton.setOnAction(e -> this.chooseSplash());
+		Button splashButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("chooseSplashLabel"), 
+				e -> this.chooseSplash());
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(mySplashPreview, splashButton); 
