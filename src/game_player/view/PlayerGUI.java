@@ -65,19 +65,15 @@ public class PlayerGUI {
     }
 
     private IAuthEnvironment readData () {
-        Serializer writer = new Serializer();
+        Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadElement();
         return gameData;
     }
 
     protected void createNewTab () {
-//        gameEngine = new TestingEngineWorkspace();
-//        gameEngine.setUpEngine(null);
     	createNewEngine();
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
-                                    myResources.getString("TabName") +
-                                                                      (myTabs.getTabs().size() + 1))
-                                                                              .getTab();
+        Tab tab = new PlayerMainTab( gameEngine, myResources, myScene, myMainView, this,
+                                    myResources.getString("TabName") + (myTabs.getTabs().size() + 1) ).getTab();
         myTabs.getTabs().add(tab);
         myTabs.getSelectionModel().select(tab);
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
@@ -56,11 +57,11 @@ public class EngineWorkspace implements GameEngineInterface {
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
-        myAffectors = data.getAffectorFactory().getAffectorLibrary().getAffectors();
+        myAffectors = data.getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
-        myLevelController = new LevelController(data.getLevels(), data.getScore());
+        myLevelController = new LevelController(data.getLevels(), data.getScore(), data.getCurrentLevelIndex());
         myLevelController.setCurrentWave(data.getCurrentWaveIndex());
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
@@ -111,8 +112,9 @@ public class EngineWorkspace implements GameEngineInterface {
 
     public void saveGame() {
     	Level currentLevel = myLevelController.getCurrentLevel();
+    	myData.setCurrentLevelIndex( myLevelController.getLevels().indexOf(currentLevel) );
     	myData.setCurrentWaveIndex( currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()) );
-        Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
+        IDataConverter<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
         writer.saveElement(myData);
     }
 

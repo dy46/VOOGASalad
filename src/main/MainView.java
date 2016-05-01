@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 import auth_environment.view.AuthView;
 import auth_environment.view.Welcome;
 import game_player.view.PlayerGUI;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
