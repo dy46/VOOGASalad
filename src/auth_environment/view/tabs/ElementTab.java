@@ -10,10 +10,8 @@ import auth_environment.Models.ElementTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
-import game_engine.affectors.Affector;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -27,7 +25,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class ElementTab extends Tab{
 	 
@@ -253,9 +250,9 @@ public class ElementTab extends Tab{
 		strTextMap.get("Price").setText(unit.getProperties().getPrice().getValue()+""); //
 		strTextMap.get("State").setText(unit.getProperties().getState().getValue()+"");
 		strTextMap.get("Health").setText(unit.getProperties().getHealth().getValue()+"");
-		List<Affector> affectors = unit.getAffectors();
-		List<Affector> ata = unit.getAffectorsToApply();
-		List<Unit> children = unit.getChildren();
+//		List<Affector> affectors = unit.getAffectors();
+//		List<Affector> ata = unit.getAffectorsToApply();
+//		List<Unit> children = unit.getChildren();
 	}
 	
 
