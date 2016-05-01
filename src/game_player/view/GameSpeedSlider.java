@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 import game_player.GameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

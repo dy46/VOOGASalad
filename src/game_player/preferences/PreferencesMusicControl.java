@@ -25,12 +25,13 @@ public class PreferencesMusicControl implements IGUIObject {
 	private GameDataSource myGameData;
 	private IGameView myView;
 	private MediaPlayer myMusic;
+	private PlayerGUI myGUI;
 	
 	public PreferencesMusicControl(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;
-        myMusic = myView.getMusic();
+        myGUI = GUI;
     }
 
 	@Override
@@ -52,6 +53,7 @@ public class PreferencesMusicControl implements IGUIObject {
 	}
 	
 	private void switchGameMusic() {
+		myMusic = myGUI.getMusic();
 		if (myMusic.getStatus() == Status.PAUSED) {
 			myMusic.play();
 		} else {

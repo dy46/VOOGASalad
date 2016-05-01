@@ -1,6 +1,5 @@
 package game_player.view;
 
-import java.util.List;
 import java.util.ResourceBundle;
 
 import game_player.GameDataSource;

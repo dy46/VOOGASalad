@@ -7,14 +7,11 @@ import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 
 public class GameStatusDisplay implements IGUIObject {
-
-    private static final int VBOX_PADDING = 10;
-    private static final String HIGH_SCORE = "High Score";
+	
     private ResourceBundle myResources;
     private Label statusLabel;
     private GameDataSource myGameData;

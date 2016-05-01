@@ -1,7 +1,5 @@
 package game_player.view;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import game_engine.GameEngineInterface;

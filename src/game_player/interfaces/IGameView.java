@@ -4,6 +4,7 @@ import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
 import game_player.view.GameCanvas;
+import game_player.view.PlayerMainTab;
 import javafx.scene.Scene;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
@@ -26,8 +27,6 @@ public interface IGameView {
 
     void toggleGame ();
 
-    void changeColorScheme (int colorIndex);
-
     void changeGameSpeed (double gameSpeed);
 
     GameEngineInterface getGameEngine ();
@@ -47,10 +46,6 @@ public interface IGameView {
     IMainView getMainView();
     
     void setCSS(String fileName);
-    
-    MediaPlayer getMusic();
-    
-    void setMusic(String song);
     
     GameCanvas getCanvas();
     

@@ -46,42 +46,15 @@ public class OptionsMenu extends PlayerMenu {
     }
 
     protected void restartGame () {
-        myView.restartGame();
+        myGUI.restartGame();
     }
 
     protected void saveGame () {
-        menuStage = new Stage();
-        FileChooser fileChooser = new FileChooser();
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file = fileChooser.showSaveDialog(menuStage);
-        // TODO: incorporate xstream
-        try {
-            saveFile("Hello", file);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    	myView.getGameEngine().saveGame();
     }
 
     protected void loadGame () {
         myGUI.loadNewTab();
-    }
-
-    protected void saveFile (Object content, File file) {
-        try {
-            FileWriter fileWriter = null;
-
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content.toString());
-            fileWriter.close();
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
     
     protected void returnToAuth() {

@@ -2,7 +2,9 @@ package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import auth_environment.IAuthEnvironment;
+import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -12,18 +14,15 @@ import game_player.display_views.RangeDisplayView;
 import game_player.interfaces.IGameView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.MediaPlayer;
 import main.IMainView;
 
 
 public class GameView implements IGameView {
 
-    private static final String DEFAULT_CSS = "PlayerTheme1.css";
     private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
     private Scene myScene;
@@ -32,6 +31,7 @@ public class GameView implements IGameView {
     private GameEngineInterface playerEngineInterface;
     private RangeDisplayView rangeDisplayView;
     private List<ImageView> paths;
+    private IAuthEnvironment authEnvironment;
     private PlayerMainTab myTab;
     private GameHUD myHUD;
     private int timer;
@@ -41,12 +41,14 @@ public class GameView implements IGameView {
     private boolean timerStatus;
     private boolean isPlaying;
     private GameCanvas myCanvas;
+    private PlayerGUI myGUI;
 
     public GameView (GameEngineInterface engine,
                      GameCanvas canvas,
                      GameHUD hud,
                      Scene scene,
-                     PlayerMainTab tab) {
+                     PlayerMainTab tab,
+                     PlayerGUI GUI) {
     	this.myScene = scene;
     	this.myCanvas = canvas;
         this.myPane = canvas.getRoot();
@@ -55,6 +57,7 @@ public class GameView implements IGameView {
         this.paths = new ArrayList<>();
         this.myTab = tab;
         this.myHUD = hud;
+        this.myGUI = GUI;
         setUpEventHandlers(scene);
         setUpSpeed();
         setUpHUD();
@@ -87,6 +90,10 @@ public class GameView implements IGameView {
         AT = new AnimationTimer() {
             public void handle (long currentNanoTime) {
                 if (isPlaying) {
+                	if (playerEngineInterface.getLevelController().isGameOver()) {
+                		AT.stop();
+                		playNextLevel();
+                	}
                     timer++;
                     updateEngine();
                     placePath();
@@ -134,6 +141,10 @@ public class GameView implements IGameView {
             timerStatus = true;
         }
     }
+    
+    public void playNextLevel() {
+    	
+    }
 
     public void changeGameSpeed (double gameSpeed) {
         this.myUpdateSpeed = gameSpeed;
@@ -169,12 +180,8 @@ public class GameView implements IGameView {
     	return this.myScene;
     }
 
-    public void changeColorScheme (int colorIndex) {
-        // TODO Auto-generated method stub
-    }
-
     public void restartGame () {
-        // TODO Auto-generated method stub
+    	myGUI.restartGame();
     }
     
     public IMainView getMainView() {
@@ -183,14 +190,6 @@ public class GameView implements IGameView {
     
     private void clearCSS() {
     	myScene.getStylesheets().clear();
-    }
-    
-    public MediaPlayer getMusic() {
-    	return myTab.getMusic();
-    }
-    
-    public void setMusic(String song) {
-    	myTab.setMusic(song);
     }
     
     public GameCanvas getCanvas() {
