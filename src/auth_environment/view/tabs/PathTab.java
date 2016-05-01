@@ -13,7 +13,6 @@ import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
 import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
