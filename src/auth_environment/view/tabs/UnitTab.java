@@ -91,6 +91,7 @@ public class UnitTab extends ElementTab{
     	for(String str: strTextMap.keySet()){
     		List<Double> val = new ArrayList<>();  		
     		String[] strings = strTextMap.get(str).getText().trim().split(getLabelsBundle().getString("regex"));
+    		System.out.println(Arrays.asList(strings));
     		Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
     		strToDoubleMap.put(str, val);
     	}
