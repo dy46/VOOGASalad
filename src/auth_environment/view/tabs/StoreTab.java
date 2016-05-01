@@ -4,7 +4,6 @@ import java.util.*;
 
 import auth_environment.Models.StoreTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.Models.Interfaces.IStoreTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -23,7 +22,6 @@ public class StoreTab extends Tab implements IWorkspace {
 	private BorderPane myRoot;
 	private GridPane myGrid;
 	private StoreTabModel myStoreTabModel;
-	//private IStoreTabModel myStoreTabModelInterface;
 	private IAuthModel myAuthModel;
 	private List<ComboBox<String>> unitList;
 	private List<TextField> costList;
@@ -47,8 +45,6 @@ public class StoreTab extends Tab implements IWorkspace {
 		setRefresh();
 		int index = 0;
 		Button dummyButton = new Button("");
-		// ComboBox dummyCBox = new ComboBox();
-		// dummyCBox.setValue("test");
 		createProductList(index, myGrid, dummyButton);
 		myRoot.setLeft(myGrid);
 		done = new Button(myNamesBundle.getString("storeDoneButton"));
@@ -121,18 +117,7 @@ public class StoreTab extends Tab implements IWorkspace {
 		done.setOnAction(e -> updateBuyables());
 	}
 
-	// THIS NEEDS TO BE CHANGED
 	private void updateBuyables() {
-		/*
-		 * List<String> names = new ArrayList<String>(); List<Integer> costs =
-		 * new ArrayList<Integer>(); for(int i = 0; i < unitList.size(); i++){
-		 * System.out.println("Store test: " + unitList.get(i).getValue());
-		 * names.add(unitList.get(i).getValue());
-		 * costs.add(Integer.parseInt(costList.get(i).getText())); }
-		 * myStoreTabModel.addBuyableUnits(names, costs); System.out.println(
-		 * "Values updated to back-end");
-		 */
-
 		for (NameAffectorCostSet nacs : nameAffectorCostSets) {
 			if (nacs.getName() == null)
 				continue;
@@ -151,11 +136,18 @@ public class StoreTab extends Tab implements IWorkspace {
 	}
 
 	public static class NameAffectorCostSet {
-		// public String name;
 		private ComboBox<String> comboBox = new ComboBox<>();
 		private TextField cost;
-		public List<String> affectorNames = new ArrayList<>();
-		public List<Integer> affectorCost = new ArrayList<>();
+		private List<String> affectorNames = new ArrayList<>();
+		private List<Integer> affectorCost = new ArrayList<>();
+
+		public List<String> getAffectorNames() {
+			return affectorNames;
+		}
+
+		public List<Integer> getAffectorCost() {
+			return affectorCost;
+		}
 
 		public void setTextFieldCost(TextField c) {
 			cost = c;
