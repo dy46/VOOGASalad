@@ -16,7 +16,7 @@ public class PositionHandler {
 	 * @return	the list of interpolated positions
 	 */
 	public List<Position> getInterpolatedPositions(List<Position> positions, boolean cycle){
-		List<Position> newList = new ArrayList<Position>();
+		List<Position> newList = new ArrayList<>();
 		HashMap<Position, Position> nextPositions = fillPositionGaps(positions, cycle);
 		if(!positions.isEmpty()){
 			Position start = positions.get(0);

@@ -23,7 +23,7 @@ public class FrontEndCreator {
 	}
 
 	public ComboBox<String> createStringComboBox(GridPane pane, List<String> list, int row, int col){
-		ComboBox<String> cb = new ComboBox<String>();
+		ComboBox<String> cb = new ComboBox<>();
 		cb.getItems().addAll(list);
 		pane.add(cb, col, row);
 		return cb;

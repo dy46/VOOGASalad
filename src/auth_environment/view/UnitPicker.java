@@ -29,12 +29,12 @@ public class UnitPicker{
 	
 	public UnitPicker(String name){
 		init(name);
-		this.myUnitViews = new ArrayList<UnitView>(); 
+		this.myUnitViews = new ArrayList<>(); 
 	}
 	
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
-		this.myUnitViews = new ArrayList<UnitView>();
+		this.myUnitViews = new ArrayList<>();
 		this.setUnits(units);
 	}
 	

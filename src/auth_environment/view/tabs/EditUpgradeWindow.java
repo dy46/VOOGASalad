@@ -59,7 +59,7 @@ public class EditUpgradeWindow extends Observable {
 
 	private void addUpgradeSlot() {
 		ComboBox<String> combo = new ComboBox<>();
-		List<String> affectorNames = new ArrayList<String>();
+		List<String> affectorNames = new ArrayList<>();
 		
 		for (Affector a : authModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary().getAffectors())
 			affectorNames.add(a.getClass().toString());
