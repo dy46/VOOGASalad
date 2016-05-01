@@ -5,6 +5,12 @@ import java.util.List;
 
 import game_engine.functions.Function;
 
+/**
+ * AffectorData is a data structure holding functions and String representations of UnitProperties that these functions affect.
+ * A List of List is used for both to ensure flexibility of affecting values.
+ * 
+ */
+
 public class AffectorData {
 
 	private List<List<Function>> myFunctions;

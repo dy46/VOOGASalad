@@ -6,7 +6,9 @@ import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
 
 /**
- * AISearcher interface allows for Artificial Intelligence search problems on nodes (end positions of Branches).
+ * AISearcher interface allows for Artificial Intelligence search problems.
+ * Search problems operate based on nodes and edges.
+ * A Branch is the data structure with end points acting as nodes, and intermediary points acting as edges.
  * AI Search problems operate on Search Tuples which hold search-specific data.
  * 
  * @author adamtache
