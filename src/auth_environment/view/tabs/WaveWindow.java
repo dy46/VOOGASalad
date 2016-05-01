@@ -79,9 +79,9 @@ public class WaveWindow {
 	
 	private void init(){
 		this.myNodeFactory = new NodeFactory(); 
-		this.spawningNames = new ArrayList<ComboBox<String>>();
-		this.placingNames = new ArrayList<ComboBox<String>>();
-		this.spawningTimes = new ArrayList<TextField>();
+		this.spawningNames = new ArrayList<>();
+		this.placingNames = new ArrayList<>();
+		this.spawningTimes = new ArrayList<>();
 		stage = new Stage();
 		root = new Group();
 		newScene = new Scene(root);
@@ -103,8 +103,6 @@ public class WaveWindow {
 		st.removeIf(e -> e == null);
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, timeBeforeWave); 
 	}
-	
-	
 	
 	private void centerStage(Stage stage){
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();

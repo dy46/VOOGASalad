@@ -1,7 +1,5 @@
 package auth_environment.delegatesAndFactories;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.MapEditorTabModel;
@@ -16,22 +14,19 @@ public class GridMapPane extends GridPane implements IMapPane {
 	private int numCols;
 	private int numRows;
 	private MapEditorTabModel myModel;
-	private List<UnitView> myTerrains;
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
 	public GridMapPane(MapEditorTabModel model, int cols, int rows) {
 		this.myModel = model;
 		this.setNumColsRows(cols, rows);
 		this.setGridLinesVisible(true);
-		myTerrains = new ArrayList<UnitView>();
 	}
 	
 
 	public void adjustUnitViewScale(UnitView uv){
-		uv.setFitWidth(this.getHeight()/numCols-3);
-		uv.setFitHeight(this.getWidth()/numRows-3);
-		System.out.println(uv.getFitHeight());
+		uv.setFitWidth(this.getHeight()/numCols-Integer.parseInt(myDimensionsBundle.getString("gridOffSetConstant")));
+		uv.setFitHeight(this.getWidth()/numRows-Integer.parseInt(myDimensionsBundle.getString("gridOffSetConstant")));
 	}
 	
 	public void adjustUnitViewXY(UnitView uv, double x, double y){
@@ -59,11 +54,11 @@ public class GridMapPane extends GridPane implements IMapPane {
 	}
 	
 	public void addToPane(UnitView uv){
+		uv.addContextMenu(this, uv);
 		double originalX= uv.getX();
 		double originalY = uv.getY();
 		convertToGridPosition(uv);
 		this.add(uv, convertToColumn(originalX), convertToRow(originalY));
-		myTerrains.add(uv);
 	}
 	
 	public void convertToGridPosition(UnitView uv){
@@ -85,18 +80,6 @@ public class GridMapPane extends GridPane implements IMapPane {
 	
 	public void setModel(MapEditorTabModel model){
 		this.myModel = model;
-	}
-	
-	public void refresh(){
-		if(!this.myModel.getPlacedUnits().isEmpty()) {
-			this.getChildren().clear();
-			this.myModel.getPlacedUnits().stream().forEach(e -> {
-				System.out.println(e.toString());
-				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
-				temp.addContextMenu(this, temp);
-				this.addToPane(temp);
-			});
-		}
 	}
 	
 }
