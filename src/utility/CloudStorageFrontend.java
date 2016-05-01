@@ -61,7 +61,7 @@ public class CloudStorageFrontend {
 				buildViewButton(),
 				buildViewContents()
 				);
-//		myVBox.setStyle("-fx-background-color: #292929;");
+		myVBox.setStyle(myDimensionsBundle.getString("greyBackgroundStyle"));
 		myVBox.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("boxWidth")), 
 				Double.parseDouble(myDimensionsBundle.getString("boxHeight"))); 
 		myStage.setScene(myScene);
