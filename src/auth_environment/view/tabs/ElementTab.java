@@ -21,7 +21,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.text.Text;
 
 public class ElementTab extends UnitTab{
 	 
@@ -48,7 +47,6 @@ public class ElementTab extends UnitTab{
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
 		addRefresh();
 		setUp();
-		//init();
 	}
 	
 	private void addRefresh(){
@@ -61,28 +59,8 @@ public class ElementTab extends UnitTab{
 	    return up;
 	}
 	
-	
-	private void init(){
-        
-
-	}
-	
 	public void setUpAnimation(BorderPane gp){
 		gp.setTop(myAnimationPane.getRoot());
-	}
-
-	private void addNewComboBox(int row, GridPane newTableInfo, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
-		if(cbox.getValue() != null){
-			int newcol = col + 1;		
-			newTableInfo.getRowConstraints().add(new RowConstraints(Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize"))));
-			newTableInfo.getColumnConstraints().add(new ColumnConstraints(150));
-			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll(names);
-//			vbox.getChildren().add(newcbox);
-			newTableInfo.add(newcbox, newcol, row);
-			list.add(newcbox);
-			button.setOnAction(e -> addNewComboBox(row, newTableInfo, button, newcbox, newcol, list, names));
-		}
 	}
 	
 	public void refresh(){
@@ -92,7 +70,7 @@ public class ElementTab extends UnitTab{
 		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
 	}
 	
-	private void addFields(GridPane newTableInfo, FrontEndCreator creator){
+	private void addTextFields(GridPane newTableInfo, FrontEndCreator creator){
 		for(String s: Arrays.asList(getLabelsBundle().getString("unitTextProperties").split(getLabelsBundle().getString("regex")))){
 			creator.createTextLabels(newTableInfo, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
 			strTextMap.put(s, creator.createTextField(newTableInfo, getIndex(), 2));
@@ -107,7 +85,7 @@ public class ElementTab extends UnitTab{
 
 	}
 
-	public void createNewElement(AnimationPane newAnimationInfo) {
+	public void createNewElement() {
 		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();
 		
 		String name = strTextMap.get("Type").getText();
@@ -133,7 +111,7 @@ public class ElementTab extends UnitTab{
 		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
 	    Unit unit = myUnitFactory.createUnit(name, strComboMap.get("UnitType").getValue(), strToDoubleMap, projectiles, atu, ata);
     	
-    	newAnimationInfo.getAnimationLoaderTab().setUnit(unit);
+    	myAnimationPane.getAnimationLoaderTab().setUnit(unit);
         myUnitFactory.getUnitLibrary().addUnit(unit);
     	setUp();
 	}
@@ -154,56 +132,33 @@ public class ElementTab extends UnitTab{
 	}
 
 	@Override
-	public void createNewElement() {
-		// TODO Auto-generated method stub
-		createNewElement(myAnimationPane);
-		
+	public void addFields(GridPane gp, FrontEndCreator creator) {
+		addTextFields(gp, creator);
+		addTextComboButtonTrio(gp, creator, unitNames, myProjectiles, getLabelsBundle().getString("childButton") ,getLabelsBundle().getString("childText"));
+		addTextComboButtonTrio(gp, creator, affectorNames, affectorsToUnit, getLabelsBundle().getString("affectorsButton"), getLabelsBundle().getString("affectorsText"));
+		addTextComboButtonTrio(gp, creator, affectorNames, affectorsToApply, getLabelsBundle().getString("applyButton"), getLabelsBundle().getString("applyText"));		
 	}
-
-	@Override
-	public void addTextFields(GridPane gp, FrontEndCreator creator) {
-		// TODO Auto-generated method stub
-		addFields(gp, creator);
-		gp.getRowConstraints().add(new RowConstraints(Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize"))));
-		String wweorpawt  = "Projectiles";
-		gp.add(new Text(wweorpawt), 1, getIndex());
-		ComboBox<String> cbox = new ComboBox<String>();
-		cbox.getItems().addAll(unitNames);
-		gp.add(cbox, 2, getIndex());
-		myProjectiles.add(cbox);
+	
+	private void addTextComboButtonTrio(GridPane gp, FrontEndCreator creator, List<String> listOfNames, List<ComboBox<String>> comboList, String buttonText, String labelText){
+		creator.createTextLabels(gp, labelText, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+		ComboBox<String> cbox = creator.createStringComboBox(gp, listOfNames, getIndex(), 2);
+		comboList.add(cbox);
 		int currentInt = getIndex();
 		iterateIndex();
 		
-		Button projectileButton = new Button(getLabelsBundle().getString("addProjectileText"));
-		projectileButton.setOnAction(e-> addNewComboBox(currentInt, gp, projectileButton, cbox, 2, myProjectiles, unitNames));
-		gp.add(projectileButton, 2, getIndex());
+		Button button = creator.createButton(gp, buttonText, getIndex(), 2);
+		button.setOnAction(e-> addNewComboBox(currentInt, gp, button, cbox, 2, comboList, listOfNames, creator));
 		iterateIndex();
-		
-		gp.getRowConstraints().add(new RowConstraints(Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize"))));
-		String affectors = "Affector(s) For Unit";
-		gp.add(new Text(affectors), 1, getIndex());
-		ComboBox<String> cbox1 = new ComboBox<String>();
-		
-		cbox1.getItems().addAll(affectorNames);
-		gp.add(cbox1, 2, getIndex());
-		affectorsToUnit.add(cbox1);
-		int currentInt1 = getIndex();
-		iterateIndex();
-		
-		Button newAffectorButton = new Button(getLabelsBundle().getString("addAffectorText"));
-		newAffectorButton.setOnAction(e-> addNewComboBox(currentInt1, gp, newAffectorButton, cbox1, 2, affectorsToUnit, affectorNames));
-		gp.add(newAffectorButton, 2, getIndex());
-		iterateIndex();
-
-		getCreator().createTextLabels(gp, getLabelsBundle().getString("applyText") ,getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-		ComboBox<String> applyCombo = getCreator().createStringComboBox(gp, affectorNames, getIndex(), 2);
-		affectorsToApply.add(applyCombo);
-		int currentInt2 = getIndex();
-		iterateIndex();
-		
-		Button newApplyAffectorButton = getCreator().createButton(gp, getLabelsBundle().getString("addApplyText"), getIndex(), 2);
-		newApplyAffectorButton.setOnAction(e-> addNewComboBox(currentInt2, gp, newApplyAffectorButton, applyCombo, 2, affectorsToApply, affectorNames));
-		iterateIndex();
-		
+	}
+	
+	private void addNewComboBox(int row, GridPane gp, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names, FrontEndCreator creator) {
+		if(cbox.getValue() != null){
+			int newcol = col + 1;		
+			gp.getRowConstraints().add(new RowConstraints(Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize"))));
+			gp.getColumnConstraints().add(new ColumnConstraints(150));
+			ComboBox<String> newcbox = creator.createStringComboBox(gp, names, row, newcol);
+			list.add(newcbox);
+			button.setOnAction(e -> addNewComboBox(row, gp, button, newcbox, newcol, list, names, creator));
+		}
 	}
 }

@@ -21,8 +21,8 @@ public class AffectorTab extends UnitTab{
 	
 	private Map<String, TextField> strTextMap;
 	private Map<String, ComboBox<String>> strDropMap;
-	private List<ComboBox<String>> effects = new ArrayList<ComboBox<String>>();
-	private List<TextField> functions = new ArrayList<TextField>();
+	private List<ComboBox<String>> effects;
+	private List<TextField> functions;
 	
 	//private BorderPane myPane; 
 	
@@ -37,9 +37,13 @@ public class AffectorTab extends UnitTab{
 		//this.init();
 	}
 	
+	public void refresh(){
+		effects = new ArrayList<ComboBox<String>>();
+		functions = new ArrayList<TextField>();
+	}
 	
 	private void init() {
-
+		
 //        GridPane newTableInfo = new GridPane();
 //        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(100),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
 //        newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
@@ -58,20 +62,20 @@ public class AffectorTab extends UnitTab{
 		String name = strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[0]).getText();
 		String type = getLabelsBundle().getString("packageName") + strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[0]).getValue() + getLabelsBundle().getString("affectorText");
 		int ttl = Integer.parseInt(strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[1]).getText());
-		String property = effects.remove(0).getValue();
+		String property = strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[1]).getValue();
 		
 		List<String> eff = new ArrayList<String>();
     	effects.stream().forEach(s -> eff.add(s.getValue()));
 		
 		List<Double> values = new ArrayList<Double>();
     	functions.stream().forEach(s -> {if(s.getText() != null)values.add(Double.parseDouble(s.getText()));});
-			
+    	
 		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl, eff, values);
 		reset();
 		setUp();
 	}
 
-	public void addTextFields(GridPane gp, FrontEndCreator creator) {
+	public void addFields(GridPane gp, FrontEndCreator creator) {
 		for(String s: Arrays.asList(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex")))){
 			creator.createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
 			strTextMap.put(s, creator.createTextField(gp, getIndex(), 2));
