@@ -7,6 +7,8 @@ import auth_environment.paths.MapHandler;
 import game_engine.game_elements.Level;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
+import game_engine.factories.FunctionFactory;
+import game_engine.factories.StoreFactory;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -21,15 +23,15 @@ public class GameData implements IGameData {
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
 	private WaveGoal myWaveGoal;
 	private ScoreUpdate myScoreUpdate;
-	private Store myStore;
-	private double myScore;
+	private double myScore = 0;
 	private int myCurrentWaveIndex = 0;
 	
 	private MapHandler myMapHandler = new MapHandler();
 
-	
-	private AffectorFactory myAffectorFactory;
-	private UnitFactory myUnitFactory;
+	private FunctionFactory myFunctionFactory = new FunctionFactory();
+	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
+	private UnitFactory myUnitFactory = new UnitFactory();
+	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
 	
 	@Override
 	public List<Level> getLevels() {
@@ -56,7 +58,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public List<Affector> getAffectors() {
-		return myAffectorFactory == null? null : myAffectorFactory.getAffectorLibrary().getAffectors();
+		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 	@Override
 	public AffectorFactory getAffectorFactory() {
@@ -92,15 +94,6 @@ public class GameData implements IGameData {
 	@Override
     public void setScoreUpdate(ScoreUpdate scoreUpdate) {
     	myScoreUpdate = scoreUpdate;
-    }
-
-	@Override
-	public Store getStore() {
-		return myStore;
-	}
-	@Override
-    public void setStore(Store store) {
-    	myStore = store;
     }
    
 	@Override
@@ -138,5 +131,10 @@ public class GameData implements IGameData {
 	public void setMapHandler(MapHandler mapHandler) {
 		myMapHandler = mapHandler;
 	}
+	@Override
+	public StoreFactory getStoreFactory() {
+		return myStoreFactory;
+	}
+
 
 }
