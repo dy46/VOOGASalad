@@ -66,6 +66,7 @@ public class WaveWindow {
 		addNewElementSpace(index, myRightGridPane, dummyButton, dummyCBox, false);
 		Button ok = new Button(myNamesBundle.getString("waveOk"));
 		myBorderPane.setBottom(ok);
+		System.out.println("Level " + level + " Wave " + wave);
 		String levelNum = level.split(" ")[1]; 
 		String waveNum = wave.split(" ")[1];
 		ok.setOnAction(e -> createNewWave(title, levelNum + " " + waveNum));
