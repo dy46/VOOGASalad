@@ -41,7 +41,9 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<String> getWaveNames(String selectedLevel); 
 	
-	public List<Unit> getWaveUnits(String selectedWave); 
+	public List<Unit> getSpawningUnits(String selectedWave); 
+	
+	public List<Unit> getPlacingUnits(String selectedWave); 
 	
 	public Branch reselectBranch(BoundLine line); 
 	

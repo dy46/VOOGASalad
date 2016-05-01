@@ -110,14 +110,27 @@ public class PathTabModel implements IPathTabModel {
 		currentLevel = myLevels.stream().filter(l -> l.getName().equals(selectedLevel)).collect(Collectors.toList()).get(0);
 		return currentLevel.getWaves().stream().map(wave -> wave.toString()).collect(Collectors.toList());
 	}
+	
+	private void getCurrentWaveFromString(String selectedWave) {
+ 		currentWave = currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+	}
 
 	@Override
-	public List<Unit> getWaveUnits(String selectedWave) {
+	public List<Unit> getSpawningUnits(String selectedWave) {
 		if(selectedWave == null) {
 			return new ArrayList<Unit>(); 
 		}
- 		currentWave = currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+		getCurrentWaveFromString(selectedWave); 
  		return currentWave.getSpawningUnits();
+	}
+	
+	@Override
+	public List<Unit> getPlacingUnits(String selectedWave) {
+		if(selectedWave == null) {
+			return new ArrayList<Unit>(); 
+		}
+		getCurrentWaveFromString(selectedWave); 
+ 		return currentWave.getPlacingUnits();
 	}
 
 	@Override

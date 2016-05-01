@@ -53,10 +53,10 @@ public class AuthView  {
     	List<Tab> tabs = new ArrayList<Tab>(); 
     	
     	tabs.add(new GameSettingsTab(myNamesBundle.getString("mainTabTitle"), globalAuthModel, myMainView)); 
-    	tabs.add(new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), globalAuthModel));
+    	tabs.add(new ElementCreationTab(myNamesBundle.getString("creationTabLabel"), globalAuthModel, myNamesBundle));
     	tabs.add(new MapEditorTab(myNamesBundle.getString("mapTabTitle"), globalAuthModel));
     	tabs.add(new PathTab(myNamesBundle.getString("pathTabTitle"), globalAuthModel));
-    	tabs.add(new LevelOverviewTab("Level", globalAuthModel));
+    	tabs.add(new LevelOverviewTab(myNamesBundle.getString("levelTabTitle"), globalAuthModel));
     	tabs.add(new StoreTab(myNamesBundle.getString("storeTabTitle"), globalAuthModel));
     	
     	tabs.stream().forEach(s -> s.setClosable(false));
