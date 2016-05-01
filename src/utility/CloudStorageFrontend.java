@@ -177,6 +177,11 @@ public class CloudStorageFrontend {
 		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.toString()!=null) {
 				System.out.println(newValue.toString());
+				try {
+					this.myCloudStorage.downloadFromCurrent("TestUpload", "game_images");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		return myBoxContents; 
@@ -184,6 +189,7 @@ public class CloudStorageFrontend {
 	
 	private void populateViewContents() {
 		myBoxContents.getItems().clear();
+		System.out.println(this.myCloudStorage.getCurrentFiles());
 		myBoxContents.getItems().addAll(this.myCloudStorage.getCurrentFiles());
 	}
  	
