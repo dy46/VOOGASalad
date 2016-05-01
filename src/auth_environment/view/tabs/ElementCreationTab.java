@@ -21,4 +21,3 @@ public class ElementCreationTab extends Tab{
 	}
 	
 }
-
