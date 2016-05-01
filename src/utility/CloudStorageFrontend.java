@@ -47,8 +47,7 @@ public class CloudStorageFrontend {
 		Stage myStage = new Stage(); 
 		myChooser = new FileChooserDelegate(); 
 		myNodeFactory = new NodeFactory(); 
-		myVBox = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
-				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
+		myVBox = new VBox(); 
 		myScene = new Scene(myVBox);
 		myVBox.getChildren().addAll( 
 				buildBoxImage(),
@@ -62,7 +61,6 @@ public class CloudStorageFrontend {
 				Double.parseDouble(myDimensionsBundle.getString("boxHeight"))); 
 		myStage.setScene(myScene);
 		myStage.show();
-		myStage.toFront();
 	}
 	
 	private Node buildFileButton() {
