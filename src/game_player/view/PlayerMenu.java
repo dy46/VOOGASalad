@@ -19,7 +19,6 @@ public abstract class PlayerMenu {
     public PlayerMenu (ResourceBundle r, IGameView view) {
         myResources = r;
         menuMaker = new MenuMaker(r);
-        mySwitchWindow = new SwitchWindow(r);
         myView = view;
     }
 

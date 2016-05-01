@@ -17,7 +17,6 @@ public class PreferencesScrollPaneSize implements IGUIObject{
 	private static final int PANEL_SPACING = 10;
 	
 	private ResourceBundle myResources;
-	private GameDataSource myGameData;
 	private IGameView myView;
 	private GameCanvas myCanvas;
 	private TextField widthField;
@@ -25,7 +24,6 @@ public class PreferencesScrollPaneSize implements IGUIObject{
 	
 	public PreferencesScrollPaneSize(ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
-        myGameData = gameData;
         myView = view;
         myCanvas = myView.getCanvas();
     }

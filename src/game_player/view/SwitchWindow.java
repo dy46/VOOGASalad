@@ -1,5 +1,10 @@
 package game_player.view;
+import java.io.File;
 import java.util.ResourceBundle;
+
+import auth_environment.IAuthEnvironment;
+import game_data.IDataConverter;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,13 +18,15 @@ public class SwitchWindow {
     private static final int DESCRIPTION_ROW = 2;
 
     private ResourceBundle myResources;
+    private PlayerGUI myGUI;
     private GridPane windowRoot;
     private String[] gameNames;
-    private ImageView[] gameImages;
+    private Button[] gameImages;
     private String[] gameDescriptions;
 
-    public SwitchWindow (ResourceBundle r) {
+    public SwitchWindow (ResourceBundle r, PlayerGUI GUI) {
         myResources = r;
+        myGUI = GUI;
     }
 
     public GridPane createWindow () {
@@ -29,8 +36,8 @@ public class SwitchWindow {
     }
 
     public void addGameElements () {
-        this.addImages();
         gameNames = myResources.getString("GameNameList").split(";");
+        this.addImages();
         gameDescriptions = myResources.getString("GameDescriptionList").split(";");
         for (int i = 0; i < gameNames.length; i++) {
             windowRoot.add(new Label(gameNames[i].trim()), i, NAME_ROW);
@@ -41,13 +48,16 @@ public class SwitchWindow {
 
     public void addImages () {
         String[] imageNames = myResources.getString("GameImageList").split(";");
-        gameImages = new ImageView[imageNames.length];
+        gameImages = new Button[imageNames.length];
         for (int i = 0; i < imageNames.length; i++) {
-            gameImages[i] = new ImageView(
-                                          new Image(getClass().getClassLoader()
+        	gameImages[i] = new Button();
+            ImageView image = new ImageView(new Image(getClass().getClassLoader()
                                                   .getResourceAsStream(imageNames[i].trim())));
-            gameImages[i].setFitWidth(150);
-            gameImages[i].setFitHeight(100);
+            image.setFitWidth(Double.valueOf(myResources.getString("ImageWidth")));
+            image.setFitHeight(Double.valueOf(myResources.getString("ImageHeight")));
+            String name = gameNames[i];
+            gameImages[i].setGraphic(image);
+            gameImages[i].setOnAction(e -> myGUI.loadFromXML(new File(myResources.getString(name))));
         }
     }
 }

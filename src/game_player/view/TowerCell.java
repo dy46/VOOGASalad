@@ -22,8 +22,8 @@ public class TowerCell extends ListCell<Unit> {
             setGraphic(null);
         } else {
         	ImageView image = createImageView(item);
-//            setText(String.valueOf(item.getProperties().getPrice().getValue()));
-            setText("FUCK");
+            setText(String.valueOf(item.getProperties().getPrice().getValue()));
+//            setText("FUCK");
             setGraphic(image);
         }
     }
