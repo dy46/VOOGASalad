@@ -33,7 +33,6 @@ public class GameMenu implements IGUIObject {
 
     @Override
     public void updateNode () {
-        // TODO Auto-generated method stub
 
     }
 
