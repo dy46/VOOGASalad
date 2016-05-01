@@ -3,6 +3,7 @@ package game_data;
 import com.thoughtworks.xstream.XStream;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import game_data.exceptions.SerializerException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,37 +27,53 @@ public class Serializer<T> implements IDataConverter<T> {
 		if (f != null) {
 			XStream xstream = new XStream();
 			String xml = xstream.toXML(o);
-
 			try {
 				FileWriter writer = new FileWriter(f);
 				writer.write(xml);
 				writer.flush();
 				writer.close();
 			} catch (IOException e) {
-				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
+				throw new SerializerException(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
+//				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
 			}
 		}
 		else {
-			System.out.println(myNamesBundle.getString("nullFileMessage"));
+//			System.out.println(myNamesBundle.getString("nullFileMessage"));
+			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
 		}
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public T loadElement() {
-		try {
-			File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
-			if (f != null) {
-				XStream xstream = new XStream();
-				return (T) xstream.fromXML(f);
+//		try {
+//			File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
+//			if (f != null) {
+//				XStream xstream = new XStream();
+//				return (T) xstream.fromXML(f);
+//			}
+//			else {
+//				System.out.println(myNamesBundle.getString("nullFileError"));
+//				return null;
+//			}
+//		}
+//		catch (ClassCastException e) {
+//			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
+//			return null;
+//		}
+		File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
+		if(f != null){
+			XStream xstream = new XStream();
+			Object o = xstream.fromXML(f);
+			try{
+				return ((T) o);
 			}
-			else {
-				System.out.println(myNamesBundle.getString("nullFileError"));
-				return null;
+			catch(ClassCastException e){
+				throw new SerializerException(myNamesBundle.getString("wrongFormatMessage"));
 			}
 		}
-		catch (ClassCastException e) {
-			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
-			return null;
+		else{
+			throw new SerializerException(myNamesBundle.getString("nullFileError"));
 		}
 	}
 
