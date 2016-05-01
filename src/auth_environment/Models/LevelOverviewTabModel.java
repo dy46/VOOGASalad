@@ -20,7 +20,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     
     public LevelOverviewTabModel(IAuthEnvironment authEnv){
     	this.myAuthEnvironment = authEnv; 
-    	this.myCreatedLevels = new ArrayList<Level>(); 
+    	this.myCreatedLevels = new ArrayList<>(); 
         this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
         this.myCurrentLevelIndex = 0; 
     }
@@ -33,7 +33,7 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     }
     
     private void clear() {
-    	this.myCreatedLevels = new ArrayList<Level>();//.clear();
+    	this.myCreatedLevels = new ArrayList<>();//.clear();
     	this.myCreatedWaves.clear();
         this.myCurrentLevelIndex = 0; 
     }
@@ -78,21 +78,21 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     
     @Override
     public List<String> getLevelNames(){
-        List<String> levelNames = new ArrayList<String>();
+        List<String> levelNames = new ArrayList<>();
         this.myCreatedLevels.forEach(l -> levelNames.add(l.getName()));
         return levelNames;
     }
     
     @Override
     public List<String> getCurrentLevelWaveNames(){
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         this.myCreatedLevels.get(this.myCurrentLevelIndex).getWaves().forEach(w -> names.add(w.getName()));
         return names;
     }
     
     @Override
     public List<Level> getCreatedLevels(){
-        return new ArrayList<Level>(this.myCreatedLevels);
+        return new ArrayList<>(this.myCreatedLevels);
     }
     
     // example of levelPlusWaveName: Level 1 Wave 1 

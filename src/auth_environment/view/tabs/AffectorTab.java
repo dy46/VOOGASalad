@@ -13,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 public class AffectorTab extends ElementTab{
-        
+ 
         private Map<String, TextField> strTextMap;
         private Map<String, ComboBox<String>> strDropMap;
         private List<ComboBox<String>> effects;
