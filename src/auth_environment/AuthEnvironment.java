@@ -220,7 +220,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public StoreFactory getStoreFactory() {
 		return myStoreFactory; 
 	}
-	
+
 	@Override
 	public int getCurrentWaveIndex() {
 		return myCurrentWaveIndex;

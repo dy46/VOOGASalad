@@ -1,5 +1,7 @@
 package auth_environment.Models;
 
+import java.util.ResourceBundle;
+
 import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.Models.Interfaces.IUnitView;
 import auth_environment.delegatesAndFactories.FreeMapPane;
@@ -16,7 +18,7 @@ import javafx.scene.input.MouseEvent;
 /**
  * Created by BrianLin on 4/20/16
  * Team member responsible: Brian
- *
+ * @author Brian, Xander
  * The Auth Environment's way of displaying a Unit. 
  * Contains both the Unit and an ImageView to be displayed.
  * 
@@ -29,6 +31,8 @@ public class UnitView extends ImageView implements IUnitView {
 	private ContextMenu myContextMenu;
 	private NodeFactory myNodeFactory = new NodeFactory(); 
 	private Unit myUnit;
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	public UnitView() {
 		super();
@@ -97,8 +101,8 @@ public class UnitView extends ImageView implements IUnitView {
 	
 	 private ContextMenu buildContextMenu(IMapPane target){
 	    	ContextMenu cm = new ContextMenu();
-	    	MenuItem cmItem1 = new MenuItem("Delete Image");
-	    	cmItem1.setOnAction( e-> { target.getRoot().getChildren().remove(this);
+	    	MenuItem cmItem1 = new MenuItem(myNamesBundle.getString("deleteItemLabel"));
+	    	cmItem1.setOnAction(e-> {target.getRoot().getChildren().remove(this);
 	    		target.getModel().deleteTerrain(this.getUnit());
 	    	});
 	    	cm.getItems().add(cmItem1);

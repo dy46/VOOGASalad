@@ -9,10 +9,10 @@ public class FreeMapPane extends Pane implements IMapPane{
 	
 	private int adjustFactor;
 	private MapEditorTabModel myModel;
-
-	public FreeMapPane(MapEditorTabModel model) {
+	
+	public FreeMapPane(MapEditorTabModel model, int constant) {
 		this.myModel = model;
-		this.adjustFactor = 10;
+		this.adjustFactor = constant;
 	}
 	
 	public void adjustUnitViewScale(UnitView uv){
@@ -30,8 +30,8 @@ public class FreeMapPane extends Pane implements IMapPane{
 	}
 	
 	public void addToPane(UnitView uv){
+		uv.addContextMenu(this, uv);
 		this.getChildren().add(uv);
-		System.out.println("Added" + " X: " + uv.getX() + " Y: " + uv.getY());
 	}
 	
 	public Pane getRoot(){
