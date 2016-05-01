@@ -94,7 +94,7 @@ public class NodeFactory {
 	public HBox buildTextFieldWithLabel(String text, double spacing) {
 		Label label = this.buildLabel(text); 
 		TextField textField = new TextField(); 
-		HBox hBox = new HBox(); 
+		HBox hBox = new HBox();
 		hBox.getChildren().addAll(label, textField);
 		hBox.setSpacing(spacing);
 		return hBox; 
