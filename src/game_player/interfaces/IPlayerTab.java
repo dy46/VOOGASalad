@@ -1,5 +1,6 @@
 package game_player.interfaces;
 
+import exceptions.WompException;
 import javafx.scene.control.Tab;
 
 
@@ -15,6 +16,7 @@ public interface IPlayerTab {
      * Creates Tab object that will be placed into TabPane.
      * 
      * @return Tab
+     * @throws WompException 
      */
-    Tab getTab ();
+    Tab getTab () throws WompException;
 }

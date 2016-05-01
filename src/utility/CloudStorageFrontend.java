@@ -168,6 +168,7 @@ public class CloudStorageFrontend {
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
 //		myBoxContents.
+		return null;
 	}
  	
 }

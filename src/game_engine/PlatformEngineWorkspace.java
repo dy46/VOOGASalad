@@ -8,10 +8,10 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_engine.AI.AIHandler;
-import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
+import game_engine.AI.BFSSearcher;
 import game_engine.affectors.Affector;
+import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
 import game_engine.controllers.LevelController;
 import game_engine.controllers.UnitController;
@@ -24,6 +24,9 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.handlers.AIHandler;
+import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
@@ -70,18 +73,10 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private List<Unit> myTerrains;
 	private TerrainFactory myTerrainFactory;
 
-	private AIHandler myAIHandler;
-	private AISimulator myAISimulator;
-	private AISearcher myAISearcher;
-
 	public PlatformEngineWorkspace() {
 	};
-	
-	public void setUpEngine(IAuthEnvironment test) {
-	//public void setUpEngine(TestingGameData test) {
-		myAISimulator = new AISimulator(this);
-		myAISearcher = new AISearcher(this);
-		myAIHandler = new AIHandler(this);
+
+	public void setUpEngine(TestingGameData test) {
 		unitsToRemove = new ArrayList<>();
 		new ArrayList<>();
 		// myPlaceValidations.add(new TowerPlaceValidation(this));
@@ -136,7 +131,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level makeDummyLevel() {
 
 		Level l = new Level("Platformer Tower Defense", 20);
-		MapHandler mh = new MapHandler(new ArrayList<Branch>(), new ArrayList<Position>(), new ArrayList<Position>());
+		MapHandler mh = new MapHandler(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		List<Position> path = new ArrayList<>();
 
@@ -323,6 +318,10 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		return myTerrains;
 	}
 
+	public void saveGame() {
+		// TODO Auto-generated method stub
+	}
+
 	public void playLevel(int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
 		pause = false;
@@ -417,17 +416,8 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		}
 	}
 
-	@Override
-	public List<Branch> getBranchesAtPos(Position pos) {
-		return myAIHandler.getBranchesAtPos(pos);
-	}
-
 	public int getMoney() {
 		return myStore.getMoney();
-	}
-
-	public void updateAIBranches() {
-		myAIHandler.updateAIBranches();
 	}
 
 	@Override
@@ -447,21 +437,6 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	@Override
-	public AIHandler getAIHandler() {
-		return myAIHandler;
-	}
-
-	@Override
-	public AISearcher getAISearcher() {
-		return myAISearcher;
-	}
-
-	@Override
-	public AISimulator getAISimulator() {
-		return myAISimulator;
-	}
-
-	@Override
 	public ILevelDisplayer getLevelDisplay() {
 		// TODO Auto-generated method stub
 		return null;
@@ -474,9 +449,27 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	@Override
-	public void saveGame() {
+	public void setUpEngine(IAuthEnvironment data) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public AIController getAIController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ICollisionDetector getCollisionDetector() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IEncapsulationDetector getEncapsulationDetector() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -37,4 +37,5 @@ public class MainView implements IMainView {
 		this.myStage.setScene(playerGUI.createPlayerScene());
 		this.display();
     }
+    
 }

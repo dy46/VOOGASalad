@@ -1,15 +1,16 @@
-package game_engine.AI;
+package game_engine.handlers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import game_engine.GameEngineInterface;
+import exceptions.WompException;
+import game_engine.AI.BFSSearcher;
 import game_engine.affectors.AIPathFollowAffector;
 import game_engine.affectors.Affector;
+import game_engine.controllers.LevelController;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.AIWorkspace;
 import game_engine.properties.Position;
 
 
@@ -22,18 +23,23 @@ import game_engine.properties.Position;
  *
  */
 
-public class AIHandler {
+public class AIHandler{
 
-	private GameEngineInterface myEngine;
-	private AISearcher mySearcher;
+	private BFSSearcher mySearcher;
+	private LevelController myLevelController;
 
-	public AIHandler(GameEngineInterface engine){
-		this.myEngine = engine;
-		this.mySearcher = engine.getAISearcher();
+	public AIHandler(AIWorkspace engine){
+		this.mySearcher = new BFSSearcher(engine);
+		this.myLevelController = engine.getLevelController();
 	}
 
 	public void updateAIBranches() {
-		List<Unit> activeAI = getActiveAIEnemies();
+		List<Unit> activeAI = null;
+		try {
+			activeAI = myLevelController.getActiveUnitsWithAffector(Class.forName("game_engine.affectors.AIPathFollowAffector"));
+		} catch (ClassNotFoundException e) {
+			new WompException("AIPathFollowAffector class missing.").displayMessage();
+		}
 		for(Unit u : activeAI){
 			List<Branch> currentPath = u.getProperties().getMovement().getBranches();
 			if(currentPath.size() == 0){
@@ -46,7 +52,7 @@ public class AIHandler {
 		List<Branch> newBranches = new ArrayList<>();
 		Position currPos = u.getProperties().getPosition();
 		if(currPos == null){
-			currPos = myEngine.getLevelController().getCurrentLevel().getSpawns().get(0);
+			currPos = myLevelController.getCurrentLevel().getSpawns().get(0);
 		}
 		newBranches = mySearcher.getPath(currPos);
 		if(newBranches != null){
@@ -56,8 +62,8 @@ public class AIHandler {
 
 	public List<Unit> getActiveAIEnemies(){
 		HashSet<Unit> AI = new HashSet<>();
-		List<Unit> activeEnemies = myEngine.getLevelController().getCurrentLevel().getCurrentWave().getSpawningUnitsLeft();
-		List<Unit> allEnemies = myEngine.getLevelController().getCurrentLevel().getCurrentWave().getSpawningUnits();
+		List<Unit> activeEnemies = myLevelController.getCurrentLevel().getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myLevelController.getCurrentLevel().getCurrentWave().getSpawningUnits();
 		for(Unit e : allEnemies){
 			if(e.isAlive() && e.isAlive() && e.isVisible() && !activeEnemies.contains(e)){
 				activeEnemies.add(e);
@@ -71,23 +77,6 @@ public class AIHandler {
 			}
 		}
 		return new ArrayList<>(AI);
-	}
-
-	public List<Branch> getBranchesAtPos (Position pos) {
-		List<Branch> branches = new ArrayList<>();
-		for (Branch b : myEngine.getBranches()) {
-			if(b.getPositions().contains(pos)){
-				branches.add(b);
-			}
-		}
-		return branches;
-	}
-
-	public Branch getGoalBranch(Position goal) {
-		List<Branch> branches = getBranchesAtPos(goal);
-		if(branches.size() == 0)
-			return null;
-		return branches.stream().filter(b -> b.getPositions().size() == 1).collect(Collectors.toList()).get(0);
 	}
 
 }
