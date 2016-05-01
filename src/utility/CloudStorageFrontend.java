@@ -1,10 +1,12 @@
 package utility;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 
 import com.twilio.sdk.TwilioRestException;
 
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -25,19 +28,27 @@ import javafx.stage.Stage;
  */
 public class CloudStorageFrontend {
 	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
     private static final String MESSAGE = "new files have been uploaded!";
     private static final String RESOURCE_PATH = "utility/recvlist";
     private static final String MY_NUMBER = "+12056600267";
     private static final String ACCOUNT_SID = "AC7fc35c31998ec586534822716579d284";
     private static final String AUTH_TOKEN = "09a2ae71719093f892ee57a320eba40f";
 	private Scene myScene;
-	private VBox myRoot;
+	private Pane myRoot;
+	private VBox myVBox;
 	private TextField myKeyInput; 
 	private ListView myBoxContents; 
 	private String location; 
 	private String myDevKey = "";
 	private CloudStorage myCloudStorage; 
 	private FileChooserDelegate myChooser; 
+	private NodeFactory myNodeFactory; 
 
 
 	public CloudStorageFrontend () {
@@ -47,34 +58,35 @@ public class CloudStorageFrontend {
 	private void init() {
 		Stage myStage = new Stage(); 
 		myChooser = new FileChooserDelegate(); 
-		myRoot = new VBox();
-		myRoot.setSpacing(10);
-		myRoot.setPadding(new Insets(10));
-		myScene = new Scene(myRoot);
-		myRoot.getChildren().addAll( 
+		myNodeFactory = new NodeFactory(); 
+		myVBox = new VBox();
+		myVBox.setSpacing(10);
+		myVBox.setPadding(new Insets(10));
+		myScene = new Scene(myVBox);
+		myVBox.getChildren().addAll( 
 				buildBoxImage(),
 				buildKeyInput(),
 				buildFileButton(),
 				buildViewButton(),
 				buildViewContents()
 				);
-		myRoot.setStyle("-fx-background-color: #292929;");
-		myRoot.setPrefSize(600, 600); 
+//		myVBox.setStyle("-fx-background-color: #292929;");
+		myVBox.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("boxWidth")), 
+				Double.parseDouble(myDimensionsBundle.getString("boxHeight"))); 
 		myStage.setScene(myScene);
 		myStage.show();
 		myStage.toFront();
 	}
 	
 	private Node buildFileButton() {
-		Button chooseFile = new Button("Choose a File");
+		Button chooseFile = new Button(myNamesBundle.getString("fileChooserTitle"));
 		chooseFile.setOnAction(e -> uploadFile());
 		
-		Button chooseFolder = new Button("Choose a Folder"); 
+		Button chooseFolder = new Button(myNamesBundle.getString("chooserFolderMessage")); 
 		chooseFolder.setOnAction(e -> uploadFolder());
 		
-		HBox hb = new HBox(); 
-		hb.setSpacing(10);
-		hb.setPadding(new Insets(10));
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(chooseFile, chooseFolder); 
 		hb.setAlignment(Pos.CENTER);
 		
