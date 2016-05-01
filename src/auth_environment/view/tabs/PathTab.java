@@ -260,8 +260,6 @@ public class PathTab extends Tab implements IWorkspace {
 				System.out.println(e.toString());
 				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
 				myTerrains.add(temp);
-				System.out.println("X: " + e.getProperties().getPosition().getX());
-				System.out.println("Y: " + e.getProperties().getPosition().getY());
 			});
 			myPathPane.getChildren().addAll(myTerrains);
 		}

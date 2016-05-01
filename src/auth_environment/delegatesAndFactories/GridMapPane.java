@@ -1,5 +1,9 @@
 package auth_environment.delegatesAndFactories;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
@@ -12,11 +16,15 @@ public class GridMapPane extends GridPane implements IMapPane {
 	private int numCols;
 	private int numRows;
 	private MapEditorTabModel myModel;
+	private List<UnitView> myTerrains;
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	public GridMapPane(MapEditorTabModel model, int cols, int rows) {
 		this.myModel = model;
 		this.setNumColsRows(cols, rows);
 		this.setGridLinesVisible(true);
+		myTerrains = new ArrayList<UnitView>();
 	}
 	
 
@@ -55,6 +63,7 @@ public class GridMapPane extends GridPane implements IMapPane {
 		double originalY = uv.getY();
 		convertToGridPosition(uv);
 		this.add(uv, convertToColumn(originalX), convertToRow(originalY));
+		myTerrains.add(uv);
 	}
 	
 	public void convertToGridPosition(UnitView uv){
@@ -76,6 +85,18 @@ public class GridMapPane extends GridPane implements IMapPane {
 	
 	public void setModel(MapEditorTabModel model){
 		this.myModel = model;
+	}
+	
+	public void refresh(){
+		if(!this.myModel.getPlacedUnits().isEmpty()) {
+			this.getChildren().clear();
+			this.myModel.getPlacedUnits().stream().forEach(e -> {
+				System.out.println(e.toString());
+				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtensions"));
+				temp.addContextMenu(this, temp);
+				this.addToPane(temp);
+			});
+		}
 	}
 	
 }
