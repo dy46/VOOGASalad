@@ -22,9 +22,6 @@ import javafx.scene.shape.Circle;
 
 public class DragDelegate {
 
-	public DragDelegate() {
-	}
-
 	public void addUnitViewSource(UnitView source) {
 		
 		source.setOnDragDetected(event -> {
@@ -37,12 +34,7 @@ public class DragDelegate {
 			event.consume();
 		});
 		
-		source.setOnDragDone(event -> {
-			if (event.getTransferMode() == TransferMode.COPY) {
-				System.out.println("Drag completed for source");
-			}
-			event.consume();
-		});
+		source.setOnDragDone(event -> event.consume());
 
 	}
 
