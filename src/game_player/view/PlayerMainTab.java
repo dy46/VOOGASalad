@@ -78,7 +78,7 @@ public class PlayerMainTab implements IPlayerTab {
         this.gameFile = gameFile;
         this.myGUI = GUI;
         this.tabName = tabName;
-        this.gameData.setDoubleValue("High Score", 0);
+        this.gameData.setDoubleValue(gameFile.toString(), 0);
     }
 
     @Override
