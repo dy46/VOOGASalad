@@ -59,7 +59,7 @@ public class Serializer<T> implements IDataConverter<T> {
 			}
 		}
 		else{
-			throw new SerializerException(myNamesBundle.getString("nullFileError"));
+			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
 		}
 	}
 
