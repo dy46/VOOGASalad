@@ -34,11 +34,9 @@ public class CloudStorageFrontend {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-    private static final String MESSAGE = "new files have been uploaded!";
-    private static final String RESOURCE_PATH = "utility/recvlist";
-    private static final String MY_NUMBER = "+12056600267";
-    private static final String ACCOUNT_SID = "AC7fc35c31998ec586534822716579d284";
-    private static final String AUTH_TOKEN = "09a2ae71719093f892ee57a320eba40f";
+	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
+	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
+	
 	private Scene myScene;
 	private Pane myRoot;
 	private VBox myVBox;
@@ -59,10 +57,11 @@ public class CloudStorageFrontend {
 		Stage myStage = new Stage(); 
 		myChooser = new FileChooserDelegate(); 
 		myNodeFactory = new NodeFactory(); 
-		myVBox = new VBox();
-		myVBox.setSpacing(10);
-		myVBox.setPadding(new Insets(10));
-		myScene = new Scene(myVBox);
+		myVBox = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
+				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
+		myRoot = new Pane();
+		myRoot.getChildren().add(myVBox); 
+		myScene = new Scene(myRoot);
 		myVBox.getChildren().addAll( 
 				buildBoxImage(),
 				buildKeyInput(),
@@ -82,125 +81,105 @@ public class CloudStorageFrontend {
 		Button chooseFile = new Button(myNamesBundle.getString("fileChooserTitle"));
 		chooseFile.setOnAction(e -> uploadFile());
 		
-		Button chooseFolder = new Button(myNamesBundle.getString("chooserFolderMessage")); 
+		Button chooseFolder = new Button(myNamesBundle.getString("chooseFolderMessage")); 
 		chooseFolder.setOnAction(e -> uploadFolder());
 		
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(chooseFile, chooseFolder); 
-		hb.setAlignment(Pos.CENTER);
-		
-		return hb;
+		return myNodeFactory.centerNode(hb); 
 	}
 	
-	// TODO: refactor by combining with uploadFile() 
 	private void uploadFolder() {
-		DirectoryChooser chooser = new DirectoryChooser(); 
-		try {
-			ContextMenu prefWindow = new ContextMenu(); 
-			File dir = chooser.showDialog(prefWindow.getOwnerWindow());
-			if (dir != null) {
-				String path = dir.getPath(); 
+		File f = this.myChooser.chooseDirectory(myNamesBundle.getString("chooseFolderMessage")); 
+		if (f!=null) {
+			String path = f.getPath(); 
+			try {
 				myCloudStorage.uploadFolder(path);
-				printResults(myCloudStorage);
-//				c.notify(MESSAGE);
+			} catch (FileNotFoundException e) {
+				System.out.println(myNamesBundle.getString("nullFileMessage"));
+			} catch (TwilioRestException e) {
+				System.out.println(myNamesBundle.getString("twilioErrorMessage"));
 			}
-		} catch (FileNotFoundException | TwilioRestException e) {
-			System.out.println("Invalid developer token"); 
+			printResults(myCloudStorage);
 		}
 	}
 	
 	private void uploadFile() {
-		FileChooser chooser = new FileChooser(); 
+		File f = myChooser.chooseFile(myNamesBundle.getString("fileChooserTitle")); 
+		if (f != null) {
+	        try {
+				myCloudStorage.uploadFile(f.getAbsolutePath(), f.getName());
+			} catch (FileNotFoundException e) {
+				System.out.println(myNamesBundle.getString("nullFileMessage"));
+			}
+	        printResults(myCloudStorage);
+        }
+	}
+	
+	private void checkDevKey() {
+		myDevKey = myKeyInput.getText();
 		try {
-			ContextMenu prefWindow = new ContextMenu();
-		    File f = chooser.showOpenDialog(prefWindow.getOwnerWindow());
-	        if (f != null) {
-		        myCloudStorage.uploadFile(f.getAbsolutePath(), f.getName());
-		        printResults(myCloudStorage);
-//		        c.notify(MESSAGE);
-	        }
+			myCloudStorage = new CloudStorage(myDevKey);
+			myCloudStorage.setUpNotifications(
+					myNamesBundle.getString("utilPath"), 
+					myNamesBundle.getString("accountSID"), 
+					myNamesBundle.getString("authToken"), 
+					myNamesBundle.getString("twilioNumber"));
 		} catch (Exception e) {
-			System.out.println("Invalid developer token"); 
+			System.out.println(myNamesBundle.getString("invalidKeyMessage")); 
 		}
 	}
 	
-	private HBox buildKeyInput() {
-		myKeyInput = new TextField();
-		myKeyInput.setPromptText("Enter account key");
-		myKeyInput.setOnAction(e -> {
-			myDevKey = myKeyInput.getText();
-			try {
-				myCloudStorage = new CloudStorage(myDevKey);
-				myCloudStorage.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
-			} catch (Exception e1) {
-				System.out.println("Invalid developer token"); 
-			}
-		});
+	private Node buildKeyInput() {
+		myKeyInput = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("accountKeyMessage"));
+		myKeyInput.setOnAction(e -> checkDevKey());
 		
-		Button submitButton = new Button("Submit");
-		submitButton.setOnAction(e -> {
-			myDevKey = myKeyInput.getText();
-			try {
-				myCloudStorage = new CloudStorage(myDevKey);
-				myCloudStorage.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
-
-			} catch (Exception e1) {
-				System.out.println("Invalid developer token"); 
-			}
-		});
+		Button submitButton = new Button(myNamesBundle.getString("submitButtonLabel"));
+		submitButton.setOnAction(e -> checkDevKey());
 		
-		HBox hb = new HBox(); 
-		hb.setPadding(new Insets(10));
-		hb.setSpacing(10);
+		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(myKeyInput, submitButton);
-		hb.setAlignment(Pos.CENTER);
-		
-		return hb;
+		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildBoxImage() {
+	private Node buildBoxImage() {
 		HBox hb = new HBox();
-		hb.setAlignment(Pos.CENTER);
-		hb.getChildren().add(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("boxLogo.png"))));
-		return hb; 
+		hb.getChildren().add(myNodeFactory.buildImageView(myURLSBundle.getString("boxLogo")));
+		return myNodeFactory.centerNode(hb); 
 	}
 	
 	private void printResults (CloudStorage c) {
         System.out.println(c.getCurrentFiles());
         c.listFolders();
         try {
-			c.notify(MESSAGE);
+			c.notify(myNamesBundle.getString("newFilesMessage"));
 		} catch (TwilioRestException e) {
-			System.out.println("Twilio API error");
+			System.out.println(myNamesBundle.getString("twilioErrorMessage"));
 		}
-	}
-	
-	private ImageView buildAnimation() {
-		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("drippyDrops.gif")));
-		animation.setFitWidth(800);
-		return animation;
 	}
 	
 	private Node buildViewButton() {
 		HBox hb = new HBox(); 
-		Button view = new Button("View contents of current directory"); 
+		Button view = new Button(myNamesBundle.getString("viewContentsMessage")); 
 		view.setOnAction(e -> populateViewContents());
-		Button choose = new Button("Choose Save Location"); 
+		Button choose = new Button(myNamesBundle.getString("chooseSaveMessage")); 
 		choose.setOnAction(e -> {
-			File f = myChooser.chooseDirectory("Choose Save Location"); 
+			File f = myChooser.chooseDirectory(myNamesBundle.getString("chooseSaveMessage")); 
 			if (f!=null) {
 				this.location = f.getAbsolutePath();
 			}
 		});
-		TextField field = new TextField();
-		field.setPromptText("Save Location");
-		field.setOnAction(e -> {
-			this.location = field.getText();
-		});
+		TextField field = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("saveLocationMessage"));
+		field.setOnAction(e -> this.location = field.getText());
 		hb.getChildren().addAll(view, choose, field);
 		return hb; 
 	}
+	
+//	private String processDirectory(String dir) {
+//		
+//	}
 	
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
@@ -208,9 +187,9 @@ public class CloudStorageFrontend {
 			if (newValue.toString()!=null) {
 				System.out.println(newValue.toString());
 				try {
-					this.myCloudStorage.downloadFromCurrent("TestUpload", this.location);
+					this.myCloudStorage.downloadFromCurrent(newValue.toString(), this.location);
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(myNamesBundle.getString(myNamesBundle.getString("boxErrorMessage")));
 				}
 			}
 		});
@@ -219,7 +198,6 @@ public class CloudStorageFrontend {
 	
 	private void populateViewContents() {
 		myBoxContents.getItems().clear();
-		System.out.println(this.myCloudStorage.getCurrentFiles());
 		myBoxContents.getItems().addAll(this.myCloudStorage.getCurrentFiles());
 	}
  	
