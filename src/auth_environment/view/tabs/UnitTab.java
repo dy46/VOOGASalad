@@ -1,127 +1,144 @@
 package auth_environment.view.tabs;
 
-import java.util.ResourceBundle;
+import java.util.*;
 
-import auth_environment.FrontEndCreator;
+import auth_environment.Models.ElementTabModel;
+import auth_environment.Models.Interfaces.IAuthModel;
+import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import game_engine.factories.UnitFactory;
+import game_engine.game_elements.Unit;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+public class UnitTab extends ElementTab{
+	 
+	private Map<String, TextField> strTextMap;
+	private Map<String, ComboBox<String>> strComboMap;
+	private List<ComboBox<String>> affectorsToUnit;
+	private List<ComboBox<String>> affectorsToApply;
+	private List<ComboBox<String>> myProjectiles;
+	private List<String> affectorNames;
+	private List<String> unitNames;
+	private AnimationPane myAnimationPane;
+	
+	private IElementTabModel myElementTabModel;
 
-public abstract class UnitTab extends Tab{
-	
-	private static final String LABEL_PACKAGE = "auth_environment/properties/creation_tab_labels";
-	private static final ResourceBundle myLabelsBundle = ResourceBundle.getBundle(LABEL_PACKAGE);
-	
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/creation_tab_dimensions";
-	private static final ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
-	private int index;
-	private FrontEndCreator myCreator;
-	private BorderPane myPane;
-
-	public UnitTab(String name) {
+	public UnitTab(String name, IAuthModel authModel){
 		super(name);
-		this.myPane = new BorderPane();
-		this.setContent(myPane);
+		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
+		addRefresh();
+		setUp();
 	}
 	
-	public void setUp(){
-		refresh();
-		index = 1;
-		this.setClosable(false);
-		myCreator = new FrontEndCreator();
-	    this.setClosable(false);
-	    
-	    myPane.setRight(setUpUnitPicker().getRoot());
-	    
-		BorderPane newBorderPane = new BorderPane();
-	    myPane.setLeft(setUpTitledPane(newBorderPane));
-	    setUpAnimation(newBorderPane);
-	    
-        GridPane newTableInfo = setUpGridPane(myLabelsBundle.getString("newTablePaneDim"));
-		newBorderPane.setLeft(newTableInfo);
-		
-        Text propertiesTitle = new Text("Properties");
-        propertiesTitle.setFont(new Font(20));
-        newTableInfo.add(propertiesTitle, 0, 0);
-        addFields(newTableInfo, myCreator);
-		
-		GridPane bottomInfo = setUpPane(myLabelsBundle.getString("bottomInfoDim"));
- 		newBorderPane.setBottom(bottomInfo);
- 		Button ok = myCreator.createButton(bottomInfo, myLabelsBundle.getString("okText"), 0, 2);
-		ok.setOnAction(e -> createNewElement());
+	public void refresh(){
+        setIndex(1);
+		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
+		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
+		init();
 	}
 	
-	public abstract void refresh();
-	
-	public abstract void setUpAnimation(BorderPane bp);
-	
-	public abstract void addFields(GridPane gp, FrontEndCreator creator);
-	
-	public void reset(){
-		myPane.getChildren().clear();
+	private void init(){
+		strComboMap = new HashMap<String, ComboBox<String>>();
+		strTextMap = new HashMap<String, TextField>();
+		affectorsToUnit = new ArrayList<ComboBox<String>>();
+		affectorsToApply = new ArrayList<ComboBox<String>>();
+		myProjectiles = new ArrayList<ComboBox<String>>();
+		myAnimationPane = new AnimationPane();
 	}
 	
-	public FrontEndCreator getCreator(){
-		return myCreator;
+	private void addRefresh(){
+		this.setOnSelectionChanged(l -> setUp());
 	}
 	
-	public void iterateIndex(){
-		index++;
+	public UnitPicker setUpUnitPicker(){
+	    UnitPicker up = new UnitPicker(getLabelsBundle().getString("editLabel"),
+	    		this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits());
+	    up.setClickable(this);
+	    return up;
 	}
 	
-	public int getIndex(){
-		return index;
+	public void setUpAnimation(BorderPane gp){
+		gp.setTop(myAnimationPane.getRoot());
 	}
 	
-	public void setIndex(int val){
-		index = val;
+	private void addTextFields(GridPane gp){
+		for(String s: Arrays.asList(getLabelsBundle().getString("unitTextProperties").split(getLabelsBundle().getString("regex")))){
+			getCreator().createTextLabels(gp, s, getIndex(), 1,
+					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			strTextMap.put(s, getCreator().createTextField(gp, getIndex(), 2));
+			iterateIndex();
+		}
 	}
 	
-	public ResourceBundle getLabelsBundle(){
-		return myLabelsBundle;
-	}
-	
-	public ResourceBundle getDimensionsBundle(){
-		return myDimensionsBundle;
+	private void addComboFields(GridPane gp){
+		for(String s: Arrays.asList(getLabelsBundle().getString("unitComboProperties").split(getLabelsBundle().getString("regex")))){
+			getCreator().createTextLabels(gp, s , getIndex(), 1,
+					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			ComboBox<String> cb = getCreator().createStringComboBox(gp, Arrays.asList(getLabelsBundle()
+					.getString("elementTypes").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
+			strComboMap.put(s, cb);
+			iterateIndex();
+		}
 	}
 
-	public abstract void createNewElement();
+	public void createNewElement() {
+		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();	
+		String name = strTextMap.remove(getLabelsBundle().getString("typeText")).getText();
+
+    	for(String str: strTextMap.keySet()){
+    		List<Double> val = new ArrayList<Double>();  		
+    		String[] strings = strTextMap.get(str).getText().trim().split(getLabelsBundle().getString("regex"));
+    		Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
+    		strToDoubleMap.put(str, val);
+    	}
+  	
+    	createUnit(name, strToDoubleMap, comboListToStringList(myProjectiles),
+    			comboListToStringList(affectorsToUnit), comboListToStringList(affectorsToApply));
+    	setUp();
+	}
 	
-	public abstract UnitPicker setUpUnitPicker();
+	private void createUnit(String name, Map<String, List<Double>> map, List<String> projectiles, List<String> atu, List<String> ata){
+		UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
+	    Unit unit = myUnitFactory.createUnit(name,
+	    		strComboMap.get(getLabelsBundle().getString("unitComboProperties")).getValue(), map, projectiles, atu, ata);
+    	myAnimationPane.getAnimationLoaderTab().setUnit(unit);
+        myUnitFactory.getUnitLibrary().addUnit(unit);
+	}
+
+	public void addFields(GridPane gp) {
+		addComboFields(gp);
+		addTextFields(gp);
+		addTextComboButtonTrio(gp, unitNames, myProjectiles,
+				getLabelsBundle().getString("childButton"), getLabelsBundle().getString("childText"));
+		addTextComboButtonTrio(gp, affectorNames, affectorsToUnit,
+				getLabelsBundle().getString("affectorsButton"), getLabelsBundle().getString("affectorsText"));
+		addTextComboButtonTrio(gp, affectorNames, affectorsToApply,
+				getLabelsBundle().getString("applyButton"), getLabelsBundle().getString("applyText"));		
+	}
 	
-	public GridPane setUpGridPane(String s){
-        GridPane gridPane = setUpPane(s);
-        gridPane.getRowConstraints().addAll(new RowConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
-        gridPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")), Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));
+	private void addTextComboButtonTrio(GridPane gp, List<String> listOfNames, List<ComboBox<String>> comboList, String buttonText, String labelText){
+		getCreator().createTextLabels(gp, labelText, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+		ComboBox<String> cbox = getCreator().createStringComboBox(gp, listOfNames, getIndex(), 2);
+		comboList.add(cbox);
+		int currentInt = getIndex();
+		iterateIndex();
 		
-		return gridPane;
-	}
-	
-	public TitledPane setUpTitledPane(BorderPane bp){
-		ScrollPane sp = new ScrollPane();
-		TitledPane titledPane= new TitledPane();
-		titledPane.setText(myLabelsBundle.getString("newLabel"));
-		titledPane.setContent(sp);
-		titledPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newPaneWidth")), Double.parseDouble(myDimensionsBundle.getString("newPaneHeight")));
-		titledPane.setCollapsible(false);
-		sp.setContent(bp);
-		return titledPane;
-	}
-	
-	public GridPane setUpPane(String s){
-		GridPane gridPane = new GridPane();
-        gridPane.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+0))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+1))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+2))));
-		return gridPane;
+		Button button = getCreator().createButton(gp, buttonText, getIndex(), 2);
+		button.setOnAction(e-> addNewComboBox(currentInt, gp, button, cbox, 2, comboList, listOfNames));
+		iterateIndex();
 	}
 	
 	
+	private void addNewComboBox(int row, GridPane gp, Button button, ComboBox<String> cbox, int col, List<ComboBox<String>> list, List<String> names) {
+		if(cbox.getValue() != null){
+			int newcol = col + 1;		
+			gp.getRowConstraints().add(new RowConstraints(Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize"))));
+			gp.getColumnConstraints().add(new ColumnConstraints(150));
+			ComboBox<String> newcbox = getCreator().createStringComboBox(gp, names, row, newcol);
+			list.add(newcbox);
+			button.setOnAction(e -> addNewComboBox(row, gp, button, newcbox, newcol, list, names));
+		}
+	}
+	
+	public void updateMenu(Unit unit) {}
 }
