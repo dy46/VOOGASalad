@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
+
 import auth_environment.paths.MapHandler;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
@@ -41,6 +42,7 @@ public class TestingGameData implements IAuthEnvironment{
         this.myPlaceValidations = new ArrayList<>();
         this.myPlaceValidations.add(new EnemySpawnPointPlaceValidation());
         this.myPlaceValidations.add(new TowerPlaceValidation());
+
         TestingEngineWorkspace engine = new TestingEngineWorkspace();
 //        PlatformEngineWorkspace engine = new PlatformEngineWorkspace();
         engine.setUpEngine(this);

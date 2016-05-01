@@ -43,6 +43,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 	private Position cursorPos;
 	private IAuthEnvironment myData;
 
+
 	public void setUpEngine (IAuthEnvironment data) {
 		unitsToRemove = new ArrayList<>();
 		waveGoal = data.getWaveGoal();
@@ -158,6 +159,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 	public Position getCursorPosition () {
 		return cursorPos;
 	}
+
 
 	@Override
 	public UnitController getUnitController () {
