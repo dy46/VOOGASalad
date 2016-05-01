@@ -7,6 +7,7 @@ import javafx.scene.control.TextInputDialog;
 
 public class CorrectableException extends Exception{
 
+	private static final long serialVersionUID = 1L;
 	private String myResult;
 
 	public CorrectableException(String message, Object inputType){

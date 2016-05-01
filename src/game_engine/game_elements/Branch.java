@@ -21,7 +21,8 @@ import java.util.List;
  */
 
 public class Branch implements Serializable{
-
+	private static final long serialVersionUID = 1L;
+	
 	private List<Position> myPositions;
 	private Map<Position, Position> forwardPositions;
 	private Map<Position, Position> backwardPositions;

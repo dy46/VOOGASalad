@@ -1,15 +1,12 @@
 package game_engine.factories;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import game_engine.affectors.Affector;
-import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.TerrainLibrary;
-import game_engine.properties.Movement;
 
 public class TerrainFactory {
 

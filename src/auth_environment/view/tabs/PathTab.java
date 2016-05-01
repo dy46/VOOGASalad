@@ -13,7 +13,6 @@ import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
 import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
@@ -130,6 +129,7 @@ public class PathTab extends Tab implements IWorkspace {
 		myWaveComboBox.getItems().clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildLevelComboBox() {
 		myLevelComboBox.getItems().clear();
 		if (!myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
@@ -145,6 +145,7 @@ public class PathTab extends Tab implements IWorkspace {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void buildWaveComboBox(String levelName) {
 		myWaveComboBox.getItems().clear();
 		System.out.println(levelName);
@@ -266,11 +267,9 @@ public class PathTab extends Tab implements IWorkspace {
 		drawCurrentBranch();
 	}
 	
-	// TODO: remove print statements
 	private void drawTerrains() {
 		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
-				System.out.println(e.toString());
 				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
 				myTerrains.add(temp);
 			});

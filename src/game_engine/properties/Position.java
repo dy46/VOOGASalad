@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Position extends Property implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private double myX;
 	private double myY;
 

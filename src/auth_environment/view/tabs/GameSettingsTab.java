@@ -125,7 +125,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	private Node buildCloudStorage() {
 		Button cloud = myNodeFactory.buildButton(myNamesBundle.getString("cloudButtonLabel"));
 		cloud.setOnAction(e -> {
-			CloudStorageFrontend c = new CloudStorageFrontend(); 
+			new CloudStorageFrontend(); 
 		});
 		return cloud;
 	}
@@ -145,6 +145,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				e -> myMainView.displayPlayer());
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Node buildChooseScore() {
 		VBox vb = new VBox(); 
 		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("scoreUpdateLabel")));
@@ -159,6 +160,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return vb;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Node buildChooseWaveGoal() {
 		VBox vb = new VBox(); 
 		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("waveGoalLabel")));
@@ -173,6 +175,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return vb; 
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Node buildChoosePlaceValidation() {
 		VBox vb = new VBox(); 
 		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("placeValidationLabel")));

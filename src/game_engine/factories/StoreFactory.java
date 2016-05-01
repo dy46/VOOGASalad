@@ -42,7 +42,7 @@ public class StoreFactory {
 	}
 
 	public void addBuyableUnits(List<Pair<String, Integer>> unitsWithPrices) {
-		for (Pair p : unitsWithPrices) {
+		for (Pair<String, Integer> p : unitsWithPrices) {
 			Unit toAdd = ul.getUnitByName((String) p.getLeft());
 			myStore.addBuyableUnit(toAdd, (Integer) p.getRight());
 		}
