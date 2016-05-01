@@ -33,9 +33,8 @@ public class MainView implements IMainView {
         this.display();
     }
 
-    
     public void displayPlayer() {
-		PlayerGUI playerGUI = new PlayerGUI(790, 765); // TODO: extract constants
+		PlayerGUI playerGUI = new PlayerGUI(860, 765, this); // TODO: extract constants
 		this.myStage.setScene(playerGUI.createPlayerScene());
 		this.display();
     }

@@ -1,9 +1,14 @@
 package game_engine;
 
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import game_engine.AI.AIHandler;
 import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
+import game_engine.controllers.EnemyController;
+import game_engine.controllers.LevelController;
+import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.properties.Position;
@@ -21,11 +26,11 @@ import game_engine.properties.Position;
 
 public interface GameEngineInterface {
 
-	List<String> saveGame ();
+	public void saveGame ();
 
-	void update ();
+	public void update ();
 
-	void setUpEngine (TestingGameData data);
+	public void setUpEngine (IAuthEnvironment data);
 
 	public UnitController getUnitController ();
 
@@ -49,6 +54,8 @@ public interface GameEngineInterface {
 
 	public AISimulator getAISimulator();
 
-	ILevelDisplayer getLevelDisplay();
+	public ILevelDisplayer getLevelDisplay();
+
+	public EnemyController getEnemyController ();
 
 }

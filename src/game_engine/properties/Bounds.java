@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import game_engine.handlers.BoundsHandler;
 
 
 public class Bounds extends Property {
 
     private List<Position> myPositions;
+    private double maxBoundingDistance;
 
     public Bounds (List<Position> positions) {
         this.myPositions = positions;
+        setBoundingDistance();
     }
 
     public List<Position> getPositions () {
@@ -20,6 +23,11 @@ public class Bounds extends Property {
 
     public void setPositions (List<Position> positions) {
         this.myPositions = positions;
+        setBoundingDistance();
+    }
+
+    public double getMaxBoundingDistance () {
+        return maxBoundingDistance;
     }
 
     public Bounds copyBounds () {
@@ -36,15 +44,14 @@ public class Bounds extends Property {
         }
         return str;
     }
-    
 
     public List<Position> getUseableBounds (Position pos) {
-            List<Position> newBounds = new ArrayList<Position>();
-            for (Position p : this.getPositions()) {
-                    Position newP = new Position(p.getX() + pos.getX(), p.getY() + pos.getY());
-                    newBounds.add(newP);
-            }
-            return newBounds;
+        List<Position> newBounds = new ArrayList<Position>();
+        for (Position p : this.getPositions()) {
+            Position newP = new Position(p.getX() + pos.getX(), p.getY() + pos.getY());
+            newBounds.add(newP);
+        }
+        return newBounds;
     }
 
     @Override
@@ -56,9 +63,19 @@ public class Bounds extends Property {
 
     @Override
     public void setValues (List<Double> values) {
-       for(int i = 0; i < myPositions.size(); i++) {
-           myPositions.get(i).setValues(Arrays.asList(values.get(2*i), values.get(2*i+1)));
-       }
+        myPositions.clear();
+        for (int i = 0; i < values.size() / 2; i++) {
+            myPositions.add(new Position(values.get(i), values.get(i+1)));
+        }
+    }
+
+    private void setBoundingDistance () {
+        maxBoundingDistance = BoundsHandler.getMaxBoundingDistance(myPositions);
+    }
+
+    @Override
+    public boolean isBaseProperty () {
+        return false;
     }
 
 }

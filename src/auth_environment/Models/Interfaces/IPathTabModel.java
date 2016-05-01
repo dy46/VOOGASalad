@@ -23,8 +23,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<Branch> getEngineBranches();
 	
-	public List<Branch> getVisualBranches();
-	
 	public void continueFromLastPosition(double x, double y);
 
 	public void createGrid();
@@ -43,7 +41,9 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public List<String> getWaveNames(String selectedLevel); 
 	
-	public List<Unit> getWaveUnits(String selectedWave); 
+	public List<Unit> getSpawningUnits(String selectedWave); 
+	
+	public List<Unit> getPlacingUnits(String selectedWave); 
 	
 	public Branch reselectBranch(BoundLine line); 
 	
@@ -56,4 +56,7 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public Unit getActiveUnit(); 
 	
 	public void addGoalToActiveLevel(Position goal); 
+	
+	public void addSpawnToActiveLevel(Position spawn); 
+	
 }

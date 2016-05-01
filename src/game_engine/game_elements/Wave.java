@@ -3,7 +3,6 @@ package game_engine.game_elements;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Wave extends GameElement {
 
     private List<Unit> mySpawningUnits;
@@ -22,7 +21,6 @@ public class Wave extends GameElement {
         myCurrentUnit = 0;
         timeSinceLastSpawn = 0;
     }
-
 
     public Wave (String name, List<Unit> spawning, List<Unit> placing, List<Integer> spawnTimes, int timeBeforeWave) {
         super(name);

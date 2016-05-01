@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.handlers.VisibilityHandler;
 import game_engine.interfaces.ICollisionDetector;
 import game_engine.physics.CollisionDetector;
 import game_engine.properties.Position;

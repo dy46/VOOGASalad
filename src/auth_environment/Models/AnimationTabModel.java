@@ -1,7 +1,6 @@
 package auth_environment.Models;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -21,10 +20,9 @@ public class AnimationTabModel implements IAnimationTabModel {
 	
 	private StateImageSaver mySaver;
 	
-	public AnimationTabModel(Unit unit) {
+	public AnimationTabModel() {
 		this.mySaver = new StateImageSaver(this.myURLSBundle.getString("saveImageLocation"), SUFFIX); 
 		this.myFiles = new ArrayList<File>();
-		this.myUnit = unit;
 	}
 
 	@Override
@@ -32,9 +30,13 @@ public class AnimationTabModel implements IAnimationTabModel {
 		this.myFiles.add(file);
 	}
 	
+	public void setUnit(Unit unit){
+		this.myUnit = unit;
+	}
+	
 	public void saveFiles(){
-		System.out.println(this.myUnit.getType());
+		System.out.println("name:"+this.myUnit.getType());
 		System.out.println(this.myUnit.getName());
-		this.mySaver.saveFiles(this.myUnit.getType(), this.myUnit.getName(), this.myFiles);
+		this.mySaver.saveFiles(this.myUnit.getName(), "", this.myFiles);
 	}
 }

@@ -4,9 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-
 import java.util.ResourceBundle;
-
 import auth_environment.Models.LevelOverviewTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.ILevelOverviewTabModel;
@@ -16,7 +14,6 @@ import javafx.scene.layout.BorderPane;
 public class LevelOverviewTab extends Tab {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
 	private BorderPane myRoot;
 	private TabPane myTabs;
 	private IAuthModel myAuthModel;
@@ -32,26 +29,14 @@ public class LevelOverviewTab extends Tab {
 		this.myRoot = new BorderPane();
 		this.myTabs = new TabPane();
 		this.myLevelOverviewTabModel = new LevelOverviewTabModel(this.myAuthModel.getIAuthEnvironment());
-		this.setRefresh();
 		this.setUpLevelTabs();
 		this.setupBorderPane();
 		this.setContent(myRoot);
 	}
 	
 	private void setupBorderPane() {
-		myRoot.setTop(this.buildNewLevelButton());
+		myRoot.setRight(this.buildNewLevelButton());
 		myRoot.setLeft(myTabs);
-	}
-	
-	private void setRefresh() {
-		this.myRoot.setOnMouseEntered(e -> this.refresh());
-//		this.setOnSelectionChanged(e -> this.refresh()); 
-	}
-	
-	private void refresh() {
-//		this.myLevelOverviewTabModel.refresh(this.myAuthModel.getIAuthEnvironment());
-		System.out.println("refresh in level overview");
-//		this.setUpLevelTabs();
 	}
 	
 	private void setUpLevelTabs() {
@@ -65,10 +50,9 @@ public class LevelOverviewTab extends Tab {
 	}
 	
 	private Tab addLevelTab() {
-//		int newLevelIndex = ((LevelTab)myTabs.getTabs().get(myTabs.getTabs().size()-1)).getIndex() + 1;
 		int newLevelIndex = this.myTabs.getTabs().size() + 1; 
 		String newLevelName = "Level " + newLevelIndex;
-		myLevelOverviewTabModel.addLevel(newLevelName, 10); // TODO: Not hardcode number of lives
+		myLevelOverviewTabModel.addLevel(newLevelName, Integer.parseInt(myNamesBundle.getString("levelDefaultLife")));
 		Tab tab = new LevelTab(newLevelName, 
 				newLevelIndex, 
 				myAuthModel, 
