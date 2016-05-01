@@ -53,6 +53,13 @@ public class Position extends Property implements Serializable{
 		double dy = this.myY - other.myY;
 		return Math.sqrt(dx * dx + dy * dy);
 	}
+	
+	public boolean roughlyEquals(Position o) {
+	    return (o instanceof Position &&
+                    (Math.abs(((Position) o).myX - this.myX)) < 5 &&
+                    (Math.abs(((Position) o).myY - this.myY)) < 5) ||
+                    (this == o);
+	}
 
 	@Override
 	public boolean equals (Object o) {

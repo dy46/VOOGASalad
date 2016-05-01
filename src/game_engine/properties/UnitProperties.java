@@ -23,7 +23,6 @@ public class UnitProperties {
     private static final double DEFAULT_TEAM = 0;
     private static final double DEFAULT_SPEED = 1;
     private static final double DEFAULT_DIRECTION = 0;
-    private static List<Position> DEFAULT_BOUNDS = new ArrayList<>();
     private static final double DEFAULT_X_POS = 0;
     private static final double DEFAULT_Y_POS = 0;
     private static final Position DEFAULT_POS = new Position(DEFAULT_X_POS, DEFAULT_Y_POS);
@@ -77,8 +76,8 @@ public class UnitProperties {
         myHealth = new Health(DEFAULT_HEALTH);
         myTeam = new Team(DEFAULT_TEAM);
         myVelocity = new Velocity(DEFAULT_SPEED, DEFAULT_DIRECTION);
-        myBounds = new Bounds(DEFAULT_BOUNDS);
-        myRange = new Bounds(DEFAULT_BOUNDS);
+        myBounds = new Bounds(new ArrayList<>());
+        myRange = new Bounds(new ArrayList<>());
         myPrice = new Price(DEFAULT_PRICE);
         myMovement = new Movement(DEFAULT_PATHS, DEFAULT_POS);
         myMass = new Mass(DEFAULT_MASS);
@@ -217,11 +216,7 @@ public class UnitProperties {
     	UnitProperties p1 = p.copyUnitProperties();
     	p1.setMass(123.4);
     	p1.setVelocity(40, 40);
-    	System.out.println(p1.getMass().getValues());
-    	System.out.println(p1.getVelocity().getValues());
     	p1.setPropertiesToBase(p);
-    	System.out.println(p1.getMass().getValues());
-    	System.out.println(p1.getVelocity().getValues());
     }
 
 }

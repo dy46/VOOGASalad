@@ -35,7 +35,6 @@ public class UnitController {
         this.myPlaceValidations = placeValidations;
         this.myStore = new Store(1000);
         this.unitsToRemove = unitsToRemove;
-        
         myUnitUtility = new UnitUtilities();
     }
 

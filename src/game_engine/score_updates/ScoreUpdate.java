@@ -14,6 +14,7 @@ public abstract class ScoreUpdate {
     public abstract void updateScore (GameEngineInterface engineWorkspace, Level currentLevel);
 
     public void updateLivesFromUnitList (List<Unit> unitList, GameEngineInterface engineWorkspace) {
+        unitList.stream().forEach(u -> u.setInvisible());
         engineWorkspace.getLevelController().decrementLives(unitList.size());
     }
 
