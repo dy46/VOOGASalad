@@ -1,7 +1,6 @@
 package auth_environment.Models.Interfaces;
 
 import java.io.File;
-import java.io.IOException;
 
 import game_engine.game_elements.Unit;
 

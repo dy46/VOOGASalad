@@ -22,7 +22,8 @@ import javafx.util.Callback;
 
 public class GameTowerPicker implements IGUIObject {
 
-    private static final int LISTVIEW_WIDTH = 150;
+    private static final int LISTVIEW_OFFSET = 100;
+	private static final int LISTVIEW_WIDTH = 150;
     private static final int PANEL_SPACING = 10;
 	private static final int TOP_PADDING = 10;
 	private static final int RIGHT_PADDING = 0;
@@ -37,7 +38,7 @@ public class GameTowerPicker implements IGUIObject {
     private ObservableList<Unit> myTowers;
     private Label myMoney;
 
-    public GameTowerPicker (ResourceBundle r, GameDataSource data, IGameView view) {
+    public GameTowerPicker (ResourceBundle r, GameDataSource data, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myData = data;
         myView = view;
@@ -48,18 +49,15 @@ public class GameTowerPicker implements IGUIObject {
 
     @Override
     public Node createNode () {
-        updateNode();
         VBox box = new VBox(PANEL_SPACING);
         myListView = new ListView<>();
-        Callback<ListView<Unit>, ListCell<Unit>> cellFactory = (e -> {
-            return new TowerCell();
-        });
         myListView.setItems(myTowers);
-        myListView.setCellFactory(cellFactory);
+        myListView.setCellFactory(cellFactory -> new TowerCell());
         myListView.setOnMouseClicked(e -> {
             myView.setUnitToPlace(myListView.getSelectionModel().getSelectedItem().toString());
         });
         myListView.setPrefWidth(LISTVIEW_WIDTH);
+        updateNode();
         box.getChildren().addAll(myMoney, myListView);
         box.setAlignment(Pos.CENTER);
         box.setPadding(new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING, LEFT_PADDING));
@@ -71,6 +69,7 @@ public class GameTowerPicker implements IGUIObject {
     public void updateNode () {
         updateTowerList();
 		myMoney.setText(String.valueOf(myResources.getString("Money") + myEngine.getUnitController().getStore().getMoney()));
+		myListView.setPrefHeight(myView.getCanvas().getScrollPaneHeight() - LISTVIEW_OFFSET);
     }
 
     private void updateTowerList () {

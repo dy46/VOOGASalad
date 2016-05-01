@@ -11,15 +11,22 @@ import game_player.display_views.RangeDisplayView;
 import game_player.interfaces.IGameView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import main.IMainView;
 
 
 public class GameView implements IGameView {
 
-    public static final int DEFAULT_UPDATE_SPEED = 1;
-    private Pane root;
+    private static final String DEFAULT_CSS = "PlayerTheme1.css";
+    private static final String DEFAULT_PACKAGE = "game_player/view/";
+	public static final int DEFAULT_UPDATE_SPEED = 1;
+    private Scene myScene;
+    private Pane myPane;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
     private RangeDisplayView rangeDisplayView;
@@ -32,15 +39,18 @@ public class GameView implements IGameView {
     private AnimationTimer AT;
     private boolean timerStatus;
     private boolean isPlaying;
+    private GameCanvas myCanvas;
 
     public GameView (GameEngineInterface engine,
                      GameCanvas canvas,
                      GameHUD hud,
                      Scene scene,
                      PlayerMainTab tab) {
-        this.root = canvas.getRoot();
+    	this.myScene = scene;
+    	this.myCanvas = canvas;
+        this.myPane = canvas.getRoot();
         this.playerEngineInterface = engine;
-        this.rangeDisplayView = new RangeDisplayView(this, root);
+        this.rangeDisplayView = new RangeDisplayView(this, myPane);
         this.paths = new ArrayList<>();
         this.myTab = tab;
         this.myHUD = hud;
@@ -50,7 +60,7 @@ public class GameView implements IGameView {
     }
 
     private void setUpEventHandlers (Scene scene) {
-        this.eventHandler = new GameViewEventHandler(playerEngineInterface, this, root);
+        this.eventHandler = new GameViewEventHandler(playerEngineInterface, this, myPane);
         this.eventHandler.setEventHandlers(scene);
     }
 
@@ -64,6 +74,12 @@ public class GameView implements IGameView {
     private void setUpHUD () {
         myHUD.setGameView(this);
         myHUD.setEngine(playerEngineInterface);
+    }
+    
+    public void setCSS(String fileName) {
+    	this.clearCSS();
+        myScene.getStylesheets().add(DEFAULT_PACKAGE + fileName);
+        myScene.getRoot().getStyleClass().add("background");
     }
 
     public void playGame (int gameIndex) {
@@ -101,7 +117,7 @@ public class GameView implements IGameView {
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth() / 2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight() / 2);
-            root.getChildren().add(imgView);
+            myPane.getChildren().add(imgView);
             imgView.toFront();
             paths.add(imgView);
         }
@@ -147,6 +163,10 @@ public class GameView implements IGameView {
     public void hideHUD () {
         myHUD.whenNothingSelected();
     }
+    
+    public Scene getScene() {
+    	return this.myScene;
+    }
 
     public void changeColorScheme (int colorIndex) {
         // TODO Auto-generated method stub
@@ -154,5 +174,21 @@ public class GameView implements IGameView {
 
     public void restartGame () {
         // TODO Auto-generated method stub
+    }
+    
+    public IMainView getMainView() {
+    	return myTab.getMainView();
+    }
+    
+    private void clearCSS() {
+    	myScene.getStylesheets().clear();
+    }
+    
+    public MediaPlayer getMusic() {
+    	return myTab.getMusic();
+    }
+    
+    public GameCanvas getCanvas() {
+    	return myCanvas;
     }
 }

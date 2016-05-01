@@ -57,7 +57,7 @@ public class EditUpgradeWindow extends Observable {
 		ComboBox<String> combo = new ComboBox<>();
 		List<String> affectorNames = new ArrayList<String>();
 		
-		for (Affector a : authModel.getIAuthEnvironment().getAffectors())
+		for (Affector a : authModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary().getAffectors())
 			affectorNames.add(a.getClass().toString());
 
 		combo.getItems().addAll(affectorNames);

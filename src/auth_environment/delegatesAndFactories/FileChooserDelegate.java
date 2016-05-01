@@ -8,9 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileChooserDelegate {
-	
-	public FileChooserDelegate() {}
-	
+		
     public File chooseFile(String title) {
 		return this.fileFromWindow(this.initChooser(title));
     }
@@ -65,7 +63,7 @@ public class FileChooserDelegate {
     }
     
     private FileChooser addXMLFilter(FileChooser f) {
-    	f.getExtensionFilters().add(new ExtensionFilter("*.xml")); 
+    	f.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml")); 
     	return f; 
     }
 

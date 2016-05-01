@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
+import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.score_updates.ScoreUpdate;
@@ -20,6 +21,7 @@ import game_engine.wave_goals.WaveGoal;
  * in so that it can be saved/loaded. 
  */
 
+//TODO: Better Error Checking
 // TODO: check that loading GameData is reflected at AuthViewModel level (one level above this Model) 
 
 public class GameSettingsTabModel implements IGameSettingsTabModel {
@@ -27,10 +29,12 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	private static final String SETTINGS_PACKAGE = "auth_environment/properties/gameSettings";
 	private ResourceBundle mySettingsBundle = ResourceBundle.getBundle(SETTINGS_PACKAGE);
 	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
 	private IAuthModel myAuthModel;
 	
-	// TODO: are type arguments necessary? 
-	private Serializer writer = new Serializer();
+	private IDataConverter<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
 
 	public GameSettingsTabModel(IAuthModel authModel) {
 		this.myAuthModel = authModel;
@@ -56,7 +60,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	public String getGameName() {
 		return this.myAuthModel.getIAuthEnvironment().getGameName();
 	}
-
+	
 	@Override
 	public void setSplashFile(String name) {
 		this.myAuthModel.getIAuthEnvironment().setSplashScreen(name);
@@ -87,8 +91,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName("game_engine.score_updates." + selectedItem + "ScoreUpdate").getConstructor().newInstance());
 		} catch (Exception e) {
-			// TODO: remove 
-			e.printStackTrace();
+			System.out.println(myNamesBundle.getString("scoreUpdateError"));
 		}
 	}
 
@@ -96,9 +99,8 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	public void chooseWaveGoal(String selectedItem) {
 		try {
 			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName("game_engine.wave_goals." + selectedItem + "WaveGoal").getConstructor().newInstance());
-		} catch (Exception e) {
-			// TODO: remove 
-			e.printStackTrace();
+		} catch (Exception e) { 
+			System.out.println(myNamesBundle.getString("waveGoalError"));
 		}
 	}
 
@@ -107,8 +109,7 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		try {
 			myAuthModel.getIAuthEnvironment().getPlaceValidations().add( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
 		} catch (Exception e) {
-			// TODO: remove
-			e.printStackTrace();
+			System.out.println(myNamesBundle.getString("placeValidationError"));
 		}
 		
 	}

@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,39 +32,40 @@ public class CloudStorageFrontend {
 	private Scene myScene;
 	private VBox myRoot;
 	private TextField myKeyInput; 
+	private ListView myBoxContents; 
 	private String myDevKey = "";
-	private CloudStorage c; 
+	private CloudStorage myCloudStorage; 
 
 
 	public CloudStorageFrontend () {
-		this.init(); 
+		init(); 
 	}
 
 	private void init() {
 		Stage myStage = new Stage(); 
-		this.myRoot = new VBox();
-		this.myRoot.setSpacing(10);
-		this.myRoot.setPadding(new Insets(10));
-		this.myScene = new Scene(this.myRoot);
-		this.myRoot.getChildren().addAll( 
-				this.buildBoxImage(),
-				this.buildKeyInput(),
-				this.buildFileButton(),
-				this.buildAnimation()
+		myRoot = new VBox();
+		myRoot.setSpacing(10);
+		myRoot.setPadding(new Insets(10));
+		myScene = new Scene(myRoot);
+		myRoot.getChildren().addAll( 
+				buildBoxImage(),
+				buildKeyInput(),
+				buildFileButton(),
+				buildAnimation()
 				);
-		this.myRoot.setStyle("-fx-background-color: #292929;");
-		this.myRoot.setPrefSize(600, 600); 
-		myStage.setScene(this.myScene);
+		myRoot.setStyle("-fx-background-color: #292929;");
+		myRoot.setPrefSize(600, 600); 
+		myStage.setScene(myScene);
 		myStage.show();
 		myStage.toFront();
 	}
 	
 	private Node buildFileButton() {
 		Button chooseFile = new Button("Choose a File");
-		chooseFile.setOnAction(e -> this.uploadFile());
+		chooseFile.setOnAction(e -> uploadFile());
 		
 		Button chooseFolder = new Button("Choose a Folder"); 
-		chooseFolder.setOnAction(e -> this.uploadFolder());
+		chooseFolder.setOnAction(e -> uploadFolder());
 		
 		HBox hb = new HBox(); 
 		hb.setSpacing(10);
@@ -82,8 +84,8 @@ public class CloudStorageFrontend {
 			File dir = chooser.showDialog(prefWindow.getOwnerWindow());
 			if (dir != null) {
 				String path = dir.getPath(); 
-				c.uploadFolder(path);
-				this.printResults(c);
+				myCloudStorage.uploadFolder(path);
+				printResults(myCloudStorage);
 //				c.notify(MESSAGE);
 			}
 		} catch (FileNotFoundException | TwilioRestException e) {
@@ -97,8 +99,8 @@ public class CloudStorageFrontend {
 			ContextMenu prefWindow = new ContextMenu();
 		    File f = chooser.showOpenDialog(prefWindow.getOwnerWindow());
 	        if (f != null) {
-		        c.uploadFile(f.getAbsolutePath(), f.getName());
-		        this.printResults(c);
+		        myCloudStorage.uploadFile(f.getAbsolutePath(), f.getName());
+		        printResults(myCloudStorage);
 //		        c.notify(MESSAGE);
 	        }
 		} catch (Exception e) {
@@ -107,13 +109,13 @@ public class CloudStorageFrontend {
 	}
 	
 	private HBox buildKeyInput() {
-		this.myKeyInput = new TextField();
-		this.myKeyInput.setPromptText("Enter account key");
-		this.myKeyInput.setOnAction(e -> {
-			this.myDevKey = this.myKeyInput.getText();
+		myKeyInput = new TextField();
+		myKeyInput.setPromptText("Enter account key");
+		myKeyInput.setOnAction(e -> {
+			myDevKey = myKeyInput.getText();
 			try {
-				this.c = new CloudStorage(this.myDevKey);
-				this.c.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
+				myCloudStorage = new CloudStorage(myDevKey);
+				myCloudStorage.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
 			} catch (Exception e1) {
 				System.out.println("Invalid developer token"); 
 			}
@@ -121,10 +123,10 @@ public class CloudStorageFrontend {
 		
 		Button submitButton = new Button("Submit");
 		submitButton.setOnAction(e -> {
-			this.myDevKey = this.myKeyInput.getText();
+			myDevKey = myKeyInput.getText();
 			try {
-				this.c = new CloudStorage(this.myDevKey);
-				this.c.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
+				myCloudStorage = new CloudStorage(myDevKey);
+				myCloudStorage.setUpNotifications(RESOURCE_PATH, ACCOUNT_SID, AUTH_TOKEN, MY_NUMBER);
 
 			} catch (Exception e1) {
 				System.out.println("Invalid developer token"); 
@@ -134,7 +136,7 @@ public class CloudStorageFrontend {
 		HBox hb = new HBox(); 
 		hb.setPadding(new Insets(10));
 		hb.setSpacing(10);
-		hb.getChildren().addAll(this.myKeyInput, submitButton);
+		hb.getChildren().addAll(myKeyInput, submitButton);
 		hb.setAlignment(Pos.CENTER);
 		
 		return hb;
@@ -161,6 +163,12 @@ public class CloudStorageFrontend {
 		ImageView animation = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("drippyDrops.gif")));
 		animation.setFitWidth(800);
 		return animation;
+	}
+	
+	private Node buildViewContents() {
+		myBoxContents = new ListView();
+//		myBoxContents.
+		return null;
 	}
  	
 }

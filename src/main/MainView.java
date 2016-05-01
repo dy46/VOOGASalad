@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 import auth_environment.view.AuthView;
 import auth_environment.view.Welcome;
 import game_player.view.PlayerGUI;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
@@ -34,7 +33,7 @@ public class MainView implements IMainView {
     }
 
     public void displayPlayer() {
-		PlayerGUI playerGUI = new PlayerGUI(790, 765); // TODO: extract constants
+		PlayerGUI playerGUI = new PlayerGUI(860, 765, this); // TODO: extract constants
 		this.myStage.setScene(playerGUI.createPlayerScene());
 		this.display();
     }

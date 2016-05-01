@@ -1,73 +1,67 @@
 package game_data;
 
 import com.thoughtworks.xstream.XStream;
-
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.util.ResourceBundle;
 
 public class Serializer<T> implements IDataConverter<T> {
 	
-	private FileChooserDelegate chooser = new FileChooserDelegate(); 
+	private FileChooserDelegate chooser;
 	
-	// TODO: force write as XML
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
-	public void saveElement(Object o) {
-		
-		File f = this.chooser.save("Choose a file to save game data to");
-//		File f = pickFile(true);
-		XStream xstream = new XStream();
-		String xml = xstream.toXML(o);
-
-		try {
-			FileWriter writer = new FileWriter(f);
-			writer.write(xml);
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			System.out.println("Error saving to file " + f.getAbsolutePath());
-			// TODO: Add good exception handling
-		}
+	public Serializer() {
+		chooser = new FileChooserDelegate(); 
 	}
 	
-	public T loadElement() {
-		try {
-//			File f = pickFile(false);
-			File f = this.chooser.chooseFile("Choose a file to load game data from");
+	public File saveElement(Object o) {
+		File f = this.chooser.save(myNamesBundle.getString("chooseLocationMessage"));
+		if (f != null) {
 			XStream xstream = new XStream();
+			String xml = xstream.toXML(o);
+			try {
+				FileWriter writer = new FileWriter(f);
+				writer.write(xml);
+				writer.flush();
+				writer.close();
+				return f;
+			} catch (IOException e) {
+				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
+			}
+		}
+		else {
+			// TODO: Open dialog window instead of printing to console
+			System.out.println(myNamesBundle.getString("nullFileMessage"));
+		}
+		return null;
+	}
 	
-			return (T) xstream.fromXML(f);
+	public File chooseXMLFile() {
+		return chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T loadFromFile(File file) {
+		try {
+			if (file != null) {
+				XStream xstream = new XStream();
+				return (T) xstream.fromXML(file);
+			}
+			else {
+				// TODO: Open dialog window instead of printing to console
+				System.out.println(myNamesBundle.getString("nullFileError"));
+			}
 		}
 		catch (ClassCastException e) {
-			System.out.println("File is not in correct format for game data");
-			return null;
-			// TODO: Add good exception handling
+			// TODO: Open dialog window instead of printing to console
+			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
 		}
+		return null;
 	}
 
-	private static File pickFile(boolean amSaving) {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-		FileNameExtensionFilter xmlFilter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
-		fileChooser.addChoosableFileFilter(xmlFilter);
-		fileChooser.setFileFilter(xmlFilter);
-
-		int result = 0;
-		if (amSaving) {
-			System.out.println("trying to open?");
-			result = fileChooser.showSaveDialog(null);
-			System.out.println(result); 
-		}
-		else
-			result = fileChooser.showOpenDialog(null);
-		if (result != JFileChooser.APPROVE_OPTION)
-			return null;
-
-		return fileChooser.getSelectedFile();
-	}
 }

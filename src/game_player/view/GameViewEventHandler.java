@@ -1,6 +1,7 @@
 package game_player.view;
 
 import exceptions.WompException;
+import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.interfaces.IGameView;
@@ -36,11 +37,7 @@ public class GameViewEventHandler {
 
     public void setUpMouseClicked (MouseEvent e){
         if (unitToPlace != null) {
-            try {
-				playerEngineInterface.getUnitController().addTower(unitToPlace, e.getX(), e.getY());
-			} catch (WompException e1) {
-				e1.displayMessage();
-			}
+           playerEngineInterface.getUnitController().addTower(unitToPlace, e.getX(), e.getY());
         }
         else if (canPlaceUnit) {
             gameView.hideHUD();
@@ -53,15 +50,13 @@ public class GameViewEventHandler {
     }
 
     public void setUpKeyPressed (KeyCode code) {
-        switch (code) {
-            case SPACE: gameView.toggleGame(); break;
-            case ESCAPE: unitToPlace = null; break;
-            case W: moveSelectedUnit(0, -moveSpeed); break;
-            case A: moveSelectedUnit(-moveSpeed, 0); break;
-            case D: moveSelectedUnit(moveSpeed, 0); break;
-            case S: moveSelectedUnit(0, moveSpeed); break;
-            default: break;
-        }
+    	ResourceBundle keyResource = ResourceBundle.getBundle("game_player/resources/Hotkeys");
+    	if (code.equals(KeyCode.valueOf(keyResource.getString("PlayPause")))) gameView.toggleGame();
+    	else if (code.equals(KeyCode.valueOf(keyResource.getString("Escape")))) unitToPlace = null;
+    	else if (code.equals(KeyCode.valueOf(keyResource.getString("Forward")))) moveSelectedUnit(0, -moveSpeed);
+    	else if (code.equals(KeyCode.valueOf(keyResource.getString("Left")))) moveSelectedUnit(-moveSpeed, 0);
+    	else if (code.equals(KeyCode.valueOf(keyResource.getString("Right")))) moveSelectedUnit(moveSpeed, 0);
+    	else if (code.equals(KeyCode.valueOf(keyResource.getString("Backward")))) moveSelectedUnit(0, moveSpeed);
     }
 
     public void moveSelectedUnit (double offsetX, double offsetY) {

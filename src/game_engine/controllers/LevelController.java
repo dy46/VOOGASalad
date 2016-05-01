@@ -36,6 +36,12 @@ public class LevelController implements ILevelDisplayer {
         this.myCurrentLevel = currentLevel;
     }
     
+    public void setCurrentWave(int waveIndex) {
+    	if (myCurrentLevel.getWaves().size() > waveIndex) {
+    		myCurrentLevel.setCurrentWave(waveIndex);
+    	}
+    }
+    
     public String getGameStatus () {
         if (myCurrentLevel.getMyLives() <= 0) {
             return "Waves remaining: " + myCurrentLevel.wavesLeft() + ", Lives remaining: " + "0";

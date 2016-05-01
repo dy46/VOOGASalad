@@ -45,7 +45,7 @@ public class UnitController {
         return myStore.getTowerList();
     }
 
-    public boolean addTower (String name, double x, double y) throws WompException {
+    public boolean addTower (String name, double x, double y) {
         Unit purchased = myStore.purchaseUnit(name);
         if (purchased != null) {
             boolean canPlace = false;
