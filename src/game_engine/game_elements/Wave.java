@@ -71,6 +71,10 @@ public class Wave extends GameElement {
     public List<Unit> getPlacingUnits () {
         return myPlacingUnits;
     }
+    
+    public List<Integer> getSpawnTimes(){
+    	return mySpawnTimes;
+    }
 
     public Unit tryToSpawnUnit () {
         timeSinceLastSpawn++;

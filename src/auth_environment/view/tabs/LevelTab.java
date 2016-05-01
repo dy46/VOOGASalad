@@ -64,7 +64,7 @@ public class LevelTab extends Tab{
 		lifeHB.getChildren().addAll(lifeLabel, lifeField, refreshButton);
 		lifeHB.setSpacing(Double.parseDouble(myDimensionsBundle.getString("lifeHBSpacing")));
 		myBorderPane.setTop(lifeHB);
-//		this.setRefresh();
+		this.setRefresh();
 		this.createWaveList();
 //		this.setUpWaveList();
 		this.addNewWaveSpace(index, newTableInfo, dummyWaveButton);
@@ -91,7 +91,7 @@ public class LevelTab extends Tab{
 	
 	private void setUpWaveList(){
 		this.newTableInfo.getChildren().clear();
-		System.out.println(level.getWaves().size());
+		System.out.println("Number of waves: " + level.getWaves().size());
 		if(level.getWaves().size() > 0){
 			System.out.println("refreshing waves");
 			this.level.getWaves().stream().forEach(wave -> this.addNewWaveSpace(wave, index, newTableInfo, dummyWaveButton));
