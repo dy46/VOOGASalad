@@ -11,7 +11,7 @@ import game_engine.properties.Position;
 /**
  * CollisionDetector controls unit collisions based on bounds and positions.
  * 
- * @author paul
+ * @author Paul
  *
  */
 

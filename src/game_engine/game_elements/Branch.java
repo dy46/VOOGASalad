@@ -80,6 +80,12 @@ public class Branch implements Serializable{
 		setNextPositions();
 	}
 	
+	/*
+	 * Takes in a list of positions, generates the interpolated points, and adds them to next position maps.
+	 * Allows for bi-directional traveling on the Branch.
+	 * 
+	 * @author Paul
+	 */
 	private void setNextPositions(){
 		int size = cycle ? myPositions.size() : myPositions.size() - 1;
 		if(myPositions.size() < 1){
@@ -116,6 +122,8 @@ public class Branch implements Serializable{
 	 * an Enemy needs to move in next.
 	 *
 	 * @return	The next Position in the list of Positions that represent the path being taken.
+	 * 
+	 * @author Paul
 	 */
 	public Position getNextPosition(Position currentPosition, Position moveTowards){
 		if(currentPosition.equals(myPositions.get(myPositions.size()-1))){

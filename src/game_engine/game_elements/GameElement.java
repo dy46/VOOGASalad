@@ -2,7 +2,6 @@ package game_engine.game_elements;
 
 /**
  * This interface is the external API of the game element module for providing element information to the front-end.
- * @author adamtache
  *
  */
 

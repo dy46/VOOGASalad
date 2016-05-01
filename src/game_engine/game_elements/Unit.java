@@ -12,7 +12,6 @@ import game_engine.properties.UnitProperties;
  * It represents any physical game unit and holds its ID, UnitProperties, and list of current
  * Affectors to be applied.
  * 
- * @author adamtache
  *
  */
 public class Unit extends GameElement {
