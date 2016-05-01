@@ -49,7 +49,7 @@ public class WaveWindowModel implements IWaveWindowModel {
 
     @Override
     public List<String> getEnemyInfo() {
-        List<String> ret = new ArrayList<String>();
+        List<String> ret = new ArrayList<>();
         for(Unit u : this.myWave.getSpawningUnits()){
             ret.add(u.getName()); // TODO: maybe some other statistics?
         }
