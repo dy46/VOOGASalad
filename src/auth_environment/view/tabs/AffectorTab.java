@@ -35,7 +35,7 @@ public class AffectorTab extends ElementTab{
 	}
 	
 	public UnitPicker setUpUnitPicker(){
-	     return new UnitPicker("Edit");    
+	     return new UnitPicker(getLabelsBundle().getString("editLabel"));    
 	}
 	
 	public void setUpAnimation(BorderPane bp){}
