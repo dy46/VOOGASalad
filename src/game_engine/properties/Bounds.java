@@ -5,6 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.handlers.BoundsHandler;
 
+/**
+ * Bounds is a unit property made up of a list of positions representing the outside of a Unit.
+ * Bounds are used for collisions and encapsulations within the engine. 
+ * 
+ * Bounds are generally centered around 0,0, whereas useable bounds are centered around the current position of the Unit.
+ *
+ */
 
 public class Bounds extends Property {
 

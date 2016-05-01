@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import game_engine.affectors.Affector;
-import game_engine.properties.Movement;
-import game_engine.properties.Position;
 import game_engine.properties.UnitProperties;
 
 
@@ -14,7 +12,6 @@ import game_engine.properties.UnitProperties;
  * It represents any physical game unit and holds its ID, UnitProperties, and list of current
  * Affectors to be applied.
  * 
- * @author adamtache
  *
  */
 public class Unit extends GameElement {
@@ -36,7 +33,7 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = new UnitProperties();
-        myBaseProperties = myProperties.copyUnitProperties();
+        setMyBaseProperties(myProperties.copyUnitProperties());
         elapsedTime = 0;
         this.numFrames = numFrames;
         addAffectors(affectors);
@@ -47,7 +44,7 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = unitProperties;
-        myBaseProperties = unitProperties.copyUnitProperties();
+        setMyBaseProperties(unitProperties.copyUnitProperties());
         elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
@@ -57,7 +54,7 @@ public class Unit extends GameElement {
         super(name);
         initialize();
         myProperties = new UnitProperties();
-        myBaseProperties = myProperties.copyUnitProperties();
+        setMyBaseProperties(myProperties.copyUnitProperties());
         elapsedTime = 0;
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
@@ -267,5 +264,12 @@ public class Unit extends GameElement {
             }
         }
     }
+    
+	public UnitProperties getMyBaseProperties() {
+		return myBaseProperties;
+	}
+	public void setMyBaseProperties(UnitProperties myBaseProperties) {
+		this.myBaseProperties = myBaseProperties;
+	}
 
 }

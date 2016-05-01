@@ -3,6 +3,11 @@ package game_engine.properties;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Team is a unit property representing the team value of the unit.
+ * 
+ *
+ */
 
 public class Team extends Property {
 

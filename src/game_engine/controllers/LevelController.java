@@ -10,6 +10,13 @@ import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.interfaces.ILevelDisplayer;
 
+/**
+ * This class is a controller for the levels in games.
+ * 
+ * @author andy
+ *
+ */
+
 public class LevelController implements ILevelDisplayer {
 
     private List<Level> myLevels;

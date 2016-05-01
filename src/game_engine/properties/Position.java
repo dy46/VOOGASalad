@@ -4,9 +4,17 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Position is a property that represents the position of a unit on the map.
+ * Top left is 0,0 and x,y increases going right and down respectively.
+ * 
+ *
+ */
 
 public class Position extends Property implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private double myX;
 	private double myY;
 

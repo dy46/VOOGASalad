@@ -3,6 +3,12 @@ package game_engine.properties;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Mass is a unit property representing the mass of a unit.
+ * 
+ *
+ */
+
 public class Mass extends Property{
 	
 	private double myMass;

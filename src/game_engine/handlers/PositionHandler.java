@@ -6,6 +6,14 @@ import java.util.List;
 
 import game_engine.properties.Position;
 
+/**
+ * This class controls interpolation of a list of positions by filling in too large of gaps between positions.
+ * Too large of a gap is more than one "position unit" away. 
+ * 
+ * @author paul
+ *
+ */
+
 public class PositionHandler {
 	
 	/*
@@ -16,7 +24,7 @@ public class PositionHandler {
 	 * @return	the list of interpolated positions
 	 */
 	public List<Position> getInterpolatedPositions(List<Position> positions, boolean cycle){
-		List<Position> newList = new ArrayList<Position>();
+		List<Position> newList = new ArrayList<>();
 		HashMap<Position, Position> nextPositions = fillPositionGaps(positions, cycle);
 		if(!positions.isEmpty()){
 			Position start = positions.get(0);

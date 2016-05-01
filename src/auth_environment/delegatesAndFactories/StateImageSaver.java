@@ -68,7 +68,7 @@ public class StateImageSaver {
 	 * Takes in a list of file locations instead of actual files and renames/saves them
 	 */
 	public void saveFileLocations(String type, String unit, List<String> imageLocations) throws IOException{
-		List<File> files = new ArrayList<File>();
+		List<File> files = new ArrayList<>();
 		for(String s :imageLocations){
 			File f = new File(s);
 			files.add(f);

@@ -6,6 +6,14 @@ import java.util.stream.Collectors;
 import game_engine.game_elements.Branch;
 import game_engine.handlers.DirectionHandler;
 
+/**
+ * Movement is a unit property that holds information on how a unit moves.
+ * This includs its current position, branch, and the branches it moves on, as well as the position it's currently moving towards on its current branch.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class Movement {
 
 	private List<Branch> myBranches;

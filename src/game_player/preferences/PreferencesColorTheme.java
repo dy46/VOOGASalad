@@ -22,7 +22,6 @@ public class PreferencesColorTheme extends GUIComboBox {
 
     @Override
     public void updateNode () {
-        // TODO Auto-generated method stub
 
     }
 

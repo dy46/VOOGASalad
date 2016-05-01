@@ -2,7 +2,6 @@ package game_data;
 
 import com.thoughtworks.xstream.XStream;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
-import exceptions.SerializerException;
 import exceptions.WompException;
 
 import java.io.File;

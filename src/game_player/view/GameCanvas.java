@@ -45,7 +45,6 @@ public class GameCanvas {
     }
 
     public void updateNode () {
-        // TODO Auto-generated method stub
 
     }
     

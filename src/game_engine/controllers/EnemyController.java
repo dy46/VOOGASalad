@@ -6,6 +6,14 @@ import java.util.List;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
 
+/**
+ * This class is a controller for enemies and allows manipulation of spawning and active enemies.
+ * The enemy controller also holds a bounding controller, which is for accessing maximum bounding for the largest enemy.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class EnemyController {
 
 	private LevelController myLevelController;
