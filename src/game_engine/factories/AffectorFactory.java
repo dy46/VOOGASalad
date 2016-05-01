@@ -24,7 +24,6 @@ public class AffectorFactory {
 	public AffectorFactory(FunctionFactory myFunctionFactory){
 		myAffectorLibrary = new AffectorLibrary();
 		this.myFunctionFactory = myFunctionFactory;
-		setDefaultAffectors(myFunctionFactory);
 	}
 
 	private void constructAffector(String property, String effect, AffectorData data){
@@ -59,23 +58,26 @@ public class AffectorFactory {
 	       functionValues.removeIf(f -> f== null);
 	       AffectorData newData = null;
 	       if(property == null) {
+	           System.out.println(functionNames.size());
 	           if(functionNames.size() == 0) {
 	               newData = new AffectorData();
 	           }
 	           else {
 	               functionList.add(convertToFunctions(functionNames, functionValues));
 	               propertyList.add(null);
+	               newData = new AffectorData(functionList, propertyList);  
 	           }
 	       }
 	       else if (functionNames.size() == 0){
 	            propertyList.add(property);
 	            functionList.add(null);
+	            newData = new AffectorData(functionList, propertyList);  
 	       }
 	       else {
 	    	   propertyList.add(property);
 	    	   functionList.add(convertToFunctions(functionNames, functionValues));
-	       }
-	       newData = new AffectorData(functionList, propertyList);	       
+	              newData = new AffectorData(functionList, propertyList);  
+	       }       
 	       Affector newAffector = null;
 	       try {
 	            newAffector =  (Affector) Class.forName(className).getConstructor(AffectorData.class)

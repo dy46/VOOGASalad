@@ -58,14 +58,15 @@ public class AffectorTab extends UnitTab{
 		String name = strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[0]).getText();
 		String type = getLabelsBundle().getString("packageName") + strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[0]).getValue() + getLabelsBundle().getString("affectorText");
 		int ttl = Integer.parseInt(strTextMap.get(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex"))[1]).getText());
-		String property = effects.remove(0).getValue();
+		String property = strDropMap.get(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex"))[1]).getValue();
 		
 		List<String> eff = new ArrayList<String>();
-    	effects.stream().forEach(s -> eff.add(s.getValue()));
-		
-		List<Double> values = new ArrayList<Double>();
-    	functions.stream().forEach(s -> {if(s.getText() != null)values.add(Double.parseDouble(s.getText()));});
-			
+    	        effects.stream().forEach(s -> eff.add(s.getValue()));
+    	        List<Double> values = new ArrayList<Double>();
+    	        eff.removeIf(u -> u == null);
+		if(eff.size() > 0) {
+		    functions.stream().forEach(s -> {values.add(Double.parseDouble(s.getText()));});
+		}		
 		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl, eff, values);
 		reset();
 		setUp();
