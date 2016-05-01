@@ -1,7 +1,7 @@
 package game_player.image_processing;
 
 import game_engine.game_elements.Unit;
-import game_player.utilties.UnitTypeResourceBundleProcessor;
+import game_player.utilities.UnitTypeResourceBundleProcessor;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
