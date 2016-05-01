@@ -13,6 +13,7 @@ import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
+import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
 import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
@@ -36,7 +37,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
+
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
@@ -50,7 +51,7 @@ public class PathTab extends Tab implements IWorkspace {
 	private UnitPicker mySpawningUnitPicker; 
 	private UnitPicker myPlacingUnitPicker; 
 	private List<UnitView> myTerrains;
-	
+
 	private IPathTabModel myPathTabModel;
 	private IAuthEnvironment myAuthEnvironment;
 	private IAuthModel myAuthModel;
@@ -64,9 +65,10 @@ public class PathTab extends Tab implements IWorkspace {
 		myAuthEnvironment = auth.getIAuthEnvironment();
 		init(); 
 	}
-	
+
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
+		addConfirmationDialog();
 		myNodeFactory = new NodeFactory(); 
 		myTerrains = new ArrayList<>();
 		myPathPane = new Pane();
@@ -84,6 +86,16 @@ public class PathTab extends Tab implements IWorkspace {
 		drawMap();
 	}
 
+	private void addConfirmationDialog() {
+		boolean confirmation = new ConfirmationDialog().getConfirmation(
+				myNamesBundle.getString("gridHeaderText"),
+				myNamesBundle.getString("gridContextText"));
+		if(confirmation) {
+			myPathTabModel.createGrid();
+		}
+	}
+
+
 	private void setupBorderPane() {
 		myBorderPane = new BorderPane(); 
 		setOnSelectionChanged(e -> refresh());
@@ -92,7 +104,7 @@ public class PathTab extends Tab implements IWorkspace {
 		myBorderPane.setCenter(buildCenter());
 		myBorderPane.setRight(buildRight());
 	}
-	
+
 	private Node buildCenter() {
 		VBox center = buildDefaultVBox(); 
 		center.getChildren().addAll(
@@ -107,7 +119,7 @@ public class PathTab extends Tab implements IWorkspace {
 		right.getChildren().addAll(buildComboBoxes());
 		return right; 
 	}
-	
+
 	private Node buildComboBoxes() {
 		VBox vb = buildDefaultVBox(); 
 		myLevelComboBox = new ComboBox<String>();
@@ -164,7 +176,7 @@ public class PathTab extends Tab implements IWorkspace {
 		mySpawningUnitPicker.setUnits(myPathTabModel.getSpawningUnits(waveName));
 		myPlacingUnitPicker.setUnits(myPathTabModel.getPlacingUnits(waveName));
 	}
-	
+
 	private VBox buildDefaultVBox() {
 		return myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
@@ -175,7 +187,7 @@ public class PathTab extends Tab implements IWorkspace {
 		vb.getChildren().addAll(buildFirstRowButtons(), buildSecondRowButtons());
 		return myNodeFactory.centerNode(vb); 
 	}
-	
+
 	private HBox buildFirstRowButtons() {
 		HBox hb0 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")), 0);
 		myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
@@ -186,10 +198,10 @@ public class PathTab extends Tab implements IWorkspace {
 				e -> {
 					BrowserWindowDelegate browser = new BrowserWindowDelegate(); 
 					browser.openWindow(myNamesBundle.getString("helpMenuLabel"),
-							 myURLSBundle.getString("helpURL"),
-							 Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
-							 Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
-							 );
+							myURLSBundle.getString("helpURL"),
+							Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
+							Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
+							);
 				});
 		hb0.getChildren().addAll(
 				myPathWidthField, 
@@ -198,7 +210,7 @@ public class PathTab extends Tab implements IWorkspace {
 				);
 		return hb0; 
 	}
-	
+
 	private HBox buildSecondRowButtons() {
 		HBox hb1 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")), 0);
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
@@ -264,7 +276,7 @@ public class PathTab extends Tab implements IWorkspace {
 		drawGoals();
 		drawCurrentBranch();
 	}
-	
+
 	private void drawTerrains() {
 		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
@@ -276,7 +288,8 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void drawBranches() {
-		myPathTabModel.getEngineBranches().stream().forEach(b -> drawBranch(b));
+		myPathTabModel.getAuthBranches().stream().forEach(b -> drawBranch(b));
+		myPathTabModel.getAuthGrid().stream().forEach(b -> drawBranch(b));
 	}
 
 	private void drawSpawns() {

@@ -178,7 +178,7 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public List<Branch> getEngineBranches() {
-		return myMapHandler.getBranches();
+		return myMapHandler.getEngineBranches();
 	}
 
 	@Override
@@ -199,6 +199,16 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Position> getSpawns() {
 		return myMapHandler.getSpawns();
+	}
+
+	@Override
+	public List<Branch> getAuthBranches() {
+		return this.myMapHandler.getAuthBranches();
+	}
+
+	@Override
+	public List<Branch> getAuthGrid() {
+		return this.myMapHandler.getAuthGrid();
 	}
 
 }

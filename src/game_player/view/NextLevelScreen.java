@@ -19,10 +19,9 @@ public class NextLevelScreen {
 	public NextLevelScreen(ResourceBundle r, PlayerGUI GUI) {
 		myResources = r;
 		myGUI = GUI;
-		displayScreen();
 	}
 	
-	private void displayScreen() {
+	protected void displayScreen() {
 		createRoot();
 		Stage loadStage = new Stage();
 		Scene scene = new Scene(myRoot);
