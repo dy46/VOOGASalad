@@ -24,9 +24,11 @@ public interface IGameData {
     public List<Unit> getPlacedUnits();
     public void setPlacedUnits(List<Unit> units);
 
-    public List<Affector> getAffectors();
     public AffectorFactory getAffectorFactory();
     public void setAffectorFactory(AffectorFactory affectorFactory);
+    public default List<Affector> getAffectors() {
+    	return getAffectorFactory().getAffectorLibrary().getAffectors();
+    }
 
     public List<PlaceValidation> getPlaceValidations();
     public void setPlaceValidations(List<PlaceValidation> placeValidations);
@@ -42,9 +44,6 @@ public interface IGameData {
     
     public UnitFactory getUnitFactory();
 	public void setUnitFactory(UnitFactory unitFactory);
-	   
-    public int getCurrentWaveIndex();
-    public void setCurrentWaveIndex(int currentWaveIndex);
     
 	public MapHandler getMapHandler();
 	public void setMapHandler(MapHandler mapHandler);
@@ -53,4 +52,9 @@ public interface IGameData {
 	public default Store getStore() {
 		return getStoreFactory().getStore();
 	}
+	
+    public int getCurrentWaveIndex();
+    public void setCurrentWaveIndex(int currentWaveIndex);
+    public int getCurrentLevelIndex();
+    public void setCurrentLevelIndex(int currentLevelIndex);
 }
