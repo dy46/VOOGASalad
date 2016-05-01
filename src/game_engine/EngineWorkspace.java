@@ -57,7 +57,7 @@ public class EngineWorkspace implements GameEngineInterface {
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
-        myAffectors = data.getAffectorFactory().getAffectorLibrary().getAffectors();
+        myAffectors = data.getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
