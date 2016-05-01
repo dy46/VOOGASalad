@@ -51,7 +51,8 @@ public class AffectorTab extends ElementTab{
                                 split(getLabelsBundle().getString("regex"))[1]).getValue();
                 
                 List<Double> values = new ArrayList<Double>();
-          
+        functions.stream().forEach(s -> {if(s.getText() != null)values.add(Double.parseDouble(s.getText()));});
+        
                 this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl,
                                 comboListToStringList(effects), values);
                 setUp();

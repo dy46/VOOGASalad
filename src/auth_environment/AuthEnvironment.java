@@ -21,20 +21,18 @@ import game_engine.wave_goals.WaveGoal;
 
 
 public class AuthEnvironment implements IAuthEnvironment {
-
 	private String myName;
-	private String mySplashScreen; 
+	private String mySplashScreenName;
 	
 	private List<Level> myLevels = new ArrayList<Level>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
-	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
-	private Store myStore = new Store(1000);
 	private double myScore = 0;
-	private int myCurrentWaveIndex = 0;
 	private MapHandler myMapHandler = new MapHandler();
+	private int myCurrentWaveIndex = 0;
+	private int myCurrentLevelIndex = 0;
 	
 	private FunctionFactory myFunctionFactory = new FunctionFactory();
 	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
@@ -48,25 +46,26 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Position> mySpawns = new ArrayList<Position>();
 	private List<Position> myGoals = new ArrayList<Position>();
 
-	public AuthEnvironment() { 
-		
-	}
-
 	@Override
 	public String getGameName() {
 		return this.myName; 
 	}
-	
 	@Override
 	public void setGameName(String name) {
 		this.myName = name; 
 	}
 
+	public String getSplashScreen() {
+		return mySplashScreenName;
+	}
+	public void setSplashScreen(String fileName) {
+		mySplashScreenName = fileName;
+	}
+	
 	@Override
 	public List<Position> getGoals() {
 		return myGoals;
 	}
-	
 	@Override
 	public void setGoals(List<Position> goals) {
 		myGoals = goals;
@@ -154,7 +153,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	    System.out.println(myAffectorFactory.getAffectorLibrary().getAffectors());
 		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
-	@Override
 	public AffectorFactory getAffectorFactory() {
 		return myAffectorFactory;
 	}
@@ -191,15 +189,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 	
 	@Override
-	public Store getStore() {
-		return myStore;
-	}
-	@Override
-	public void setStore(Store store) {
-		myStore = store;
-	}
-	
-	@Override
 	public double getScore() {
 		return myScore;
 	}
@@ -218,15 +207,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 	
 	@Override
-	public int getCurrentWaveIndex() {
-		return myCurrentWaveIndex;
-	}
-	@Override
-	public void setCurrentWaveIndex(int currentWaveIndex) {
-		myCurrentWaveIndex = currentWaveIndex;
-	}
-	
-	@Override
 	public MapHandler getMapHandler() {
 		return myMapHandler; 
 	}
@@ -241,13 +221,28 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 
 	@Override
-	public void setSplashScreen(String fileName) {
-		mySplashScreen = fileName;
+	public int getCurrentWaveIndex() {
+		return myCurrentWaveIndex;
 	}
-
 	@Override
-	public String getSplashScreen() {
-		return mySplashScreen;
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		myCurrentWaveIndex = currentWaveIndex;
 	}
+    @Override
+    public Store getStore () {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    @Override
+    public int getCurrentLevelIndex () {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+    @Override
+    public void setCurrentLevelIndex (int currentLevelIndex) {
+        // TODO Auto-generated method stub
+        
+    }
+
 	
 }

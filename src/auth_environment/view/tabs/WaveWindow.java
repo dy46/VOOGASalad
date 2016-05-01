@@ -1,6 +1,7 @@
 package auth_environment.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import auth_environment.Models.WaveWindowModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -21,6 +22,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class WaveWindow {
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private GridPane myLeftGridPane;
 	private GridPane myRightGridPane;
@@ -34,45 +37,27 @@ public class WaveWindow {
 	private IWaveWindowModel myWaveWindowModel; 
 	private ILevelOverviewTabModel myLevelOverviewTabModel; 
 
+	private Stage stage;
+	private Group root;
+	private Scene newScene;
+	
 	private NodeFactory myNodeFactory; 
 		
 	public WaveWindow(String level, String wave, IAuthModel authModel, ILevelOverviewTabModel levelOverview){
 		this.myAuthModel = authModel;
 		this.myLevelOverviewTabModel = levelOverview; 
-		this.myNodeFactory = new NodeFactory(); 
-		this.spawningNames = new ArrayList<ComboBox<String>>();
-		this.placingNames = new ArrayList<ComboBox<String>>();
-		this.spawningTimes = new ArrayList<TextField>();
 		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
 		                                             authModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary(),
 				this.myLevelOverviewTabModel); 
-		
-		Stage stage = new Stage();
-		Group root = new Group();
-		Scene newScene = new Scene(root);
-		stage.setScene(newScene);
-		myLeftGridPane = new GridPane();
-		myRightGridPane = new GridPane();
-		myBorderPane = new BorderPane();
-		myBorderPane.setLeft(myLeftGridPane);
-		myBorderPane.setRight(myRightGridPane);
-//		root.getChildren().add(myLeftGridPane);
-//		root.getChildren().add(myRightGridPane);
-		root.getChildren().add(myBorderPane);
-		
+		init();
 		String title = level + ", " + wave;
-		stage.setTitle(title);
-		stage.show(); 
-		centerStage(stage);
-		
+		showWindow(level, wave, title);
 		int index = 0;
-		Button dummyButton = new Button("Lol why do i exist");
+		Button dummyButton = new Button();
 		ComboBox dummyCBox = new ComboBox(); 
 		dummyCBox.setValue("test");
-		
-		addNewEnemySpace(index, myLeftGridPane, dummyButton, dummyCBox);
-		addNewTowerSpace(index, myRightGridPane, dummyButton, dummyCBox);
-		
+		addNewElementSpace(index, myLeftGridPane, dummyButton, dummyCBox, true);
+		addNewElementSpace(index, myRightGridPane, dummyButton, dummyCBox, false);
 		Button ok = new Button("Ok");
 		myBorderPane.setBottom(ok);
 		String levelNum = level.split(" ")[1]; 
@@ -80,20 +65,37 @@ public class WaveWindow {
 		ok.setOnAction(e -> createNewWave(title, levelNum + " " + waveNum));
 	}
 	
-	//createWave(String name, String level, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames)
+	private void showWindow(String level, String wave, String title){
+		stage.setTitle(title);
+		stage.show();
+		centerStage(stage);
+	}
+	
+	private void init(){
+		this.myNodeFactory = new NodeFactory(); 
+		this.spawningNames = new ArrayList<ComboBox<String>>();
+		this.placingNames = new ArrayList<ComboBox<String>>();
+		this.spawningTimes = new ArrayList<TextField>();
+		stage = new Stage();
+		root = new Group();
+		newScene = new Scene(root);
+		stage.setScene(newScene);
+		myLeftGridPane = new GridPane();
+		myRightGridPane = new GridPane();
+		myBorderPane = new BorderPane();
+		myBorderPane.setLeft(myLeftGridPane);
+		myBorderPane.setRight(myRightGridPane);
+		root.getChildren().add(myBorderPane);
+	}
+	
 	private void createNewWave(String title, String level) {
 		List<String> sn = new ArrayList<String>();
 		List<Integer> st = new ArrayList<Integer>();
 		List<String> pn = new ArrayList<String>();
-		for(ComboBox<String> cb: spawningNames){
-			sn.add(cb.getValue());
-		}
-		for(ComboBox<String> cb: placingNames){
-			pn.add(cb.getValue());
-		}
-		for(TextField hb: spawningTimes){
-			st.add(Integer.parseInt(hb.getText()));
-		}
+		
+		spawningNames.stream().forEach(s -> sn.add(s.getValue()));
+		placingNames.stream().forEach(s -> pn.add(s.getValue()));
+		spawningTimes.stream().forEach(s -> st.add(Integer.parseInt(s.getText())));
 		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4); 
 	}
 
@@ -106,42 +108,25 @@ public class WaveWindow {
 		
 	}
 	
-	//TODO: Refactor addNewEnemySpace and addNewTowerSpace methods 
-	private void addNewEnemySpace (int index, GridPane newTableInfo, Button dButton, ComboBox cbox) {
-		if (cbox.getValue() != null) {
+	private void addNewElementSpace(int index, GridPane newTableInfo, Button dButton, ComboBox cBox, boolean makeInputField){
+		if(cBox.getValue() != null){
 			newTableInfo.getChildren().remove(dButton);
 			ComboBox<String> newcbox = new ComboBox<String>();
 			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
-
-			newTableInfo.add(addSpawnTimeHBox(true, newcbox), 2, index);
-			
+			newTableInfo.add(addSpawnTimeHBox(makeInputField, newcbox), 2, index);
 			index++;
-			Button newAffectorButton = new Button("+ Add New Enemy");
+			Button newAffectorButton = new Button(myNamesBundle.getString("waveAddNewElement"));
 			int num = index;
 			newAffectorButton
-			.setOnAction(e -> addNewEnemySpace(num, newTableInfo, newAffectorButton,
-					newcbox));
+			.setOnAction(e -> addNewElementSpace(num, newTableInfo, newAffectorButton,
+					newcbox, makeInputField));
 			newTableInfo.add(newAffectorButton, 2, index);
-			spawningNames.add(newcbox);
-		}
-	}
-	
-	private void addNewTowerSpace(int index, GridPane newTableInfo, Button dButton, ComboBox cbox){
-		if (cbox.getValue() != null) {
-			newTableInfo.getChildren().remove(dButton);
-			ComboBox<String> newcbox = new ComboBox<String>();
-			newcbox.getItems().addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary().getUnitNames());
-
-			newTableInfo.add(addSpawnTimeHBox(false, newcbox), 2, index);
-			
-			index++;
-			Button newAffectorButton = new Button("+ Add New Tower");
-			int num = index;
-			newAffectorButton
-			.setOnAction(e -> addNewTowerSpace(num, newTableInfo, newAffectorButton,
-					newcbox));
-			newTableInfo.add(newAffectorButton, 2, index);
-			placingNames.add(newcbox);
+			if(makeInputField){
+				spawningNames.add(newcbox);
+			}
+			else{
+				placingNames.add(newcbox);
+			}
 		}
 	}
 	

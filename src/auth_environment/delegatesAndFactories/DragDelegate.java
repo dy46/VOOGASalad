@@ -16,7 +16,7 @@ import javafx.scene.shape.Circle;
 /**
  * Created by BrianLin on 4/11/2016
  * Team member responsible: Brian
- *
+ * @author Xander, Brian
  * This delegate class adds dragging functions. Woowee dongerino. 
  */
 

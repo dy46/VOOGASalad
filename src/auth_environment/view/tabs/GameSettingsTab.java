@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.IMainView;
+import utility.CloudStorageFrontend;
 
 /**
  * Created by BrianLin on 3/31/16.
@@ -74,14 +75,17 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				buildWompImage(),
 				buildTextInput(),
 				buildSplashChooser(), 
-				buildSaveButton(),
-				buildLoadButton(),
-				buildPlayButton());
+//				buildSaveButton(),
+//				buildLoadButton(),
+//				buildPlayButton()
+				buildButtonRow()
+				);
 		return center; 
 	}
 	
 	private Node buildBottom() {
-		HBox bottom = myNodeFactory.buildHBox(10, 10);
+		HBox bottom = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
+				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		bottom.getChildren().addAll(buildChooseScore(), buildChooseWaveGoal(), buildChoosePlaceValidation());
 		return bottom; 
 	}
@@ -103,7 +107,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildSplashChooser() {
+	private Node buildSplashChooser() {
 		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
@@ -115,16 +119,30 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return myNodeFactory.centerNode(hb); 
 	}
 	
-	private HBox buildSaveButton() {
-		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
-		return myNodeFactory.centerNode(save); 
+	private Node buildButtonRow() {
+		HBox hb = new HBox();
+		hb.getChildren().addAll(buildSaveButton(), buildLoadButton(), buildPlayButton(), buildCloudStorage());
+		return myNodeFactory.centerNode(hb);
 	}
 	
-	private HBox buildLoadButton() {
+	private Node buildCloudStorage() {
+		Button cloud = myNodeFactory.buildButton(myNamesBundle.getString("cloudButtonLabel"));
+		cloud.setOnAction(e -> {
+			CloudStorageFrontend c = new CloudStorageFrontend(); 
+		});
+		return cloud;
+	}
+	
+	private Node buildSaveButton() {
+		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
+		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
+		return save; 
+	}
+	
+	private Node buildLoadButton() {
 		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
 		load.setOnAction(e -> myGameSettingsTabModel.loadFromFile());
-		return myNodeFactory.centerNode(load); 
+		return load; 
 	}
 	
 	private Node buildPlayButton() {
@@ -182,7 +200,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 			this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
 			this.myGameSettingsTabModel.setSplashFile(splash.getName());
 		}
-
 	}
 	
 	private void submitButtonPressed(TextField input) {

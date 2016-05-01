@@ -2,7 +2,6 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import auth_environment.IAuthEnvironment;
 import game_data.Serializer;
 import game_engine.AI.AIHandler;
