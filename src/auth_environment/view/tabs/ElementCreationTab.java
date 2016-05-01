@@ -14,9 +14,8 @@ public class ElementCreationTab extends Tab{
 	
 	private void init(IAuthModel authModel, ResourceBundle myNamesBundle){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new UnitTab(myNamesBundle.getString("unitTabLabel"), authModel), new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
+		myTabs.getTabs().addAll(new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel), new UnitTab(myNamesBundle.getString("unitTabLabel"), authModel));
 		//myTabs.getTabs().addAll(new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
-
 		this.setContent(myTabs);
 	}
 	

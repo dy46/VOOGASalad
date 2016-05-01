@@ -11,11 +11,15 @@ public class ElementTabModel implements IElementTabModel {
 	private AffectorFactory myAffectorFactory; 
 	
 	public ElementTabModel(IAuthEnvironment auth) {
+		update(auth);
+	}
+	
+	public void update(IAuthEnvironment auth){
 		this.myUnitFactory = auth.getUnitFactory(); 
 		this.myAffectorFactory = auth.getAffectorFactory();
 		this.myUnitFactory.setAffectorLibrary(auth.getAffectorFactory().getAffectorLibrary());
 	}
-
+	
 	@Override
 	public UnitFactory getUnitFactory() {
 		return this.myUnitFactory;
