@@ -19,7 +19,7 @@ Andy Wang (ownzandy), Adam Tache (adamtache), Brian Lin (briguy52), David Yang (
 ##Roles:
 
 ##Authoring Environment:
-Brian (Briguy52) - Team lead, opening screen, general game settings and tabs, various screens, unit spawn and path integration
+Brian (Briguy52) - Team lead, opening screen, general game settings and tabs, various screens, unit integration and front-end path and unit spawn integration
 
 Cody (cl305) - Store, waves, level front-end
 
