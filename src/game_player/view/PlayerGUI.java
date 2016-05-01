@@ -79,8 +79,6 @@ public class PlayerGUI {
     }
 
     protected void createNewTab (IAuthEnvironment data) {
-//        gameEngine = new TestingEngineWorkspace();
-//        gameEngine.setUpEngine(null);
     	createNewEngine(data);
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
                                     myResources.getString("TabName") +
@@ -92,7 +90,6 @@ public class PlayerGUI {
     
     private void createNewEngine(IAuthEnvironment data) {
         gameEngine = new EngineWorkspace();
-//        TestingGameData testData = new TestingGameData();
         gameEngine.setUpEngine(data);
     }
     

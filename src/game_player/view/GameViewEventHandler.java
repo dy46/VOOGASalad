@@ -1,6 +1,5 @@
 package game_player.view;
 
-import exceptions.WompException;
 import java.util.ResourceBundle;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;

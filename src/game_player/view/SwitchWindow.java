@@ -2,8 +2,6 @@ package game_player.view;
 import java.io.File;
 import java.util.ResourceBundle;
 
-import auth_environment.IAuthEnvironment;
-import game_data.IDataConverter;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

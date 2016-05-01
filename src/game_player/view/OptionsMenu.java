@@ -1,13 +1,10 @@
 package game_player.view;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ResourceBundle;
 import game_player.interfaces.IGameView;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
