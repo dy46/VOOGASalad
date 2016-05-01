@@ -2,13 +2,12 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.properties.Position;
 
 public class MapHandler {
-	
+
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Branch> myBranches;
@@ -24,7 +23,7 @@ public class MapHandler {
 
 	}
 
-	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals ){
+	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals){
 		myBranches = engineBranches;
 		this.mySpawns = spawns; 
 		this.myGoals = goals; 
@@ -38,28 +37,51 @@ public class MapHandler {
 		List<Position> interpolatedPositions = myPositionHandler.getInterpolatedPositions(positions, false);
 		myPGF.insertBranch(interpolatedPositions);
 	}
-	
+
 	public void addSpawn(Position spawn){
+		Position validSpawn = filterValidPos(spawn, 20);
+		if(validSpawn == null)
+			return;
 		this.mySpawns.add(spawn);
 	}
-	
+
 	public void addGoal(Position goal){
+		Position validGoal = filterValidPos(goal, 20);
+		if(validGoal == null)
+			return;
 		this.myGoals.add(goal);
-		processPositions(myPositionHandler.getInterpolatedPositions(Arrays.asList(goal), false));
+		processPositions(Arrays.asList(goal));
+	}
+
+	public void setInitGoal(Position pos) {
+		myGoals.add(pos);
 	}
 
 	public void createGrid(){
-		double screenWidth = 500;
-		double screenHeight = 500;
-		addGoal(new Position(500, 500));
-		addSpawn(new Position(0, 0));
-		myPGF.insertGrid(screenWidth, screenHeight, getGridSquareSize(screenWidth, screenHeight));
+		myPGF.insertGrid();
 	}
 
-	private double getGridSquareSize(double screenWidth, double screenHeight){
-		return screenWidth*screenHeight/5000;
+	private Position filterValidPos(Position pos, double radius){
+		if(myPGF.getBranches() == null){
+			return null;
+		}
+		boolean match = false;
+		Position nearby = null;
+		for(Branch b : this.myBranches){
+			for(Position branchPos : b.getPositions()){
+				if(pos.equals(branchPos)){
+					match = true;
+				}
+				if(pos.distanceTo(branchPos) < radius){
+					nearby = branchPos;
+				}
+			}
+		}
+		if(match){
+			return pos;
+		}
+		return nearby;
 	}
-
 
 	public PathGraphFactory getPGF(){
 		return myPGF;
@@ -73,7 +95,7 @@ public class MapHandler {
 	public List<Position> getGoals() {
 		return myGoals;
 	}
-	
+
 	public List<Position> getSpawns() {
 		return mySpawns;
 	}

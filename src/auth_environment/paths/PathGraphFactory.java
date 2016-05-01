@@ -2,6 +2,8 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
@@ -12,6 +14,8 @@ public class PathGraphFactory {
 	private PathLibrary myPathLibrary;
 	private PositionHandler myPositionHandler;
 	private BranchConfigurer myBranchHandler;
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
 	public PathGraphFactory(){
 		myPositionHandler = new PositionHandler();
@@ -51,8 +55,8 @@ public class PathGraphFactory {
 		}
 	}
 	
-	public void insertGrid(double width, double length, double sideLength){
-		Position[][] positionGrid = createPosGrid(width, length, sideLength);
+	public void insertGrid(){
+		Position[][] positionGrid = createPosGrid(Double.parseDouble(myDimensionsBundle.getString("canvasWidth")), Double.parseDouble(myDimensionsBundle.getString("canvasHeight")), Double.parseDouble(myDimensionsBundle.getString("gridSideLength")));
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
@@ -108,10 +112,4 @@ public class PathGraphFactory {
 		return myPathLibrary.getBranches();
 	}
 	
-	//TODO REFACTOR OUT THIS IS UGLY
-	public List<Branch> getGravityDefenseGameBranches()
-	{
-		
-		return null;
-	}
 }
