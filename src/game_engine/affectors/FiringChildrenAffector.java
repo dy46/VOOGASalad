@@ -22,6 +22,7 @@ public class FiringChildrenAffector extends Affector {
                 p.getProperties().setPosition(u.getProperties().getPosition().getX(),
                                               u.getProperties().getPosition().getY());
                 getWorkspace().getUnitController().getPlacedUnits().add(p);
+                System.out.println("ADDING PARENT");
                 p.addParent(u);
             });
         }

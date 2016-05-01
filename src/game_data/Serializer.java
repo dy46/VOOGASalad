@@ -2,6 +2,7 @@ package game_data;
 
 import com.thoughtworks.xstream.XStream;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import game_data.exceptions.SerializerException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,43 +20,43 @@ public class Serializer<T> implements IDataConverter<T> {
 		chooser = new FileChooserDelegate(); 
 	}
 	
-	public void saveElement(Object o) {
-		
+	public File saveElement(Object o) {
 		File f = this.chooser.save(myNamesBundle.getString("chooseLocationMessage"));
 		if (f != null) {
 			XStream xstream = new XStream();
 			String xml = xstream.toXML(o);
-
 			try {
 				FileWriter writer = new FileWriter(f);
 				writer.write(xml);
 				writer.flush();
 				writer.close();
+				return f;
 			} catch (IOException e) {
-				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
+				throw new SerializerException(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
 			}
 		}
 		else {
-			System.out.println(myNamesBundle.getString("nullFileMessage"));
+			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
 		}
-		
 	}
 	
-	public T loadElement() {
-		try {
-			File f = chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
-			if (f != null) {
+	public File chooseXMLFile() {
+		return chooser.chooseXML(myNamesBundle.getString("chooseFileMessage"));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T loadFromFile(File file) {
+		if(file != null){
+			try{
 				XStream xstream = new XStream();
-				return (T) xstream.fromXML(f);
+				return (T) xstream.fromXML(file);
 			}
-			else {
-				System.out.println(myNamesBundle.getString("nullFileMessage"));
-				return null;
+			catch(ClassCastException e){
+				throw new SerializerException(myNamesBundle.getString("wrongFormatMessage"));
 			}
 		}
-		catch (ClassCastException e) {
-			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
-			return null;
+		else{
+			throw new SerializerException(myNamesBundle.getString("nullFileMessage"));
 		}
 	}
 

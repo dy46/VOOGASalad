@@ -24,14 +24,14 @@ public class GameData implements IGameData {
 	private double myScore = 0;
 	private int myCurrentLevelIndex = 0;
 	private int myCurrentWaveIndex = 0;
-	
+
 	private MapHandler myMapHandler = new MapHandler();
 
 	private FunctionFactory myFunctionFactory = new FunctionFactory();
 	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
 	private UnitFactory myUnitFactory = new UnitFactory();
 	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
-	
+
 	@Override
 	public List<Level> getLevels() {
 		return myLevels;
@@ -45,7 +45,7 @@ public class GameData implements IGameData {
 	public List<Branch> getBranches() {
 		return myMapHandler.getBranches();
 	}
-	
+
 	@Override
 	public List<Unit> getPlacedUnits() {
 		return myPlacedUnits;
@@ -78,28 +78,28 @@ public class GameData implements IGameData {
 		return myWaveGoal;
 	}
 	@Override
-    public void setWaveGoal(WaveGoal waveGoal) {
-    	myWaveGoal = waveGoal;
-    }
+	public void setWaveGoal(WaveGoal waveGoal) {
+		myWaveGoal = waveGoal;
+	}
 
 	@Override
 	public ScoreUpdate getScoreUpdate() {
 		return myScoreUpdate;
 	}
 	@Override
-    public void setScoreUpdate(ScoreUpdate scoreUpdate) {
-    	myScoreUpdate = scoreUpdate;
-    }
-   
+	public void setScoreUpdate(ScoreUpdate scoreUpdate) {
+		myScoreUpdate = scoreUpdate;
+	}
+
 	@Override
 	public double getScore() {
 		return myScore;
 	}
 	@Override
-    public void setScore(double score) {
-    	myScore = score;
-    }
- 
+	public void setScore(double score) {
+		myScore = score;
+	}
+
 	@Override
 	public UnitFactory getUnitFactory() {
 		return myUnitFactory;
@@ -108,7 +108,7 @@ public class GameData implements IGameData {
 	public void setUnitFactory(UnitFactory unitFactory) {
 		myUnitFactory = unitFactory;
 	}
-	
+
 	@Override
 	public MapHandler getMapHandler() {
 		return myMapHandler;
@@ -121,7 +121,7 @@ public class GameData implements IGameData {
 	public StoreFactory getStoreFactory() {
 		return myStoreFactory;
 	}
-	
+
 	@Override
 	public int getCurrentWaveIndex() {
 		return myCurrentWaveIndex;

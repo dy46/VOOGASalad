@@ -113,7 +113,7 @@ public class StoreTab extends Tab implements IWorkspace {
 
 	private void checkContent(NameAffectorCostSet n) {
 		if (n.getName() != null) {
-			EditUpgradeWindow eWindow = new EditUpgradeWindow(myAuthModel, n);
+			new EditUpgradeWindow(myAuthModel, n);
 		}
 	}
 

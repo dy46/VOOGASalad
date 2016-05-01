@@ -61,13 +61,6 @@ public class Position extends Property implements Serializable{
 				(Math.abs(((Position) o).myY - this.myY)) < 0.0000001) ||
 				(this == o);
 	}
-	
-	public boolean roughlyEquals (Object o) {
-		return (o instanceof Position &&
-				(Math.abs(((Position) o).myX - this.myX)) < 5 &&
-				(Math.abs(((Position) o).myY - this.myY)) < 5) ||
-				(this == o);
-	}
 
 	@Override
 	public String toString () {

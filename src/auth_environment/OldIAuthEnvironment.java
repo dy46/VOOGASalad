@@ -2,7 +2,6 @@ package auth_environment;
 
 import java.util.List;
 
-import game_data.IGameData;
 import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;

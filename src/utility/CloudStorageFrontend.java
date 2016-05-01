@@ -162,7 +162,7 @@ public class CloudStorageFrontend {
 		hb.getChildren().addAll(view, choose, field);
 		return hb; 
 	}
-	
+
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
 		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
