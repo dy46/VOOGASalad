@@ -23,7 +23,7 @@ public class StoreTab extends Tab implements IWorkspace {
 	private BorderPane myRoot;
 	private GridPane myGrid;
 	private StoreTabModel myStoreTabModel;
-	private IStoreTabModel myStoreTabModelInterface;
+	//private IStoreTabModel myStoreTabModelInterface;
 	private IAuthModel myAuthModel;
 	private List<ComboBox<String>> unitList;
 	private List<TextField> costList;
@@ -113,7 +113,7 @@ public class StoreTab extends Tab implements IWorkspace {
 
 	private void checkContent(NameAffectorCostSet n) {
 		if (n.getName() != null) {
-			EditUpgradeWindow eWindow = new EditUpgradeWindow(myAuthModel, n);
+			new EditUpgradeWindow(myAuthModel, n);
 		}
 	}
 

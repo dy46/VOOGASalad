@@ -79,7 +79,7 @@ public class EngineWorkspace implements GameEngineInterface {
         List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
         myStore.clearBuyableUnits();
         // TODO: store should not be updated here
-//        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
+        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
         nextWaveTimer++;
         waveProgression(myCurrentLevel);
         myUnitController.getUnitType("Projectile").forEach(p -> p.update());
