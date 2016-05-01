@@ -2,10 +2,19 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
+
+/**
+ * This class is a factory for creating path graphs. Path graphs are a set of branches that represent a set of positions.
+ * Branches have neighbors and end points are used as nodes in search problems. 
+ * 
+ * @author adamtache
+ *
+ */
 
 public class PathGraphFactory {
 
@@ -51,8 +60,8 @@ public class PathGraphFactory {
 		}
 	}
 	
-	public void insertGrid(double width, double length, double sideLength){
-		Position[][] positionGrid = createPosGrid(width, length, sideLength);
+	public void insertGrid(){
+		Position[][] positionGrid = createPosGrid(600, 600, 30);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
@@ -108,9 +117,4 @@ public class PathGraphFactory {
 		return myPathLibrary.getBranches();
 	}
 	
-	//TODO Refactor
-	public List<Branch> getGravityDefenseGameBranches()
-	{
-		return null;
-	}
 }

@@ -12,6 +12,12 @@ import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.store_elements.Store;
 
+/**
+ * This class is a controller for manipulating and accessing information about all units that have entered the game.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class UnitController {
 
@@ -27,7 +33,7 @@ public class UnitController {
                            List<Unit> unitsToRemove) {
         this.myPlacedUnits = myPlacedUnits;
         this.myPlaceValidations = placeValidations;
-        this.myStore = store;
+        this.myStore = new Store(1000);
         this.unitsToRemove = unitsToRemove;
         
         myUnitUtility = new UnitUtilities();

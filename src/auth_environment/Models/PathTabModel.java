@@ -32,9 +32,9 @@ public class PathTabModel implements IPathTabModel {
 	private IAuthEnvironment myAuthData;  
 	private MapHandler myMapHandler; 
 	private List<Position> myCurrentBranch;
-	
+
 	private Map<BoundLine, Branch> myBranchMap; 
-	
+
 	private List<Level> myLevels;
 	private Level currentLevel;
 	private Wave currentWave; 
@@ -46,9 +46,9 @@ public class PathTabModel implements IPathTabModel {
 		myAuthData = auth; 
 		myBranchMap = new HashMap<BoundLine, Branch>(); 
 		myPathWidth = Double.parseDouble(myDimensionsBundle.getString("defaultPathWidth"));
-		myCurrentBranch = new ArrayList<Position>(); 
+		myCurrentBranch = new ArrayList<>(); 
 		myMapHandler = auth.getMapHandler();
-		myMapHandler.addGoal(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
+		myMapHandler.setInitGoal(new Position(Integer.MAX_VALUE, Integer.MAX_VALUE));
 		myLevels = auth.getLevels(); 
 	}
 
@@ -94,11 +94,11 @@ public class PathTabModel implements IPathTabModel {
 	public void createGrid() {
 		myMapHandler.createGrid();
 	}
-	
+
 	public List<String> getLevelNames() {
 		return myLevels.stream().map(level -> level.getName()).collect(Collectors.toList());
 	}
-	
+
 	public List<String> getWaveNames(String selectedLevel) {
 		List<Level> levels =  myLevels.stream().filter(l -> l.getName().equals(selectedLevel)).collect(Collectors.toList());
 		if (levels!=null && levels.size()>0) {
@@ -106,24 +106,24 @@ public class PathTabModel implements IPathTabModel {
 		}
 		return currentLevel.getWaves().stream().map(wave -> wave.toString()).collect(Collectors.toList());
 	}
-	
+
 	private void getCurrentWaveFromString(String selectedWave) {
- 		currentWave = currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
+		currentWave = currentLevel.getWaves().stream().filter(w -> w.toString().equals(selectedWave)).collect(Collectors.toList()).get(0);
 	}
 
 	@Override
 	public List<Unit> getSpawningUnits(String selectedWave) {
 		if(selectedWave == null) {
-			return new ArrayList<Unit>(); 
+			return new ArrayList<>(); 
 		}
 		getCurrentWaveFromString(selectedWave); 
- 		return currentWave.getSpawningUnits();
+		return currentWave.getSpawningUnits();
 	}
-	
+
 	@Override
 	public List<Unit> getPlacingUnits(String selectedWave) {
 		if(selectedWave == null) {
-			return new ArrayList<Unit>(); 
+			return new ArrayList<>(); 
 		}
 		getCurrentWaveFromString(selectedWave); 
  		return currentWave.getPlacingUnits();
@@ -160,7 +160,7 @@ public class PathTabModel implements IPathTabModel {
 	public Unit getActiveUnit() {
 		return myActiveUnit;
 	}
-	
+
 	@Override
 	public void addGoalToActiveLevel(Position goal) {
 		myMapHandler.addGoal(goal);

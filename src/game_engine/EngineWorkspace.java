@@ -2,7 +2,6 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import auth_environment.IAuthEnvironment;
 import game_data.IDataConverter;
 import game_data.Serializer;
@@ -43,8 +42,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 	private Position cursorPos;
 	private IAuthEnvironment myData;
 
-
-	public void setUpEngine (IAuthEnvironment data) {
+	public void setUpEngine(IAuthEnvironment data) {
 		unitsToRemove = new ArrayList<>();
 		waveGoal = data.getWaveGoal();
 		scoreUpdate = data.getScoreUpdate();
@@ -55,22 +53,20 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 		myLevelController = new LevelController(data.getLevels(), data.getScore(), data.getCurrentLevelIndex());
 		List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
 		myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
-		myUnitController =
-				new UnitController(data.getPlacedUnits(), myPlaceValidations,
-						data.getStore(), unitsToRemove);
+		myUnitController = new UnitController(data.getPlacedUnits(), myPlaceValidations, data.getStore(),
+				unitsToRemove);
 		myEnemyController = new EnemyController(myLevelController, myUnitController);
 		setWorkspaceForAffectors(data.getPlacedUnits(), data.getLevels());
 		myAIController = new AIController(this);
 	}
 
 	@Override
-	public void update () {
+	public void update() {
 		Level myCurrentLevel = myLevelController.getCurrentLevel();
 		IStore myStore = myUnitController.getStore();
 		List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
 		myUnitController.getStore().clearBuyableUnits();
-		placingUnits.stream()
-		.forEach(u -> myStore.addBuyableUnit(u, 100));
+		placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
 		nextWaveTimer++;
 		waveProgression(myCurrentLevel);
 		myUnitController.getUnitType("Projectile").forEach(p -> p.update());
@@ -81,7 +77,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 		unitsToRemove.clear();
 	}
 
-	public void waveProgression (Level myCurrentLevel) {
+	public void waveProgression(Level myCurrentLevel) {
 		if (!myLevelController.isPaused() && !myLevelController.isGameOver()) {
 			myUnitController.getUnitType("Tower").forEach(t -> t.update());
 			myUnitController.getUnitType("Enemy").forEach(e -> e.update());
@@ -103,8 +99,8 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 
 	public void saveGame() {
 		Level currentLevel = myLevelController.getCurrentLevel();
-		myData.setCurrentLevelIndex( myLevelController.getLevels().indexOf(currentLevel) );
-		myData.setCurrentWaveIndex( currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()) );
+		myData.setCurrentLevelIndex(myLevelController.getLevels().indexOf(currentLevel));
+		myData.setCurrentWaveIndex(currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()));
 		IDataConverter<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
 		writer.saveElement(myData);
 	}
@@ -117,11 +113,11 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 				allUnits.addAll(w.getSpawningUnits());
 			});
 		});
-		allUnits.stream().forEach(u -> setWorkspaceForUnit(u));      
+		allUnits.stream().forEach(u -> setWorkspaceForUnit(u));
 	}
 
 	public void setWorkspaceForUnit(Unit unit) {
-		if(unit == null || unit.getChildren() == null){
+		if (unit == null || unit.getChildren() == null) {
 			return;
 		}
 		unit.getChildren().stream().forEach(c -> {
@@ -135,47 +131,46 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 		child.getAffectorsToApply().stream().forEach(a -> a.setWorkspace(this));
 	}
 
-	public List<Affector> getAffectors () {
+	public List<Affector> getAffectors() {
 		return myAffectors;
 	}
 
 	@Override
-	public List<Branch> getBranches () {
+	public List<Branch> getBranches() {
 		return myBranches;
 	}
 
 	@Override
-	public int getNextWaveTimer () {
+	public int getNextWaveTimer() {
 		return nextWaveTimer;
 	}
 
 	@Override
-	public void setCursorPosition (double x, double y) {
+	public void setCursorPosition(double x, double y) {
 		cursorPos = new Position(x, y);
 	}
 
-	public Position getCursorPosition () {
+	public Position getCursorPosition() {
 		return cursorPos;
 	}
 
-
 	@Override
-	public UnitController getUnitController () {
+	public UnitController getUnitController() {
 		return myUnitController;
 	}
 
 	@Override
-	public LevelController getLevelController () {
+	public LevelController getLevelController() {
 		return myLevelController;
 	}
 
 	@Override
-	public ILevelDisplayer getLevelDisplay(){
+	public ILevelDisplayer getLevelDisplay() {
 		return myLevelController;
 	}
 
 	@Override
-	public AIController getAIController(){
+	public AIController getAIController() {
 		return myAIController;
 	}
 

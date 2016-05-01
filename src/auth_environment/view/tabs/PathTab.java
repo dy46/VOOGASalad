@@ -68,7 +68,7 @@ public class PathTab extends Tab implements IWorkspace {
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
 		myNodeFactory = new NodeFactory(); 
-		myTerrains = new ArrayList<UnitView>();
+		myTerrains = new ArrayList<>();
 		myPathPane = new Pane();
 		setupBorderPane();
 		currentBranch = new ArrayList<>();

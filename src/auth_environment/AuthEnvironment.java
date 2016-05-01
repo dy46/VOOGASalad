@@ -2,7 +2,6 @@ package auth_environment;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
 import game_engine.affectors.Affector;
@@ -16,6 +15,7 @@ import game_engine.game_elements.Unit;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 
@@ -23,8 +23,8 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private String myName;
 	private String mySplashScreenName;
 	
-	private List<Level> myLevels = new ArrayList<Level>();
-	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
+	private List<Level> myLevels = new ArrayList<>();
+	private List<Unit> myPlacedUnits = new ArrayList<>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
@@ -38,12 +38,12 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private UnitFactory myUnitFactory = new UnitFactory();
 	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
 	
-	private List<Unit> myTowers = new ArrayList<Unit>();
-	private List<Unit> myEnemies = new ArrayList<Unit>();
-	private List<Unit> myTerrains = new ArrayList<Unit>();
-	private List<Unit> myProjectiles = new ArrayList<Unit>();
-	private List<Position> mySpawns = new ArrayList<Position>();
-	private List<Position> myGoals = new ArrayList<Position>();
+	private List<Unit> myTowers = new ArrayList<>();
+	private List<Unit> myEnemies = new ArrayList<>();
+	private List<Unit> myTerrains = new ArrayList<>();
+	private List<Unit> myProjectiles = new ArrayList<>();
+	private List<Position> mySpawns = new ArrayList<>();
+	private List<Position> myGoals = new ArrayList<>();
 
 	@Override
 	public String getGameName() {
@@ -236,5 +236,4 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public void setCurrentLevelIndex(int currentLevelIndex) {
 		myCurrentLevelIndex = currentLevelIndex;
 	}
-	
 }

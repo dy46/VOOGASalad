@@ -11,6 +11,14 @@ import game_engine.functions.Term;
 import game_engine.functions.Variable;
 import game_engine.libraries.FunctionLibrary;
 
+/**
+ * This class is a factory for construction of functions. 
+ * More information on functions can be found in the Game_Engine/Functions package.
+ * 
+ * @author adamtache
+ *
+ */
+
 public class FunctionFactory {
 
 	private FunctionLibrary myFunctionLibrary;
@@ -27,10 +35,6 @@ public class FunctionFactory {
 		setupSpecialConstants();
 		setupDefaultStrengths(0.0001, 0.00005, 0.000005);
 		setupDefaultTypes();
-	}
-
-	public void createFunction(String equation){
-
 	}
 
 	public Function createFunction(String type, String str){

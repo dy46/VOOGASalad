@@ -51,7 +51,6 @@ public class BrowserWindowDelegate {
 		loadingPane = new VBox();
 		loadingPane.getChildren().addAll(loadingImage, loadProgress, progressText);
 		progressText.setAlignment(Pos.CENTER);
-		// TODO: extract this styling to CSS file 
 		loadingPane.setStyle(myDimensionsBundle.getString("loadingPaneStyle"));
 		loadingPane.setEffect(new DropShadow());
 	}

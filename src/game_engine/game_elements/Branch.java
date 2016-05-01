@@ -42,7 +42,6 @@ public class Branch implements Serializable{
 	}
 
 	public Branch(List<Position> positions, List<Branch> neighbors) {
-		cycle = false;
 		initialize(positions, neighbors);
 	}
 
@@ -71,10 +70,12 @@ public class Branch implements Serializable{
 		cycle = state;
 		setNextPositions();
 	}
+	
 	public void addPosition(Position append){
 		myPositions.add(append);
 		setNextPositions();
 	}
+	
 	private void setNextPositions(){
 		int size = cycle ? myPositions.size() : myPositions.size() - 1;
 		if(myPositions.size() < 1){
@@ -105,7 +106,6 @@ public class Branch implements Serializable{
 		}
 	}
 
-
 	/*
 	 * Gets the next position (point) in the path.
 	 * This will be used in order to determine which direction 
@@ -134,7 +134,6 @@ public class Branch implements Serializable{
 		}
 	}
 
-
 	/*
 	 * this should probably be deprecated because when units are moving along paths 
 	 * they already need to know which positions they want to get to.
@@ -145,14 +144,17 @@ public class Branch implements Serializable{
 				u.getProperties().getPosition().getY() == lastPos.getY();
 	}
 
-	public List<Position> getMyPositions() {
-		return myPositions;
-	}
-
 	public Position getFirstPosition() {
 		if(myPositions == null || myPositions.size() == 0)
 			return null;
 		return myPositions.get(0);
+	}
+	
+	public Position getLastPosition() {
+		if(myPositions == null || myPositions.size() == 0){
+			return null;
+		}
+		return myPositions.get(myPositions.size()-1);
 	}
 
 	public Double getNextDirection (Position currentPosition, Position moveTowards) {
@@ -167,13 +169,6 @@ public class Branch implements Serializable{
 		return degreesDir;
 	}
 
-	public Position getLastPosition() {
-		if(myPositions == null || myPositions.size() == 0){
-			return null;
-		}
-		return myPositions.get(myPositions.size()-1);
-	}
-
 	public void addNeighbor(Branch neighbor){
 		this.myNeighbors.add(neighbor);
 	}
@@ -182,14 +177,6 @@ public class Branch implements Serializable{
 		for(Position pos : positions){
 			addPosition(pos);
 		}
-	}
-
-	public List<Position> getPositions(){
-		return myPositions;
-	}
-
-	public List<Branch> getNeighbors(){
-		return myNeighbors;
 	}
 
 	public List<Position> cutoffByPosition(Position pos){
@@ -218,49 +205,27 @@ public class Branch implements Serializable{
 		}
 		return removed;
 	}
-
-	public String toString(){
-		String first = "";
-		if(myPositions.size() > 0){
-			first = myPositions.get(0)+"";
-		}
-		String last = "";
-		if(myPositions.size() > 0){
-			last = myPositions.get(myPositions.size()-1)+"";
-		}
-		return "Branch positions: " + first+" "+last+"\n";
+	
+	public List<Position> getEndPoints(){
+		return Arrays.asList(getFirstPosition(), getLastPosition());
 	}
 
 	public int getLength(){
 		return getPositions().size();
 	}
 
-	public List<Branch> getForwardNeighbors(){
-		List<Branch> forwards = new ArrayList<>();
-		for(Branch b : myNeighbors){
-			if(b.getFirstPosition().equals(getLastPosition())){
-				forwards.add(b);
-			}
-		}
-		return forwards;
-	}
-
-	@Override
-	public int hashCode(){
-		return 16;
-	}
+	public void removeNeighbor(Branch b) {
+		this.myNeighbors.remove(b);
+	}	
 
 	@Override
 	public boolean equals(Object o){
 		return o instanceof Branch && myPositions.equals(((Branch) o).getPositions());
 	}
-
-	public void removeNeighbor(Branch b) {
-		this.myNeighbors.remove(b);
-	}
-
-	public List<Position> getEndPoints(){
-		return Arrays.asList(getFirstPosition(), getLastPosition());
+	
+	@Override
+	public int hashCode(){
+		return 16;
 	}
 
 	public Branch copyBranch() {
@@ -282,6 +247,26 @@ public class Branch implements Serializable{
 			cnfe.printStackTrace();
 		}
 		return obj;
+	}
+	
+	public String toString(){
+		String first = "";
+		if(myPositions.size() > 0){
+			first = myPositions.get(0)+"";
+		}
+		String last = "";
+		if(myPositions.size() > 0){
+			last = myPositions.get(myPositions.size()-1)+"";
+		}
+		return "Branch positions: " + first+" "+last+"\n";
+	}
+	
+	public List<Position> getPositions(){
+		return myPositions;
+	}
+
+	public List<Branch> getNeighbors(){
+		return myNeighbors;
 	}
 
 }

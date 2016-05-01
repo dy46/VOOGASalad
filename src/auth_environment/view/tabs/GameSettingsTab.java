@@ -1,6 +1,7 @@
 package auth_environment.view.tabs;
 
 import java.io.File;
+import java.util.List;
 import java.util.ResourceBundle;
 import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -147,47 +148,39 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	
 	@SuppressWarnings("unchecked")
 	private Node buildChooseScore() {
-		VBox vb = new VBox(); 
-		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("scoreUpdateLabel")));
-		ComboBox<String> chooseScore = new ComboBox<String>();
-		chooseScore.getItems().addAll(myGameSettingsTabModel.getScoreUpdateNames());
-		chooseScore.setOnAction(event -> {
-			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-			myGameSettingsTabModel.chooseScoreUpdate(selectedItem);
-			event.consume();
-		});
-		vb.getChildren().add(chooseScore);  
-		return vb;
+		ComboBox<String> chooseScore = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getScoreUpdateNames(),
+				event -> {
+					String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+					myGameSettingsTabModel.chooseScoreUpdate(selectedItem);
+					event.consume();
+				}); 
+		return addToVBox(chooseScore, myNamesBundle.getString("scoreUpdateLabel"));
 	}
 	
 	@SuppressWarnings("unchecked")
 	private Node buildChooseWaveGoal() {
-		VBox vb = new VBox(); 
-		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("waveGoalLabel")));
-		ComboBox<String> chooseWaveGoal = new ComboBox<String>();
-		chooseWaveGoal.getItems().addAll(myGameSettingsTabModel.getWaveGoalNames());
-		chooseWaveGoal.setOnAction(event -> {
+		ComboBox<String> chooseWaveGoal = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getWaveGoalNames(), event -> {
 			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
 			myGameSettingsTabModel.chooseWaveGoal(selectedItem);
-			event.consume();
-		});
-		vb.getChildren().add(chooseWaveGoal); 
-		return vb; 
+			event.consume();});
+		return addToVBox(chooseWaveGoal, myNamesBundle.getString("waveGoalLabel"));
 	}
 	
 	@SuppressWarnings("unchecked")
 	private Node buildChoosePlaceValidation() {
+		ComboBox<String> choosePlaceValidation = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getPlaceValidationNames(),
+				event -> {
+					String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+					myGameSettingsTabModel.choosePlaceValidation(selectedItem);
+					event.consume();});
+		return addToVBox(choosePlaceValidation, myNamesBundle.getString("placeValidationLabel"));
+	}
+	
+	private VBox addToVBox(ComboBox<String> cbox, String name){
 		VBox vb = new VBox(); 
-		vb.getChildren().add(myNodeFactory.buildLabel(myNamesBundle.getString("placeValidationLabel")));
-		ComboBox<String> choosePlaceValidation = new ComboBox<String>(); 
-		choosePlaceValidation.getItems().addAll(myGameSettingsTabModel.getPlaceValidationNames());
-		choosePlaceValidation.setOnAction(event -> {
-			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-			myGameSettingsTabModel.choosePlaceValidation(selectedItem);
-			event.consume();
-		});
-		vb.getChildren().add(choosePlaceValidation);
-		return vb; 
+		vb.getChildren().add(myNodeFactory.buildLabel(name));
+		vb.getChildren().add(cbox);
+		return vb;
 	}
 	
 	private void chooseSplash() {

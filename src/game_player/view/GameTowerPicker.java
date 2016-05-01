@@ -27,7 +27,6 @@ public class GameTowerPicker implements IGUIObject {
 	private static final int LEFT_PADDING = 0;
     
     private ResourceBundle myResources;
-    private GameDataSource myData;
     private IGameView myView;
     private GameEngineInterface myEngine;
     private ListView<Unit> myListView;
@@ -36,7 +35,6 @@ public class GameTowerPicker implements IGUIObject {
 
     public GameTowerPicker (ResourceBundle r, GameDataSource data, IGameView view, PlayerGUI GUI) {
         myResources = r;
-        myData = data;
         myView = view;
         myEngine = myView.getGameEngine();
         myTowers = FXCollections.observableArrayList();
