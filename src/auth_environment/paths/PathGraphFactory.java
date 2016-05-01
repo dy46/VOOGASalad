@@ -2,12 +2,19 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
 import game_engine.properties.Position;
+
+/**
+ * This class is a factory for creating path graphs. Path graphs are a set of branches that represent a set of positions.
+ * Branches have neighbors and end points are used as nodes in search problems. 
+ * 
+ * @author adamtache
+ *
+ */
 
 public class PathGraphFactory {
 
