@@ -433,13 +433,11 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public UnitController getUnitController() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public LevelController getLevelController() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -464,19 +462,16 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public ILevelDisplayer getLevelDisplay() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public EnemyController getEnemyController() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void saveGame() {
-		// TODO Auto-generated method stub
 		
 	}
 
