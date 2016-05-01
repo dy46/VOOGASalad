@@ -14,8 +14,6 @@ public class PathGraphFactory {
 	private PathLibrary myPathLibrary;
 	private PositionHandler myPositionHandler;
 	private BranchConfigurer myBranchHandler;
-	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
-	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 
 	public PathGraphFactory(){
 		myPositionHandler = new PositionHandler();
@@ -56,7 +54,7 @@ public class PathGraphFactory {
 	}
 	
 	public void insertGrid(){
-		Position[][] positionGrid = createPosGrid(Double.parseDouble(myDimensionsBundle.getString("canvasWidth")), Double.parseDouble(myDimensionsBundle.getString("canvasHeight")), Double.parseDouble(myDimensionsBundle.getString("gridSideLength")));
+		Position[][] positionGrid = createPosGrid(600, 600, 30);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
