@@ -19,7 +19,7 @@ public class ElementTab extends UnitTab{
 	private List<ComboBox<String>> myProjectiles;
 	private List<String> affectorNames;
 	private List<String> unitNames;
-	AnimationPane myAnimationPane;
+	private AnimationPane myAnimationPane;
 	
 	private IElementTabModel myElementTabModel;
 

@@ -19,8 +19,6 @@ public class AffectorTab extends UnitTab{
 	private List<ComboBox<String>> effects;
 	private List<TextField> functions;
 	
-	//private BorderPane myPane; 
-	
 	private IAffectorTabModel myAffectorTabModel;
 	
 	public AffectorTab(String name, IAuthModel authModel){
