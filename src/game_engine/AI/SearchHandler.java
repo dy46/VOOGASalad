@@ -20,8 +20,6 @@ public class SearchHandler {
 
 	public List<Branch> createPath(List<Position> posList, Branch currBranch, Position currPos){
 		List<Branch> path = new ArrayList<>();
-		System.out.println("PATH: " + posList);
-		System.out.println("ENGINE BRANCHES: " + myEngineBranches);
 		for(int x=0; x<posList.size()-1; x++){
 			Position endA = posList.get(x);
 			Position endB = posList.get(x+1);

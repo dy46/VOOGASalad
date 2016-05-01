@@ -11,7 +11,6 @@ import game_player.interfaces.IGameView;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -19,17 +18,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Callback;
 
 
 public class GameHUD {
 	
-	private static final int IMAGEVIEW_HEIGHT = 30;
-
-	private static final String PNG_EXTENSION = ".png";
-
 	private static final int PANEL_SPACING = 5;
 
     private ResourceBundle myResources;
@@ -70,7 +63,8 @@ public class GameHUD {
         unitImage = new ImageView();
         unitType = new Label();
         sellButton = new Button();
-        unitStuff.getChildren().addAll(new Label(myResources.getString("SelectedUnit")), unitType, unitImage, sellButton);
+        unitStuff.getChildren().addAll(new Label(myResources.getString("SelectedUnit")),
+        		unitType, unitImage, sellButton);
         HUDBox.getChildren().addAll(unitStuff, myUpgradesTab);
         HUDBox.setAlignment(Pos.CENTER_LEFT);
     }
@@ -79,7 +73,7 @@ public class GameHUD {
     	addToHUD();
         gameView.setSpecificUnitIsSelected(tower);
         unitType.setText(tower.getName());
-        unitImage.setImage(new Image(tower.toString() + PNG_EXTENSION));
+        unitImage.setImage(new Image(tower.toString() + myResources.getString("PNGExtension")));
         sellButton.setText(myResources.getString("HUDSellButton"));
         sellButton.setOnMouseClicked(e -> engine.getUnitController().sellUnit(tower));
         removeUpgrades();
@@ -93,14 +87,16 @@ public class GameHUD {
 
     public void addUpgrades (Unit u) {
     	ListView<Affector> upgradesList = new ListView<>();
-    	upgradesList.setPrefHeight(100);
+    	upgradesList.setPrefHeight(Double.valueOf(myResources.getString("UpgradesListViewHeight")));
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
-        for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
-        	Affector affector = engine.getUnitController().getUpgrades(u).get(i);
-        	theUpgrades.add(affector);
-        }
+    	try {
+	        for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
+	        	Affector affector = engine.getUnitController().getUpgrades(u).get(i);
+	        	theUpgrades.add(affector);
+	        }
+    	} catch (Exception e) {}
         upgradesList.setItems(theUpgrades);
         upgradesList.setCellFactory(cellFactory -> new UpgradeCell());
         upgradesList.setOnMouseClicked(e -> {
@@ -118,7 +114,7 @@ public class GameHUD {
 
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
-    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), 150);
+    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), Double.valueOf(myResources.getString("HUDHeight")));
     	rect.setOpacity(0);
     	HUDBox.getChildren().add(rect);
         if (gameView != null) {
@@ -127,8 +123,8 @@ public class GameHUD {
     }
     
     private ImageView createImageView (Unit unit) {
-        ImageView imageView = new ImageView(new Image(unit.toString() + PNG_EXTENSION));
-        imageView.setFitHeight(IMAGEVIEW_HEIGHT);
+        ImageView imageView = new ImageView(new Image(unit.toString() + myResources.getString("PNGExtension")));
+        imageView.setFitHeight(Double.valueOf(myResources.getString("ImageViewHeight")));
         imageView.setPreserveRatio(true);
         return imageView;
     }

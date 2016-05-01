@@ -3,12 +3,12 @@ package game_engine.AI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.handlers.AIHandler;
 import game_engine.handlers.VisibilityHandler;
+import game_engine.interfaces.AIWorkspace;
 import game_engine.interfaces.ICollisionDetector;
-import game_engine.physics.CollisionDetector;
 import game_engine.properties.Position;
 
 
@@ -24,18 +24,18 @@ import game_engine.properties.Position;
 
 public class AISimulator {
 
-	private GameEngineInterface myEngine;
-	private AISearcher myAISearcher;
+	private AIWorkspace myEngine;
+	private BFSSearcher myAISearcher;
 	private AIHandler myAIHandler;
 	private VisibilityHandler myVisibility;
 	private ICollisionDetector collisionDetector;
 
-	public AISimulator(GameEngineInterface engine){
+	public AISimulator(AIWorkspace engine){
 		this.myEngine = engine;
-		this.myAISearcher = engine.getAISearcher();
-		this.myAIHandler = engine.getAIHandler();
+		this.myAISearcher = new BFSSearcher(engine);
+		this.myAIHandler = new AIHandler(engine);
 		this.myVisibility = new VisibilityHandler(engine);
-		collisionDetector = new CollisionDetector(engine);
+		this.collisionDetector = engine.getCollisionDetector();
 	}
 
 	public boolean simulateTowerPlacement(Unit obstacle) {
@@ -45,8 +45,8 @@ public class AISimulator {
 			return true;
 		}
 		List<Position> goals = myEngine.getLevelController().getCurrentLevel().getGoals();
-		BFSTuple myBFS = myAISearcher.getBFSTuple(goals, visibleNodes);
-		if(!myAISearcher.isValidSearch(myBFS)){
+		SearchTuple myTuple = myAISearcher.getTuple(goals, visibleNodes);
+		if(!myAISearcher.isValidSearch(myTuple)){
 			return false;
 		}
 		HashMap<Unit, List<Branch>> newPaths = new HashMap<>();
@@ -54,7 +54,7 @@ public class AISimulator {
 			Branch currBranch = e.getProperties().getMovement().getCurrentBranch();
 			Position currPos = e.getProperties().getPosition();
 			Position movingTowards = e.getProperties().getMovement().getMovingTowards();
-			List<Branch> newPath = movingTowards.equals(currBranch.getLastPosition()) ? myBFS.getPathTo(currBranch.getFirstPosition(), currBranch, currPos) : myBFS.getPathTo(currBranch.getLastPosition(), currBranch, currPos);
+			List<Branch> newPath = movingTowards.equals(currBranch.getLastPosition()) ? myTuple.getPathTo(currBranch.getFirstPosition(), currBranch, currPos) : myTuple.getPathTo(currBranch.getLastPosition(), currBranch, currPos);
 			if(newPath == null || simulatedCollision(e, newPath, obstacle)){
 				return false;
 			}

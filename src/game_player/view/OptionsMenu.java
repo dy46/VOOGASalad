@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 
 public class OptionsMenu extends PlayerMenu {
 
-    private static final int WINDOW_SIZE = 500;
     private Stage menuStage;
     private ResourceBundle myResources;
     private MenuMaker menuMaker;
@@ -27,7 +26,7 @@ public class OptionsMenu extends PlayerMenu {
         super(r, view);
         myResources = r;
         menuMaker = new MenuMaker(r);
-        mySwitchWindow = new SwitchWindow(r);
+        mySwitchWindow = new SwitchWindow(r, GUI);
         myView = view;
         myGUI = GUI;
     }
@@ -40,48 +39,23 @@ public class OptionsMenu extends PlayerMenu {
     protected void openSwitchWindow () {
         menuStage = new Stage();
         myRoot = mySwitchWindow.createWindow();
-        Scene switchWindowScene = new Scene(myRoot, WINDOW_SIZE, WINDOW_SIZE);
+        Scene switchWindowScene = new Scene(myRoot, 
+        		Double.valueOf(myResources.getString("SwitchWindowSize")),
+        		Double.valueOf(myResources.getString("SwitchWindowSize")));
         menuStage.setScene(switchWindowScene);
         menuStage.show();
     }
 
     protected void restartGame () {
-        myView.restartGame();
+        myGUI.restartGame();
     }
 
     protected void saveGame () {
-        menuStage = new Stage();
-        FileChooser fileChooser = new FileChooser();
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file = fileChooser.showSaveDialog(menuStage);
-        // TODO: incorporate xstream
-        try {
-            saveFile("Hello", file);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    	myView.getGameEngine().saveGame();
     }
 
     protected void loadGame () {
         myGUI.loadNewTab();
-    }
-
-    protected void saveFile (Object content, File file) {
-        try {
-            FileWriter fileWriter = null;
-
-            fileWriter = new FileWriter(file);
-            fileWriter.write(content.toString());
-            fileWriter.close();
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
     
     protected void returnToAuth() {

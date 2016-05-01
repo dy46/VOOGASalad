@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import exceptions.WompException;
 import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
@@ -76,9 +77,11 @@ public class UnitController {
                         .filter(c -> namesOfChildren.contains(c.toString()))
                         .collect(Collectors.toList()));
         u.setInvisible();
-        u.update();
-        unitsToRemove.add(u);
-        myStore.sellUnit(u);
+        if(unitsToRemove.size() > 0) {
+            u.update();
+            unitsToRemove.add(u);
+            myStore.sellUnit(u);
+        }
     }
 
     public void applyUpgrade (Unit unitToUpgrade, Affector affector) {
@@ -90,6 +93,9 @@ public class UnitController {
     }
 
     public List<Unit> getUnitType (String type) {
+    	if(myPlacedUnits == null){
+    		return new ArrayList<>();
+    	}
         return myUnitUtility.getUnitsWithType(myPlacedUnits, type);
     }
 

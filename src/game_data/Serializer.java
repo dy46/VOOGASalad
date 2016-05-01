@@ -2,6 +2,8 @@ package game_data;
 
 import com.thoughtworks.xstream.XStream;
 import auth_environment.delegatesAndFactories.FileChooserDelegate;
+import exceptions.SerializerException;
+import exceptions.WompException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,12 +33,11 @@ public class Serializer<T> implements IDataConverter<T> {
 				writer.close();
 				return f;
 			} catch (IOException e) {
-				System.out.println(myNamesBundle.getString("saveErrorMessage") + f.getAbsolutePath());
+				new WompException(myNamesBundle.getString("saveErrorMessage")).displayMessage();
 			}
 		}
 		else {
-			// TODO: Open dialog window instead of printing to console
-			System.out.println(myNamesBundle.getString("nullFileMessage"));
+			new WompException(myNamesBundle.getString("nullFileMessage")).displayMessage();;
 		}
 		return null;
 	}
@@ -47,19 +48,17 @@ public class Serializer<T> implements IDataConverter<T> {
 	
 	@SuppressWarnings("unchecked")
 	public T loadFromFile(File file) {
-		try {
-			if (file != null) {
+		if(file != null){
+			try{
 				XStream xstream = new XStream();
 				return (T) xstream.fromXML(file);
 			}
-			else {
-				// TODO: Open dialog window instead of printing to console
-				System.out.println(myNamesBundle.getString("nullFileError"));
+			catch(ClassCastException e){
+				new WompException(myNamesBundle.getString("wrongFormatMessage")).displayMessage();
 			}
 		}
-		catch (ClassCastException e) {
-			// TODO: Open dialog window instead of printing to console
-			System.out.println(myNamesBundle.getString("wrongFormatMessage"));
+		else{
+			new WompException(myNamesBundle.getString("nullFileMessage")).displayMessage();
 		}
 		return null;
 	}

@@ -14,7 +14,6 @@ public class ElementTabModel implements IElementTabModel {
 		this.myUnitFactory = auth.getUnitFactory(); 
 		this.myAffectorFactory = auth.getAffectorFactory();
 		this.myUnitFactory.setAffectorLibrary(auth.getAffectorFactory().getAffectorLibrary());
-		this.myAffectorFactory.setDefaultAffectors(auth.getFunctionFactory());
 	}
 
 	@Override
