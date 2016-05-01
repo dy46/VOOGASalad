@@ -5,7 +5,6 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_engine.affectors.Affector;
 import game_engine.factories.AffectorFactory;
 import game_engine.factories.FunctionFactory;
 import game_engine.factories.StoreFactory;
@@ -29,8 +28,9 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
 	private double myScore = 0;
-	private int myCurrentWaveIndex = 0;
 	private MapHandler myMapHandler = new MapHandler();
+	private int myCurrentWaveIndex = 0;
+	private int myCurrentLevelIndex = 0;
 	
 	private FunctionFactory myFunctionFactory = new FunctionFactory();
 	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
@@ -43,10 +43,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Unit> myProjectiles = new ArrayList<Unit>();
 	private List<Position> mySpawns = new ArrayList<Position>();
 	private List<Position> myGoals = new ArrayList<Position>();
-
-	public AuthEnvironment() { 
-		
-	}
 
 	@Override
 	public String getGameName() {
@@ -151,10 +147,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 	
 	@Override
-	public List<Affector> getAffectors() {
-		return myAffectorFactory.getAffectorLibrary().getAffectors();
-	}
-	@Override
 	public AffectorFactory getAffectorFactory() {
 		return myAffectorFactory;
 	}
@@ -209,15 +201,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	}
 	
 	@Override
-	public int getCurrentWaveIndex() {
-		return myCurrentWaveIndex;
-	}
-	@Override
-	public void setCurrentWaveIndex(int currentWaveIndex) {
-		myCurrentWaveIndex = currentWaveIndex;
-	}
-	
-	@Override
 	public MapHandler getMapHandler() {
 		return myMapHandler; 
 	}
@@ -230,4 +213,22 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public StoreFactory getStoreFactory() {
 		return myStoreFactory; 
 	}
+	
+	@Override
+	public int getCurrentWaveIndex() {
+		return myCurrentWaveIndex;
+	}
+	@Override
+	public void setCurrentWaveIndex(int currentWaveIndex) {
+		myCurrentWaveIndex = currentWaveIndex;
+	}
+	@Override
+	public int getCurrentLevelIndex() {
+		return myCurrentLevelIndex;
+	}
+	@Override
+	public void setCurrentLevelIndex(int currentLevelIndex) {
+		myCurrentLevelIndex = currentLevelIndex;
+	}
+	
 }

@@ -36,8 +36,6 @@ public interface IAuthEnvironment extends IGameData {
 	public void setSpawns(List<Position> spawns);
 
 	public FunctionFactory getFunctionFactory();
-	
 	public void setFunctionFactory(FunctionFactory factory); 
-	
 	
 }
