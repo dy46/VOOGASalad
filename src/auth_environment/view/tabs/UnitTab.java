@@ -25,9 +25,11 @@ public class UnitTab extends ElementTab{
 	private AnimationPane myAnimationPane;
 	
 	private IElementTabModel myElementTabModel;
+	private IAuthModel myAuthModel;
 
 	public UnitTab(String name, IAuthModel authModel){
 		super(name);
+		this.myAuthModel = authModel;
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
 		addRefresh();
 		setUp();
@@ -35,8 +37,8 @@ public class UnitTab extends ElementTab{
 	
 	public void refresh(){
         setIndex(1);
-		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
-		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
+		refreshLists();
+		
 		init();
 	}
 	
@@ -152,6 +154,17 @@ public class UnitTab extends ElementTab{
 			list.add(newcbox);
 			button.setOnAction(e -> addNewComboBox(row, gp, button, newcbox, newcol, list, names));
 		}
+	}
+	
+	public void removeUnit(Unit u){
+		this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnits().remove(u);
+		setUp();
+	}
+	
+	private void refreshLists(){
+		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
+		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
+		myElementTabModel.update(myAuthModel.getIAuthEnvironment());
 	}
 	
 	public void updateMenu(Unit unit) {}
