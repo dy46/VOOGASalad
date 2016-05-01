@@ -34,22 +34,11 @@ public class AffectorTab extends UnitTab{
 		strDropMap = new HashMap<String, ComboBox<String>>();
 		this.myAffectorTabModel = new AffectorTabModel(authModel.getIAuthEnvironment());
 		setUp();
-		//this.init();
 	}
 	
 	public void refresh(){
 		effects = new ArrayList<ComboBox<String>>();
 		functions = new ArrayList<TextField>();
-	}
-	
-	private void init() {
-		
-//        GridPane newTableInfo = new GridPane();
-//        newTableInfo.getColumnConstraints().addAll(new ColumnConstraints(100),new ColumnConstraints(150),new ColumnConstraints(200),new ColumnConstraints(100) );
-//        newTableInfo.getRowConstraints().addAll(new RowConstraints(20));
-//        newTableInfo.setPrefSize(600, 200);
-
-
 	}
 	
 	public UnitPicker setUpUnitPicker(){
@@ -71,7 +60,6 @@ public class AffectorTab extends UnitTab{
     	functions.stream().forEach(s -> {if(s.getText() != null)values.add(Double.parseDouble(s.getText()));});
     	
 		this.myAffectorTabModel.getAffectorFactory().constructAffector(name, type, property, ttl, eff, values);
-		reset();
 		setUp();
 	}
 

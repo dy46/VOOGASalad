@@ -34,7 +34,9 @@ public abstract class UnitTab extends Tab{
 	}
 	
 	public void setUp(){
+		reset();
 		refresh();
+		
 		index = 1;
 		this.setClosable(false);
 		myCreator = new FrontEndCreator();
@@ -101,8 +103,7 @@ public abstract class UnitTab extends Tab{
 	public GridPane setUpGridPane(String s){
         GridPane gridPane = setUpPane(s);
         gridPane.getRowConstraints().addAll(new RowConstraints(Double.parseDouble(myDimensionsBundle.getString("rowConstraintSize"))));
-        gridPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")), Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));
-		
+        gridPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("newTableWidth")), Double.parseDouble(myDimensionsBundle.getString("newTableHeight")));	
 		return gridPane;
 	}
 	
@@ -121,7 +122,5 @@ public abstract class UnitTab extends Tab{
 		GridPane gridPane = new GridPane();
         gridPane.getColumnConstraints().addAll(new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+0))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+1))),new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+2))));
 		return gridPane;
-	}
-	
-	
+	}	
 }

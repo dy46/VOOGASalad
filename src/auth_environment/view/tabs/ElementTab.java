@@ -11,7 +11,6 @@ import auth_environment.Models.ElementTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
-import game_engine.affectors.Affector;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.Button;
@@ -37,16 +36,25 @@ public class ElementTab extends UnitTab{
 
 	public ElementTab(String name, IAuthModel authModel){
 		super(name);
+		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
+		addRefresh();
+		setUp();
+	}
+	
+	public void refresh(){
+        setIndex(1);
+		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
+		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
+		init();
+	}
+	
+	private void init(){
 		strComboMap = new HashMap<String, ComboBox<String>>();
 		strTextMap = new HashMap<String, TextField>();
 		affectorsToUnit = new ArrayList<ComboBox<String>>();
 		affectorsToApply = new ArrayList<ComboBox<String>>();
 		myProjectiles = new ArrayList<ComboBox<String>>();
 		myAnimationPane = new AnimationPane();
-		
-		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
-		addRefresh();
-		setUp();
 	}
 	
 	private void addRefresh(){
@@ -61,13 +69,6 @@ public class ElementTab extends UnitTab{
 	
 	public void setUpAnimation(BorderPane gp){
 		gp.setTop(myAnimationPane.getRoot());
-	}
-	
-	public void refresh(){
-        reset();
-        setIndex(1);
-		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
-		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
 	}
 	
 	private void addTextFields(GridPane newTableInfo, FrontEndCreator creator){
@@ -113,22 +114,7 @@ public class ElementTab extends UnitTab{
     	
     	myAnimationPane.getAnimationLoaderTab().setUnit(unit);
         myUnitFactory.getUnitLibrary().addUnit(unit);
-    	setUp();
-	}
-
-	public void updateMenu(Unit unit) {
-		strTextMap.get("UnitType").setText(unit.getName());
-		strTextMap.get("Type").setText(unit.getType());
-		strTextMap.get("DeathDelay").setText(unit.getDeathDelay() + "");
-		strTextMap.get("NumFrames").setText(unit.getNumFrames()+"");
-		strTextMap.get("Speed").setText(unit.getProperties().getVelocity().getSpeed() +"");//check these 3
-		strTextMap.get("Direction").setText(unit.getProperties().getVelocity().getDirection() + ""); //
-		strTextMap.get("Price").setText(unit.getProperties().getPrice().getValue()+""); //
-		strTextMap.get("State").setText(unit.getProperties().getState().getValue()+"");
-		strTextMap.get("Health").setText(unit.getProperties().getHealth().getValue()+"");
-		List<Affector> affectors = unit.getAffectors();
-		List<Affector> ata = unit.getAffectorsToApply();
-		List<Unit> children = unit.getChildren();
+    	init();
 	}
 
 	@Override
