@@ -75,9 +75,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				buildWompImage(),
 				buildTextInput(),
 				buildSplashChooser(), 
-//				buildSaveButton(),
-//				buildLoadButton(),
-//				buildPlayButton()
 				buildButtonRow()
 				);
 		return center; 
@@ -134,21 +131,18 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	}
 	
 	private Node buildSaveButton() {
-		Button save = myNodeFactory.buildButton(myNamesBundle.getString("saveItemLabel"));
-		save.setOnAction(e -> myGameSettingsTabModel.saveToFile());
-		return save; 
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("saveItemLabel"), 
+				e -> myGameSettingsTabModel.saveToFile());
 	}
 	
 	private Node buildLoadButton() {
-		Button load = myNodeFactory.buildButton(myNamesBundle.getString("loadItemLabel"));
-		load.setOnAction(e -> myGameSettingsTabModel.loadFromFile());
-		return load; 
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("loadItemLabel"), 
+				e -> myGameSettingsTabModel.loadFromFile());
 	}
 	
 	private Node buildPlayButton() {
-		Button play = myNodeFactory.buildButton(myNamesBundle.getString("playButtonLabel"));
-		play.setOnAction(e -> myMainView.displayPlayer());
-		return myNodeFactory.centerNode(play); 
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("playButtonLabel"), 
+				e -> myMainView.displayPlayer());
 	}
 	
 	private Node buildChooseScore() {
