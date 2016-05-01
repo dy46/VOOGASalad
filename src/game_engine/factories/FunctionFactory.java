@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import exceptions.WompException;
 import game_engine.functions.Constant;
 import game_engine.functions.Function;
 import game_engine.functions.Term;
@@ -125,12 +126,12 @@ public class FunctionFactory {
 			type = "ExpDecr";
 		else{
 			// TODO: throw Womp Exception "Only exponentially increasing and decreasing functions supported"
+			new WompException("Only exponentially increasing and decreasing functions supported").displayMessage();
 		}
 		myFunctionLibrary.addFunctionType(type, expTerms);
 		if(sign==1){
 			Function expIncr = new Function(getName(type, strength), expTerms);
 			myFunctionLibrary.addFunction(expIncr);
-//			System.out.println(expIncr);
 		}
 		if(sign==-1){
 			Function expDecr = new Function(getName(type, strength), expTerms);
