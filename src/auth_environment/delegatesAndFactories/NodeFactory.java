@@ -78,7 +78,7 @@ public class NodeFactory {
 	}
 	
 	public HBox centerNode(Node node) {
-		List<Node> nodes = new ArrayList<Node>();
+		List<Node> nodes = new ArrayList<>();
 		nodes.add(node);
 		return centerNodes(nodes);
 	}
