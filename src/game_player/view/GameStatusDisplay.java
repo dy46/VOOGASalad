@@ -21,7 +21,7 @@ public class GameStatusDisplay implements IGUIObject {
     private IGameView myView;
     private GameEngineInterface myEngine;
 
-    public GameStatusDisplay (ResourceBundle r, GameDataSource gameData, IGameView view) {
+    public GameStatusDisplay (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;

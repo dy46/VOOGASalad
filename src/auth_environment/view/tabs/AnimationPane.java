@@ -16,9 +16,11 @@ public class AnimationPane {
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/creation_tab_dimensions";
 	private static final ResourceBundle dimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
+	private AnimationLoaderTab myAnimationTab;
 	
 	public AnimationPane(){
 		myPane = new GridPane();
+    	myAnimationTab = new AnimationLoaderTab();
 		init();
 	}
 	
@@ -28,9 +30,13 @@ public class AnimationPane {
 		addAnimationButton();
 	}
 	
+	public AnimationLoaderTab getAnimationLoaderTab(){
+		return myAnimationTab;
+	}
+	
 	private void addAnimationButton() {
 		Button animationButton = new Button(labelsBundle.getString("animationText"));
-		animationButton.setOnAction( e -> System.out.println("ANIMATION"));
+		animationButton.setOnAction( e -> myAnimationTab.show());
 		animationButton.setPrefSize(Double.parseDouble(dimensionsBundle.getString("animationWidth")),Double.parseDouble(dimensionsBundle.getString("animationHeight")));	
 		myPane.add(animationButton, 1, 0); //col, row
 	}

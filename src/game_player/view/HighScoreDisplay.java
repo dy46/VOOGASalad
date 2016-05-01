@@ -21,7 +21,7 @@ public class HighScoreDisplay implements IGUIObject {
     private IGameView myView;
     private GameEngineInterface myEngine;
 
-    public HighScoreDisplay (ResourceBundle r, GameDataSource gameData, IGameView view) {
+    public HighScoreDisplay (ResourceBundle r, GameDataSource gameData, IGameView view, PlayerGUI GUI) {
         myResources = r;
         myGameData = gameData;
         myView = view;

@@ -39,10 +39,12 @@ public class GameHUD {
     private HBox HUDBox;
     private GameEngineInterface engine;
     private IGameView gameView;
+    private GameCanvas myCanvas;
     private TabPane myUpgradesTab;
 
-    public GameHUD (ResourceBundle r) {
+    public GameHUD (ResourceBundle r, GameCanvas canvas) {
         myResources = r;
+        myCanvas = canvas;
         myUpgradesTab = new TabPane();
     }
 
@@ -95,15 +97,12 @@ public class GameHUD {
     	ObservableList<Affector> theUpgrades = FXCollections.observableArrayList();
     	Tab upgradeTab = new Tab();
     	upgradeTab.setGraphic(createImageView(u));
-    	Callback<ListView<Affector>, ListCell<Affector>> cellFactory = (e -> {
-            return new UpgradeCell();
-        });
         for (int i = 0; i < engine.getUnitController().getUpgrades(u).size(); i++) {
         	Affector affector = engine.getUnitController().getUpgrades(u).get(i);
         	theUpgrades.add(affector);
         }
         upgradesList.setItems(theUpgrades);
-        upgradesList.setCellFactory(cellFactory);
+        upgradesList.setCellFactory(cellFactory -> new UpgradeCell());
         upgradesList.setOnMouseClicked(e -> {
             engine.getUnitController().applyUpgrade(u, upgradesList.getSelectionModel().getSelectedItem());
         });
@@ -119,8 +118,8 @@ public class GameHUD {
 
     public void whenNothingSelected () {
     	HUDBox.getChildren().clear();
-    	Rectangle rect = new Rectangle(500, 150);
-    	rect.setFill(Color.DARKGRAY);
+    	Rectangle rect = new Rectangle(myCanvas.getScrollPaneWidth(), 150);
+    	rect.setOpacity(0);
     	HUDBox.getChildren().add(rect);
         if (gameView != null) {
             gameView.setSpecificUnitIsSelected(null);
@@ -128,9 +127,7 @@ public class GameHUD {
     }
     
     private ImageView createImageView (Unit unit) {
-        String name = unit.toString();
-        Image image = new Image(name + ".png");
-        ImageView imageView = new ImageView(image);
+        ImageView imageView = new ImageView(new Image(unit.toString() + PNG_EXTENSION));
         imageView.setFitHeight(IMAGEVIEW_HEIGHT);
         imageView.setPreserveRatio(true);
         return imageView;

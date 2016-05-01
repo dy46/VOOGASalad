@@ -3,6 +3,11 @@ package game_player.interfaces;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.UnitViews.UnitImageView;
+import game_player.view.GameCanvas;
+import javafx.scene.Scene;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
+import main.IMainView;
 
 
 /**
@@ -36,5 +41,15 @@ public interface IGameView {
     void updateHUD (UnitImageView view); 
     
     void setCanPlaceUnit(boolean canPlaceUnit);
+    
+    Scene getScene();
+    
+    IMainView getMainView();
+    
+    void setCSS(String fileName);
+    
+    MediaPlayer getMusic();
+    
+    GameCanvas getCanvas();
     
 }

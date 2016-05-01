@@ -21,13 +21,15 @@ public class OptionsMenu extends PlayerMenu {
     private GridPane myRoot;
     private SwitchWindow mySwitchWindow;
     private IGameView myView;
+    private PlayerGUI myGUI;
 
-    public OptionsMenu (ResourceBundle r, IGameView view) {
+    public OptionsMenu (ResourceBundle r, IGameView view, PlayerGUI GUI) {
         super(r, view);
         myResources = r;
         menuMaker = new MenuMaker(r);
         mySwitchWindow = new SwitchWindow(r);
         myView = view;
+        myGUI = GUI;
     }
 
     public Menu createMenu () {
@@ -65,21 +67,8 @@ public class OptionsMenu extends PlayerMenu {
         }
     }
 
-    protected String loadGame () {
-        menuStage = new Stage();
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter =
-                new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(menuStage);
-        // TODO: do something when it loads the file
-        try {
-            return file.toString();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
+    protected void loadGame () {
+        myGUI.loadNewTab();
     }
 
     protected void saveFile (Object content, File file) {
@@ -93,5 +82,9 @@ public class OptionsMenu extends PlayerMenu {
         catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    
+    protected void returnToAuth() {
+    	myView.getMainView().displayAuth();
     }
 }

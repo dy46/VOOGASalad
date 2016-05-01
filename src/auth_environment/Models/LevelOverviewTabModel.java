@@ -18,22 +18,22 @@ public class LevelOverviewTabModel implements ILevelOverviewTabModel{
     private List<Level> myCreatedLevels;
     private int myCurrentLevelIndex;
     
-    public LevelOverviewTabModel(IAuthEnvironment auth){
-    	this.myAuthEnvironment = auth; 
+    public LevelOverviewTabModel(IAuthEnvironment authEnv){
+    	this.myAuthEnvironment = authEnv; 
     	this.myCreatedLevels = new ArrayList<Level>(); 
         this.myCreatedWaves = new HashMap<String, Wave>(); // ex. Level1Wave1
         this.myCurrentLevelIndex = 0; 
     }
     
-    public void refresh(IAuthEnvironment auth) {
+    public void refresh(IAuthEnvironment authEnv) {
     	this.clear();
-    	this.myAuthEnvironment = auth; 
-    	this.myCreatedLevels = auth.getLevels();
+    	this.myAuthEnvironment = authEnv; 
+    	this.myCreatedLevels = authEnv.getLevels();
         this.myCreatedLevels.stream().forEach(level -> this.addWavesToLevel(level));
     }
     
     private void clear() {
-    	this.myCreatedLevels.clear();
+    	this.myCreatedLevels = new ArrayList<Level>();//.clear();
     	this.myCreatedWaves.clear();
         this.myCurrentLevelIndex = 0; 
     }
