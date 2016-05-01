@@ -91,6 +91,8 @@ public class LevelTab extends Tab{
 	
 	private void setUpWaveList(){
 		this.newTableInfo.getChildren().clear();
+		lifeField.setText(Integer.toString(level.getMyLives()));
+		System.out.println("stuff" + Integer.toString(level.getMyLives()));
 		System.out.println("Number of waves: " + level.getWaves().size());
 		if(level.getWaves().size() > 0){
 			System.out.println("refreshing waves");

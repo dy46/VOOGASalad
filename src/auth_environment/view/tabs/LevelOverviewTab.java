@@ -57,7 +57,9 @@ public class LevelOverviewTab extends Tab {
 	
 	private void setUpLevelTabs() {
 		this.myTabs.getTabs().clear();
+		System.out.println("refreshing levels" + myLevelOverviewTabModel.getCreatedLevels().size());
 		if (this.myLevelOverviewTabModel.getCreatedLevels().size()>0) {
+			System.out.println("Heyheyheyeheyhey");
 			this.myLevelOverviewTabModel.getCreatedLevels().stream().forEach(level -> this.addLevelTab(level));
 		}
 		else {
