@@ -15,8 +15,6 @@ public interface IMapEditorTabModel {
 	
 	public void refresh(IAuthEnvironment auth);
 	
-	public void convert(IMapPane mapPane);
-	
 	public void clear();
 
 }

@@ -69,7 +69,6 @@ public class DragDelegate {
 				UnitView imv = ((UnitView)(myPicker.getRoot().lookup("#" + db.getString()))).clone();
 				target.adjustUnitViewScale(imv);
 				target.adjustUnitViewXY(imv, event.getSceneX(), event.getSceneY());
-				imv.addContextMenu(target, imv);
 				target.addToPane(imv);
 				target.getModel().addTerrain(imv.getX(), imv.getY(), imv.getUnit());
 				success = true;
@@ -80,7 +79,7 @@ public class DragDelegate {
 
 	}
 	
-	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, IPathTabModel pathModel) {
+	public void setUpNodeTarget(PathPoint pathPoint, UnitPicker picker, UnitPicker picker0, IPathTabModel pathModel) {
 		Circle target = pathPoint.getCircle(); 
 		
 		target.setOnDragOver(e -> {
@@ -97,7 +96,13 @@ public class DragDelegate {
 			Dragboard db = e.getDragboard();
 			boolean success = false;
 			if (db.hasString()) {
-				UnitView uv = ((UnitView)(picker.getRoot().lookup("#" + db.getString())));
+				UnitView uv = new UnitView(); 
+				if (((UnitView)(picker.getRoot().lookup("#" + db.getString())))!=null) {
+					uv = (UnitView)(picker.getRoot().lookup("#" + db.getString()));
+				}
+				else {
+					uv = (UnitView)(picker0.getRoot().lookup("#" + db.getString()));
+				}
 				pathModel.setActiveUnit(uv.getUnit());
 				Position pos = pathPoint.getPosition(); 
 				pathModel.addSpawnToActiveLevel(pos);
