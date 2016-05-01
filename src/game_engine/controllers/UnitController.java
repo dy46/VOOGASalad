@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import exceptions.WompException;
 import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
@@ -13,6 +12,12 @@ import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.store_elements.Store;
 
+/**
+ * This class is a controller for manipulating and accessing information about all units that have entered the game.
+ * 
+ * @author adamtache
+ *
+ */
 
 public class UnitController {
 
