@@ -8,20 +8,24 @@ import auth_environment.Models.Interfaces.IWaveWindowModel;
 import java.util.ArrayList;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.UnitLibrary;
 
 public class WaveWindowModel implements IWaveWindowModel {
 	
     private Wave myWave;
     private UnitLibrary myLibrary;
+    private AffectorLibrary affectorLibrary;
     private ILevelOverviewTabModel levelOverview;
     
-    public WaveWindowModel(UnitLibrary lib, ILevelOverviewTabModel levelOverview) {
+    public WaveWindowModel(UnitLibrary lib, AffectorLibrary affectorLibrary, ILevelOverviewTabModel levelOverview) {
     	this.myLibrary = lib;
-    	this.levelOverview = levelOverview; 
+    	this.levelOverview = levelOverview;
+    	this.affectorLibrary = affectorLibrary;
     }
     
-    public WaveWindowModel(UnitLibrary lib, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
+    public WaveWindowModel(UnitLibrary lib, AffectorLibrary affectorLibrary, String name, int spawnTime, ILevelOverviewTabModel levelOverview){
+        this.affectorLibrary = affectorLibrary;
         this.myWave = new Wave(name, spawnTime);
         this.myLibrary = lib;
         this.levelOverview = levelOverview;
@@ -30,7 +34,6 @@ public class WaveWindowModel implements IWaveWindowModel {
     @Override 
     public Wave createWave(String name, String levelPlusWaveName, List<String> spawningNames, List<Integer> spawningTimes, List<String> placingNames, int timeBeforeWave) {
         Wave w = new Wave(name, unitsFromNames(spawningNames), unitsFromNames(placingNames), spawningTimes, timeBeforeWave);
-        
         levelOverview.addToCreatedWaves(levelPlusWaveName, w);
         return w;
     }

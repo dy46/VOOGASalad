@@ -44,6 +44,7 @@ public class WaveWindow {
 		this.placingNames = new ArrayList<ComboBox<String>>();
 		this.spawningTimes = new ArrayList<TextField>();
 		this.myWaveWindowModel = new WaveWindowModel(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
+		                                             authModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary(),
 				this.myLevelOverviewTabModel); 
 		
 		Stage stage = new Stage();

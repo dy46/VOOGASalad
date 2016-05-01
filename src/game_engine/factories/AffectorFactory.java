@@ -58,7 +58,6 @@ public class AffectorFactory {
 	       functionValues.removeIf(f -> f== null);
 	       AffectorData newData = null;
 	       if(property == null) {
-	           System.out.println(functionNames.size());
 	           if(functionNames.size() == 0) {
 	               newData = new AffectorData();
 	           }

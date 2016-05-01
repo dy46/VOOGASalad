@@ -2,7 +2,7 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import auth_environment.IAuthEnvironment;
 import game_data.Serializer;
 import game_engine.AI.AIHandler;
@@ -24,11 +24,11 @@ import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
-import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
+
 public class EngineWorkspace implements GameEngineInterface {
-	private IAuthEnvironment myData;
+    private IAuthEnvironment myData;
 
     private int nextWaveTimer;
     private List<Branch> myBranches;
@@ -44,12 +44,11 @@ public class EngineWorkspace implements GameEngineInterface {
     private Position cursorPos;
     private AIHandler myAIHandler;
     private AISimulator myAISimulator;
-	private AISearcher myAISearcher;
-	
+    private AISearcher myAISearcher;
 
     public void setUpEngine (IAuthEnvironment data) {
-    	myData = data;
-    	
+        myData = data;
+        cursorPos = new Position(0, 0);
         unitsToRemove = new ArrayList<>();
         myAISearcher = new AISearcher(this);
         myAIHandler = new AIHandler(this);
@@ -57,19 +56,41 @@ public class EngineWorkspace implements GameEngineInterface {
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
-        myAffectors = data.getAffectors();
-        myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);
-        myLevelController = new LevelController(data.getLevels(), data.getScore());
+        myLevelController = new LevelController(data.getLevels(), 0);
         myLevelController.setCurrentWave(data.getCurrentWaveIndex());
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
                 new UnitController(data.getPlacedUnits(), myPlaceValidations,
-                					data.getStore(), unitsToRemove);
+                                   data.getStore(), unitsToRemove);
         myEnemyController = new EnemyController(myLevelController, myUnitController);
+        setWorkspaceForAffectors(data.getPlacedUnits(), data.getLevels());
         updateAIBranches();
+    }
+    
+    public void setWorkspaceForAffectors(List<Unit> placedUnits, List<Level> levels) {
+        List<Unit> allUnits = placedUnits;
+        levels.stream().forEach(l -> {
+            l.getWaves().forEach(w -> {
+                allUnits.addAll(w.getPlacingUnits());
+                allUnits.addAll(w.getSpawningUnits());
+            });
+        });
+        allUnits.stream().forEach(u -> setWorkspaceForUnit(u));      
+    }
+    
+    public void setWorkspaceForUnit(Unit unit) {
+        unit.getChildren().stream().forEach(c -> {
+            c.getAffectors().stream().forEach(a -> setWorkspaceForChild(c));
+        });
+        setWorkspaceForChild(unit);
+    }
+    
+    public void setWorkspaceForChild(Unit child) {
+        child.getAffectors().stream().forEach(a -> a.setWorkspace(this));
+        child.getAffectorsToApply().stream().forEach(a -> a.setWorkspace(this));
     }
 
     @Override
@@ -78,8 +99,8 @@ public class EngineWorkspace implements GameEngineInterface {
         IStore myStore = myUnitController.getStore();
         List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
         myStore.clearBuyableUnits();
-        // TODO: store should not be updated here
-//        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
+        placingUnits.stream()
+                .forEach(u -> myStore.addBuyableUnit(u, u.getProperties().getPrice().getValue()));
         nextWaveTimer++;
         waveProgression(myCurrentLevel);
         myUnitController.getUnitType("Projectile").forEach(p -> p.update());
@@ -110,9 +131,9 @@ public class EngineWorkspace implements GameEngineInterface {
         }
     }
 
-    public void saveGame() {
-    	Level currentLevel = myLevelController.getCurrentLevel();
-    	myData.setCurrentWaveIndex( currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()) );
+    public void saveGame () {
+        Level currentLevel = myLevelController.getCurrentLevel();
+        myData.setCurrentWaveIndex(currentLevel.getWaves().indexOf(currentLevel.getCurrentWave()));
         Serializer<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
         writer.saveElement(myData);
     }
@@ -159,29 +180,29 @@ public class EngineWorkspace implements GameEngineInterface {
     public LevelController getLevelController () {
         return myLevelController;
     }
-    
-    @Override
-    public ILevelDisplayer getLevelDisplay(){
-    	return myLevelController;
-    }
-    
-    @Override
-	public AIHandler getAIHandler() {
-		return myAIHandler;
-	}
-	
-	@Override
-	public AISearcher getAISearcher() {
-		return myAISearcher;
-	}
-	
-	public AISimulator getAISimulator(){
-		return myAISimulator;
-	}
 
-	@Override
-	public EnemyController getEnemyController() {
-		return myEnemyController;
-	}
+    @Override
+    public ILevelDisplayer getLevelDisplay () {
+        return myLevelController;
+    }
+
+    @Override
+    public AIHandler getAIHandler () {
+        return myAIHandler;
+    }
+
+    @Override
+    public AISearcher getAISearcher () {
+        return myAISearcher;
+    }
+
+    public AISimulator getAISimulator () {
+        return myAISimulator;
+    }
+
+    @Override
+    public EnemyController getEnemyController () {
+        return myEnemyController;
+    }
 
 }
