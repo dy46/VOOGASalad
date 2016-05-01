@@ -21,17 +21,14 @@ import game_engine.wave_goals.WaveGoal;
 
 
 public class AuthEnvironment implements IAuthEnvironment {
-
 	private String myName;
-	private String mySplashScreen; 
+	private String mySplashScreenName;
 	
 	private List<Level> myLevels = new ArrayList<Level>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
-	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
-	private Store myStore = new Store(1000);
 	private double myScore = 0;
 	private int myCurrentWaveIndex = 0;
 	private MapHandler myMapHandler = new MapHandler();
@@ -56,17 +53,22 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public String getGameName() {
 		return this.myName; 
 	}
-	
 	@Override
 	public void setGameName(String name) {
 		this.myName = name; 
 	}
 
+	public String getSplashScreen() {
+		return mySplashScreenName;
+	}
+	public void setSplashScreen(String fileName) {
+		mySplashScreenName = fileName;
+	}
+	
 	@Override
 	public List<Position> getGoals() {
 		return myGoals;
 	}
-	
 	@Override
 	public void setGoals(List<Position> goals) {
 		myGoals = goals;
@@ -151,7 +153,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Affector> getAffectors() {
-		return myAffectors;
+		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 	@Override
 	public AffectorFactory getAffectorFactory() {
@@ -187,15 +189,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setScoreUpdate(ScoreUpdate scoreUpdate) {
 		myScoreUpdate = scoreUpdate;
-	}
-	
-	@Override
-	public Store getStore() {
-		return myStore;
-	}
-	@Override
-	public void setStore(Store store) {
-		myStore = store;
 	}
 	
 	@Override
@@ -238,15 +231,4 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public StoreFactory getStoreFactory() {
 		return myStoreFactory; 
 	}
-
-	@Override
-	public void setSplashScreen(String fileName) {
-		mySplashScreen = fileName;
-	}
-
-	@Override
-	public String getSplashScreen() {
-		return mySplashScreen;
-	}
-	
 }
