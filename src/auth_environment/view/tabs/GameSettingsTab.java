@@ -182,7 +182,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 			this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
 			this.myGameSettingsTabModel.setSplashFile(splash.getName());
 		}
-
 	}
 	
 	private void submitButtonPressed(TextField input) {
