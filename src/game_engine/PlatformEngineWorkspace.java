@@ -131,6 +131,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	private Level makeDummyLevel() {
 
 		Level l = new Level("Platformer Tower Defense", 20);
+
 		MapHandler mh = new MapHandler(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 		List<Position> path = new ArrayList<>();
@@ -422,13 +423,11 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public UnitController getUnitController() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public LevelController getLevelController() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -455,21 +454,25 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	@Override
+
 	public AIController getAIController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+
 	public ICollisionDetector getCollisionDetector() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+
 	public IEncapsulationDetector getEncapsulationDetector() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

@@ -165,6 +165,7 @@ public class CloudStorageFrontend {
 		return animation;
 	}
 	
+
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
 //		myBoxContents.

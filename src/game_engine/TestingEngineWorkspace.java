@@ -129,50 +129,50 @@ public class TestingEngineWorkspace implements GameEngineInterface, AIWorkspace 
 	}
 
 	private Level makeDummyLevel () {
-		// Wave w = new Wave("I'm not quite sure what goes here", 0);
-		// Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// e1.getProperties().setHealth(50);
-		// e2.getProperties().setHealth(50);
-		// e3.getProperties().setHealth(50);
-		// e4.getProperties().setHealth(50);
-		// w.addEnemy(e1, 0);
-		// w.addEnemy(e2, 60);
-		// w.addEnemy(e3, 60);
-		// w.addEnemy(e4, 60);
-		// Level l = new Level("still not sure", w, 3);
-		// l.addWave(w);
-		// Wave w2 = new Wave("I'm not quite sure what goes here", 240);
-		// Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
-		// e5.getProperties().setHealth(50);
-		// e6.getProperties().setHealth(50);
-		// e7.getProperties().setHealth(50);
-		// e8.getProperties().setHealth(50);
-		// w2.addEnemy(e5, 0);
-		// w2.addEnemy(e6, 60);
-		// w2.addEnemy(e7, 60);
-		// w2.addEnemy(e8, 60);
-		// Wave w3 = new Wave("I'm not quite sure what goes here", 240);
-		// Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		// Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		// Enemy e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		// Enemy e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
-		// e9.getProperties().setHealth(50);
-		// e10.getProperties().setHealth(50);
-		// e11.getProperties().setHealth(50);
-		// e12.getProperties().setHealth(50);
-		// w3.addEnemy(e9, 0);
-		// w3.addEnemy(e10, 60);
-		// w3.addEnemy(e11, 60);
-		// w3.addEnemy(e12, 60);
-		// l.addWave(w3);
-		// l.addWave(w2);
-		// return l;
+//		 Wave w = new Wave("I'm not quite sure what goes here", 0);
+//		 Enemy e1 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 Enemy e2 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 Enemy e3 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 Enemy e4 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 e1.getProperties().setHealth(50);
+//		 e2.getProperties().setHealth(50);
+//		 e3.getProperties().setHealth(50);
+//		 e4.getProperties().setHealth(50);
+//		 w.addEnemy(e1, 0);
+//		 w.addEnemy(e2, 60);
+//		 w.addEnemy(e3, 60);
+//		 w.addEnemy(e4, 60);
+//		 Level l = new Level("still not sure", w, 3);
+//		 l.addWave(w);
+//		 Wave w2 = new Wave("I'm not quite sure what goes here", 240);
+//		 Enemy e5 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 Enemy e6 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 Enemy e7 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 Enemy e8 = myEnemyFactory.createPathFollowPositionMoveEnemy("Enemy");
+//		 e5.getProperties().setHealth(50);
+//		 e6.getProperties().setHealth(50);
+//		 e7.getProperties().setHealth(50);
+//		 e8.getProperties().setHealth(50);
+//		 w2.addEnemy(e5, 0);
+//		 w2.addEnemy(e6, 60);
+//		 w2.addEnemy(e7, 60);
+//		 w2.addEnemy(e8, 60);
+//		 Wave w3 = new Wave("I'm not quite sure what goes here", 240);
+//		 Enemy e9 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+//		 Enemy e10 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+//		 Enemy e11 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+//		 Enemy e12 = myEnemyFactory.createPathFollowPositionMoveEnemy("Moab");
+//		 e9.getProperties().setHealth(50);
+//		 e10.getProperties().setHealth(50);
+//		 e11.getProperties().setHealth(50);
+//		 e12.getProperties().setHealth(50);
+//		 w3.addEnemy(e9, 0);
+//		 w3.addEnemy(e10, 60);
+//		 w3.addEnemy(e11, 60);
+//		 w3.addEnemy(e12, 60);
+//		 l.addWave(w3);
+//		 l.addWave(w2);
+//		 return l;
 
 		Level l = new Level("Dummy level", 20);
 		MapHandler mh = new MapHandler();
@@ -474,6 +474,7 @@ public class TestingEngineWorkspace implements GameEngineInterface, AIWorkspace 
 	public List<Unit> getTerrains () {
 		return myTerrains;
 	}
+
 
 	public void saveGame () {
 		// TODO Auto-generated method stub
