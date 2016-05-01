@@ -46,16 +46,10 @@ public class MapHandler {
 	}
 
 	public void addSpawn(Position spawn){
-		Position validSpawn = filterValidPos(spawn, 20);
-		if(validSpawn == null)
-			return;
 		this.mySpawns.add(spawn);
 	}
 
 	public void addGoal(Position goal){
-		Position validGoal = filterValidPos(goal, 20);
-		if(validGoal == null)
-			return;
 		this.myGoals.add(goal);
 		processPositions(Arrays.asList(goal));
 	}
