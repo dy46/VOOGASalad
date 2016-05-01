@@ -107,7 +107,7 @@ public class MapEditorTab extends Tab implements IWorkspace {
 	}
 
 	private void buildFreeMapPane(){
-		myFreeMapPane = new FreeMapPane(myModel);
+		myFreeMapPane = new FreeMapPane(myModel, Integer.parseInt(myDimensionsBundle.getString("mapEditorCols")));
 		myFreeMapPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("canvasWidth")), 
 				Double.parseDouble(myDimensionsBundle.getString("canvasHeight")));
 		myDragDelegate.setUpNodeTarget(myFreeMapPane, myPicker);
@@ -165,7 +165,6 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
 		Button clearButton = buildClearButton();
 		CheckBox gridSwitchBox = buildGridSwitchBox();
-		//        Button gridModeButton = buildGridModeButton();
 
 		hbox.getChildren().addAll(clearButton,gridSwitchBox);
 		return hbox;

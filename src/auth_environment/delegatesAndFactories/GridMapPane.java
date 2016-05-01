@@ -1,5 +1,7 @@
 package auth_environment.delegatesAndFactories;
 
+import java.util.ResourceBundle;
+
 import auth_environment.Models.MapEditorTabModel;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
@@ -12,6 +14,8 @@ public class GridMapPane extends GridPane implements IMapPane {
 	private int numCols;
 	private int numRows;
 	private MapEditorTabModel myModel;
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
 	
 	public GridMapPane(MapEditorTabModel model, int cols, int rows) {
 		this.myModel = model;
@@ -21,9 +25,8 @@ public class GridMapPane extends GridPane implements IMapPane {
 	
 
 	public void adjustUnitViewScale(UnitView uv){
-		uv.setFitWidth(this.getHeight()/numCols-3);
-		uv.setFitHeight(this.getWidth()/numRows-3);
-		System.out.println(uv.getFitHeight());
+		uv.setFitWidth(this.getHeight()/numCols-Integer.parseInt(myDimensionsBundle.getString("gridOffSetConstant")));
+		uv.setFitHeight(this.getWidth()/numRows-Integer.parseInt(myDimensionsBundle.getString("gridOffSetConstant")));
 	}
 	
 	public void adjustUnitViewXY(UnitView uv, double x, double y){

@@ -28,9 +28,7 @@ public class MapEditorTabModel implements IMapEditorTabModel{
 	}
 	
 	public void deleteTerrain(Unit element){
-		System.out.println(myAuthData.getPlacedUnits().remove(element));
-		
-		myAuthData.getPlacedUnits().stream().forEach( e-> System.out.println("Attempt to print:" + e.toString()));
+		myAuthData.getPlacedUnits().remove(element);
 	}
 	
 	public List<Unit> getPlacedUnits(){
