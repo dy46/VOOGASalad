@@ -51,7 +51,8 @@ public class CloudStorageFrontend {
 				buildBoxImage(),
 				buildKeyInput(),
 				buildFileButton(),
-				buildAnimation()
+				buildViewButton(),
+				buildViewContents()
 				);
 		myRoot.setStyle("-fx-background-color: #292929;");
 		myRoot.setPrefSize(600, 600); 
