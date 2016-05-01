@@ -86,6 +86,9 @@ public class GameView implements IGameView {
         AT = new AnimationTimer() {
             public void handle (long currentNanoTime) {
                 if (isPlaying) {
+                	if (playerEngineInterface.getLevelController().isGameOver()) {
+                		updateHighScore();
+                	}
                 	if (playerEngineInterface.getLevelController().isGameWon()) {
                 		AT.stop();
                 		playNextLevel();
@@ -143,6 +146,10 @@ public class GameView implements IGameView {
     public void changeGameSpeed (double gameSpeed) {
         this.myUpdateSpeed = gameSpeed;
         this.currentSpeed = gameSpeed;
+    }
+    
+    private void updateHighScore() {
+    	myTab.updateHighScore();
     }
 
     public GameEngineInterface getGameEngine () {
