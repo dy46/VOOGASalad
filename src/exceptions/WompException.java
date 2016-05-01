@@ -6,6 +6,7 @@ import javafx.scene.control.DialogPane;
 
 public class WompException extends Exception{
 
+	private static final long serialVersionUID = 1L;
 	private String myMessage;
 	
 	public WompException(String message) {
