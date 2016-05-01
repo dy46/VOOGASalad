@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.AIWorkspace;
 import game_engine.physics.EncapsulationChecker;
 import game_engine.properties.Position;
 
@@ -24,9 +24,9 @@ import game_engine.properties.Position;
 
 public class VisibilityHandler {
 
-	private GameEngineInterface myEngine;
+	private AIWorkspace myEngine;
 
-	public VisibilityHandler (GameEngineInterface engine) {
+	public VisibilityHandler (AIWorkspace engine) {
 		myEngine = engine;
 	}
 

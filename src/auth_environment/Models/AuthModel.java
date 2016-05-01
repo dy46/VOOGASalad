@@ -19,7 +19,6 @@ public class AuthModel implements IAuthModel {
 	private IAuthEnvironment authInterface; 
 	
 	public AuthModel() {
-		// Start with empty EngineWorkspace. Can load one from file however. 
 		authInterface = new AuthEnvironment(); 
 	}
 

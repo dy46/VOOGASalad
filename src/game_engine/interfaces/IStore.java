@@ -24,7 +24,7 @@ public interface IStore {
 	 * @param	Unit t is the unit options that will be added to the list
 	 * @param	Integer cost is the cost of the corresponding unit
 	 */
-	void addBuyableUnit(Unit t, Integer cost);
+	void addBuyableUnit(Unit t, double d);
 	
 	/*
 	 * Adds a list of possible options to the unit list available to the player

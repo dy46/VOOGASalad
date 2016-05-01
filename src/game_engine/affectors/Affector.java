@@ -32,7 +32,6 @@ public abstract class Affector {
     }
 
     public Affector copyAffector () {
-        // TODO: may need to copy functions too
         Affector copy = null;
         try {
             copy = (Affector) Class.forName(this.getClass().getName())
@@ -43,6 +42,8 @@ public abstract class Affector {
         catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("WORKSPACE TO COPY");
+        System.out.println(this.getWorkspace());
         copy.setTTL(this.getTTL());
         return copy;
     }
