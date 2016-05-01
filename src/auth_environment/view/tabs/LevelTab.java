@@ -98,12 +98,12 @@ public class LevelTab extends Tab{
 	private void addNewWaveSpace(int index, GridPane newTableInfo, Button waveButton) {
 		newTableInfo.getChildren().remove(waveButton);
 		int waveNum = index + 1;
-		String waveName = "Wave " + waveNum;
+		String waveName = myNamesBundle.getString("wave") + waveNum;
 		Button wave = new Button(waveName);
 		wave.setOnAction(e -> new WaveWindow(myName, waveName, myAuthModel, this.myLevelOverviewTabModel));
 		newTableInfo.add(wave, COLUMN_INDEX, index);
 		index++;
-		Button newWaveButton = new Button("+ Add Wave");
+		Button newWaveButton = new Button(myNamesBundle.getString("levelAddWave"));
 		int num = index;
 		newWaveButton.setOnAction(e -> addNewWaveSpace(num, newTableInfo, newWaveButton));
 		newTableInfo.add(newWaveButton, COLUMN_INDEX, index);
