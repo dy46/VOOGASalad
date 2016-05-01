@@ -12,13 +12,13 @@ Date Finished: May 1
 
 Estimated Hours: 400 hours
 
-##Members:
+* Members:
 
 Andy Wang (ownzandy), Adam Tache (adamtache), Brian Lin (briguy52), David Yang (dy46), Cody Li (cl305), Paul Cruz (paulcruz74), Virginia Cheng (vcheng19), Alexander Tseng (xanderyst), Austin Hua (austinhua), Patrick Grady (hmpfa)
 
-##Roles:
+####Roles:
 
-##Authoring Environment:
+* Authoring Environment:
 Brian (Briguy52) - Team lead, opening screen, general game settings and tabs, various screens, unit integration and front-end path and unit spawn integration
 
 Cody (cl305) - Store, waves, level front-end
@@ -35,7 +35,7 @@ Patrick (hmpfa) - Store front-end, general back-end
 
 Xander (xanderyst) - MapEditor (Terrain Placements), Integration of Map with Paths
 
-##Game Engine:
+* Game Engine:
 
 Andy (ownzandy) - Towers and projectiles, general affectors, special homing and cursor shooting affectors, non-AI path following, general units, range, levels, scores, and waves integration
 
@@ -43,23 +43,25 @@ Adam (adamtache) - AI extension for autonomous path-following units guided by to
 
 Paul (paulcruz74) - Back-end store and upgrades, collision handling and detection
 
-##Game Player:
+* Game Player:
 
 David (dy46) - General configurations, tower displayer, HUD, all front-end
 
 Andy (ownzandy) - Playing of the game
 
-##Game Data:
+* Game Data:
 
 Austin (austinhua) - Lead Game data
 
-##Utility:
+* Utility:
 
 Paul (paulcruz74) - Box Cloud storage and Twilio
 
 Andy (ownzandy) - Setting up API/JARs
 
 Brian (briguy52) - Integration in authoring environment
+
+
 
 * Starting Class: Main.java
 
