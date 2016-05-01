@@ -15,14 +15,16 @@ import javafx.stage.Stage;
  */
 
 public class MainView implements IMainView {
+	
+    private static final String GUI_RESOURCE = "game_player/resources/GUI";
 
     private Stage myStage;
     private ResourceBundle myResource;
 
     public MainView (Stage stage) {
         myStage = stage;
+        myResource = ResourceBundle.getBundle(GUI_RESOURCE);
         Welcome welcome = new Welcome(this);
-        myResource = ResourceBundle.getBundle("game_player/resources/GUI");
     }
 
     public void display () {
