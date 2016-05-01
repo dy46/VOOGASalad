@@ -4,7 +4,6 @@ import java.util.*;
 
 import auth_environment.Models.StoreTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
-import auth_environment.Models.Interfaces.IStoreTabModel;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -142,8 +141,16 @@ public class StoreTab extends Tab implements IWorkspace {
 	public static class NameAffectorCostSet {
 		private ComboBox<String> comboBox = new ComboBox<>();
 		private TextField cost;
-		public List<String> affectorNames = new ArrayList<>();
-		public List<Integer> affectorCost = new ArrayList<>();
+		private List<String> affectorNames = new ArrayList<>();
+		private List<Integer> affectorCost = new ArrayList<>();
+
+		public List<String> getAffectorNames() {
+			return affectorNames;
+		}
+
+		public List<Integer> getAffectorCost() {
+			return affectorCost;
+		}
 
 		public void setTextFieldCost(TextField c) {
 			cost = c;

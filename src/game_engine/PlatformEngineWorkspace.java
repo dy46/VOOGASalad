@@ -8,8 +8,6 @@ import java.util.List;
 
 import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_engine.AI.AISimulator;
-import game_engine.AI.BFSSearcher;
 import game_engine.affectors.Affector;
 import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
@@ -24,7 +22,6 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
-import game_engine.handlers.AIHandler;
 import game_engine.interfaces.ICollisionDetector;
 import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
@@ -99,7 +96,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		myEncapsulator = new EncapsulationDetector(this);
 		myBalance = 0;
 		nextWaveTimer = 0;
-		myCurrentLevel = makeDummyLevel();
+		myCurrentLevel = makeSampleLevel();
 		myLevels.add(myCurrentLevel);
 		// updateAIBranches();
 		myAffectorFactory.getAffectorLibrary().getAffectors().stream().forEach(a -> a.setWorkspace(this));
@@ -128,8 +125,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 		return new ArrayList<>(Arrays.asList(new Unit[] { t }));
 	}
 
-	private Level makeDummyLevel() {
-
+	private Level makeSampleLevel() {
 		Level l = new Level("Platformer Tower Defense", 20);
 
 		MapHandler mh = new MapHandler(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());

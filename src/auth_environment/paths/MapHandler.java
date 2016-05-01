@@ -20,6 +20,7 @@ public class MapHandler {
 		myBranches = new ArrayList<>();
 		myGoals = new ArrayList<>();
 		mySpawns = new ArrayList<>();
+
 	}
 
 	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals){
