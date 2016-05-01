@@ -90,6 +90,7 @@ public class Movement {
 	}
 
 	public Position getNextPosition(){
+	        movingTowards = myCurrentBranch.getLastPosition();
 		Position next = myCurrentBranch.getNextPosition(myPosition, movingTowards);
 		if(next == null){
 			if(myBranches.get(myBranches.size()-1).equals(myCurrentBranch)){
@@ -110,6 +111,7 @@ public class Movement {
 				movingTowards = myCurrentBranch.getFirstPosition();
 			}
 		}
+//		System.out.println("MOVING TOWARDS" + movingTowards);
 	}
 
 	public void setPosition(Position position){

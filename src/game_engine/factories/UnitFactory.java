@@ -45,6 +45,7 @@ public class UnitFactory {
         velocityList.addAll(inputs.get("Direction"));
         newProperties.getVelocity().setValues(velocityList);
         Unit unit = createUnit(getName(type, unitType), newProperties, inputs.get("NumFrames").get(0).intValue());
+        unit.setTTL(inputs.get("TTL").get(0).intValue());
         unit.setChildren(getUnitsFromString(children));
         unit.setAffectors(getAffectorsFromString(affectors));
         unit.setAffectorsToApply(getAffectorsFromString(affectorsToApply));       
