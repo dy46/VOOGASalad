@@ -165,9 +165,25 @@ public class CloudStorageFrontend {
 		return animation;
 	}
 	
+	private Node buildViewButton() {
+		Button view = new Button("View contents of current directory"); 
+		view.setOnAction(e -> populateViewContents());
+		return view; 
+	}
+	
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
-//		myBoxContents.
+		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.toString()!=null) {
+				System.out.println(newValue.toString());
+			}
+		});
+		return myBoxContents; 
+	}
+	
+	private void populateViewContents() {
+		myBoxContents.getItems().clear();
+		myBoxContents.getItems().addAll(this.myCloudStorage.getCurrentFiles());
 	}
  	
 }
