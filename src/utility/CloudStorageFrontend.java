@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import com.twilio.sdk.TwilioRestException;
 
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -33,8 +34,10 @@ public class CloudStorageFrontend {
 	private VBox myRoot;
 	private TextField myKeyInput; 
 	private ListView myBoxContents; 
+	private String location; 
 	private String myDevKey = "";
 	private CloudStorage myCloudStorage; 
+	private FileChooserDelegate myChooser; 
 
 
 	public CloudStorageFrontend () {
@@ -43,6 +46,7 @@ public class CloudStorageFrontend {
 
 	private void init() {
 		Stage myStage = new Stage(); 
+		myChooser = new FileChooserDelegate(); 
 		myRoot = new VBox();
 		myRoot.setSpacing(10);
 		myRoot.setPadding(new Insets(10));
@@ -51,7 +55,8 @@ public class CloudStorageFrontend {
 				buildBoxImage(),
 				buildKeyInput(),
 				buildFileButton(),
-				buildAnimation()
+				buildViewButton(),
+				buildViewContents()
 				);
 		myRoot.setStyle("-fx-background-color: #292929;");
 		myRoot.setPrefSize(600, 600); 
@@ -165,9 +170,45 @@ public class CloudStorageFrontend {
 		return animation;
 	}
 	
+	private Node buildViewButton() {
+		HBox hb = new HBox(); 
+		Button view = new Button("View contents of current directory"); 
+		view.setOnAction(e -> populateViewContents());
+		Button choose = new Button("Choose Save Location"); 
+		choose.setOnAction(e -> {
+			File f = myChooser.chooseDirectory("Choose Save Location"); 
+			if (f!=null) {
+				this.location = f.getAbsolutePath();
+			}
+		});
+		TextField field = new TextField();
+		field.setPromptText("Save Location");
+		field.setOnAction(e -> {
+			this.location = field.getText();
+		});
+		hb.getChildren().addAll(view, choose, field);
+		return hb; 
+	}
+	
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
-//		myBoxContents.
+		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue.toString()!=null) {
+				System.out.println(newValue.toString());
+				try {
+					this.myCloudStorage.downloadFromCurrent("TestUpload", this.location);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		return myBoxContents; 
+	}
+	
+	private void populateViewContents() {
+		myBoxContents.getItems().clear();
+		System.out.println(this.myCloudStorage.getCurrentFiles());
+		myBoxContents.getItems().addAll(this.myCloudStorage.getCurrentFiles());
 	}
  	
 }
