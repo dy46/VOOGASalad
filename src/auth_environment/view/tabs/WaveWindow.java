@@ -25,6 +25,9 @@ public class WaveWindow {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
+	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
+	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
+
 	private GridPane myLeftGridPane;
 	private GridPane myRightGridPane;
 	private BorderPane myBorderPane; 
@@ -32,6 +35,9 @@ public class WaveWindow {
 	private List<ComboBox<String>> spawningNames;
 	private List<ComboBox<String>> placingNames;
 	private List<TextField> spawningTimes;
+	private List<String> sn = new ArrayList<>();
+	private List<Integer> st = new ArrayList<>();
+	private List<String> pn = new ArrayList<>();
 	
 	private IAuthModel myAuthModel;
 	private IWaveWindowModel myWaveWindowModel; 
@@ -40,6 +46,7 @@ public class WaveWindow {
 	private Stage stage;
 	private Group root;
 	private Scene newScene;
+	private final int timeBeforeWave = 4;
 	
 	private NodeFactory myNodeFactory; 
 		
@@ -53,11 +60,11 @@ public class WaveWindow {
 		showWindow(level, wave, title);
 		int index = 0;
 		Button dummyButton = new Button();
-		ComboBox dummyCBox = new ComboBox(); 
-		dummyCBox.setValue("test");
+		ComboBox<String> dummyCBox = new ComboBox<>(); 
+		dummyCBox.setValue(myNamesBundle.getString("waveDummyBox"));
 		addNewElementSpace(index, myLeftGridPane, dummyButton, dummyCBox, true);
 		addNewElementSpace(index, myRightGridPane, dummyButton, dummyCBox, false);
-		Button ok = new Button("Ok");
+		Button ok = new Button(myNamesBundle.getString("waveOk"));
 		myBorderPane.setBottom(ok);
 		String levelNum = level.split(" ")[1]; 
 		String waveNum = wave.split(" ")[1];
@@ -88,22 +95,23 @@ public class WaveWindow {
 	}
 	
 	private void createNewWave(String title, String level) {
-		List<String> sn = new ArrayList<String>();
-		List<Integer> st = new ArrayList<Integer>();
-		List<String> pn = new ArrayList<String>();
-		
 		spawningNames.stream().forEach(s -> sn.add(s.getValue()));
 		placingNames.stream().forEach(s -> pn.add(s.getValue()));
 		spawningTimes.stream().forEach(s -> st.add(Integer.parseInt(s.getText())));
-		this.myWaveWindowModel.createWave(title, level, sn, st, pn, 4); 
+		sn.removeIf(e -> e == null);
+		pn.removeIf(e -> e == null);
+		st.removeIf(e -> e == null);
+		this.myWaveWindowModel.createWave(title, level, sn, st, pn, timeBeforeWave); 
 	}
-
+	
+	
+	
 	private void centerStage(Stage stage){
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
 		stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
 		stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-		stage.setMinHeight(500);
-		stage.setMinWidth(500);
+		stage.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("waveStageHeight")));
+		stage.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("waveStageWidth")));
 		
 	}
 	
@@ -134,9 +142,9 @@ public class WaveWindow {
 			HBox hbox = new HBox();
 			hbox.getChildren().add(cBox);
 			TextField input = this.myNodeFactory.buildTextFieldWithPrompt("Delay");
-			input.setMaxWidth(65);
-			input.setMinHeight(25);
-			hbox.setMinWidth(200);
+			input.setMaxWidth(Double.parseDouble(myDimensionsBundle.getString("waveInputWidth")));
+			input.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("waveInputHeight")));
+			hbox.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("waveBoxWidth")));
 			hbox.getChildren().add(input);
 			spawningTimes.add(input);
 			return hbox;

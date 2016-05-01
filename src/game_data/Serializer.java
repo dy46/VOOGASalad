@@ -49,7 +49,7 @@ public class Serializer<T> implements IDataConverter<T> {
 				return (T) xstream.fromXML(f);
 			}
 			else {
-				System.out.println(myNamesBundle.getString("nullFileError"));
+				System.out.println(myNamesBundle.getString("nullFileMessage"));
 				return null;
 			}
 		}

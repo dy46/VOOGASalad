@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -69,6 +71,12 @@ public class NodeFactory {
 		return new Button(text); 
 	}
 	
+	public Button buildButtonWithEventHandler(String text, EventHandler<ActionEvent> eventHandler) {
+		Button b = new Button(text);
+		b.setOnAction(eventHandler);
+		return b;
+	}
+	
 	public HBox centerNode(Node node) {
 		List<Node> nodes = new ArrayList<Node>();
 		nodes.add(node); 
@@ -85,7 +93,7 @@ public class NodeFactory {
 	public HBox buildTextFieldWithLabel(String text, double spacing) {
 		Label label = this.buildLabel(text); 
 		TextField textField = new TextField(); 
-		HBox hBox = new HBox(); 
+		HBox hBox = new HBox();
 		hBox.getChildren().addAll(label, textField);
 		hBox.setSpacing(spacing);
 		return hBox; 

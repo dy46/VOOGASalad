@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 
