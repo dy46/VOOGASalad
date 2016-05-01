@@ -482,11 +482,6 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 		return myTerrains;
 	}
 
-	public List<String> saveGame () {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void playLevel (int levelNumber) {
 		myCurrentLevel = myLevels.get(levelNumber);
 		pause = false;
@@ -640,6 +635,12 @@ public class TestingEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public void setUpEngine(IAuthEnvironment data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveGame() {
 		// TODO Auto-generated method stub
 		
 	}
