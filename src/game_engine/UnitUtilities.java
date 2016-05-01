@@ -7,12 +7,8 @@ import game_engine.game_elements.Unit;
 
 public class UnitUtilities {
 
-	public UnitUtilities() {
-
-	}
-
     public List<Unit> getUnitsWithType (List<Unit> unitList, String type) {
-        return unitList.stream().filter(u -> u.toString().contains(type))
+    	return unitList.stream().filter(u -> u.toString().contains(type))
                 .collect(Collectors.toList());
     }
 
@@ -20,5 +16,5 @@ public class UnitUtilities {
         return unitList.stream().filter(u -> !u.toString().contains(type))
         	.collect(Collectors.toList());
     }
-	
+    
 }

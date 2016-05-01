@@ -45,7 +45,7 @@ public class AuthView  {
         myStage = stage;
         myMainView = mainView; 
         globalAuthModel = new AuthModel(); 
-        setupApperance();
+        setupAppearance();
     }
     
     // TODO: refactor
@@ -63,7 +63,7 @@ public class AuthView  {
     	return tabs; 
     }
 
-	private void setupApperance() {
+	private void setupAppearance() {
     	myTabs = new TabPane();
 		myScene = new Scene(myTabs);
         myScene.getStylesheets().add(myURLSBundle.getString("darkStylesheet")); 
