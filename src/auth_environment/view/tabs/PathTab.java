@@ -348,7 +348,7 @@ public class PathTab extends Tab implements IWorkspace {
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.BLUE);
 		DragDelegate drag = new DragDelegate();
-		drag.setUpNodeTarget(point, mySpawningUnitPicker, myPathTabModel);
+		drag.setUpNodeTarget(point, mySpawningUnitPicker, myPlacingUnitPicker, myPathTabModel);
 		myPathPane.getChildren().add(point.getCircle());
 	}
 
