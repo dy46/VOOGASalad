@@ -3,13 +3,13 @@ package game_engine;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
-import game_engine.AI.AIHandler;
-import game_engine.AI.AISearcher;
-import game_engine.AI.AISimulator;
+import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
 import game_engine.controllers.LevelController;
 import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
+import game_engine.interfaces.ICollisionDetector;
+import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.properties.Position;
 
@@ -35,6 +35,10 @@ public interface GameEngineInterface {
 	public UnitController getUnitController ();
 
 	public LevelController getLevelController ();
+	
+	public AIController getAIController();
+	
+	public EnemyController getEnemyController ();
 
 	public List<Branch> getBranches ();
 
@@ -44,18 +48,10 @@ public interface GameEngineInterface {
 
 	public Position getCursorPosition ();
 
-	public void updateAIBranches ();
+	public ILevelDisplayer getLevelDisplay();
 
-	public List<Branch> getBranchesAtPos (Position pos);
-
-	public AIHandler getAIHandler();
-
-	public AISearcher getAISearcher();
-
-	public AISimulator getAISimulator();
-
-	ILevelDisplayer getLevelDisplay();
-
-	public EnemyController getEnemyController ();
+	public ICollisionDetector getCollisionDetector ();
+	
+	public IEncapsulationDetector getEncapsulationDetector ();
 
 }

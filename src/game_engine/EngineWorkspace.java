@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import auth_environment.IAuthEnvironment;
-import game_engine.AI.AIHandler;
-import game_engine.AI.AISearcher;
-import game_engine.AI.AISimulator;
 import game_engine.affectors.Affector;
+import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
 import game_engine.controllers.LevelController;
 import game_engine.controllers.UnitController;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
+import game_engine.interfaces.AIWorkspace;
 import game_engine.interfaces.ICollisionDetector;
 import game_engine.interfaces.IEncapsulationDetector;
 import game_engine.interfaces.ILevelDisplayer;
@@ -23,10 +22,9 @@ import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
-import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
-public class EngineWorkspace implements GameEngineInterface {
+public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
 
     private int nextWaveTimer;
     private List<Branch> myBranches;
@@ -36,19 +34,14 @@ public class EngineWorkspace implements GameEngineInterface {
     private IEncapsulationDetector myEncapsulator;
     private UnitController myUnitController;
     private EnemyController myEnemyController;
+    private AIController myAIController;
     private WaveGoal waveGoal;
     private ScoreUpdate scoreUpdate;
     private List<Unit> unitsToRemove;
     private Position cursorPos;
-    private AIHandler myAIHandler;
-    private AISimulator myAISimulator;
-	private AISearcher myAISearcher;
 
     public void setUpEngine (IAuthEnvironment data) {
         unitsToRemove = new ArrayList<>();
-        myAISearcher = new AISearcher(this);
-        myAIHandler = new AIHandler(this);
-        myAISimulator = new AISimulator(this);
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
@@ -63,7 +56,7 @@ public class EngineWorkspace implements GameEngineInterface {
                 new UnitController(data.getPlacedUnits(), myPlaceValidations,
                                    data.getStore(), unitsToRemove);
         myEnemyController = new EnemyController(myLevelController, myUnitController);
-        updateAIBranches();
+        myAIController = new AIController(this);
     }
 
     @Override
@@ -72,8 +65,8 @@ public class EngineWorkspace implements GameEngineInterface {
         IStore myStore = myUnitController.getStore();
         List<Unit> placingUnits = myCurrentLevel.getCurrentWave().getPlacingUnits();
         myUnitController.getStore().clearBuyableUnits();
-        // TODO: store should not be updated here
-//        placingUnits.stream().forEach(u -> myStore.addBuyableUnit(u, 100));
+        placingUnits.stream()
+        .forEach(u -> myStore.addBuyableUnit(u, u.getProperties().getPrice().getValue()));
         nextWaveTimer++;
         waveProgression(myCurrentLevel);
         myUnitController.getUnitType("Projectile").forEach(p -> p.update());
@@ -133,16 +126,6 @@ public class EngineWorkspace implements GameEngineInterface {
     }
 
     @Override
-    public List<Branch> getBranchesAtPos (Position pos) {
-        return myAIHandler.getBranchesAtPos(pos);
-    }
-
-    @Override
-    public void updateAIBranches () {
-        myAIHandler.updateAIBranches();
-    }
-
-    @Override
     public UnitController getUnitController () {
         return myUnitController;
     }
@@ -158,22 +141,23 @@ public class EngineWorkspace implements GameEngineInterface {
     }
     
     @Override
-	public AIHandler getAIHandler() {
-		return myAIHandler;
-	}
-	
-	@Override
-	public AISearcher getAISearcher() {
-		return myAISearcher;
-	}
-	
-	public AISimulator getAISimulator(){
-		return myAISimulator;
-	}
+	public AIController getAIController(){
+    	return myAIController;
+    }
 
 	@Override
 	public EnemyController getEnemyController() {
 		return myEnemyController;
+	}
+
+	@Override
+	public ICollisionDetector getCollisionDetector() {
+		return myCollider;
+	}
+	
+	@Override
+	public IEncapsulationDetector getEncapsulationDetector() {
+		return myEncapsulator;
 	}
 
 }

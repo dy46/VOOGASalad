@@ -43,6 +43,8 @@ public class Movement {
 
 	public Movement copyMovement(){
 		Movement newMovement = new Movement(myBranches.stream().map(b -> b.copyBranch()).collect(Collectors.toList()), myPosition);
+		newMovement.setMovingTowards(movingTowards);
+		newMovement.setCurrentBranch(myCurrentBranch);
 		return newMovement;
 	}
 
@@ -93,20 +95,13 @@ public class Movement {
 
 	public void initializeMovingTowards(){
 		if(myPosition != null && myCurrentBranch != null){
-			System.out.println("FIRST POSITION" + myCurrentBranch.getFirstPosition());
-			System.out.println("LAST POSITION" + myCurrentBranch.getLastPosition());
-			if(myPosition.roughlyEquals((myCurrentBranch.getFirstPosition()))){
+			if(myPosition.equals((myCurrentBranch.getFirstPosition()))){
 				movingTowards = myCurrentBranch.getLastPosition();
 			}
-			else if(myPosition.roughlyEquals(myCurrentBranch.getLastPosition())){
+			else if(myPosition.equals(myCurrentBranch.getLastPosition())){
 				movingTowards = myCurrentBranch.getFirstPosition();
 			}
-			else{
-				
-			}
 		}
-		System.out.println("POSITION" + myPosition);
-		System.out.println("MOVING TOWARDS" + movingTowards);
 	}
 
 	public void setPosition(Position position){

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import exceptions.WompException;
 import game_engine.UnitUtilities;
 import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
@@ -44,7 +45,7 @@ public class UnitController {
         return myStore.getTowerList();
     }
 
-    public boolean addTower (String name, double x, double y) {
+    public boolean addTower (String name, double x, double y) throws WompException {
         Unit purchased = myStore.purchaseUnit(name);
         if (purchased != null) {
             boolean canPlace = false;

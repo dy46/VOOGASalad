@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import auth_environment.IAuthEnvironment;
 import auth_environment.paths.MapHandler;
-import game_engine.AI.AIHandler;
-import game_engine.AI.AISearcher;
 import game_engine.AI.AISimulator;
+import game_engine.AI.BFSSearcher;
 import game_engine.affectors.Affector;
+import game_engine.controllers.AIController;
 import game_engine.controllers.EnemyController;
 import game_engine.controllers.LevelController;
 import game_engine.controllers.UnitController;
@@ -22,6 +24,7 @@ import game_engine.game_elements.Branch;
 import game_engine.game_elements.Level;
 import game_engine.game_elements.Unit;
 import game_engine.game_elements.Wave;
+import game_engine.handlers.AIHandler;
 import game_engine.interfaces.ILevelDisplayer;
 import game_engine.libraries.AffectorLibrary;
 import game_engine.libraries.FunctionLibrary;
@@ -70,14 +73,14 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	private AIHandler myAIHandler;
 	private AISimulator myAISimulator;
-	private AISearcher myAISearcher;
+	private BFSSearcher myAISearcher;
 
 	public PlatformEngineWorkspace() {
 	};
 
 	public void setUpEngine(TestingGameData test) {
 		myAISimulator = new AISimulator(this);
-		myAISearcher = new AISearcher(this);
+		myAISearcher = new BFSSearcher(this);
 		myAIHandler = new AIHandler(this);
 		unitsToRemove = new ArrayList<>();
 		new ArrayList<>();
@@ -454,7 +457,7 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 	}
 
 	@Override
-	public AISearcher getAISearcher() {
+	public BFSSearcher getAISearcher() {
 		return myAISearcher;
 	}
 
@@ -471,6 +474,18 @@ public class PlatformEngineWorkspace implements GameEngineInterface {
 
 	@Override
 	public EnemyController getEnemyController() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setUpEngine(IAuthEnvironment data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AIController getAIController() {
 		// TODO Auto-generated method stub
 		return null;
 	}

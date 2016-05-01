@@ -167,10 +167,11 @@ public class Level extends GameElement {
 
     public boolean isEnemyAtGoal (Unit e) {
         for (Position p : this.getGoals()) {
-            if (e.getProperties().getPosition().roughlyEquals(p)) {
+            if (e.getProperties().getPosition().equals(p)) {
                 return true;
             }
         }
         return false;
     }
+    
 }

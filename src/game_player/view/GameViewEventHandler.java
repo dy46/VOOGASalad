@@ -1,7 +1,6 @@
 package game_player.view;
 
-import java.util.Arrays;
-import java.util.List;
+import exceptions.WompException;
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Unit;
 import game_player.interfaces.IGameView;
@@ -35,9 +34,13 @@ public class GameViewEventHandler {
         this.root.setOnMouseMoved(e -> setUpMouseMoved(e));
     }
 
-    public void setUpMouseClicked (MouseEvent e) {
+    public void setUpMouseClicked (MouseEvent e){
         if (unitToPlace != null) {
-            playerEngineInterface.getUnitController().addTower(unitToPlace, e.getX(), e.getY());
+            try {
+				playerEngineInterface.getUnitController().addTower(unitToPlace, e.getX(), e.getY());
+			} catch (WompException e1) {
+				e1.displayMessage();
+			}
         }
         else if (canPlaceUnit) {
             gameView.hideHUD();

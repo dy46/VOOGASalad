@@ -116,6 +116,9 @@ public class Store implements IStore{
     public List<Affector> getUpgrades (Unit upgradedUnit) {
         List<Affector> affectors = new ArrayList<>();
         Unit found = findUnit(upgradedUnit);
+        if(found == null){
+        	return new ArrayList<>();
+        }
         for (Pair<Affector, Integer> p : upgrades.get(found.toString())) {
             affectors.add(p.getLeft());
         }
