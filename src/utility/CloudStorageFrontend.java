@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 /*
@@ -31,7 +30,6 @@ public class CloudStorageFrontend {
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 	
 	private Scene myScene;
-	private Pane myRoot;
 	private VBox myVBox;
 	private TextField myKeyInput; 
 	private ListView<String> myBoxContents; 
@@ -51,9 +49,7 @@ public class CloudStorageFrontend {
 		myNodeFactory = new NodeFactory(); 
 		myVBox = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
-		myRoot = new Pane();
-		myRoot.getChildren().add(myVBox); 
-		myScene = new Scene(myRoot);
+		myScene = new Scene(myVBox);
 		myVBox.getChildren().addAll( 
 				buildBoxImage(),
 				buildKeyInput(),
@@ -169,28 +165,34 @@ public class CloudStorageFrontend {
 		return hb; 
 	}
 	
-//	private String processDirectory(String dir) {
-//		
-//	}
-	
 	private Node buildViewContents() {
 		myBoxContents = new ListView();
 		myBoxContents.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue.toString()!=null) {
 				System.out.println(newValue.toString());
 				try {
-					this.myCloudStorage.downloadFromCurrent(newValue.toString(), this.location);
+					this.myCloudStorage.downloadFromCurrent(processName(newValue.toString()), this.location);
 				} catch (Exception e) {
-					System.out.println(myNamesBundle.getString(myNamesBundle.getString("boxErrorMessage")));
+					System.out.println(myNamesBundle.getString("boxErrorMessage"));
+					e.printStackTrace();
 				}
 			}
 		});
 		return myBoxContents; 
 	}
 	
+	private String processName(String in) {
+		if (in.toLowerCase().contains(myNamesBundle.getString("folderDelimiter"))) {
+			return in.split(myNamesBundle.getString("folderDelimiter"))[0].trim(); 
+		}
+		else {
+			return in;
+		}
+	}
+	
 	private void populateViewContents() {
 		myBoxContents.getItems().clear();
 		myBoxContents.getItems().addAll(this.myCloudStorage.getCurrentFiles());
 	}
- 	
+	
 }
