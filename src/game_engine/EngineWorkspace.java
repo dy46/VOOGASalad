@@ -24,7 +24,6 @@ import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
-import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 public class EngineWorkspace implements GameEngineInterface {
@@ -57,7 +56,7 @@ public class EngineWorkspace implements GameEngineInterface {
         waveGoal = data.getWaveGoal();
         scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
-        myAffectors = data.getAffectors();
+        myAffectors = data.getAffectorFactory().getAffectorLibrary().getAffectors();
         myAffectors.stream().forEach(a -> a.setWorkspace(this));
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);

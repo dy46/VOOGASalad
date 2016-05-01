@@ -27,7 +27,6 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Level> myLevels = new ArrayList<Level>();
 	private List<Unit> myPlacedUnits = new ArrayList<Unit>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
-	private List<Affector> myAffectors = new ArrayList<Affector>(); // Will eventually be replaced with a Library
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
 	private Store myStore = new Store(1000);
@@ -156,7 +155,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Affector> getAffectors() {
-		return myAffectors;
+		return myAffectorFactory.getAffectorLibrary().getAffectors();
 	}
 	@Override
 	public AffectorFactory getAffectorFactory() {
