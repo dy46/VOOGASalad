@@ -80,7 +80,6 @@ public class ElementTab extends UnitTab{
 			iterateIndex();
 		}
 	}
-	
 
 	public void createNewElement() {
 		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();	
@@ -107,8 +106,8 @@ public class ElementTab extends UnitTab{
 	}
 
 	public void addFields(GridPane gp) {
-		addTextFields(gp);
 		addComboFields(gp);
+		addTextFields(gp);
 		addTextComboButtonTrio(gp, unitNames, myProjectiles,
 				getLabelsBundle().getString("childButton"), getLabelsBundle().getString("childText"));
 		addTextComboButtonTrio(gp, affectorNames, affectorsToUnit,
