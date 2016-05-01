@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import auth_environment.Models.UnitView;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.ElementTab;
+import auth_environment.view.tabs.UnitTab;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
@@ -81,7 +82,7 @@ public class UnitPicker{
 		return myEditPane;
 	}
 
-	public void setClickable(ElementTab elementTab) {
+	public void setClickable(UnitTab elementTab) {
 		myUnitViews.stream().forEach(e -> {
 			e.setOnMouseClicked(l -> elementTab.updateMenu(e.getUnit()));
 		});
