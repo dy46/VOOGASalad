@@ -10,7 +10,7 @@ import game_engine.properties.Position;
  * This class controls interpolation of a list of positions by filling in too large of gaps between positions.
  * Too large of a gap is more than one "position unit" away. 
  * 
- * @author adamtache
+ * @author paul
  *
  */
 

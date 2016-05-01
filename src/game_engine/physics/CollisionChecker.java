@@ -5,7 +5,7 @@ import game_engine.properties.Position;
 /**
  * CollisionChecker checks for collisions of units based on positions
  * 
- * @author paul
+ * @author Paul
  *
  */
 

@@ -13,7 +13,7 @@ import game_engine.interfaces.ILevelDisplayer;
 /**
  * This class is a controller for the levels in games.
  * 
- * @author adamtache
+ * @author andy
  *
  */
 
