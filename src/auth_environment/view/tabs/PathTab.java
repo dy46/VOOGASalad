@@ -69,7 +69,6 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
-//		this.addConfirmationDialog();
 		myNodeFactory = new NodeFactory(); 
 		myTerrains = new ArrayList<>();
 		myPathPane = new Pane();
@@ -86,16 +85,6 @@ public class PathTab extends Tab implements IWorkspace {
 		buildLevelComboBox();
 		drawMap();
 	}
-
-	private void addConfirmationDialog() {
-		boolean confirmation = new ConfirmationDialog().getConfirmation(
-				myNamesBundle.getString("gridHeaderText"),
-				myNamesBundle.getString("gridContextText"));
-		if(confirmation) {
-			myPathTabModel.createGrid();
-		}
-	}
-
 
 	private void setupBorderPane() {
 		myBorderPane = new BorderPane(); 
@@ -193,12 +182,13 @@ public class PathTab extends Tab implements IWorkspace {
 		HBox hb0 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")), 0);
 		myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
 		myPathWidthField.setOnAction(e -> submitPathWidth(myPathWidthField));
-		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
-		submitBranchButton.setOnAction(e -> submitBranch());
+		Button submitBranchButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("submitBranchButtonLabel"), 
+				e -> submitBranch());
 		Button help = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("openHelpItem"), 
 				e -> {
 					BrowserWindowDelegate browser = new BrowserWindowDelegate(); 
-					browser.openWindow(myNamesBundle.getString("helpMenuLabel"),
+					browser.openWindow(
+							myNamesBundle.getString("helpMenuLabel"),
 							myURLSBundle.getString("helpURL"),
 							Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
 							Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
@@ -214,13 +204,13 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private HBox buildSecondRowButtons() {
 		HBox hb1 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")), 0);
-		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
-		drawPathButton.setOnAction(e -> updateDrawIndex(0));
-		Button drawGoalButton = myNodeFactory.buildButton(myNamesBundle.getString("drawGoal"));
-		drawGoalButton.setOnAction(e -> updateDrawIndex(1));
-		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
-		drawSpawnButton.setOnAction(e -> updateDrawIndex(2));
-		toggleGrid = myNodeFactory.buildButtonWithEventHandler("Grid", e -> {
+		Button drawPathButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("drawPath"), 
+				e -> updateDrawIndex(0));
+		Button drawGoalButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("drawGoal"), 
+				e -> updateDrawIndex(1));
+		Button drawSpawnButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("drawSpawn"), 
+				e -> updateDrawIndex(2));
+		toggleGrid = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("addGridLabel"), e -> {
 			this.myPathTabModel.createGrid();
 			refresh(); 
 			toggleGrid.setDisable(true);
