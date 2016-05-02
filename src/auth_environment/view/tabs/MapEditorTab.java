@@ -165,15 +165,28 @@ public class MapEditorTab extends Tab implements IWorkspace {
 
 		Button clearButton = buildClearButton();
 		CheckBox gridSwitchBox = buildGridSwitchBox();
-
-		hbox.getChildren().addAll(clearButton,gridSwitchBox);
+		Button switchButton = buildSwitchButton();
+		hbox.getChildren().addAll(clearButton,gridSwitchBox, switchButton);
 		return hbox;
 	}
 
 	public Node getRoot() {
 		return myBorderPane;
 	}
-
+	
+	public Button buildSwitchButton(){
+		Button switchButton = new Button("Switch");
+		switchButton.setOnAction( e -> {
+			if(myMapPane.getText().equals("Grid")){
+				updateMapPane(myFreeMapPane, myNamesBundle.getString("freeLabel"));
+			}
+			else if(myMapPane.getText().equals("Free")){
+				updateMapPane(myGridMapPane, myNamesBundle.getString("gridLabel"));
+			}
+		});
+		return switchButton;
+	}
+	
 	public Node getFreeMapPane(){
 		return myFreeMapPane;
 	}

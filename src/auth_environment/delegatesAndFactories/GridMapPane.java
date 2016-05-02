@@ -25,8 +25,8 @@ public class GridMapPane extends GridPane implements IMapPane {
 	
 
 	public void adjustUnitViewScale(UnitView uv){
-		uv.setFitWidth(this.getHeight()/numCols-Integer.parseInt(myDimensionsBundle.getString("gridOffSetConstant")));
-		uv.setFitHeight(this.getWidth()/numRows-Integer.parseInt(myDimensionsBundle.getString("gridOffSetConstant")));
+		uv.setFitWidth(this.getHeight()/numCols-3);
+		uv.setFitHeight(this.getWidth()/numRows-3);
 	}
 	
 	public void adjustUnitViewXY(UnitView uv, double x, double y){
