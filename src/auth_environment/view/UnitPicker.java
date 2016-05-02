@@ -72,7 +72,12 @@ public class UnitPicker{
 	public void setUnits(List<Unit> units) {
 		this.myUnitViews.clear();
 		this.myEditInfo.getChildren().clear();
-		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + myLabelsBundle.getString("pngLabel"))));
+		units.stream().forEach(s -> {
+			UnitView temp = new UnitView(s, s.toString() + myLabelsBundle.getString("pngLabel"));
+			temp.setFitHeight(50);
+			temp.setFitWidth(50);
+			myUnitViews.add(temp);
+		});
 		this.myEditInfo.getChildren().addAll(this.myUnitViews);
 		setDragable();
 	}

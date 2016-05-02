@@ -7,6 +7,8 @@ import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
+import game_player.GameDataSource;
+import game_player.IGameDataSource;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,9 +23,9 @@ import main.IMainView;
 
 public class PlayerGUI {
 
-        private static final String BACKGROUND = "background";
-        private static final int NUMBER_OF_PLAY_CYCLES = -1;
-        private static final String DEFAULT_CSS = "PlayerTheme1.css";
+	private static final String BACKGROUND = "background";
+	private static final int NUMBER_OF_PLAY_CYCLES = -1;
+	private static final String DEFAULT_CSS = "PlayerTheme1.css";
     private static final String DEFAULT_PACKAGE = "game_player/view/";
     private static final String GUI_RESOURCE = "game_player/resources/GUI";
     private int windowWidth;
@@ -37,12 +39,14 @@ public class PlayerGUI {
     private File currentGame;
     private MediaPlayer myMusic;
     private IDataConverter<IAuthEnvironment> writer;
+    private IGameDataSource gameData;
 
     public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.myMainView = main;
         this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
+        this.gameData = new GameDataSource();
     }
 
     public Scene createPlayerScene () {
@@ -73,13 +77,14 @@ public class PlayerGUI {
     private IAuthEnvironment readData () {
         writer = new Serializer<>();
         currentGame = writer.chooseXMLFile();
+        this.gameData.setDoubleValue(currentGame.toString(), 0);
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
         return gameData;
     }
 
     protected void createNewTab (IAuthEnvironment data) {
-        createNewEngine(data);
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
+    	createNewEngine(data);
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this, gameData, 
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
                                                                               .getTab();
@@ -92,43 +97,53 @@ public class PlayerGUI {
         gameEngine.setUpEngine(data);
     }
     
+    protected void updateHighScore() {
+    	if (gameData.getDoubleValue(currentGame.toString()) < gameEngine.getLevelController().getScore()) { 
+    		gameData.setDoubleValue(currentGame.toString(), gameEngine.getLevelController().getScore());
+    	}
+    }
+    
     public void deleteCurrentTab() {
-        Tab tab = myTabs.getSelectionModel().getSelectedItem();
-        myTabs.getTabs().remove(tab);
+    	Tab tab = myTabs.getSelectionModel().getSelectedItem();
+    	myTabs.getTabs().remove(tab);
     }
     
     public void loadNewTab() {
-        deleteCurrentTab();
-        createNewTab(readData());
+    	deleteCurrentTab();
+    	createNewTab(readData());
     }
     
     public void restartGame() {
-        deleteCurrentTab();
-        createNewTab(writer.loadFromFile(currentGame));
+    	deleteCurrentTab();
+    	createNewTab(writer.loadFromFile(currentGame));
     }
     
     public void loadFromXML(File file) {
-        deleteCurrentTab();
-        createNewTab(writer.loadFromFile(file));
+    	deleteCurrentTab();
+    	createNewTab(writer.loadFromFile(file));
     }
     
     public void loadNextLevel() {
-        Screen screen = new NextLevelScreen(myResources, this);
-        screen.displayScreen();
+    	Screen nextLevel = new NextLevelScreen(myResources, this);
+    	nextLevel.displayScreen();
     }
     
     public void displayLossScreen() {
-        Screen screen = new LosingScreen(myResources, this);
-        screen.displayScreen();
+    	Screen loseScreen = new LosingScreen(myResources, this);
+    	loseScreen.displayScreen();
     }
     
     public void setMusic(String name) {
-                myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
-                myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
-                myMusic.setAutoPlay(true);
+		myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
+		myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
+		myMusic.setAutoPlay(true);
     }
     
     public MediaPlayer getMusic() {
-        return myMusic;
+    	return myMusic;
+    }
+    
+    public File getFile() {
+    	return currentGame;
     }
 }
