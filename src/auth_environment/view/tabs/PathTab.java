@@ -68,6 +68,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private void init() {
 		myPathTabModel = new PathTabModel(myAuthEnvironment); 
+//		this.addConfirmationDialog();
 		myNodeFactory = new NodeFactory(); 
 		myTerrains = new ArrayList<>();
 		myPathPane = new Pane();
@@ -218,7 +219,10 @@ public class PathTab extends Tab implements IWorkspace {
 		drawGoalButton.setOnAction(e -> updateDrawIndex(1));
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
 		drawSpawnButton.setOnAction(e -> updateDrawIndex(2));
-		Button toggleGrid = myNodeFactory.buildButtonWithEventHandler("Grid", e -> this.myPathTabModel.createGrid());
+		Button toggleGrid = myNodeFactory.buildButtonWithEventHandler("Grid", e -> {
+			this.myPathTabModel.createGrid();
+			refresh(); 
+		});
 		hb1.getChildren().addAll(
 				drawPathButton, 
 				drawSpawnButton,
