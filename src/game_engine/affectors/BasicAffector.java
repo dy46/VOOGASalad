@@ -21,10 +21,16 @@ public class BasicAffector extends Affector {
     @Override
     public void apply (List<Function> functions, Property property, Unit u) {
         List<Double> values = new ArrayList<>();
-        IntStream.range(0, property.getValues().size())
-                .forEach(i -> values.add(operator.operate(property.getValues().get(i),
-                                                          functions.get(i)
-                                                                  .evaluate(getElapsedTime()))));
+        if(property.getClass().getSimpleName().equals("Velocity")) {
+        	values.add(operator.operate(property.getValues().get(0), functions.get(0).evaluate(getElapsedTime())));
+        	values.add(property.getValues().get(1));
+        }
+        else {
+        	IntStream.range(0, property.getValues().size())
+            .forEach(i -> values.add(operator.operate(property.getValues().get(i),
+                                                      functions.get(i)
+                                                              .evaluate(getElapsedTime()))));
+        }
         property.setValues(values);
 
     }

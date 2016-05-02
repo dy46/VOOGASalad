@@ -54,8 +54,8 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
-//		myCurrentBranch.clear();
-//		myMapHandler = auth.getMapHandler();
+		myCurrentBranch.clear();
+		myMapHandler = auth.getMapHandler();
 		myLevels = auth.getLevels(); 
 	}
 
@@ -166,20 +166,20 @@ public class PathTabModel implements IPathTabModel {
 	public void addGoalToActiveLevel(Position goal) {
 		myMapHandler.addGoal(goal);
 		if (currentLevel!=null) {
-			currentLevel.addGoal(goal);
+			currentLevel.addGoal(goal.copyPosition());
 		}
 	}
 
 	@Override
 	public void addSpawnToActiveLevel(Position spawn) {
 		if (currentLevel!=null) {
-			currentLevel.addSpawn(spawn);
+			currentLevel.addSpawn(spawn.copyPosition());
 		}
 	}
 
 	@Override
 	public List<Branch> getEngineBranches() {
-		return myMapHandler.getBranches();
+		return myMapHandler.getEngineBranches();
 	}
 
 	@Override
@@ -200,6 +200,16 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Position> getSpawns() {
 		return myMapHandler.getSpawns();
+	}
+
+	@Override
+	public List<Branch> getAuthBranches() {
+		return this.myMapHandler.getAuthBranches();
+	}
+
+	@Override
+	public List<Branch> getAuthGrid() {
+		return this.myMapHandler.getAuthGrid();
 	}
 
 }

@@ -2,6 +2,8 @@ package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -19,7 +21,8 @@ import main.IMainView;
 
 public class GameView implements IGameView {
 
-    private static final String DEFAULT_PACKAGE = "game_player/view/";
+    private static final String FRONTEND_RESOURCE = "game_player/resources/FrontEnd";
+	private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
 	
     private Scene myScene;
@@ -86,9 +89,12 @@ public class GameView implements IGameView {
         AT = new AnimationTimer() {
             public void handle (long currentNanoTime) {
                 if (isPlaying) {
-                	if (playerEngineInterface.getLevelController().isGameWon()) {
+                	if (playerEngineInterface.getLevelController().isGameOver()) {
                 		AT.stop();
-                		playNextLevel();
+                	} else if (playerEngineInterface.getLevelController().isGameWon()) {
+                		playNextLevel();	
+                	} else if (playerEngineInterface.getLevelController().isGameLost()) {
+                		displayLossScreen();
                 	}
                     timer++;
                     updateEngine();
@@ -115,7 +121,7 @@ public class GameView implements IGameView {
         List<Position> allPositions = new ArrayList<>();
         currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
         for (int i = paths.size(); i < allPositions.size(); i++) {
-            Image img = new Image("DirtNew.png");
+            Image img = new Image(ResourceBundle.getBundle(FRONTEND_RESOURCE).getString("Path"));
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth() / 2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight() / 2);
@@ -138,6 +144,10 @@ public class GameView implements IGameView {
     
     public void playNextLevel() {
     	myGUI.loadNextLevel();
+    }
+    
+    public void displayLossScreen() {
+    	myGUI.displayLossScreen();
     }
 
     public void changeGameSpeed (double gameSpeed) {

@@ -43,7 +43,7 @@ public class GameData implements IGameData {
 
 	@Override
 	public List<Branch> getBranches() {
-		return myMapHandler.getBranches();
+		return myMapHandler.getEngineBranches();
 	}
 
 	@Override

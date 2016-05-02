@@ -18,26 +18,15 @@ public class MapHandler {
 
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
-	private List<Branch> myBranches;
-	private List<Position> myGoals;
 	private List<Position> mySpawns;
+	private List<Position> myBranches;
+	private List<Position> myGoals;
 
 	public MapHandler(){
 		myPGF = new PathGraphFactory();
 		myPositionHandler = new PositionHandler();
-		myBranches = new ArrayList<>();
-		myGoals = new ArrayList<>();
-		mySpawns = new ArrayList<>();
-	}
-
-	public MapHandler(List<Branch> engineBranches, List<Position> spawns, List<Position> goals){
-		myBranches = engineBranches;
-		this.mySpawns = spawns; 
-		this.myGoals = goals; 
-		myPGF = new PathGraphFactory(engineBranches);
-		myPositionHandler = new PositionHandler();
-		mySpawns = new ArrayList<>();
-		myGoals = new ArrayList<>();
+		this.mySpawns = new ArrayList<>();
+		this.myGoals = new ArrayList<>();
 	}
 
 	public void processPositions(List<Position> positions){
@@ -46,10 +35,16 @@ public class MapHandler {
 	}
 
 	public void addSpawn(Position spawn){
+		Position validSpawn = filterValidPos(spawn, 20);
+		if(validSpawn == null)
+			return;
 		this.mySpawns.add(spawn);
 	}
 
 	public void addGoal(Position goal){
+		Position validGoal = filterValidPos(goal, 20);
+		if(validGoal == null)
+			return;
 		this.myGoals.add(goal);
 		processPositions(Arrays.asList(goal));
 	}
@@ -63,13 +58,13 @@ public class MapHandler {
 	}
 
 	private Position filterValidPos(Position pos, double radius){
-		if(myPGF.getBranches() == null){
+		if(myPGF.getEngineBranches() == null){
 			return null;
 		}
 		boolean match = false;
 		Position nearby = null;
-		for(Branch b : this.myBranches){
-			for(Position branchPos : b.getPositions()){
+		for(Branch b : this.myPGF.getPathLibrary().getEngineBranches()){
+			for(Position branchPos : b.getEndPoints()){
 				if(pos.equals(branchPos)){
 					match = true;
 				}
@@ -88,9 +83,16 @@ public class MapHandler {
 		return myPGF;
 	}
 
-	public List<Branch> getBranches() {
-		myBranches.addAll(myPGF.getBranches());
-		return myBranches;
+	public List<Branch> getEngineBranches() {
+		return this.myPGF.getPathLibrary().getEngineBranches();
+	}
+
+	public List<Branch> getAuthGrid() {
+		return this.myPGF.getAuthGrid();
+	}
+
+	public List<Branch> getAuthBranches() {
+		return this.myPGF.getAuthBranches();
 	}
 
 	public List<Position> getGoals() {

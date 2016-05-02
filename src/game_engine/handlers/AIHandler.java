@@ -42,6 +42,7 @@ public class AIHandler{
 		}
 		for(Unit u : activeAI){
 			List<Branch> currentPath = u.getProperties().getMovement().getBranches();
+			System.out.println("Current path: " + currentPath);
 			if(currentPath.size() == 0){
 				updateBranches(u);
 			}

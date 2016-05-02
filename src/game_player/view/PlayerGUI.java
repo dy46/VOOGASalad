@@ -21,9 +21,9 @@ import main.IMainView;
 
 public class PlayerGUI {
 
-	private static final String BACKGROUND = "background";
-	private static final int NUMBER_OF_PLAY_CYCLES = -1;
-	private static final String DEFAULT_CSS = "PlayerTheme1.css";
+        private static final String BACKGROUND = "background";
+        private static final int NUMBER_OF_PLAY_CYCLES = -1;
+        private static final String DEFAULT_CSS = "PlayerTheme1.css";
     private static final String DEFAULT_PACKAGE = "game_player/view/";
     private static final String GUI_RESOURCE = "game_player/resources/GUI";
     private int windowWidth;
@@ -78,7 +78,7 @@ public class PlayerGUI {
     }
 
     protected void createNewTab (IAuthEnvironment data) {
-    	createNewEngine(data);
+        createNewEngine(data);
         Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
@@ -93,36 +93,42 @@ public class PlayerGUI {
     }
     
     public void deleteCurrentTab() {
-    	Tab tab = myTabs.getSelectionModel().getSelectedItem();
-    	myTabs.getTabs().remove(tab);
+        Tab tab = myTabs.getSelectionModel().getSelectedItem();
+        myTabs.getTabs().remove(tab);
     }
     
     public void loadNewTab() {
-    	deleteCurrentTab();
-    	createNewTab(readData());
+        deleteCurrentTab();
+        createNewTab(readData());
     }
     
     public void restartGame() {
-    	deleteCurrentTab();
-    	createNewTab(writer.loadFromFile(currentGame));
+        deleteCurrentTab();
+        createNewTab(writer.loadFromFile(currentGame));
     }
     
     public void loadFromXML(File file) {
-    	deleteCurrentTab();
-    	createNewTab(writer.loadFromFile(file));
+        deleteCurrentTab();
+        createNewTab(writer.loadFromFile(file));
     }
     
     public void loadNextLevel() {
-    	new NextLevelScreen(myResources, this);
+        Screen screen = new NextLevelScreen(myResources, this);
+        screen.displayScreen();
+    }
+    
+    public void displayLossScreen() {
+        Screen screen = new LosingScreen(myResources, this);
+        screen.displayScreen();
     }
     
     public void setMusic(String name) {
-		myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
-		myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
-		myMusic.setAutoPlay(true);
+                myMusic = new MediaPlayer(new Media(new File(name).toURI().toString()));
+                myMusic.setCycleCount(NUMBER_OF_PLAY_CYCLES);
+                myMusic.setAutoPlay(true);
     }
     
     public MediaPlayer getMusic() {
-    	return myMusic;
+        return myMusic;
     }
 }

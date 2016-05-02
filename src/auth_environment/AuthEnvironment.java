@@ -15,7 +15,6 @@ import game_engine.game_elements.Unit;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.ScoreUpdate;
-import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 
@@ -135,7 +134,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	
 	@Override
 	public List<Branch> getBranches() {
-		return myMapHandler.getBranches();
+		return myMapHandler.getEngineBranches();
 	}
 	
 	@Override
