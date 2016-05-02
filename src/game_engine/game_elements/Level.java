@@ -16,7 +16,7 @@ public class Level extends GameElement {
     private int startingLives;
     private Wave myCurrentWave;
     private List<Wave> myWaves;
-    private Level myBranches;
+    private List<Branch> myBranches;
     private List<Position> myGoals;
     private List<Position> mySpawns;
 
@@ -164,7 +164,7 @@ public class Level extends GameElement {
     }
 
 	public void addBranch(Branch b) {
-		this.myBranches.addBranch(b);
+//		this.myBranches.addBranch(b);
 	}
 
 

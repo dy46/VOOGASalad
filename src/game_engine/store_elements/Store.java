@@ -98,6 +98,7 @@ public class Store implements IStore {
 
 	@Override
 	public void sellUnit(Unit unit) {
+	        System.out.println(unit);
 		myMoney += buyableUnits.get(nameToOriginalInstance.get(unit.toString()));
 	}
 
