@@ -117,7 +117,6 @@ public class GameView implements IGameView {
         myTab.updateGameElements();
     }
 
-    // TODO: Refactor when Adam is done with branches
     public void placePath () {
         List<Branch> currBranches = new ArrayList<>();
         currBranches.addAll(playerEngineInterface.getBranches());

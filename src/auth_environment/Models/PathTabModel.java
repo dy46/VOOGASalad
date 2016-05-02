@@ -136,8 +136,6 @@ public class PathTabModel implements IPathTabModel {
 			List<Branch> branches = myActiveUnit.getProperties().getMovement().getBranches();
 			branches.add(b);
 			myActiveUnit.getProperties().getMovement().setBranches(branches);
-			System.out.println(myActiveUnit.getProperties().getMovement().getBranches());
-			currentLevel.addBranch(b);
 		}
 		return myBranchMap.get(line); 
 	}
