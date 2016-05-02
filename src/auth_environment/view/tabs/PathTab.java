@@ -171,7 +171,7 @@ public class PathTab extends Tab implements IWorkspace {
 			File f = chooser.chooseImage("Choose a Path Image"); 
 			if (f!=null) {
 				String name = f.getName();
-				String path = "src/game_player/resources/GUI.properties";
+				String path = "src/game_player/resources/FrontEnd.properties";
 				FileInputStream in;
 				try {
 					in = new FileInputStream(path);

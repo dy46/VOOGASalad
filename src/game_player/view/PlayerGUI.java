@@ -113,7 +113,13 @@ public class PlayerGUI {
     }
     
     public void loadNextLevel() {
-    	new NextLevelScreen(myResources, this);
+    	Screen screen = new NextLevelScreen(myResources, this);
+    	screen.displayScreen();
+    }
+    
+    public void displayLossScreen() {
+    	Screen screen = new LosingScreen(myResources, this);
+    	screen.displayScreen();
     }
     
     public void setMusic(String name) {

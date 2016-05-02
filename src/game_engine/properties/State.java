@@ -55,7 +55,7 @@ public class State extends Property{
 
 	@Override
 	public boolean isBaseProperty() {
-		return true;
+		return false;
 	}
     
 }
