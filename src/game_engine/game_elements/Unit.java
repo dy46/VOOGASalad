@@ -102,7 +102,7 @@ public class Unit extends GameElement {
     }
 
     public void update () {
-    	this.myBaseProperties.getVelocity().setDirection(this.myProperties.getVelocity().getDirection());
+//    	this.myBaseProperties.getVelocity().setDirection(this.myProperties.getVelocity().getDirection());
         myChildren.stream().forEach(p -> p.incrementElapsedTime(1));
         if (isVisible()) {
             elapsedTime++;
@@ -110,7 +110,7 @@ public class Unit extends GameElement {
             myAffectors.forEach(a -> a.apply(this));
 //            System.out.println(this.getName()+this.getProperties().getVelocity().getSpeed());
             
-            this.getProperties().setPropertiesToBase(this.myBaseProperties);
+//            this.getProperties().setPropertiesToBase(this.myBaseProperties);
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();

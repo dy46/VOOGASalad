@@ -53,9 +53,11 @@ public class Store implements IStore {
 		basic16.setName("Upgrade Range");
 		basic16.setTTL(1);
 		if(t.getChildren() != null) {
+		    if(t.getChildren().size() > 0) {
 			if(getUpgrades(t.getChildren().get(0)).size() == 0) {
 				addUpgrade(t.getChildren().get(0), basic16, 100);
 			}
+		    }
 		}
 		
 		nameToOriginalInstance.put(t.toString(), t);

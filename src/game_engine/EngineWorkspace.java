@@ -23,6 +23,7 @@ import game_engine.physics.EncapsulationDetector;
 import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
+import game_engine.score_updates.EnemyWinScoreUpdate;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
