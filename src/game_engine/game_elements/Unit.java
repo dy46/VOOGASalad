@@ -102,11 +102,15 @@ public class Unit extends GameElement {
     }
 
     public void update () {
+    	this.myBaseProperties.getVelocity().setDirection(this.myProperties.getVelocity().getDirection());
         myChildren.stream().forEach(p -> p.incrementElapsedTime(1));
         if (isVisible()) {
             elapsedTime++;
             myAffectors.removeIf(a -> a.getTTL() <= a.getElapsedTime());
             myAffectors.forEach(a -> a.apply(this));
+//            System.out.println(this.getName()+this.getProperties().getVelocity().getSpeed());
+            
+            this.getProperties().setPropertiesToBase(this.myBaseProperties);
         }
         if (!isAlive()) {
             setElapsedTimeToDeath();
@@ -225,7 +229,8 @@ public class Unit extends GameElement {
     }
 
     public void addAffectors (List<Affector> affectors) {
-        this.myAffectors.addAll(affectors);
+//        this.myAffectors.addAll(affectors);
+    	affectors.stream().forEach(t -> this.addAffector(t));
     }
 
     public void addAffectorsToApply (List<Affector> affectorsToApply) {
@@ -233,7 +238,7 @@ public class Unit extends GameElement {
     }
 
     public void addAffector (Affector affector) {
-        this.myAffectors.add(affector);
+        this.myAffectors.add(0, affector);
     }
 
     public void addAffectorToApply (Affector affectorToApply) {

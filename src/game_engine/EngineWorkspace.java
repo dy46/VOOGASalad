@@ -24,6 +24,7 @@ import game_engine.place_validations.PlaceValidation;
 import game_engine.properties.Position;
 import game_engine.score_updates.EnemyDeathScoreUpdate;
 import game_engine.score_updates.ScoreUpdate;
+import game_engine.store_elements.Store;
 import game_engine.wave_goals.WaveGoal;
 
 
@@ -56,7 +57,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
-                new UnitController(data.getPlacedUnits(), myPlaceValidations, data.getStore(),
+                new UnitController(data.getPlacedUnits(), myPlaceValidations, new Store(100000),
                                    unitsToRemove);
         myEnemyController = new EnemyController(myLevelController, myUnitController);
         setWorkspaceForAffectors(data.getPlacedUnits(), data.getLevels());

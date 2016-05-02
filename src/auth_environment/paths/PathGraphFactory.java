@@ -54,7 +54,7 @@ public class PathGraphFactory {
 	}
 	
 	public void insertGrid(){
-		Position[][] positionGrid = createPosGrid(600, 600, 30);
+		Position[][] positionGrid = createPosGrid(600, 600, 100);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());

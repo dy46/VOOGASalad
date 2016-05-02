@@ -35,10 +35,6 @@ public class LevelController implements ILevelDisplayer {
         return myCurrentLevel;
     }
     
-    public List<Branch> getCurrentBranches(){
-    	return myCurrentLevel.getBranches();
-    }
-    
     public void setCurrentLevel(Level currentLevel) {
         this.myCurrentLevel = currentLevel;
     }
@@ -81,11 +77,15 @@ public class LevelController implements ILevelDisplayer {
     }
     
     public boolean isGameOver () {
-        return isGameWon() || myCurrentLevel.getMyLives() <= 0;
+        return isGameWon() || isGameLost();
     }
     
     public boolean isGameWon() {
     	return myLevels.get(myLevels.size() - 1).wavesLeft() == 0;
+    }
+    
+    public boolean isGameLost() {
+    	return myCurrentLevel.getMyLives() <= 0;
     }
     
     public List<Level> getLevels () {
