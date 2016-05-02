@@ -21,7 +21,8 @@ import main.IMainView;
 
 public class GameView implements IGameView {
 
-    private static final String DEFAULT_PACKAGE = "game_player/view/";
+    private static final String FRONTEND_RESOURCE = "game_player/resources/FrontEnd";
+	private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
 	
     private Scene myScene;
@@ -123,7 +124,7 @@ public class GameView implements IGameView {
         List<Position> allPositions = new ArrayList<>();
         currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
         for (int i = paths.size(); i < allPositions.size(); i++) {
-            Image img = new Image(ResourceBundle.getBundle("game_player/resources/GUI").getString("Path"));
+            Image img = new Image(ResourceBundle.getBundle(FRONTEND_RESOURCE).getString("Path"));
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth() / 2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight() / 2);
