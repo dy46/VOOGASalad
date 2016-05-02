@@ -1,12 +1,11 @@
 package auth_environment.Models;
 
-import javafx.scene.text.Text;
+import javafx.scene.control.Button;
 
-public class AffectorView extends Text{
+public class AffectorView extends Button{
 
 	public AffectorView(String text) {
-		super();
-		this.setText(text);
+		super(text);
 	}
 
 }
