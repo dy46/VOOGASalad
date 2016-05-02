@@ -19,7 +19,15 @@ public class StoreFactory {
 
 		myStore = new Store(0);
 	}
-	
+
+	public void setUnitLibrary(UnitLibrary ul) {
+		this.ul = ul;
+	}
+
+	public void setAffectorLibrary(AffectorLibrary al) {
+		this.al = al;
+	}
+
 	public void createNewStore(int money) {
 		myStore = new Store(money);
 	}
