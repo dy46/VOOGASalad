@@ -96,7 +96,6 @@ public class BrowserWindowDelegate {
 		loadProgress.progressProperty().bind(browser.getEngine().getLoadWorker().workDoneProperty().divide(100));
 	}
 
-	// TODO: make this shorter
 	public void openWindow(String title, String url, double width, double height) {
 		browserStage = new Stage();
 		this.setupSplashAndListener(width, height);
