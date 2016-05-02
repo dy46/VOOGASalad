@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import auth_environment.AuthEnvironment;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
@@ -45,13 +46,9 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 
 	@Override
 	public void loadFromFile() {
-		this.myAuthModel.setIAuthEnvironment((IAuthEnvironment) writer.loadElement());
-		if (this.myAuthModel.getIAuthEnvironment()!=null && this.myAuthModel.getIAuthEnvironment().getBranches().size()>0) {
-			this.myAuthModel.getIAuthEnvironment().getBranches().clear();
-			this.myAuthModel.getIAuthEnvironment().getLevels().stream().forEach(l -> {
-				l.getBranches().clear();
-			});
-		}
+		AuthEnvironment temp = (AuthEnvironment) writer.loadElement();
+		this.myAuthModel.getIAuthEnvironment().setAffectorFactory(temp.getAffectorFactory());
+		this.myAuthModel.getIAuthEnvironment().setUnitFactory(temp.getUnitFactory());
 	}
 
 	@Override
