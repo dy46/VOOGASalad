@@ -1,5 +1,7 @@
 package auth_environment.Models;
 
+import java.util.Observable;
+
 import auth_environment.AuthEnvironment;
 import auth_environment.IAuthEnvironment;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -14,7 +16,7 @@ import auth_environment.Models.Interfaces.IAuthModel;
  * There will also be some helper methods- such as saving or loading the data. 
  */
 
-public class AuthModel implements IAuthModel {
+public class AuthModel extends Observable implements IAuthModel {
 	
 	private IAuthEnvironment authInterface; 
 	
@@ -29,7 +31,12 @@ public class AuthModel implements IAuthModel {
 
 	@Override
 	public void setIAuthEnvironment(IAuthEnvironment auth) {
-		this.authInterface = auth;
+		if(auth != null)
+		{
+			this.authInterface = auth;
+			setChanged();
+			notifyObservers(this);
+		}
 	}
 
 }
