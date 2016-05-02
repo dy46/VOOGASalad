@@ -15,11 +15,15 @@ import javafx.stage.Stage;
  */
 
 public class MainView implements IMainView {
+	
+    private static final String GUI_RESOURCE = "game_player/resources/GUI";
 
     private Stage myStage;
+    private ResourceBundle myResource;
 
     public MainView (Stage stage) {
         myStage = stage;
+        myResource = ResourceBundle.getBundle(GUI_RESOURCE);
         Welcome welcome = new Welcome(this);
     }
 
@@ -33,7 +37,8 @@ public class MainView implements IMainView {
     }
 
     public void displayPlayer() {
-		PlayerGUI playerGUI = new PlayerGUI(860, 765, this); // TODO: extract constants
+		PlayerGUI playerGUI = new PlayerGUI(Integer.valueOf(myResource.getString("PlayerWidth")),
+				Integer.valueOf(myResource.getString("PlayerHeight")), this);
 		this.myStage.setScene(playerGUI.createPlayerScene());
 		this.display();
     }

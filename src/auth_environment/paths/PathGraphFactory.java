@@ -2,7 +2,6 @@ package auth_environment.paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import game_engine.game_elements.Branch;
 import game_engine.handlers.PositionHandler;
 import game_engine.libraries.PathLibrary;
@@ -26,12 +25,6 @@ public class PathGraphFactory {
 		myPositionHandler = new PositionHandler();
 		myPathLibrary = new PathLibrary();
 		myBranchHandler = new BranchConfigurer();
-	}
-
-	public PathGraphFactory(List<Branch> branches){
-		this.myPathLibrary = new PathLibrary(branches);
-		myBranchHandler = new BranchConfigurer();
-		myPositionHandler = new PositionHandler();
 	}
 
 	/**
@@ -66,6 +59,13 @@ public class PathGraphFactory {
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
 		}
+		List<Branch> gridBranches = myPathLibrary.getPathGraph().getBranches();
+		myPathLibrary.setAuthVisualFilters(gridBranches);
+		List<Position> gridVisualNodes = new ArrayList<>();
+		for(Branch gridBranch : gridBranches){
+			gridVisualNodes.addAll(gridBranch.getEndPoints());
+		}
+		myPathLibrary.setGridVisualNodes(gridVisualNodes);
 	}
 
 	private void insertBranchInPath(List<Position> branchPos, PathGraph path){
@@ -113,8 +113,16 @@ public class PathGraphFactory {
 		return myPathLibrary;
 	}
 	
-	public List<Branch> getBranches(){
-		return myPathLibrary.getBranches();
+	public List<Branch> getEngineBranches(){
+		return myPathLibrary.getEngineBranches();
+	}
+	
+	public List<Branch> getAuthBranches(){
+		return myPathLibrary.getAuthBranches();
+	}
+	
+	public List<Branch> getAuthGrid(){
+		return myPathLibrary.getAuthGrid();
 	}
 	
 }

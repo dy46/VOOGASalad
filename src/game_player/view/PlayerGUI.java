@@ -79,7 +79,7 @@ public class PlayerGUI {
 
     protected void createNewTab (IAuthEnvironment data) {
     	createNewEngine(data);
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this,
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, currentGame, this,
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
                                                                               .getTab();
@@ -113,7 +113,8 @@ public class PlayerGUI {
     }
     
     public void loadNextLevel() {
-    	new NextLevelScreen(myResources, this);
+    	NextLevelScreen nextLevel = new NextLevelScreen(myResources, this);
+    	nextLevel.displayScreen();
     }
     
     public void setMusic(String name) {
@@ -124,5 +125,9 @@ public class PlayerGUI {
     
     public MediaPlayer getMusic() {
     	return myMusic;
+    }
+    
+    public File getFile() {
+    	return currentGame;
     }
 }
