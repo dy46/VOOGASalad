@@ -19,6 +19,7 @@ public abstract class ScoreUpdate {
     }
 
     public void updateScoreFromUnitList (List<Unit> unitList, GameEngineInterface engineWorkspace) {
+    	unitList.stream().forEach(u -> u.setInvisible());
         unitList.stream().forEach(e -> engineWorkspace.getLevelController()
                 .setScore(engineWorkspace.getLevelController().getScore() +
                           e.getProperties().getPrice().getValue()));

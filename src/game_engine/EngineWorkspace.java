@@ -47,7 +47,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
     public void setUpEngine (IAuthEnvironment data) {
         unitsToRemove = new ArrayList<>();
         waveGoal = data.getWaveGoal();
-        scoreUpdate = new EnemyDeathScoreUpdate();
+        scoreUpdate = data.getScoreUpdate();
         myBranches = data.getBranches();
         myCollider = new CollisionDetector(this);
         myEncapsulator = new EncapsulationDetector(this);

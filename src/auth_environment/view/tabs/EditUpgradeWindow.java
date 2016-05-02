@@ -60,15 +60,11 @@ public class EditUpgradeWindow extends Observable {
 	private void addUpgradeSlot() {
 		ComboBox<String> combo = new ComboBox<>();
 		List<String> affectorNames = new ArrayList<>();
-		
 		for (Affector a : authModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary().getAffectors())
-			affectorNames.add(a.getClass().toString());
-
+			affectorNames.add(a.getName());
 		combo.getItems().addAll(affectorNames);
 		TextField cost = nodeFactory.buildTextFieldWithPrompt("Upgrade cost");
-
 		upgradePane.addRow(rowIndex++, combo, cost);
-		
 		comboBoxes.add(combo);
 		textFields.add(cost);
 	}
