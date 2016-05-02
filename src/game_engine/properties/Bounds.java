@@ -46,7 +46,7 @@ public class Bounds extends Property {
     public String toString () {
         String str = "";
         for (Position pos : myPositions) {
-            str += pos.getX() + " " + pos.getY() + "\n";
+            str += pos.getX() + " " + pos.getY() + " ";
         }
         return str;
     }
@@ -70,7 +70,7 @@ public class Bounds extends Property {
     @Override
     public void setValues (List<Double> values) {
         myPositions.clear();
-        for (int i = 0; i < values.size() / 2; i++) {
+        for (int i = 0; i < values.size(); i+=2) {
             myPositions.add(new Position(values.get(i), values.get(i+1)));
         }
     }
