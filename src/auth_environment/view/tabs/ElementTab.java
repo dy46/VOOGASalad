@@ -141,6 +141,7 @@ public abstract class ElementTab extends Tab {
 	public List<String> comboListToStringList(List<ComboBox<String>> comboList) {
 		List<String> list = new ArrayList<String>();
 		comboList.stream().forEach(s -> list.add(s.getValue()));
+		comboList.stream().forEach(s-> {if(s.getValue() != null)list.add(s.getValue());});
 		return list;
 	}
 

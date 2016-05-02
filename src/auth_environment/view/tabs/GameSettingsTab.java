@@ -1,7 +1,10 @@
 package auth_environment.view.tabs;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -32,29 +35,29 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 
 	private static final String DIMENSIONS_PACKAGE = "auth_environment/properties/dimensions";
 	private ResourceBundle myDimensionsBundle = ResourceBundle.getBundle(DIMENSIONS_PACKAGE);
-	
+
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
+
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-	
+
 	private NodeFactory myNodeFactory;
 	private IMainView myMainView; 
-	
+
 	private BorderPane myBorderPane;
 	private ImageView mySplashPreview;
 	private TextField myGameNameField;
-	
+
 	private IGameSettingsTabModel myGameSettingsTabModel;
-	
+
 	public GameSettingsTab(String name, IAuthModel authModel, IMainView mainView) {
 		super(name); 
 		myMainView = mainView; 
 		myGameSettingsTabModel = new GameSettingsTabModel(authModel); 
 		init(); 
 	}
-	
+
 	private void init() {
 		myNodeFactory = new NodeFactory(); 
 		setupBorderPane();
@@ -68,7 +71,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		myBorderPane.setBottom(buildBottom());
 		setContent(myBorderPane);
 	}
-	
+
 	private Node buildCenter() {
 		VBox center = myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")), 
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
@@ -80,31 +83,31 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				);
 		return center; 
 	}
-	
+
 	private Node buildBottom() {
 		HBox bottom = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		bottom.getChildren().addAll(buildChooseScore(), buildChooseWaveGoal(), buildChoosePlaceValidation());
 		return bottom; 
 	}
-	
+
 	private HBox buildWompImage() {
 		return myNodeFactory.centerNode(myNodeFactory.buildImageView(myNamesBundle.getString("wompWelcomeImage")));
 	}
-	
+
 	private HBox buildTextInput() {
 		myGameNameField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("gameNamePrompt"));
 		myGameNameField.setOnAction(e -> submitButtonPressed(myGameNameField));
-		
+
 		Button submitNameButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("submitButtonLabel"), 
 				e -> submitButtonPressed(myGameNameField));
-		
+
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(myGameNameField, submitNameButton);
 		return myNodeFactory.centerNode(hb); 
 	}
-	
+
 	private Node buildSplashChooser() {
 		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
 				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
@@ -116,13 +119,13 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		hb.getChildren().addAll(mySplashPreview, splashButton); 
 		return myNodeFactory.centerNode(hb); 
 	}
-	
+
 	private Node buildButtonRow() {
 		HBox hb = new HBox();
 		hb.getChildren().addAll(buildSaveButton(), buildLoadButton(), buildPlayButton(), buildCloudStorage());
 		return myNodeFactory.centerNode(hb);
 	}
-	
+
 	private Node buildCloudStorage() {
 		Button cloud = myNodeFactory.buildButton(myNamesBundle.getString("cloudButtonLabel"));
 		cloud.setOnAction(e -> {
@@ -130,22 +133,22 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		});
 		return cloud;
 	}
-	
+
 	private Node buildSaveButton() {
 		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("saveItemLabel"), 
 				e -> myGameSettingsTabModel.saveToFile());
 	}
-	
+
 	private Node buildLoadButton() {
 		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("loadItemLabel"), 
 				e -> myGameSettingsTabModel.loadFromFile());
 	}
-	
+
 	private Node buildPlayButton() {
 		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("playButtonLabel"), 
 				e -> myMainView.displayPlayer());
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Node buildChooseScore() {
 		ComboBox<String> chooseScore = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getScoreUpdateNames(),
@@ -156,7 +159,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 				}); 
 		return addToVBox(chooseScore, myNamesBundle.getString("scoreUpdateLabel"));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Node buildChooseWaveGoal() {
 		ComboBox<String> chooseWaveGoal = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getWaveGoalNames(), event -> {
@@ -165,7 +168,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 			event.consume();});
 		return addToVBox(chooseWaveGoal, myNamesBundle.getString("waveGoalLabel"));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Node buildChoosePlaceValidation() {
 		ComboBox<String> choosePlaceValidation = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getPlaceValidationNames(),
@@ -175,34 +178,48 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 					event.consume();});
 		return addToVBox(choosePlaceValidation, myNamesBundle.getString("placeValidationLabel"));
 	}
-	
+
 	private VBox addToVBox(ComboBox<String> cbox, String name){
 		VBox vb = new VBox(); 
 		vb.getChildren().add(myNodeFactory.buildLabel(name));
 		vb.getChildren().add(cbox);
 		return vb;
 	}
-	
+
 	private void chooseSplash() {
-		FileChooserDelegate fileChooser = new FileChooserDelegate(); 
-		File splash = fileChooser.chooseImage(myNamesBundle.getString("chooseSplashLabel"));
-		if (splash != null) {
-			this.mySplashPreview.setImage(this.myNodeFactory.buildImage(splash.getName()));
-			this.myGameSettingsTabModel.setSplashFile(splash.getName());
+		FileChooserDelegate chooser = new FileChooserDelegate();
+		File f = chooser.chooseImage("Choose a Background Image"); 
+		if (f!=null) {
+			String name = f.getName();
+			String path = "src/game_player/resources/GUI.properties";
+			FileInputStream in;
+			try {
+				in = new FileInputStream(path);
+				Properties props = new Properties();
+				props.load(in);
+				in.close();
+				FileOutputStream out = new FileOutputStream(path);
+				props.setProperty("Background", name);
+				props.store(out, null);
+				out.close();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				System.out.println("File not found");
+			}
 		}
 	}
-	
+
 	private void submitButtonPressed(TextField input) {
 		if (checkValidInput(input)) {
 			myGameSettingsTabModel.setGameName(input.getText());
 			input.clear();
 		}
 	}
-	
+
 	private boolean checkValidInput(TextField input) {
 		return input.getText().length() > 0; 
 	}
-	
+
 	@Override
 	public Node getRoot() {
 		return myBorderPane; 

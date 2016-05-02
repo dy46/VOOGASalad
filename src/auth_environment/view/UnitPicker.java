@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import auth_environment.Models.AffectorView;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
@@ -25,8 +26,8 @@ public class UnitPicker{
 
 	private TitledPane myEditPane;
 	private FlowPane myEditInfo;
-	
 	private List<UnitView> myUnitViews;
+	private List<AffectorView> myAffectors;
 	
 	private static final String LABEL_PACKAGE = "auth_environment/properties/unit_picker_labels";
 	private static final ResourceBundle myLabelsBundle = ResourceBundle.getBundle(LABEL_PACKAGE);
@@ -36,12 +37,14 @@ public class UnitPicker{
 	
 	public UnitPicker(String name){
 		init(name);
-		this.myUnitViews = new ArrayList<>(); 
+		this.myUnitViews = new ArrayList<>();
+		this.myAffectors = new ArrayList<>();
 	}
 	
 	public UnitPicker(String name, List<Unit> units){
 		init(name);
 		this.myUnitViews = new ArrayList<>();
+		this.myAffectors = new ArrayList<>();
 		this.setUnits(units);
 	}
 	
@@ -70,6 +73,17 @@ public class UnitPicker{
 		units.stream().forEach(s -> myUnitViews.add(new UnitView(s, s.toString() + myLabelsBundle.getString("pngLabel"))));
 		this.myEditInfo.getChildren().addAll(this.myUnitViews);
 		setDragable();
+	}
+	
+	public void setAffector(List<String> affectors){
+		this.myAffectors.clear();
+		this.myEditInfo.getChildren().clear();
+		affectors.stream().forEach(s -> myAffectors.add(new AffectorView(s)));
+		this.myEditInfo.getChildren().addAll(this.myAffectors);
+	}
+	
+	public void addAffector(String s){
+		myAffectors.add(new AffectorView(s));
 	}
 	
 	public void setDragable(){

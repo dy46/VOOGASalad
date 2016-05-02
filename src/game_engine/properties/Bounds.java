@@ -46,7 +46,7 @@ public class Bounds extends Property {
     public String toString () {
         String str = "";
         for (Position pos : myPositions) {
-            str += pos.getX() + " " + pos.getY() + "\n";
+            str += pos.getX() + " " + pos.getY() + " ";
         }
         return str;
     }

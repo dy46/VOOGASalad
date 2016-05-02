@@ -24,9 +24,6 @@ public class State extends Property{
     }
     
     public String getString() {
-    	if (state < 0) {
-    		return "Dying";
-    	}
         return states[(int) state];
     }
     

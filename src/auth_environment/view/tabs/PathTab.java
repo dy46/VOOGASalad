@@ -1,7 +1,11 @@
 package auth_environment.view.tabs;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import game_engine.game_elements.Branch;
 import game_engine.properties.Position;
@@ -12,6 +16,7 @@ import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import auth_environment.view.BoundLine;
 import auth_environment.view.PathPoint;
@@ -151,6 +156,32 @@ public class PathTab extends Tab implements IWorkspace {
 			});
 		}
 	}
+	
+	private Node buildChoosePathImage() {
+		Button choosePath = myNodeFactory.buildButtonWithEventHandler("Choose path image", e -> {
+			FileChooserDelegate chooser = new FileChooserDelegate();
+			File f = chooser.chooseImage("Choose a Path Image"); 
+			if (f!=null) {
+				String name = f.getName();
+				String path = "src/game_player/resources/GUI.properties";
+				FileInputStream in;
+				try {
+					in = new FileInputStream(path);
+					Properties props = new Properties();
+					props.load(in);
+					in.close();
+					FileOutputStream out = new FileOutputStream(path);
+					props.setProperty("Path", name);
+					props.store(out, null);
+					out.close();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					System.out.println("File not found");
+				}
+			}
+		});
+		return choosePath; 
+	}
 
 	private void buildUnitPicker(String waveName) {
 		mySpawningUnitPicker.setUnits(myPathTabModel.getSpawningUnits(waveName));
@@ -174,16 +205,23 @@ public class PathTab extends Tab implements IWorkspace {
 		myPathWidthField.setOnAction(e -> submitPathWidth(myPathWidthField));
 		Button submitBranchButton = myNodeFactory.buildButton(myNamesBundle.getString("submitBranchButtonLabel"));
 		submitBranchButton.setOnAction(e -> submitBranch());
-		Button help = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("openHelpItem"), e -> {
-			BrowserWindowDelegate browser = new BrowserWindowDelegate();
-			browser.openWindow(myNamesBundle.getString("helpMenuLabel"), myURLSBundle.getString("helpURL"),
-					Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
-					Double.parseDouble(myDimensionsBundle.getString("helpHeight")));
-		});
-		hb0.getChildren().addAll(myPathWidthField, submitBranchButton, help);
-		return hb0;
+		Button help = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("openHelpItem"), 
+				e -> {
+					BrowserWindowDelegate browser = new BrowserWindowDelegate(); 
+					browser.openWindow(myNamesBundle.getString("helpMenuLabel"),
+							 myURLSBundle.getString("helpURL"),
+							 Double.parseDouble(myDimensionsBundle.getString("helpWidth")),
+							 Double.parseDouble(myDimensionsBundle.getString("helpHeight"))
+							 );
+				});
+		hb0.getChildren().addAll(
+				buildChoosePathImage(),
+				submitBranchButton,
+				help
+				);
+		return hb0; 
 	}
-
+	
 	private HBox buildSecondRowButtons() {
 		HBox hb1 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")), 0);
 		Button drawPathButton = myNodeFactory.buildButton(myNamesBundle.getString("drawPath"));
