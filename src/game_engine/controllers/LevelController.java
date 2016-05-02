@@ -81,7 +81,8 @@ public class LevelController implements ILevelDisplayer {
     }
     
     public boolean isGameWon() {
-    	return myLevels.get(myLevels.size() - 1).wavesLeft() == 0;
+    	return myLevels.get(myLevels.size() - 1).wavesLeft() == 1
+				&& myCurrentLevel.getCurrentWave().getSpawningUnits().stream().filter(u -> u.isVisible()).count() == 0;
     }
     
     public boolean isGameLost() {

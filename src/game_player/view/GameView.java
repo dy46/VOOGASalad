@@ -90,11 +90,14 @@ public class GameView implements IGameView {
             public void handle (long currentNanoTime) {
                 if (isPlaying) {
                 	if (playerEngineInterface.getLevelController().isGameOver()) {
-                		AT.stop();
-                	} else if (playerEngineInterface.getLevelController().isGameWon()) {
-                		playNextLevel();	
-                	} else if (playerEngineInterface.getLevelController().isGameLost()) {
-                		displayLossScreen();
+                		updateHighScore();
+	                	if (playerEngineInterface.getLevelController().isGameWon()) {
+	                		AT.stop();
+	                		playNextLevel();
+	                	} else if (playerEngineInterface.getLevelController().isGameLost()) {
+	                		AT.stop();
+	                		displayLossScreen();
+	                	}
                 	}
                     timer++;
                     updateEngine();
@@ -153,6 +156,10 @@ public class GameView implements IGameView {
     public void changeGameSpeed (double gameSpeed) {
         this.myUpdateSpeed = gameSpeed;
         this.currentSpeed = gameSpeed;
+    }
+    
+    private void updateHighScore() {
+    	myGUI.updateHighScore();
     }
 
     public GameEngineInterface getGameEngine () {
