@@ -55,6 +55,10 @@ public interface IPathTabModel extends IWorkspaceModel {
 	
 	public void addGoalToActiveLevel(Position goal); 
 	
-	public void addSpawnToActiveLevel(Position spawn); 
+	public void addSpawnToActiveLevel(Position spawn);
+
+	public List<Branch> getAuthBranches(); 
+	
+	public List<Branch> getAuthGrid();
 	
 }

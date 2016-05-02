@@ -13,11 +13,18 @@ public class ElementCreationTab extends Tab{
 	}
 	
 	private void init(IAuthModel authModel, ResourceBundle myNamesBundle){
+		this.setOnSelectionChanged(e -> refresh(myNamesBundle, authModel));
+	}
+	
+	private void refresh(ResourceBundle myNamesBundle, IAuthModel authModel){
 		TabPane myTabs = new TabPane();
-		myTabs.getTabs().addAll(new UnitTab(myNamesBundle.getString("unitTabLabel"), authModel), new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
+		ElementTab unitTab = new UnitTab(myNamesBundle.getString("unitTabLabel"), authModel);
+		myTabs.getTabs().addAll(unitTab, new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
 		//myTabs.getTabs().addAll(new AffectorTab(myNamesBundle.getString("affectorTabLabel"), authModel));
 
 		this.setContent(myTabs);
 	}
+	
+	
 	
 }

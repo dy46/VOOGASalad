@@ -1,5 +1,8 @@
 package auth_environment.view.tabs;
 
+//refactor the addCombo and addTextFields, they are the same for unit and affector tab
+
+
 import java.util.*;
 
 import auth_environment.Models.ElementTabModel;
@@ -22,9 +25,11 @@ public class UnitTab extends ElementTab{
 	private AnimationPane myAnimationPane;
 	
 	private IElementTabModel myElementTabModel;
+	private IAuthModel myAuthModel;
 
 	public UnitTab(String name, IAuthModel authModel){
 		super(name);
+		this.myAuthModel = authModel;
 		this.myElementTabModel = new ElementTabModel(authModel.getIAuthEnvironment()); 
 		addRefresh();
 		setUp();
@@ -34,6 +39,8 @@ public class UnitTab extends ElementTab{
         setIndex(1);
 		affectorNames = this.myElementTabModel.getAffectoryFactory().getAffectorLibrary().getAffectorNames();
 		unitNames = this.myElementTabModel.getUnitFactory().getUnitLibrary().getUnitNames();	
+		myElementTabModel.update(myAuthModel.getIAuthEnvironment());
+		
 		init();
 	}
 	
@@ -75,39 +82,45 @@ public class UnitTab extends ElementTab{
 			getCreator().createTextLabels(gp, s , getIndex(), 1,
 					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
 			ComboBox<String> cb = getCreator().createStringComboBox(gp, Arrays.asList(getLabelsBundle()
-					.getString("elementTypes").split(getLabelsBundle().getString("regex"))), getIndex(), 2);
+					.getString(s).split(getLabelsBundle().getString("regex"))), getIndex(), 2);
 			strComboMap.put(s, cb);
 			iterateIndex();
 		}
 	}
 
 	public void createNewElement() {
-		Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();	
-		String name = strTextMap.remove(getLabelsBundle().getString("typeText")).getText();
-
-    	for(String str: strTextMap.keySet()){
-    		List<Double> val = new ArrayList<>();  		
-    		String[] strings = strTextMap.get(str).getText().trim().split(getLabelsBundle().getString("regex"));
-    		Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
-    		strToDoubleMap.put(str, val);
-    	}
-  	
-    	createUnit(name, strToDoubleMap, comboListToStringList(myProjectiles),
-    			comboListToStringList(affectorsToUnit), comboListToStringList(affectorsToApply));
-    	setUp();
-	}
-	
-	private void createUnit(String name, Map<String, List<Double>> map, List<String> projectiles, List<String> atu, List<String> ata){
 		try{
-			UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
-			Unit unit = myUnitFactory.createUnit(name,
-	    		strComboMap.get(getLabelsBundle().getString("unitComboProperties")).getValue(), map, projectiles, atu, ata);
-			myAnimationPane.getAnimationLoaderTab().setUnit(unit);
-			myUnitFactory.getUnitLibrary().addUnit(unit);
+			Map<String, List<Double>> strToDoubleMap = new HashMap<String, List<Double>>();	
+			String name = strTextMap.remove(getLabelsBundle().getString("typeText")).getText();
+
+			for(String str: strTextMap.keySet()){
+				List<Double> val = new ArrayList<>();  		
+				String[] strings = strTextMap.get(str).getText().trim().split(getLabelsBundle().getString("regex"));
+				Arrays.asList(strings).stream().forEach(s -> val.add(Double.parseDouble(s)));
+				strToDoubleMap.put(str, val);
+			}
+    	
+			ComboBox<String> cb = strComboMap.get("State");
+			List<Double> list = new ArrayList<Double>();
+			list.add((double) cb.getItems().indexOf(cb.getValue()));
+			strToDoubleMap.put("State", list);
+  	
+			createUnit(name, strToDoubleMap, comboListToStringList(myProjectiles),
+    			comboListToStringList(affectorsToUnit), comboListToStringList(affectorsToApply));
+			setUp();
 		}
 		catch(NumberFormatException e){
 			return;
 		}
+	}
+	
+	private void createUnit(String name, Map<String, List<Double>> map, List<String> projectiles, List<String> atu, List<String> ata){
+			UnitFactory myUnitFactory = this.myElementTabModel.getUnitFactory();
+			Unit unit = myUnitFactory.createUnit(name,
+	    		strComboMap.get(getLabelsBundle().getString("unitTypeText")).getValue(), map, projectiles, atu, ata);
+			myAnimationPane.getAnimationLoaderTab().setUnit(unit);
+			myUnitFactory.getUnitLibrary().addUnit(unit);
+			System.out.println(unit.getProperties().getState().getValue());
 	}
 
 	public void addFields(GridPane gp) {

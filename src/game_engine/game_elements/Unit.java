@@ -39,7 +39,6 @@ public class Unit extends GameElement {
         addAffectors(affectors);
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
-        this.TTL = Integer.MAX_VALUE;
     }
     public Unit (String name, UnitProperties unitProperties, int numFrames) {
         super(name);
@@ -49,7 +48,6 @@ public class Unit extends GameElement {
         elapsedTime = 0;
         this.numFrames = numFrames;
         this.myChildren = new ArrayList<>();
-        this.TTL = Integer.MAX_VALUE;
     }
 
     public Unit (String name, int numFrames) {
@@ -61,11 +59,12 @@ public class Unit extends GameElement {
         this.numFrames = numFrames;
         myChildren = new ArrayList<>();
         parents = new ArrayList<>();
-        this.TTL = Integer.MAX_VALUE;
     }
+    
     public String getType(){
     	return this.getName().split("\\s+")[0];
     }
+    
     public Unit copyUnit () {
         Unit copy = this.copyShallowUnit();
         List<Unit> copiedChildren =
@@ -166,7 +165,10 @@ public class Unit extends GameElement {
     }
 
     public boolean isVisible () {
-        return this.getTTL() >= this.getElapsedTime();
+        if(this.getElapsedTime() == Integer.MAX_VALUE) {
+            return false;
+        }
+        return this.getTTL() > this.getElapsedTime();
     }
 
     public void incrementElapsedTime (int i) {
