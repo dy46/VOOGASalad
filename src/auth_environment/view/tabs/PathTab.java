@@ -83,7 +83,7 @@ public class PathTab extends Tab implements IWorkspace {
 		buildLevelComboBox();
 		drawMap();
 	}
-
+	
 	private void setupBorderPane() {
 		myBorderPane = new BorderPane(); 
 		setOnSelectionChanged(e -> refresh());
