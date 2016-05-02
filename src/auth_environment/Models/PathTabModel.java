@@ -54,8 +54,8 @@ public class PathTabModel implements IPathTabModel {
 
 	@Override
 	public void refresh(IAuthEnvironment auth) {
-		myCurrentBranch.clear();
-		myMapHandler = auth.getMapHandler();
+//		myCurrentBranch.clear();
+//		myMapHandler = auth.getMapHandler();
 		myLevels = auth.getLevels(); 
 	}
 
