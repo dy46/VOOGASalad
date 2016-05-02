@@ -1,6 +1,8 @@
 package auth_environment.delegatesAndFactories;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import javafx.scene.control.ContextMenu;
 import javafx.stage.DirectoryChooser;
@@ -8,6 +10,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FileChooserDelegate {
+	
+	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
+	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 		
     public File chooseFile(String title) {
 		return this.fileFromWindow(this.initChooser(title));
@@ -25,7 +30,6 @@ public class FileChooserDelegate {
     	return this.directoryFromWindow(this.initDirectoryChooser(title));
     }
     
-    // TODO: refactor
     public File save(String title) {
     	ContextMenu prefWindow = new ContextMenu();
         File file = this.initChooser(title).showSaveDialog(prefWindow.getOwnerWindow());
@@ -57,13 +61,14 @@ public class FileChooserDelegate {
     }
     
     private FileChooser addImageFilter(FileChooser f) {
-    	// TODO: do these need to be extracted? 
-    	f.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+    	f.getExtensionFilters().add(new ExtensionFilter(myNamesBundle.getString("imageFilterName"), 
+    			Arrays.asList(myNamesBundle.getString("imageFilterExtensions").split(" "))));
     	return f;
     }
     
     private FileChooser addXMLFilter(FileChooser f) {
-    	f.getExtensionFilters().add(new ExtensionFilter("XML Files", "*.xml")); 
+    	f.getExtensionFilters().add(new ExtensionFilter(myNamesBundle.getString("xmlFilterName"),
+    			Arrays.asList(myNamesBundle.getString("xmlFilterExtensions").split(" "))));
     	return f; 
     }
 
