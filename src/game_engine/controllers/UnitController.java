@@ -33,7 +33,7 @@ public class UnitController {
                            List<Unit> unitsToRemove) {
         this.myPlacedUnits = myPlacedUnits;
         this.myPlaceValidations = placeValidations;
-        this.myStore = new Store(1000);
+        this.myStore = store;
         this.unitsToRemove = unitsToRemove;
         myUnitUtility = new UnitUtilities();
     }
