@@ -58,7 +58,7 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
         List<PlaceValidation> myPlaceValidations = data.getPlaceValidations();
         myPlaceValidations.stream().forEach(pv -> pv.setEngine(this));
         myUnitController =
-                new UnitController(data.getPlacedUnits(), myPlaceValidations, new Store(100000),
+                new UnitController(data.getPlacedUnits(), myPlaceValidations, data.getStore(),
                                    unitsToRemove);
         myEnemyController = new EnemyController(myLevelController, myUnitController);
         setWorkspaceForAffectors(data.getPlacedUnits(), data.getLevels());
