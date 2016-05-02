@@ -19,7 +19,15 @@ public class StoreFactory {
 
 		myStore = new Store(0);
 	}
-	
+
+	public void setUnitLibrary(UnitLibrary ul) {
+		this.ul = ul;
+	}
+
+	public void setAffectorLibrary(AffectorLibrary al) {
+		this.al = al;
+	}
+
 	public void createNewStore(int money) {
 		myStore = new Store(money);
 	}
@@ -43,6 +51,9 @@ public class StoreFactory {
 	}
 
 	public void addUpgrade(String unitName, String upgradeName, int cost) {
+		System.out.println("AffectorLibID");
+		System.out.println(al.toString());
+
 		Unit toChange = ul.getUnitByName(unitName);
 		Affector upgradeToAdd = al.getAffector(upgradeName);
 		myStore.addUpgrade(toChange, upgradeToAdd, cost);

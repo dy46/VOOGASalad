@@ -21,6 +21,8 @@ public class AffectorLibrary {
 	private List<Affector> allAffectors;
 	
 	public AffectorLibrary(){
+		System.out.println("Created new AffectorLib");
+		System.out.println(this);
 		myAffectors = new HashMap<>();
 		allAffectors = new ArrayList<>();
 		namesToAffector = new HashMap<>();
@@ -60,6 +62,8 @@ public class AffectorLibrary {
 	}
 	
 	public List<String> getAffectorNames() {
+		System.out.println("AffectorLibID");
+		System.out.println(this.toString());
 	    return namesToAffector.keySet().stream().collect(Collectors.toList());
 	}
 	
