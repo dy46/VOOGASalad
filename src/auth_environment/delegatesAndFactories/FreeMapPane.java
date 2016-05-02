@@ -22,7 +22,7 @@ public class FreeMapPane extends Pane implements IMapPane{
 	
 	public void adjustUnitViewXY(UnitView uv, double x, double y){
 		uv.setX(x);
-		uv.setY(y - uv.getFitHeight());
+		uv.setY(y - uv.getFitHeight() - 10);
 	}
 	
 	public MapEditorTabModel getModel(){
