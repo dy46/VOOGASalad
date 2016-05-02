@@ -51,6 +51,7 @@ public class PathTab extends Tab implements IWorkspace {
 	private UnitPicker mySpawningUnitPicker; 
 	private UnitPicker myPlacingUnitPicker; 
 	private List<UnitView> myTerrains;
+	private Button toggleGrid; 
 
 	private IPathTabModel myPathTabModel;
 	private IAuthEnvironment myAuthEnvironment;
@@ -219,9 +220,10 @@ public class PathTab extends Tab implements IWorkspace {
 		drawGoalButton.setOnAction(e -> updateDrawIndex(1));
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
 		drawSpawnButton.setOnAction(e -> updateDrawIndex(2));
-		Button toggleGrid = myNodeFactory.buildButtonWithEventHandler("Grid", e -> {
+		toggleGrid = myNodeFactory.buildButtonWithEventHandler("Grid", e -> {
 			this.myPathTabModel.createGrid();
 			refresh(); 
+			toggleGrid.setDisable(true);
 		});
 		hb1.getChildren().addAll(
 				drawPathButton, 
