@@ -41,7 +41,7 @@ public class PathTab extends Tab implements IWorkspace {
 
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
-	
+
 	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
 	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
 
@@ -51,28 +51,27 @@ public class PathTab extends Tab implements IWorkspace {
 	private TextField myPathWidthField;
 	private Pane myPathPane;
 	private ComboBox<String> myLevelComboBox;
-	private ComboBox<String> myWaveComboBox; 
-	private UnitPicker mySpawningUnitPicker; 
-	private UnitPicker myPlacingUnitPicker; 
+	private ComboBox<String> myWaveComboBox;
+	private UnitPicker mySpawningUnitPicker;
+	private UnitPicker myPlacingUnitPicker;
 	private List<UnitView> myTerrains;
-	
+
 	private IPathTabModel myPathTabModel;
 	private IAuthEnvironment myAuthEnvironment;
 	private IAuthModel myAuthModel;
 	private int drawingIndex;
 	private List<Position> currentBranch;
 
-
 	public PathTab(String name, IAuthModel auth) {
-		super(name); 
+		super(name);
 		myAuthModel = auth;
 		myAuthEnvironment = auth.getIAuthEnvironment();
-		init(); 
+		init();
 	}
-	
+
 	private void init() {
-		myPathTabModel = new PathTabModel(myAuthEnvironment); 
-		myNodeFactory = new NodeFactory(); 
+		myPathTabModel = new PathTabModel(myAuthEnvironment);
+		myNodeFactory = new NodeFactory();
 		myTerrains = new ArrayList<>();
 		myPathPane = new Pane();
 		setupBorderPane();
@@ -88,45 +87,39 @@ public class PathTab extends Tab implements IWorkspace {
 		buildLevelComboBox();
 		drawMap();
 	}
-	
+
 	private void setupBorderPane() {
-		myBorderPane = new BorderPane(); 
+		myBorderPane = new BorderPane();
 		setOnSelectionChanged(e -> refresh());
 		myBorderPane.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneWidth")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultBorderPaneHeight")));
 		myBorderPane.setCenter(buildCenter());
 		myBorderPane.setRight(buildRight());
 	}
-	
+
 	private Node buildCenter() {
-		VBox center = buildDefaultVBox(); 
-		center.getChildren().addAll(
-				buildTextInput(),
-				myPathPane); 
+		VBox center = buildDefaultVBox();
+		center.getChildren().addAll(buildTextInput(), myPathPane);
 		addClickHandlers();
-		return center; 
+		return center;
 	}
 
 	private Node buildRight() {
-		VBox right = buildDefaultVBox(); 
+		VBox right = buildDefaultVBox();
 		right.getChildren().addAll(buildComboBoxes());
-		return right; 
+		return right;
 	}
-	
+
 	private Node buildComboBoxes() {
-		VBox vb = buildDefaultVBox(); 
+		VBox vb = buildDefaultVBox();
 		myLevelComboBox = new ComboBox<String>();
-		myWaveComboBox = new ComboBox<String>(); 
-		mySpawningUnitPicker = new UnitPicker(myNamesBundle.getString("spawnUnitsLabel")); 
+		myWaveComboBox = new ComboBox<String>();
+		mySpawningUnitPicker = new UnitPicker(myNamesBundle.getString("spawnUnitsLabel"));
 		myPlacingUnitPicker = new UnitPicker(myNamesBundle.getString("placeUnitsLabel"));
 		buildLevelComboBox();
-		vb.getChildren().addAll(
-				myLevelComboBox, 
-				myWaveComboBox, 
-				mySpawningUnitPicker.getRoot(),
-				myPlacingUnitPicker.getRoot()
-				); 
-		return vb; 
+		vb.getChildren().addAll(myLevelComboBox, myWaveComboBox, mySpawningUnitPicker.getRoot(),
+				myPlacingUnitPicker.getRoot());
+		return vb;
 	}
 
 	private void clearComboBoxes() {
@@ -140,24 +133,23 @@ public class PathTab extends Tab implements IWorkspace {
 		if (!myAuthModel.getIAuthEnvironment().getLevels().isEmpty()) {
 			myLevelComboBox.getItems().addAll(myPathTabModel.getLevelNames());
 			myLevelComboBox.setOnAction(event -> {
-				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
+				String selectedItem = ((ComboBox<String>) event.getSource()).getSelectionModel().getSelectedItem();
 				buildWaveComboBox(selectedItem);
 				event.consume();
 			});
-		}
-		else {
-			myLevelComboBox.getItems().add(myNamesBundle.getString("noLevelsLabel")); 
+		} else {
+			myLevelComboBox.getItems().add(myNamesBundle.getString("noLevelsLabel"));
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private void buildWaveComboBox(String levelName) {
 		myWaveComboBox.getItems().clear();
-		if (myPathTabModel.getWaveNames(levelName)!=null) {
+		if (myPathTabModel.getWaveNames(levelName) != null) {
 			myWaveComboBox.getItems().addAll(myPathTabModel.getWaveNames(levelName));
 			myWaveComboBox.setOnAction(event -> {
-				String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-				if (selectedItem!=null) {
+				String selectedItem = ((ComboBox<String>) event.getSource()).getSelectionModel().getSelectedItem();
+				if (selectedItem != null) {
 					buildUnitPicker(selectedItem);
 				}
 				event.consume();
@@ -195,18 +187,18 @@ public class PathTab extends Tab implements IWorkspace {
 		mySpawningUnitPicker.setUnits(myPathTabModel.getSpawningUnits(waveName));
 		myPlacingUnitPicker.setUnits(myPathTabModel.getPlacingUnits(waveName));
 	}
-	
+
 	private VBox buildDefaultVBox() {
 		return myNodeFactory.buildVBox(Double.parseDouble(myDimensionsBundle.getString("defaultVBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultVBoxPadding")));
 	}
 
 	private HBox buildTextInput() {
-		VBox vb = buildDefaultVBox(); 
+		VBox vb = buildDefaultVBox();
 		vb.getChildren().addAll(buildFirstRowButtons(), buildSecondRowButtons());
-		return myNodeFactory.centerNode(vb); 
+		return myNodeFactory.centerNode(vb);
 	}
-	
+
 	private HBox buildFirstRowButtons() {
 		HBox hb0 = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")), 0);
 		myPathWidthField = myNodeFactory.buildTextFieldWithPrompt(myNamesBundle.getString("pathWidthPrompt"));
@@ -238,10 +230,7 @@ public class PathTab extends Tab implements IWorkspace {
 		drawGoalButton.setOnAction(e -> updateDrawIndex(1));
 		Button drawSpawnButton = myNodeFactory.buildButton(myNamesBundle.getString("drawSpawn"));
 		drawSpawnButton.setOnAction(e -> updateDrawIndex(2));
-		hb1.getChildren().addAll(
-				drawPathButton, 
-				drawSpawnButton,
-				drawGoalButton);
+		hb1.getChildren().addAll(drawPathButton, drawSpawnButton, drawGoalButton);
 		return hb1;
 	}
 
@@ -263,20 +252,15 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private boolean checkValidInput(TextField input) {
-		return input.getText().length() > 0; 
+		return input.getText().length() > 0;
 	}
 
 	private void drawBranch(Branch branch) {
 		displayEndPoint(branch.getFirstPosition());
 		displayEndPoint(branch.getLastPosition());
 		Position lastPosDrawn = branch.getFirstPosition();
-		for(Position currPos : branch.getPositions()) {
-			addBoundLine(
-					lastPosDrawn.getX(), 
-					lastPosDrawn.getY(), 
-					currPos.getX(), 
-					currPos.getY(),
-					branch);
+		for (Position currPos : branch.getPositions()) {
+			addBoundLine(lastPosDrawn.getX(), lastPosDrawn.getY(), currPos.getX(), currPos.getY(), branch);
 			lastPosDrawn = currPos;
 			displayPoint(currPos);
 		}
@@ -295,11 +279,11 @@ public class PathTab extends Tab implements IWorkspace {
 		drawGoals();
 		drawCurrentBranch();
 	}
-	
+
 	private void drawTerrains() {
-		if(!myAuthEnvironment.getPlacedUnits().isEmpty()) {
+		if (!myAuthEnvironment.getPlacedUnits().isEmpty()) {
 			myAuthEnvironment.getPlacedUnits().stream().forEach(e -> {
-				UnitView temp = new UnitView (e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
+				UnitView temp = new UnitView(e, e.toString() + myNamesBundle.getString("defaultImageExtension"));
 				myTerrains.add(temp);
 			});
 			myPathPane.getChildren().addAll(myTerrains);
@@ -319,27 +303,22 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void addBoundLine(double startX, double startY, double endX, double endY, Branch branch) {
-		BoundLine b = new BoundLine(
-				new SimpleDoubleProperty(startX),
-				new SimpleDoubleProperty(startY),
-				new SimpleDoubleProperty(endX),
-				new SimpleDoubleProperty(endY));
+		BoundLine b = new BoundLine(new SimpleDoubleProperty(startX), new SimpleDoubleProperty(startY),
+				new SimpleDoubleProperty(endX), new SimpleDoubleProperty(endY));
 		myPathTabModel.saveBranch(b, branch);
-		b.setOnMouseClicked(e -> myPathTabModel.reselectBranch(b)); 
-		myPathPane.getChildren().add(b); 
+		b.setOnMouseClicked(e -> myPathTabModel.reselectBranch(b));
+		myPathPane.getChildren().add(b);
 	}
 
 	private void addClickHandlers() {
 		myPathPane.setOnMouseClicked(e -> {
 			if (e.isControlDown()) {
-				if(drawingIndex == 0) {
+				if (drawingIndex == 0) {
 					addPosition(e.getX(), e.getY());
 					currentBranch.add(new Position(e.getX(), e.getY()));
-				}
-				else if (drawingIndex == 1) {
+				} else if (drawingIndex == 1) {
 					addGoalPoint(e.getX(), e.getY());
-				}
-				else if (drawingIndex == 2) {
+				} else if (drawingIndex == 2) {
 					addSpawnPoint(e.getX(), e.getY());
 				}
 				drawMap();
@@ -364,12 +343,12 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void displayEndPoint(Position p) {
-		PathPoint point = new PathPoint(p, myPathTabModel.getPathWidth()); 
+		PathPoint point = new PathPoint(p, myPathTabModel.getPathWidth());
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREY);
 		point.getCircle().setOnMouseClicked(e -> {
-			if(e.getButton().equals(MouseButton.PRIMARY)) {
-				if(e.getClickCount() == 2) {
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				if (e.getClickCount() == 2) {
 					displayClickedPoint(p);
 					addPosition(point.getPosition().getX(), point.getPosition().getY());
 					currentBranch.add(point.getPosition());
@@ -380,14 +359,14 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void displayClickedPoint(Position p) {
-		PathPoint point = new PathPoint(p, myPathTabModel.getPathWidth()); 
+		PathPoint point = new PathPoint(p, myPathTabModel.getPathWidth());
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.RED);
 		myPathPane.getChildren().add(point.getCircle());
 	}
 
 	private void displaySpawnPoint(Position spawn) {
-		PathPoint point = new PathPoint(spawn, myPathTabModel.getPathWidth()); 
+		PathPoint point = new PathPoint(spawn, myPathTabModel.getPathWidth());
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.BLUE);
 		DragDelegate drag = new DragDelegate();
@@ -396,12 +375,12 @@ public class PathTab extends Tab implements IWorkspace {
 	}
 
 	private void displayGoalPoint(Position goal) {
-		PathPoint point = new PathPoint(goal, myPathTabModel.getPathWidth()); 
+		PathPoint point = new PathPoint(goal, myPathTabModel.getPathWidth());
 		point.getCircle().setStroke(Color.BLACK);
 		point.getCircle().setFill(Color.GREEN);
 		point.getCircle().setOnMouseClicked(e -> {
-			if(e.getButton().equals(MouseButton.PRIMARY)) {
-				if(e.getClickCount() == 2) {
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				if (e.getClickCount() == 2) {
 					myPathTabModel.addGoalToActiveLevel(point.getPosition());
 				}
 			}
@@ -412,7 +391,7 @@ public class PathTab extends Tab implements IWorkspace {
 	private void displayPoint(Position p) {
 		PathPoint point = new PathPoint(p, 1.0);
 		point.getCircle().setStroke(Color.BLACK);
-		myPathPane.getChildren().add(point.getCircle()); 
+		myPathPane.getChildren().add(point.getCircle());
 	}
 
 	@Override
