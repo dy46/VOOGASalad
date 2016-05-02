@@ -159,6 +159,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setAffectorFactory(AffectorFactory affectorFactory) {
 		myAffectorFactory = affectorFactory;
+		myStoreFactory.setAffectorLibrary(affectorFactory.getAffectorLibrary());
 	}
 	
 	@Override
@@ -204,6 +205,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setUnitFactory(UnitFactory unitFactory) {
 		myUnitFactory = unitFactory;
+		myStoreFactory.setUnitLibrary(unitFactory.getUnitLibrary());
 	}
 	
 	@Override
