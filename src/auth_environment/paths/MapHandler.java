@@ -19,6 +19,7 @@ public class MapHandler {
 	private PathGraphFactory myPGF;
 	private PositionHandler myPositionHandler;
 	private List<Position> mySpawns;
+	private List<Position> myBranches;
 	private List<Position> myGoals;
 
 	public MapHandler(){
@@ -63,7 +64,7 @@ public class MapHandler {
 		boolean match = false;
 		Position nearby = null;
 		for(Branch b : this.myPGF.getPathLibrary().getEngineBranches()){
-			for(Position branchPos : b.getPositions()){
+			for(Position branchPos : b.getEndPoints()){
 				if(pos.equals(branchPos)){
 					match = true;
 				}
@@ -85,11 +86,11 @@ public class MapHandler {
 	public List<Branch> getEngineBranches() {
 		return this.myPGF.getPathLibrary().getEngineBranches();
 	}
-	
+
 	public List<Branch> getAuthGrid() {
 		return this.myPGF.getAuthGrid();
 	}
-	
+
 	public List<Branch> getAuthBranches() {
 		return this.myPGF.getAuthBranches();
 	}

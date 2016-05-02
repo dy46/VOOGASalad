@@ -136,7 +136,6 @@ public class PathTabModel implements IPathTabModel {
 			List<Branch> branches = myActiveUnit.getProperties().getMovement().getBranches();
 			branches.add(b);
 			myActiveUnit.getProperties().getMovement().setBranches(branches);
-			currentLevel.addBranch(b);
 		}
 		return myBranchMap.get(line); 
 	}
@@ -165,14 +164,14 @@ public class PathTabModel implements IPathTabModel {
 	public void addGoalToActiveLevel(Position goal) {
 		myMapHandler.addGoal(goal);
 		if (currentLevel!=null) {
-			currentLevel.addGoal(goal);
+			currentLevel.addGoal(goal.copyPosition());
 		}
 	}
 
 	@Override
 	public void addSpawnToActiveLevel(Position spawn) {
 		if (currentLevel!=null) {
-			currentLevel.addSpawn(spawn);
+			currentLevel.addSpawn(spawn.copyPosition());
 		}
 	}
 

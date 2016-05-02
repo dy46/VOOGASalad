@@ -13,13 +13,5 @@ public abstract class WaveGoal {
 
     public abstract boolean reachedGoal (GameEngineInterface engineWorkspace);
 
-    public boolean isEnemyAtGoal (Unit e, Level currentLevel) {
-        for (Position p : currentLevel.getGoals()) {
-            if (e.getProperties().getPosition().equals(p)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

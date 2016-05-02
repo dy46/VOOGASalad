@@ -63,8 +63,8 @@ public class CloudStorage {
      * @param	depth is how far the recursive listing should go.
      */
     private static void listFolder (BoxFolder folder, int depth) {
+        String indent = "";
         for (BoxItem.Info itemInfo : folder) {
-            String indent = "";
             for (int i = 0; i < depth; i++) {
                 indent += INDENT_APPEND;
             }

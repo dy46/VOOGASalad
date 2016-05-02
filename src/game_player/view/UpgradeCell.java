@@ -16,7 +16,7 @@ public class UpgradeCell extends ListCell<Affector> {
         if (empty) {
             setText(null);
         } else {
-            setText(item.getClass().getSimpleName());
+            setText(item.getName());
         }
     }
 }

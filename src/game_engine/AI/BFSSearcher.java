@@ -29,6 +29,7 @@ public class BFSSearcher implements AISearcher {
 
 	public List<Branch> getPath(Position current) {
 		List<Position> visibleNodes = myVisibility.getVisibleNodes();
+		System.out.println(visibleNodes);
 		return getPath(current, visibleNodes);
 	}
 

@@ -7,6 +7,8 @@ import game_data.IDataConverter;
 import game_data.Serializer;
 import game_engine.EngineWorkspace;
 import game_engine.GameEngineInterface;
+import game_player.GameDataSource;
+import game_player.IGameDataSource;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,12 +39,14 @@ public class PlayerGUI {
     private File currentGame;
     private MediaPlayer myMusic;
     private IDataConverter<IAuthEnvironment> writer;
+    private IGameDataSource gameData;
 
     public PlayerGUI (int windowWidth, int windowHeight, IMainView main) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.myMainView = main;
         this.myResources = ResourceBundle.getBundle(GUI_RESOURCE);
+        this.gameData = new GameDataSource();
     }
 
     public Scene createPlayerScene () {
@@ -73,13 +77,14 @@ public class PlayerGUI {
     private IAuthEnvironment readData () {
         writer = new Serializer<>();
         currentGame = writer.chooseXMLFile();
+        this.gameData.setDoubleValue(currentGame.toString(), 0);
         IAuthEnvironment gameData = (IAuthEnvironment) writer.loadFromFile(currentGame);
         return gameData;
     }
 
     protected void createNewTab (IAuthEnvironment data) {
     	createNewEngine(data);
-        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, currentGame, this,
+        Tab tab = new PlayerMainTab(gameEngine, myResources, myScene, myMainView, this, gameData, 
                                     myResources.getString("TabName") +
                                                                       (myTabs.getTabs().size() + 1))
                                                                               .getTab();
@@ -90,6 +95,12 @@ public class PlayerGUI {
     private void createNewEngine(IAuthEnvironment data) {
         gameEngine = new EngineWorkspace();
         gameEngine.setUpEngine(data);
+    }
+    
+    protected void updateHighScore() {
+    	if (gameData.getDoubleValue(currentGame.toString()) < gameEngine.getLevelController().getScore()) { 
+    		gameData.setDoubleValue(currentGame.toString(), gameEngine.getLevelController().getScore());
+    	}
     }
     
     public void deleteCurrentTab() {
@@ -113,8 +124,13 @@ public class PlayerGUI {
     }
     
     public void loadNextLevel() {
-    	NextLevelScreen nextLevel = new NextLevelScreen(myResources, this);
+    	Screen nextLevel = new NextLevelScreen(myResources, this);
     	nextLevel.displayScreen();
+    }
+    
+    public void displayLossScreen() {
+    	Screen loseScreen = new LosingScreen(myResources, this);
+    	loseScreen.displayScreen();
     }
     
     public void setMusic(String name) {

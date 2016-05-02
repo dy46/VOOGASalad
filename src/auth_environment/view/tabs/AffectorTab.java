@@ -6,6 +6,7 @@ import auth_environment.Models.AffectorTabModel;
 import auth_environment.Models.Interfaces.IAffectorTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.view.UnitPicker;
+import game_engine.affectors.Affector;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -35,7 +36,16 @@ public class AffectorTab extends ElementTab{
         }
         
         public UnitPicker setUpUnitPicker(){
-             return new UnitPicker(getLabelsBundle().getString("editLabel"));    
+        	UnitPicker up = new UnitPicker(getLabelsBundle().getString("editLabel"));
+        	up.setAffector(this.myAffectorTabModel.getAffectorFactory().getAffectorLibrary().getAffectors());
+        	up.setMenu(this);
+        	return up;
+        }
+        
+        public void removeAffector(Affector affector){
+        	this.myAffectorTabModel.getAffectorFactory().getAffectorLibrary().getAffectors().remove(affector);
+        	System.out.println(this.myAffectorTabModel.getAffectorFactory().getAffectorLibrary().getAffectorNames().remove(affector.getName()));
+        	setUp();
         }
         
         public void setUpAnimation(BorderPane bp){}

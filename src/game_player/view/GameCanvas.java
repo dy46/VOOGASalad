@@ -11,7 +11,8 @@ import javafx.scene.layout.Pane;
 
 public class GameCanvas {
 	
-    private static final String AUTH_ENVIRONMENT_PROPERTIES_DIMENSIONS = "auth_environment/properties/dimensions";
+    private static final String FRONTEND_RESOURCE = "game_player/resources/FrontEnd";
+	private static final String AUTH_ENVIRONMENT_PROPERTIES_DIMENSIONS = "auth_environment/properties/dimensions";
 	private static final int CANVAS_WIDTH = 500;
     private static final int CANVAS_HEIGHT = 500;
 
@@ -37,7 +38,7 @@ public class GameCanvas {
     	myScrollPane = new ScrollPane();
         myCanvas = new Canvas(paneWidth, paneHeight);
         myGC = myCanvas.getGraphicsContext2D();
-        myGC.drawImage(new Image(myResources.getString("Background")), 0, 0);
+        myGC.drawImage(new Image(ResourceBundle.getBundle(FRONTEND_RESOURCE).getString("Background")), 0, 0);
         myRoot.getChildren().add(myCanvas);
         myScrollPane.setContent(myRoot);
         configureScrollPane(CANVAS_WIDTH, CANVAS_HEIGHT);

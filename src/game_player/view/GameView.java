@@ -2,6 +2,8 @@ package game_player.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import game_engine.GameEngineInterface;
 import game_engine.game_elements.Branch;
 import game_engine.game_elements.Unit;
@@ -19,7 +21,8 @@ import main.IMainView;
 
 public class GameView implements IGameView {
 
-    private static final String DEFAULT_PACKAGE = "game_player/view/";
+    private static final String FRONTEND_RESOURCE = "game_player/resources/FrontEnd";
+	private static final String DEFAULT_PACKAGE = "game_player/view/";
 	public static final int DEFAULT_UPDATE_SPEED = 1;
 	
     private Scene myScene;
@@ -88,10 +91,13 @@ public class GameView implements IGameView {
                 if (isPlaying) {
                 	if (playerEngineInterface.getLevelController().isGameOver()) {
                 		updateHighScore();
-                	}
-                	if (playerEngineInterface.getLevelController().isGameWon()) {
-                		AT.stop();
-                		playNextLevel();
+	                	if (playerEngineInterface.getLevelController().isGameWon()) {
+	                		AT.stop();
+	                		playNextLevel();
+	                	} else if (playerEngineInterface.getLevelController().isGameLost()) {
+	                		AT.stop();
+	                		displayLossScreen();
+	                	}
                 	}
                     timer++;
                     updateEngine();
@@ -111,14 +117,13 @@ public class GameView implements IGameView {
         myTab.updateGameElements();
     }
 
-    // TODO: Refactor when Adam is done with branches
     public void placePath () {
         List<Branch> currBranches = new ArrayList<>();
         currBranches.addAll(playerEngineInterface.getBranches());
         List<Position> allPositions = new ArrayList<>();
         currBranches.stream().forEach(cb -> allPositions.addAll(cb.getPositions()));
         for (int i = paths.size(); i < allPositions.size(); i++) {
-            Image img = new Image("DirtNew.png");
+            Image img = new Image(ResourceBundle.getBundle(FRONTEND_RESOURCE).getString("Path"));
             ImageView imgView = new ImageView(img);
             imgView.setX(allPositions.get(i).getX() - imgView.getImage().getWidth() / 2);
             imgView.setY(allPositions.get(i).getY() - imgView.getImage().getHeight() / 2);
@@ -142,6 +147,10 @@ public class GameView implements IGameView {
     public void playNextLevel() {
     	myGUI.loadNextLevel();
     }
+    
+    public void displayLossScreen() {
+    	myGUI.displayLossScreen();
+    }
 
     public void changeGameSpeed (double gameSpeed) {
         this.myUpdateSpeed = gameSpeed;
@@ -149,7 +158,7 @@ public class GameView implements IGameView {
     }
     
     private void updateHighScore() {
-    	myTab.updateHighScore();
+    	myGUI.updateHighScore();
     }
 
     public GameEngineInterface getGameEngine () {

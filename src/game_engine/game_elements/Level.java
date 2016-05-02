@@ -25,7 +25,6 @@ public class Level extends GameElement {
         this.myLives = myLives;
         this.startingLives = myLives;
         myWaves = new ArrayList<>();
-        myBranches = new ArrayList<>();
         myGoals = new ArrayList<>();
         mySpawns = new ArrayList<>();
     }
@@ -99,10 +98,6 @@ public class Level extends GameElement {
         return startingLives;
     }
 
-    public void setBranches (List<Branch> branches) {
-        this.myBranches = branches;
-    }
-
     public void decrementLife () {
         myLives--;
     }
@@ -168,12 +163,5 @@ public class Level extends GameElement {
         return false;
     }
 
-    public List<Branch> getBranches () {
-        return myBranches;
-    }
-
-    public void addBranch (Branch b) {
-        this.myBranches.add(b);
-    }
 
 }

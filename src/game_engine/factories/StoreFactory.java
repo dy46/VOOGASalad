@@ -16,7 +16,6 @@ public class StoreFactory {
 	public StoreFactory(UnitLibrary ul, AffectorLibrary al) {
 		this.ul = ul;
 		this.al = al;
-
 		myStore = new Store(0);
 	}
 	
@@ -29,7 +28,7 @@ public class StoreFactory {
 		myStore.addBuyableUnit(toAdd, cost);
 	}
 
-	public void addBuyableUnits(List<Pair<String, Integer>> unitsWithPrices) {
+	public void addBuyableUnits(List<Pair<String, Integer>> unitsWithPrices) {	    
 		for (Pair<String, Integer> p : unitsWithPrices) {
 			Unit toAdd = ul.getUnitByName((String) p.getLeft());
 			myStore.addBuyableUnit(toAdd, (Integer) p.getRight());
@@ -44,11 +43,12 @@ public class StoreFactory {
 
 	public void addUpgrade(String unitName, String upgradeName, int cost) {
 		Unit toChange = ul.getUnitByName(unitName);
+                System.out.println(ul.getUnitNames());
 		Affector upgradeToAdd = al.getAffector(upgradeName);
 		myStore.addUpgrade(toChange, upgradeToAdd, cost);
 	}
 
-	public void addUpgrades(List<String> unitNames, List<String> upgradeNames, List<Integer> costs) {
+	public void addUpgrades(List<String> unitNames, List<String> upgradeNames, List<Integer> costs) {        
 		for (int i = 0; i < unitNames.size(); i++) {
 			this.addUpgrade(unitNames.get(i), upgradeNames.get(i), costs.get(i));
 		}
@@ -56,6 +56,14 @@ public class StoreFactory {
 
 	public Store getStore() {
 		return this.myStore;
+	}
+	
+	public void setUnitLibrary(UnitLibrary ul) {
+	    this.ul = ul;
+	}
+	
+	public void setAffectorLibrary(AffectorLibrary al) {
+	    this.al = al;
 	}
 
 }

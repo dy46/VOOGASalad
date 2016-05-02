@@ -19,12 +19,12 @@ public class PathGraphFactory {
 
 	private PathLibrary myPathLibrary;
 	private PositionHandler myPositionHandler;
-	private BranchConfigurer myBranchConfigurer;
+	private BranchConfigurer myBranchHandler;
 
 	public PathGraphFactory(){
 		myPositionHandler = new PositionHandler();
 		myPathLibrary = new PathLibrary();
-		myBranchConfigurer = new BranchConfigurer();
+		myBranchHandler = new BranchConfigurer();
 	}
 
 	/**
@@ -38,12 +38,12 @@ public class PathGraphFactory {
 		Branch newBranch = new Branch(branchPos);
 		Branch currentBranch = myPathLibrary.getPathGraph().getBranchByPos(branchPos.get(0));
 		if(currentBranch != null){
-			myBranchConfigurer.configureBranch(newBranch, myPathLibrary.getPathGraph());
+			myBranchHandler.configureBranch(newBranch, myPathLibrary.getPathGraph());
 		}
 		else{
 			currentBranch = myPathLibrary.getPathGraph().getBranchByPos(branchPos.get(branchPos.size()-1));
 			if(currentBranch != null){
-				myBranchConfigurer.configureBranch(newBranch, myPathLibrary.getPathGraph());
+				myBranchHandler.configureBranch(newBranch, myPathLibrary.getPathGraph());
 			}
 		}
 		if(myPathLibrary.getPathGraph().getBranch(newBranch) == null){
@@ -54,12 +54,13 @@ public class PathGraphFactory {
 	}
 	
 	public void insertGrid(){
-		Position[][] positionGrid = createPosGrid(600, 600, 30);
+		Position[][] positionGrid = createPosGrid(500, 500, 50);
 		List<List<Position>> branchPosLists = createBranchPosLists(positionGrid);
 		for(List<Position> branchPos : branchPosLists){
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
 		}
 		List<Branch> gridBranches = myPathLibrary.getPathGraph().getBranches();
+		System.out.println("Grid branches: " + gridBranches);
 		myPathLibrary.setAuthVisualFilters(gridBranches);
 		List<Position> gridVisualNodes = new ArrayList<>();
 		for(Branch gridBranch : gridBranches){
@@ -70,7 +71,7 @@ public class PathGraphFactory {
 
 	private void insertBranchInPath(List<Position> branchPos, PathGraph path){
 		Branch newBranch = new Branch(branchPos);
-		myBranchConfigurer.configureBranch(newBranch, path);
+		myBranchHandler.configureBranch(newBranch, path);
 	}
 
 	private List<List<Position>> createBranchPosLists(Position[][] grid){

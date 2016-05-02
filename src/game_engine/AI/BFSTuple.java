@@ -25,6 +25,16 @@ public class BFSTuple implements SearchTuple {
 	}
 
 	public List<Branch> getPathTo(Position goal, Branch currBranch, Position currPos){
+//	    System.out.println("GOAL HERE");
+//	        System.out.println(goal);
+//	        System.out.println("CURR BRANCH HERE");
+//	        System.out.println(currBranch);
+//	        System.out.println("CURR POS");
+//	        System.out.println(currPos);
+//	        System.out.println("MY VISITED");
+//	        System.out.println(myVisited);
+//	        System.out.println("ENGINE BRANCHES HERE");
+//	        System.out.println(myEngineBranches);
 		if(!myVisited.contains(goal)){
 			return null;
 		}
