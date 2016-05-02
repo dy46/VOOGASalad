@@ -1,7 +1,6 @@
 package auth_environment.view.tabs;
 
 import java.io.File;
-import java.util.List;
 import java.util.ResourceBundle;
 import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
