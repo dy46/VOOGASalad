@@ -5,14 +5,21 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import auth_environment.Models.UnitView;
+import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.ElementTab;
 import auth_environment.view.tabs.UnitTab;
 import game_engine.game_elements.Unit;
+import javafx.event.EventHandler;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 
 public class UnitPicker{
 
@@ -75,8 +82,31 @@ public class UnitPicker{
 	public void add(Unit unit, ElementTab elementTab){
 		UnitView uv = new UnitView(unit, unit.toString() + myLabelsBundle.getString("pngLabel"));
 		myEditInfo.getChildren().add(uv);
-
 	}
+	
+	public void addContextMenu(UnitTab pane, UnitView uv){
+		uv.addEventHandler(MouseEvent.MOUSE_CLICKED,
+			    new EventHandler<MouseEvent>() {
+			        @Override public void handle(MouseEvent e) {
+			            if (e.getButton() == MouseButton.SECONDARY){ 
+			            	ContextMenu myContextMenu = buildContextMenu(pane, uv);
+			            	 myContextMenu.show(uv, e.getScreenX(), e.getScreenY());
+			            }
+			        }
+			});
+	}
+	
+	 private ContextMenu buildContextMenu(UnitTab target, UnitView uv){
+	    	ContextMenu cm = new ContextMenu();
+	    	MenuItem cmItem1 = new MenuItem("Delete");
+	    	MenuItem cmItem2 = new MenuItem("Edit");
+	    	cmItem1.setOnAction(e-> {target.removeUnit(uv.getUnit());
+	    		myUnitViews.remove(uv);
+	    	});
+	    	cmItem2.setOnAction(e->target.updateMenu(uv.getUnit()));
+	    	cm.getItems().addAll(cmItem1, cmItem2);
+	    	return cm;
+	    }
 
 	public TitledPane getRoot(){
 		return myEditPane;
@@ -84,9 +114,7 @@ public class UnitPicker{
 
 	public void setClickable(UnitTab elementTab) {
 		myUnitViews.stream().forEach(e -> {
-			e.setOnMouseClicked(l -> {
-				elementTab.removeUnit(e.getUnit());
-				myUnitViews.remove(e);});
+			this.addContextMenu(elementTab, e);
 		});
 		
 	}
