@@ -23,8 +23,8 @@ public class HealthImageViewProcessing extends ImageViewProcessing {
     public void processImageView (Unit myUnit) {
         boolean isHealth =
                 getResourceBundle().testUnitTypePreference(myUnit.toString(), NEEDS_HEALTH);
-        health.setFitWidth(myUnit.getProperties().getHealth().getValue() /
-                           myUnit.getProperties().getHealth().getInitialValue() *
+        health.setFitWidth((myUnit.getProperties().getHealth().getValue() /
+                           myUnit.getProperties().getHealth().getInitialValue()) *
                            health.getImage().getWidth());
         double xpos = isHealth ? getMainImageView().getX() : Integer.MAX_VALUE;
         double ypos = isHealth ? getMainImageView().getY() - 5 : Integer.MAX_VALUE;

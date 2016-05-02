@@ -37,7 +37,8 @@ public class GameCanvas {
     	myScrollPane = new ScrollPane();
         myCanvas = new Canvas(paneWidth, paneHeight);
         myGC = myCanvas.getGraphicsContext2D();
-        myGC.drawImage(new Image(myResources.getString("Background")), 0, 0);
+        myGC.drawImage(new Image(ResourceBundle.getBundle("game_player/resources/FrontEnd")
+        		.getString("Background")), 0, 0);
         myRoot.getChildren().add(myCanvas);
         myScrollPane.setContent(myRoot);
         configureScrollPane(CANVAS_WIDTH, CANVAS_HEIGHT);
