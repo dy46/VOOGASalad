@@ -42,6 +42,7 @@ public class AIHandler{
 		}
 		for(Unit u : activeAI){
 			List<Branch> currentPath = u.getProperties().getMovement().getBranches();
+			System.out.println("Current path: " + currentPath);
 			if(currentPath.size() == 0){
 				updateBranches(u);
 			}
@@ -51,13 +52,10 @@ public class AIHandler{
 	private void updateBranches(Unit u){
 		List<Branch> newBranches = new ArrayList<>();
 		Position currPos = u.getProperties().getPosition();
-	        System.out.println(currPos);
 		if(currPos == null){
 			currPos = myLevelController.getCurrentLevel().getSpawns().get(0);
 		}
 		newBranches = mySearcher.getPath(currPos);
-		System.out.println("NEW BRANCHES");
-		System.out.println(newBranches);
 		if(newBranches != null){
 			u.getProperties().getMovement().setBranches(newBranches);
 		}

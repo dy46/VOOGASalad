@@ -163,5 +163,9 @@ public class Level extends GameElement {
         return false;
     }
 
+	public void addBranch(Branch b) {
+		this.myBranches.addBranch(b);
+	}
+
 
 }

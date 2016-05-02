@@ -386,6 +386,7 @@ public class PathTab extends Tab implements IWorkspace {
         }
 
         private void displayGoalPoint(Position goal) {
+        		System.out.println("Goal: " + goal);
                 PathPoint point = new PathPoint(goal, myPathTabModel.getPathWidth()); 
                 point.getCircle().setStroke(Color.BLACK);
                 point.getCircle().setFill(Color.GREEN);
