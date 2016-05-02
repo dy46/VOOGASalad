@@ -98,7 +98,7 @@ public class StoreTab extends Tab implements IWorkspace {
 		input.setMaxWidth(Double.parseDouble(myDimensionsBundle.getString("storeInputWidth")));
 		input.setMinHeight(Double.parseDouble(myDimensionsBundle.getString("storeInputHeight")));
 		hbox.setMinWidth(Double.parseDouble(myDimensionsBundle.getString("storeBoxMinWidth")));
-		hbox.getChildren().add(input);
+//		hbox.getChildren().add(input);
 		hbox.getChildren().add(createEditButton(n));
 		costList.add(input);
 		return hbox;
@@ -129,7 +129,6 @@ public class StoreTab extends Tab implements IWorkspace {
 			for (int i = 0; i < nacs.affectorCost.size(); i++)
 				nameList.add(nacs.getName());
 
-			myStoreTabModel.addBuyableUnit(nacs.getName(), nacs.getCost());
 			myStoreTabModel.addBuyableUpgrades(nameList, nacs.affectorNames, nacs.affectorCost);
 		}
 	}
@@ -168,12 +167,5 @@ public class StoreTab extends Tab implements IWorkspace {
 			return comboBox.getValue();
 		}
 
-		public int getCost() {
-			try {
-				return Integer.parseInt(cost.getText());
-			} catch (Exception e) {
-				return 0;
-			}
-		}
 	}
 }
