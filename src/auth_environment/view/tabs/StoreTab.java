@@ -67,6 +67,8 @@ public class StoreTab extends Tab implements IWorkspace {
                     .addAll(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary()
                             .getUnitNames());
         });
+        myStoreTabModel.getStoreFactory().setAffectorLibrary(this.myAuthModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary());
+        myStoreTabModel.getStoreFactory().setUnitLibrary(this.myAuthModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary());
     }
 
     private void createProductList (int index, GridPane newTableInfo, Button dButton) {

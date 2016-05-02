@@ -13,7 +13,8 @@ public class StoreTabModel {
 
 	public StoreTabModel(IAuthModel authModel) {
 		this.myAuthEnvironment = authModel.getIAuthEnvironment();
-		this.myStoreFactory = this.myAuthEnvironment.getStoreFactory();
+		this.myStoreFactory = new StoreFactory(authModel.getIAuthEnvironment().getUnitFactory().getUnitLibrary(),
+		                                       authModel.getIAuthEnvironment().getAffectorFactory().getAffectorLibrary());
 	}
 
 	public void addBuyableUnit(String name, int cost) {
@@ -30,6 +31,10 @@ public class StoreTabModel {
 
 	public void addBuyableUpgrades(List<String> names, List<String> upgradeNames, List<Integer> costs) {
 		this.myStoreFactory.addUpgrades(names, upgradeNames, costs);
+	}
+	
+	public StoreFactory getStoreFactory() {
+	    return myStoreFactory;
 	}
 
 }
