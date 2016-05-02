@@ -1,6 +1,7 @@
 package game_player.view;
 
 import game_player.GameDataSource;
+import game_player.IGameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import game_player.interfaces.IPlayerTab;
@@ -41,7 +42,7 @@ public class PlayerMainTab implements IPlayerTab {
     private ResourceBundle myPreferencesResources;
     private ResourceBundle elementsResources;
     private ResourceBundle preferencesResources;
-    private GameDataSource gameData;
+    private IGameDataSource gameData;
     private List<IGUIObject> gameElements;
     private IGameView gameView;
     private GameCanvas myCanvas;
@@ -49,7 +50,6 @@ public class PlayerMainTab implements IPlayerTab {
     private Scene myScene;
     private IMainView myMainView;
     private String tabName;
-    private File gameFile;
     private PlayerGUI myGUI;
     private VBox gameSection;
     private VBox configurationPanel;
@@ -63,8 +63,8 @@ public class PlayerMainTab implements IPlayerTab {
                           ResourceBundle r,
                           Scene scene,
                           IMainView main,
-                          File gameFile,
                           PlayerGUI GUI,
+                          IGameDataSource data,
                           String tabName) {
         this.gameEngine = engine;
         this.myGUIResources = r;
@@ -72,13 +72,11 @@ public class PlayerMainTab implements IPlayerTab {
         this.gameElements = new ArrayList<>();
         this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
         this.preferencesResources = ResourceBundle.getBundle(PREFERENCES_ELEMENTS);
-        this.gameData = new GameDataSource();
         this.myScene = scene;
         this.myMainView = main;
-        this.gameFile = gameFile;
         this.myGUI = GUI;
+        this.gameData = data;
         this.tabName = tabName;
-        this.gameData.setDoubleValue(gameFile.toString(), 0);
     }
 
     @Override
@@ -166,12 +164,6 @@ public class PlayerMainTab implements IPlayerTab {
         for (IGUIObject object : gameElements) {
             object.updateNode();
         }
-    }
-    
-    protected void updateHighScore() {
-    	if (gameData.getDoubleValue(gameFile.toString()) < gameEngine.getLevelController().getScore()) { 
-    		gameData.setDoubleValue(gameFile.toString(), gameEngine.getLevelController().getScore());
-    	}
     }
 
     protected void addToTowerPanel (Node element) {
