@@ -8,8 +8,10 @@ import auth_environment.Models.AffectorView;
 import auth_environment.Models.UnitView;
 import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
+import auth_environment.view.tabs.AffectorTab;
 import auth_environment.view.tabs.ElementTab;
 import auth_environment.view.tabs.UnitTab;
+import game_engine.affectors.Affector;
 import game_engine.game_elements.Unit;
 import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
@@ -75,14 +77,14 @@ public class UnitPicker{
 		setDragable();
 	}
 	
-	public void setAffector(List<String> affectors){
+	public void setAffector(List<Affector> affectors){
 		this.myAffectors.clear();
 		this.myEditInfo.getChildren().clear();
 		affectors.stream().forEach(s -> myAffectors.add(new AffectorView(s)));
 		this.myEditInfo.getChildren().addAll(this.myAffectors);
 	}
 	
-	public void addAffector(String s){
+	public void addAffector(Affector s){
 		myAffectors.add(new AffectorView(s));
 	}
 	
@@ -122,6 +124,28 @@ public class UnitPicker{
 	    	return cm;
 	    }
 
+	 public void addAffectorContextMenu(AffectorTab pane, AffectorView uv){
+			uv.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				    new EventHandler<MouseEvent>() {
+				        @Override public void handle(MouseEvent e) {
+				            if (e.getButton() == MouseButton.SECONDARY){ 
+				            	ContextMenu myContextMenu = buildAffectorContextMenu(pane, uv);
+				            	 myContextMenu.show(uv, e.getScreenX(), e.getScreenY());
+				            }
+				        }
+				});
+		}
+		
+		 private ContextMenu buildAffectorContextMenu(AffectorTab target, AffectorView uv){
+		    	ContextMenu cm = new ContextMenu();
+		    	MenuItem cmItem1 = new MenuItem("Delete");
+		    	cmItem1.setOnAction(e-> {target.removeAffector(uv.getAffector());
+		    		myAffectors.remove(uv);
+		    	});
+		    	cm.getItems().addAll(cmItem1);
+		    	return cm;
+		    }
+		 
 	public TitledPane getRoot(){
 		return myEditPane;
 	}
@@ -131,5 +155,10 @@ public class UnitPicker{
 			this.addContextMenu(elementTab, e);
 		});
 		
+	}
+	public void setMenu(AffectorTab pane){
+		myAffectors.stream().forEach(e -> {
+			this.addAffectorContextMenu(pane, e);
+		});
 	}
 }

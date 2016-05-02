@@ -61,4 +61,10 @@ Andy (ownzandy) - Setting up API/JARs
 
 Brian (briguy52) - Integration in authoring environment
 
-##Starting Class: Main.java (Main package)
+* Starting Class: Main.java
+
+* There are many resource files required by the project. These resource files can be found in a package within each of the respective parts of the project. The authoring environment has its resource files within src/auth_environment/properties. The game player has its resource files within src/game_player/resources. The data, such as images and music, needed to run the game is found in the game_images file. 
+
+* The program is relatively self explanatory. Once the program is run, the main screen will pop up. If the user wants to create a new game, they will click build a game, and they will configure all of the settings of their game through the authoring environment. They will have to create the game's enemies, towers, paths, affectors, levels, and waves. Once all of these elements are created successfully, the user can save their game to an XML file to be played in the game player. They can press Play a Game to load in the XML file and the player will appear. The game will being immediately, and there are preferences on the side that they can configure if they desire.
+
+* Known Bugs:
