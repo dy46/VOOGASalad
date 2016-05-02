@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
 import game_engine.game_elements.Branch;
+import game_engine.handlers.BranchHandler;
 import game_engine.properties.Position;
 
 public class BFSTuple implements SearchTuple {
@@ -25,16 +26,6 @@ public class BFSTuple implements SearchTuple {
 	}
 
 	public List<Branch> getPathTo(Position goal, Branch currBranch, Position currPos){
-//	    System.out.println("GOAL HERE");
-//	        System.out.println(goal);
-//	        System.out.println("CURR BRANCH HERE");
-//	        System.out.println(currBranch);
-//	        System.out.println("CURR POS");
-//	        System.out.println(currPos);
-//	        System.out.println("MY VISITED");
-//	        System.out.println(myVisited);
-//	        System.out.println("ENGINE BRANCHES HERE");
-//	        System.out.println(myEngineBranches);
 		if(!myVisited.contains(goal)){
 			return null;
 		}
@@ -44,7 +35,8 @@ public class BFSTuple implements SearchTuple {
 			pathStack.push(current);
 		}
 		pathStack.push(current);
-		return mySearchHandler.createPath(pathStack, currBranch, currPos);
+		List<Branch> path = mySearchHandler.createPath(pathStack, currBranch, currPos);
+		return new BranchHandler().processBranches(path);
 	}
 
 	public boolean hasPathTo(Position pos) {
