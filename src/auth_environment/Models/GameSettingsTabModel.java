@@ -46,6 +46,12 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	@Override
 	public void loadFromFile() {
 		this.myAuthModel.setIAuthEnvironment((IAuthEnvironment) writer.loadElement());
+		if (this.myAuthModel.getIAuthEnvironment()!=null && this.myAuthModel.getIAuthEnvironment().getBranches().size()>0) {
+			this.myAuthModel.getIAuthEnvironment().getBranches().clear();
+			this.myAuthModel.getIAuthEnvironment().getLevels().stream().forEach(l -> {
+				l.getBranches().clear();
+			});
+		}
 	}
 
 	@Override
