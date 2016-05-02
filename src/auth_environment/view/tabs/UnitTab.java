@@ -179,6 +179,7 @@ public class UnitTab extends ElementTab{
 	}
 	
 	public void updateMenu(Unit unit) {
+		setUp();
 			String[] name = unit.getType().split("_");
 			strTextMap.get("Type").setText(name[0]);
 			strComboMap.get("UnitType").setValue(name[1]);
@@ -209,13 +210,16 @@ public class UnitTab extends ElementTab{
 			
 			for(int i = 1; i < affectors.size(); i++){
 				a.fire();
-				
+				affectorsToUnit.get(i).setValue(affectors.get(i).getName());
 			}
 			
-//			private List<ComboBox<String>> affectorsToUnit;
-//			private List<ComboBox<String>> affectorsToApply;
-//			private List<ComboBox<String>> myProjectiles;
-			
-		
+			for(int i = 1; i < ata.size(); i++){
+				apply.fire();
+				affectorsToApply.get(i).setValue(ata.get(i).getName());
+			}
+			for(int i = 1; i < children.size(); i++){
+				proj.fire();
+				myProjectiles.get(i).setValue(children.get(i).getName());
+			}
 	}
 }
