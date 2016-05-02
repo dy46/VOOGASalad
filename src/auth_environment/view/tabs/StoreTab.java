@@ -128,8 +128,6 @@ public class StoreTab extends Tab implements IWorkspace {
 			List<String> nameList = new ArrayList<>();
 			for (int i = 0; i < nacs.affectorCost.size(); i++)
 				nameList.add(nacs.getName());
-
-			myStoreTabModel.addBuyableUnit(nacs.getName(), nacs.getCost());
 			myStoreTabModel.addBuyableUpgrades(nameList, nacs.affectorNames, nacs.affectorCost);
 		}
 	}
