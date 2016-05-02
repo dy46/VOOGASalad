@@ -30,7 +30,7 @@ public class GameData implements IGameData {
 	private FunctionFactory myFunctionFactory = new FunctionFactory();
 	private AffectorFactory myAffectorFactory = new AffectorFactory(myFunctionFactory);
 	private UnitFactory myUnitFactory = new UnitFactory();
-	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary()); 
+	private StoreFactory myStoreFactory = new StoreFactory(myUnitFactory.getUnitLibrary(), myAffectorFactory.getAffectorLibrary());
 
 	@Override
 	public List<Level> getLevels() {
