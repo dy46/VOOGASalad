@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import auth_environment.Models.AffectorView;
 import auth_environment.Models.UnitView;
-import auth_environment.Models.Interfaces.IMapPane;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.view.tabs.AffectorTab;
 import auth_environment.view.tabs.ElementTab;
@@ -22,7 +21,6 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 
 public class UnitPicker{
 
@@ -119,8 +117,8 @@ public class UnitPicker{
 	
 	 private ContextMenu buildContextMenu(UnitTab target, UnitView uv){
 	    	ContextMenu cm = new ContextMenu();
-	    	MenuItem cmItem1 = new MenuItem("Delete");
-	    	MenuItem cmItem2 = new MenuItem("Edit");
+	    	MenuItem cmItem1 = new MenuItem(myLabelsBundle.getString("deleteLabel"));
+	    	MenuItem cmItem2 = new MenuItem(myLabelsBundle.getString("editLabel"));
 	    	cmItem1.setOnAction(e-> {target.removeUnit(uv.getUnit());
 	    		myUnitViews.remove(uv);
 	    	});
@@ -143,7 +141,7 @@ public class UnitPicker{
 		
 		 private ContextMenu buildAffectorContextMenu(AffectorTab target, AffectorView uv){
 		    	ContextMenu cm = new ContextMenu();
-		    	MenuItem cmItem1 = new MenuItem("Delete");
+		    	MenuItem cmItem1 = new MenuItem(myLabelsBundle.getString("deleteLabel"));
 		    	cmItem1.setOnAction(e-> {target.removeAffector(uv.getAffector());
 		    		myAffectors.remove(uv);
 		    	});

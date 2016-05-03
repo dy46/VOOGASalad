@@ -119,4 +119,8 @@ public abstract class Affector {
     public void setUnitList (List<Unit> unitList) {
         this.unitList = unitList;
     }
+    
+    public String toString(){
+    	return name;
+    }
 }
