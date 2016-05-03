@@ -69,7 +69,6 @@ public class PathTab extends Tab implements IWorkspace {
 
         private void init() {
                 myPathTabModel = new PathTabModel(myAuthEnvironment); 
-//              this.addConfirmationDialog();
                 myNodeFactory = new NodeFactory(); 
                 myTerrains = new ArrayList<>();
                 myPathPane = new Pane();
@@ -86,16 +85,6 @@ public class PathTab extends Tab implements IWorkspace {
                 buildLevelComboBox();
                 drawMap();
         }
-
-        private void addConfirmationDialog() {
-                boolean confirmation = new ConfirmationDialog().getConfirmation(
-                                myNamesBundle.getString("gridHeaderText"),
-                                myNamesBundle.getString("gridContextText"));
-                if(confirmation) {
-                        myPathTabModel.createGrid();
-                }
-        }
-
 
         private void setupBorderPane() {
                 myBorderPane = new BorderPane(); 
