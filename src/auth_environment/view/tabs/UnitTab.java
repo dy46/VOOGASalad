@@ -1,15 +1,11 @@
 package auth_environment.view.tabs;
 
-//refactor the addCombo and addTextFields, they are the same for unit and affector tab
-
-
 import java.util.*;
 
 import auth_environment.Models.ElementTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IElementTabModel;
 import auth_environment.view.UnitPicker;
-import game_engine.affectors.Affector;
 import game_engine.factories.UnitFactory;
 import game_engine.game_elements.Unit;
 import javafx.scene.control.*;
@@ -25,9 +21,9 @@ public class UnitTab extends ElementTab{
 	private List<String> unitNames;
 	private AnimationPane myAnimationPane;
 	
-	private Button proj;
-	private Button a;
-	private Button apply;
+	private Button childButton;
+	private Button affectorButton;
+	private Button applyButton;
 
 	private IElementTabModel myElementTabModel;
 	private IAuthModel myAuthModel;
@@ -72,23 +68,11 @@ public class UnitTab extends ElementTab{
 	}
 	
 	private void addTextFields(GridPane gp){
-		for(String s: Arrays.asList(getLabelsBundle().getString("unitTextProperties").split(getLabelsBundle().getString("regex")))){
-			getCreator().createTextLabels(gp, s, getIndex(), 1,
-					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-			strTextMap.put(s, getCreator().createTextField(gp, getIndex(), 2));
-			iterateIndex();
-		}
+    	addText(getLabelsBundle().getString("unitTextProperties"), gp, strTextMap);
 	}
 	
 	private void addComboFields(GridPane gp){
-		for(String s: Arrays.asList(getLabelsBundle().getString("unitComboProperties").split(getLabelsBundle().getString("regex")))){
-			getCreator().createTextLabels(gp, s , getIndex(), 1,
-					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-			ComboBox<String> cb = getCreator().createStringComboBox(gp, Arrays.asList(getLabelsBundle()
-					.getString(s).split(getLabelsBundle().getString("regex"))), getIndex(), 2);
-			strComboMap.put(s, cb);
-			iterateIndex();
-		}
+    	addCombo(gp, getLabelsBundle().getString("unitComboProperties"), strComboMap);
 	}
 
 	public void createNewElement() {
@@ -103,15 +87,10 @@ public class UnitTab extends ElementTab{
 				strToDoubleMap.put(str, val);
 			}
     	
-			ComboBox<String> cb = strComboMap.get("State");
+			ComboBox<String> cb = strComboMap.get(getLabelsBundle().getString("stateText"));
 			List<Double> list = new ArrayList<Double>();
-			double state = cb.getItems().indexOf(cb.getValue());
-			if(state < 0 || state > 5){
-				state = 0;
-			}
-					
-			list.add(state);
-			strToDoubleMap.put("State", list);
+			list.add((double)cb.getItems().indexOf(cb.getValue()));
+			strToDoubleMap.put(getLabelsBundle().getString("stateText"), list);
   	
 			createUnit(name, strToDoubleMap, comboListToStringList(myProjectiles),
     			comboListToStringList(affectorsToUnit), comboListToStringList(affectorsToApply));
@@ -127,18 +106,17 @@ public class UnitTab extends ElementTab{
 			Unit unit = myUnitFactory.createUnit(name,
 	    		strComboMap.get(getLabelsBundle().getString("unitTypeText")).getValue(), map, projectiles, atu, ata);
 			myAnimationPane.getAnimationLoaderTab().setUnit(unit);
-			System.out.println(unit.getProperties().getState().getValue());
 			myUnitFactory.getUnitLibrary().addUnit(unit);
 	}
 
 	public void addFields(GridPane gp) {
 		addComboFields(gp);
 		addTextFields(gp);
-		proj = addTextComboButtonTrio(gp, unitNames, myProjectiles,
+		childButton = addTextComboButtonTrio(gp, unitNames, myProjectiles,
 				getLabelsBundle().getString("childButton"), getLabelsBundle().getString("childText"));
-		a = addTextComboButtonTrio(gp, affectorNames, affectorsToUnit,
+		affectorButton = addTextComboButtonTrio(gp, affectorNames, affectorsToUnit,
 				getLabelsBundle().getString("affectorsButton"), getLabelsBundle().getString("affectorsText"));
-		apply =addTextComboButtonTrio(gp, affectorNames, affectorsToApply,
+		applyButton =addTextComboButtonTrio(gp, affectorNames, affectorsToApply,
 				getLabelsBundle().getString("applyButton"), getLabelsBundle().getString("applyText"));		
 	}
 	
@@ -180,46 +158,33 @@ public class UnitTab extends ElementTab{
 	
 	public void updateMenu(Unit unit) {
 		setUp();
-			String[] name = unit.getType().split("_");
-			strTextMap.get("Type").setText(name[0]);
-			strComboMap.get("UnitType").setValue(name[1]);
-			strTextMap.get("DeathDelay").setText(unit.getDeathDelay() + "");
-			strTextMap.get("NumFrames").setText(unit.getNumFrames()+"");
-			strTextMap.get("Speed").setText(unit.getProperties().getVelocity().getSpeed() +"");//check these 3
-			strTextMap.get("Direction").setText(unit.getProperties().getVelocity().getDirection() + ""); //
-			strTextMap.get("Price").setText(unit.getProperties().getPrice().getValue()+""); //
-			strComboMap.get("State").setValue(strComboMap.get("State").getItems().get((int)unit.getProperties().getState().getValue()));
-			strTextMap.get("Health").setText(unit.getProperties().getHealth().getValue()+"");
-			strTextMap.get("Bounds").setText(unit.getProperties().getBounds().toString());
-			strTextMap.get("Range").setText(unit.getProperties().getRange().toString());
-			strTextMap.get("TTL").setText(unit.getTTL()+"");
-			strTextMap.get("Mass").setText(unit.getProperties().getMass().getMass()+"");
+		String[] name = unit.getType().split("_");
+		strTextMap.get(getLabelsBundle().getString("typeText")).setText(name[0]);
+		strComboMap.get(getLabelsBundle().getString("unitTypeText")).setValue(name[1]);
+		strTextMap.get(getLabelsBundle().getString("deathDelayText")).setText(unit.getDeathDelay() + "");
+		strTextMap.get(getLabelsBundle().getString("numFramesText")).setText(unit.getNumFrames()+"");
+		strTextMap.get(getLabelsBundle().getString("speedText")).setText(unit.getProperties().getVelocity().getSpeed() +"");
+		strTextMap.get(getLabelsBundle().getString("directionText")).setText(unit.getProperties().getVelocity().getDirection() + "");
+		strTextMap.get(getLabelsBundle().getString("priceText")).setText(unit.getProperties().getPrice().getValue()+"");
+		strComboMap.get(getLabelsBundle().getString("stateText")).setValue(
+				strComboMap.get(getLabelsBundle().getString("stateText")).getItems().get((int)unit.getProperties().getState().getValue()));
+		strTextMap.get(getLabelsBundle().getString("healthText")).setText(unit.getProperties().getHealth().getValue()+"");
+		strTextMap.get(getLabelsBundle().getString("boundsText")).setText(unit.getProperties().getBounds().toString());
+		strTextMap.get(getLabelsBundle().getString("rangeText")).setText(unit.getProperties().getRange().toString());
+		strTextMap.get(getLabelsBundle().getString("ttlText")).setText(unit.getTTL()+"");
+		strTextMap.get(getLabelsBundle().getString("massText")).setText(unit.getProperties().getMass().getMass()+"");
 			
-			List<Affector> affectors = unit.getAffectors();
-			List<Affector> ata = unit.getAffectorsToApply();
-			List<Unit> children = unit.getChildren();
-			if(affectors.size() > 0){
-				affectorsToUnit.get(0).setValue(affectors.get(0).getName());
-			}
-			if(ata.size() > 0){
-				affectorsToApply.get(0).setValue(affectors.get(0).getName());
-			}
-			if(children.size() > 0){
-				myProjectiles.get(0).setValue(affectors.get(0).getName());
-			}
-			
-			for(int i = 1; i < affectors.size(); i++){
-				a.fire();
-				affectorsToUnit.get(i).setValue(affectors.get(i).getName());
-			}
-			
-			for(int i = 1; i < ata.size(); i++){
-				apply.fire();
-				affectorsToApply.get(i).setValue(ata.get(i).getName());
-			}
-			for(int i = 1; i < children.size(); i++){
-				proj.fire();
-				myProjectiles.get(i).setValue(children.get(i).getName());
-			}
+		updateComboBox(unit.getAffectors().toString(), affectorsToUnit, affectorButton);
+		updateComboBox(unit.getAffectorsToApply().toString(), affectorsToApply, applyButton);
+		updateComboBox(unit.getChildren().toString(), myProjectiles, childButton);
+	}
+	
+	private void updateComboBox(String names, List<ComboBox<String>> comboList, Button button){
+		String[] list = names.substring(1,names.length()-1).replaceAll(getLabelsBundle().getString("commaText"), "").split(getLabelsBundle().getString("regex"));
+		for(int i = 0; i < list.length - 1; i++){
+			comboList.get(i).setValue(list[i]);
+			button.fire();
+		}
+		comboList.get(list.length-1).setValue(list[list.length-1]);
 	}
 }

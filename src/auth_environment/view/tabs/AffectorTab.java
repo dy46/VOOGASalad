@@ -77,20 +77,11 @@ public class AffectorTab extends ElementTab{
         }
         
         private void addTextFields(GridPane gp){
-                for(String s: Arrays.asList(getLabelsBundle().getString("affectorTextFields").split(getLabelsBundle().getString("regex")))){
-                        getCreator().createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-                        strTextMap.put(s, getCreator().createTextField(gp, getIndex(), 2));
-                        iterateIndex();
-                }
+        	addText(getLabelsBundle().getString("affectorTextFields"), gp, strTextMap);
         }
         
         private void addComboBoxes(GridPane gp){
-                for(String s: Arrays.asList(getLabelsBundle().getString("affectorComboBoxes").split(getLabelsBundle().getString("regex")))){
-                        getCreator().createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
-                        strDropMap.put(s, getCreator().createStringComboBox(gp, Arrays.asList(
-                                        getLabelsBundle().getString(s).split(getLabelsBundle().getString("regex"))), getIndex(), 2));
-                        iterateIndex();
-                }
+        	addCombo(gp, getLabelsBundle().getString("affectorComboBoxes"), strDropMap);
         }
         
         private ComboBox<String> addEffects(GridPane gp){

@@ -135,6 +135,25 @@ public abstract class ElementTab extends Tab{
         		new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString(s+2))));
 		return gridPane;
 	}	
+        
+    public void addText(String value, GridPane gp, Map<String, TextField> strTextMap){
+        for(String s: Arrays.asList(value.split(getLabelsBundle().getString("regex")))){
+            myCreator.createTextLabels(gp, s, getIndex(), 1, Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+            strTextMap.put(s, myCreator.createTextField(gp, getIndex(), 2));
+            iterateIndex();
+        }
+    }
+    
+    public void addCombo(GridPane gp, String value, Map<String, ComboBox<String>> strComboMap){
+		for(String s: Arrays.asList(value.split(getLabelsBundle().getString("regex")))){
+			myCreator.createTextLabels(gp, s , getIndex(), 1,
+					Double.parseDouble(getDimensionsBundle().getString("rowConstraintSize")));
+			ComboBox<String> cb = myCreator.createStringComboBox(gp, Arrays.asList(getLabelsBundle()
+					.getString(s).split(getLabelsBundle().getString("regex"))), getIndex(), 2);
+			strComboMap.put(s, cb);
+			iterateIndex();
+		}
+    }
 	
 	public List<String> comboListToStringList(List<ComboBox<String>> comboList){
 		List<String> list = new ArrayList<String>();
