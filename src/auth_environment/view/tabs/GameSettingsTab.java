@@ -1,15 +1,9 @@
 package auth_environment.view.tabs;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
 import auth_environment.Models.Interfaces.IGameSettingsTabModel;
-import auth_environment.delegatesAndFactories.FileChooserDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -39,14 +33,10 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 
-	private static final String URLS_PACKAGE = "auth_environment/properties/urls";
-	private ResourceBundle myURLSBundle = ResourceBundle.getBundle(URLS_PACKAGE);
-
 	private NodeFactory myNodeFactory;
 	private IMainView myMainView; 
 
 	private BorderPane myBorderPane;
-	private ImageView mySplashPreview;
 	private TextField myGameNameField;
 
 	private IGameSettingsTabModel myGameSettingsTabModel;
@@ -78,7 +68,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		center.getChildren().addAll(
 				buildWompImage(),
 				buildTextInput(),
-				buildSplashChooser(), 
 				buildButtonRow()
 				);
 		return center; 
@@ -105,18 +94,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
 		hb.getChildren().addAll(myGameNameField, submitNameButton);
-		return myNodeFactory.centerNode(hb); 
-	}
-
-	private Node buildSplashChooser() {
-		mySplashPreview = myNodeFactory.buildImageView(myURLSBundle.getString("placeholderImage"),
-				Double.parseDouble(myDimensionsBundle.getString("splashPreviewWidth")),
-				Double.parseDouble(myDimensionsBundle.getString("splashPreviewHeight")));
-		Button splashButton = myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("chooseSplashLabel"), 
-				e -> this.chooseSplash());
-		HBox hb = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
-				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		hb.getChildren().addAll(mySplashPreview, splashButton); 
 		return myNodeFactory.centerNode(hb); 
 	}
 
@@ -184,29 +161,6 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		vb.getChildren().add(myNodeFactory.buildLabel(name));
 		vb.getChildren().add(cbox);
 		return vb;
-	}
-
-	private void chooseSplash() {
-		FileChooserDelegate chooser = new FileChooserDelegate();
-		File f = chooser.chooseImage("Choose a Background Image"); 
-		if (f!=null) {
-			String name = f.getName();
-			String path = "src/game_player/resources/FrontEnd.properties";
-			FileInputStream in;
-			try {
-				in = new FileInputStream(path);
-				Properties props = new Properties();
-				props.load(in);
-				in.close();
-				FileOutputStream out = new FileOutputStream(path);
-				props.setProperty("Background", name);
-				props.store(out, null);
-				out.close();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				System.out.println("File not found");
-			}
-		}
 	}
 
 	private void submitButtonPressed(TextField input) {
