@@ -19,13 +19,13 @@ Members:
 ####Roles:
 
 Authoring Environment:
-* Brian (Briguy52) - Team lead, opening screen, general game settings and tabs, various screens, unit integration and front-end path and unit spawn integration
+* Brian (Briguy52) - Team lead for first half, opening screen, general game settings and tabs, various screens, unit integration and front-end path and unit spawn integration
 
 * Cody (cl305) - Store, waves, level front-end
 
 * Virginia (vcheng19) - Affector and Element Tabs
 
-* Andy (ownzandy) - Back-end integration of affectors, units, towers, and projectiles
+* Andy (ownzandy) - Team lead for second half, Back-end integration of affectors, units, towers, and projectiles
 
 * Adam (adamtache) - Designed back-end path graph system for search problems, map handling, helped integrate into path tab
 
