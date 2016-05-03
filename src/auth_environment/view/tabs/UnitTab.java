@@ -180,11 +180,13 @@ public class UnitTab extends ElementTab{
 	}
 	
 	private void updateComboBox(String names, List<ComboBox<String>> comboList, Button button){
+		if(!names.substring(1,names.length()-1).equals("")){
 		String[] list = names.substring(1,names.length()-1).replaceAll(getLabelsBundle().getString("commaText"), "").split(getLabelsBundle().getString("regex"));
 		for(int i = 0; i < list.length - 1; i++){
 			comboList.get(i).setValue(list[i]);
 			button.fire();
 		}
 		comboList.get(list.length-1).setValue(list[list.length-1]);
+		}
 	}
 }
