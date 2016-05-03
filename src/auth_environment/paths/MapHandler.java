@@ -41,6 +41,10 @@ public class MapHandler {
 		this.mySpawns.add(validSpawn);
 		return validSpawn;
 	}
+	
+	public void addUnrestrictedSpawn(Position spawn) {
+		this.mySpawns.add(spawn);
+	}
 
 	public Position addGoal(Position goal){
 		Position validGoal = filterValidPos(goal, 20);

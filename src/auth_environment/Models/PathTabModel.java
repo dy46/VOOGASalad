@@ -166,12 +166,13 @@ public class PathTabModel implements IPathTabModel {
 	}
 
 	@Override
-	public void addNewSpawn(double x, double y) {
+	public Position addNewSpawn(double x, double y) {
 		Position s = myMapHandler.addSpawn(new Position(x, y));
 		if (s != null && currentLevel!=null) {
 			if(!currentLevel.getGoals().contains(s))
 				currentLevel.addGoal(s.copyPosition());
 		}
+		return s;
 	}
 
 	@Override
@@ -201,6 +202,11 @@ public class PathTabModel implements IPathTabModel {
 	@Override
 	public List<Branch> getAuthGrid() {
 		return this.myMapHandler.getAuthGrid();
+	}
+
+	@Override
+	public void addUnrestrcitedSpawn(double x, double y) {
+		this.myMapHandler.addUnrestrictedSpawn(new Position(x, y));
 	}
 
 }

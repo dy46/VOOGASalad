@@ -156,7 +156,7 @@ public class Level extends GameElement {
         if (myGoals == null)
             return false;
         for (Position p : this.myGoals) {
-            if (e.getProperties().getPosition().roughlyEquals(p)) {
+            if (e.getProperties().getPosition().equals(p)) {
                 return true;
             }
         }

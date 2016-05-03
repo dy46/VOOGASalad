@@ -27,7 +27,7 @@ public interface IPathTabModel extends IWorkspaceModel {
 
 	public void addNewPosition(double x, double y);
 
-	public void addNewSpawn(double x, double y);
+	public Position addNewSpawn(double x, double y);
 
 	public void addNewGoal(double x, double y);
 
@@ -56,5 +56,7 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public List<Branch> getAuthBranches(); 
 	
 	public List<Branch> getAuthGrid();
+
+	public void addUnrestrcitedSpawn(double x, double y);
 	
 }
