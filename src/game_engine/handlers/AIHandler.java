@@ -36,12 +36,13 @@ public class AIHandler{
 	public void updateAIBranches() {
 		List<Unit> activeAI = null;
 		try {
-			activeAI = myLevelController.getActiveUnitsWithAffector(Class.forName("game_engine.affectors.PathFollowPositionMoveAffector"));
+			activeAI = myLevelController.getActiveUnitsWithAffector(Class.forName("game_engine.affectors.AIPathFollowAffector"));
 		} catch (ClassNotFoundException e) {
 			new WompException("AIPathFollowAffector class missing.").displayMessage();
 		}
 		for(Unit u : activeAI){
 			List<Branch> currentPath = u.getProperties().getMovement().getBranches();
+			System.out.println("Current path: " + currentPath);
 			if(currentPath.size() == 0){
 				updateBranches(u);
 			}
@@ -58,6 +59,25 @@ public class AIHandler{
 		if(newBranches != null){
 			u.getProperties().getMovement().setBranches(newBranches);
 		}
+	}
+	
+	public List<Unit> getActiveAIEnemies(){
+		HashSet<Unit> AI = new HashSet<>();
+		List<Unit> activeEnemies = myLevelController.getCurrentLevel().getCurrentWave().getSpawningUnitsLeft();
+		List<Unit> allEnemies = myLevelController.getCurrentLevel().getCurrentWave().getSpawningUnits();
+		for(Unit e : allEnemies){
+			if(e.isAlive() && e.isAlive() && e.isVisible() && !activeEnemies.contains(e)){
+				activeEnemies.add(e);
+			}
+		}
+		for(Unit e : activeEnemies){
+			for(Affector a : e.getAffectors()){
+				if(a instanceof AIPathFollowAffector){
+					AI.add(e);
+				}
+			}
+		}
+		return new ArrayList<>(AI);
 	}
 
 }
