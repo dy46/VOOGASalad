@@ -126,7 +126,7 @@ public class PathTabModel implements IPathTabModel {
 			return new ArrayList<>(); 
 		}
 		getCurrentWaveFromString(selectedWave); 
- 		return currentWave.getPlacingUnits();
+		return currentWave.getPlacingUnits();
 	}
 
 	@Override
@@ -161,33 +161,26 @@ public class PathTabModel implements IPathTabModel {
 	}
 
 	@Override
-	public void addGoalToActiveLevel(Position goal) {
-		myMapHandler.addGoal(goal);
-		if (currentLevel!=null) {
-			currentLevel.addGoal(goal.copyPosition());
-		}
-	}
-
-	@Override
-	public void addSpawnToActiveLevel(Position spawn) {
-		if (currentLevel!=null) {
-			currentLevel.addSpawn(spawn.copyPosition());
-		}
-	}
-
-	@Override
 	public List<Branch> getEngineBranches() {
 		return myMapHandler.getEngineBranches();
 	}
 
 	@Override
 	public void addNewSpawn(double x, double y) {
-		myMapHandler.addSpawn(new Position(x, y));
+		Position s = myMapHandler.addSpawn(new Position(x, y));
+		if (s != null && currentLevel!=null) {
+			if(!currentLevel.getGoals().contains(s))
+				currentLevel.addGoal(s.copyPosition());
+		}
 	}
 
 	@Override
 	public void addNewGoal(double x, double y) {
-		myMapHandler.addGoal(new Position(x, y));
+		Position g = myMapHandler.addGoal(new Position(x, y));
+		if (g != null && currentLevel!=null) {
+			if(!currentLevel.getGoals().contains(g))
+				currentLevel.addGoal(g.copyPosition());
+		}
 	}
 
 	@Override

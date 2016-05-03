@@ -52,10 +52,6 @@ public interface IPathTabModel extends IWorkspaceModel {
 	public void setActiveUnit(Unit unit);
 	
 	public Unit getActiveUnit(); 
-	
-	public void addGoalToActiveLevel(Position goal); 
-	
-	public void addSpawnToActiveLevel(Position spawn);
 
 	public List<Branch> getAuthBranches(); 
 	

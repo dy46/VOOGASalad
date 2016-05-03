@@ -378,13 +378,6 @@ public class PathTab extends Tab implements IWorkspace {
                 PathPoint point = new PathPoint(goal, myPathTabModel.getPathWidth()); 
                 point.getCircle().setStroke(Color.BLACK);
                 point.getCircle().setFill(Color.GREEN);
-                point.getCircle().setOnMouseClicked(e -> {
-                        if(e.getButton().equals(MouseButton.PRIMARY)) {
-                                if(e.getClickCount() == 2) {
-                                        myPathTabModel.addGoalToActiveLevel(point.getPosition());
-                                }
-                        }
-                });
                 myPathPane.getChildren().add(point.getCircle());
         }
 

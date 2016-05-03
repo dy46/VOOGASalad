@@ -94,8 +94,7 @@ public class DragDelegate {
 					uv = (UnitView)(picker0.getRoot().lookup("#" + db.getString()));
 				}
 				pathModel.setActiveUnit(uv.getUnit());
-				Position pos = pathPoint.getPosition(); 
-				pathModel.addSpawnToActiveLevel(pos);
+				Position pos = pathPoint.getPosition();
 				uv.getUnit().getProperties().setMovement(new Movement(pos));
 				uv.getUnit().getProperties().setPosition(pos);
 				success = true;
