@@ -60,7 +60,6 @@ public class PathGraphFactory {
 			insertBranchInPath(branchPos, myPathLibrary.getPathGraph());
 		}
 		List<Branch> gridBranches = myPathLibrary.getPathGraph().getBranches();
-		System.out.println("Grid branches: " + gridBranches);
 		myPathLibrary.setAuthVisualFilters(gridBranches);
 		List<Position> gridVisualNodes = new ArrayList<>();
 		for(Branch gridBranch : gridBranches){
