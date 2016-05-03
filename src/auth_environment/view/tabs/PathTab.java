@@ -13,7 +13,6 @@ import auth_environment.Models.Interfaces.IPathTabModel;
 import auth_environment.delegatesAndFactories.BrowserWindowDelegate;
 import auth_environment.delegatesAndFactories.DragDelegate;
 import auth_environment.delegatesAndFactories.NodeFactory;
-import auth_environment.dialogs.ConfirmationDialog;
 import auth_environment.view.BoundLine;
 import auth_environment.view.PathPoint;
 import auth_environment.view.UnitPicker;
@@ -69,7 +68,6 @@ public class PathTab extends Tab implements IWorkspace {
 
         private void init() {
                 myPathTabModel = new PathTabModel(myAuthEnvironment); 
-//              this.addConfirmationDialog();
                 myNodeFactory = new NodeFactory(); 
                 myTerrains = new ArrayList<>();
                 myPathPane = new Pane();
@@ -86,16 +84,6 @@ public class PathTab extends Tab implements IWorkspace {
                 buildLevelComboBox();
                 drawMap();
         }
-
-        private void addConfirmationDialog() {
-                boolean confirmation = new ConfirmationDialog().getConfirmation(
-                                myNamesBundle.getString("gridHeaderText"),
-                                myNamesBundle.getString("gridContextText"));
-                if(confirmation) {
-                        myPathTabModel.createGrid();
-                }
-        }
-
 
         private void setupBorderPane() {
                 myBorderPane = new BorderPane(); 
