@@ -70,5 +70,3 @@ Utility:
 * The program is relatively self explanatory. Once the program is run, the main screen will pop up. If the user wants to create a new game, they will click build a game, and they will configure all of the settings of their game through the authoring environment. They will have to create the game's enemies, towers, paths, affectors, levels, and waves. Once all of these elements are created successfully, the user can save their game to an XML file to be played in the game player. They can press Play a Game to load in the XML file and the player will appear. The game will being immediately, and there are preferences on the side that they can configure if they desire.
 
 * AI Extension: To construct an AI enemy, add an AIPathFollowAffector to the enemy while authoring, and add the enemy to a spawn point in the level. It is not necessary to configure individual branches or the goal for AI enemies.
-
-* Known Bugs:
