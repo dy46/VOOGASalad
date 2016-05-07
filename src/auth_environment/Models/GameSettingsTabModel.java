@@ -1,5 +1,17 @@
 package auth_environment.Models;
 
+import java.lang.reflect.Method;
+
+//This entire file is part of my masterpiece.
+//Brian Lin bl131	
+
+/**
+ * Created by BrianLin on 4/19/16
+ * Team member responsible: Brian
+ *
+ * This class is the Model that corresponds to the Game Settings Tab View. 
+ */
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,14 +27,6 @@ import game_engine.place_validations.PlaceValidation;
 import game_engine.score_updates.ScoreUpdate;
 import game_engine.wave_goals.WaveGoal;
 
-/**
- * Created by BrianLin on 4/19/16
- * Team member responsible: Brian
- *
- * This Tab is for customizing Global Game settings + Saving/Loading. Will need the entire IEngineWorkspace passed
- * in so that it can be saved/loaded. 
- */
-
 public class GameSettingsTabModel implements IGameSettingsTabModel {
 	
 	private static final String SETTINGS_PACKAGE = "auth_environment/properties/gameSettings";
@@ -36,80 +40,55 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 	private IDataConverter<IAuthEnvironment> writer = new Serializer<IAuthEnvironment>();
 
 	public GameSettingsTabModel(IAuthModel authModel) {
-		this.myAuthModel = authModel;
+		myAuthModel = authModel;
 	}
 
 	@Override
 	public void saveToFile() {
-		writer.saveElement(this.myAuthModel.getIAuthEnvironment()); 
+		writer.saveElement(myAuthModel.getIAuthEnvironment()); 
 	}
 
 	@Override
 	public void loadFromFile() {
-		AuthEnvironment temp = (AuthEnvironment) writer.loadElement();
-		this.myAuthModel.getIAuthEnvironment().setAffectorFactory(temp.getAffectorFactory());
-		this.myAuthModel.getIAuthEnvironment().setUnitFactory(temp.getUnitFactory());
+		myAuthModel.setIAuthEnvironment((AuthEnvironment) writer.loadElement()); 
 	}
 
 	@Override
 	public void setGameName(String name) {
-		this.myAuthModel.getIAuthEnvironment().setGameName(name);
+		myAuthModel.getIAuthEnvironment().setGameName(name);
 	}
 
 	@Override
 	public String getGameName() {
-		return this.myAuthModel.getIAuthEnvironment().getGameName();
+		return myAuthModel.getIAuthEnvironment().getGameName();
 	}
 	
 	@Override
 	public void setSplashFile(String name) {
-		this.myAuthModel.getIAuthEnvironment().setSplashScreen(name);
+		myAuthModel.getIAuthEnvironment().setSplashScreen(name);
 	}
 
 	@Override
 	public String getSplashFile() {
-		return this.myAuthModel.getIAuthEnvironment().getSplashScreen();
+		return myAuthModel.getIAuthEnvironment().getSplashScreen();
+	}
+	
+	@Override
+	public List<String> getSelectedNames(String key) {
+		return parseSettingsEntry(key + mySettingsBundle.getString("typeSufix")); 
 	}
 
-	@Override
-	public List<String> getScoreUpdateNames() {
-		return Arrays.asList(mySettingsBundle.getString("scoreUpdateTypes").split(" "));
+	private List<String> parseSettingsEntry(String key) {
+		return Arrays.asList(mySettingsBundle.getString(key).split(mySettingsBundle.getString("delimiter")));
 	}
-
-	@Override
-	public List<String> getWaveGoalNames() {
-		return Arrays.asList(mySettingsBundle.getString("waveGoalTypes").split(" ")); 
-	}
-
-	@Override
-	public List<String> getPlaceValidationNames() {
-		return Arrays.asList(mySettingsBundle.getString("placeValidationTypes").split(" ")); 
-	}
-
-	@Override
-	public void chooseScoreUpdate(String selectedItem) {
+	
+	public void chooseItem(String selectedItem, String key) {
 		try {
-			myAuthModel.getIAuthEnvironment().setScoreUpdate( (ScoreUpdate) Class.forName("game_engine.score_updates." + selectedItem + "ScoreUpdate").getConstructor().newInstance());
-		} catch (Exception e) {
-			new WompException(myNamesBundle.getString("scoreUpdateError")).displayMessage();
+			Method method = myAuthModel.getIAuthEnvironment().getClass().getMethod(mySettingsBundle.getString("setPrefix") + key); 
+			method.invoke( Class.forName(mySettingsBundle.getString(key + mySettingsBundle.getString("packageSuffix")) + selectedItem + key).getConstructor().newInstance()); 
 		}
-	}
-
-	@Override
-	public void chooseWaveGoal(String selectedItem) {
-		try {
-			myAuthModel.getIAuthEnvironment().setWaveGoal( (WaveGoal) Class.forName("game_engine.wave_goals." + selectedItem + "WaveGoal").getConstructor().newInstance());
-		} catch (Exception e) { 
-			new WompException(myNamesBundle.getString("waveGoalError")).displayMessage();
-		}
-	}
-
-	@Override
-	public void choosePlaceValidation(String selectedItem) {
-		try {
-			myAuthModel.getIAuthEnvironment().getPlaceValidations().add( (PlaceValidation) Class.forName("game_engine.place_validations." + selectedItem + "PlaceValidation").getConstructor().newInstance());
-		} catch (Exception e) {
-			new WompException(myNamesBundle.getString("placeValidationError")).displayMessage();
+		catch (Exception e) {
+			new WompException(mySettingsBundle.getString(key + mySettingsBundle.getString("errorSuffix"))).displayMessage();
 		}
 		
 	}
