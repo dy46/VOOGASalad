@@ -1,6 +1,8 @@
 package auth_environment.view.tabs;
 
-import java.lang.reflect.Method;
+//This entire file is part of my masterpiece.
+//Brian Lin bl131	
+
 import java.util.Arrays;
 import java.util.ResourceBundle;
 import auth_environment.Models.GameSettingsTabModel;
@@ -22,8 +24,7 @@ import utility.CloudStorageFrontend;
  * Created by BrianLin on 3/31/16.
  * Team member responsible: Brian
  *
- * This Tab is for customizing Global Game settings + Saving/Loading. Will need the entire IEngineWorkspace passed
- * in so that it can be saved/loaded. 
+ * This Tab is for customizing Global Game settings + Saving/Loading. 
  */
 
 public class GameSettingsTab extends Tab implements IWorkspace {
@@ -108,11 +109,8 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	}
 
 	private Node buildCloudStorage() {
-		Button cloud = myNodeFactory.buildButton(myNamesBundle.getString("cloudButtonLabel"));
-		cloud.setOnAction(e -> {
-			new CloudStorageFrontend(); 
-		});
-		return cloud;
+		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("cloudButtonLabel"),
+				e -> new CloudStorageFrontend()); 
 	}
 
 	private Node buildSaveButton() {

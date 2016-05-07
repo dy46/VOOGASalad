@@ -95,33 +95,4 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		}
 	}
 
-	@Override
-	public List<String> getScoreUpdateNames() {
-		return getSelectedNames(mySettingsBundle.getString("scoreUpdateKey")); 
-	}
-
-	@Override
-	public List<String> getWaveGoalNames() {
-		return getSelectedNames(mySettingsBundle.getString("waveGoalKey")); 
-	}
-
-	@Override
-	public List<String> getPlaceValidationNames() {
-		return getSelectedNames(mySettingsBundle.getString("placeValidationKey")); 
-	}
-
-	@Override
-	public void chooseScoreUpdate(String selectedItem) {
-		chooseItem(selectedItem, mySettingsBundle.getString("scoreUpdateKey")); 
-	}
-
-	@Override
-	public void chooseWaveGoal(String selectedItem) {
-		chooseItem(selectedItem, mySettingsBundle.getString("waveGoalKey")); 
-	}
-
-	@Override
-	public void choosePlaceValidation(String selectedItem) {
-		chooseItem(selectedItem, mySettingsBundle.getString("placeValidationKey")); 
-	}
 }
