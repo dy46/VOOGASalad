@@ -25,6 +25,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	private List<Level> myLevels = new ArrayList<>();
 	private List<Unit> myPlacedUnits = new ArrayList<>(); 
 	private List<PlaceValidation> myPlaceValidations = new ArrayList<PlaceValidation>();
+	private PlaceValidation myPlaceValidation; 
 	private ScoreUpdate myScoreUpdate;
 	private WaveGoal myWaveGoal;
 	private double myScore = 0;
@@ -164,6 +165,7 @@ public class AuthEnvironment implements IAuthEnvironment {
 	public List<PlaceValidation> getPlaceValidations() {
 		return myPlaceValidations;
 	}
+	
 	@Override
 	public void setPlaceValidations(List<PlaceValidation> placeValidations) {
 		myPlaceValidations = placeValidations;
@@ -234,5 +236,13 @@ public class AuthEnvironment implements IAuthEnvironment {
 	@Override
 	public void setCurrentLevelIndex(int currentLevelIndex) {
 		myCurrentLevelIndex = currentLevelIndex;
+	}
+	@Override
+	public void setPlaceValidation(PlaceValidation placeValidation) {
+		myPlaceValidation = placeValidation;
+	}
+	@Override
+	public PlaceValidation getPlaceValidation() {
+		return myPlaceValidation;
 	}
 }
