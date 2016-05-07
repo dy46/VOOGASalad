@@ -74,7 +74,8 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		return myAuthModel.getIAuthEnvironment().getSplashScreen();
 	}
 	
-	private List<String> getSelectedNames(String key) {
+	@Override
+	public List<String> getSelectedNames(String key) {
 		return parseSettingsEntry(key + mySettingsBundle.getString("typeSuffix")); 
 	}
 
@@ -82,7 +83,8 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		return Arrays.asList(mySettingsBundle.getString(key).split(" "));
 	}
 	
-	private void chooseItem(String selectedItem, String key) {
+	@Override
+	public void chooseItem(String selectedItem, String key) {
 		try {
 			Method method = myAuthModel.getIAuthEnvironment().getClass().getDeclaredMethod(mySettingsBundle.getString("setPrefix") + key, 
 					Class.forName(mySettingsBundle.getString(key + mySettingsBundle.getString("packageSuffix")) + key));

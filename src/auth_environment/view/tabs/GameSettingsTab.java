@@ -1,5 +1,7 @@
 package auth_environment.view.tabs;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import auth_environment.Models.GameSettingsTabModel;
 import auth_environment.Models.Interfaces.IAuthModel;
@@ -10,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,6 +33,9 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 
 	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
 	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
+	
+	private static final String SETTINGS_PACKAGE = "auth_environment/properties/gameSettings";
+	private ResourceBundle mySettingsBundle = ResourceBundle.getBundle(SETTINGS_PACKAGE);
 
 	private NodeFactory myNodeFactory;
 	private IMainView myMainView; 
@@ -76,7 +80,7 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 	private Node buildBottom() {
 		HBox bottom = myNodeFactory.buildHBox(Double.parseDouble(myDimensionsBundle.getString("defaultHBoxSpacing")),
 				Double.parseDouble(myDimensionsBundle.getString("defaultHBoxPadding")));
-		bottom.getChildren().addAll(buildChooseScore(), buildChooseWaveGoal(), buildChoosePlaceValidation());
+		Arrays.asList(mySettingsBundle.getString("keys").split(" ")).stream().forEach(k -> bottom.getChildren().add(this.buildComboBox(k)));
 		return bottom; 
 	}
 
@@ -125,35 +129,16 @@ public class GameSettingsTab extends Tab implements IWorkspace {
 		return myNodeFactory.buildButtonWithEventHandler(myNamesBundle.getString("playButtonLabel"), 
 				e -> myMainView.displayPlayer());
 	}
-
+	
 	@SuppressWarnings("unchecked")
-	private Node buildChooseScore() {
-		ComboBox<String> chooseScore = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getScoreUpdateNames(),
+	private Node buildComboBox(String key) {
+		ComboBox<String> cb = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getSelectedNames(key), 
 				event -> {
 					String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-					myGameSettingsTabModel.chooseScoreUpdate(selectedItem);
+			  	    myGameSettingsTabModel.chooseItem(selectedItem, key);
 					event.consume();
-				}); 
-		return addToVBox(chooseScore, myNamesBundle.getString("scoreUpdateLabel"));
-	}
-
-	@SuppressWarnings("unchecked")
-	private Node buildChooseWaveGoal() {
-		ComboBox<String> chooseWaveGoal = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getWaveGoalNames(), event -> {
-			String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-			myGameSettingsTabModel.chooseWaveGoal(selectedItem);
-			event.consume();});
-		return addToVBox(chooseWaveGoal, myNamesBundle.getString("waveGoalLabel"));
-	}
-
-	@SuppressWarnings("unchecked")
-	private Node buildChoosePlaceValidation() {
-		ComboBox<String> choosePlaceValidation = myNodeFactory.buildComboBoxWithEventHandler(myGameSettingsTabModel.getPlaceValidationNames(),
-				event -> {
-					String selectedItem = ((ComboBox<String>)event.getSource()).getSelectionModel().getSelectedItem();
-					myGameSettingsTabModel.choosePlaceValidation(selectedItem);
-					event.consume();});
-		return addToVBox(choosePlaceValidation, myNamesBundle.getString("placeValidationLabel"));
+				});
+		return addToVBox(cb, mySettingsBundle.getString(key + mySettingsBundle.getString("labelSuffix")));
 	}
 
 	private VBox addToVBox(ComboBox<String> cbox, String name){
