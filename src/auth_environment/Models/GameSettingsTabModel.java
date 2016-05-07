@@ -5,11 +5,11 @@ import java.lang.reflect.Method;
 //This entire file is part of my masterpiece.
 //Brian Lin bl131	
 
-/**
- * Created by BrianLin on 4/19/16
- * Team member responsible: Brian
- *
- * This class is the Model that corresponds to the Game Settings Tab View. 
+/* I added several private helper method to this class, the most notable being 'chooseItem'. This method uses Reflection
+ * to perform the function of selecting a ComboBox item for three (or more) ComboBoxes in the GameSettingsTab. 
+ * 
+ * I preserved the existing API (IGameSettingsTab) to demonstrate how the chooseItem() method can work with any GameSetting
+ * ComboBox as long as it has its own predefined error message and subclasses to choose from in a properties file. 
  */
 
 import java.util.Arrays;
@@ -23,17 +23,18 @@ import auth_environment.Models.Interfaces.IGameSettingsTabModel;
 import exceptions.WompException;
 import game_data.IDataConverter;
 import game_data.Serializer;
-import game_engine.place_validations.PlaceValidation;
-import game_engine.score_updates.ScoreUpdate;
-import game_engine.wave_goals.WaveGoal;
+
+/**
+ * Created by BrianLin on 4/19/16
+ * Team member responsible: Brian
+ *
+ * This class is the Model that corresponds to the Game Settings Tab View. 
+ */
 
 public class GameSettingsTabModel implements IGameSettingsTabModel {
 	
 	private static final String SETTINGS_PACKAGE = "auth_environment/properties/gameSettings";
 	private ResourceBundle mySettingsBundle = ResourceBundle.getBundle(SETTINGS_PACKAGE);
-	
-	private static final String NAMES_PACKAGE = "auth_environment/properties/names";
-	private ResourceBundle myNamesBundle = ResourceBundle.getBundle(NAMES_PACKAGE);
 	
 	private IAuthModel myAuthModel;
 	
@@ -73,23 +74,52 @@ public class GameSettingsTabModel implements IGameSettingsTabModel {
 		return myAuthModel.getIAuthEnvironment().getSplashScreen();
 	}
 	
-	@Override
-	public List<String> getSelectedNames(String key) {
-		return parseSettingsEntry(key + mySettingsBundle.getString("typeSufix")); 
+	private List<String> getSelectedNames(String key) {
+		return parseSettingsEntry(key + mySettingsBundle.getString("typeSuffix")); 
 	}
 
 	private List<String> parseSettingsEntry(String key) {
-		return Arrays.asList(mySettingsBundle.getString(key).split(mySettingsBundle.getString("delimiter")));
+		return Arrays.asList(mySettingsBundle.getString(key).split(" "));
 	}
 	
-	public void chooseItem(String selectedItem, String key) {
+	private void chooseItem(String selectedItem, String key) {
 		try {
-			Method method = myAuthModel.getIAuthEnvironment().getClass().getMethod(mySettingsBundle.getString("setPrefix") + key); 
-			method.invoke( Class.forName(mySettingsBundle.getString(key + mySettingsBundle.getString("packageSuffix")) + selectedItem + key).getConstructor().newInstance()); 
+			Method method = myAuthModel.getIAuthEnvironment().getClass().getDeclaredMethod(mySettingsBundle.getString("setPrefix") + key, 
+					Class.forName(mySettingsBundle.getString(key + mySettingsBundle.getString("packageSuffix")) + key));
+			method.invoke(myAuthModel.getIAuthEnvironment(), Class.forName(mySettingsBundle.getString(key + mySettingsBundle.getString("packageSuffix")) + selectedItem + key).getConstructor().newInstance());
 		}
 		catch (Exception e) {
 			new WompException(mySettingsBundle.getString(key + mySettingsBundle.getString("errorSuffix"))).displayMessage();
 		}
-		
+	}
+
+	@Override
+	public List<String> getScoreUpdateNames() {
+		return getSelectedNames(mySettingsBundle.getString("scoreUpdateKey")); 
+	}
+
+	@Override
+	public List<String> getWaveGoalNames() {
+		return getSelectedNames(mySettingsBundle.getString("waveGoalKey")); 
+	}
+
+	@Override
+	public List<String> getPlaceValidationNames() {
+		return getSelectedNames(mySettingsBundle.getString("placeValidationKey")); 
+	}
+
+	@Override
+	public void chooseScoreUpdate(String selectedItem) {
+		chooseItem(selectedItem, mySettingsBundle.getString("scoreUpdateKey")); 
+	}
+
+	@Override
+	public void chooseWaveGoal(String selectedItem) {
+		chooseItem(selectedItem, mySettingsBundle.getString("waveGoalKey")); 
+	}
+
+	@Override
+	public void choosePlaceValidation(String selectedItem) {
+		chooseItem(selectedItem, mySettingsBundle.getString("placeValidationKey")); 
 	}
 }

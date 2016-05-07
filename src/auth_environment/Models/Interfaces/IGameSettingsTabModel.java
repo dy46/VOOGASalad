@@ -24,8 +24,17 @@ public interface IGameSettingsTabModel {
 	
 	public void loadFromFile(); 
 	
-	public List<String> getSelectedNames(String key); 
+	public List<String> getScoreUpdateNames();
 	
-	public void chooseItem(String selectedItem, String key);
+	public List<String> getWaveGoalNames();
+	
+	public List<String> getPlaceValidationNames();
+	
+	public void chooseScoreUpdate(String selectedItem);
+	
+	public void chooseWaveGoal(String selectedItem);
+	
+	public void choosePlaceValidation(String selectedItem); 
+	
 	
 }
