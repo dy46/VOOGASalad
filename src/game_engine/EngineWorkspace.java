@@ -101,17 +101,6 @@ public class EngineWorkspace implements GameEngineInterface, AIWorkspace {
         if (myUnitController.getUnitType("Enemy").size() == 0) {
             myUnitController.clearProjectiles();
         }
-        clearProjectilesOffMap();
-    }
-
-    public void clearProjectilesOffMap () {
-        List<Unit> projectiles = myUnitController.getUnitType("Projectile");
-        projectiles.stream().filter(p -> outOfBoard(p.getProperties().getPosition()))
-                .forEach(p -> p.setInvisible());
-    }
-
-    public boolean outOfBoard (Position p) {
-        return p.getX() < 0 || p.getY() > 500 || p.getY() < 0 || p.getY() > 500;
     }
 
     public void saveGame () {
