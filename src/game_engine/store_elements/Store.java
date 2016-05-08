@@ -39,27 +39,6 @@ public class Store implements IStore {
 	@Override
 	public void addBuyableUnit(Unit t, double cost) {
 		buyableUnits.put(t, new Integer((int) cost));
-		FunctionFactory myFunctionFactory = new FunctionFactory();
-		String pr16 = "UpgradeIncrease";
-		String e16 = "Range";
-		List<List<Function>> f16 = Arrays.asList(Arrays.asList(myFunctionFactory.createConstantFunction(-25),
-				myFunctionFactory.createConstantFunction(-25), myFunctionFactory.createConstantFunction(-25),
-				myFunctionFactory.createConstantFunction(25), myFunctionFactory.createConstantFunction(25),
-				myFunctionFactory.createConstantFunction(25), myFunctionFactory.createConstantFunction(25),
-				myFunctionFactory.createConstantFunction(-25)));
-		List<String> p16 = Arrays.asList("Range");
-		AffectorData d16 = new AffectorData(f16, p16);
-		Affector basic16 = new BasicIncrementAffector(d16);
-		basic16.setName("Upgrade Range");
-		basic16.setTTL(1);
-		if(t.getChildren() != null) {
-		    if(t.getChildren().size() > 0) {
-			if(getUpgrades(t.getChildren().get(0)).size() == 0) {
-				addUpgrade(t.getChildren().get(0), basic16, 100);
-			}
-		    }
-		}
-		
 		nameToOriginalInstance.put(t.toString(), t);
 	}
 
