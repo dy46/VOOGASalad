@@ -6,7 +6,7 @@
 // For example, it should be obvious that in the init() method that all it is doing is initializing class variables and that it is calling set-up methods
 // that establishes different aspects of this class, such as setting up the second row of tabs that displays all of the levels in the game (setUpLevelTabs()).
 // Additionally, this class primarily uses lambda expressions and Java's Stream API for efficient code writing since they are powerful tools for 
-// condensing code without compromising readability. 
+// condensing code without compromising readability. le
 package auth_environment.view.tabs;
 
 import javafx.scene.Node;
