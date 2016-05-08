@@ -1,3 +1,11 @@
+// This entire file is part of my masterpiece.
+// Cody Li 
+// This class allows the user to define all of the waves in a level and to be able to edit the number of lives available in this level. 
+// I believe that this class is well designed because it utilizes a properties file for determining many different values required by JavaFX, such as
+// dimension values, padding widths and heights, and names and labels of textfields, buttons, and combo boxes. Additionally, the methods in this class 
+// are well named and designed to perform only a single task (functional programming). For example, it is easy to tell that the createWaveList() method 
+// initializes a GridPane where a list of buttons that correspond to different waves can be added to. 
+
 package auth_environment.view.tabs;
 
 import java.util.ResourceBundle;
@@ -89,7 +97,7 @@ public class LevelTab extends Tab{
 				new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("waveListConstraintsBottom"))), 
 				new ColumnConstraints(Double.parseDouble(myDimensionsBundle.getString("waveListConstraintsLeft"))));
 		newTableInfo.getRowConstraints().addAll(new RowConstraints(Double.parseDouble(myDimensionsBundle.getString("waveListConstraintsRow"))));
-		newTableInfo.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("waveListPrefSizeX")), Double.parseDouble(myDimensionsBundle.getString("waveListPrefSizeY")));	//TODO: Avoid hard-coded values
+		newTableInfo.setPrefSize(Double.parseDouble(myDimensionsBundle.getString("waveListPrefSizeX")), Double.parseDouble(myDimensionsBundle.getString("waveListPrefSizeY")));
 		this.myBorderPane.setLeft(newTableInfo);
 		Button dummyWaveButton = new Button();
 		this.addNewWaveSpace(index, newTableInfo, dummyWaveButton);

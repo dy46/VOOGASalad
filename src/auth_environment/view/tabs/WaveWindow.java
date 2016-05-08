@@ -1,3 +1,20 @@
+// This entire file is part of my masterpiece.
+// Cody Li 
+// This class creates a specific Wave object within a Level in the authoring environment by allowing the user to determining what is automatically
+// spawned and what is available to the player that can be placed down onto the game map. This class allows the user to place down automatically spawning
+// units on left column of fields and units that are available for the user to place down on the right column. 
+// This class is well designed because each method has a single responsibility (functional programming) and it is easy to tell what is going on in 
+// each method. For example, in the addNewElementSpace() method, we can see that it recursively creates a list of combo boxes and textfields that 
+// allow the users to select from a list of already made units and to choose whether or not that unit is automatically spawned at the beginning
+// of the level or if the unit can be placed down by the player. Additionally, the usage of lambda expressions in the Stream API allows this class
+// to easily iterate through lists of combo boxes and textfields and to be able to parse out the values that are contained in them without having to 
+// write unnescessarily long for loops. By having clean and efficient code, we improve over readability of the class and allow it to adhere to the 
+// "open to extension" portion of the Open/Closed principle. Lastly, the because the class is designed such that all units that are placed into the left
+// column are automatically spawned and that units placed into right column are player spawned allows us to easily create the reverse tower defense game
+// mode. The user simply switches which units are spawned automatically by specifying that the "tower" units are actually automatically spawned by the 
+// wave and that the "enemy" units are now able to be placed down by the player. Being able to create a different game mode as well shows off the 
+// flexibility and robustness of this class' design. 
+
 package auth_environment.view.tabs;
 import java.util.ArrayList;
 import java.util.List;
