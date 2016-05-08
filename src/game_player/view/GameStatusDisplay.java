@@ -1,3 +1,11 @@
+// This entire file is part of my masterpiece.
+// David Yang
+
+/**
+ * I added this class to give a short example of how the interface is 
+ * used to create new front end elements.
+ */
+
 package game_player.view;
 
 import game_player.GameDataSource;
@@ -25,7 +33,7 @@ public class GameStatusDisplay implements IGUIObject {
     public Node createNode () {
         myEngine = myView.getGameEngine();
         statusLabel = new Label();
-        updateText();
+        updateNode();
         return statusLabel;
     }
 

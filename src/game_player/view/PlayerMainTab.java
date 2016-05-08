@@ -1,3 +1,14 @@
+// This entire file is part of my masterpiece.
+// David Yang
+
+/**
+ * I chose this class to be part of my masterpiece because it is the main class 
+ * of the front end of the game player. This is the part of the project I worked
+ * the most on, and I believe the design of this section is quite good. In this
+ * class, I demonstrate the use of reflection in combination with properties files
+ * to add individual GUI elements easily. 
+ */
+
 package game_player.view;
 
 import game_player.GameDataSource;
@@ -5,37 +16,27 @@ import game_player.IGameDataSource;
 import game_player.interfaces.IGUIObject;
 import game_player.interfaces.IGameView;
 import game_player.interfaces.IPlayerTab;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import game_engine.GameEngineInterface;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import main.IMainView;
 
 public class PlayerMainTab implements IPlayerTab {
-    
-    private static final int TOP_PADDING = 5;
-    private static final int RIGHT_PADDING = 5;
-    private static final int BOTTOM_PADDING = 5;
-    private static final int LEFT_PADDING = 5;
-    private static final int PANEL_SPACING = 10;
-    private static final int CONFIGURATION_PANEL_SPACING = 20;
+	
+    private static final String PACKAGE_NAME = "game_player.";
     private static final String GUI_ELEMENTS = "game_player/resources/GUIElements";
     private static final String PREFERENCES_ELEMENTS = "game_player/resources/PreferencesElements";
     private static final String PREFERENCES = "game_player/resources/Preferences";
-    private static final String PACKAGE_NAME = "game_player.";
+    
     private Tab myTab;
     private BorderPane myRoot;
     private ResourceBundle myGUIResources;
@@ -67,9 +68,9 @@ public class PlayerMainTab implements IPlayerTab {
                           IGameDataSource data,
                           String tabName) {
         this.gameEngine = engine;
+        this.gameElements = new ArrayList<>();
         this.myGUIResources = r;
         this.myPreferencesResources = ResourceBundle.getBundle(PREFERENCES);
-        this.gameElements = new ArrayList<>();
         this.elementsResources = ResourceBundle.getBundle(GUI_ELEMENTS);
         this.preferencesResources = ResourceBundle.getBundle(PREFERENCES_ELEMENTS);
         this.myScene = scene;
@@ -84,7 +85,7 @@ public class PlayerMainTab implements IPlayerTab {
         myTab = new Tab();
         myRoot = new BorderPane();
         createUISections();
-        initializeCanvas();
+        initializePlayer();
         initializeElements(elementsResources, myGUIResources);
         initializeElements(preferencesResources, myPreferencesResources);
         placeUISections();
@@ -93,7 +94,7 @@ public class PlayerMainTab implements IPlayerTab {
         return myTab;
     }
 
-    private void initializeCanvas () {
+    private void initializePlayer () {
         myCanvas = new GameCanvas(myGUIResources);
         myHUD = new GameHUD(myGUIResources, myCanvas);
         gameSection.getChildren().addAll(myCanvas.createCanvas(), myHUD.createNode());
@@ -112,7 +113,6 @@ public class PlayerMainTab implements IPlayerTab {
                         .getConstructor(ResourceBundle.class, GameDataSource.class, IGameView.class, PlayerGUI.class)
                         .newInstance(resource, gameData, gameView, myGUI);
                 gameElements.add(newElement);
-
                 placeElement(newElement, keyAndPosition[1].trim());
             }
             catch (Exception e) {
@@ -132,10 +132,10 @@ public class PlayerMainTab implements IPlayerTab {
 
     private void createUISections () {
         gameSection = new VBox();
-        configurationPanel = new VBox(CONFIGURATION_PANEL_SPACING);
-        gameMenu = new VBox(PANEL_SPACING);
-        gamePanel = new VBox(PANEL_SPACING);
-        towerPanel = new VBox(PANEL_SPACING);
+        configurationPanel = new VBox(Double.valueOf(myGUIResources.getString("ConfigurationPanelSpacing")));
+        gameMenu = new VBox(Double.valueOf(myGUIResources.getString("GameMenuSpacing")));
+        gamePanel = new VBox(Double.valueOf(myGUIResources.getString("GamePanelSpacing")));
+        towerPanel = new VBox(Double.valueOf(myGUIResources.getString("TowerPanelSpacing")));
         this.configurePanels();
     }
 
@@ -148,12 +148,12 @@ public class PlayerMainTab implements IPlayerTab {
     }
 
     private void configurePanels () {
-    	Insets panelInsets = new Insets(TOP_PADDING, RIGHT_PADDING, BOTTOM_PADDING,
-    	        LEFT_PADDING);
-        Label configurationLabel = new Label(myGUIResources.getString("Configuration"));
-        configurationLabel.setFont(new Font("Arial", 20));
+    	Insets panelInsets = new Insets(
+    			Double.valueOf(myGUIResources.getString("TopPadding")), 
+    			Double.valueOf(myGUIResources.getString("RightPadding")), 
+    			Double.valueOf(myGUIResources.getString("BottomPadding")),
+    			Double.valueOf(myGUIResources.getString("LeftPadding")));
         configurationPanel.setAlignment(Pos.TOP_CENTER);
-//        configurationPanel.getChildren().add(configurationLabel);
         configurationPanel.setPadding(panelInsets);
         gamePanel.setPadding(panelInsets);
         towerPanel.setPadding(panelInsets);
@@ -178,7 +178,7 @@ public class PlayerMainTab implements IPlayerTab {
         configurationPanel.getChildren().add(element);
     }
 
-    public void removeFromConfigurationPanel (Node element) {
+    protected void removeFromConfigurationPanel (Node element) {
         configurationPanel.getChildren().remove(element);
     }
 
