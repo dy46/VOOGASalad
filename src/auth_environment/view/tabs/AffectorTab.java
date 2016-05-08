@@ -1,3 +1,10 @@
+// This entire file is part of my masterpiece.
+// Virginia Cheng
+
+// This class allows the user to customize and create their own affector, which in the gameengine is what actually changes the unit properties of an unit.
+// It is well designed not only because of the readability of the methods, but also because it is an example of how the ElementTab could be extended.
+// (for more detail see the comments in ElementTab)
+
 package auth_environment.view.tabs;
 
 import java.util.*;

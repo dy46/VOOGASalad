@@ -1,3 +1,17 @@
+// This entire file is part of my masterpiece.
+// Virginia Cheng
+
+//This class is the super class of my Element Creation Tabs.
+//I think it is well designed because it provides a guideline of what all elementCreation Tabs should include since it is an abstract class.
+//But it also allows for code to be reused within the tabs by inheritance, which limits the amount of duplicated code.
+//This also provides a centralized location for the resource bundles, so the subclasses have the option to use the ResourceBundles here or to use their own ResourceBundles.
+//It is also well designed because it avoids the use of magic numbers and instead relies on the properties file to store dimensions sizes and labels.
+//This would also be easy to extend because it follows the open closed policy (open for modification, closed for editing):
+// if someone wanted to add a new element to the game, the would extend this class than rather edit it. 
+// Also, if they wanted to add new properties to the element, they could just change the property files rather than the code itself, which demonstrates the codes flexibility.
+// The code here also keeps the idea of functional programming, so each method has exactly one function.
+
+
 package auth_environment.view.tabs;
 
 import java.util.*;
