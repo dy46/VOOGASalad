@@ -1,16 +1,3 @@
-// This entire file is part of my masterpiece
-// Alexander Tseng
-/*
-All of the tabs within the authoring environment uses the MVC (Model View Controller) design pattern. During the creation of a new tab, 
-a common design decision always emerge: to determine which methods belong to front end-vew and which methods belong to the model 
-controller class. The MapEditorTab is simply just a tab that holds all the GUI elements with a UnitPicker on the side that gets updated 
-when a unit is created and with the options of freepane/gridpane. MapEditorModel serves as the controller that access and manipulate the
-backend data. The manipulated backend data is then sent back to the front end. The relationship between the classes are very clean such 
-that it can be completely separated and there are no dependencies. The main map pane of the class is refactored out as its own interface
-to preserve composition. This way, if another class wants to implement the IMapPane, the class can just call the map pane class. Right 
-now, two modes of map panes are avaialble: FreeMapPane and GridMapPane. They both implement a common interface called IMapPane that 
-shares common methods among those two. 
-*/
 package auth_environment.view.tabs;
 
 import java.util.ResourceBundle;

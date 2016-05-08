@@ -1,3 +1,28 @@
+// This entire file is part of my masterpiece
+// Alexander Tseng
+
+/* DragDelegate was originally created only for MapEditorPane. However, it was later used by UnitPicker. 
+ * Since the DragDelegate is a utility class, the code should be general enough to allow multiple classes
+ * to access. There was only one type of source that was needed to set up - the UnitView. Yet, the target 
+ * varies and the interactions differs from target to target. Therfore, target specific method was needed
+ * to create within the DragDelegate. However, The main issue is that although these target "differs", 
+ * there are still enough similarites to create duplication in code. In order to keep the code clean, it 
+ * was challenging to organize the methods such that there is no duplication within the code while 
+ * successfully implmenting target specific interactions.
+ * Originally, there were methods within the DragDelegate class that would directly manipulate the 
+ * target. After further consideration, it occurred to me that it doesn't make sense if the DragDelegate 
+ * class manipulates the target directly since the only responsibility that the DragDelegate class 
+ * should have is to implement the dragging/dropping function and call methods from the target instead 
+ * of directly manipulating it. Two methods were initially created for manipulating the FreePane and 
+ * the GridPane.
+ * However, I decided to use an interface to group the common methods from FreePane and GridPane. Then,
+ * in the DragDelegate class, I would only need to pass in the interface and thus successfully reduce two 
+ * methods down into one method. The result can be shown in the setUpNodeTarget method under the 
+ * setOnDragDropped. It can be seen that the the code is very organized such that the DragDelegate itself 
+ * does not contain methods that modify the target. Rather, it is calling the methods from the target 
+ * itself. Within the method, the execution steps are clear (very readable).
+ */
+
 package auth_environment.delegatesAndFactories;
 
 import auth_environment.Models.UnitView;
@@ -16,7 +41,7 @@ import javafx.scene.shape.Circle;
 /**
  * Created by BrianLin on 4/11/2016
  * Team member responsible: Brian
- * @author Xander, Brian
+ * @author Xander (Refactoring and implmentation), Brian
  * This delegate class adds dragging functions. Woowee dongerino. 
  */
 
