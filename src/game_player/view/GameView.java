@@ -10,6 +10,7 @@ import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_player.UnitViews.UnitImageView;
 import game_player.display_views.RangeDisplayView;
+import game_player.display_views.UnitDisplayView;
 import game_player.interfaces.IGameView;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
@@ -29,7 +30,7 @@ public class GameView implements IGameView {
     private Pane myPane;
     private GameViewEventHandler eventHandler;
     private GameEngineInterface playerEngineInterface;
-    private RangeDisplayView rangeDisplayView;
+    private UnitDisplayView unitDisplayView;
     private List<ImageView> paths;
     private PlayerMainTab myTab;
     private GameHUD myHUD;
@@ -52,7 +53,7 @@ public class GameView implements IGameView {
     	this.myCanvas = canvas;
         this.myPane = canvas.getRoot();
         this.playerEngineInterface = engine;
-        this.rangeDisplayView = new RangeDisplayView(this, myPane);
+        this.unitDisplayView = new UnitDisplayView(this, myPane);
         this.paths = new ArrayList<>();
         this.myTab = tab;
         this.myHUD = hud;
@@ -102,7 +103,7 @@ public class GameView implements IGameView {
                     timer++;
                     updateEngine();
                     placePath();
-                    rangeDisplayView.display(playerEngineInterface.getUnitController().getPlacedUnits(), timer);
+                    unitDisplayView.display(playerEngineInterface.getUnitController().getPlacedUnits(), timer);
                 }
             }
         };

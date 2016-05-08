@@ -1,9 +1,12 @@
 package game_player.UnitViews;
 
+//This class first and foremost animates the image views according to state and the number of frames.
+//Additionally, it conducts image view processing, which means it can re-center or add health bars 
+//to units if specified by a properties file. Child image views are properly removed as well.
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import exceptions.WompException;
 import game_engine.game_elements.Unit;
 import game_player.image_processing.CornerElementImageViewProcessing;
 import game_player.image_processing.HealthImageViewProcessing;
@@ -50,14 +53,7 @@ public class ImageViewPicker extends UnitImageView {
         currState = state;
         currFrame = currFrame + 1 == numFrames || !state.equals(currState) ? 1 : currFrame + 1;
         String file = getName() + state + currFrame + EXTENSION;
-        try {
-            getImageView().setImage(new Image(file));
-        }
-        catch (IllegalArgumentException e) {
-            new WompException("IllegalArgumentException, couldn't find file: " + file)
-                    .displayMessage();
-        }
-
+        getImageView().setImage(new Image(file));
     }
 
     public void setDirection () {

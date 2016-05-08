@@ -7,7 +7,6 @@ import game_player.UnitViews.UnitImageView;
 import game_player.interfaces.IGameView;
 import javafx.scene.layout.Pane;
 
-
 public abstract class DisplayView {
 
     private List<UnitImageView> imageViews;
