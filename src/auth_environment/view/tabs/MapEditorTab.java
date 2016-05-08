@@ -1,3 +1,5 @@
+// This entire file is part of my masterpiece
+// Alexander Tseng
 package auth_environment.view.tabs;
 
 import java.util.ResourceBundle;
