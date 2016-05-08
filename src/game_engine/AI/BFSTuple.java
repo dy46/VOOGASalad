@@ -1,3 +1,10 @@
+/**
+ * This entire file is part of my masterpiece.
+ * Adam Tache
+ * 
+ * This class is an implementation of SearchTuple and was created in an effort to refactor the game engine search problems.
+ */
+
 package game_engine.AI;
 
 import java.util.HashMap;
@@ -25,6 +32,13 @@ public class BFSTuple implements SearchTuple {
 		this.mySearchHandler = new SearchHandler(myEngineBranches);
 	}
 
+    /**
+     * Gets path from currPos in currBranch to goal.
+     * 
+     * @param goal
+     * @param currBranch
+     * @param currPos
+     */
 	public List<Branch> getPathTo(Position goal, Branch currBranch, Position currPos){
 		if(!myVisited.contains(goal)){
 			return null;
