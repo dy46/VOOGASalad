@@ -1,3 +1,11 @@
+/**
+ * This entire file is part of my masterpiece.
+ * Adam Tache
+ * 
+ * I created this class in an effort to reduce computation time required in completing BFS search problems.
+ * A BFS algorithm runs from every source to every other point on the map, so this data class allows for re-use of a single search.
+ */
+
 package game_engine.AI;
 
 import java.util.HashMap;
@@ -27,12 +35,22 @@ public class BFSSearcher implements AISearcher {
 		this.myVisibility = new VisibilityHandler(engine);
 	}
 
+    /**
+     * Gets new path using visibility nodes as current level's current visibility nodes.
+     * 
+     * @param current
+     */
 	public List<Branch> getPath(Position current) {
 		List<Position> visibleNodes = myVisibility.getVisibleNodes();
-		System.out.println(visibleNodes);
 		return getPath(current, visibleNodes);
 	}
 
+    /**
+     * Gets new path using passed visibilityNodes.
+     * 
+     * @param current
+     * @param visibleNodes
+     */
 	public List<Branch> getPath(Position current, List<Position> visibleNodes){
 		SearchTuple tuple = getTuple(getGoals(), visibleNodes);
 		List<Branch> path = tuple.getPathTo(current, null, current);
@@ -42,6 +60,14 @@ public class BFSSearcher implements AISearcher {
 		return null;
 	}
 
+	
+    /**
+     * Creates a BFSTuple which contains information related to a BFS search.
+     * This allows information to be processed and used related to the search.
+     * 
+     * @param sources
+     * @param visibleNodes
+     */
 	public SearchTuple getTuple(List<Position> sources, List<Position> visibleNodes) {
 		Queue<Position> queue = new LinkedList<>();
 		HashMap<Position, Integer> distances = new HashMap<>();
@@ -66,6 +92,11 @@ public class BFSSearcher implements AISearcher {
 		return new BFSTuple(myEngine.getBranches(), visited, edges, distances);
 	}
 
+    /**
+     * Ensures the search is valid by ensuring there's a valid path from every goal to every spawn.
+     * 
+     * @param myTuple
+     */
 	public boolean isValidSearch(SearchTuple myTuple) {
 		List<Position> spawns = myEngine.getLevelController().getCurrentLevel().getSpawns();
 		for(Position spawn : spawns){
@@ -76,6 +107,10 @@ public class BFSSearcher implements AISearcher {
 		return true;
 	}
 
+    /**
+     * Returns the current level's current set of goals.
+     * 
+     */
 	private List<Position> getGoals() {
 		return myEngine.getLevelController().getCurrentLevel().getGoals();
 	}
