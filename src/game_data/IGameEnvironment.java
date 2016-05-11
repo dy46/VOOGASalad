@@ -1,4 +1,4 @@
-package auth_environment;
+package game_data;
 
 import java.util.List;
 
@@ -6,10 +6,8 @@ import game_engine.game_elements.Unit;
 import game_engine.properties.Position;
 import game_engine.factories.FunctionFactory;
 
-import game_data.IGameData;
 
-
-public interface IAuthEnvironment extends IGameData {
+public interface IGameEnvironment extends IGameData {
 		
 	public String getGameName(); 
 	public void setGameName(String name);
